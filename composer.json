@@ -16,6 +16,7 @@
         "laravel/passport": "^5.0",
         "laravel/spark-aurelius": "*@dev",
         "laravel/tinker": "~1.0",
+        "nasyrov/laravel-enums": "^1.1",
         "pragmarx/countries": "^0.5.5"
     },
     "require-dev": {
