@@ -4,17 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TaxpayerType extends Model
+class ChartAlias extends Model
 {
     //
 
     /**
-     * Get the taxPayer that owns the model.
+     * Get the chart that owns the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function taxPayer()
+    public function chart()
     {
-        return $this->belongsTo(Taxpayer::class);
+        return $this->belongsTo(Chart::class, 'foreign_key', 'local_key');
     }
 }

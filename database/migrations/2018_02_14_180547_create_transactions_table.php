@@ -7,10 +7,10 @@ use Illuminate\Database\Migrations\Migration;
 class CreateTransactionsTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    * Run the migrations.
+    *
+    * @return void
+    */
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table)
@@ -41,12 +41,11 @@ class CreateTransactionsTable extends Migration
             $table->date('date');
 
             $table->string('number', 30)->nullable();
-
             $table->string('code', 18)->nullable();
-
             $table->date('code_expiry')->nullable();
 
             $table->string('comment')->nullable();
+            $table->unsignedInteger('ref_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -54,10 +53,10 @@ class CreateTransactionsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down()
     {
         Schema::dropIfExists('transactions');

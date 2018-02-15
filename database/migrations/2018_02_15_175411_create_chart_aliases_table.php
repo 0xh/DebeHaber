@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSalesTaxesTable extends Migration
+class CreateChartAliasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateSalesTaxesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sales_taxes', function (Blueprint $table) {
+        Schema::create('chart_aliases', function (Blueprint $table) {
 
             $table->increments('id');
 
-            $table->string('country', 2)->default('PY');
+            $table->unsignedInteger('chart_id');
+            $table->foreign('chart_id')->references('id')->on('charts')->onDelete('cascade');
 
             $table->string('name');
-            $table->unsignedDecimal('coefficient', 4, 4);
 
             $table->timestamps();
 
@@ -34,6 +34,6 @@ class CreateSalesTaxesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sales_taxes');
+        Schema::dropIfExists('chart_aliases');
     }
 }

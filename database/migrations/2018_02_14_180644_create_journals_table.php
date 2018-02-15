@@ -16,9 +16,6 @@ class CreateJournalsTable extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('taxpayer_id');
-            $table->foreign('taxpayer_id')->references('id')->on('taxpayers')->onDelete('cascade');
-
             $table->unsignedInteger('cycle_id');
             $table->foreign('cycle_id')->references('id')->on('cycles')->onDelete('cascade');
 

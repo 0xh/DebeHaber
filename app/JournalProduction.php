@@ -15,7 +15,7 @@ class JournalProduction extends Model
      */
     public function journal()
     {
-        return $this->belongsTo(Name::class);
+        return $this->belongsTo(Journal::class);
     }
 
     /**
@@ -25,6 +25,6 @@ class JournalProduction extends Model
      */
     public function production()
     {
-        return $this->belongsTo(Name::class);
+        return $this->belongsTo(Production::class);
     }
 }

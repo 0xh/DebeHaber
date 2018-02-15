@@ -61,9 +61,6 @@ class CreateChartsTable extends Migration
             $table->unsignedInteger('partner_id')->nullable();
             $table->foreign('partner_id')->references('id')->on('taxpayers')->onDelete('cascade');
 
-            $table->unsignedInteger('sales_tax_id')->nullable();
-            $table->foreign('sales_tax_id')->references('id')->on('sales_taxes')->onDelete('cascade');
-
             $table->unsignedDecimal('coefficient', 4, 4)->nullable();
             $table->unsignedDecimal('asset_years', 4, 4)->nullable();
 

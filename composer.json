@@ -15,7 +15,8 @@
         "laravel/framework": "5.6.*",
         "laravel/passport": "^5.0",
         "laravel/spark-aurelius": "*@dev",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "pragmarx/countries": "^0.5.5"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

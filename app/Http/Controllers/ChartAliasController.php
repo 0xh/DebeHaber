@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ChartAccount;
+use App\ChartAlias;
 use Illuminate\Http\Request;
 
-class ChartAccountController extends Controller
+class ChartAliasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ChartAccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ChartAccount  $chartAccount
+     * @param  \App\ChartAlias  $chartAlias
      * @return \Illuminate\Http\Response
      */
-    public function show(ChartAccount $chartAccount)
+    public function show(ChartAlias $chartAlias)
     {
         //
     }
@@ -52,10 +52,10 @@ class ChartAccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ChartAccount  $chartAccount
+     * @param  \App\ChartAlias  $chartAlias
      * @return \Illuminate\Http\Response
      */
-    public function edit(ChartAccount $chartAccount)
+    public function edit(ChartAlias $chartAlias)
     {
         //
     }
@@ -64,10 +64,10 @@ class ChartAccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ChartAccount  $chartAccount
+     * @param  \App\ChartAlias  $chartAlias
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ChartAccount $chartAccount)
+    public function update(Request $request, ChartAlias $chartAlias)
     {
         //
     }
@@ -75,10 +75,10 @@ class ChartAccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ChartAccount  $chartAccount
+     * @param  \App\ChartAlias  $chartAlias
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ChartAccount $chartAccount)
+    public function destroy(ChartAlias $chartAlias)
     {
         //
     }

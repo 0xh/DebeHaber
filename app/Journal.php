@@ -46,16 +46,6 @@ class Journal extends Model
     }
 
     /**
-     * Get the taxPayer that owns the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function taxPayer()
-    {
-        return $this->belongsTo(Taxpayer::class);
-    }
-
-    /**
      * Get the productions for the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

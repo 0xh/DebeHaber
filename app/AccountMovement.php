@@ -3,10 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Transaction;
-use App\Chart;
-use App\Currency;
-use App\Taxpayer;
 
 class AccountMovement extends Model
 {

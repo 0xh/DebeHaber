@@ -51,4 +51,14 @@ class User extends SparkUser
         'trial_ends_at' => 'datetime',
         'uses_two_factor_auth' => 'boolean',
     ];
+
+    /**
+     * Get the taxPayerFavs for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function taxPayerFavs()
+    {
+        return $this->hasMany(TaxpayerFav::class);
+    }
 }

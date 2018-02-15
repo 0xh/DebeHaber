@@ -15,10 +15,19 @@ class CreateTaxpayerIntegrationsTable extends Migration
     {
         Schema::create('taxpayer_integrations', function (Blueprint $table)
         {
-            $table->integer('taxpayer_id')->unsigned();
-            $table->string('agent_name')->nullable();
+            $table->unsignedInteger('taxpayer_id');
+            $table->foreign('taxpayer_id')->references('id')->on('taxpayers')->onDelete('cascade');
+
+            $table->unsignedInteger('team_id')->unsigned();
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+
+            $table->unsignedTinyInteger('type')->comment('1 = Company. 2 = Accountant. 3 = Auditor');
+            $table->boolean('is_owner')->default(false);
+
+            $table->string('agent_name', 64)->nullable();
             $table->string('agent_taxid', 32)->nullable();
             $table->boolean('is_company')->default(false);
+
             $table->timestamps();
         });
     }
