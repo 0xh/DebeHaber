@@ -7,10 +7,10 @@ use Illuminate\Database\Migrations\Migration;
 class CreateChartsTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    * Run the migrations.
+    *
+    * @return void
+    */
     public function up()
     {
         Schema::create('charts', function (Blueprint $table) {
@@ -27,8 +27,11 @@ class CreateChartsTable extends Migration
 
             $table->string('country', 2)->default('PY');
 
+            $table->boolean('is_accountable')->default(true);
+
             $table->string('code');
             $table->string('name');
+            $table->unsignedTinyInteger('level')->default(1);
 
             $table->unsignedTinyInteger('type')->default(1)->comment('
             1 = Asset
@@ -37,17 +40,43 @@ class CreateChartsTable extends Migration
             4 = Income
             5 = Expense
             ');
-            $table->unsignedTinyInteger('level')->default(1);
+
+            $table->unsignedTinyInteger('sub_type')->default(1)
+            ->comment('1 = Cash and Bank Accounts
+            2 = Accounts Receivable
+            3 = Undeposited Funds
+            4 = Inventory
+            5 = Fixed Assets Groups
+            6 = Prepaid Insurance
+            7 = Sales Tax Credit
+
+            8 = Accrued Liablities
+            9 = Accounts Payable
+            10 = Payroll liabilities
+            11 = Notes Payable
+
+            ... More to come.
+            ');
+
+            $table->unsignedInteger('partner_id')->nullable();
+            $table->foreign('partner_id')->references('id')->on('taxpayers')->onDelete('cascade');
+
+            $table->unsignedInteger('sales_tax_id')->nullable();
+            $table->foreign('sales_tax_id')->references('id')->on('sales_taxes')->onDelete('cascade');
+
+            $table->unsignedDecimal('coefficient', 4, 4)->nullable();
+            $table->unsignedDecimal('asset_years', 4, 4)->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down()
     {
         Schema::dropIfExists('charts');

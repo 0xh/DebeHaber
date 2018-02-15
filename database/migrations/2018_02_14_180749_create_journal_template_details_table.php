@@ -22,8 +22,8 @@ class CreateJournalTemplateDetailsTable extends Migration
             $table->unsignedInteger('chart_id');
             $table->foreign('chart_id')->references('id')->on('charts')->onDelete('cascade');
 
-            $table->unsignedDecimal('debit', 18, 2)->default(0);
-            $table->unsignedDecimal('credit', 18, 2)->default(0);
+            $table->unsignedDecimal('debit_coef', 4, 4)->default(0);
+            $table->unsignedDecimal('credit_coef', 4, 4)->default(0);
 
             $table->timestamps();
         });

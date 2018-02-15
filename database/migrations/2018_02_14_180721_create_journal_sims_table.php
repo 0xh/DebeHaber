@@ -15,6 +15,25 @@ class CreateJournalSimsTable extends Migration
     {
         Schema::create('journal_sims', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->unsignedInteger('taxpayer_id');
+            $table->foreign('taxpayer_id')->references('id')->on('taxpayers')->onDelete('cascade');
+
+            $table->unsignedInteger('cycle_id');
+            $table->foreign('cycle_id')->references('id')->on('cycles')->onDelete('cascade');
+
+            $table->unsignedInteger('journal_id')->nullable();
+            $table->foreign('journal_id')->references('id')->on('journals')->onDelete('cascade');
+
+            $table->unsignedSmallInteger('code')->nullable();
+
+            $table->date('date');
+
+            $table->string('comment', 64);
+
+            $table->boolean('is_first')->default(false);
+            $table->boolean('is_last')->default(false);
+
             $table->timestamps();
         });
     }

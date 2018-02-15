@@ -19,11 +19,14 @@ class CreateTransactionDetailsTable extends Migration
             $table->unsignedInteger('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
 
-            $table->unsignedInteger('chart_accounts_id');
-            $table->foreign('chart_accounts_id')->references('id')->on('chart_accounts')->onDelete('cascade');
+            $table->unsignedInteger('chart_id');
+            $table->foreign('chart_id')->references('id')->on('charts')->onDelete('cascade');
 
-            $table->unsignedInteger('chart_vats_id');
-            $table->foreign('chart_vats_id')->references('id')->on('chart_accounts')->onDelete('cascade');
+            $table->unsignedInteger('chart_vat_id');
+            $table->foreign('chart_vat_id')->references('id')->on('charts')->onDelete('cascade');
+
+            // $table->unsignedInteger('sales_tax_id');
+            // $table->foreign('sales_tax_id')->references('id')->on('sales_taxes')->onDelete('cascade');
 
             $table->unsignedDecimal('value', 18, 2);
 

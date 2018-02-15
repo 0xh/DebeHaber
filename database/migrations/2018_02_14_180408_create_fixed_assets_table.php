@@ -16,8 +16,8 @@ class CreateFixedAssetsTable extends Migration
         Schema::create('fixed_assets', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('chart_account_id');
-            $table->foreign('chart_account_id')->references('id')->on('chart_accounts')->onDelete('cascade');
+            $table->unsignedInteger('chart_id');
+            $table->foreign('chart_id')->references('id')->on('charts')->onDelete('cascade');
 
             $table->unsignedInteger('taxpayer_id');
             $table->foreign('taxpayer_id')->references('id')->on('taxpayers')->onDelete('cascade');

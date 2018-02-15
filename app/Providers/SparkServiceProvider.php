@@ -4,14 +4,16 @@ namespace App\Providers;
 
 use Laravel\Spark\Spark;
 use Laravel\Spark\Providers\AppServiceProvider as ServiceProvider;
+use Laravel\Spark\Exceptions\IneligibleForPlan;
+use Laravel\Cashier\Cashier;
 
 class SparkServiceProvider extends ServiceProvider
 {
     /**
-     * Your application and company details.
-     *
-     * @var array
-     */
+    * Your application and company details.
+    *
+    * @var array
+    */
     protected $details = [
         'vendor' => 'Your Company',
         'product' => 'Your Product',
@@ -21,17 +23,17 @@ class SparkServiceProvider extends ServiceProvider
     ];
 
     /**
-     * The address where customer support e-mails should be sent.
-     *
-     * @var string
-     */
+    * The address where customer support e-mails should be sent.
+    *
+    * @var string
+    */
     protected $sendSupportEmailsTo = 'soporte@debehaber.com';
 
     /**
-     * All of the application developer e-mail addresses.
-     *
-     * @var array
-     */
+    * All of the application developer e-mail addresses.
+    *
+    * @var array
+    */
     protected $developers = [
         'abhi@cognitivo.in',
         'pankeel@cognitivo.in',
@@ -39,30 +41,56 @@ class SparkServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Indicates if the application will expose an API.
-     *
-     * @var bool
-     */
+    * Indicates if the application will expose an API.
+    *
+    * @var bool
+    */
     protected $usesApi = true;
 
     /**
-     * Finish configuring Spark for the application.
-     *
-     * @return void
-     */
+    * Finish configuring Spark for the application.
+    *
+    * @return void
+    */
     public function booted()
     {
-        Spark::noCardUpFront()->teamTrialDays(10);
+
+        Spark::useTwoFactorAuth();
+
+        Spark::useStripe()->noCardUpFront()->teamTrialDays(10);
+
+        Spark::useRoles([
+            'member' => 'Member',
+            'vip' => 'VIP',
+        ]);
+        Spark::noAdditionalTeams();
+
+        Spark::chargeTeamsPerSeat('Contribuyente', function ($team) {
+            return $team->taxpayers()->count();
+        });
+
+        Cashier::useCurrency('pyg', 'PYG ');
 
         Spark::freeTeamPlan()
-            ->features([
-                'First', 'Second', 'Third'
-            ]);
+        ->maxTeamMembers(2)
+        ->features([
+            'First', 'Second', 'Third'
+        ]);
 
-        Spark::teamPlan('Basic', 'provider-id-1')
-            ->price(10)
-            ->features([
-                'First', 'Second', 'Third'
-            ]);
+        Spark::teamPlan('Pro', 'provider-id-1')
+        ->price(50000)
+        ->features([
+            'First', 'Second', 'Third'
+        ]);
+
+        // Spark::promotion('coupon-code');
+
+        Spark::checkPlanEligibilityUsing(function ($user, $plan) {
+            if ($plan->name == 'Pro' && $user->todos->count() > 20) {
+                throw IneligibleForPlan::because('You have too many to-dos.');
+            }
+
+            return true;
+        });
     }
 }

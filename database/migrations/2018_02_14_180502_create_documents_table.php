@@ -20,21 +20,9 @@ class CreateDocumentsTable extends Migration
             $table->foreign('taxpayer_id')->references('id')->on('taxpayers')->onDelete('cascade');
 
             $table->unsignedTinyInteger('type')->default(1)
-            ->comment('1 = Cash and Bank Accounts
-            2 = Accounts Receivable
-            3 = Undeposited Funds
-            4 = Inventory
-            5 = Fixed Assets Groups
-            6 = Prepaid Insurance
-            7 = Sales Tax Credit
+            ->comment('1 = Sales, 2 = Purchases');
 
-            8 = Accrued Liablities
-            9 = Accounts Payable
-            10 = Payroll liabilities
-            11 = Notes Payable
-
-            ... More to come.
-            ');
+            $table->unsignedTinyInteger('link_code')->nullable();
 
             $table->string('prefix');
 

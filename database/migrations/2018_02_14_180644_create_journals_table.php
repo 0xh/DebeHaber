@@ -7,10 +7,10 @@ use Illuminate\Database\Migrations\Migration;
 class CreateJournalsTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    * Run the migrations.
+    *
+    * @return void
+    */
     public function up()
     {
         Schema::create('journals', function (Blueprint $table) {
@@ -22,14 +22,15 @@ class CreateJournalsTable extends Migration
             $table->unsignedInteger('cycle_id');
             $table->foreign('cycle_id')->references('id')->on('cycles')->onDelete('cascade');
 
-            $table->unsignedSmallInteger('code')->nullable();
+            $table->unsignedMediumInteger('number')->nullable();
 
             $table->date('date');
 
             $table->string('comment', 64);
 
-            $table->boolean('is_first')->default(false);
-            $table->boolean('is_last')->default(false);
+            $table->boolean('is_presented')->default(false)->comment('If Journal has been presented and now allow further changes.');
+            $table->boolean('is_first')->default(false)->comment('Refers to if Journal is an Opening Balance. Can only be one per Accounting Cycle');
+            $table->boolean('is_last')->default(false)->comment('Refers to if Journal is an Closing Balance. Can only be one per Accounting Cycle');;
 
             $table->timestamps();
             $table->softDeletes();
@@ -37,10 +38,10 @@ class CreateJournalsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down()
     {
         Schema::dropIfExists('journals');

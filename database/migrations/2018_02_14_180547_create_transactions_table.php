@@ -35,6 +35,9 @@ class CreateTransactionsTable extends Migration
 
             $table->unsignedInteger('payment_condition')->default(0);
 
+            $table->unsignedInteger('chart_account_id')->nullable();
+            $table->foreign('chart_account_id')->references('id')->on('charts')->onDelete('cascade');
+
             $table->date('date');
 
             $table->string('number', 30)->nullable();

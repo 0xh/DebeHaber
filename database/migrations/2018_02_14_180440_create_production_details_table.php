@@ -19,11 +19,10 @@ class CreateProductionDetailsTable extends Migration
             $table->unsignedInteger('production_id');
             $table->foreign('production_id')->references('id')->on('productions')->onDelete('cascade');
 
-            $table->unsignedInteger('input_id');
-            $table->foreign('input_id')->references('id')->on('chart_accounts')->onDelete('cascade');
+            $table->boolean('is_input')->default(true);
 
-            $table->unsignedInteger('output_id');
-            $table->foreign('output_id')->references('id')->on('chart_accounts')->onDelete('cascade');
+            $table->unsignedInteger('chart_id');
+            $table->foreign('chart_id')->references('id')->on('charts')->onDelete('cascade');
 
             $table->unsignedDecimal('value', 18, 2);
 
