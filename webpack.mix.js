@@ -16,10 +16,11 @@ let path = require('path');
 
 mix
     .sass('resources/assets/sass/app.scss', 'public/css')
+    .sass('resources/assets/sass/app-rtl.scss', 'public/css')
+    // .styles('resources/assets/css/custom.css', 'public/css')
     .js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/dashboard.js', 'public/js/metro.js')
     .js('resources/assets/js/login.js', 'public/js/metro.js')
-    .sass('resources/assets/sass/app-rtl.scss', 'public/css')
     .then(() => {
         exec('node_modules/rtlcss/bin/rtlcss.js public/css/app-rtl.css ./public/css/app-rtl.css');
     })
