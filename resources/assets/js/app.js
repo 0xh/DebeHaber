@@ -18,6 +18,26 @@ require('spark-bootstrap');
 
 require('./components/bootstrap');
 
+window.Vue = require('vue');
+import VueRouter from 'vue-router';
+window.Vue.use(VueRouter);
+window.Vue.use(require('vue-shortkey'))
+
+import SearchBox from './components/searchbox.vue';
+
+const routes = [
+    {
+        path: '/',
+        components: {
+            SearchBox : SearchBox
+
+        }
+    },
+]
+
+const router = new VueRouter({ routes })
+
 var app = new Vue({
+    router,
     mixins: [require('spark')]
 });
