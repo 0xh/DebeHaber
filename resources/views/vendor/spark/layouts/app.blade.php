@@ -13,7 +13,9 @@
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
 
     <!-- CSS -->
+    {{-- <link href="vendors/vendors.bundle.css" rel="stylesheet"> --}}
     <link href="{{ mix(Spark::usesRightToLeftTheme() ? 'css/app-rtl.css' : 'css/app.css') }}" rel="stylesheet">
+    {{-- <link href="/css/style.bundle.css" rel="stylesheet"> --}}
 
     <!-- Scripts -->
     @yield('scripts', '')
@@ -49,6 +51,8 @@
 
     <!-- JavaScript -->
     <script src="{{ mix('js/app.js') }}"></script>
-    <script src="/js/sweetalert.min.js"></script>
+    {{-- <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script> --}}
+    {{-- <script src="/js/sweetalert.min.js"></script> --}}
 </body>
 </html>
