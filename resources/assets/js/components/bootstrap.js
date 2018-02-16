@@ -10,5 +10,6 @@
  */
 
 require('./../spark-components/bootstrap');
-
+require('./../chartversion-components/bootstrap');
+require('./../cycle-components/bootstrap');
 require('./home');

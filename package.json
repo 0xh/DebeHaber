@@ -21,5 +21,8 @@
     "urijs": "^1.17.0",
     "vue": "2.*",
     "axios": "^0.15.2"
+  },
+  "devDependencies": {
+    "webpack": "^3.11.0"
   }
 }
