@@ -17,7 +17,8 @@
         "laravel/spark-aurelius": "*@dev",
         "laravel/tinker": "~1.0",
         "nasyrov/laravel-enums": "^1.1",
-        "pragmarx/countries": "^0.5.5"
+        "pragmarx/countries": "^0.5.5",
+        "sleimanx2/plastic": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

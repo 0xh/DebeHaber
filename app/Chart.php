@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Sleimanx2\Plastic\Searchable;
 
 class Chart extends Model
 {
     //
+    use Searchable;
+    public $searchable = ['id', 'code', 'name', 'type', 'taxpayer_id', 'country', 'sub_type', 'is_accountable'];
+
     public function getTypeAttribute($attribute)
     {
         return new ChartTypeEnum($attribute);
