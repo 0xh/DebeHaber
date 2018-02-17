@@ -1,7 +1,7 @@
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-Vue.component('chartversion',{
+Vue.component('chart-version',{
 
     data() {
         return {
@@ -90,11 +90,6 @@ Vue.component('chartversion',{
     mounted: function mounted() {
 
         this.init()
-
-
-
-
-
 
     }
 });

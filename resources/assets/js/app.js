@@ -15,22 +15,20 @@
  */
 
 require('spark-bootstrap');
-
 require('./components/bootstrap');
 
-window.Vue = require('vue');
 import VueRouter from 'vue-router';
+import SearchBox from './components/searchbox.vue';
+
+window.Vue = require('vue');
 window.Vue.use(VueRouter);
 window.Vue.use(require('vue-shortkey'))
-
-import SearchBox from './components/searchbox.vue';
 
 const routes = [
     {
         path: '/',
         components: {
             SearchBox : SearchBox
-
         }
     },
 ]
