@@ -71,16 +71,7 @@
 <body>
     <div class="full-height flex-column">
         <nav class="links">
-            <a href="/chartversion" style="margin-right: 15px;">
-                <button>
-                    Version
-                </button>
-            </a>
-            <a href="/cycle" style="margin-right: 15px;">
-                <button>
-                    Cycle
-                </button>
-            </a>
+
             <a href="/login" style="margin-right: 15px;">
                 <button>
                     {{__('Login')}}
