@@ -2727,16 +2727,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v2.4.9",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "1e08eb4c9d26ae5aedced8260e8b4ed951ee4aa6"
+                "reference": "b7b7d583eb04d7a8fe787e40cf12e14cfa61520e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/1e08eb4c9d26ae5aedced8260e8b4ed951ee4aa6",
-                "reference": "1e08eb4c9d26ae5aedced8260e8b4ed951ee4aa6",
+                "url": "https://api.github.com/repos/nette/utils/zipball/b7b7d583eb04d7a8fe787e40cf12e14cfa61520e",
+                "reference": "b7b7d583eb04d7a8fe787e40cf12e14cfa61520e",
                 "shasum": ""
             },
             "require": {
@@ -2760,12 +2760,15 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
                 "classmap": [
                     "src/"
+                ],
+                "files": [
+                    "src/loader.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2802,7 +2805,7 @@
                 "utility",
                 "validation"
             ],
-            "time": "2018-02-06T15:40:36+00:00"
+            "time": "2018-02-17T17:33:12+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2959,16 +2962,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v3.6.1",
+            "version": "v3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "601d2fc829379485e3ed56249631755a6ca99206"
+                "reference": "371844653ef672df963975aae64afa66f21ef6d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/601d2fc829379485e3ed56249631755a6ca99206",
-                "reference": "601d2fc829379485e3ed56249631755a6ca99206",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/371844653ef672df963975aae64afa66f21ef6d6",
+                "reference": "371844653ef672df963975aae64afa66f21ef6d6",
                 "shasum": ""
             },
             "require": {
@@ -3019,7 +3022,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2018-02-15T02:35:59+00:00"
+            "time": "2018-02-18T10:00:41+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -3942,16 +3945,16 @@
         },
         {
             "name": "pragmarx/coollection",
-            "version": "v0.5.2",
+            "version": "v0.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/coollection.git",
-                "reference": "fb7816a2599f076e86743697b38c047f43a755f6"
+                "reference": "3232409954f8f4397ce974e4d5ade460882a703a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/coollection/zipball/fb7816a2599f076e86743697b38c047f43a755f6",
-                "reference": "fb7816a2599f076e86743697b38c047f43a755f6",
+                "url": "https://api.github.com/repos/antonioribeiro/coollection/zipball/3232409954f8f4397ce974e4d5ade460882a703a",
+                "reference": "3232409954f8f4397ce974e4d5ade460882a703a",
                 "shasum": ""
             },
             "require": {
@@ -3962,6 +3965,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "~1.0",
+                "phpunit/php-timer": ">=1.0|>=2.0",
                 "phpunit/phpunit": ">=6.0|>=7.0",
                 "squizlabs/php_codesniffer": "^2.3"
             },
@@ -4001,20 +4005,20 @@
                 "laravel",
                 "pragmarx"
             ],
-            "time": "2018-02-13T14:46:24+00:00"
+            "time": "2018-02-18T23:13:59+00:00"
         },
         {
             "name": "pragmarx/countries",
-            "version": "v0.5.5",
+            "version": "v0.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/countries.git",
-                "reference": "c968019c6fa1b5cbca353be5459633c6d14c70fc"
+                "reference": "474415413a357a512998bb61940e31276f4709e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/countries/zipball/c968019c6fa1b5cbca353be5459633c6d14c70fc",
-                "reference": "c968019c6fa1b5cbca353be5459633c6d14c70fc",
+                "url": "https://api.github.com/repos/antonioribeiro/countries/zipball/474415413a357a512998bb61940e31276f4709e9",
+                "reference": "474415413a357a512998bb61940e31276f4709e9",
                 "shasum": ""
             },
             "require": {
@@ -4062,7 +4066,7 @@
                 "timezones",
                 "topology"
             ],
-            "time": "2018-02-10T17:22:08+00:00"
+            "time": "2018-02-17T16:54:12+00:00"
         },
         {
             "name": "pragmarx/ia-arr",
