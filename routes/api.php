@@ -22,13 +22,13 @@ Route::group([
         return['username' => 'tao'];
     });
 
-    //charts
+    //Get taxPayer List -> through Elastic Search
 
-    //currencies
+    //Get Charts with is_accountable = true
 
-    //vats
+    //Get All Charts by Version
 
-    //
+    //Get
 });
 
 Route::get('create-test-token', function() {
