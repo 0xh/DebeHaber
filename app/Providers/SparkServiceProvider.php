@@ -60,16 +60,19 @@ class SparkServiceProvider extends ServiceProvider
         Spark::useStripe()->noCardUpFront()->teamTrialDays(10);
 
         Spark::useRoles([
-            'member' => 'Member',
-            'vip' => 'VIP',
+            'mem' => 'Member',
+            'aux' => 'Auxiliary',
+            'acc' => 'Accountant',
+            'aud' => 'Auditor',
         ]);
-        Spark::noAdditionalTeams();
+
+        // Spark::noAdditionalTeams();
 
         Spark::chargeTeamsPerSeat('Contribuyente', function ($team) {
             return $team->taxpayers()->count();
         });
 
-        Cashier::useCurrency('pyg', 'PYG ');
+        // Cashier::useCurrency('pyg', 'PYG ');
 
         Spark::freeTeamPlan()
         ->maxTeamMembers(2)

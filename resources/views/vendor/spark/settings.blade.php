@@ -1,5 +1,7 @@
 @extends('spark::layouts.app')
 
+@section('title', 'Settings')
+
 @section('scripts')
     @if (Spark::billsUsingStripe())
         <script src="https://js.stripe.com/v3/"></script>
@@ -10,7 +12,7 @@
 
 @section('content')
     <spark-settings :user="user" :teams="teams" inline-template>
-        <div class="spark-screen container">
+        <div class="spark-screen">
             <div class="row">
                 <!-- Tabs -->
                 <div class="col-md-3 spark-settings-tabs">
@@ -29,7 +31,6 @@
                                     {{__('Profile')}}
                                 </a>
                             </li>
-
                             @if (Spark::usesTeams())
                                 <li class="nav-item ">
                                     <a class="nav-link" href="#{{Spark::teamsPrefix()}}" aria-controls="teams" role="tab" data-toggle="tab">
