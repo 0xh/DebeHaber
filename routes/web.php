@@ -19,11 +19,12 @@ Route::group(['middleware' => 'auth'], function ()
 {
 
     Route::resource('/taxpayer', 'TaxpayerController');
-    Route::resource('/chart-versions', 'ChartVersionController');
-    Route::resource('/cycles', 'CycleController');
 
     Route::prefix('/{taxPayer}/{cycle}')->group(function ()
     {
+        Route::resource('/chart-versions', 'ChartVersionController');
+        Route::resource('/cycles', 'CycleController');
+
         Route::get('/dashboard', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
 
         Route::prefix('/commercial')->group(function ()
@@ -55,6 +56,8 @@ Route::group(['middleware' => 'auth'], function ()
                 'journal-templates' => 'JournalTemplateController',
                 'journal-simulations' => 'JournalSimulationController'
             ]);
+
+            Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
         });
 
         Route::prefix('/reports/{country?}')->group(function ()

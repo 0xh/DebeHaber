@@ -19,7 +19,7 @@ Vue.component('chart',{
             code:'',
             code_expiry:'',
             comment:'',
-            ref_id:''
+            ref_id:'',
             list: [
               //     {
               //     id:0,
@@ -131,7 +131,7 @@ Vue.component('chart',{
                     app.list=[];
                     for(let i = 0; i < data.length; i++)
                     {
-                        
+
                         app.list.push({transaction_id:data[i]['name'],chart_id:data[i]['id'],
                                         chart_vat_id:data[i]['chart_vat_id'],value: data[i]['value']   });
                     }
