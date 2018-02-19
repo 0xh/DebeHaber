@@ -1,4 +1,4 @@
-@extends('spark::layouts.app')
+@extends('spark::layouts.blade.appSpark')
 
 @section('content')
 <div class="container">
