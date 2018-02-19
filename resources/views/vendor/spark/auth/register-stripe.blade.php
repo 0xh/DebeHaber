@@ -1,4 +1,4 @@
-@extends('spark::layouts.app')
+@extends('spark::layouts.blade.appSpark')
 
 @section('scripts')
     <script src="https://js.stripe.com/v3/"></script>
