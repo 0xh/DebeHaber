@@ -1,14 +1,10 @@
 @extends('spark::layouts.one-column')
 
-@section('title', 'accounting.AccountingCycle')
-
-@section('pageTitle', 'Version')
-
-@section('pageDescription', '')
-
+@section('title', 'Chart Version')
 
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <cycle inline-template>
         <div>
             <div class="row">
@@ -119,9 +115,6 @@
                 </div>
             </div>
         </div>
-
-
-
     </chartversion>
 
 @endsection

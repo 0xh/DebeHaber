@@ -17,47 +17,90 @@ Route::get('/home', 'HomeController@show');
 
 Route::group(['middleware' => 'auth'], function ()
 {
+
     Route::resource('/taxpayer', 'TaxpayerController');
-    Route::resource('/chart-version', 'ChartVersionController');
-    Route::resource('/cycle', 'CycleController');
+    Route::resource('/chart-versions', 'ChartVersionController');
+    Route::resource('/cycles', 'CycleController');
 
     Route::prefix('/{taxPayer}/{cycle}')->group(function ()
     {
         Route::get('/dashboard', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
 
-        Route::prefix('/com')->group(function ()
+        Route::prefix('/commercial')->group(function ()
         {
             Route::resources([
                 'sales' => 'SalesController',
-                'credit-notes' => 'TaxpayerController',
                 'account-receivables' => 'AccountReceivableController',
+                'credit-notes' => 'CreditNoteController',
+                'impex/imports' => 'ImpexImportController',
 
                 'purchases' => 'PurchaseController',
+                'account-payables' => 'AccountPayableController',
                 'debit-notes' => 'DebitNoteController',
-                'account-payable' => 'AccountPayableController'
+                'impex/exports' => 'ImpexExportController',
+
+                'inventories' => 'InventoryController',
+                'money-transfers' => 'MoneyTransferController',
+                'productions' => 'ProductionController',
+                'fixed-assets' => 'FixedAssetController',
+                'documents' => 'DocumentController'
             ]);
         });
 
-        Route::prefix('/acc')->group(function ()
+        Route::prefix('/accounting')->group(function ()
         {
             Route::resources([
+                'charts' => 'ChartController',
                 'journals' => 'JournalController',
-                'journal-template' => 'JournalTemplateController',
-                'journal-simulation' => 'JournalSimulationController'
+                'journal-templates' => 'JournalTemplateController',
+                'journal-simulations' => 'JournalSimulationController'
             ]);
+        });
+
+        Route::prefix('/reports/{country?}')->group(function ()
+        {
+            Route::get('/', 'ReportController@index');
+
+            Route::get('hechauka/generate_files/{start_date}/{end_date}', 'HechaukaController@generateFiles');
+
+            Route::get('purchase-vat/{strDate}/{endDate}', 'ReportController@vatPurchase')->name('reports.purchaseVAT');
+            Route::get('purchase-vat-bySupplier/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupBySupplier');
+            Route::get('purchase-vat-byCenter/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupByBusinessCenter');
+            Route::get('purchase-vat-byBranch/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupByBranch');
+
+            Route::get('sales-vat/{strDate}/{endDate}', 'ReportController@vatSales')->name('reports.salesVAT');
+            Route::get('sales-vat-byCustomer/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByCustomer');
+            Route::get('sales-vat-byCenter/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByBusinessCenter');
+            Route::get('sales-vat-byBranch/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByBranch');
+
+            Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
+
+            Route::get('account-customer/{strDate}/{endDate}/', 'ReportController@accountCustomer');
+            Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');
+
+            Route::get('journal/{strDate}/{endDate}/', 'ReportController@journal');
+            Route::get('journal-ByChart/{strDate}/{endDate}/', 'ReportController@journal_ByChart');
+            Route::get('journal-ByDate/{strDate}/{endDate}/', 'ReportController@journal_ByDate');
+            Route::get('journal-ByEntry/{strDate}/{endDate}/', 'ReportController@journal_ByEntry');
+
+            Route::get('balance-sums-balances/{strDate}/{endDate}/', 'ReportController@balanceSumsBalances');
+            Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
+            Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet');
+            Route::get('results/{strDate}/{endDate}/', 'ReportController@resultsTable');
+            Route::get('cash-flow/{strDate}/{endDate}/', 'ReportController@cashFlow');
         });
     });
 });
 
-Route::get('/chartversion', 'ChartVersionController@index');
-
-Route::post('/store_chartversion', 'ChartVersionController@store');
-Route::get('/get_chartversion', 'ChartVersionController@get_chartversion');
-
-Route::get('/cycle', 'CycleController@index')->name('cycle.index');
-
-Route::post('/store_cycle', 'CycleController@store');
-Route::get('/get_cycle', 'CycleController@get_cycle');
+// Route::get('/chartversion', 'ChartVersionController@index');
+//
+// Route::post('/store_chartversion', 'ChartVersionController@store');
+// Route::get('/get_chartversion', 'ChartVersionController@get_chartversion');
+//
+// Route::get('/cycle', 'CycleController@index')->name('cycle.index');
+//
+// Route::post('/store_cycle', 'CycleController@store');
+// Route::get('/get_cycle', 'CycleController@get_cycle');
 
 
 // Language

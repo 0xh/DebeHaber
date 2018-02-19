@@ -1,11 +1,6 @@
-@extends('spark::layouts.app')
+@extends('spark::layouts.one-column')
 
-@section('title', 'Chart | DebeHaber')
-
-@section('pageTitle', 'Version')
-
-@section('pageDescription', '')
-
+@section('title', 'Chart Version')
 
 @section('content')
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -55,7 +50,7 @@
             @{{ data.name }}
           </div>
           <div class="col-1">
-          
+
             <button v-on:click="onEdit(data)" class="btn btn-outline-pencil m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
               <i class="la la-pencil"></i>
             </button>
