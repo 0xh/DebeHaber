@@ -24,3 +24,17 @@ Route::get('/cycle', 'CycleController@index');
 
 Route::post('/store_cycle', 'CycleController@store');
 Route::get('/get_cycle', 'CycleController@get_cycle');
+
+
+//Language
+    //debehaber.com/en/taxpayer
+    //Create Taxpayer
+
+//Company
+    //debehaber.com/en/company-alias/fixed-asset
+    //Configuration Routes, FixedAssets, CurrencyRate, TaxpayerSettings
+
+//Cycle
+    //debehaber.com/en/company-alias/2018/purchases
+    //All Commercial Routes
+    //All Accounting Routes

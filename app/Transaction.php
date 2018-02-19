@@ -31,7 +31,7 @@ class Transaction extends Model
      */
     public function accountChart()
     {
-        return $this->belongsTo(Chart::class);
+        return $this->belongsTo(Chart::class, 'chart_account_id', 'id');
     }
 
     /**

@@ -34,7 +34,7 @@ class TransactionDetail extends Model
      */
     public function vat()
     {
-        return $this->belongsTo(Chart::class);
+        return $this->belongsTo(Chart::class, 'chart_vat_id', 'id');
     }
 
     /**
