@@ -15,6 +15,40 @@ Route::get('/', 'WelcomeController@show');
 
 Route::get('/home', 'HomeController@show');
 
+Route::group(['middleware' => 'auth'], function ()
+{
+    Route::resource('/taxpayer', 'TaxpayerController');
+    Route::resource('/chart-version', 'ChartVersionController');
+    Route::resource('/cycle', 'CycleController');
+
+    Route::prefix('/{taxPayer}/{cycle}')->group(function ()
+    {
+        Route::get('/dashboard', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
+
+        Route::prefix('/com')->group(function ()
+        {
+            Route::resources([
+                'sales' => 'SalesController',
+                'credit-notes' => 'TaxpayerController',
+                'account-receivables' => 'AccountReceivableController',
+
+                'purchases' => 'PurchaseController',
+                'debit-notes' => 'DebitNoteController',
+                'account-payable' => 'AccountPayableController'
+            ]);
+        });
+
+        Route::prefix('/acc')->group(function ()
+        {
+            Route::resources([
+                'journals' => 'JournalController',
+                'journal-template' => 'JournalTemplateController',
+                'journal-simulation' => 'JournalSimulationController'
+            ]);
+        });
+    });
+});
+
 Route::get('/chartversion', 'ChartVersionController@index');
 
 Route::post('/store_chartversion', 'ChartVersionController@store');
@@ -27,14 +61,14 @@ Route::get('/get_cycle', 'CycleController@get_cycle');
 
 
 // Language
-    // debehaber.com/en/taxpayer
-    // Create Taxpayer
+// debehaber.com/en/taxpayer
+// Create Taxpayer
 
 // Company
-    // debehaber.com/en/company-alias/fixed-asset
-    // Configuration Routes, FixedAssets, CurrencyRate, TaxpayerSettings
+// debehaber.com/en/company-alias/fixed-asset
+// Configuration Routes, FixedAssets, CurrencyRate, TaxpayerSettings
 
 // Cycle
-    // debehaber.com/en/company-alias/2018/purchases
-    // All Commercial Routes
-    // All Accounting Routes
+// debehaber.com/en/company-alias/2018/purchases
+// All Commercial Routes
+// All Accounting Routes
