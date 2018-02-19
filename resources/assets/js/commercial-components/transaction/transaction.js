@@ -6,26 +6,27 @@ Vue.component('chart',{
     data() {
         return {
             id:0,
-            chart_version_id:'',
-            country:'',
-            is_accountable:'',
-            code:'',
-            name:'',
-            level: '',
             type:'',
-            sub_type:'',
+            customer_id:'',
+            supplier_id:'',
+            document_id:'',
+            currency_id:'',
+            rate: '',
+            payment_condition:'',
+            chart_account_id:'',
+            date:'',
+            number:'',
+            code:'',
+            code_expiry:'',
+            comment:'',
+            ref_id:''
             list: [
               //     {
               //     id:0,
-              //     chart_version_id:'',
-              //     chart_version_name:'',
-              //     country:0,
-              //     is_accountable:'',
-              //     code:'',
-              //     name:'',
-              //     level:'',
-              //     type:'',
-              //     sub_type:''
+              //     transaction_id:'',
+              //     chart_id:'',
+              //     chart_vat_id:0,
+              //     value:''
 
               // }
             ],
@@ -44,7 +45,7 @@ Vue.component('chart',{
             var api=null;
 
             $.ajax({
-                url: '/store_chart/',
+                url: '/store_transaction/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'post',
                 data:json,
@@ -54,14 +55,20 @@ Vue.component('chart',{
                 {
                     if (data=='ok') {
                         app.id=0;
-                        app.chart_version_id=null;
-                        app.country=null;
-                        app.is_accountable=null;
-                        app.code=null;
-                        app.name=null;
-                        app.level=null;
                         app.type=null;
-                        app.sub_type=null;
+                        app.customer_id=null;
+                        app.supplier_id=null;
+                        app.document_id=null;
+                        app.currency_id=null;
+                        app.rate=null;
+                        app.payment_condition=null;
+                        app.chart_account_id=null;
+                        app.date=null;
+                        app.number=null;
+                        app.code=null;
+                        app.code_expiry=null;
+                        app.comment=null;
+                        app.ref_id=null;
                         app.init();
                     }
                     else {
