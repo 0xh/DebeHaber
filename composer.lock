@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "358457cc3ddab32b7899755eb2566025",
+    "content-hash": "0a606ea0c416f7d5705bf5a3f66a9492",
     "packages": [
         {
             "name": "bepsvpt/csp-builder",
@@ -5383,6 +5383,117 @@
                 "odm"
             ],
             "time": "2018-02-08T09:03:58+00:00"
+        },
+        {
+            "name": "spatie/laravel-model-status",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-model-status.git",
+                "reference": "19a77649ed3fb012d7cf852e1502587aea2e62d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-model-status/zipball/19a77649ed3fb012d7cf852e1502587aea2e62d2",
+                "reference": "19a77649ed3fb012d7cf852e1502587aea2e62d2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.5.0|~5.6.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.5.0|~3.6.0",
+                "phpunit/phpunit": "^6.5|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\ModelStatus\\ModelStatusServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ModelStatus\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Thomas Verhelst",
+                    "email": "tvke91@gmail.com",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A package to enable assigning statuses to Eloquent Models",
+            "homepage": "https://github.com/spatie/laravel-model-status",
+            "keywords": [
+                "laravel-status",
+                "spatie"
+            ],
+            "time": "2018-02-09T19:37:56+00:00"
+        },
+        {
+            "name": "spatie/laravel-robots-middleware",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-robots-middleware.git",
+                "reference": "843d09705a581b1efb9377605381a439bacb3ad5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-robots-middleware/zipball/843d09705a581b1efb9377605381a439bacb3ad5",
+                "reference": "843d09705a581b1efb9377605381a439bacb3ad5",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^5.1",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.2",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\RobotsMiddleware\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add an `all` or `none` robots header to your requests via a middleware in Laravel",
+            "homepage": "https://github.com/spatie/laravel-robots-middleware",
+            "keywords": [
+                "index",
+                "robots",
+                "seo",
+                "spatie"
+            ],
+            "time": "2016-01-12T12:28:05+00:00"
         },
         {
             "name": "stripe/stripe-php",

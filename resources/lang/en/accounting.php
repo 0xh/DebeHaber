@@ -14,6 +14,17 @@ return [
     */
 
     'Accounting' => 'Accounting',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'Journal' => 'Journal',
+    'JournalTemplate' => 'Journal Template',
+    'JournalSimulation' => 'Journal Simulation',
+    'ChartofAccounts' => 'Chart of Accounts',
+    'AccountingCycle' => 'Accounting Cycle',
+    'ChartVersion' => 'Chart Version',
 
+    'JournalEntries' => 'Journal Entries',
+    'GroupJournalEntries' => 'Journal Entries by Chart',
+    'BalanceSheet' => 'Balance Sheet',
+    'BalanceSheet(Comparative)' => 'Balance Sheet (Comparative)',
+    'IncomeStatement' => 'Income Statement',
+    'StatementofCashflows' => 'Statement of Cashflows',
 ];

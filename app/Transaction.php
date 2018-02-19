@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ModelStatus\HasStatuses;
 
 class Transaction extends Model
 {
-    //
+    use HasStatuses;
+
     protected $fillable = [
         'type',
         'customer_id',

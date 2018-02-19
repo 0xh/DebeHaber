@@ -14,16 +14,17 @@ class CycleController extends Controller
     */
     public function index()
     {
-        return view('cycle/index');
+        return view('accounting/cycle/index');
     }
 
     public function get_cycle()
     {
-        $Cycle=Cycle::
+        $Cycle = Cycle::
         Join('chart_versions', 'cycles.chart_version_id', 'chart_versions.id')
         ->select('cycles.id','cycles.year','cycles.start_date','cycles.end_date'
         ,'chart_versions.name as chart_version_name','chart_versions.id as chart_version_id')
         ->get();
+
         return response()->json($Cycle);
     }
 

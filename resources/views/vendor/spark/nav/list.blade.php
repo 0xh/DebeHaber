@@ -36,7 +36,7 @@
                                 <li class="m-menu__item  m-menu__item--active  m-menu__item--submenu m-menu__item--rel"  data-menu-submenu-toggle="click" aria-haspopup="true">
                                     <a  href="#" class="m-menu__link m-menu__toggle">
                                         <span class="m-menu__item-here"></span>
-                                        <i class="m-menu__link-icon flaticon-analytics"></i>
+                                        <i class="m-menu__link-icon la la-briefcase"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Commercial')
                                         </span>
@@ -55,9 +55,9 @@
                                                         <i class="m-menu__ver-arrow la la-angle-right"></i>
                                                     </h3>
                                                     <ul class="m-menu__inner">
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                                        <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-icon flaticon-map"></i>
+                                                                <i class="m-menu__link-icon la la-paper-plane"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.SalesBook')
                                                                 </span>
@@ -65,7 +65,7 @@
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-icon flaticon-user"></i>
+                                                                <i class="m-menu__link-icon la la-money"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.AccountsRecievable')
                                                                 </span>
@@ -73,7 +73,7 @@
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-icon flaticon-clipboard"></i>
+                                                                <i class="m-menu__link-icon la la-mail-reply"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.CreditNote')
                                                                 </span>
@@ -81,7 +81,7 @@
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-icon flaticon-graphic-1"></i>
+                                                                <i class="m-menu__link-icon la la-ship"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.Exports')
                                                                 </span>
@@ -115,9 +115,8 @@
                                                     <ul class="m-menu__inner">
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-bullet m-menu__link-bullet--line">
-                                                                    <span></span>
-                                                                </i>
+                                                                <i class="m-menu__link-icon la la-shopping-cart"></i>
+
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.PurchaseBook')
                                                                 </span>
@@ -125,9 +124,8 @@
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-bullet m-menu__link-bullet--line">
-                                                                    <span></span>
-                                                                </i>
+                                                                <i class="m-menu__link-icon la la-money"></i>
+
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.AccountsPayable')
                                                                 </span>
@@ -135,9 +133,8 @@
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-bullet m-menu__link-bullet--line">
-                                                                    <span></span>
-                                                                </i>
+                                                                <i class="m-menu__link-icon la la-mail-reply"></i>
+
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.DebitNote')
                                                                 </span>
@@ -145,9 +142,8 @@
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-bullet m-menu__link-bullet--line">
-                                                                    <span></span>
-                                                                </i>
+                                                                <i class="m-menu__link-icon la la-ship"></i>
+
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.Imports')
                                                                 </span>
@@ -179,33 +175,35 @@
                                                         <i class="m-menu__ver-arrow la la-angle-right"></i>
                                                     </h3>
                                                     <ul class="m-menu__inner">
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                                                    <span></span>
-                                                                </i>
-                                                                <span class="m-menu__link-text">
-                                                                    @lang('commercial.FixedAssets')
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                                                    <span></span>
-                                                                </i>
+                                                        <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
+                                                            <a href="inner.html" class="m-menu__link ">
+                                                                <i class="m-menu__link-icon la la-cubes"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.Inventory')
                                                                 </span>
                                                             </a>
                                                         </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                                                    <span></span>
-                                                                </i>
+                                                        <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
+                                                            <a href="inner.html" class="m-menu__link ">
+                                                                <i class="m-menu__link-icon la la-money"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('commercial.MoneyTransfers')
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                                            <a href="inner.html" class="m-menu__link ">
+                                                                <i class="m-menu__link-icon la la-industry"></i>
+                                                                <span class="m-menu__link-text">
+                                                                    @lang('commercial.Production')
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                                            <a  href="inner.html" class="m-menu__link ">
+                                                                <i class="m-menu__link-icon la la-key"></i>
+                                                                <span class="m-menu__link-text">
+                                                                    @lang('commercial.FixedAssets')
                                                                 </span>
                                                             </a>
                                                         </li>
@@ -214,149 +212,11 @@
                                             </ul>
                                         </div>
                                     </div>
-
-                                    {{-- <div class="m-menu__submenu m-menu__submenu--classic m-menu__submenu--left">
-                                        <span class="m-menu__arrow m-menu__arrow--adjust"></span>
-                                        <ul class="m-menu__subnav">
-                                            <li class="m-menu__item  m-menu__item--active "  aria-haspopup="true">
-                                                <a  href="inner.html" class="m-menu__link ">
-                                                    <i class="m-menu__link-icon flaticon-diagram"></i>
-                                                    <span class="m-menu__link-title">
-                                                        <span class="m-menu__link-wrap">
-                                                            <span class="m-menu__link-text">
-                                                                Messages
-                                                            </span>
-                                                            <span class="m-menu__link-badge">
-                                                                <span class="m-badge m-badge--success">
-                                                                    2
-                                                                </span>
-                                                            </span>
-                                                        </span>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="m-menu__item  m-menu__item--submenu"  data-menu-submenu-toggle="hover" data-redirect="true" aria-haspopup="true">
-                                                <a  href="#" class="m-menu__link m-menu__toggle">
-                                                    <i class="m-menu__link-icon flaticon-business"></i>
-                                                    <span class="m-menu__link-text">
-                                                        Manage Orders
-                                                    </span>
-                                                    <i class="m-menu__hor-arrow la la-angle-right"></i>
-                                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                                </a>
-                                                <div class="m-menu__submenu m-menu__submenu--classic m-menu__submenu--right">
-                                                    <span class="m-menu__arrow "></span>
-                                                    <ul class="m-menu__subnav">
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Latest Orders
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Pending Orders
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Processed Orders
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Delivery Reports
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Payments
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Customers
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="m-menu__item  m-menu__item--submenu"  data-menu-submenu-toggle="hover" data-redirect="true" aria-haspopup="true">
-                                                <a  href="#" class="m-menu__link m-menu__toggle">
-                                                    <i class="m-menu__link-icon flaticon-chat-1"></i>
-                                                    <span class="m-menu__link-text">
-                                                        Customer Feedbacks
-                                                    </span>
-                                                    <i class="m-menu__hor-arrow la la-angle-right"></i>
-                                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                                </a>
-                                                <div class="m-menu__submenu m-menu__submenu--classic m-menu__submenu--right">
-                                                    <span class="m-menu__arrow "></span>
-                                                    <ul class="m-menu__subnav">
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Customer Feedbacks
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Supplier Feedbacks
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Reviewed Feedbacks
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Resolved Feedbacks
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    Feedback Reports
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                <a  href="inner.html" class="m-menu__link ">
-                                                    <i class="m-menu__link-icon flaticon-users"></i>
-                                                    <span class="m-menu__link-text">
-                                                        Register Member
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div> --}}
                                 </li>
-                                <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel"  data-menu-submenu-toggle="click" data-redirect="true" aria-haspopup="true">
+                                <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel" data-menu-submenu-toggle="click" data-redirect="true" aria-haspopup="true">
                                     <a  href="#" class="m-menu__link m-menu__toggle">
                                         <span class="m-menu__item-here"></span>
-                                        <i class="m-menu__link-icon flaticon-notes"></i>
+                                        <i class="m-menu__link-icon la la-calculator"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.Accounting')
                                         </span>
@@ -377,7 +237,7 @@
                                                     <ul class="m-menu__inner">
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-icon flaticon-map"></i>
+                                                                <i class="m-menu__link-icon la la-list"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('accounting.Journal')
                                                                 </span>
@@ -385,7 +245,7 @@
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-icon flaticon-user"></i>
+                                                                <i class="m-menu__link-icon la la-paste"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('accounting.JournalTemplate')
                                                                 </span>
@@ -393,7 +253,7 @@
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-icon flaticon-clipboard"></i>
+                                                                <i class="m-menu__link-icon la la-gamepad"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('accounting.JournalSimulation')
                                                                 </span>
@@ -404,7 +264,7 @@
 
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                                             <a  href="inner.html" class="m-menu__link ">
-                                                                <i class="m-menu__link-icon flaticon-graphic-1"></i>
+                                                                <i class="m-menu__link-icon la la-sitemap"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('accounting.ChartofAccounts')
                                                                 </span>
@@ -493,9 +353,9 @@
                                 <li class="m-menu__item  m-menu__item--submenu"  data-menu-submenu-toggle="click" data-redirect="true" aria-haspopup="true">
                                     <a  href="#" class="m-menu__link m-menu__toggle">
                                         <span class="m-menu__item-here"></span>
-                                        <i class="m-menu__link-icon flaticon-stopwatch"></i>
+                                        <i class="m-menu__link-icon la la-line-chart"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.Commercial')
+                                            @lang('global.Reports')
                                         </span>
                                         <i class="m-menu__hor-arrow la la-angle-down"></i>
                                         <i class="m-menu__ver-arrow la la-angle-right"></i>
