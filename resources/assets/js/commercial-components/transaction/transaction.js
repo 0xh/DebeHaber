@@ -69,6 +69,7 @@ Vue.component('chart',{
                         app.code_expiry=null;
                         app.comment=null;
                         app.ref_id=null;
+                        app.details=[];
                         app.init();
                     }
                     else {
@@ -87,28 +88,52 @@ Vue.component('chart',{
         {
             var app=this;
             app.id=data.id;
-            app.chart_version_id=data.chart_version_id;
-            app.country=data.country;
-            app.is_accountable=data.is_accountable;
-            app.code=data.code;
-            app.name=data.name;
-            app.level=data.level;
             app.type=data.type;
-            app.sub_type=data.sub_type;
+            app.customer_id=data.customer_id;
+            app.supplier_id=data.supplier_id;
+            app.document_id=data.document_id;
+            app.currency_id=data.currency_id;
+            app.rate=data.rate;
+            app.payment_condition=data.payment_condition;
+            app.chart_account_id=data.chart_account_id;
+            app.date=data.date;
+            app.number=data.number;
+            app.code=data.code;
+            app.code_expiry=data.code_expiry;
+            app.comment=data.comment;
+            app.ref_id=data.ref_id;
         },
         init(){
             var app=this;
             $.ajax({
-                url: '/get_chart/' ,
+                url: '/get_transactions/' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
                 success: function(data)
                 {
+                    app.id=data.id;
+                    app.type=data.type;
+                    app.customer_id=data.customer_id;
+                    app.supplier_id=data.supplier_id;
+                    app.document_id=data.document_id;
+                    app.currency_id=data.currency_id;
+                    app.rate=data.rate;
+                    app.payment_condition=data.payment_condition;
+                    app.chart_account_id=data.chart_account_id;
+                    app.date=data.date;
+                    app.number=data.number;
+                    app.code=data.code;
+                    app.code_expiry=data.code_expiry;
+                    app.comment=data.comment;
+                    app.ref_id=data.ref_id;
+
                     app.list=[];
                     for(let i = 0; i < data.length; i++)
                     {
-                        app.list.push({name:data[i]['name'],id:data[i]['id']});
+                        
+                        app.list.push({transaction_id:data[i]['name'],chart_id:data[i]['id'],
+                                        chart_vat_id:data[i]['chart_vat_id'],value: data[i]['value']   });
                     }
 
                 },

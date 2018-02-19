@@ -78,7 +78,7 @@ class TransactionController extends Controller
             $TransactionDetail->chart_value_id=$detail->chart_value_id;
             $TransactionDetail->value=$detail->value;
             $TransactionDetail->save();
-
+            return response()->json('ok');
         }
     }
 
