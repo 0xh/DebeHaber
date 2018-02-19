@@ -20,7 +20,7 @@ Route::get('/chartversion', 'ChartVersionController@index');
 Route::post('/store_chartversion', 'ChartVersionController@store');
 Route::get('/get_chartversion', 'ChartVersionController@get_chartversion');
 
-Route::get('/cycle', 'CycleController@index');
+Route::get('/cycle', 'CycleController@index')->name('cycle.index');
 
 Route::post('/store_cycle', 'CycleController@store');
 Route::get('/get_cycle', 'CycleController@get_cycle');

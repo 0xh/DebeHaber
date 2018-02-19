@@ -411,7 +411,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                                            <a  href="inner.html" class="m-menu__link ">
+                                                            <a  href="{{ route('cycle.index') }}" class="m-menu__link ">
                                                                 <i class="m-menu__link-icon la la-calendar"></i>
                                                                 <span class="m-menu__link-text">
                                                                     @lang('accounting.AccountingCycle')
