@@ -12,6 +12,7 @@
         "bepsvpt/secure-headers": "^4.1",
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~4.0",
+        "hootlex/laravel-friendships": "^1.0",
         "laravel/cashier": "~7.0",
         "laravel/framework": "5.6.*",
         "laravel/passport": "^5.0",

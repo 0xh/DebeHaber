@@ -5,10 +5,11 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Spark\CanJoinTeams;
 use Laravel\Spark\User as SparkUser;
+use Hootlex\Friendships\Traits\Friendable;
 
 class User extends SparkUser
 {
-    use CanJoinTeams, HasApiTokens;
+    use CanJoinTeams, HasApiTokens, Friendable;
 
     /**
      * The attributes that are mass assignable.
