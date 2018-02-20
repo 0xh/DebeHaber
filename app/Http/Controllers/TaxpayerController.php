@@ -119,4 +119,9 @@ class TaxpayerController extends Controller
     {
         //
     }
+
+    public function showDashboard(Taxpayer $taxpayer, Cycle $cycle = null)
+    {
+        return view('taxpayer/dashboard');
+    }
 }

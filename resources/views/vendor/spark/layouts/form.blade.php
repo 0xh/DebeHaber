@@ -1,6 +1,6 @@
-@extends('spark::layouts.master')
+@extends('spark::layouts.dashboard')
 
-@section('contents')
+@section('content')
 
     <div class="m-content m--margin-top-30">
 

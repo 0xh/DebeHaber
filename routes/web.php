@@ -12,9 +12,8 @@
 */
 
 Route::get('/', 'WelcomeController@show');
-
 //No Team, maybe Team. No taxpayer selected
-Route::get('/home', 'HomeController@show');
+Route::get('/home', 'HomeController@show')->name('hello');
 
 Route::group(['middleware' => 'auth'], function ()
 {
@@ -24,7 +23,7 @@ Route::group(['middleware' => 'auth'], function ()
     Route::prefix('/{taxPayer}')->group(function ()
     {
 
-        Route::get('/dashboard/{cycle?}', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
+        Route::get('/{cycle?}', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
         Route::resource('chart-versions', 'ChartVersionController');
         Route::resource('cycle', 'CycleController');
 

@@ -24,7 +24,8 @@
 
     <link href="/vendors/base/vendors.bundle.css" rel="stylesheet">
     <link href="/css/style.bundle.css" rel="stylesheet">
-    <link href="{{ mix(Spark::usesRightToLeftTheme() ? 'css/app-rtl.css' : 'css/app.css') }}" rel="stylesheet">
+
+    @yield('styles')
 
     <script>
     window.Spark = <?php echo json_encode(array_merge(
@@ -52,7 +53,13 @@
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor-desktop m-grid--desktop m-body">
             <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-container m-container--responsive m-container--xxl m-container--full-height">
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">
-                    @yield('contents')
+                    @yield('layout')
+
+                    @if (Auth::check())
+                        @include('spark::modals.notifications')
+                        @include('spark::modals.support')
+                        @include('spark::modals.session-expired')
+                    @endif
                 </div>
             </div>
         </div>

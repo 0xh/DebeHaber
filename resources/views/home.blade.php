@@ -1,48 +1,27 @@
 
-@php
-$team = Auth::user()->currentTeam;
-@endphp
 
 @extends('spark::layouts.app')
 
 @section('content')
+
     <div class="row">
         <div class="col-xl-12">
             <div class="m-portlet__body">
                 <div class="m-widget4 m-widget4--chart-bottom">
                     <div class="m-widget4__item">
                         <div class="m-widget4__img m-widget4__img--logo">
-                            <img src="{{ $team->photo_url }}" alt="" onerror="this.src='/img/cloud.jpg';">
+                            <img :src="teams[0].photo_url" alt="" onerror="this.src='/img/cloud.jpg';">
                         </div>
                         <div class="m-widget4__info">
                             <span class="m-widget4__title">
-                                <h3>{{ $team->name }}</h3>
+                                <h3>@{{ teams[0].name }}</h3>
                             </span>
 
                             @{{ user.current_team_id }}
 
                             <span class="m-widget4__sub">
-                                Esta subscripto al plan {{ $team->current_billing_plan ?? 'Gratuito' }}. Cambie su plan <a href="/settings/teams/{{ $team->id }}#/subscription">aqui</a>.
+                                Esta subscripto al plan. Cambie su plan aqui.
                             </span>
-                        </div>
-                        <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="...">
-                            <a href="/settings/Equipos/{{ $team->id }}" class="btn btn-secondary m-btn">
-                                Configurar {{ $team->name }}
-                            </a>
-                            @if (Spark::showsTeamSwitcher())
-                                <div class="m-btn-group btn-group" role="group">
-                                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary m-btn m-btn--pill-last dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Cambiar de Equipo
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        @foreach (Auth::user()->teams as $team)
-                                            <a href="/{{__('teams.teams')}}/{{ $team->id }}/switch" class="dropdown-item">
-                                                {{ $team->name }}
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -58,7 +37,7 @@ $team = Auth::user()->currentTeam;
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Contribuyentes del equipo, {{ $team->name }}
+                                Contribuyentes del equipo, @{{ teams[0].name }}
                             </h3>
                         </div>
                     </div>
@@ -72,18 +51,17 @@ $team = Auth::user()->currentTeam;
                 </div>
                 <div class="m-portlet__body">
                     <!--begin::Widget5-->
-                    <div class="m-widget4 m-widget4--chart-bottom" style="min-height: 480px">
+                    <div class="m-widget4 m-widget4--chart-bottom">
 
-                        <dashboard-team inline-template>
-                            <div class="row" v-for="data in list">
-                                <div class="col-2">
-                                    @{{ data.name }}
+                        <dashboard-team :user="user" inline-template>
+                            <div>
+                                <div class="row" v-for="taxPayer in list">
+                                    <a :href="'/' + taxPayer.id + ''">
+                                        @{{ taxPayer.name }}
+                                    </a>
                                 </div>
-                                
                             </div>
-                        </taxprayer>
-
-
+                        </dashboard-team>
                     </div>
                     <!--end::Widget 5-->
                 </div>
@@ -131,28 +109,30 @@ $team = Auth::user()->currentTeam;
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Miembros del Equipo
+                                @lang('teams.team_members')
                             </h3>
                         </div>
                     </div>
                 </div>
                 <div class="m-portlet__body">
                     <div class="m-widget4">
-                        <spark-team-settings :user="user" :team-id="{{ $team->id }}" inline-template>
+                        <spark-team-settings :user="user" :team-id="user.current_team_id" inline-template>
                             <spark-team-members :user="user" :team="team" inline-template>
-                                <div class="m-widget4__item" v-for="member in team.users">
-                                    <div class="m-widget4__img m-widget4__img--pic">
-                                        <img :src="member.photo_url" alt="spark-profile-photo">
-                                    </div>
-                                    <div class="m-widget4__info">
-                                        <span class="m-widget4__title">
-                                            @{{ member.name }}
-                                        </span>
-                                    </div>
-                                    <div class="m-widget4__ext">
-                                        <a href="#" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
-                                            @{{ teamMemberRole(member) }}
-                                        </a>
+                                <div>
+                                    <div class="m-widget4__item" v-for="member in team.users">
+                                        <div class="m-widget4__img m-widget4__img--pic">
+                                            <img :src="member.photo_url" alt="spark-profile-photo">
+                                        </div>
+                                        <div class="m-widget4__info">
+                                            <span class="m-widget4__title">
+                                                @{{ member.name }}
+                                            </span>
+                                        </div>
+                                        <div class="m-widget4__ext">
+                                            <a href="#" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
+                                                @{{ teamMemberRole(member) }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </spark-team-members>
@@ -162,4 +142,5 @@ $team = Auth::user()->currentTeam;
             </div>
         </div>
     </div>
+
 @endsection

@@ -22,7 +22,7 @@ import SearchBox from './components/searchbox.vue';
 
 window.Vue = require('vue');
 window.Vue.use(VueRouter);
-window.Vue.use(require('vue-shortkey'))
+window.Vue.use(require('vue-shortkey'));
 
 const routes = [
     {

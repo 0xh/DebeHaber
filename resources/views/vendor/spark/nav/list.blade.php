@@ -1,12 +1,20 @@
-<header class="m-grid__item    m-header "  data-minimize="minimize" data-minimize-mobile="minimize" data-minimize-offset="200" data-minimize-mobile-offset="200" >
+<spark-navbar
+        :user="user"
+        :teams="teams"
+        :current-team="currentTeam"
+        :unread-announcements-count="unreadAnnouncementsCount"
+        :unread-notifications-count="unreadNotificationsCount"
+        inline-template>
+
+<header class="m-grid__item m-header" data-minimize="minimize" data-minimize-mobile="minimize" data-minimize-offset="200" data-minimize-mobile-offset="200" >
     <div class="m-container m-container--fluid m-container--full-height">
-        <div class="m-stack m-stack--ver m-stack--desktop  m-header__wrapper">
+        <div class="m-stack m-stack--ver m-stack--desktop m-header__wrapper">
             <!-- BEGIN: Brand -->
             <div class="m-stack__item m-brand m-brand--mobile">
                 <div class="m-stack m-stack--ver m-stack--general">
                     <div class="m-stack__item m-stack__item--middle m-brand__logo">
                         <a href="index.html" class="m-brand__logo-wrapper">
-                            <img alt="" src="/img/logos/debehaber.svg" width="128" width="128"/>
+                            <img alt="debehaber logo" src="/img/logos/debehaber.svg" width="128" width="128"/>
                         </a>
                     </div>
                     <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -469,3 +477,4 @@
     </div>
 </div>
 </header>
+</spark-navbar>

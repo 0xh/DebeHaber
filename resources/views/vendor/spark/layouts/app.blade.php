@@ -1,15 +1,13 @@
 @extends('spark::layouts.master')
 
-@section('contents')
+@section('styles')
+    <link href="{{ mix(Spark::usesRightToLeftTheme() ? 'css/app-rtl.css' : 'css/app.css') }}" rel="stylesheet">
+@endsection
+
+@section('layout')
 
     <div class="m-content m--margin-top-30">
         @yield('content')
-
-        @if (Auth::check())
-            @include('spark::modals.notifications')
-            @include('spark::modals.support')
-            @include('spark::modals.session-expired')
-        @endif
     </div>
 
 @endsection
