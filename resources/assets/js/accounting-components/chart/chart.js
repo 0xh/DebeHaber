@@ -40,7 +40,7 @@ Vue.component('chart',{
             var api = null;
 
             $.ajax({
-                url: '/store_chart/',
+                url: this.taxpayer + '/'+ this.cycle + '/accounting/charts/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'post',
                 data:json,

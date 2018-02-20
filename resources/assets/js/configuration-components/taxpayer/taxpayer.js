@@ -29,7 +29,7 @@ methods: {
         var api=null;
 
         $.ajax({
-            url: '/store_taxpayer',
+            url: '/taxpayer',
             headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
             type: 'post',
             data:json,
