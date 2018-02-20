@@ -15,7 +15,6 @@ class TaxpayerIntegrationController extends Controller
     public function index($teamID, $userID)
     {
         $taxPayerIntegration = TaxpayerIntegration::MyTaxPayers($teamID)
-        ->join('taxpayers', 'taxpayers.id', 'taxpayer_integrations.taxpayer_id')
         ->leftJoin('taxpayer_favs', 'taxpayer_favs.taxpayer_id', 'taxpayers.id')
         ->select('taxpayer_integrations.taxpayer_id as id',
         'taxpayers.country',

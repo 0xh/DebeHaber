@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\ChartScope;
 use Illuminate\Database\Eloquent\Model;
 use Sleimanx2\Plastic\Searchable;
 
@@ -9,7 +10,21 @@ class Chart extends Model
 {
     //
     use Searchable;
-    public $searchable = ['id', 'code', 'name', 'type', 'taxpayer_id', 'country', 'sub_type', 'is_accountable'];
+    public $searchable = ['id', 'code', 'name', 'type', 'country', 'taxpayer_id', 'sub_type', 'is_accountable'];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new ChartScope);
+    }
+
+    //This scope is handled by the Global Scope.
+    //This function is not necesary as calling the Model Directly will give you same results.
+    public function scopeMyCharts($query)
+    {
+        return $query;
+    }
 
     public function getTypeAttribute($attribute)
     {
