@@ -12,6 +12,7 @@ use Laravel\Passport;
 | loaded automatically by this application's RouteServiceProvider.
 |
 */
+Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
