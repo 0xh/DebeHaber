@@ -75,7 +75,12 @@ $team = Auth::user()->currentTeam;
                     <div class="m-widget4 m-widget4--chart-bottom" style="min-height: 480px">
 
                         <dashboard-team inline-template>
-                            <div></div>
+                            <div class="row" v-for="data in list">
+                                <div class="col-2">
+                                    @{{ data.name }}
+                                </div>
+                                
+                            </div>
                         </taxprayer>
 
 

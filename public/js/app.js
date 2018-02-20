@@ -73708,13 +73708,16 @@ Vue.component('dashboard-team', {
     props: ['user'],
     data: function data() {
         return {
-            id: '',
-            country: '',
-            name: '',
-            type: '',
-            alias: '',
-            taxID: '',
-            is_favorite: '' //Requires User to be Sent.
+            list: []
+            // id: '',
+            // country: '',
+            // name: '',
+            // type: '',
+            // alias: '',
+            // taxID: '',
+            // is_favorite: ''
+
+            //Requires User to be Sent.
         };
     },
 
@@ -73728,13 +73731,11 @@ Vue.component('dashboard-team', {
                 dataType: 'json',
                 async: true,
                 success: function success(data) {
-                    app.id = data.id;
-                    app.country = data.country;
-                    app.name = data.name;
-                    app.type = data.type;
-                    app.alias = data.alias;
-                    app.taxID = data.taxID;
-                    app.is_favorite = data.is_favorite;
+                    for (var i = 0; i < data.length; i++) {
+                        app.list.push({ id: data[i]['id'], country: data[i]['country'],
+                            name: data[i]['name'], type: data[i]['type'], alias: data[i]['alias'],
+                            taxID: data[i]['taxID'], is_favorite: data[i]['is_favorite'] });
+                    }
                 },
                 error: function error(xhr, status, _error) {
                     console.log(status);
