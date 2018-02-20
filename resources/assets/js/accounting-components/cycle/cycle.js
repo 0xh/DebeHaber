@@ -37,7 +37,7 @@ Vue.component('cycle',{
       var api=null;
 
       $.ajax({
-        url: '/store_cycle/',
+        url: this.taxpayer +  '/cycle/',
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'post',
         data:json,

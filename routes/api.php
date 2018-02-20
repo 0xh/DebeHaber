@@ -16,23 +16,26 @@ use Laravel\Passport;
 Route::group(['middleware' => 'auth:api'], function ()
 {
 
-    Route::get('users', function()
-    {
-        return['username' => 'tao'];
-    });
+  Route::get('users', function()
+  {
+    return['username' => 'tao'];
+  });
 
-    //Get taxPayer List -> through Elastic Search
+  //Get taxPayer List -> through Elastic Search
 
-    //Get Charts with is_accountable = true
+  //Get Charts with is_accountable = true
 
-    //Get All Charts by Version
 
-    //Get
+  Route::get('/get_chart', 'ChartController@get_chart');
+  //Get All Charts by Version
+  Route::get('/get_chartversion', 'ChartVersionController@get_chartversion');
+  //Get
+  Route::get('/get_cycle', 'CycleController@get_cycle');
 });
 
 Route::get('create-test-token', function() {
-    $user = \App\User::find(1);
-    // Creating a token without scopes...
-    $token = $user->createToken('Test Token Name')->accessToken;
-    return ['token' => $token];
+  $user = \App\User::find(1);
+  // Creating a token without scopes...
+  $token = $user->createToken('Test Token Name')->accessToken;
+  return ['token' => $token];
 });

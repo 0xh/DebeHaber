@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Taxpayer;
+use App\ChartVersion;
 use App\Cycle;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TaxpayerController extends Controller
 {
@@ -61,8 +63,9 @@ class TaxpayerController extends Controller
       $ChartVersion->name=$current_date->year;
       $ChartVersion->taxpayer_id = $Taxpayer->id;
       $ChartVersion->save();
-      
+
       $Cycle= new Cycle();
+      $Cycle->chart_version_id = $ChartVersion->id;
       $Cycle->year = $current_date->year;
       $Cycle->start_date = new Carbon('first day of January');
       $Cycle->end_date = new Carbon('last day of December');
