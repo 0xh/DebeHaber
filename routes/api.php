@@ -13,12 +13,11 @@ use Laravel\Passport;
 |
 */
 
-Route::group([
-    'middleware' => 'auth:api'
-], function ()
+Route::group(['middleware' => 'auth:api'], function ()
 {
 
-    Route::get('users', function() {
+    Route::get('users', function()
+    {
         return['username' => 'tao'];
     });
 
