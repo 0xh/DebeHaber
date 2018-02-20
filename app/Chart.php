@@ -17,6 +17,10 @@ class Chart extends Model
     {
         parent::boot();
         static::addGlobalScope(new ChartScope);
+
+        // static::addGlobalScope('age', function (Builder $builder) {
+        //     $builder->where('age', '>', 200);
+        // });
     }
 
     //This scope is handled by the Global Scope.
