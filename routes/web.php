@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth'], function ()
 
   Route::get('/create_taxpayer', 'TaxpayerController@create')->name('taxpayer.create');
   Route::post('/store_taxpayer', 'TaxpayerController@store');
+  
   Route::resource('/cycle', 'CycleController');
   Route::prefix('/{taxPayer}/{cycle}')->group(function ()
   {
