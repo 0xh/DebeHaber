@@ -12,9 +12,10 @@ class CycleController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function index()
+    public function index($taxpayer)
     {
-        return view('accounting/cycle/index');
+        dd($taxpayer);
+        return view('accounting/cycles');
     }
 
     public function get_cycle()

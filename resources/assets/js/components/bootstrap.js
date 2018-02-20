@@ -20,6 +20,6 @@ require('./../accounting-components/cycle/bootstrap');
 require('./../commercial-components/transaction/bootstrap');
 
 //Configuration
-
+require('./../Configuration-components/taxpayer/bootstrap');
 
 require('./home');

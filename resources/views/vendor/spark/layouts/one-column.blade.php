@@ -1,6 +1,6 @@
 @extends('spark::layouts.master')
 
-@section('content')
+@section('contents')
 
     <div class="m-content m--margin-top-30">
 
@@ -110,6 +110,6 @@
                 </div>
             </div>
         </home>
-        
+
     </div>
 @endsection

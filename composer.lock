@@ -2050,7 +2050,7 @@
             "dist": {
                 "type": "path",
                 "url": "./spark",
-                "reference": "a12190d7867e1f0648d871b6023b12867cdcc9d2",
+                "reference": "8821d656f7152df217cd1cd9234a6231e915d03a",
                 "shasum": null
             },
             "require": {
@@ -2840,16 +2840,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v2.5.0",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "b7b7d583eb04d7a8fe787e40cf12e14cfa61520e"
+                "reference": "8a85ce76298c8a8941f912b8fa3ee93ca17d2ebc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/b7b7d583eb04d7a8fe787e40cf12e14cfa61520e",
-                "reference": "b7b7d583eb04d7a8fe787e40cf12e14cfa61520e",
+                "url": "https://api.github.com/repos/nette/utils/zipball/8a85ce76298c8a8941f912b8fa3ee93ca17d2ebc",
+                "reference": "8a85ce76298c8a8941f912b8fa3ee93ca17d2ebc",
                 "shasum": ""
             },
             "require": {
@@ -2918,7 +2918,7 @@
                 "utility",
                 "validation"
             ],
-            "time": "2018-02-17T17:33:12+00:00"
+            "time": "2018-02-19T14:42:42+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -3075,16 +3075,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v3.6.2",
+            "version": "v3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "371844653ef672df963975aae64afa66f21ef6d6"
+                "reference": "e07a2dd5b9399d56f487379ac3af515a4635bd6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/371844653ef672df963975aae64afa66f21ef6d6",
-                "reference": "371844653ef672df963975aae64afa66f21ef6d6",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/e07a2dd5b9399d56f487379ac3af515a4635bd6a",
+                "reference": "e07a2dd5b9399d56f487379ac3af515a4635bd6a",
                 "shasum": ""
             },
             "require": {
@@ -3135,7 +3135,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2018-02-18T10:00:41+00:00"
+            "time": "2018-02-20T04:08:58+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -3518,16 +3518,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.9",
+            "version": "2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "c9a3fe35e20eb6eeaca716d6a23cde03f52d1558"
+                "reference": "d305b780829ea4252ed9400b3f5937c2c99b51d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c9a3fe35e20eb6eeaca716d6a23cde03f52d1558",
-                "reference": "c9a3fe35e20eb6eeaca716d6a23cde03f52d1558",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d305b780829ea4252ed9400b3f5937c2c99b51d4",
+                "reference": "d305b780829ea4252ed9400b3f5937c2c99b51d4",
                 "shasum": ""
             },
             "require": {
@@ -3535,7 +3535,7 @@
             },
             "require-dev": {
                 "phing/phing": "~2.7",
-                "phpunit/phpunit": "~4.0",
+                "phpunit/phpunit": "^4.8.35|^5.7|^6.0",
                 "sami/sami": "~2.0",
                 "squizlabs/php_codesniffer": "~2.0"
             },
@@ -3606,20 +3606,20 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2017-11-29T06:38:08+00:00"
+            "time": "2018-02-19T04:29:13+00:00"
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.7.4",
+            "version": "1.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "9f901e29c93dae4aa77c0bb161df4276f9c9a1be"
+                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/9f901e29c93dae4aa77c0bb161df4276f9c9a1be",
-                "reference": "9f901e29c93dae4aa77c0bb161df4276f9c9a1be",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/dfd6be44111a7c41c2e884a336cc4f461b3b2401",
+                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401",
                 "shasum": ""
             },
             "require": {
@@ -3669,7 +3669,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-02-11T18:49:29+00:00"
+            "time": "2018-02-19T10:16:54+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4058,16 +4058,16 @@
         },
         {
             "name": "pragmarx/coollection",
-            "version": "v0.5.5",
+            "version": "v0.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/coollection.git",
-                "reference": "3232409954f8f4397ce974e4d5ade460882a703a"
+                "reference": "87405353ef1947839c7768c3b024c8ecf923ae9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/coollection/zipball/3232409954f8f4397ce974e4d5ade460882a703a",
-                "reference": "3232409954f8f4397ce974e4d5ade460882a703a",
+                "url": "https://api.github.com/repos/antonioribeiro/coollection/zipball/87405353ef1947839c7768c3b024c8ecf923ae9f",
+                "reference": "87405353ef1947839c7768c3b024c8ecf923ae9f",
                 "shasum": ""
             },
             "require": {
@@ -4118,7 +4118,7 @@
                 "laravel",
                 "pragmarx"
             ],
-            "time": "2018-02-18T23:13:59+00:00"
+            "time": "2018-02-19T02:50:22+00:00"
         },
         {
             "name": "pragmarx/countries",

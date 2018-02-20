@@ -1,7 +1,7 @@
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-Vue.component('chart',{
+Vue.component('transaction',{
 
     data() {
         return {
