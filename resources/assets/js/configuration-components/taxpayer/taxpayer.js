@@ -38,13 +38,7 @@ methods: {
             success: function(data)
             {
                 if (data=='ok') {
-                    app.id=0;
-                    app.country=null;
-                    app.code=null;
-                    app.name=null;
-                    app.alias=null;
-                    app.email=null;
-                //    app.init();
+                document.location.href = '/home'
                 }
                 else {
                     alert('Something Went Wrong...')

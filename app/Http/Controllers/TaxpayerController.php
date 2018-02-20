@@ -61,6 +61,7 @@ class TaxpayerController extends Controller
       $ChartVersion->name=$current_date->year;
       $ChartVersion->taxpayer_id = $Taxpayer->id;
       $ChartVersion->save();
+      
       $Cycle= new Cycle();
       $Cycle->year = $current_date->year;
       $Cycle->start_date = new Carbon('first day of January');
