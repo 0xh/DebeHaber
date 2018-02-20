@@ -13,6 +13,9 @@ use Laravel\Passport;
 |
 */
 
+Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
+
+
 Route::group(['middleware' => 'auth:api'], function ()
 {
 
@@ -20,6 +23,8 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         return['username' => 'tao'];
     });
+
+    //Gets the List of Taxpayers for Current Team and User.
 
     //Get taxPayer List -> through Elastic Search
 

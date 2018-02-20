@@ -12,9 +12,20 @@ class TaxpayerIntegrationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($teamID, $userID)
     {
-        //
+        $taxPayerIntegration = TaxpayerIntegration::MyTaxPayers($teamID)
+        ->join('taxpayers', 'taxpayers.id', 'taxpayer_integrations.taxpayer_id')
+        ->leftJoin('taxpayer_favs', 'taxpayer_favs.taxpayer_id', 'taxpayers.id')
+        ->select('taxpayer_integrations.taxpayer_id as id',
+        'taxpayers.country',
+        'taxpayers.name',
+        'taxpayers.alias',
+        'taxpayers.taxid',
+        'taxpayer_favs.id as is_favorite')
+        ->get();
+
+        return $taxPayerIntegration;
     }
 
     /**

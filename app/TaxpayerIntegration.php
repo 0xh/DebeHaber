@@ -8,6 +8,11 @@ class TaxpayerIntegration extends Model
 {
     //
 
+    public function scopeMyTaxPayers($query, $teamID)
+    {
+        return $query->where('team_id', $teamID);
+    }
+
     /**
      * Get the taxPayer that owns the model.
      *
