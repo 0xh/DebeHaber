@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaxpayerIntegration extends Model
 {
-    //
 
     public function scopeMyTaxPayers($query, $teamID)
     {
-        return $query->where('team_id', $teamID);
+        return $query->join('taxpayers', 'taxpayers.id', 'taxpayer_integrations.taxpayer_id')
+        ->where('team_id', $teamID);
     }
 
     /**
