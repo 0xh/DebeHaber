@@ -33,7 +33,6 @@
     </script>
 </head>
 <!-- end::Head -->
-<!-- end::Body -->
 
 <body class="m--skin- m-content--skin-light m-header--fixed m-header--fixed-mobile">
     <div id="spark-app" v-cloak>
@@ -46,10 +45,7 @@
             @else
                 @include('spark::nav.guest')
             @endif
-
         </div>
-
-
 
 
         <!-- begin::Body -->
@@ -61,7 +57,6 @@
             </div>
         </div>
         <!-- end:: Body -->
-
 
 
         <!-- begin::Footer -->
