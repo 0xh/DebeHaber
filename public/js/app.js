@@ -72963,95 +72963,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/Configuration-components/taxpayer/bootstrap.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("./resources/assets/js/Configuration-components/taxpayer/taxpayer.js");
-
-/***/ }),
-
-/***/ "./resources/assets/js/Configuration-components/taxpayer/taxpayer.js":
-/***/ (function(module, exports) {
-
-
-var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-Vue.component('taxpayer', {
-    data: function data() {
-        return {
-            id: 0,
-            country: '',
-            code: '',
-            name: '',
-            alias: '',
-            email: ''
-
-        };
-    },
-
-
-    methods: {
-
-        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
-        //For updates code will be different and should use the ID's palced int he Json.
-        onSave: function onSave(json) {
-
-            var app = this;
-            var api = null;
-
-            $.ajax({
-                url: '/store_taxpayer',
-                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-                type: 'post',
-                data: json,
-                dataType: 'json',
-                async: false,
-                success: function success(data) {
-                    if (data == 'ok') {
-                        document.location.href = '/home';
-                    } else {
-                        alert('Something Went Wrong...');
-                    }
-                },
-                error: function error(xhr, status, _error) {
-                    console.log(xhr.responseText);
-                }
-            });
-        },
-        onEdit: function onEdit(data) {
-            var app = this;
-            app.id = data.id;
-            app.country = data.type;
-            app.code = data.customer_id;
-            app.name = data.supplier_id;
-            app.email = data.document_id;
-        },
-        init: function init() {
-            var app = this;
-            $.ajax({
-                url: '/get_taxpayers/',
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function success(data) {
-                    app.id = data.id;
-                    app.country = data.type;
-                    app.code = data.customer_id;
-                    app.name = data.supplier_id;
-                    app.email = data.document_id;
-                },
-                error: function error(xhr, status, _error2) {
-                    console.log(status);
-                }
-            });
-        }
-    },
-
-    mounted: function mounted() {}
-});
-
-/***/ }),
-
 /***/ "./resources/assets/js/accounting-components/chart-version/bootstrap.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -73619,7 +73530,8 @@ __webpack_require__("./resources/assets/js/accounting-components/cycle/bootstrap
 __webpack_require__("./resources/assets/js/commercial-components/transaction/bootstrap.js");
 
 //Configuration
-__webpack_require__("./resources/assets/js/Configuration-components/taxpayer/bootstrap.js");
+__webpack_require__("./resources/assets/js/configuration-components/taxpayer/bootstrap.js");
+__webpack_require__("./resources/assets/js/dashboard-components/team/bootstrap.js");
 
 __webpack_require__("./resources/assets/js/components/home.js");
 
@@ -73687,6 +73599,158 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
+
+/***/ }),
+
+/***/ "./resources/assets/js/configuration-components/taxpayer/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/configuration-components/taxpayer/taxpayer.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/configuration-components/taxpayer/taxpayer.js":
+/***/ (function(module, exports) {
+
+
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+Vue.component('taxpayer', {
+    data: function data() {
+        return {
+            id: 0,
+            country: '',
+            code: '',
+            name: '',
+            alias: '',
+            email: ''
+
+        };
+    },
+
+
+    methods: {
+
+        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+        //For updates code will be different and should use the ID's palced int he Json.
+        onSave: function onSave(json) {
+
+            var app = this;
+            var api = null;
+
+            $.ajax({
+                url: '/store_taxpayer',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    if (data == 'ok') {
+                        document.location.href = '/home';
+                    } else {
+                        alert('Something Went Wrong...');
+                    }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        onEdit: function onEdit(data) {
+            var app = this;
+            app.id = data.id;
+            app.country = data.type;
+            app.code = data.customer_id;
+            app.name = data.supplier_id;
+            app.email = data.document_id;
+        },
+        init: function init() {
+            var app = this;
+            $.ajax({
+                url: '/get_taxpayers/',
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.id = data.id;
+                    app.country = data.type;
+                    app.code = data.customer_id;
+                    app.name = data.supplier_id;
+                    app.email = data.document_id;
+                },
+                error: function error(xhr, status, _error2) {
+                    console.log(status);
+                }
+            });
+        }
+    },
+
+    mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/dashboard-components/team/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/dashboard-components/team/team.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/dashboard-components/team/team.js":
+/***/ (function(module, exports) {
+
+
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+Vue.component('dashboard-team', {
+    // props: ['user'],
+    data: function data() {
+        return {
+            id: '',
+            country: '',
+            name: '',
+            type: '',
+            alias: '',
+            taxID: '',
+            is_favorite: '' //Requires User to be Sent.
+        };
+    },
+
+
+    methods: {
+        init: function init() {
+            // var app = this;
+            // $.ajax({
+            //     url: '/api/my-taxpayers/1/1',
+            //     type: 'get',
+            //     dataType: 'json',
+            //     async: true,
+            //     success: function(data)
+            //     {
+            //         app.id = data.id;
+            //         app.country = data.country;
+            //         app.name = data.name;
+            //         // app.type = data.type;
+            //         app.alias = data.alias;
+            //         app.taxID = data.taxID;
+            //         app.is_favorite = data.is_favorite;
+            //     },
+            //     error: function(xhr, status, error)
+            //     {
+            //         console.log(status);
+            //     }
+            // });
+        },
+
+
+        //Add taxpayer to current user's favorites
+        addFavorites: function addFavorites() {}
+    },
+
+    mounted: function mounted() {}
+});
 
 /***/ }),
 

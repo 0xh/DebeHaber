@@ -19,7 +19,7 @@ $team = Auth::user()->currentTeam;
                                 <h3>{{ $team->name }}</h3>
                             </span>
 
-                            {{$team}}
+                            @{{ user.current_team_id }}
 
                             <span class="m-widget4__sub">
                                 Esta subscripto al plan {{ $team->current_billing_plan ?? 'Gratuito' }}. Cambie su plan <a href="/settings/teams/{{ $team->id }}#/subscription">aqui</a>.
@@ -73,6 +73,10 @@ $team = Auth::user()->currentTeam;
                 <div class="m-portlet__body">
                     <!--begin::Widget5-->
                     <div class="m-widget4 m-widget4--chart-bottom" style="min-height: 480px">
+
+                        <dashboard-team inline-template>
+
+                        </dashboard-team>
 
                         @if(isset($listOfCompanies))
                             @foreach($listOfCompanies as $taxPayer)
