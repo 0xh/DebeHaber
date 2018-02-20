@@ -72995,7 +72995,7 @@ Vue.component('taxpayer', {
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function onSave(json) {
-            console.log(JSON.stringify(json));
+
             var app = this;
             var api = null;
 
@@ -73008,13 +73008,7 @@ Vue.component('taxpayer', {
                 async: false,
                 success: function success(data) {
                     if (data == 'ok') {
-                        app.id = 0;
-                        app.country = null;
-                        app.code = null;
-                        app.name = null;
-                        app.alias = null;
-                        app.email = null;
-                        app.init();
+                        document.location.href = '/home';
                     } else {
                         alert('Something Went Wrong...');
                     }
