@@ -18,8 +18,12 @@ class CreateTaxpayersTable extends Migration
             $table->string('country', 2)->default('PY');
             $table->unsignedInteger('taxid')->index();
             $table->unsignedTinyInteger('code')->nullable();
+            
             $table->string('name');
             $table->string('alias', 32)->nullable();
+
+            $table->string('address')->nullable();
+            $table->string('telephone')->nullable();
             $table->string('email', 64)->nullable();
             $table->timestamps();
         });

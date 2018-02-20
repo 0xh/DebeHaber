@@ -1,5 +1,5 @@
 
-var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+// var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('dashboard-team',{
     props: ['user'],
@@ -19,11 +19,11 @@ Vue.component('dashboard-team',{
     },
 
     methods: {
-
         init(){
             var app = this;
             $.ajax({
-                url: '/api/my-taxpayers/1/1',
+                url: '/api/my-taxpayers/' + this.user.current_team_id + '/' + this.user.id + '',
+                // url: '/api/my-taxpayers/1/1',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -31,29 +31,36 @@ Vue.component('dashboard-team',{
                 {
                     for(let i = 0; i < data.length; i++)
                     {
-                        app.list.push({id:data[i]['id'],country:data[i]['country'],
-                        name:data[i]['name'],type:data[i]['type'],alias:data[i]['alias'],
-                        taxID:data[i]['taxID'],is_favorite:data[i]['is_favorite']});
-                }
-                
+                        app.list.push(
+                            {
+                                id: data[i]['id'],
+                                country: data[i]['country'],
+                                name: data[i]['name'],
+                                type: data[i]['type'],
+                                alias: data[i]['alias'],
+                                taxID: data[i]['taxID'],
+                                is_favorite: data[i]['is_favorite']
+                            });
+                        }
+
+                    },
+                    error: function(xhr, status, error)
+                    {
+                        console.log(status);
+                    }
+                });
             },
-            error: function(xhr, status, error)
-            {
-                console.log(status);
+
+            //Add taxpayer to current user's favorites
+            addFavorites(){
+
             }
-        });
-    },
-
-    //Add taxpayer to current user's favorites
-    addFavorites(){
-
-    }
-},
+        },
 
 
 
-mounted: function mounted()
-{
-    this.init();
-}
-});
+        mounted: function mounted()
+        {
+            this.init();
+        }
+    });

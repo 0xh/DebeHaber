@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaxpayerFav extends Model
 {
-    //
 
     /**
      * Get the taxPayer that owns the model.
