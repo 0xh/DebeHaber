@@ -2,7 +2,7 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('transaction',{
-  props: ['taxpayer'],
+  props: ['taxpayer','url'],
   data() {
     return {
       id:0,
@@ -35,7 +35,8 @@ Vue.component('transaction',{
       ],
       documents:[],
       accounts:[],
-      currencies:[]
+      currencies:[],
+      charts:[]
 
     }
   },
@@ -117,7 +118,7 @@ Vue.component('transaction',{
       var api=null;
 
       $.ajax({
-        url: '/store_transaction/',
+        url: this.url,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'post',
         data:json,
@@ -261,6 +262,29 @@ Vue.component('transaction',{
         }
       });
     },
+    getCharts: function(data)
+    {
+      var app=this;
+      $.ajax({
+        url: '/api/get_chart/' + this.taxpayer ,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function(data)
+        {
+          app.charts=[];
+          for(let i = 0; i < data.length; i++)
+          {
+            app.charts.push({name:data[i]['name'],id:data[i]['id']});
+          }
+
+        },
+        error: function(xhr, status, error)
+        {
+          console.log(xhr.responseText);
+        }
+      });
+    },
     getAccounts: function(data)
     {
       var app=this;
@@ -291,6 +315,7 @@ Vue.component('transaction',{
     this.init()
     this.getDocuments();
     this.getCurrencies();
+    this.getCharts();
 
 
 

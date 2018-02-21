@@ -130,7 +130,7 @@ export default {
             address:'',
             email:'',
             telephone:'',
-            src: this.url,
+            src: '/api' + this.url  + this.current_company,
             limit: 5,
             minChars: 3,
             queryParamName: '',
@@ -145,7 +145,7 @@ export default {
         {
             var app = this  ;
 
-            app.selectText = item.name + ' | ' + item.gov_code;
+            app.selectText = item.name + ' | ' + item.code;
             app.id= item.id;
 
         },

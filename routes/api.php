@@ -19,7 +19,7 @@ Route::get('/get_chart/{teamID}', 'ChartController@get_chart');
 Route::get('/get_sales/{teamID}', 'SalesController@get_sales');
 Route::get('/get_currency/{teamID}', 'CurrencyController@get_currency');
 Route::get('/get_document/{type}/{teamID}', 'DocumentController@get_document');
-
+Route::get('/get_taxpayer/{teamID}', 'TaxpayerController@get_taxpayer');
 Route::group(['middleware' => 'auth:api'], function ()
 {
 

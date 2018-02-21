@@ -21,7 +21,16 @@ class TaxpayerController extends Controller
     {
 
     }
+    public function get_taxpayer($teamID)
+    {
+      $taxPayer=taxPayer::where('id',$teamID)->first();
+      if (isset($taxPayer)) {
+        $taxPayers=taxPayer::select('name')->get();
 
+        return response()->json($taxPayers);
+      }
+
+    }
 
 
     /**
