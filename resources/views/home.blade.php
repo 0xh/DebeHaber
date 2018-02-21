@@ -50,20 +50,49 @@
                     </div>
                 </div>
                 <div class="m-portlet__body">
+
+
                     <!--begin::Widget5-->
                     <div class="m-widget4 m-widget4--chart-bottom">
+                        @if(isset($taxPayerIntegrations))
+                            @foreach($taxPayerIntegrations as $integration)
+                                <div class="m-widget4__item">
+                                    <div class="m-widget4__img m-widget4__img--logo">
+                                        {{-- {{ $integration->taxPayer->image }} --}}
+                                        <img src="/photo/" alt="" onerror="this.src='/img/icons/cloud.jpg';">
+                                    </div>
+                                    <div class="m-widget4__info">
+                                        <span class="m-widget4__title">
+                                            <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}">
+                                                {{ $integration->taxpayer->name }}
+                                            </a>
+                                        </span>
+                                        <br>
+                                        <span class="m-widget4__sub">
+                                            {{ $integration->taxpayer->alias }} | {{ $integration->taxpayer->taxid }}
+                                        </span>
+                                    </div>
 
-                        <dashboard-team :user="user" inline-template>
-                            <div>
-                                <div class="row" v-for="taxPayer in list">
-                                    <a :href="'/' + taxPayer.id + ''">
-                                        @{{ taxPayer.name }}
-                                    </a>
+                                    <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="...">
+
+                                        <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
+                                            <i class="la la-info text-info"></i>
+                                        </a>
+
+                                        {{-- @if ($favorites->contains('company_id', $integration->taxpayer_id)) --}}
+                                            <a href="#" onclick="addFavorite({{ $integration->taxpayer_id }},0)" class="m-btn btn btn-secondary">
+                                                <i class="la la-star text-warning"></i>
+                                            </a>
+                                        {{-- @else --}}
+                                            {{-- <a href="#" onclick="addFavorite({{$integration->taxpayer_id}},1)" class="m-btn btn btn-secondary">
+                                                <i class="la la-star-o text-warning"></i>
+                                            </a>
+                                        @endif --}}
+                                    </div>
                                 </div>
-                            </div>
-                        </dashboard-team>
+                            @endforeach
+                        @endif
                     </div>
-                    <!--end::Widget 5-->
                 </div>
             </div>
         </div>

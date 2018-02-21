@@ -23,12 +23,14 @@ class TaxpayerController extends Controller
     }
     public function get_taxpayer($teamID)
     {
-      $taxPayer=taxPayer::where('id',$teamID)->first();
-      if (isset($taxPayer)) {
-        $taxPayers=taxPayer::select('name')->get();
 
-        return response()->json($taxPayers);
-      }
+        $taxPayer = taxPayer::where('id',$teamID)->first();
+
+        if (isset($taxPayer))
+        {
+            $taxPayers = taxPayer::select('name')->get();
+            return response()->json($taxPayers);
+        }
 
     }
 
@@ -95,7 +97,7 @@ class TaxpayerController extends Controller
             $Cycle->save();
         }
 
-         return response()->json('ok');
+        return response()->json('ok');
     }
 
     /**
@@ -104,7 +106,7 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function show(Taxpayer $taxpayer)
+    public function show(Taxpayer $taxPayer)
     {
         //
     }
@@ -115,7 +117,7 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function edit(Taxpayer $taxpayer)
+    public function edit(Taxpayer $taxPayer)
     {
         //
     }
@@ -127,7 +129,7 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function update(Request $request, Taxpayer $taxpayer)
+    public function update(Request $request, Taxpayer $taxPayer)
     {
         //
     }
@@ -138,14 +140,19 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function destroy(Taxpayer $taxpayer)
+    public function destroy(Taxpayer $taxPayer)
     {
         //
     }
 
-    public function showDashboard(Taxpayer $taxpayer)
+    public function showDashboard(Taxpayer $taxPayer)
     {
-
         return view('taxpayer/dashboard');
+    }
+
+    public function selectTaxpayer(Taxpayer $taxPayer)
+    {
+        //run code to check for fiscal year selection and create if not.
+        return redirect()->route('taxpayer.dashboard', $taxPayer);
     }
 }

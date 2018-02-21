@@ -15,6 +15,8 @@ class CreateTaxpayerIntegrationsTable extends Migration
     {
         Schema::create('taxpayer_integrations', function (Blueprint $table)
         {
+            $table->increments('id');
+
             $table->unsignedInteger('taxpayer_id');
             $table->foreign('taxpayer_id')->references('id')->on('taxpayers')->onDelete('cascade');
 

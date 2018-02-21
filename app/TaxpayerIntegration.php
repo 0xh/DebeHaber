@@ -9,8 +9,7 @@ class TaxpayerIntegration extends Model
 
     public function scopeMyTaxPayers($query, $teamID)
     {
-        return $query->join('taxpayers', 'taxpayers.id', 'taxpayer_integrations.taxpayer_id')
-        ->where('team_id', $teamID);
+        return $query->where('team_id', $teamID);
     }
 
     /**
@@ -18,7 +17,7 @@ class TaxpayerIntegration extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function taxPayer()
+    public function taxpayer()
     {
         return $this->belongsTo(Taxpayer::class);
     }

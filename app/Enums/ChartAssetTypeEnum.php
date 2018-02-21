@@ -17,5 +17,5 @@ class ChartAssetTypeEnum extends Enum
     const FixedAssets               = 9;
     const AccumulatedDepreciation   = 10; //(contra account)
     const OtherAssets               = 11;
-    const SalesTaxRecievable        = 12;
+    const SalesTaxReceivable        = 12;
 }

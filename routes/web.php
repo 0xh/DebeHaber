@@ -19,10 +19,12 @@ Route::group(['middleware' => 'auth'], function ()
 {
     //create taxpayer
     Route::resource('taxpayer', 'TaxpayerController');
+    //Selects taxpayer and makes it ready for dashboard.
+    Route::get('selectTaxPayer/{taxPayer}', 'TaxpayerController@selectTaxpayer')->name('selectTaxPayer');
+    Route::get('dashboard/{taxPayer}', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
 
-    Route::prefix('/{taxPayer}')->group(function ()
+    Route::prefix('dashboard/{taxPayer}')->group(function ()
     {
-        Route::get('/', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
         Route::resource('chart-versions', 'ChartVersionController');
         Route::resource('cycles', 'CycleController');
 

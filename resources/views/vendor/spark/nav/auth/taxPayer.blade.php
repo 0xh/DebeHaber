@@ -5,7 +5,7 @@
                 <span class="m-menu__item-here"></span>
                 <i class="m-menu__link-icon la la-briefcase"></i>
                 <span class="m-menu__link-text">
-                    Bombay
+                    {{ request()->route('taxPayer')->alias }}
                 </span>
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
                 <i class="m-menu__ver-arrow la la-angle-right"></i>
@@ -23,7 +23,7 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
-                                    <a  href="{{ route('sales.index', [request()->route('taxPayer'),request()->route('cycle')]) }}" class="m-menu__link ">
+                                    <a  href="{{ route('sales.index', [request()->route('taxpayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-paper-plane"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.SalesBook')
