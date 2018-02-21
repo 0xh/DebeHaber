@@ -238,7 +238,7 @@
                                 <hr style="border: 1px whitesmoke dashed">
 
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a  href="{{ route('charts.index', [request()->route('taxPayer'),1]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-sitemap"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.ChartofAccounts')

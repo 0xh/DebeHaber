@@ -5,7 +5,7 @@
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <cycle inline-template>
+    <chart  inline-template>
         <div>
             <div class="row">
                 <div class="col-6">
@@ -137,6 +137,6 @@
                 </div>
             </div>
         </div>
-    </chartversion>
+    </chart>
 
 @endsection

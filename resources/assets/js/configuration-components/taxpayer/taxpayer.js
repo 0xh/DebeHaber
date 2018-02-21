@@ -36,7 +36,7 @@ Vue.component('taxpayer',{
                 {
                     if (data == 'ok')
                     {
-                        document.location.href = '/home'
+                        document.location.href = '../home/'
                     }
                     else
                     {

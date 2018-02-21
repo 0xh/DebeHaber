@@ -13,6 +13,9 @@ use Laravel\Passport;
 |
 */
 Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
+Route::get('/get_cycle', 'CycleController@get_cycle');
+Route::get('/get_chartversion', 'ChartVersionController@get_chartversion');
+Route::get('/get_chart', 'ChartController@get_chart');
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
@@ -27,11 +30,11 @@ Route::group(['middleware' => 'auth:api'], function ()
   //Get Charts with is_accountable = true
 
 
-  Route::get('/get_chart', 'ChartController@get_chart');
+
   //Get All Charts by Version
-  Route::get('/get_chartversion', 'ChartVersionController@get_chartversion');
+
   //Get
-  Route::get('/get_cycle', 'CycleController@get_cycle');
+
 });
 
 Route::get('create-test-token', function() {

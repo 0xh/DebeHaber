@@ -23,7 +23,6 @@ class TaxpayerIntegrationController extends Controller
         'taxpayers.taxid',
         'taxpayer_favs.id as is_favorite')
         ->get();
-
         return $taxPayerIntegration;
     }
 

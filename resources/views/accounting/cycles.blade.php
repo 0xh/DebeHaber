@@ -1,10 +1,10 @@
-@extends('spark::layouts.one-column')
+@extends('spark::layouts.form')
 
-@section('title', 'Chart Version')
+@section('title', 'Cycle')
 
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <cycle inline-template>
         <div>
             <div class="row">

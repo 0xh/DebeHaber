@@ -22,13 +22,14 @@ Vue.component('dashboard-team',{
         init(){
             var app = this;
             $.ajax({
-                url: '/api/my-taxpayers/' + this.user.current_team_id + '/' + this.user.id + '',
+                url: '/api/my-taxpayers/' + app.user.current_team_id + '/' + app.user.id + '',
                 // url: '/api/my-taxpayers/1/1',
                 type: 'get',
                 dataType: 'json',
                 async: true,
                 success: function(data)
                 {
+                    
                     for(let i = 0; i < data.length; i++)
                     {
                         app.list.push(

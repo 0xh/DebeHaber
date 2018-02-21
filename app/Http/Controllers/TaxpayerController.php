@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Taxpayer;
+use App\TaxpayerIntegration;
 use App\ChartVersion;
 use App\Cycle;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TaxpayerController extends Controller
 {
@@ -53,11 +55,22 @@ class TaxpayerController extends Controller
 
         $taxPayer->save();
 
+
         if ($request->id == 0)
         {
+
             $current_date = Carbon::now();
 
+            $taxpayerIntegration = new taxpayerIntegration();
+            $taxpayerIntegration->taxpayer_id = $taxPayer->id;
+            $taxpayerIntegration->team_id = Auth::user()->current_team_id;
+            $taxpayerIntegration->type = 1;
+            $taxpayerIntegration->is_owner = 1;
+            $taxpayerIntegration->is_company = 1;
+            $taxpayerIntegration->save();
+
             //Check if Default Version is available for Country.
+
             $chartVersion = new ChartVersion();
             $chartVersion->name = $current_date->year;
             $chartVersion->taxpayer_id = $taxPayer->id;
@@ -72,7 +85,7 @@ class TaxpayerController extends Controller
             $Cycle->save();
         }
 
-        return response()->view(201);
+         return response()->json('ok');
     }
 
     /**
