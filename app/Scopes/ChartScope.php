@@ -17,8 +17,8 @@ class ChartScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('taxpayer_id', request()->route('taxpayer')->id)
+        $builder->where('taxpayer_id', request()->route('taxPayer')->id)
         ->orWhereIsNull('taxpayer_id')
-        ->where('country', request()->route('taxpayer')->country);
+        ->where('country', request()->route('taxPayer')->country);
     }
 }

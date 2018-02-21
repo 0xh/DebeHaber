@@ -1,10 +1,10 @@
 <spark-navbar
-        :user="user"
-        :teams="teams"
-        :current-team="currentTeam"
-        :unread-announcements-count="unreadAnnouncementsCount"
-        :unread-notifications-count="unreadNotificationsCount"
-        inline-template>
+:user="user"
+:teams="teams"
+:current-team="currentTeam"
+:unread-announcements-count="unreadAnnouncementsCount"
+:unread-notifications-count="unreadNotificationsCount"
+inline-template>
 
 <header class="m-grid__item m-header" data-minimize="minimize" data-minimize-mobile="minimize" data-minimize-offset="200" data-minimize-mobile-offset="200" >
     <div class="m-container m-container--fluid m-container--full-height">
@@ -93,131 +93,133 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="m-nav__item m-nav__item--accent m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" data-dropdown-toggle="click" data-dropdown-persistent="true">
-                            <a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
-                                <span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
-                                <span class="m-nav__link-icon">
-                                    <span class="m-nav__link-icon-wrapper">
-                                        <i class="flaticon-music-2"></i>
+                        <spark-notifications :notifications="notifications" :has-unread-announcements="hasUnreadAnnouncements" :loading-notifications="loadingNotifications" inline-template>
+                            <li class="m-nav__item m-nav__item--accent m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" data-dropdown-toggle="click" data-dropdown-persistent="true">
+                                <a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
+                                    <span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
+                                    <span class="m-nav__link-icon">
+                                        <span class="m-nav__link-icon-wrapper">
+                                            <i class="flaticon-music-2"></i>
+                                        </span>
                                     </span>
-                                </span>
-                            </a>
-                            <div class="m-dropdown__wrapper">
-                                <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
-                                <div class="m-dropdown__inner">
-                                    <div class="m-dropdown__header m--align-center">
-                                        <span class="m-dropdown__header-title">
-                                            @{{notificationsCount}}
-                                        </span>
-                                        <span class="m-dropdown__header-subtitle">
-                                            User Notifications
-                                        </span>
-                                    </div>
-                                    <div class="m-dropdown__body">
-                                        <div class="m-dropdown__content">
-                                            <ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
-                                                <li class="nav-item m-tabs__item">
-                                                    <a class="nav-link m-tabs__link active" data-toggle="tab" href="#topbar_notifications_notifications" role="tab">
-                                                        {{__('Notifications')}}
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item m-tabs__item">
-                                                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_events" role="tab">
-                                                        {{__('Announcements')}}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="topbar_notifications_notifications" role="tabpanel">
-                                                    <div class="m-scrollable" data-scrollable="true" data-max-height="250" data-mobile-max-height="200">
-                                                        <div class="m-list-timeline m-list-timeline--skin-light">
-                                                            <div class="m-list-timeline__items" v-if="showingNotifications && hasNotifications">
+                                </a>
+                                <div class="m-dropdown__wrapper">
+                                    <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
+                                    <div class="m-dropdown__inner">
+                                        <div class="m-dropdown__header m--align-center">
+                                            <span class="m-dropdown__header-title">
+                                                @{{notificationsCount}}
+                                            </span>
+                                            <span class="m-dropdown__header-subtitle">
+                                                User Notifications
+                                            </span>
+                                        </div>
+                                        <div class="m-dropdown__body">
+                                            <div class="m-dropdown__content">
+                                                <ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
+                                                    <li class="nav-item m-tabs__item">
+                                                        <a class="nav-link m-tabs__link active" data-toggle="tab" href="#topbar_notifications_notifications" role="tab">
+                                                            {{__('Notifications')}}
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item m-tabs__item">
+                                                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_events" role="tab">
+                                                            {{__('Announcements')}}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="topbar_notifications_notifications" role="tabpanel">
+                                                        <div class="m-scrollable" data-scrollable="true" data-max-height="250" data-mobile-max-height="200">
+                                                            <div class="m-list-timeline m-list-timeline--skin-light">
+                                                                <div class="m-list-timeline__items" v-if="showingNotifications && hasNotifications">
 
-                                                                <div class="m-list-timeline__item" v-for="notification in notifications.notifications">
-                                                                    <span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
-                                                                    <span class="m-list-timeline__text" v-html="notification.parsed_body">
+                                                                    <div class="m-list-timeline__item" v-for="notification in notifications.notifications">
+                                                                        <span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
+                                                                        <span class="m-list-timeline__text" v-html="notification.parsed_body">
 
-                                                                    </span>
-                                                                    <span class="m-list-timeline__time">
-                                                                        @{{ notification.created_at | relative }}
-                                                                    </span>
-                                                                </div>
+                                                                        </span>
+                                                                        <span class="m-list-timeline__time">
+                                                                            @{{ notification.created_at | relative }}
+                                                                        </span>
+                                                                    </div>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
-                                                    <div class="m-scrollable" m-scrollabledata-scrollable="true" data-max-height="250" data-mobile-max-height="200">
-                                                        <div class="m-list-timeline m-list-timeline--skin-light">
-                                                            <div class="m-list-timeline__items">
-                                                                <div class="m-list-timeline__item">
-                                                                    <span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
-                                                                    <a href="" class="m-list-timeline__text">
-                                                                        New order received
-                                                                    </a>
-                                                                    <span class="m-list-timeline__time">
-                                                                        Just now
-                                                                    </span>
-                                                                </div>
-                                                                <div class="m-list-timeline__item">
-                                                                    <span class="m-list-timeline__badge m-list-timeline__badge--state1-danger"></span>
-                                                                    <a href="" class="m-list-timeline__text">
-                                                                        New invoice received
-                                                                    </a>
-                                                                    <span class="m-list-timeline__time">
-                                                                        20 mins
-                                                                    </span>
-                                                                </div>
-                                                                <div class="m-list-timeline__item">
-                                                                    <span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
-                                                                    <a href="" class="m-list-timeline__text">
-                                                                        Production server up
-                                                                    </a>
-                                                                    <span class="m-list-timeline__time">
-                                                                        5 hrs
-                                                                    </span>
-                                                                </div>
-                                                                <div class="m-list-timeline__item">
-                                                                    <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-                                                                    <a href="" class="m-list-timeline__text">
-                                                                        New order received
-                                                                    </a>
-                                                                    <span class="m-list-timeline__time">
-                                                                        7 hrs
-                                                                    </span>
-                                                                </div>
-                                                                <div class="m-list-timeline__item">
-                                                                    <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-                                                                    <a href="" class="m-list-timeline__text">
-                                                                        System shutdown
-                                                                    </a>
-                                                                    <span class="m-list-timeline__time">
-                                                                        11 mins
-                                                                    </span>
-                                                                </div>
-                                                                <div class="m-list-timeline__item">
-                                                                    <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-                                                                    <a href="" class="m-list-timeline__text">
-                                                                        Production server down
-                                                                    </a>
-                                                                    <span class="m-list-timeline__time">
-                                                                        3 hrs
-                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
-                                                    <div class="m-stack m-stack--ver m-stack--general" style="min-height: 180px;">
-                                                        <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                                                            <span class="">
-                                                                All caught up!
-                                                                <br>
-                                                                No new logs.
-                                                            </span>
+
+                                                    <div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
+                                                        <div class="m-scrollable" m-scrollabledata-scrollable="true" data-max-height="250" data-mobile-max-height="200">
+                                                            <div class="m-list-timeline m-list-timeline--skin-light">
+                                                                <div class="m-list-timeline__items">
+                                                                    <div class="m-list-timeline__item">
+                                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
+                                                                        <a href="" class="m-list-timeline__text">
+                                                                            New order received
+                                                                        </a>
+                                                                        <span class="m-list-timeline__time">
+                                                                            Just now
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="m-list-timeline__item">
+                                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-danger"></span>
+                                                                        <a href="" class="m-list-timeline__text">
+                                                                            New invoice received
+                                                                        </a>
+                                                                        <span class="m-list-timeline__time">
+                                                                            20 mins
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="m-list-timeline__item">
+                                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
+                                                                        <a href="" class="m-list-timeline__text">
+                                                                            Production server up
+                                                                        </a>
+                                                                        <span class="m-list-timeline__time">
+                                                                            5 hrs
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="m-list-timeline__item">
+                                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
+                                                                        <a href="" class="m-list-timeline__text">
+                                                                            New order received
+                                                                        </a>
+                                                                        <span class="m-list-timeline__time">
+                                                                            7 hrs
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="m-list-timeline__item">
+                                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
+                                                                        <a href="" class="m-list-timeline__text">
+                                                                            System shutdown
+                                                                        </a>
+                                                                        <span class="m-list-timeline__time">
+                                                                            11 mins
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="m-list-timeline__item">
+                                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
+                                                                        <a href="" class="m-list-timeline__text">
+                                                                            Production server down
+                                                                        </a>
+                                                                        <span class="m-list-timeline__time">
+                                                                            3 hrs
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
+                                                        <div class="m-stack m-stack--ver m-stack--general" style="min-height: 180px;">
+                                                            <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                                                                <span class="">
+                                                                    All caught up!
+                                                                    <br>
+                                                                    No new logs.
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -225,8 +227,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        </spark-notifications>
                         <li class="m-nav__item m-nav__item--danger m-dropdown m-dropdown--skin-light m-dropdown--large m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push m-dropdown--mobile-full-width m-dropdown--skin-light"  data-dropdown-toggle="click">
                             <a href="#" class="m-nav__link m-dropdown__toggle">
                                 <span class="m-nav__link-badge m-badge m-badge--dot m-badge--info m--hide"></span>
