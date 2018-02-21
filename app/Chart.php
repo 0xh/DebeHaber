@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Scopes\ChartScope;
+use App\Enums\ChartTypeEnum;
+use App\Enums\ChartAssetTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Sleimanx2\Plastic\Searchable;
 
@@ -16,7 +18,7 @@ class Chart extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope(new ChartScope);
+      //  static::addGlobalScope(new ChartScope);
 
         // static::addGlobalScope('age', function (Builder $builder) {
         //     $builder->where('age', '>', 200);

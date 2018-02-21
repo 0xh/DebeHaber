@@ -16,7 +16,12 @@ class DocumentController extends Controller
     {
         //
     }
+    public function get_document($type,$teamID)
+    {
+        $Document=Document::where('type',$type)->where('taxpayer_id',$teamID)->get();
 
+        return response()->json($Document);
+    }
     /**
      * Show the form for creating a new resource.
      *

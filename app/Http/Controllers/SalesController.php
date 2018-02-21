@@ -14,8 +14,16 @@ class SalesController extends Controller
     */
     public function index()
     {
-        //
+
+        return view('/commercial/sales');
     }
+    public function get_sales($teamID)
+  {
+      $Transaction=Transaction::with('details')->where('supplier_id',$teamID)->get();
+
+      return response()->json($Transaction);
+  }
+
 
     /**
     * Show the form for creating a new resource.

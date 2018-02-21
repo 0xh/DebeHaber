@@ -73072,6 +73072,7 @@ __webpack_require__("./resources/assets/js/accounting-components/chart/chart.js"
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('chart', {
+    props: ['taxpayer'],
     data: function data() {
         return {
             id: 0,
@@ -73094,7 +73095,8 @@ Vue.component('chart', {
                 //     level:'',
                 //     type:'',
                 //     sub_type:''
-            ]
+            ],
+            chartversions: []
 
         };
     },
@@ -73109,7 +73111,7 @@ Vue.component('chart', {
             var api = null;
 
             $.ajax({
-                url: this.taxpayer + '/' + this.cycle + '/accounting/charts/',
+                url: 'charts/',
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'post',
                 data: json,
@@ -73132,7 +73134,7 @@ Vue.component('chart', {
                     }
                 },
                 error: function error(xhr, status, _error) {
-                    console.log(_error);
+                    console.log(xhr.responseText);
                 }
             });
         },
@@ -73151,14 +73153,23 @@ Vue.component('chart', {
         init: function init() {
             var app = this;
             $.ajax({
-                url: '/get_chart/',
+                url: '/api/get_chart/' + this.taxpayer,
                 type: 'get',
                 dataType: 'json',
                 async: true,
                 success: function success(data) {
                     app.list = [];
                     for (var i = 0; i < data.length; i++) {
-                        app.list.push({ name: data[i]['name'], id: data[i]['id'] });
+                        app.list.push({ id: data[i]['id'],
+                            chart_version_id: data[i]['chart_version_id'],
+                            chart_version_name: data[i]['chart_version_name'],
+                            country: data[i]['country'],
+                            is_accountable: data[i]['is_accountable'],
+                            code: data[i]['code'],
+                            name: data[i]['name'],
+                            level: data[i]['level'],
+                            type: data[i]['type'],
+                            sub_type: data[i]['sub_type'] });
                     }
                 },
                 error: function error(xhr, status, _error2) {
@@ -73169,7 +73180,23 @@ Vue.component('chart', {
     },
 
     mounted: function mounted() {
+        var app = this;
         this.init();
+        $.ajax({
+            url: '/api/get_chartversion/' + this.taxpayer,
+            type: 'get',
+            dataType: 'json',
+            async: true,
+            success: function success(data) {
+                app.chartversions = [];
+                for (var i = 0; i < data.length; i++) {
+                    app.chartversions.push({ name: data[i]['name'], id: data[i]['id'] });
+                }
+            },
+            error: function error(xhr, status, _error3) {
+                console.log(xhr.responseText);
+            }
+        });
     }
 });
 
@@ -73366,141 +73393,262 @@ __webpack_require__("./resources/assets/js/commercial-components/transaction/tra
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('transaction', {
-    data: function data() {
-        return {
-            id: 0,
-            type: '',
-            customer_id: '',
-            supplier_id: '',
-            document_id: '',
-            currency_id: '',
-            rate: '',
-            payment_condition: '',
-            chart_account_id: '',
-            date: '',
-            number: '',
-            code: '',
-            code_expiry: '',
-            comment: '',
-            ref_id: '',
-            list: [
-                //     {
-                //     id:0,
-                //     transaction_id:'',
-                //     chart_id:'',
-                //     chart_vat_id:0,
-                //     value:''
+  props: ['taxpayer'],
+  data: function data() {
+    return {
+      id: 0,
+      type: '',
+      customer_id: '',
+      supplier_id: '',
+      document_id: '',
+      currency_id: '',
+      rate: '',
+      payment_condition: '',
+      chart_account_id: '',
+      date: '',
+      number: '',
+      code: '',
+      code_expiry: '',
+      comment: '',
+      ref_id: '',
+      details: [
+        //     {
+        //     id:0,
+        //     transaction_id:'',
+        //     chart_id:'',
+        //     chart_vat_id:0,
+        //     value:''
+        //     vat:0,
+        //     totalvat:0,
+        //     withoutvat:0,
 
-                // }
-            ]
+        // }
+      ],
+      documents: [],
+      accounts: [],
+      currencies: []
 
-        };
+    };
+  },
+
+  computed: {
+    condition: function condition() {
+      if (this.payment_condition > 0) {
+        return 'Crédito';
+      }
+      return 'Contado';
     },
 
+    grandTotal: function grandTotal() {
+      var total = 0.0;
 
-    methods: {
+      for (var i = 0; i < this.details.length; i++) {
+        total += parseFloat(this.details[i].value).toFixed(2);
+      }
 
-        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
-        //For updates code will be different and should use the ID's palced int he Json.
-        onSave: function onSave(json) {
-            var app = this;
-            var api = null;
-
-            $.ajax({
-                url: '/store_transaction/',
-                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-                type: 'post',
-                data: json,
-                dataType: 'json',
-                async: false,
-                success: function success(data) {
-                    if (data == 'ok') {
-                        app.id = 0;
-                        app.type = null;
-                        app.customer_id = null;
-                        app.supplier_id = null;
-                        app.document_id = null;
-                        app.currency_id = null;
-                        app.rate = null;
-                        app.payment_condition = null;
-                        app.chart_account_id = null;
-                        app.date = null;
-                        app.number = null;
-                        app.code = null;
-                        app.code_expiry = null;
-                        app.comment = null;
-                        app.ref_id = null;
-                        app.details = [];
-                        app.init();
-                    } else {
-                        alert('Something Went Wrong...');
-                    }
-                },
-                error: function error(xhr, status, _error) {
-                    console.log(_error);
-                }
-            });
-        },
-        onEdit: function onEdit(data) {
-            var app = this;
-            app.id = data.id;
-            app.type = data.type;
-            app.customer_id = data.customer_id;
-            app.supplier_id = data.supplier_id;
-            app.document_id = data.document_id;
-            app.currency_id = data.currency_id;
-            app.rate = data.rate;
-            app.payment_condition = data.payment_condition;
-            app.chart_account_id = data.chart_account_id;
-            app.date = data.date;
-            app.number = data.number;
-            app.code = data.code;
-            app.code_expiry = data.code_expiry;
-            app.comment = data.comment;
-            app.ref_id = data.ref_id;
-        },
-        init: function init() {
-            var app = this;
-            $.ajax({
-                url: '/get_transactions/',
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function success(data) {
-                    app.id = data.id;
-                    app.type = data.type;
-                    app.customer_id = data.customer_id;
-                    app.supplier_id = data.supplier_id;
-                    app.document_id = data.document_id;
-                    app.currency_id = data.currency_id;
-                    app.rate = data.rate;
-                    app.payment_condition = data.payment_condition;
-                    app.chart_account_id = data.chart_account_id;
-                    app.date = data.date;
-                    app.number = data.number;
-                    app.code = data.code;
-                    app.code_expiry = data.code_expiry;
-                    app.comment = data.comment;
-                    app.ref_id = data.ref_id;
-
-                    app.list = [];
-                    for (var i = 0; i < data.length; i++) {
-
-                        app.list.push({ transaction_id: data[i]['name'], chart_id: data[i]['id'],
-                            chart_vat_id: data[i]['chart_vat_id'], value: data[i]['value'] });
-                    }
-                },
-                error: function error(xhr, status, _error2) {
-                    console.log(status);
-                }
-            });
-        }
+      return parseFloat(total).toFixed(2);
     },
 
-    mounted: function mounted() {
+    grandExenta: function grandExenta() {
+      var total = 0.0;
+      for (var i = 0; i < this.details.length; i++) {
+        total += parseFloat(this.details[i].withoutvat).toFixed(2);
+      }
 
-        this.init();
+      return parseFloat(total).toFixed(2);
+    },
+
+    grandGravada: function grandGravada() {
+      var app = this;
+      var total = 0.0;
+
+      for (var i = 0; i < app.details.length; i++) {
+
+        total += parseFloat(app.details[i].vat).toFixed(2);
+      }
+
+      return parseFloat(total).toFixed(2);
+    },
+
+    grandIva: function grandIva() {
+      var total = 0.0;
+      for (var i = 0; i < this.details.length; i++) {
+        total += parseFloat(this.details[i].totalvat).toFixed(2);
+      }
+
+      return parseFloat(total).toFixed(2);
     }
+  },
+
+  methods: {
+    addDetail: function addDetail() {
+      this.details.push({ value: 0, chart_vat_id: 1, chart_id: 0, vat: 0, totalvat: 0, withoutvat: 0 });
+    },
+
+    //Removes Detail. Make sure it removes the correct detail, and not in randome.
+    deleteDetail: function deleteDetail(detail) {
+      var index = this.details.indexOf(detail);
+      this.details.splice(index, 1);
+    },
+
+    //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+    //For updates code will be different and should use the ID's palced int he Json.
+    onSave: function onSave(json) {
+      var app = this;
+      var api = null;
+
+      $.ajax({
+        url: '/store_transaction/',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+        type: 'post',
+        data: json,
+        dataType: 'json',
+        async: false,
+        success: function success(data) {
+          if (data == 'ok') {
+            app.id = 0;
+            app.type = null;
+            app.customer_id = null;
+            app.supplier_id = null;
+            app.document_id = null;
+            app.currency_id = null;
+            app.rate = null;
+            app.payment_condition = null;
+            app.chart_account_id = null;
+            app.date = null;
+            app.number = null;
+            app.code = null;
+            app.code_expiry = null;
+            app.comment = null;
+            app.ref_id = null;
+            app.details = [];
+            app.init();
+          } else {
+            alert('Something Went Wrong...');
+          }
+        },
+        error: function error(xhr, status, _error) {
+          console.log(_error);
+        }
+      });
+    },
+    onEdit: function onEdit(data) {
+      var app = this;
+      app.id = data.id;
+      app.type = data.type;
+      app.customer_id = data.customer_id;
+      app.supplier_id = data.supplier_id;
+      app.document_id = data.document_id;
+      app.currency_id = data.currency_id;
+      app.rate = data.rate;
+      app.payment_condition = data.payment_condition;
+      app.chart_account_id = data.chart_account_id;
+      app.date = data.date;
+      app.number = data.number;
+      app.code = data.code;
+      app.code_expiry = data.code_expiry;
+      app.comment = data.comment;
+      app.ref_id = data.ref_id;
+    },
+    init: function init() {
+      var app = this;
+      $.ajax({
+        url: '/api/get_sales/' + this.taxpayer,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+          app.id = data.id;
+          app.type = data.type;
+          app.customer_id = data.customer_id;
+          app.supplier_id = data.supplier_id;
+          app.document_id = data.document_id;
+          app.currency_id = data.currency_id;
+          app.rate = data.rate;
+          app.payment_condition = data.payment_condition;
+          app.chart_account_id = data.chart_account_id;
+          app.date = data.date;
+          app.number = data.number;
+          app.code = data.code;
+          app.code_expiry = data.code_expiry;
+          app.comment = data.comment;
+          app.ref_id = data.ref_id;
+
+          app.details = [];
+          for (var i = 0; i < data.length; i++) {
+
+            app.details.push({ transaction_id: data[i]['name'], chart_id: data[i]['id'],
+              chart_vat_id: data[i]['chart_vat_id'], value: data[i]['value'] });
+          }
+        },
+        error: function error(xhr, status, _error2) {
+          console.log(status);
+        }
+      });
+    },
+
+    getDocuments: function getDocuments(data) {
+      var app = this;
+      $.ajax({
+        url: '/api/get_document/1/' + this.taxpayer,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+          app.documents = [];
+          for (var i = 0; i < data.length; i++) {
+            app.documents.push({ name: data[i]['name'], id: data[i]['id'] });
+          }
+        },
+        error: function error(xhr, status, _error3) {
+          console.log(xhr.responseText);
+        }
+      });
+    },
+    getCurrencies: function getCurrencies(data) {
+      var app = this;
+      $.ajax({
+        url: '/api/get_currency/' + this.taxpayer,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+          app.currencies = [];
+          for (var i = 0; i < data.length; i++) {
+            app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
+          }
+        },
+        error: function error(xhr, status, _error4) {
+          console.log(xhr.responseText);
+        }
+      });
+    },
+    getAccounts: function getAccounts(data) {
+      var app = this;
+      $.ajax({
+        url: '/api/get_account/',
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+          app.accounts = [];
+          for (var i = 0; i < data.length; i++) {
+            app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
+          }
+        },
+        error: function error(xhr, status, _error5) {
+          console.log(xhr.responseText);
+        }
+      });
+    }
+  },
+
+  mounted: function mounted() {
+
+    this.init();
+    this.getDocuments();
+    this.getCurrencies();
+  }
 });
 
 /***/ }),

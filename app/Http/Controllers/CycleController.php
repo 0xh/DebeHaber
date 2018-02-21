@@ -18,9 +18,9 @@ class CycleController extends Controller
         return view('accounting/cycles');
     }
 
-    public function get_cycle()
+    public function get_cycle($teamID)
     {
-        $Cycle = Cycle::
+        $Cycle = Cycle::where('taxpayer_id',$teamID)->
         Join('chart_versions', 'cycles.chart_version_id', 'chart_versions.id')
         ->select('cycles.id','cycles.year','cycles.start_date','cycles.end_date'
         ,'chart_versions.name as chart_version_name','chart_versions.id as chart_version_id')

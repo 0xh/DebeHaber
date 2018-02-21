@@ -23,7 +23,7 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a  href="{{ route('sales.index', [request()->route('taxPayer'),request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-paper-plane"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.SalesBook')
@@ -238,7 +238,7 @@
                                 <hr style="border: 1px whitesmoke dashed">
 
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="{{ route('charts.index', [request()->route('taxPayer'),1]) }}" class="m-menu__link ">
+                                    <a  href="{{ route('charts.index', [request()->route('taxPayer'),request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-sitemap"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.ChartofAccounts')

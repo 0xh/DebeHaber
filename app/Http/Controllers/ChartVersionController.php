@@ -18,9 +18,9 @@ class ChartVersionController extends Controller
   }
 
 
-  public function get_chartversion()
+  public function get_chartversion($teamID)
   {
-    $ChartVersion=ChartVersion::
+    $ChartVersion=ChartVersion::where('taxpayer_id',$teamID)->
     leftJoin('taxpayers', 'chart_versions.taxpayer_id', 'taxpayers.id')
     ->select('chart_versions.id','chart_versions.name'
     ,'chart_versions.taxpayer_id','taxpayers.name as taxpayer')

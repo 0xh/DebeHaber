@@ -13,9 +13,12 @@ use Laravel\Passport;
 |
 */
 Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
-Route::get('/get_cycle', 'CycleController@get_cycle');
-Route::get('/get_chartversion', 'ChartVersionController@get_chartversion');
-Route::get('/get_chart', 'ChartController@get_chart');
+Route::get('/get_cycle/{teamID}', 'CycleController@get_cycle');
+Route::get('/get_chartversion/{teamID}', 'ChartVersionController@get_chartversion');
+Route::get('/get_chart/{teamID}', 'ChartController@get_chart');
+Route::get('/get_sales/{teamID}', 'SalesController@get_sales');
+Route::get('/get_currency/{teamID}', 'CurrencyController@get_currency');
+Route::get('/get_document/{type}/{teamID}', 'DocumentController@get_document');
 
 Route::group(['middleware' => 'auth:api'], function ()
 {

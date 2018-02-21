@@ -16,7 +16,12 @@ class CurrencyController extends Controller
     {
         //
     }
+    public function get_currency()
+    {
+        $Currency=Currency::get();
 
+        return response()->json($Currency);
+    }
     /**
      * Show the form for creating a new resource.
      *

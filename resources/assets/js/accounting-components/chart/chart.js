@@ -2,7 +2,7 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('chart',{
-
+  props: ['taxpayer'],
     data() {
         return {
             id:0,
@@ -26,6 +26,7 @@ Vue.component('chart',{
               //     type:'',
               //     sub_type:''
             ],
+            chartversions:[]
 
         }
     },
@@ -40,7 +41,7 @@ Vue.component('chart',{
             var api = null;
 
             $.ajax({
-                url: this.taxpayer + '/'+ this.cycle + '/accounting/charts/',
+                url: 'charts/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'post',
                 data:json,
@@ -68,7 +69,7 @@ Vue.component('chart',{
                 },
                 error: function(xhr, status, error)
                 {
-                    console.log(error);
+                    console.log(xhr.responseText);
                 }
             });
         },
@@ -88,7 +89,7 @@ Vue.component('chart',{
         init(){
             var app = this;
             $.ajax({
-                url: '/get_chart/' ,
+                url: '/api/get_chart/' + this.taxpayer,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97,7 +98,16 @@ Vue.component('chart',{
                     app.list = [];
                     for(let i = 0; i < data.length; i++)
                     {
-                        app.list.push({name:data[i]['name'],id:data[i]['id']});
+                        app.list.push({id : data[i]['id'],
+                        chart_version_id : data[i]['chart_version_id'],
+                        chart_version_name : data[i]['chart_version_name'],
+                        country : data[i]['country'],
+                        is_accountable : data[i]['is_accountable'],
+                        code : data[i]['code'],
+                        name : data[i]['name'],
+                        level : data[i]['level'],
+                        type : data[i]['type'],
+                        sub_type : data[i]['sub_type']});
                     }
                 },
                 error: function(xhr, status, error)
@@ -110,6 +120,26 @@ Vue.component('chart',{
 
     mounted: function mounted()
     {
+        var app=this;
         this.init()
+        $.ajax({
+        url: '/api/get_chartversion/' + this.taxpayer ,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function(data)
+        {
+          app.chartversions=[];
+          for(let i = 0; i < data.length; i++)
+          {
+            app.chartversions.push({name:data[i]['name'],id:data[i]['id']});
+          }
+
+        },
+        error: function(xhr, status, error)
+        {
+          console.log(xhr.responseText);
+        }
+      });
     }
 });
