@@ -152,6 +152,8 @@ class TaxpayerController extends Controller
 
     public function selectTaxpayer(Taxpayer $taxPayer)
     {
+        //get current month sub 1 month.
+
         //run code to check for fiscal year selection and create if not.
         return redirect()->route('taxpayer.dashboard', $taxPayer);
     }

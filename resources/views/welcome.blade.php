@@ -71,21 +71,17 @@
 <body>
     <div class="full-height flex-column">
         <nav class="links">
-
             <a href="/login" style="margin-right: 15px;">
                 <button>
                     {{__('Login')}}
                 </button>
             </a>
-
-
             <a href="/register">
                 <button>
                     {{__('Register')}}
                 </button>
             </a>
         </nav>
-
         <div class="flex-fill flex-center">
             <h1 class="text-center">
                 <img src="/img/color-logo.png">

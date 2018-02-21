@@ -12,22 +12,26 @@
 */
 
 Route::get('/', 'WelcomeController@show');
+
 //No Team, maybe Team. No taxpayer selected
 Route::get('/home', 'HomeController@show')->name('hello');
 
 Route::group(['middleware' => 'auth'], function ()
 {
-    //create taxpayer
+    //Taxpayer Resource, CRUD
     Route::resource('taxpayer', 'TaxpayerController');
-    //Selects taxpayer and makes it ready for dashboard.
+    //Takes the TaxPayer and puts it into the route passing it to Dashboard.
     Route::get('selectTaxPayer/{taxPayer}', 'TaxpayerController@selectTaxpayer')->name('selectTaxPayer');
-    Route::get('dashboard/{taxPayer}', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
 
-    Route::prefix('dashboard/{taxPayer}')->group(function ()
+    Route::prefix('taxpayer/{taxPayer}')->group(function ()
     {
+        Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
+
+        //These Pages do not require Cycle in Session.
         Route::resource('chart-versions', 'ChartVersionController');
         Route::resource('cycles', 'CycleController');
 
+        //These Pages require Cycle in Session to perform searches and show relevant data.
         Route::prefix('/{cycle}')->group(function ()
         {
             Route::prefix('/commercial')->group(function ()
