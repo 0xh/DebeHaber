@@ -40,12 +40,12 @@ Route::group(['middleware' => 'auth'], function ()
                     'sales' => 'SalesController',
                     'account-receivables' => 'AccountReceivableController',
                     'credit-notes' => 'CreditNoteController',
-                    'impex/imports' => 'ImpexImportController',
+                    'impex-exports' => 'ImpexExportController',
 
                     'purchases' => 'PurchaseController',
                     'account-payables' => 'AccountPayableController',
                     'debit-notes' => 'DebitNoteController',
-                    'impex/exports' => 'ImpexExportController',
+                    'impex-imports' => 'ImpexImportController',
 
                     'inventories' => 'InventoryController',
                     'money-transfers' => 'MoneyTransferController',

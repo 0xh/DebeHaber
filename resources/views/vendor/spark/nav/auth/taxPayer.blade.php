@@ -23,7 +23,7 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
-                                    <a  href="{{ route('sales.index', [request()->route('taxpayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                    <a  href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-paper-plane"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.SalesBook')
@@ -31,7 +31,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('account-receivables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-money"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.AccountsRecievable')
@@ -39,7 +39,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('credit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-mail-reply"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.CreditNote')
@@ -47,7 +47,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('impex-exports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-ship"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Exports')
@@ -81,7 +81,7 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-shopping-cart"></i>
 
                                         <span class="m-menu__link-text">
@@ -90,7 +90,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('account-payables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-money"></i>
 
                                         <span class="m-menu__link-text">
@@ -99,7 +99,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('debit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-mail-reply"></i>
 
                                         <span class="m-menu__link-text">
@@ -108,9 +108,8 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('impex-imports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-ship"></i>
-
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Imports')
                                         </span>
@@ -143,7 +142,7 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
-                                    <a href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('inventories.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-cubes"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Inventory')
@@ -151,7 +150,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
-                                    <a href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('money-transfers.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-money"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.MoneyTransfers')
@@ -159,7 +158,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('productions.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-industry"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Production')
@@ -167,7 +166,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('fixed-assets.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-key"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.FixedAssets')
@@ -175,7 +174,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('documents.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-file-o"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Documents')
