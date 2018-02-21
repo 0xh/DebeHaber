@@ -22,10 +22,9 @@ Route::group(['middleware' => 'auth'], function ()
 
     Route::prefix('/{taxPayer}')->group(function ()
     {
-
-        Route::get('/{cycle?}', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
+        Route::get('/', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
         Route::resource('chart-versions', 'ChartVersionController');
-        Route::resource('cycle', 'CycleController');
+        Route::resource('cycles', 'CycleController');
 
         Route::prefix('/{cycle}')->group(function ()
         {

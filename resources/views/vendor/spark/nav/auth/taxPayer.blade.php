@@ -5,7 +5,7 @@
                 <span class="m-menu__item-here"></span>
                 <i class="m-menu__link-icon la la-briefcase"></i>
                 <span class="m-menu__link-text">
-                    @lang('commercial.Commercial')
+                    {{ request()->route('taxPayer') }}
                 </span>
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
                 <i class="m-menu__ver-arrow la la-angle-right"></i>
@@ -246,7 +246,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="{{ route('cycles.index') }}" class="m-menu__link ">
+                                    <a  href="{{ route('cycles.index', request()->route('taxPayer')) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-calendar"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.AccountingCycle')
@@ -325,17 +325,14 @@
                 </div>
             </div>
         </li>
-        <li class="m-menu__item  m-menu__item--submenu"  data-menu-submenu-toggle="click" data-redirect="true" aria-haspopup="true">
+        <li class="m-menu__item  m-menu__item--submenu">
             <a  href="#" class="m-menu__link m-menu__toggle">
-                <span class="m-menu__item-here"></span>
+                {{-- <span class="m-menu__item-here"></span> --}}
                 <i class="m-menu__link-icon la la-line-chart"></i>
                 <span class="m-menu__link-text">
                     @lang('global.Reports')
                 </span>
-                <i class="m-menu__hor-arrow la la-angle-down"></i>
-                <i class="m-menu__ver-arrow la la-angle-right"></i>
             </a>
-
         </li>
     </ul>
 </div>
