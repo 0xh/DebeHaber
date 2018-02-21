@@ -1,11 +1,11 @@
 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
     <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
         <li class="m-menu__item  m-menu__item--active  m-menu__item--submenu m-menu__item--rel"  data-menu-submenu-toggle="click" aria-haspopup="true">
-            <a  href="#" class="m-menu__link m-menu__toggle">
+            <a href="#" class="m-menu__link m-menu__toggle">
                 <span class="m-menu__item-here"></span>
                 <i class="m-menu__link-icon la la-briefcase"></i>
                 <span class="m-menu__link-text">
-                    {{ request()->route('taxPayer') }}
+                    Bombay
                 </span>
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
                 <i class="m-menu__ver-arrow la la-angle-right"></i>
