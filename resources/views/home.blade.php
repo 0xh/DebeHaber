@@ -1,6 +1,6 @@
 
 
-@extends('spark::layouts.app')
+@extends('spark::layouts.dashboard')
 
 @section('content')
 

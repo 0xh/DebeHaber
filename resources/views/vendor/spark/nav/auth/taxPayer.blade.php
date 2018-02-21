@@ -10,7 +10,7 @@
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
                 <i class="m-menu__ver-arrow la la-angle-right"></i>
             </a>
-            <div class="m-menu__submenu  m-menu__submenu--fixed-xl m-menu__submenu--center" >
+            <div class="m-menu__submenu m-menu__submenu--fixed-xl m-menu__submenu--center" >
                 <span class="m-menu__arrow m-menu__arrow--adjust"></span>
                 <div class="m-menu__subnav">
                     <ul class="m-menu__content">
