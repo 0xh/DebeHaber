@@ -10,7 +10,7 @@
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
                 <i class="m-menu__ver-arrow la la-angle-right"></i>
             </a>
-            <div class="m-menu__submenu m-menu__submenu--fixed-xl m-menu__submenu--center" >
+            <div class="m-menu__submenu m-menu__submenu--fixed m-menu__submenu--left" style="width:900px">
                 <span class="m-menu__arrow m-menu__arrow--adjust"></span>
                 <div class="m-menu__subnav">
                     <ul class="m-menu__content">
@@ -197,7 +197,7 @@
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
                 <i class="m-menu__ver-arrow la la-angle-right"></i>
             </a>
-            <div class="m-menu__submenu  m-menu__submenu--fixed m-menu__submenu--left" style="width:600px">
+            <div class="m-menu__submenu  m-menu__submenu--fixed m-menu__submenu--left" style="width:700px">
                 <span class="m-menu__arrow m-menu__arrow--adjust"></span>
                 <div class="m-menu__subnav">
                     <ul class="m-menu__content">
@@ -234,7 +234,12 @@
                                     </a>
                                 </li>
 
-                                <hr style="border: 1px whitesmoke dashed">
+                                <h3 class="m-menu__heading m-menu__toggle">
+                                    <span class="m-menu__link-text">
+                                        @lang('general.Configuration')
+                                    </span>
+                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                </h3>
 
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a  href="{{ route('charts.index', [request()->route('taxPayer'),request()->route('cycle')]) }}" class="m-menu__link ">
