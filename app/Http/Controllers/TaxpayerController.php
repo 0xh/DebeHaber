@@ -166,9 +166,9 @@ class TaxpayerController extends Controller
 
             $cycle = new Cycle();
             $cycle->chart_version_id = $chartVersion; //->id;
-            $cycle->year = $workingYear->year;
-            $cycle->start_date = new Carbon('first day of January');
-            $cycle->end_date = new Carbon('last day of December');
+            $cycle->year = $workingYear;
+            $cycle->start_date = new Carbon('first day of January ' . $workingYear);
+            $cycle->end_date = new Carbon('last day of December ' . $workingYear);
             $cycle->taxpayer_id = $taxPayer->id;
             $cycle->save();
         }
