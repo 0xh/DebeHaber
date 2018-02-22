@@ -21,19 +21,17 @@ class TaxpayerController extends Controller
     {
 
     }
+
     public function get_taxpayer($teamID)
     {
-
-        $taxPayer = taxPayer::where('id',$teamID)->first();
+        $taxPayer = Taxpayer::where('id',$teamID)->first();
 
         if (isset($taxPayer))
         {
-            $taxPayers = taxPayer::get();
+            $taxPayers = Taxpayer::get();
             return response()->json($taxPayers);
         }
-
     }
-
 
     /**
     * Show the form for creating a new resource.

@@ -18,7 +18,7 @@
                             </a>
                         </li>
                         <li class="m-nav__item">
-                            <a href="" class="m-nav__link">
+                            <a href="{{ route('') }}" class="m-nav__link">
                                 <span class="m-nav__link-text">
                                     @{{ currentTeam.name }}
                                 </span>
@@ -30,7 +30,17 @@
                         <li class="m-nav__item">
                             <a href="" class="m-nav__link">
                                 <span class="m-nav__link-text">
-                                    Generate Reports
+                                    {{ request()->route('taxPayer')->name }}
+                                </span>
+                            </a>
+                        </li>
+                        <li class="m-nav__separator">
+                            /
+                        </li>
+                        <li class="m-nav__item">
+                            <a href="" class="m-nav__link">
+                                <span class="m-nav__link-text">
+                                    {{ request()->route('cycle')->year }}
                                 </span>
                             </a>
                         </li>
@@ -40,7 +50,7 @@
                     <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
                         <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
                             {{-- <i class="la la-plus m--hide"></i> --}}
-                            <i>2018</i>
+                            <i> {{ request()->route('cycle')->year }} </i>
                             {{-- <i class="la la-ellipsis-h"></i> --}}
                         </a>
                         <div class="m-dropdown__wrapper">
