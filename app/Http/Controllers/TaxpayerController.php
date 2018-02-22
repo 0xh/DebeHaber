@@ -155,13 +155,13 @@ class TaxpayerController extends Controller
         //get current month sub 1 month.
         $currentWorkingMonth = Carbon::now()->subMonth(1);
 
-        $Cycle = new Cycle();
-        $Cycle->chart_version_id = $chartVersion->id;
-        $Cycle->year = $current_date->year;
-        $Cycle->start_date = new Carbon('first day of January');
-        $Cycle->end_date = new Carbon('last day of December');
-        $Cycle->taxpayer_id = $taxPayer->id;
-        $Cycle->save();
+        // $Cycle = new Cycle();
+        // $Cycle->chart_version_id = $chartVersion->id;
+        // $Cycle->year = $current_date->year;
+        // $Cycle->start_date = new Carbon('first day of January');
+        // $Cycle->end_date = new Carbon('last day of December');
+        // $Cycle->taxpayer_id = $taxPayer->id;
+        // $Cycle->save();
 
         //run code to check for fiscal year selection and create if not.
         return redirect()->route('taxpayer.dashboard', $taxPayer);

@@ -158,7 +158,7 @@
 <script src="/vendors/base/vendors.bundle.min.js"></script>
 <script src="/js/scripts.bundle.min.js"></script>
 <script src="{{ mix('js/app.js') }}"></script>
-
+  @yield('script')
 </body>
 <!-- end::Body -->
 </html>
