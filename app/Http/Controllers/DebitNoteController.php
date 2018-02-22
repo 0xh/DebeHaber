@@ -14,7 +14,7 @@ class DebitNoteController extends Controller
      */
     public function index()
     {
-        //
+        return view('/commercial/debitnote');
     }
 
     /**

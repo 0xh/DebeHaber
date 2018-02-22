@@ -5,7 +5,7 @@
 @section('form')
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <transaction :url ="/purchasenote/" :taxpayer="{{ request()->route('taxPayer')}}"  inline-template>
+  <transaction :trantype ="1" :taxpayer="{{ request()->route('taxPayer')}}"  inline-template>
     <div>
           <div class="row">
               <div class="col-6">
@@ -170,12 +170,12 @@
 
                   <div class="row" v-for="detail in details">
                       <div class="col-2">
-                          <select required name="centro_costos[]" v-model="detail.costcenter_id" class="custom-select">
-                              <option v-for="item in items" :value="item.id">@{{ item.name }}</option>
+                          <select required  v-model="detail.chart_id" class="custom-select">
+                              <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
                           </select>
                       </div>
                       <div class="col-2">
-                          <select required name="ivas[]" v-model="detail.vat_id" @change="onPriceChange(detail)" class="custom-select">
+                          <select required  v-model="detail.chart_vat_id" @change="onPriceChange(detail)" class="custom-select">
                               <option v-for="iva in ivas" :value="iva.id">@{{ iva.name }}</option>
                           </select>
                       </div>

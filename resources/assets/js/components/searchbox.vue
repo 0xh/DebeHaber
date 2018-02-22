@@ -147,7 +147,7 @@ export default {
 
             app.selectText = item.name + ' | ' + item.code;
             app.id= item.id;
-
+            
         },
         onSave()
         {
@@ -157,7 +157,7 @@ export default {
                 responseType: 'json',
                 data: {
                     name:this.name,
-                    gov_code:this.gov_code,
+                    gov_code:this.code,
                     address:this.address,
                     email:this.email,
                     telephone:this.telephone,

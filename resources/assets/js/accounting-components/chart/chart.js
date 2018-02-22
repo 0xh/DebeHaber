@@ -37,6 +37,7 @@ Vue.component('chart',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
+        
             var app = this;
             var api = null;
 
@@ -75,6 +76,7 @@ Vue.component('chart',{
         },
         onEdit: function(data)
         {
+          console.log(data);
             var app = this;
             app.id = data.id;
             app.chart_version_id = data.chart_version_id;

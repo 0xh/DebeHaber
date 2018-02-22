@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Transaction;
+use App\TransactionDetail;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -78,10 +79,10 @@ class SalesController extends Controller
                 $TransactionDetail = TransactionDetail::where('id',$request->id)->first();
             }
 
-            $TransactionDetail->transaction_id = $detail->transaction_id();
-            $TransactionDetail->chart_id = $detail->chart_id;
-            $TransactionDetail->chart_value_id = $detail->chart_value_id;
-            $TransactionDetail->value = $detail->value;
+            $TransactionDetail->transaction_id = $Transaction->id;
+            $TransactionDetail->chart_id = $detail['chart_id'];
+            $TransactionDetail->chart_vat_id = $detail['chart_vat_id'];
+            $TransactionDetail->value = $detail['value'];
             $TransactionDetail->save();
         }
     }

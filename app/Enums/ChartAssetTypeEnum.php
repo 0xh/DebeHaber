@@ -18,4 +18,15 @@ class ChartAssetTypeEnum extends Enum
     const AccumulatedDepreciation   = 10; //(contra account)
     const OtherAssets               = 11;
     const SalesTaxReceivable        = 12;
+
+    public static function labels()
+    {
+        return static::constants()
+            ->flip()
+            ->map(function ($key) {
+                // Place your translation strings in `resources/lang/en/enum.php`
+                return trans(sprintf('enum.%s', strtolower($key)));
+            })
+            ->all();
+    }
 }

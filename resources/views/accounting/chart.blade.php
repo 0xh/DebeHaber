@@ -48,11 +48,12 @@
             </label>
             <div class="col-8">
               <select v-model="type" required class="custom-select" >
-                <option value="Asset">@lang('accounting.Asset')</option>
-                <option value="2">@lang('accounting.Liabilities')</option>
-                <option value="3">@lang('accounting.Capital')</option>
-                <option value="4">@lang('accounting.Income')</option>
-                <option value="5">@lang('accounting.Expense')</option>
+                @foreach (App\Enums\ChartTypeEnum::labels() as $value => $label)
+                  <option value="{{ $value }}">
+                    {{ $label }}
+                  </option>
+                @endforeach
+
               </select>
             </div>
           </div>
@@ -63,19 +64,52 @@
               @lang('global.subtype')
             </label>
             <div class="col-8">
-              <select v-model="sub_type" required class="custom-select" >
-                <option value="1">@lang('accounting.Cash and Bank Accounts')</option>
-                <option value="2">@lang('accounting.Accounts Receivable')</option>
-                <option value="3">@lang('accounting.Undeposited Funds')</option>
-                <option value="4">@lang('accounting.Inventory')</option>
-                <option value="5">@lang('accounting.Fixed Assets Groups')</option>
-                <option value="6">@lang('accounting.Prepaid Insurance')</option>
-                <option value="7">@lang('accounting.Sales Tax Credit')</option>
-                <option value="8">@lang('accounting.Accrued Liablities')</option>
-                <option value="9">@lang('accounting.Accounts Payable')</option>
-                <option value="10">@lang('accounting.Payroll liabilities')</option>
-                <option value="11">@lang('accounting.Notes Payable')</option>
-              </select>
+              <template v-if="type === '1' || type=== 1">
+                <select v-model="sub_type" required class="custom-select" >
+                  @foreach (App\Enums\ChartAssetTypeEnum::labels() as $value => $label)
+                    <option value="{{ $value }}">
+                      {{ $label }}
+                    </option>
+                  @endforeach
+                </select>
+              </template>
+              <template v-else-if="type === '2' || type=== 2">
+                <select v-model="sub_type" required class="custom-select" >
+                  @foreach (App\Enums\ChartLiabilityTypeEnum::labels() as $value => $label)
+                    <option value="{{ $value }}">
+                      {{ $label }}
+                    </option>
+                  @endforeach
+                </select>
+              </template>
+              <template v-else-if="type === '3' || type=== 3">
+                <select v-model="sub_type" required class="custom-select" >
+                  @foreach (App\Enums\ChartEquityTypeEnum::labels() as $value => $label)
+                    <option value="{{ $value }}">
+                      {{ $label }}
+                    </option>
+                  @endforeach
+                </select>
+              </template>
+              <template v-else-if="type === '4' || type=== 4">
+                <select v-model="sub_type" required class="custom-select" >
+                  @foreach (App\Enums\ChartRevenueTypeEnum::labels() as $value => $label)
+                    <option value="{{ $value }}">
+                      {{ $label }}
+                    </option>
+                  @endforeach
+                </select>
+              </template>
+              <template v-else>
+                <select v-model="sub_type" required class="custom-select" >
+                  @foreach (App\Enums\ChartExpenseTypeEnum::labels() as $value => $label)
+                    <option value="{{ $value }}">
+                      {{ $label }}
+                    </option>
+                  @endforeach
+                </select>
+              </template>
+
             </div>
           </div>
         </div>
@@ -107,7 +141,7 @@
         <div class="row">
           <div class="col-2">
             <span class="m--font-boldest">
-                  @lang('global.code')
+              @lang('global.code')
             </span>
           </div>
           <div class="col-2">
@@ -117,7 +151,7 @@
           </div>
           <div class="col-2">
             <span class="m--font-boldest">
-                  @lang('global.version')
+              @lang('global.version')
             </span>
           </div>
           <div class="col-2">

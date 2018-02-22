@@ -18,7 +18,7 @@ class Chart extends Model
     protected static function boot()
     {
         parent::boot();
-      //  static::addGlobalScope(new ChartScope);
+        //static::addGlobalScope(new ChartScope);
 
         // static::addGlobalScope('age', function (Builder $builder) {
         //     $builder->where('age', '>', 200);
@@ -32,52 +32,52 @@ class Chart extends Model
         return $query;
     }
 
-    public function getTypeAttribute($attribute)
-    {
-        return new ChartTypeEnum($attribute);
-    }
-
-    public function getSubTypeAttribute($attribute)
-    {
-        if ($this->attributes['type'] == 1) {
-            return new ChartAssetTypeEnum($attribute);
-        }
-        elseif($this->attributes['type'] == 2) {
-            return new ChartLiabilityTypeEnum($attribute);
-        }
-        elseif($this->attributes['type'] == 3) {
-            return new ChartEquityTypeEnum($attribute);
-        }
-        elseif($this->attributes['type'] == 4) {
-            return new ChartRevenueTypeEnum($attribute);
-        }
-        //If all else fails, Expense is the most common SubType
-        return new ChartExpenseTypeEnum($attribute);
-    }
-
-    public function setTypeAttribute(ChartTypeEnum $attribute) {
-        $this->attributes['type'] = $attribute->getValue();
-    }
-
-    public function setAssetAttribute(ChartAssetTypeEnum $attribute) {
-        $this->attributes['sub_type'] = $attribute->getValue();
-    }
-
-    public function setLiabilityAttribute(ChartLiabilityTypeEnum $attribute) {
-        $this->attributes['sub_type'] = $attribute->getValue();
-    }
-
-    public function setEquityAttribute(ChartEquityTypeEnum $attribute) {
-        $this->attributes['sub_type'] = $attribute->getValue();
-    }
-
-    public function setRevenueAttribute(ChartRevenueTypeEnum $attribute) {
-        $this->attributes['sub_type'] = $attribute->getValue();
-    }
-
-    public function setExpenseAttribute(ChartExpenseTypeEnum $attribute) {
-        $this->attributes['sub_type'] = $attribute->getValue();
-    }
+    // public function getTypeAttribute($attribute)
+    // {
+    //     return new ChartTypeEnum($attribute);
+    // }
+    //
+    // public function getSubTypeAttribute($attribute)
+    // {
+    //     if ($this->attributes['type'] == 1) {
+    //         return new ChartAssetTypeEnum($attribute);
+    //     }
+    //     elseif($this->attributes['type'] == 2) {
+    //         return new ChartLiabilityTypeEnum($attribute);
+    //     }
+    //     elseif($this->attributes['type'] == 3) {
+    //         return new ChartEquityTypeEnum($attribute);
+    //     }
+    //     elseif($this->attributes['type'] == 4) {
+    //         return new ChartRevenueTypeEnum($attribute);
+    //     }
+    //     //If all else fails, Expense is the most common SubType
+    //     return new ChartExpenseTypeEnum($attribute);
+    // }
+    //
+    // public function setTypeAttribute(ChartTypeEnum $attribute) {
+    //     $this->attributes['type'] = $attribute->getValue();
+    // }
+    //
+    // public function setAssetAttribute(ChartAssetTypeEnum $attribute) {
+    //     $this->attributes['sub_type'] = $attribute->getValue();
+    // }
+    //
+    // public function setLiabilityAttribute(ChartLiabilityTypeEnum $attribute) {
+    //     $this->attributes['sub_type'] = $attribute->getValue();
+    // }
+    //
+    // public function setEquityAttribute(ChartEquityTypeEnum $attribute) {
+    //     $this->attributes['sub_type'] = $attribute->getValue();
+    // }
+    //
+    // public function setRevenueAttribute(ChartRevenueTypeEnum $attribute) {
+    //     $this->attributes['sub_type'] = $attribute->getValue();
+    // }
+    //
+    // public function setExpenseAttribute(ChartExpenseTypeEnum $attribute) {
+    //     $this->attributes['sub_type'] = $attribute->getValue();
+    // }
 
     /**
     * Get the version that owns the model.
