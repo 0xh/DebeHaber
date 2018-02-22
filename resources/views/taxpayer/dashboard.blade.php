@@ -1,10 +1,8 @@
 @extends('spark::layouts.dashboard')
 
-@section('title', 'Taxpayer Dashboard')
+@section('title', request()->route('taxPayer')->alias . ' Dashboard')
 
 @section('content')
-
-    <h4>This is the <u>{{ request()->route('taxPayer')->alias }}</u> Dashboard</h4>
 
     <div class="m-portlet ">
         <div class="m-portlet__body  m-portlet__body--no-padding">

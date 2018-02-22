@@ -26,5 +26,5 @@ return [
     'BalanceSheet' => 'Balance General',
     'BalanceSheet(Comparative)' => 'Balance General (Comparative)',
     'IncomeStatement' => 'Income Statement',
-    'StatementofCashflows' => 'Statement of Cashflows',
+    'StatementofCashflows' => 'Flujo de Caja',
 ];
