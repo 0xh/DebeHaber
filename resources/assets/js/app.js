@@ -19,6 +19,7 @@ require('./components/bootstrap');
 
 import VueRouter from 'vue-router';
 import SearchBox from './components/searchbox.vue';
+import Datatable from './components/datatable.vue';
 
 window.Vue = require('vue');
 window.Vue.use(VueRouter);
@@ -28,7 +29,8 @@ const routes = [
     {
         path: '/',
         components: {
-            SearchBox : SearchBox
+            SearchBox : SearchBox,
+            Datatable:Datatable
         }
     },
 ]

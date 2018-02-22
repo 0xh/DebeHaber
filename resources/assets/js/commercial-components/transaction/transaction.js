@@ -2,11 +2,11 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('transaction',{
-  props: ['taxpayer','url'],
+  props: ['taxpayer','trantype'],
   data() {
     return {
       id:0,
-      type:'',
+      type:this.trantype,
       customer_id:'',
       supplier_id:'',
       document_id:'',
@@ -36,7 +36,8 @@ Vue.component('transaction',{
       documents:[],
       accounts:[],
       currencies:[],
-      charts:[]
+      charts:[],
+      ivas:[]
 
     }
   },
@@ -114,11 +115,19 @@ Vue.component('transaction',{
     //For updates code will be different and should use the ID's palced int he Json.
     onSave: function(json)
     {
+
       var app=this;
       var api=null;
-
+      app.type=app.trantype;
+      if (this.type == 1)
+      {
+        this.customer_id=this.$children[0].id;
+      }
+      else {
+        this.supplier_id=this.$children[0].id;
+      }
       $.ajax({
-        url: this.url,
+        url: '',
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'post',
         data:json,
@@ -153,7 +162,7 @@ Vue.component('transaction',{
         },
         error: function(xhr, status, error)
         {
-          console.log(error);
+          console.log(xhr.responseText);
         }
       });
     },
@@ -229,7 +238,7 @@ Vue.component('transaction',{
           app.documents=[];
           for(let i = 0; i < data.length; i++)
           {
-            app.documents.push({name:data[i]['name'],id:data[i]['id']});
+            app.documents.push({name:data[i]['code'],id:data[i]['id']});
           }
 
         },
@@ -266,7 +275,7 @@ Vue.component('transaction',{
     {
       var app=this;
       $.ajax({
-        url: '/api/get_chart/' + this.taxpayer ,
+        url: '/api/get_product/' + this.taxpayer ,
         type: 'get',
         dataType: 'json',
         async: true,
@@ -276,6 +285,29 @@ Vue.component('transaction',{
           for(let i = 0; i < data.length; i++)
           {
             app.charts.push({name:data[i]['name'],id:data[i]['id']});
+          }
+
+        },
+        error: function(xhr, status, error)
+        {
+          console.log(xhr.responseText);
+        }
+      });
+    },
+    getTaxs: function(data)
+    {
+      var app=this;
+      $.ajax({
+        url: '/api/get_tax/' + this.taxpayer ,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function(data)
+        {
+          app.ivas=[];
+          for(let i = 0; i < data.length; i++)
+          {
+            app.ivas.push({name:data[i]['name'],id:data[i]['id']});
           }
 
         },
@@ -316,7 +348,7 @@ Vue.component('transaction',{
     this.getDocuments();
     this.getCurrencies();
     this.getCharts();
-
+    this.getTaxs();
 
 
 

@@ -14,7 +14,7 @@ class CreditNoteController extends Controller
      */
     public function index()
     {
-        //
+          return view('/commercial/creditnote');
     }
 
     /**

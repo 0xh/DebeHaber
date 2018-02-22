@@ -28,7 +28,7 @@ class TaxpayerController extends Controller
 
         if (isset($taxPayer))
         {
-            $taxPayers = taxPayer::select('name')->get();
+            $taxPayers = taxPayer::get();
             return response()->json($taxPayers);
         }
 

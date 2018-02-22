@@ -8,4 +8,16 @@ class ChartRevenueTypeEnum extends Enum
 {
     const Revenue = 1;
     const SalesReturns = 2; //Contra Account
+
+
+        public static function labels()
+        {
+            return static::constants()
+                ->flip()
+                ->map(function ($key) {
+                    // Place your translation strings in `resources/lang/en/enum.php`
+                    return trans(sprintf('enum.%s', strtolower($key)));
+                })
+                ->all();
+        }
 }

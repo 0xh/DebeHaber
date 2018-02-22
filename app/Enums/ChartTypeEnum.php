@@ -11,4 +11,16 @@ class ChartTypeEnum extends Enum
     const Capital           = 3;
     const Revenues          = 4;
     const Expenses          = 5;
+
+
+        public static function labels()
+        {
+            return static::constants()
+                ->flip()
+                ->map(function ($key) {
+                    // Place your translation strings in `resources/lang/en/enum.php`
+                    return trans(sprintf('enum.%s', strtolower($key)));
+                })
+                ->all();
+        }
 }
