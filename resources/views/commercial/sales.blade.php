@@ -2,6 +2,10 @@
 
 @section('title', 'Sales Book')
 
+@section('nav')
+
+@endsection
+
 @section('form')
 
     @include('commercial/purchase/form')
