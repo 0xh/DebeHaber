@@ -25,16 +25,16 @@ Route::group(['middleware' => 'auth'], function ()
 
     Route::prefix('taxpayer/{taxPayer}')->group(function ()
     {
-        Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
-
         //These Pages do not require Cycle in Session.
         Route::resource('chart-versions', 'ChartVersionController');
         Route::resource('cycles', 'CycleController');
 
         //These Pages require Cycle in Session to perform searches and show relevant data.
-        Route::prefix('/{cycle}')->group(function ()
+        Route::prefix('{cycle}')->group(function ()
         {
-            Route::prefix('/commercial')->group(function ()
+            Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
+
+            Route::prefix('commercial')->group(function ()
             {
                 Route::resources([
                     'sales' => 'SalesController',
