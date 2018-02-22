@@ -46,8 +46,8 @@
             @else
                 @include('spark::nav.guest')
             @endif
-        </div>
 
+        </div>
 
         <!-- begin::Body -->
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor-desktop m-grid--desktop m-body">
@@ -64,7 +64,6 @@
             </div>
         </div>
         <!-- end:: Body -->
-
 
         <!-- begin::Footer -->
         <footer class="m-grid__item  m-footer ">
@@ -126,18 +125,18 @@
 
         @if (request()->route('taxPayer'))
             <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Showcase" data-placement="left">
-                <a href="">
+                <a href="#">
                     <i class="la la-eye"></i>
                 </a>
             </li>
             <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Pre-sale Chat" data-placement="left">
-                <a href="" >
+                <a href="#">
                     <i class="la la-comments-o"></i>
                 </a>
             </li>
             <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Purchase" data-placement="left">
-                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" target="_blank">
-                    <i class="la la-cart-arrow-down"></i>
+                <a href="#" target="_blank">
+                    <i class="la la-cart"></i>
                 </a>
             </li>
         @endif
@@ -155,9 +154,11 @@
     </ul>
     <!-- begin::Quick Nav -->
 </div>
+
 <script src="/vendors/base/vendors.bundle.min.js"></script>
 <script src="/js/scripts.bundle.min.js"></script>
 <script src="{{ mix('js/app.js') }}"></script>
+
 </body>
 <!-- end::Body -->
 </html>

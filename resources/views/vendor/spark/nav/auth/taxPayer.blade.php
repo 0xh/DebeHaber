@@ -5,7 +5,7 @@
                 <span class="m-menu__item-here"></span>
                 <i class="m-menu__link-icon la la-briefcase"></i>
                 <span class="m-menu__link-text">
-                    {{ request()->route('taxPayer')}}
+                    {{ request()->route('taxPayer')->alias }}
                 </span>
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
                 <i class="m-menu__ver-arrow la la-angle-right"></i>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Taxpayer;
+use App\Cycle;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
@@ -13,18 +15,16 @@ class SalesController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function index()
+    public function index(Taxpayer $taxPayer)
     {
-
         return view('/commercial/sales');
     }
-    public function get_sales($teamID)
-  {
-      $Transaction=Transaction::with('details')->where('supplier_id',$teamID)->get();
 
-      return response()->json($Transaction);
-  }
-
+    public function get_sales($taxPayerID)
+    {
+        $Transaction = Transaction::where('supplier_id', $taxPayerID)->with('details')->get();
+        return response()->json($Transaction);
+    }
 
     /**
     * Show the form for creating a new resource.
