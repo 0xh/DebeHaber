@@ -1908,228 +1908,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/datatable.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['taxpayer'],
-    data: function data() {
-        return {};
-    },
-    created: function created() {},
-
-
-    methods: {
-        onLoad: function onLoad() {
-            var options = {
-                data: {
-                    type: 'remote',
-                    source: {
-                        read: {
-                            url: '/api/get_sales/' + this.taxpayer,
-                            method: 'GET',
-                            // custom headers
-                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
-                            params: {
-                                // custom query params
-                                query: {
-
-                                    //  taxPayerID: this.taxpayer
-                                    //  someParam: 'someValue',
-                                    //  token: 'token-value'
-                                }
-                            },
-                            map: function map(raw) {
-                                // sample data mapping
-                                var dataSet = raw;
-                                if (typeof raw.data !== 'undefined') {
-                                    dataSet = raw.data;
-                                }
-                                return dataSet;
-                            }
-                        }
-                    },
-                    pageSize: 10,
-                    saveState: {
-                        cookie: true,
-                        webstorage: true
-                    },
-
-                    serverPaging: false,
-                    serverFiltering: false,
-                    serverSorting: false
-                },
-
-                layout: {
-                    theme: 'default',
-                    class: 'm-datatable--brand',
-                    scroll: false,
-                    height: null,
-                    footer: false,
-                    header: true,
-
-                    smoothScroll: {
-                        scrollbarShown: true
-                    },
-
-                    spinner: {
-                        overlayColor: '#000000',
-                        opacity: 0,
-                        type: 'loader',
-                        state: 'brand',
-                        message: true
-                    },
-
-                    icons: {
-                        sort: { asc: 'la la-arrow-up', desc: 'la la-arrow-down' },
-                        pagination: {
-                            next: 'la la-angle-right',
-                            prev: 'la la-angle-left',
-                            first: 'la la-angle-double-left',
-                            last: 'la la-angle-double-right',
-                            more: 'la la-ellipsis-h'
-                        },
-                        rowDetail: { expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right' }
-                    }
-                },
-
-                sortable: false,
-
-                pagination: true,
-
-                search: {
-                    // enable trigger search by keyup enter
-                    onEnter: false,
-                    // input text for search
-                    input: $('#generalSearch'),
-                    // search delay in milliseconds
-                    delay: 400
-                },
-
-                detail: {
-                    title: 'Load sub table',
-                    content: function content(e) {
-                        // e.data
-                        // e.detailCell
-                    }
-                },
-
-                rows: {
-                    callback: function callback() {},
-                    // auto hide columns, if rows overflow. work on non locked columns
-                    autoHide: false
-                },
-
-                // columns definition
-                columns: [{
-                    field: "RecordID",
-                    title: "#",
-                    locked: { left: 'xl' },
-                    sortable: false,
-                    width: 40,
-                    selector: { class: 'm-checkbox--solid m-checkbox--brand' }
-                }, {
-                    field: "id",
-                    title: "id",
-                    sortable: 'asc',
-                    filterable: false,
-                    width: 150,
-                    responsive: { visible: 'lg' },
-                    locked: { left: 'xl' },
-                    template: '{{id}}'
-                }, {
-                    field: "code",
-                    title: "code",
-                    width: 150,
-                    overflow: 'visible',
-                    template: function template(row) {
-                        return row.code;
-                    }
-                }],
-
-                toolbar: {
-                    layout: ['pagination', 'info'],
-
-                    placement: ['bottom'], //'top', 'bottom'
-
-                    items: {
-                        pagination: {
-                            type: 'default',
-
-                            pages: {
-                                desktop: {
-                                    layout: 'default',
-                                    pagesNumber: 6
-                                },
-                                tablet: {
-                                    layout: 'default',
-                                    pagesNumber: 3
-                                },
-                                mobile: {
-                                    layout: 'compact'
-                                }
-                            },
-
-                            navigation: {
-                                prev: true,
-                                next: true,
-                                first: true,
-                                last: true
-                            },
-
-                            pageSizeSelect: [10, 20, 30, 50, 100]
-                        },
-
-                        info: true
-                    }
-                },
-
-                translate: {
-                    records: {
-                        processing: 'Please wait...',
-                        noRecords: 'No records found'
-                    },
-                    toolbar: {
-                        pagination: {
-                            items: {
-                                default: {
-                                    first: 'First',
-                                    prev: 'Previous',
-                                    next: 'Next',
-                                    last: 'Last',
-                                    more: 'More pages',
-                                    input: 'Page number',
-                                    select: 'Select page size'
-                                },
-                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
-                            }
-                        }
-                    }
-                }
-            };
-
-            var datatable = $('.my_datatable').mDatatable(options);
-            console.log(datatable);
-        }
-    },
-    mounted: function mounted() {
-
-        this.onLoad();
-    }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/searchbox.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -59246,30 +59024,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-80417746\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/datatable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", {
-    staticClass: "my_datatable",
-    attrs: { id: "m_datatable" }
-  })
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-80417746", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-router/dist/vue-router.esm.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -73631,322 +73385,2124 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ "./resources/assets/js/commercial-components/transaction/bootstrap.js":
+/***/ "./resources/assets/js/commercial-components/credit-note/bootstrap.js":
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__("./resources/assets/js/commercial-components/transaction/transaction.js");
+__webpack_require__("./resources/assets/js/commercial-components/credit-note/list.js");
+__webpack_require__("./resources/assets/js/commercial-components/credit-note/form.js");
 
 /***/ }),
 
-/***/ "./resources/assets/js/commercial-components/transaction/transaction.js":
+/***/ "./resources/assets/js/commercial-components/credit-note/form.js":
 /***/ (function(module, exports) {
 
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-Vue.component('transaction', {
-  props: ['taxpayer', 'trantype'],
-  data: function data() {
-    return {
-      id: 0,
-      type: this.trantype,
-      customer_id: '',
-      supplier_id: '',
-      document_id: '',
-      currency_id: '',
-      rate: '',
-      payment_condition: '',
-      chart_account_id: '',
-      date: '',
-      number: '',
-      code: '',
-      code_expiry: '',
-      comment: '',
-      ref_id: '',
-      details: [
-        //     {
-        //     id:0,
-        //     transaction_id:'',
-        //     chart_id:'',
-        //     chart_vat_id:0,
-        //     value:''
-        //     vat:0,
-        //     totalvat:0,
-        //     withoutvat:0,
+Vue.component('credit-note-form', {
+    props: ['taxpayer', 'trantype'],
+    data: function data() {
+        return {
+            id: 0,
+            type: this.trantype,
+            customer_id: '',
+            supplier_id: '',
+            document_id: '',
+            currency_id: '',
+            rate: '',
+            payment_condition: '',
+            chart_account_id: '',
+            date: '',
+            number: '',
+            code: '',
+            code_expiry: '',
+            comment: '',
+            ref_id: '',
+            details: [
+                //     {
+                //     id:0,
+                //     transaction_id:'',
+                //     chart_id:'',
+                //     chart_vat_id:0,
+                //     value:''
+                //     vat:0,
+                //     totalvat:0,
+                //     withoutvat:0,
 
-        // }
-      ],
-      documents: [],
-      accounts: [],
-      currencies: [],
-      charts: [],
-      ivas: []
-
-    };
-  },
-
-  computed: {
-    condition: function condition() {
-      if (this.payment_condition > 0) {
-        return 'Crédito';
-      }
-      return 'Contado';
+                // }
+            ],
+            documents: [],
+            accounts: [],
+            currencies: [],
+            charts: [],
+            ivas: []
+        };
     },
 
-    grandTotal: function grandTotal() {
-      var total = 0.0;
+    computed: {
+        condition: function condition() {
+            if (this.payment_condition > 0) {
+                return 'Crédito';
+            }
+            return 'Contado';
+        },
 
-      for (var i = 0; i < this.details.length; i++) {
-        total += parseFloat(this.details[i].value).toFixed(2);
-      }
+        grandTotal: function grandTotal() {
+            var total = 0.0;
 
-      return parseFloat(total).toFixed(2);
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].value).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandExenta: function grandExenta() {
+            var total = 0.0;
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].withoutvat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandGravada: function grandGravada() {
+            var app = this;
+            var total = 0.0;
+
+            for (var i = 0; i < app.details.length; i++) {
+
+                total += parseFloat(app.details[i].vat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandIva: function grandIva() {
+            var total = 0.0;
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].totalvat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        }
     },
 
-    grandExenta: function grandExenta() {
-      var total = 0.0;
-      for (var i = 0; i < this.details.length; i++) {
-        total += parseFloat(this.details[i].withoutvat).toFixed(2);
-      }
+    methods: {
+        addDetail: function addDetail() {
+            this.details.push({ value: 0, chart_vat_id: 1, chart_id: 0, vat: 0, totalvat: 0, withoutvat: 0 });
+        },
 
-      return parseFloat(total).toFixed(2);
+        //Removes Detail. Make sure it removes the correct detail, and not in randome.
+        deleteDetail: function deleteDetail(detail) {
+            var index = this.details.indexOf(detail);
+            this.details.splice(index, 1);
+        },
+
+        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+        //For updates code will be different and should use the ID's palced int he Json.
+        onSave: function onSave(json) {
+
+            var app = this;
+            var api = null;
+            app.type = app.trantype;
+            if (this.type == 1) {
+                this.customer_id = this.$children[0].id;
+            } else {
+                this.supplier_id = this.$children[0].id;
+            }
+            $.ajax({
+                url: '',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    if (data == 'ok') {
+                        app.id = 0;
+                        app.type = null;
+                        app.customer_id = null;
+                        app.supplier_id = null;
+                        app.document_id = null;
+                        app.currency_id = null;
+                        app.rate = null;
+                        app.payment_condition = null;
+                        app.chart_account_id = null;
+                        app.date = null;
+                        app.number = null;
+                        app.code = null;
+                        app.code_expiry = null;
+                        app.comment = null;
+                        app.ref_id = null;
+                        app.details = [];
+                        app.init();
+                    } else {
+                        alert('Something Went Wrong...');
+                    }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        onEdit: function onEdit(data) {
+            var app = this;
+            app.id = data.id;
+            app.type = data.type;
+            app.customer_id = data.customer_id;
+            app.supplier_id = data.supplier_id;
+            app.document_id = data.document_id;
+            app.currency_id = data.currency_id;
+            app.rate = data.rate;
+            app.payment_condition = data.payment_condition;
+            app.chart_account_id = data.chart_account_id;
+            app.date = data.date;
+            app.number = data.number;
+            app.code = data.code;
+            app.code_expiry = data.code_expiry;
+            app.comment = data.comment;
+            app.ref_id = data.ref_id;
+        },
+        init: function init() {
+            var app = this;
+            $.ajax({
+                url: '/api/get_sales/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.id = data.id;
+                    app.type = data.type;
+                    app.customer_id = data.customer_id;
+                    app.supplier_id = data.supplier_id;
+                    app.document_id = data.document_id;
+                    app.currency_id = data.currency_id;
+                    app.rate = data.rate;
+                    app.payment_condition = data.payment_condition;
+                    app.chart_account_id = data.chart_account_id;
+                    app.date = data.date;
+                    app.number = data.number;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
+                    app.comment = data.comment;
+                    app.ref_id = data.ref_id;
+
+                    app.details = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        app.details.push({ transaction_id: data[i]['name'], chart_id: data[i]['id'],
+                            chart_vat_id: data[i]['chart_vat_id'], value: data[i]['value'] });
+                    }
+                },
+                error: function error(xhr, status, _error2) {
+                    console.log(status);
+                }
+            });
+        },
+
+        getDocuments: function getDocuments(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_document/1/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.documents = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.documents.push({ name: data[i]['code'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCurrencies: function getCurrencies(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_currency/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.currencies = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error4) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCharts: function getCharts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_product/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.charts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error5) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getTaxs: function getTaxs(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_tax/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.ivas = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error6) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getAccounts: function getAccounts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_account/',
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.accounts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error7) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
     },
 
-    grandGravada: function grandGravada() {
-      var app = this;
-      var total = 0.0;
-
-      for (var i = 0; i < app.details.length; i++) {
-
-        total += parseFloat(app.details[i].vat).toFixed(2);
-      }
-
-      return parseFloat(total).toFixed(2);
-    },
-
-    grandIva: function grandIva() {
-      var total = 0.0;
-      for (var i = 0; i < this.details.length; i++) {
-        total += parseFloat(this.details[i].totalvat).toFixed(2);
-      }
-
-      return parseFloat(total).toFixed(2);
+    mounted: function mounted() {
+        this.init();
+        this.getDocuments();
+        this.getCurrencies();
+        this.getCharts();
+        this.getTaxs();
     }
-  },
+});
 
-  methods: {
-    addDetail: function addDetail() {
-      this.details.push({ value: 0, chart_vat_id: 1, chart_id: 0, vat: 0, totalvat: 0, withoutvat: 0 });
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/credit-note/list.js":
+/***/ (function(module, exports) {
+
+
+Vue.component('credit-note-list', {
+    props: ['taxpayer'],
+    data: function data() {
+        return { Í: Í
+
+        };
+    },
+    created: function created() {},
+
+
+    methods: {
+        onLoad: function onLoad() {
+            var options = {
+                data: {
+                    type: 'remote',
+                    source: {
+                        read: {
+                            url: '/api/get_sales/' + this.taxpayer,
+                            method: 'GET',
+                            // custom headers
+                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
+                            params: {
+                                // custom query params
+                                query: {
+                                    //  taxPayerID: this.taxpayer
+                                    //  someParam: 'someValue',
+                                    //  token: 'token-value'
+                                }
+                            },
+                            map: function map(raw) {
+                                // sample data mapping
+                                var dataSet = raw;
+                                if (typeof raw.data !== 'undefined') {
+                                    dataSet = raw.data;
+                                }
+                                return dataSet;
+                            }
+                        }
+                    },
+                    pageSize: 10,
+                    saveState: {
+                        cookie: true,
+                        webstorage: true
+                    },
+
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
+                },
+
+                layout: {
+                    theme: 'default',
+                    class: 'm-datatable--brand',
+                    scroll: false,
+                    height: null,
+                    footer: false,
+                    header: true,
+
+                    smoothScroll: {
+                        scrollbarShown: true
+                    },
+
+                    spinner: {
+                        overlayColor: '#000000',
+                        opacity: 0,
+                        type: 'loader',
+                        state: 'brand',
+                        message: true
+                    },
+
+                    icons: {
+                        sort: { asc: 'la la-arrow-up', desc: 'la la-arrow-down' },
+                        pagination: {
+                            next: 'la la-angle-right',
+                            prev: 'la la-angle-left',
+                            first: 'la la-angle-double-left',
+                            last: 'la la-angle-double-right',
+                            more: 'la la-ellipsis-h'
+                        },
+                        rowDetail: { expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right' }
+                    }
+                },
+
+                sortable: false,
+
+                pagination: true,
+
+                search: {
+                    // enable trigger search by keyup enter
+                    onEnter: false,
+                    // input text for search
+                    input: $('#generalSearch'),
+                    // search delay in milliseconds
+                    delay: 400
+                },
+
+                detail: {
+                    title: 'Load sub table',
+                    content: function content(e) {
+                        // e.data
+                        // e.detailCell
+                    }
+                },
+
+                rows: {
+                    callback: function callback() {},
+                    // auto hide columns, if rows overflow. work on non locked columns
+                    autoHide: false
+                },
+
+                // columns definition
+                columns: [{
+                    field: "RecordID",
+                    title: "#",
+                    locked: { left: 'xl' },
+                    sortable: false,
+                    width: 40,
+                    selector: { class: 'm-checkbox--solid m-checkbox--brand' }
+                }, {
+                    field: "id",
+                    title: "id",
+                    sortable: 'asc',
+                    filterable: false,
+                    width: 150,
+                    responsive: { visible: 'lg' },
+                    locked: { left: 'xl' },
+                    template: '{{id}}'
+                }, {
+                    field: "code",
+                    title: "code",
+                    width: 150,
+                    overflow: 'visible',
+                    template: function template(row) {
+                        return row.code;
+                    }
+                }],
+
+                toolbar: {
+                    layout: ['pagination', 'info'],
+
+                    placement: ['bottom'], //'top', 'bottom'
+
+                    items: {
+                        pagination: {
+                            type: 'default',
+
+                            pages: {
+                                desktop: {
+                                    layout: 'default',
+                                    pagesNumber: 6
+                                },
+                                tablet: {
+                                    layout: 'default',
+                                    pagesNumber: 3
+                                },
+                                mobile: {
+                                    layout: 'compact'
+                                }
+                            },
+
+                            navigation: {
+                                prev: true,
+                                next: true,
+                                first: true,
+                                last: true
+                            },
+
+                            pageSizeSelect: [10, 20, 30, 50, 100]
+                        },
+
+                        info: true
+                    }
+                },
+
+                translate: {
+                    records: {
+                        processing: 'Please wait...',
+                        noRecords: 'No records found'
+                    },
+                    toolbar: {
+                        pagination: {
+                            items: {
+                                default: {
+                                    first: 'First',
+                                    prev: 'Previous',
+                                    next: 'Next',
+                                    last: 'Last',
+                                    more: 'More pages',
+                                    input: 'Page number',
+                                    select: 'Select page size'
+                                },
+                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
+                            }
+                        }
+                    }
+                }
+            };
+
+            var datatable = $('.my_datatable').mDatatable(options);
+        }
     },
 
-    //Removes Detail. Make sure it removes the correct detail, and not in randome.
-    deleteDetail: function deleteDetail(detail) {
-      var index = this.details.indexOf(detail);
-      this.details.splice(index, 1);
-    },
-
-    //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
-    //For updates code will be different and should use the ID's palced int he Json.
-    onSave: function onSave(json) {
-
-      var app = this;
-      var api = null;
-      app.type = app.trantype;
-      if (this.type == 1) {
-        this.customer_id = this.$children[0].id;
-      } else {
-        this.supplier_id = this.$children[0].id;
-      }
-      $.ajax({
-        url: '',
-        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-        type: 'post',
-        data: json,
-        dataType: 'json',
-        async: false,
-        success: function success(data) {
-          if (data == 'ok') {
-            app.id = 0;
-            app.type = null;
-            app.customer_id = null;
-            app.supplier_id = null;
-            app.document_id = null;
-            app.currency_id = null;
-            app.rate = null;
-            app.payment_condition = null;
-            app.chart_account_id = null;
-            app.date = null;
-            app.number = null;
-            app.code = null;
-            app.code_expiry = null;
-            app.comment = null;
-            app.ref_id = null;
-            app.details = [];
-            app.init();
-          } else {
-            alert('Something Went Wrong...');
-          }
-        },
-        error: function error(xhr, status, _error) {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    onEdit: function onEdit(data) {
-      var app = this;
-      app.id = data.id;
-      app.type = data.type;
-      app.customer_id = data.customer_id;
-      app.supplier_id = data.supplier_id;
-      app.document_id = data.document_id;
-      app.currency_id = data.currency_id;
-      app.rate = data.rate;
-      app.payment_condition = data.payment_condition;
-      app.chart_account_id = data.chart_account_id;
-      app.date = data.date;
-      app.number = data.number;
-      app.code = data.code;
-      app.code_expiry = data.code_expiry;
-      app.comment = data.comment;
-      app.ref_id = data.ref_id;
-    },
-    init: function init() {
-      var app = this;
-      $.ajax({
-        url: '/api/get_sales/' + this.taxpayer,
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function success(data) {
-          app.id = data.id;
-          app.type = data.type;
-          app.customer_id = data.customer_id;
-          app.supplier_id = data.supplier_id;
-          app.document_id = data.document_id;
-          app.currency_id = data.currency_id;
-          app.rate = data.rate;
-          app.payment_condition = data.payment_condition;
-          app.chart_account_id = data.chart_account_id;
-          app.date = data.date;
-          app.number = data.number;
-          app.code = data.code;
-          app.code_expiry = data.code_expiry;
-          app.comment = data.comment;
-          app.ref_id = data.ref_id;
-
-          app.details = [];
-          for (var i = 0; i < data.length; i++) {
-
-            app.details.push({ transaction_id: data[i]['name'], chart_id: data[i]['id'],
-              chart_vat_id: data[i]['chart_vat_id'], value: data[i]['value'] });
-          }
-        },
-        error: function error(xhr, status, _error2) {
-          console.log(status);
-        }
-      });
-    },
-
-    getDocuments: function getDocuments(data) {
-      var app = this;
-      $.ajax({
-        url: '/api/get_document/1/' + this.taxpayer,
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function success(data) {
-          app.documents = [];
-          for (var i = 0; i < data.length; i++) {
-            app.documents.push({ name: data[i]['code'], id: data[i]['id'] });
-          }
-        },
-        error: function error(xhr, status, _error3) {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getCurrencies: function getCurrencies(data) {
-      var app = this;
-      $.ajax({
-        url: '/api/get_currency/' + this.taxpayer,
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function success(data) {
-          app.currencies = [];
-          for (var i = 0; i < data.length; i++) {
-            app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
-          }
-        },
-        error: function error(xhr, status, _error4) {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getCharts: function getCharts(data) {
-      var app = this;
-      $.ajax({
-        url: '/api/get_product/' + this.taxpayer,
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function success(data) {
-          app.charts = [];
-          for (var i = 0; i < data.length; i++) {
-            app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
-          }
-        },
-        error: function error(xhr, status, _error5) {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getTaxs: function getTaxs(data) {
-      var app = this;
-      $.ajax({
-        url: '/api/get_tax/' + this.taxpayer,
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function success(data) {
-          app.ivas = [];
-          for (var i = 0; i < data.length; i++) {
-            app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
-          }
-        },
-        error: function error(xhr, status, _error6) {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getAccounts: function getAccounts(data) {
-      var app = this;
-      $.ajax({
-        url: '/api/get_account/',
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function success(data) {
-          app.accounts = [];
-          for (var i = 0; i < data.length; i++) {
-            app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
-          }
-        },
-        error: function error(xhr, status, _error7) {
-          console.log(xhr.responseText);
-        }
-      });
+    mounted: function mounted() {
+        this.onLoad();
     }
-  },
+});
 
-  mounted: function mounted() {
+/***/ }),
 
-    this.init();
-    this.getDocuments();
-    this.getCurrencies();
-    this.getCharts();
-    this.getTaxs();
-  }
+/***/ "./resources/assets/js/commercial-components/debit-note/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/commercial-components/debit-note/list.js");
+__webpack_require__("./resources/assets/js/commercial-components/debit-note/form.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/debit-note/form.js":
+/***/ (function(module, exports) {
+
+
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+Vue.component('debit-note-form', {
+    props: ['taxpayer', 'trantype'],
+    data: function data() {
+        return {
+            id: 0,
+            type: this.trantype,
+            customer_id: '',
+            supplier_id: '',
+            document_id: '',
+            currency_id: '',
+            rate: '',
+            payment_condition: '',
+            chart_account_id: '',
+            date: '',
+            number: '',
+            code: '',
+            code_expiry: '',
+            comment: '',
+            ref_id: '',
+            details: [
+                //     {
+                //     id:0,
+                //     transaction_id:'',
+                //     chart_id:'',
+                //     chart_vat_id:0,
+                //     value:''
+                //     vat:0,
+                //     totalvat:0,
+                //     withoutvat:0,
+
+                // }
+            ],
+            documents: [],
+            accounts: [],
+            currencies: [],
+            charts: [],
+            ivas: []
+        };
+    },
+
+    computed: {
+        condition: function condition() {
+            if (this.payment_condition > 0) {
+                return 'Crédito';
+            }
+            return 'Contado';
+        },
+
+        grandTotal: function grandTotal() {
+            var total = 0.0;
+
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].value).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandExenta: function grandExenta() {
+            var total = 0.0;
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].withoutvat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandGravada: function grandGravada() {
+            var app = this;
+            var total = 0.0;
+
+            for (var i = 0; i < app.details.length; i++) {
+
+                total += parseFloat(app.details[i].vat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandIva: function grandIva() {
+            var total = 0.0;
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].totalvat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        }
+    },
+
+    methods: {
+        addDetail: function addDetail() {
+            this.details.push({ value: 0, chart_vat_id: 1, chart_id: 0, vat: 0, totalvat: 0, withoutvat: 0 });
+        },
+
+        //Removes Detail. Make sure it removes the correct detail, and not in randome.
+        deleteDetail: function deleteDetail(detail) {
+            var index = this.details.indexOf(detail);
+            this.details.splice(index, 1);
+        },
+
+        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+        //For updates code will be different and should use the ID's palced int he Json.
+        onSave: function onSave(json) {
+
+            var app = this;
+            var api = null;
+            app.type = app.trantype;
+            if (this.type == 1) {
+                this.customer_id = this.$children[0].id;
+            } else {
+                this.supplier_id = this.$children[0].id;
+            }
+            $.ajax({
+                url: '',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    if (data == 'ok') {
+                        app.id = 0;
+                        app.type = null;
+                        app.customer_id = null;
+                        app.supplier_id = null;
+                        app.document_id = null;
+                        app.currency_id = null;
+                        app.rate = null;
+                        app.payment_condition = null;
+                        app.chart_account_id = null;
+                        app.date = null;
+                        app.number = null;
+                        app.code = null;
+                        app.code_expiry = null;
+                        app.comment = null;
+                        app.ref_id = null;
+                        app.details = [];
+                        app.init();
+                    } else {
+                        alert('Something Went Wrong...');
+                    }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        onEdit: function onEdit(data) {
+            var app = this;
+            app.id = data.id;
+            app.type = data.type;
+            app.customer_id = data.customer_id;
+            app.supplier_id = data.supplier_id;
+            app.document_id = data.document_id;
+            app.currency_id = data.currency_id;
+            app.rate = data.rate;
+            app.payment_condition = data.payment_condition;
+            app.chart_account_id = data.chart_account_id;
+            app.date = data.date;
+            app.number = data.number;
+            app.code = data.code;
+            app.code_expiry = data.code_expiry;
+            app.comment = data.comment;
+            app.ref_id = data.ref_id;
+        },
+        init: function init() {
+            var app = this;
+            $.ajax({
+                url: '/api/get_sales/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.id = data.id;
+                    app.type = data.type;
+                    app.customer_id = data.customer_id;
+                    app.supplier_id = data.supplier_id;
+                    app.document_id = data.document_id;
+                    app.currency_id = data.currency_id;
+                    app.rate = data.rate;
+                    app.payment_condition = data.payment_condition;
+                    app.chart_account_id = data.chart_account_id;
+                    app.date = data.date;
+                    app.number = data.number;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
+                    app.comment = data.comment;
+                    app.ref_id = data.ref_id;
+
+                    app.details = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        app.details.push({ transaction_id: data[i]['name'], chart_id: data[i]['id'],
+                            chart_vat_id: data[i]['chart_vat_id'], value: data[i]['value'] });
+                    }
+                },
+                error: function error(xhr, status, _error2) {
+                    console.log(status);
+                }
+            });
+        },
+
+        getDocuments: function getDocuments(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_document/1/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.documents = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.documents.push({ name: data[i]['code'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCurrencies: function getCurrencies(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_currency/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.currencies = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error4) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCharts: function getCharts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_product/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.charts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error5) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getTaxs: function getTaxs(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_tax/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.ivas = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error6) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getAccounts: function getAccounts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_account/',
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.accounts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error7) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    },
+
+    mounted: function mounted() {
+        this.init();
+        this.getDocuments();
+        this.getCurrencies();
+        this.getCharts();
+        this.getTaxs();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/debit-note/list.js":
+/***/ (function(module, exports) {
+
+
+Vue.component('debit-note-list', {
+    props: ['taxpayer'],
+    data: function data() {
+        return {};
+    },
+    created: function created() {},
+
+
+    methods: {
+        onLoad: function onLoad() {
+            var options = {
+                data: {
+                    type: 'remote',
+                    source: {
+                        read: {
+                            url: '/api/get_sales/' + this.taxpayer,
+                            method: 'GET',
+                            // custom headers
+                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
+                            params: {
+                                // custom query params
+                                query: {
+                                    //  taxPayerID: this.taxpayer
+                                    //  someParam: 'someValue',
+                                    //  token: 'token-value'
+                                }
+                            },
+                            map: function map(raw) {
+                                // sample data mapping
+                                var dataSet = raw;
+                                if (typeof raw.data !== 'undefined') {
+                                    dataSet = raw.data;
+                                }
+                                return dataSet;
+                            }
+                        }
+                    },
+                    pageSize: 10,
+                    saveState: {
+                        cookie: true,
+                        webstorage: true
+                    },
+
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
+                },
+
+                layout: {
+                    theme: 'default',
+                    class: 'm-datatable--brand',
+                    scroll: false,
+                    height: null,
+                    footer: false,
+                    header: true,
+
+                    smoothScroll: {
+                        scrollbarShown: true
+                    },
+
+                    spinner: {
+                        overlayColor: '#000000',
+                        opacity: 0,
+                        type: 'loader',
+                        state: 'brand',
+                        message: true
+                    },
+
+                    icons: {
+                        sort: { asc: 'la la-arrow-up', desc: 'la la-arrow-down' },
+                        pagination: {
+                            next: 'la la-angle-right',
+                            prev: 'la la-angle-left',
+                            first: 'la la-angle-double-left',
+                            last: 'la la-angle-double-right',
+                            more: 'la la-ellipsis-h'
+                        },
+                        rowDetail: { expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right' }
+                    }
+                },
+
+                sortable: false,
+
+                pagination: true,
+
+                search: {
+                    // enable trigger search by keyup enter
+                    onEnter: false,
+                    // input text for search
+                    input: $('#generalSearch'),
+                    // search delay in milliseconds
+                    delay: 400
+                },
+
+                detail: {
+                    title: 'Load sub table',
+                    content: function content(e) {
+                        // e.data
+                        // e.detailCell
+                    }
+                },
+
+                rows: {
+                    callback: function callback() {},
+                    // auto hide columns, if rows overflow. work on non locked columns
+                    autoHide: false
+                },
+
+                // columns definition
+                columns: [{
+                    field: "RecordID",
+                    title: "#",
+                    locked: { left: 'xl' },
+                    sortable: false,
+                    width: 40,
+                    selector: { class: 'm-checkbox--solid m-checkbox--brand' }
+                }, {
+                    field: "id",
+                    title: "id",
+                    sortable: 'asc',
+                    filterable: false,
+                    width: 150,
+                    responsive: { visible: 'lg' },
+                    locked: { left: 'xl' },
+                    template: '{{id}}'
+                }, {
+                    field: "code",
+                    title: "code",
+                    width: 150,
+                    overflow: 'visible',
+                    template: function template(row) {
+                        return row.code;
+                    }
+                }],
+
+                toolbar: {
+                    layout: ['pagination', 'info'],
+
+                    placement: ['bottom'], //'top', 'bottom'
+
+                    items: {
+                        pagination: {
+                            type: 'default',
+
+                            pages: {
+                                desktop: {
+                                    layout: 'default',
+                                    pagesNumber: 6
+                                },
+                                tablet: {
+                                    layout: 'default',
+                                    pagesNumber: 3
+                                },
+                                mobile: {
+                                    layout: 'compact'
+                                }
+                            },
+
+                            navigation: {
+                                prev: true,
+                                next: true,
+                                first: true,
+                                last: true
+                            },
+
+                            pageSizeSelect: [10, 20, 30, 50, 100]
+                        },
+
+                        info: true
+                    }
+                },
+
+                translate: {
+                    records: {
+                        processing: 'Please wait...',
+                        noRecords: 'No records found'
+                    },
+                    toolbar: {
+                        pagination: {
+                            items: {
+                                default: {
+                                    first: 'First',
+                                    prev: 'Previous',
+                                    next: 'Next',
+                                    last: 'Last',
+                                    more: 'More pages',
+                                    input: 'Page number',
+                                    select: 'Select page size'
+                                },
+                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
+                            }
+                        }
+                    }
+                }
+            };
+
+            var datatable = $('.my_datatable').mDatatable(options);
+        }
+    },
+
+    mounted: function mounted() {
+        this.onLoad();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/purchase/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/commercial-components/purchase/list.js");
+__webpack_require__("./resources/assets/js/commercial-components/purchase/form.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/purchase/form.js":
+/***/ (function(module, exports) {
+
+
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+Vue.component('purchase-form', {
+    props: ['taxpayer', 'trantype'],
+    data: function data() {
+        return {
+            id: 0,
+            type: this.trantype,
+            customer_id: '',
+            supplier_id: '',
+            document_id: '',
+            currency_id: '',
+            rate: '',
+            payment_condition: '',
+            chart_account_id: '',
+            date: '',
+            number: '',
+            code: '',
+            code_expiry: '',
+            comment: '',
+            ref_id: '',
+            details: [
+                //     {
+                //     id:0,
+                //     transaction_id:'',
+                //     chart_id:'',
+                //     chart_vat_id:0,
+                //     value:''
+                //     vat:0,
+                //     totalvat:0,
+                //     withoutvat:0,
+
+                // }
+            ],
+            documents: [],
+            accounts: [],
+            currencies: [],
+            charts: [],
+            ivas: []
+        };
+    },
+
+    computed: {
+        condition: function condition() {
+            if (this.payment_condition > 0) {
+                return 'Crédito';
+            }
+            return 'Contado';
+        },
+
+        grandTotal: function grandTotal() {
+            var total = 0.0;
+
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].value).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandExenta: function grandExenta() {
+            var total = 0.0;
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].withoutvat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandGravada: function grandGravada() {
+            var app = this;
+            var total = 0.0;
+
+            for (var i = 0; i < app.details.length; i++) {
+
+                total += parseFloat(app.details[i].vat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandIva: function grandIva() {
+            var total = 0.0;
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].totalvat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        }
+    },
+
+    methods: {
+        addDetail: function addDetail() {
+            this.details.push({ value: 0, chart_vat_id: 1, chart_id: 0, vat: 0, totalvat: 0, withoutvat: 0 });
+        },
+
+        //Removes Detail. Make sure it removes the correct detail, and not in randome.
+        deleteDetail: function deleteDetail(detail) {
+            var index = this.details.indexOf(detail);
+            this.details.splice(index, 1);
+        },
+
+        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+        //For updates code will be different and should use the ID's palced int he Json.
+        onSave: function onSave(json) {
+
+            var app = this;
+            var api = null;
+            app.type = app.trantype;
+            if (this.type == 1) {
+                this.customer_id = this.$children[0].id;
+            } else {
+                this.supplier_id = this.$children[0].id;
+            }
+            $.ajax({
+                url: '',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    if (data == 'ok') {
+                        app.id = 0;
+                        app.type = null;
+                        app.customer_id = null;
+                        app.supplier_id = null;
+                        app.document_id = null;
+                        app.currency_id = null;
+                        app.rate = null;
+                        app.payment_condition = null;
+                        app.chart_account_id = null;
+                        app.date = null;
+                        app.number = null;
+                        app.code = null;
+                        app.code_expiry = null;
+                        app.comment = null;
+                        app.ref_id = null;
+                        app.details = [];
+                        app.init();
+                    } else {
+                        alert('Something Went Wrong...');
+                    }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        onEdit: function onEdit(data) {
+            var app = this;
+            app.id = data.id;
+            app.type = data.type;
+            app.customer_id = data.customer_id;
+            app.supplier_id = data.supplier_id;
+            app.document_id = data.document_id;
+            app.currency_id = data.currency_id;
+            app.rate = data.rate;
+            app.payment_condition = data.payment_condition;
+            app.chart_account_id = data.chart_account_id;
+            app.date = data.date;
+            app.number = data.number;
+            app.code = data.code;
+            app.code_expiry = data.code_expiry;
+            app.comment = data.comment;
+            app.ref_id = data.ref_id;
+        },
+        init: function init() {
+            var app = this;
+            $.ajax({
+                url: '/api/get_sales/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.id = data.id;
+                    app.type = data.type;
+                    app.customer_id = data.customer_id;
+                    app.supplier_id = data.supplier_id;
+                    app.document_id = data.document_id;
+                    app.currency_id = data.currency_id;
+                    app.rate = data.rate;
+                    app.payment_condition = data.payment_condition;
+                    app.chart_account_id = data.chart_account_id;
+                    app.date = data.date;
+                    app.number = data.number;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
+                    app.comment = data.comment;
+                    app.ref_id = data.ref_id;
+
+                    app.details = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        app.details.push({ transaction_id: data[i]['name'], chart_id: data[i]['id'],
+                            chart_vat_id: data[i]['chart_vat_id'], value: data[i]['value'] });
+                    }
+                },
+                error: function error(xhr, status, _error2) {
+                    console.log(status);
+                }
+            });
+        },
+
+        getDocuments: function getDocuments(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_document/1/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.documents = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.documents.push({ name: data[i]['code'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCurrencies: function getCurrencies(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_currency/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.currencies = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error4) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCharts: function getCharts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_product/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.charts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error5) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getTaxs: function getTaxs(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_tax/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.ivas = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error6) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getAccounts: function getAccounts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_account/',
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.accounts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error7) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    },
+
+    mounted: function mounted() {
+        this.init();
+        this.getDocuments();
+        this.getCurrencies();
+        this.getCharts();
+        this.getTaxs();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/purchase/list.js":
+/***/ (function(module, exports) {
+
+
+Vue.component('purchase-list', {
+    props: ['taxpayer'],
+    data: function data() {
+        return {};
+    },
+    created: function created() {},
+
+
+    methods: {
+        onLoad: function onLoad() {
+            var options = {
+                data: {
+                    type: 'remote',
+                    source: {
+                        read: {
+                            url: '/api/get_sales/' + this.taxpayer,
+                            method: 'GET',
+                            // custom headers
+                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
+                            params: {
+                                // custom query params
+                                query: {
+                                    //  taxPayerID: this.taxpayer
+                                    //  someParam: 'someValue',
+                                    //  token: 'token-value'
+                                }
+                            },
+                            map: function map(raw) {
+                                // sample data mapping
+                                var dataSet = raw;
+                                if (typeof raw.data !== 'undefined') {
+                                    dataSet = raw.data;
+                                }
+                                return dataSet;
+                            }
+                        }
+                    },
+                    pageSize: 10,
+                    saveState: {
+                        cookie: true,
+                        webstorage: true
+                    },
+
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
+                },
+
+                layout: {
+                    theme: 'default',
+                    class: 'm-datatable--brand',
+                    scroll: false,
+                    height: null,
+                    footer: false,
+                    header: true,
+
+                    smoothScroll: {
+                        scrollbarShown: true
+                    },
+
+                    spinner: {
+                        overlayColor: '#000000',
+                        opacity: 0,
+                        type: 'loader',
+                        state: 'brand',
+                        message: true
+                    },
+
+                    icons: {
+                        sort: { asc: 'la la-arrow-up', desc: 'la la-arrow-down' },
+                        pagination: {
+                            next: 'la la-angle-right',
+                            prev: 'la la-angle-left',
+                            first: 'la la-angle-double-left',
+                            last: 'la la-angle-double-right',
+                            more: 'la la-ellipsis-h'
+                        },
+                        rowDetail: { expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right' }
+                    }
+                },
+
+                sortable: false,
+
+                pagination: true,
+
+                search: {
+                    // enable trigger search by keyup enter
+                    onEnter: false,
+                    // input text for search
+                    input: $('#generalSearch'),
+                    // search delay in milliseconds
+                    delay: 400
+                },
+
+                detail: {
+                    title: 'Load sub table',
+                    content: function content(e) {
+                        // e.data
+                        // e.detailCell
+                    }
+                },
+
+                rows: {
+                    callback: function callback() {},
+                    // auto hide columns, if rows overflow. work on non locked columns
+                    autoHide: false
+                },
+
+                // columns definition
+                columns: [{
+                    field: "RecordID",
+                    title: "#",
+                    locked: { left: 'xl' },
+                    sortable: false,
+                    width: 40,
+                    selector: { class: 'm-checkbox--solid m-checkbox--brand' }
+                }, {
+                    field: "id",
+                    title: "id",
+                    sortable: 'asc',
+                    filterable: false,
+                    width: 150,
+                    responsive: { visible: 'lg' },
+                    locked: { left: 'xl' },
+                    template: '{{id}}'
+                }, {
+                    field: "code",
+                    title: "code",
+                    width: 150,
+                    overflow: 'visible',
+                    template: function template(row) {
+                        return row.code;
+                    }
+                }],
+
+                toolbar: {
+                    layout: ['pagination', 'info'],
+
+                    placement: ['bottom'], //'top', 'bottom'
+
+                    items: {
+                        pagination: {
+                            type: 'default',
+
+                            pages: {
+                                desktop: {
+                                    layout: 'default',
+                                    pagesNumber: 6
+                                },
+                                tablet: {
+                                    layout: 'default',
+                                    pagesNumber: 3
+                                },
+                                mobile: {
+                                    layout: 'compact'
+                                }
+                            },
+
+                            navigation: {
+                                prev: true,
+                                next: true,
+                                first: true,
+                                last: true
+                            },
+
+                            pageSizeSelect: [10, 20, 30, 50, 100]
+                        },
+
+                        info: true
+                    }
+                },
+
+                translate: {
+                    records: {
+                        processing: 'Please wait...',
+                        noRecords: 'No records found'
+                    },
+                    toolbar: {
+                        pagination: {
+                            items: {
+                                default: {
+                                    first: 'First',
+                                    prev: 'Previous',
+                                    next: 'Next',
+                                    last: 'Last',
+                                    more: 'More pages',
+                                    input: 'Page number',
+                                    select: 'Select page size'
+                                },
+                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
+                            }
+                        }
+                    }
+                }
+            };
+
+            var datatable = $('.my_datatable').mDatatable(options);
+        }
+    },
+
+    mounted: function mounted() {
+        this.onLoad();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/sales/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/commercial-components/sales/list.js");
+__webpack_require__("./resources/assets/js/commercial-components/sales/form.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/sales/form.js":
+/***/ (function(module, exports) {
+
+
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+Vue.component('sales-form', {
+    props: ['taxpayer', 'trantype'],
+    data: function data() {
+        return {
+            id: 0,
+            type: this.trantype,
+            customer_id: '',
+            supplier_id: '',
+            document_id: '',
+            currency_id: '',
+            rate: '',
+            payment_condition: '',
+            chart_account_id: '',
+            date: '',
+            number: '',
+            code: '',
+            code_expiry: '',
+            comment: '',
+            ref_id: '',
+            details: [
+                //     {
+                //     id:0,
+                //     transaction_id:'',
+                //     chart_id:'',
+                //     chart_vat_id:0,
+                //     value:''
+                //     vat:0,
+                //     totalvat:0,
+                //     withoutvat:0,
+
+                // }
+            ],
+            documents: [],
+            accounts: [],
+            currencies: [],
+            charts: [],
+            ivas: []
+        };
+    },
+
+    computed: {
+        condition: function condition() {
+            if (this.payment_condition > 0) {
+                return 'Crédito';
+            }
+            return 'Contado';
+        },
+
+        grandTotal: function grandTotal() {
+            var total = 0.0;
+
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].value).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandExenta: function grandExenta() {
+            var total = 0.0;
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].withoutvat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandGravada: function grandGravada() {
+            var app = this;
+            var total = 0.0;
+
+            for (var i = 0; i < app.details.length; i++) {
+
+                total += parseFloat(app.details[i].vat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        },
+
+        grandIva: function grandIva() {
+            var total = 0.0;
+            for (var i = 0; i < this.details.length; i++) {
+                total += parseFloat(this.details[i].totalvat).toFixed(2);
+            }
+
+            return parseFloat(total).toFixed(2);
+        }
+    },
+
+    methods: {
+        addDetail: function addDetail() {
+            this.details.push({ value: 0, chart_vat_id: 1, chart_id: 0, vat: 0, totalvat: 0, withoutvat: 0 });
+        },
+
+        //Removes Detail. Make sure it removes the correct detail, and not in randome.
+        deleteDetail: function deleteDetail(detail) {
+            var index = this.details.indexOf(detail);
+            this.details.splice(index, 1);
+        },
+
+        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+        //For updates code will be different and should use the ID's palced int he Json.
+        onSave: function onSave(json) {
+
+            var app = this;
+            var api = null;
+            app.type = app.trantype;
+            if (this.type == 1) {
+                this.customer_id = this.$children[0].id;
+            } else {
+                this.supplier_id = this.$children[0].id;
+            }
+            $.ajax({
+                url: '',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    if (data == 'ok') {
+                        app.id = 0;
+                        app.type = null;
+                        app.customer_id = null;
+                        app.supplier_id = null;
+                        app.document_id = null;
+                        app.currency_id = null;
+                        app.rate = null;
+                        app.payment_condition = null;
+                        app.chart_account_id = null;
+                        app.date = null;
+                        app.number = null;
+                        app.code = null;
+                        app.code_expiry = null;
+                        app.comment = null;
+                        app.ref_id = null;
+                        app.details = [];
+                        app.init();
+                    } else {
+                        alert('Something Went Wrong...');
+                    }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        onEdit: function onEdit(data) {
+            var app = this;
+            app.id = data.id;
+            app.type = data.type;
+            app.customer_id = data.customer_id;
+            app.supplier_id = data.supplier_id;
+            app.document_id = data.document_id;
+            app.currency_id = data.currency_id;
+            app.rate = data.rate;
+            app.payment_condition = data.payment_condition;
+            app.chart_account_id = data.chart_account_id;
+            app.date = data.date;
+            app.number = data.number;
+            app.code = data.code;
+            app.code_expiry = data.code_expiry;
+            app.comment = data.comment;
+            app.ref_id = data.ref_id;
+        },
+        init: function init() {
+            var app = this;
+            $.ajax({
+                url: '/api/get_sales/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.id = data.id;
+                    app.type = data.type;
+                    app.customer_id = data.customer_id;
+                    app.supplier_id = data.supplier_id;
+                    app.document_id = data.document_id;
+                    app.currency_id = data.currency_id;
+                    app.rate = data.rate;
+                    app.payment_condition = data.payment_condition;
+                    app.chart_account_id = data.chart_account_id;
+                    app.date = data.date;
+                    app.number = data.number;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
+                    app.comment = data.comment;
+                    app.ref_id = data.ref_id;
+
+                    app.details = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        app.details.push({ transaction_id: data[i]['name'], chart_id: data[i]['id'],
+                            chart_vat_id: data[i]['chart_vat_id'], value: data[i]['value'] });
+                    }
+                },
+                error: function error(xhr, status, _error2) {
+                    console.log(status);
+                }
+            });
+        },
+
+        getDocuments: function getDocuments(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_document/1/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.documents = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.documents.push({ name: data[i]['code'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCurrencies: function getCurrencies(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_currency/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.currencies = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error4) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCharts: function getCharts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_product/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.charts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error5) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getTaxs: function getTaxs(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_tax/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.ivas = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error6) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getAccounts: function getAccounts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_account/',
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.accounts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error7) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    },
+
+    mounted: function mounted() {
+        this.init();
+        this.getDocuments();
+        this.getCurrencies();
+        this.getCharts();
+        this.getTaxs();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/sales/list.js":
+/***/ (function(module, exports) {
+
+
+Vue.component('sales-list', {
+    props: ['taxpayer'],
+    data: function data() {
+        return {};
+    },
+    created: function created() {},
+
+
+    methods: {
+        onLoad: function onLoad() {
+            var options = {
+                data: {
+                    type: 'remote',
+                    source: {
+                        read: {
+                            url: '/api/get_sales/' + this.taxpayer,
+                            method: 'GET',
+                            // custom headers
+                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
+                            params: {
+                                // custom query params
+                                query: {
+                                    //  taxPayerID: this.taxpayer
+                                    //  someParam: 'someValue',
+                                    //  token: 'token-value'
+                                }
+                            },
+                            map: function map(raw) {
+                                // sample data mapping
+                                var dataSet = raw;
+                                if (typeof raw.data !== 'undefined') {
+                                    dataSet = raw.data;
+                                }
+                                return dataSet;
+                            }
+                        }
+                    },
+                    pageSize: 10,
+                    saveState: {
+                        cookie: true,
+                        webstorage: true
+                    },
+
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
+                },
+
+                layout: {
+                    theme: 'default',
+                    class: 'm-datatable--brand',
+                    scroll: false,
+                    height: null,
+                    footer: false,
+                    header: true,
+
+                    smoothScroll: {
+                        scrollbarShown: true
+                    },
+
+                    spinner: {
+                        overlayColor: '#000000',
+                        opacity: 0,
+                        type: 'loader',
+                        state: 'brand',
+                        message: true
+                    },
+
+                    icons: {
+                        sort: { asc: 'la la-arrow-up', desc: 'la la-arrow-down' },
+                        pagination: {
+                            next: 'la la-angle-right',
+                            prev: 'la la-angle-left',
+                            first: 'la la-angle-double-left',
+                            last: 'la la-angle-double-right',
+                            more: 'la la-ellipsis-h'
+                        },
+                        rowDetail: { expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right' }
+                    }
+                },
+
+                sortable: false,
+
+                pagination: true,
+
+                search: {
+                    // enable trigger search by keyup enter
+                    onEnter: false,
+                    // input text for search
+                    input: $('#generalSearch'),
+                    // search delay in milliseconds
+                    delay: 400
+                },
+
+                detail: {
+                    title: 'Load sub table',
+                    content: function content(e) {
+                        // e.data
+                        // e.detailCell
+                    }
+                },
+
+                rows: {
+                    callback: function callback() {},
+                    // auto hide columns, if rows overflow. work on non locked columns
+                    autoHide: false
+                },
+
+                // columns definition
+                columns: [{
+                    field: "RecordID",
+                    title: "#",
+                    locked: { left: 'xl' },
+                    sortable: false,
+                    width: 40,
+                    selector: { class: 'm-checkbox--solid m-checkbox--brand' }
+                }, {
+                    field: "id",
+                    title: "id",
+                    sortable: 'asc',
+                    filterable: false,
+                    width: 150,
+                    responsive: { visible: 'lg' },
+                    locked: { left: 'xl' },
+                    template: '{{id}}'
+                }, {
+                    field: "code",
+                    title: "code",
+                    width: 150,
+                    overflow: 'visible',
+                    template: function template(row) {
+                        return row.code;
+                    }
+                }],
+
+                toolbar: {
+                    layout: ['pagination', 'info'],
+
+                    placement: ['bottom'], //'top', 'bottom'
+
+                    items: {
+                        pagination: {
+                            type: 'default',
+
+                            pages: {
+                                desktop: {
+                                    layout: 'default',
+                                    pagesNumber: 6
+                                },
+                                tablet: {
+                                    layout: 'default',
+                                    pagesNumber: 3
+                                },
+                                mobile: {
+                                    layout: 'compact'
+                                }
+                            },
+
+                            navigation: {
+                                prev: true,
+                                next: true,
+                                first: true,
+                                last: true
+                            },
+
+                            pageSizeSelect: [10, 20, 30, 50, 100]
+                        },
+
+                        info: true
+                    }
+                },
+
+                translate: {
+                    records: {
+                        processing: 'Please wait...',
+                        noRecords: 'No records found'
+                    },
+                    toolbar: {
+                        pagination: {
+                            items: {
+                                default: {
+                                    first: 'First',
+                                    prev: 'Previous',
+                                    next: 'Next',
+                                    last: 'Last',
+                                    more: 'More pages',
+                                    input: 'Page number',
+                                    select: 'Select page size'
+                                },
+                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
+                            }
+                        }
+                    }
+                }
+            };
+
+            var datatable = $('.my_datatable').mDatatable(options);
+        }
+    },
+
+    mounted: function mounted() {
+        this.onLoad();
+    }
 });
 
 /***/ }),
@@ -73973,7 +75529,10 @@ __webpack_require__("./resources/assets/js/accounting-components/chart-version/b
 __webpack_require__("./resources/assets/js/accounting-components/cycle/bootstrap.js");
 
 //Commercial
-__webpack_require__("./resources/assets/js/commercial-components/transaction/bootstrap.js");
+__webpack_require__("./resources/assets/js/commercial-components/credit-note/bootstrap.js");
+__webpack_require__("./resources/assets/js/commercial-components/debit-note/bootstrap.js");
+__webpack_require__("./resources/assets/js/commercial-components/purchase/bootstrap.js");
+__webpack_require__("./resources/assets/js/commercial-components/sales/bootstrap.js");
 
 //Configuration
 __webpack_require__("./resources/assets/js/configuration-components/taxpayer/bootstrap.js");
@@ -73986,12 +75545,11 @@ __webpack_require__("./resources/assets/js/components/home.js");
 /***/ "./resources/assets/js/components/datatable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/datatable.vue")
+var __vue_script__ = null
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-80417746\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/datatable.vue")
+var __vue_template__ = null
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -74009,22 +75567,6 @@ var Component = normalizeComponent(
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/components/datatable.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-80417746", Component.options)
-  } else {
-    hotAPI.reload("data-v-80417746", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 

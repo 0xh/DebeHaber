@@ -1,10 +1,5 @@
-<!-- <template>
-    <div class="my_datatable" id="m_datatable"></div>
-</template>
 
-<script>
-
-export default {
+Vue.component('purchase-list',{
     props: ['taxpayer'],
     data () {
         return {
@@ -209,10 +204,9 @@ export default {
 
         }
     },
+
     mounted: function mounted()
     {
         this.onLoad();
     }
-}
-
-</script> -->
+});

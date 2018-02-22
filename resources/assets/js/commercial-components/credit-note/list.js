@@ -1,13 +1,8 @@
-<!-- <template>
-    <div class="my_datatable" id="m_datatable"></div>
-</template>
 
-<script>
-
-export default {
+Vue.component('credit-note-list',{
     props: ['taxpayer'],
     data () {
-        return {
+        return {Í
 
         }
     },
@@ -209,10 +204,9 @@ export default {
 
         }
     },
+
     mounted: function mounted()
     {
         this.onLoad();
     }
-}
-
-</script> -->
+});

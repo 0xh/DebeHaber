@@ -17,7 +17,10 @@ require('./../accounting-components/chart-version/bootstrap');
 require('./../accounting-components/cycle/bootstrap');
 
 //Commercial
-require('./../commercial-components/transaction/bootstrap');
+require('./../commercial-components/credit-note/bootstrap');
+require('./../commercial-components/debit-note/bootstrap');
+require('./../commercial-components/purchase/bootstrap');
+require('./../commercial-components/sales/bootstrap');
 
 //Configuration
 require('./../configuration-components/taxpayer/bootstrap');
