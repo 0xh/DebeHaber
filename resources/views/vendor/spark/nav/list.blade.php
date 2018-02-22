@@ -51,7 +51,7 @@ inline-template>
             </div>
             <div class="m-stack__item m-stack__item--middle m-stack__item--center">
                 <!-- BEGIN: Brand -->
-                <a href="index.html" class="m-brand m-brand--desktop">
+                <a href="/" class="m-brand m-brand--desktop">
                     <img alt="" src="/img/logos/debehaber.svg" width="128"/>
                 </a>
                 <!-- END: Brand -->

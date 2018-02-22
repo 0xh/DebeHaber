@@ -20,7 +20,7 @@
             }
 
             $purchasePercentJournaled = 0;
-            
+
             if ($totalPurchaseJournaled > 0 && $totalPurchase > 0)
             {
             $purchasePercentJournaled = ($totalPurchaseJournaled / $totalPurchase) * 100;
@@ -32,7 +32,7 @@
         <div class="m-nav-grid m-nav-grid--skin-light">
             <div class="m-nav-grid__row">
                 {{-- <a href="{{ route('generateJournalMissing', [request()->route('company'), $startDate, $endDate ]) }}" class="m-nav-grid__item padding-40-5"> --}}
-                <img src="/img/svg/generate.svg" alt="" width="64">
+                <img src="/img/icons/generate.svg" alt="" width="64">
                 <span class="m-nav-grid__text">
                     Generar Asientos
                     <br>
@@ -47,7 +47,7 @@
         <div class="m-widget24__item">
             {{-- @if ($totalSales > 0) --}}
             <h4 class="m-widget24__title">
-                <img src="/img/svg/ventas.svg" alt="" width="16"> Libro Ventas
+                <img src="/img/icons/ventas.svg" alt="" width="16"> Libro Ventas
             </h4>
 
             <br>
@@ -77,7 +77,7 @@
         <div class="m-nav-grid m-nav-grid--skin-light">
             <div class="m-nav-grid__row background-sales">
                 {{-- <a href="{{route('sales.create', request()->route('company'))}}" class="m-nav-grid__item padding-40-5"> --}}
-                <img src="/img/svg/ventas.svg" alt="" width="64">
+                <img src="/img/icons/ventas.svg" alt="" width="64">
                 <span class="m-nav-grid__text">
                     <p class="lead">
                         Faltan cargar Ventas
@@ -97,7 +97,7 @@
         <div class="m-widget24__item">
             {{-- @if ($totalPurchase > 0) --}}
             <h4 class="m-widget24__title">
-                <img src="/img/svg/compras.svg" alt="" width="16"> Libro Compras
+                <img src="/img/icons/compras.svg" alt="" width="16"> Libro Compras
             </h4>
             <br>
             <span class="m-widget24__desc">
@@ -122,7 +122,7 @@
         <div class="m-nav-grid m-nav-grid--skin-light">
             <div class="m-nav-grid__row background-sales">
                 {{-- <a href="{{route('purchases.create', request()->route('company'))}}" class="m-nav-grid__item padding-40-5"> --}}
-                <img src="/img/svg/compras.svg" alt="" width="64">
+                <img src="/img/icons/compras.svg" alt="" width="64">
                 <span class="m-nav-grid__text">
                     <p class="lead">
                         Faltan cargar Compras
@@ -249,7 +249,7 @@
             @endphp --}}
 
             <div class="m-widget4__item">
-                <img src="/img/svg/account.svg" width="60">
+                <img src="/img/icons/account.svg" width="60">
                 <div class="m-widget4__info">
                     <span class="m-widget4__title">
                         {{-- <a href="{{ route('accounts.index', request()->route('company')) }}">
@@ -263,7 +263,7 @@
             </div>
         </div>
         <div class="m-widget4__item">
-            <img src="/img/svg/compras.svg" width="60">
+            <img src="/img/icons/compras.svg" width="60">
 
             <div class="m-widget4__info">
                 <span class="m-widget4__title">
@@ -279,7 +279,7 @@
         </div>
     </div>
     <div class="m-widget4__item">
-        <img src="/img/svg/income.svg" width="60">
+        <img src="/img/icons/income.svg" width="60">
 
         <div class="m-widget4__info">
             <span class="m-widget4__title">
@@ -295,7 +295,7 @@
     </div>
 </div>
 <div class="m-widget4__item">
-    <img src="/img/svg/inventory.svg" width="60">
+    <img src="/img/icons/inventory.svg" width="60">
 
     <div class="m-widget4__info">
         <span class="m-widget4__title">
@@ -311,7 +311,7 @@
 </div>
 </div>
 <div class="m-widget4__item">
-    <img src="/img/svg/fixed-asset.svg" width="60">
+    <img src="/img/icons/fixed-asset.svg" width="60">
 
     <div class="m-widget4__info">
         <span class="m-widget4__title">

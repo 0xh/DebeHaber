@@ -22,8 +22,8 @@
     </script>
     <!--end::Web font -->
 
-    <link href="/vendors/base/vendors.bundle.css" rel="stylesheet">
-    <link href="/css/style.bundle.css" rel="stylesheet">
+    <link href="/vendors/base/vendors.bundle.min.css" rel="stylesheet">
+    <link href="/css/style.bundle.min.css" rel="stylesheet">
 
     @yield('styles')
 
@@ -155,8 +155,8 @@
     </ul>
     <!-- begin::Quick Nav -->
 </div>
-<script src="/vendors/base/vendors.bundle.js"></script>
-<script src="/js/scripts.bundle.js"></script>
+<script src="/vendors/base/vendors.bundle.min.js"></script>
+<script src="/js/scripts.bundle.min.js"></script>
 <script src="{{ mix('js/app.js') }}"></script>
 </body>
 <!-- end::Body -->
