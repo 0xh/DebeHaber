@@ -18,7 +18,7 @@
                             </a>
                         </li>
                         <li class="m-nav__item">
-                            <a href="{{ route('') }}" class="m-nav__link">
+                            <a href="{{ route('hello') }}" class="m-nav__link">
                                 <span class="m-nav__link-text">
                                     @{{ currentTeam.name }}
                                 </span>
