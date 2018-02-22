@@ -1917,15 +1917,215 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['taxpayer'],
     data: function data() {
         return {};
     },
+    created: function created() {},
 
 
-    methods: {}
+    methods: {
+        onLoad: function onLoad() {
+            var options = {
+                data: {
+                    type: 'remote',
+                    source: {
+                        read: {
+                            url: '/api/get_sales/' + this.taxpayer,
+                            method: 'GET',
+                            // custom headers
+                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
+                            params: {
+                                // custom query params
+                                query: {
+
+                                    //  taxPayerID: this.taxpayer
+                                    //  someParam: 'someValue',
+                                    //  token: 'token-value'
+                                }
+                            },
+                            map: function map(raw) {
+                                // sample data mapping
+                                var dataSet = raw;
+                                if (typeof raw.data !== 'undefined') {
+                                    dataSet = raw.data;
+                                }
+                                return dataSet;
+                            }
+                        }
+                    },
+                    pageSize: 10,
+                    saveState: {
+                        cookie: true,
+                        webstorage: true
+                    },
+
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
+                },
+
+                layout: {
+                    theme: 'default',
+                    class: 'm-datatable--brand',
+                    scroll: false,
+                    height: null,
+                    footer: false,
+                    header: true,
+
+                    smoothScroll: {
+                        scrollbarShown: true
+                    },
+
+                    spinner: {
+                        overlayColor: '#000000',
+                        opacity: 0,
+                        type: 'loader',
+                        state: 'brand',
+                        message: true
+                    },
+
+                    icons: {
+                        sort: { asc: 'la la-arrow-up', desc: 'la la-arrow-down' },
+                        pagination: {
+                            next: 'la la-angle-right',
+                            prev: 'la la-angle-left',
+                            first: 'la la-angle-double-left',
+                            last: 'la la-angle-double-right',
+                            more: 'la la-ellipsis-h'
+                        },
+                        rowDetail: { expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right' }
+                    }
+                },
+
+                sortable: false,
+
+                pagination: true,
+
+                search: {
+                    // enable trigger search by keyup enter
+                    onEnter: false,
+                    // input text for search
+                    input: $('#generalSearch'),
+                    // search delay in milliseconds
+                    delay: 400
+                },
+
+                detail: {
+                    title: 'Load sub table',
+                    content: function content(e) {
+                        // e.data
+                        // e.detailCell
+                    }
+                },
+
+                rows: {
+                    callback: function callback() {},
+                    // auto hide columns, if rows overflow. work on non locked columns
+                    autoHide: false
+                },
+
+                // columns definition
+                columns: [{
+                    field: "RecordID",
+                    title: "#",
+                    locked: { left: 'xl' },
+                    sortable: false,
+                    width: 40,
+                    selector: { class: 'm-checkbox--solid m-checkbox--brand' }
+                }, {
+                    field: "id",
+                    title: "id",
+                    sortable: 'asc',
+                    filterable: false,
+                    width: 150,
+                    responsive: { visible: 'lg' },
+                    locked: { left: 'xl' },
+                    template: '{{id}}'
+                }, {
+                    field: "code",
+                    title: "code",
+                    width: 150,
+                    overflow: 'visible',
+                    template: function template(row) {
+                        return row.code;
+                    }
+                }],
+
+                toolbar: {
+                    layout: ['pagination', 'info'],
+
+                    placement: ['bottom'], //'top', 'bottom'
+
+                    items: {
+                        pagination: {
+                            type: 'default',
+
+                            pages: {
+                                desktop: {
+                                    layout: 'default',
+                                    pagesNumber: 6
+                                },
+                                tablet: {
+                                    layout: 'default',
+                                    pagesNumber: 3
+                                },
+                                mobile: {
+                                    layout: 'compact'
+                                }
+                            },
+
+                            navigation: {
+                                prev: true,
+                                next: true,
+                                first: true,
+                                last: true
+                            },
+
+                            pageSizeSelect: [10, 20, 30, 50, 100]
+                        },
+
+                        info: true
+                    }
+                },
+
+                translate: {
+                    records: {
+                        processing: 'Please wait...',
+                        noRecords: 'No records found'
+                    },
+                    toolbar: {
+                        pagination: {
+                            items: {
+                                default: {
+                                    first: 'First',
+                                    prev: 'Previous',
+                                    next: 'Next',
+                                    last: 'Last',
+                                    more: 'More pages',
+                                    input: 'Page number',
+                                    select: 'Select page size'
+                                },
+                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
+                            }
+                        }
+                    }
+                }
+            };
+
+            var datatable = $('.my_datatable').mDatatable(options);
+            console.log(datatable);
+        }
+    },
+    mounted: function mounted() {
+
+        this.onLoad();
+    }
 });
 
 /***/ }),
@@ -7863,21 +8063,6 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\n.fa-times[data-v-09019d9c]\n{\n    cursor: pointer;\n}\ni[data-v-09019d9c]\n{\n    float: right;\n    position: relative;\n    opacity: 0.4;\n}\nul[data-v-09019d9c]\n{\n    position: absolute;\n    padding: 0;\n    min-width: 100%;\n    background-color: #fff;\n    list-style: none;\n    border-radius: 4px;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0, 0.25);\n            box-shadow: 0 0 10px rgba(0,0,0, 0.25);\n    z-index: 1000;\n}\nli[data-v-09019d9c]\n{\n    padding: 5px;\n    border-bottom: 1px solid #ccc;\n    cursor: pointer;\n}\nli[data-v-09019d9c]:first-child\n{\n    border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n}\nli[data-v-09019d9c]:last-child\n{\n    border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    border-bottom: 0;\n}\nspan[data-v-09019d9c]\n{\n    color: #2c3e50;\n}\n.active[data-v-09019d9c]\n{\n    background-color: #3aa373;\n}\n.active span[data-v-09019d9c]\n{\n    color: white;\n}\n.name[data-v-09019d9c]\n{\n    font-weight: 500;\n    font-size: 14px;\n}\n.screen-name[data-v-09019d9c]\n{\n    font-style: italic;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-80417746\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/datatable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.fa-times[data-v-80417746]\n{\n    cursor: pointer;\n}\ni[data-v-80417746]\n{\n    float: right;\n    position: relative;\n    opacity: 0.4;\n}\nul[data-v-80417746]\n{\n    position: absolute;\n    padding: 0;\n    min-width: 100%;\n    background-color: #fff;\n    list-style: none;\n    border-radius: 4px;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0, 0.25);\n            box-shadow: 0 0 10px rgba(0,0,0, 0.25);\n    z-index: 1000;\n}\nli[data-v-80417746]\n{\n    padding: 5px;\n    border-bottom: 1px solid #ccc;\n    cursor: pointer;\n}\nli[data-v-80417746]:first-child\n{\n    border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n}\nli[data-v-80417746]:last-child\n{\n    border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    border-bottom: 0;\n}\nspan[data-v-80417746]\n{\n    color: #2c3e50;\n}\n.active[data-v-80417746]\n{\n    background-color: #3aa373;\n}\n.active span[data-v-80417746]\n{\n    color: white;\n}\n.name[data-v-80417746]\n{\n    font-weight: 500;\n    font-size: 14px;\n}\n.screen-name[data-v-80417746]\n{\n    font-style: italic;\n}\n", ""]);
 
 // exports
 
@@ -59061,14 +59246,17 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-80417746\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/datatable.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-80417746\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/datatable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", {
+    staticClass: "my_datatable",
+    attrs: { id: "m_datatable" }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -61738,33 +61926,6 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-09019d9c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./searchbox.vue", function() {
      var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-09019d9c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./searchbox.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-80417746\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/datatable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-80417746\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/datatable.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("475777c2", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-80417746\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./datatable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-80417746\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./datatable.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -73826,21 +73987,17 @@ __webpack_require__("./resources/assets/js/components/home.js");
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-80417746\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/datatable.vue")
-}
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/datatable.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-80417746\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/datatable.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-80417746\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/datatable.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-80417746"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
