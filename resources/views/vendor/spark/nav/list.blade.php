@@ -259,7 +259,7 @@ inline-template>
                                 </div>
                             </div>
                         </li>
-                        <li id="m_quick_sidebar_toggle" class="m-nav__item m-nav__item--info m-nav__item--qs">
+                        {{-- <li id="m_quick_sidebar_toggle" class="m-nav__item m-nav__item--info m-nav__item--qs">
                             <a href="#" class="m-nav__link m-dropdown__toggle">
                                 <span class="m-nav__link-icon m-nav__link-icon-alt">
                                     <span class="m-nav__link-icon-wrapper">
@@ -267,7 +267,7 @@ inline-template>
                                     </span>
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>
