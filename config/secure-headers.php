@@ -151,7 +151,7 @@ return [
                 //
             ],
 
-            'self' => false,
+            'self' => true,
 
             'unsafe-inline' => false,
 
@@ -163,7 +163,7 @@ return [
                 //
             ],
 
-            'self' => false,
+            'self' => true,
 
             'unsafe-inline' => false,
         ],
@@ -177,7 +177,7 @@ return [
                 //
             ],
 
-            'self' => false,
+            'self' => true,
 
             'data' => false,
         ],

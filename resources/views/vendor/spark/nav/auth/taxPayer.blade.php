@@ -46,14 +46,17 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="{{ route('impex-exports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-ship"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.Exports')
-                                        </span>
-                                    </a>
-                                </li>
+
+                                @if (request()->route('taxPayer')->is_company)
+                                    <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                        <a href="{{ route('impex-exports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-ship"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.Exports')
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
 
                                 <h3 class="m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
@@ -107,15 +110,16 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="{{ route('impex-imports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-ship"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.Imports')
-                                        </span>
-                                    </a>
-                                </li>
-
+                                @if (request()->route('taxPayer')->is_company)
+                                    <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                        <a href="{{ route('impex-imports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-ship"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.Imports')
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
                                 <h3 class="m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
                                         @lang('global.Reports')
@@ -143,9 +147,9 @@
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
                                     <a href="{{ route('inventories.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-cubes"></i>
+                                        <i class="m-menu__link-icon la la-gear"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.Inventory')
+                                            @lang('commercial.Profile and Settings')
                                         </span>
                                     </a>
                                 </li>
@@ -157,22 +161,36 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="{{ route('productions.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-industry"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.Production')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="{{ route('fixed-assets.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-key"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.FixedAssets')
-                                        </span>
-                                    </a>
-                                </li>
+
+                                @if (request()->route('taxPayer')->is_company)
+                                    {{-- If Taxpayer is not Company, do not show Inventory, Production, and Fixed Assets--}}
+
+                                    <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
+                                        <a href="{{ route('inventories.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-cubes"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.Inventory')
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                        <a href="{{ route('productions.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-industry"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.Production')
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                        <a href="{{ route('fixed-assets.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-key"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.FixedAssets')
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a href="{{ route('documents.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-file-o"></i>
