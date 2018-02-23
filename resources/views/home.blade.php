@@ -1,34 +1,9 @@
 
 @extends('spark::layouts.dashboard')
 
-@section('title', 'Team Dashboard')
+@section('title', '@{{ teams[0].name }} Dashboard')
 
 @section('content')
-
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="m-portlet__body">
-                <div class="m-widget4 m-widget4--chart-bottom">
-                    <div class="m-widget4__item">
-                        <div class="m-widget4__img m-widget4__img--logo">
-                            <img :src="teams[0].photo_url" alt="" onerror="this.src='/img/cloud.jpg';">
-                        </div>
-                        <div class="m-widget4__info">
-                            <span class="m-widget4__title">
-                                <h3>@{{ teams[0].name }}</h3>
-                            </span>
-
-                            @{{ user.current_team_id }}
-
-                            <span class="m-widget4__sub">
-                                Esta subscripto al plan. Cambie su plan aqui.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-xl-6">
