@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Taxpayer;
+use App\Cycle;
 use App\AccountMovement;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,7 @@ class AccountReceivableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
         //
     }

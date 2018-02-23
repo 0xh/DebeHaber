@@ -21,19 +21,17 @@ class TaxpayerController extends Controller
     {
 
     }
+
     public function get_taxpayer($teamID)
     {
-
-        $taxPayer = taxPayer::where('id',$teamID)->first();
+        $taxPayer = Taxpayer::where('id',$teamID)->first();
 
         if (isset($taxPayer))
         {
-            $taxPayers = taxPayer::get();
+            $taxPayers = Taxpayer::get();
             return response()->json($taxPayers);
         }
-
     }
-
 
     /**
     * Show the form for creating a new resource.
@@ -53,12 +51,16 @@ class TaxpayerController extends Controller
     */
     public function store(Request $request)
     {
-        //Check if taxPayer exists.
-        $taxPayer = $request->id == 0 ? new Taxpayer() : Taxpayer::where('id',$request->id)->first();
+        //TODO Request ID must be of Integration, not Taxpayer. From there you can know if taxpayer exists.
 
-        //Country from Selection Box
-        $taxPayer->code = $request->code;
+        //Check if taxPayer exists.
+        //$taxPayer = $request->id == 0 ? new Taxpayer() : Taxpayer::find($request->id)->first();
+
+        //Check Taxpayer by TaxID. If exists, use it, or else create it.
+        $taxPayer = Taxpayer::where('taxid', $request->taxid)->first() ?? new Taxpayer();
+        //TODO Country from Selection Box
         $taxPayer->taxid = $request->taxid;
+        $taxPayer->code = $request->code;
         $taxPayer->name = $request->name;
         $taxPayer->alias = $request->alias;
         $taxPayer->address = $request->address;
@@ -67,13 +69,11 @@ class TaxpayerController extends Controller
 
         $taxPayer->save();
 
-
         if ($request->id == 0)
         {
-
             $current_date = Carbon::now();
 
-            $taxpayerIntegration = new taxpayerIntegration();
+            $taxpayerIntegration = new TaxpayerIntegration();
             $taxpayerIntegration->taxpayer_id = $taxPayer->id;
             $taxpayerIntegration->team_id = Auth::user()->current_team_id;
             $taxpayerIntegration->type = 1;
@@ -81,20 +81,19 @@ class TaxpayerController extends Controller
             $taxpayerIntegration->is_company = 1;
             $taxpayerIntegration->save();
 
-            //Check if Default Version is available for Country.
-
+            //TODO Check if Default Version is available for Country.
             $chartVersion = new ChartVersion();
             $chartVersion->name = $current_date->year;
             $chartVersion->taxpayer_id = $taxPayer->id;
             $chartVersion->save();
 
-            $Cycle = new Cycle();
-            $Cycle->chart_version_id = $chartVersion->id;
-            $Cycle->year = $current_date->year;
-            $Cycle->start_date = new Carbon('first day of January');
-            $Cycle->end_date = new Carbon('last day of December');
-            $Cycle->taxpayer_id = $taxPayer->id;
-            $Cycle->save();
+            $cycle = new Cycle();
+            $cycle->chart_version_id = $chartVersion->id;
+            $cycle->year = $current_date->year;
+            $cycle->start_date = new Carbon('first day of January');
+            $cycle->end_date = new Carbon('last day of December');
+            $cycle->taxpayer_id = $taxPayer->id;
+            $cycle->save();
         }
 
         return response()->json('ok');
@@ -145,25 +144,34 @@ class TaxpayerController extends Controller
         //
     }
 
-    public function showDashboard(Taxpayer $taxPayer)
+    public function showDashboard(Taxpayer $taxPayer, Cycle $cycle)
     {
         return view('taxpayer/dashboard');
     }
 
     public function selectTaxpayer(Taxpayer $taxPayer)
     {
-        //get current month sub 1 month.
-        $currentWorkingMonth = Carbon::now()->subMonth(1);
+        //Get current month sub 1 month.
+        $workingYear = Carbon::now()->subMonth(1)->year;
+        //Check if there is Cycle of current year.
+        $cycle = Cycle::where('year', $workingYear)->first();
 
-        // $Cycle = new Cycle();
-        // $Cycle->chart_version_id = $chartVersion->id;
-        // $Cycle->year = $current_date->year;
-        // $Cycle->start_date = new Carbon('first day of January');
-        // $Cycle->end_date = new Carbon('last day of December');
-        // $Cycle->taxpayer_id = $taxPayer->id;
-        // $Cycle->save();
+        //If null, then create it.
+        if ($cycle == null)
+        {
+            //TODO Get Last ChartVersion or Default.
+            $chartVersion = 1;
+
+            $cycle = new Cycle();
+            $cycle->chart_version_id = $chartVersion; //->id;
+            $cycle->year = $workingYear;
+            $cycle->start_date = new Carbon('first day of January ' . $workingYear);
+            $cycle->end_date = new Carbon('last day of December ' . $workingYear);
+            $cycle->taxpayer_id = $taxPayer->id;
+            $cycle->save();
+        }
 
         //run code to check for fiscal year selection and create if not.
-        return redirect()->route('taxpayer.dashboard', $taxPayer);
+        return redirect()->route('taxpayer.dashboard', [$taxPayer, $cycle]);
     }
 }

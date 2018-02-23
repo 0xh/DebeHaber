@@ -1,10 +1,8 @@
-
-
 @extends('spark::layouts.dashboard')
 
-@section('content')
+@section('title', request()->route('taxPayer')->alias . ' Dashboard')
 
-    <h4>This is the <u>{{ request()->route('taxPayer')->alias }}</u> Dashboard</h4>
+@section('content')
 
     <div class="m-portlet ">
         <div class="m-portlet__body  m-portlet__body--no-padding">
@@ -53,7 +51,8 @@
             <br>
 
             <span class="m-widget24__desc">
-                {{-- <a href="{{route('sales.index', request()->route('company'))}}"> --}}
+                {{-- <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}"> --}}
+
                 {{-- {{ $startDate->format('F') }} / {{ $startDate->year }} --}}
             </a>
         </span>
@@ -76,19 +75,19 @@
         {{-- @else --}}
         <div class="m-nav-grid m-nav-grid--skin-light">
             <div class="m-nav-grid__row background-sales">
-                {{-- <a href="{{route('sales.create', request()->route('company'))}}" class="m-nav-grid__item padding-40-5"> --}}
-                <img src="/img/icons/ventas.svg" alt="" width="64">
-                <span class="m-nav-grid__text">
-                    <p class="lead">
-                        Faltan cargar Ventas
-                    </p>
-                    Empiece Aqui
-                </span>
-            </a>
+                <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
+                    <img src="/img/icons/ventas.svg" alt="" width="64">
+                    <span class="m-nav-grid__text">
+                        <p class="lead">
+                            Faltan cargar Ventas
+                        </p>
+                        Empiece Aqui
+                    </span>
+                </a>
+            </div>
         </div>
+        {{-- @endif --}}
     </div>
-    {{-- @endif --}}
-</div>
 </div>
 </div>
 <div class="col-md-12 col-lg-6 col-xl-3">
@@ -121,19 +120,19 @@
         {{-- @else --}}
         <div class="m-nav-grid m-nav-grid--skin-light">
             <div class="m-nav-grid__row background-sales">
-                {{-- <a href="{{route('purchases.create', request()->route('company'))}}" class="m-nav-grid__item padding-40-5"> --}}
-                <img src="/img/icons/compras.svg" alt="" width="64">
-                <span class="m-nav-grid__text">
-                    <p class="lead">
-                        Faltan cargar Compras
-                    </p>
-                    Empiece Aqui
-                </span>
-            </a>
+                <a href="{{route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
+                    <img src="/img/icons/compras.svg" alt="" width="64">
+                    <span class="m-nav-grid__text">
+                        <p class="lead">
+                            Faltan cargar Compras
+                        </p>
+                        Empiece Aqui
+                    </span>
+                </a>
+            </div>
         </div>
+        {{-- @endif --}}
     </div>
-    {{-- @endif --}}
-</div>
 </div>
 <!--end::New Feedbacks-->
 </div>

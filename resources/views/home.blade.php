@@ -1,6 +1,7 @@
 
-
 @extends('spark::layouts.dashboard')
+
+@section('title', 'Team Dashboard')
 
 @section('content')
 
