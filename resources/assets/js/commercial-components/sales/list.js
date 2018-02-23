@@ -26,6 +26,9 @@ Vue.component('sales-list',{
                     inputFormat: 'YYYY-MM-DD',
                     outputFormat: 'MMM Do YY',
                 },
+                {
+                    label: 'Action',
+                },
 
             ],
             rows: [

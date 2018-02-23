@@ -90926,6 +90926,8 @@ Vue.component('sales-list', {
                 type: 'date',
                 inputFormat: 'YYYY-MM-DD',
                 outputFormat: 'MMM Do YY'
+            }, {
+                label: 'Action'
             }],
             rows: []
         };
