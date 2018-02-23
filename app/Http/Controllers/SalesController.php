@@ -7,6 +7,7 @@ use App\Cycle;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
+use DB;
 
 class SalesController extends Controller
 {
@@ -22,7 +23,24 @@ class SalesController extends Controller
 
     public function get_sales($taxPayerID)
     {
-        $Transaction = Transaction::where('supplier_id', $taxPayerID)->with('details')->get();
+        $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')->where('supplier_id', $taxPayerID)->with('details')
+        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as Customer
+        ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
+        ,number,transactions.code,code_expiry'))
+        ->get();
+        return response()->json($Transaction);
+    }
+    public function get_salesByID($taxPayerID,$id)
+    {
+        $Transaction = Transaction::
+        Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->where('supplier_id', $taxPayerID)
+        ->where('transactions.id', $id)
+        ->with('details')
+        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as customer
+        ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
+        ,number,transactions.code,code_expiry'))
+        ->get();
         return response()->json($Transaction);
     }
 
@@ -54,8 +72,8 @@ class SalesController extends Controller
             $Transaction = Transaction::where('id', $request->id)->first();
         }
 
-        $Transaction->customer_id = $taxPayer->id;
-        $Transaction->supplier_id = $request->supplier_id;
+        $Transaction->customer_id = $request->supplier_id;
+        $Transaction->supplier_id =$taxPayer->id ;
         $Transaction->document_id = $request->document_id;
         $Transaction->currency_id = $request->currency_id;
         $Transaction->rate = $request->rate;
