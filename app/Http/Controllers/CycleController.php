@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Taxpayer;
 use App\Cycle;
 use Illuminate\Http\Request;
 
@@ -12,21 +13,24 @@ class CycleController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function index($taxpayer)
+    public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-
         return view('accounting/cycles');
     }
 
-    public function get_cycle($teamID)
+    public function get_cycle($taxPayerID)
     {
-        $Cycle = Cycle::where('cycles.taxpayer_id',$teamID)->
-        Join('chart_versions', 'cycles.chart_version_id', 'chart_versions.id')
-        ->select('cycles.id','cycles.year','cycles.start_date','cycles.end_date'
-        ,'chart_versions.name as chart_version_name','chart_versions.id as chart_version_id')
+        $cycle = Cycle::where('cycles.taxpayer_id', $taxPayerID)
+        ->join('chart_versions', 'cycles.chart_version_id', 'chart_versions.id')
+        ->select('cycles.id',
+        'cycles.year',
+        'cycles.start_date',
+        'cycles.end_date',
+        'chart_versions.name as chart_version_name',
+        'chart_versions.id as chart_version_id')
         ->get();
 
-        return response()->json($Cycle);
+        return response()->json($cycle);
     }
 
     /**
@@ -47,20 +51,21 @@ class CycleController extends Controller
     */
     public function store(Request $request)
     {
-
-        if ($request->id==0) {
+        if ($request->id == 0)
+        {
             $Cycle= new Cycle();
-
         }
-        else {
+        else
+        {
             $Cycle= Cycle::where('id',$request->id)->first();
-
         }
+
         $Cycle->chart_version_id=$request->chart_version_id;
         $Cycle->year=$request->year;
         $Cycle->start_date=$request->start_date;
         $Cycle->end_date=$request->end_date;
         $Cycle->save();
+
         return response()->json('ok');
     }
 
