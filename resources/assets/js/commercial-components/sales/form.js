@@ -136,22 +136,7 @@ Vue.component('sales-form',{
                 {
                     if (data=='ok')
                     {
-                        app.id = 0;
-                        app.type = null;
-                        app.customer_id = null;
-                        app.supplier_id = null;
-                        app.document_id = null;
-                        app.currency_id = null;
-                        app.rate = null;
-                        app.payment_condition = null;
-                        app.chart_account_id = null;
-                        app.date = null;
-                        app.number = null;
-                        app.code = null;
-                        app.code_expiry = null;
-                        app.comment = null;
-                        app.ref_id = null;
-                        app.details = [];
+                        app.reset();
                         app.init();
                     }
                     else
@@ -188,6 +173,26 @@ Vue.component('sales-form',{
             app.details=data.details;
             app.$children[0].selectText=data.customer;
         },
+        onReset: function()
+        {
+            var app=this;
+            app.id = 0;
+            app.type = null;
+            app.customer_id = null;
+            app.supplier_id = null;
+            app.document_id = null;
+            app.currency_id = null;
+            app.rate = null;
+            app.payment_condition = null;
+            app.chart_account_id = null;
+            app.date = null;
+            app.number = null;
+            app.code = null;
+            app.code_expiry = null;
+            app.comment = null;
+            app.ref_id = null;
+            app.details = [];
+        },
         getDocuments: function(data)
         {
             var app=this;
@@ -210,6 +215,11 @@ Vue.component('sales-form',{
                     console.log(xhr.responseText);
                 }
             });
+        },
+        cancel()
+        {
+            var app=this;
+            app.$parent.status=0;
         },
         getCurrencies: function(data)
         {

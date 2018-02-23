@@ -38,6 +38,17 @@ Vue.component('sales-list',{
     },
 
     methods: {
+        add()
+        {
+            var app=this;
+            app.$parent.status=1;
+            console.log(app.$parent.$children[0]);
+            //app.$parent.$children[0].onReset();
+
+
+
+        },
+
         init(){
             var app = this;
             $.ajax({
@@ -83,7 +94,7 @@ Vue.component('sales-list',{
         {
 
             var app = this;
-            app.$parent.$children[0].id = data.id;
+            app.$parent.status=1;
             $.ajax({
                 url: '/api/get_salesByID/' + app.taxpayer + '/' + data.id,
                 type: 'get',
@@ -94,7 +105,7 @@ Vue.component('sales-list',{
 
 
                     app.$parent.$children[0].onEdit(data[0]);
-                    
+
 
                 },
                 error: function(xhr, status, error)

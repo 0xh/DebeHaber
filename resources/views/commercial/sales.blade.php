@@ -9,8 +9,12 @@
 @section('form')
   <form-list  inline-template>
     <div>
-      @include('commercial/sales/form')
-      @include('commercial/sales/list')
+      <div v-if="status===1">
+        @include('commercial/sales/form')
+      </div>
+      <div v-if="status===0">
+        @include('commercial/sales/list')
+      </div>
     </div>
   </form-list>
 

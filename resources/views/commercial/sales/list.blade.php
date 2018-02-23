@@ -3,6 +3,7 @@
 
 <sales-list :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
     <div>
+      <button @click="add()">add new</button>
         <vue-good-table
         :columns="columns"
         :rows="rows"

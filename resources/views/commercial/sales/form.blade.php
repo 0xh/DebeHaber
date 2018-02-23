@@ -230,7 +230,7 @@
         <button v-on:click="onSave($data,true,'')" class="btn btn-primary">
             Guardar & New
         </button>
-        <button v-on:click="onSave($data)" class="btn btn-default">
+        <button v-on:click="cancel()" class="btn btn-default">
             Cancelar
         </button>
     </div>
