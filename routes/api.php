@@ -18,6 +18,7 @@ Route::get('/get_chartversion/{teamID}', 'ChartVersionController@get_chartversio
 Route::get('/get_product/{teamID}', 'ChartController@get_product');
 Route::get('/get_tax/{teamID}', 'ChartController@get_tax');
 Route::get('/get_sales/{teamID}', 'SalesController@get_sales');
+Route::get('/get_salesByID/{teamID}/{id}', 'SalesController@get_salesByID');
 Route::get('/get_currency/{teamID}', 'CurrencyController@get_currency');
 Route::get('/get_document/{type}/{teamID}', 'DocumentController@get_document');
 Route::get('/get_taxpayer/{teamID}', 'TaxpayerController@get_taxpayer');
