@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<transaction :trantype ="1" :taxpayer="{{ request()->route('taxPayer')}}"  inline-template>
+<sales-form :trantype ="1" :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
     <div>
         <div class="row">
             <div class="col-6">
@@ -234,4 +234,4 @@
             Cancelar
         </button>
     </div>
-</transaction>
+</sales-form>

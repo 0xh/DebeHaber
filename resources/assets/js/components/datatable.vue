@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <vue-good-table
@@ -27,3 +26,88 @@
     </template>
   </vue-good-table>
 </div>
+</template>
+
+<script>
+
+
+export default {
+
+  props: ['taxpayer'],
+  data(){
+    return {
+      columns: [
+        {
+          label: 'SelectAll',
+          sortable: false,
+        },
+        {
+          label: 'Code',
+          field: 'code',
+          filterable: true,
+        },
+        {
+          label: 'Number',
+          field: 'number',
+          filterable: true,
+        },
+        {
+          label: 'Date',
+          field: 'date',
+          type: 'date',
+          inputFormat: 'YYYY-MM-DD',
+          outputFormat: 'MMM Do YY',
+        },
+
+      ],
+      rows: [
+
+      ],
+    };
+  },
+
+  methods: {
+    init(){
+      var app = this;
+      $.ajax({
+        url: '/api/get_sales/' + this.taxpayer,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function(data)
+        {
+          app.list = [];
+          for(let i = 0; i < data.length; i++)
+          {
+            app.rows.push({selected: false,id : data[i]['id'],
+            date : data[i]['date'],
+            number : data[i]['number'],
+            code : data[i]['code']});
+          }
+        },
+        error: function(xhr, status, error)
+        {
+          console.log(status);
+        }
+      });
+    },
+    toggleSelectAll() {
+      this.allSelected = !this.allSelected;
+      this.rows.forEach(row => {
+        if(this.allSelected){
+          row.selected = true;
+        }else{
+          row.selected = false;
+        }
+      })
+    }
+  },
+
+  mounted: function mounted()
+  {
+    var app=this;
+    this.init()
+
+  }
+};
+</script>

@@ -20,7 +20,7 @@ class CycleController extends Controller
 
     public function get_cycle($teamID)
     {
-        $Cycle = Cycle::where('taxpayer_id',$teamID)->
+        $Cycle = Cycle::where('cycles.taxpayer_id',$teamID)->
         Join('chart_versions', 'cycles.chart_version_id', 'chart_versions.id')
         ->select('cycles.id','cycles.year','cycles.start_date','cycles.end_date'
         ,'chart_versions.name as chart_version_name','chart_versions.id as chart_version_id')

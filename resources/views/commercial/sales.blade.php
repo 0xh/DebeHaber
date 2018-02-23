@@ -7,8 +7,11 @@
 @endsection
 
 @section('form')
-
-    @include('commercial/purchase/form')
-    @include('commercial/purchase/list')
+  <form-list  inline-template>
+    <div>
+      @include('commercial/sales/form')
+      @include('commercial/sales/list')
+    </div>
+  </form-list>
 
 @endsection

@@ -1908,6 +1908,115 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/datatable.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+  props: ['taxpayer'],
+  data: function data() {
+    return {
+      columns: [{
+        label: 'SelectAll',
+        sortable: false
+      }, {
+        label: 'Code',
+        field: 'code',
+        filterable: true
+      }, {
+        label: 'Number',
+        field: 'number',
+        filterable: true
+      }, {
+        label: 'Date',
+        field: 'date',
+        type: 'date',
+        inputFormat: 'YYYY-MM-DD',
+        outputFormat: 'MMM Do YY'
+      }],
+      rows: []
+    };
+  },
+
+
+  methods: {
+    init: function init() {
+      var app = this;
+      $.ajax({
+        url: '/api/get_sales/' + this.taxpayer,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+          app.list = [];
+          for (var i = 0; i < data.length; i++) {
+            app.rows.push({ selected: false, id: data[i]['id'],
+              date: data[i]['date'],
+              number: data[i]['number'],
+              code: data[i]['code'] });
+          }
+        },
+        error: function error(xhr, status, _error) {
+          console.log(status);
+        }
+      });
+    },
+    toggleSelectAll: function toggleSelectAll() {
+      var _this = this;
+
+      this.allSelected = !this.allSelected;
+      this.rows.forEach(function (row) {
+        if (_this.allSelected) {
+          row.selected = true;
+        } else {
+          row.selected = false;
+        }
+      });
+    }
+  },
+
+  mounted: function mounted() {
+    var app = this;
+    this.init();
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/searchbox.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -89727,6 +89836,221 @@ Vue.component('debit-note-list', {
 
 /***/ }),
 
+/***/ "./resources/assets/js/commercial-components/formlist/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/commercial-components/formlist/formlist.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/commercial-components/formlist/formlist.js":
+/***/ (function(module, exports) {
+
+
+Vue.component('form-list', {
+    data: function data() {
+        return {};
+    },
+    created: function created() {},
+
+
+    methods: {
+        onLoad: function onLoad() {
+            var options = {
+                data: {
+                    type: 'remote',
+                    source: {
+                        read: {
+                            url: '/api/get_sales/' + this.taxpayer,
+                            method: 'GET',
+                            // custom headers
+                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
+                            params: {
+                                // custom query params
+                                query: {
+                                    //  taxPayerID: this.taxpayer
+                                    //  someParam: 'someValue',
+                                    //  token: 'token-value'
+                                }
+                            },
+                            map: function map(raw) {
+                                // sample data mapping
+                                var dataSet = raw;
+                                if (typeof raw.data !== 'undefined') {
+                                    dataSet = raw.data;
+                                }
+                                return dataSet;
+                            }
+                        }
+                    },
+                    pageSize: 10,
+                    saveState: {
+                        cookie: true,
+                        webstorage: true
+                    },
+
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
+                },
+
+                layout: {
+                    theme: 'default',
+                    class: 'm-datatable--brand',
+                    scroll: false,
+                    height: null,
+                    footer: false,
+                    header: true,
+
+                    smoothScroll: {
+                        scrollbarShown: true
+                    },
+
+                    spinner: {
+                        overlayColor: '#000000',
+                        opacity: 0,
+                        type: 'loader',
+                        state: 'brand',
+                        message: true
+                    },
+
+                    icons: {
+                        sort: { asc: 'la la-arrow-up', desc: 'la la-arrow-down' },
+                        pagination: {
+                            next: 'la la-angle-right',
+                            prev: 'la la-angle-left',
+                            first: 'la la-angle-double-left',
+                            last: 'la la-angle-double-right',
+                            more: 'la la-ellipsis-h'
+                        },
+                        rowDetail: { expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right' }
+                    }
+                },
+
+                sortable: false,
+
+                pagination: true,
+
+                search: {
+                    // enable trigger search by keyup enter
+                    onEnter: false,
+                    // input text for search
+                    input: $('#generalSearch'),
+                    // search delay in milliseconds
+                    delay: 400
+                },
+
+                detail: {
+                    title: 'Load sub table',
+                    content: function content(e) {
+                        // e.data
+                        // e.detailCell
+                    }
+                },
+
+                rows: {
+                    callback: function callback() {},
+                    // auto hide columns, if rows overflow. work on non locked columns
+                    autoHide: false
+                },
+
+                // columns definition
+                columns: [{
+                    field: "RecordID",
+                    title: "#",
+                    locked: { left: 'xl' },
+                    sortable: false,
+                    width: 40,
+                    selector: { class: 'm-checkbox--solid m-checkbox--brand' }
+                }, {
+                    field: "id",
+                    title: "id",
+                    sortable: 'asc',
+                    filterable: false,
+                    width: 150,
+                    responsive: { visible: 'lg' },
+                    locked: { left: 'xl' },
+                    template: '{{id}}'
+                }, {
+                    field: "code",
+                    title: "code",
+                    width: 150,
+                    overflow: 'visible',
+                    template: function template(row) {
+                        return row.code;
+                    }
+                }],
+
+                toolbar: {
+                    layout: ['pagination', 'info'],
+
+                    placement: ['bottom'], //'top', 'bottom'
+
+                    items: {
+                        pagination: {
+                            type: 'default',
+
+                            pages: {
+                                desktop: {
+                                    layout: 'default',
+                                    pagesNumber: 6
+                                },
+                                tablet: {
+                                    layout: 'default',
+                                    pagesNumber: 3
+                                },
+                                mobile: {
+                                    layout: 'compact'
+                                }
+                            },
+
+                            navigation: {
+                                prev: true,
+                                next: true,
+                                first: true,
+                                last: true
+                            },
+
+                            pageSizeSelect: [10, 20, 30, 50, 100]
+                        },
+
+                        info: true
+                    }
+                },
+
+                translate: {
+                    records: {
+                        processing: 'Please wait...',
+                        noRecords: 'No records found'
+                    },
+                    toolbar: {
+                        pagination: {
+                            items: {
+                                default: {
+                                    first: 'First',
+                                    prev: 'Previous',
+                                    next: 'Next',
+                                    last: 'Last',
+                                    more: 'More pages',
+                                    input: 'Page number',
+                                    select: 'Select page size'
+                                },
+                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
+                            }
+                        }
+                    }
+                }
+            };
+
+            var datatable = $('.my_datatable').mDatatable(options);
+        }
+    },
+
+    mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/commercial-components/purchase/bootstrap.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -90581,207 +90905,113 @@ Vue.component('sales-form', {
 
 
 Vue.component('sales-list', {
+
     props: ['taxpayer'],
     data: function data() {
-        return {};
+        return {
+            columns: [{
+                label: 'SelectAll',
+                sortable: false
+            }, {
+                label: 'Code',
+                field: 'code',
+                filterable: true
+            }, {
+                label: 'Number',
+                field: 'number',
+                filterable: true
+            }, {
+                label: 'Date',
+                field: 'date',
+                type: 'date',
+                inputFormat: 'YYYY-MM-DD',
+                outputFormat: 'MMM Do YY'
+            }],
+            rows: []
+        };
     },
-    created: function created() {},
 
 
     methods: {
-        onLoad: function onLoad() {
-            var options = {
-                data: {
-                    type: 'remote',
-                    source: {
-                        read: {
-                            url: '/api/get_sales/' + this.taxpayer,
-                            method: 'GET',
-                            // custom headers
-                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
-                            params: {
-                                // custom query params
-                                query: {
-                                    //  taxPayerID: this.taxpayer
-                                    //  someParam: 'someValue',
-                                    //  token: 'token-value'
-                                }
-                            },
-                            map: function map(raw) {
-                                // sample data mapping
-                                var dataSet = raw;
-                                if (typeof raw.data !== 'undefined') {
-                                    dataSet = raw.data;
-                                }
-                                return dataSet;
-                            }
-                        }
-                    },
-                    pageSize: 10,
-                    saveState: {
-                        cookie: true,
-                        webstorage: true
-                    },
+        init: function init() {
+            var app = this;
+            $.ajax({
+                url: '/api/get_sales/' + app.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
 
-                    serverPaging: false,
-                    serverFiltering: false,
-                    serverSorting: false
-                },
-
-                layout: {
-                    theme: 'default',
-                    class: 'm-datatable--brand',
-                    scroll: false,
-                    height: null,
-                    footer: false,
-                    header: true,
-
-                    smoothScroll: {
-                        scrollbarShown: true
-                    },
-
-                    spinner: {
-                        overlayColor: '#000000',
-                        opacity: 0,
-                        type: 'loader',
-                        state: 'brand',
-                        message: true
-                    },
-
-                    icons: {
-                        sort: { asc: 'la la-arrow-up', desc: 'la la-arrow-down' },
-                        pagination: {
-                            next: 'la la-angle-right',
-                            prev: 'la la-angle-left',
-                            first: 'la la-angle-double-left',
-                            last: 'la la-angle-double-right',
-                            more: 'la la-ellipsis-h'
-                        },
-                        rowDetail: { expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right' }
+                    app.rows = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.rows.push({
+                            selected: false,
+                            id: data[i]['id'],
+                            type: data[i]['type'],
+                            customer_id: data[i]['customer_id'],
+                            supplier_id: data[i]['supplier_id'],
+                            document_id: data[i]['document_id'],
+                            currency_id: data[i]['currency_id'],
+                            rate: data[i]['rate'],
+                            payment_condition: data[i]['payment_condition'],
+                            chart_account_id: data[i]['chart_account_id'],
+                            date: data[i]['date'],
+                            number: data[i]['number'],
+                            code: data[i]['code'],
+                            code_expiry: data[i]['code_expiry'],
+                            comment: data[i]['comment'],
+                            ref_id: data[i]['ref_id'],
+                            details: data[i]['details']
+                        });
                     }
                 },
-
-                sortable: false,
-
-                pagination: true,
-
-                search: {
-                    // enable trigger search by keyup enter
-                    onEnter: false,
-                    // input text for search
-                    input: $('#generalSearch'),
-                    // search delay in milliseconds
-                    delay: 400
-                },
-
-                detail: {
-                    title: 'Load sub table',
-                    content: function content(e) {
-                        // e.data
-                        // e.detailCell
-                    }
-                },
-
-                rows: {
-                    callback: function callback() {},
-                    // auto hide columns, if rows overflow. work on non locked columns
-                    autoHide: false
-                },
-
-                // columns definition
-                columns: [{
-                    field: "RecordID",
-                    title: "#",
-                    locked: { left: 'xl' },
-                    sortable: false,
-                    width: 40,
-                    selector: { class: 'm-checkbox--solid m-checkbox--brand' }
-                }, {
-                    field: "id",
-                    title: "id",
-                    sortable: 'asc',
-                    filterable: false,
-                    width: 150,
-                    responsive: { visible: 'lg' },
-                    locked: { left: 'xl' },
-                    template: '{{id}}'
-                }, {
-                    field: "code",
-                    title: "code",
-                    width: 150,
-                    overflow: 'visible',
-                    template: function template(row) {
-                        return row.code;
-                    }
-                }],
-
-                toolbar: {
-                    layout: ['pagination', 'info'],
-
-                    placement: ['bottom'], //'top', 'bottom'
-
-                    items: {
-                        pagination: {
-                            type: 'default',
-
-                            pages: {
-                                desktop: {
-                                    layout: 'default',
-                                    pagesNumber: 6
-                                },
-                                tablet: {
-                                    layout: 'default',
-                                    pagesNumber: 3
-                                },
-                                mobile: {
-                                    layout: 'compact'
-                                }
-                            },
-
-                            navigation: {
-                                prev: true,
-                                next: true,
-                                first: true,
-                                last: true
-                            },
-
-                            pageSizeSelect: [10, 20, 30, 50, 100]
-                        },
-
-                        info: true
-                    }
-                },
-
-                translate: {
-                    records: {
-                        processing: 'Please wait...',
-                        noRecords: 'No records found'
-                    },
-                    toolbar: {
-                        pagination: {
-                            items: {
-                                default: {
-                                    first: 'First',
-                                    prev: 'Previous',
-                                    next: 'Next',
-                                    last: 'Last',
-                                    more: 'More pages',
-                                    input: 'Page number',
-                                    select: 'Select page size'
-                                },
-                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
-                            }
-                        }
-                    }
+                error: function error(xhr, status, _error) {
+                    console.log(status);
                 }
-            };
+            });
+        },
 
-            var datatable = $('.my_datatable').mDatatable(options);
+        onEdit: function onEdit(data) {
+
+            var app = this;
+            app.$parent.$children[0].id = data.id;
+            app.$parent.$children[0].type = data.type;
+            app.$parent.$children[0].customer_id = data.customer_id;
+            app.$parent.$children[0].supplier_id = data.supplier_id;
+            app.$parent.$children[0].document_id = data.document_id;
+            app.$parent.$children[0].currency_id = data.currency_id;
+            app.$parent.$children[0].rate = data.rate;
+            app.$parent.$children[0].payment_condition = data.payment_condition;
+            if (data.chart_account_id != null) {
+                app.$parent.$children[0].chart_account_id = data.chart_account_id;
+            }
+            app.$parent.$children[0].date = data.date;
+            app.$parent.$children[0].number = data.number;
+            app.$parent.$children[0].code = data.code;
+            app.$parent.$children[0].code_expiry = data.code_expiry;
+            app.$parent.$children[0].comment = data.comment;
+            if (data.ref_id != null) {
+                app.$parent.$children[0].ref_id = data.ref_id;
+            }
+            app.$parent.$children[0].details = data.details;
+        },
+        toggleSelectAll: function toggleSelectAll() {
+            var _this = this;
+
+            this.allSelected = !this.allSelected;
+            this.rows.forEach(function (row) {
+                if (_this.allSelected) {
+                    row.selected = true;
+                } else {
+                    row.selected = false;
+                }
+            });
         }
     },
 
     mounted: function mounted() {
-        this.onLoad();
+        var app = this;
+        this.init();
     }
 });
 
@@ -90813,6 +91043,7 @@ __webpack_require__("./resources/assets/js/commercial-components/credit-note/boo
 __webpack_require__("./resources/assets/js/commercial-components/debit-note/bootstrap.js");
 __webpack_require__("./resources/assets/js/commercial-components/purchase/bootstrap.js");
 __webpack_require__("./resources/assets/js/commercial-components/sales/bootstrap.js");
+__webpack_require__("./resources/assets/js/commercial-components/formlist/bootstrap.js");
 
 //Configuration
 __webpack_require__("./resources/assets/js/configuration-components/taxpayer/bootstrap.js");
@@ -90828,7 +91059,7 @@ __webpack_require__("./resources/assets/js/components/home.js");
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/datatable.vue")
 /* template */
 var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-19313f1d\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/datatable.vue")
 /* template functional */

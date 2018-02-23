@@ -44,6 +44,7 @@ class SalesController extends Controller
     */
     public function store(Request $request,Taxpayer $taxPayer)
     {
+
         if ($request->id == 0)
         {
             $Transaction = new Transaction();
@@ -71,13 +72,13 @@ class SalesController extends Controller
 
         foreach ($request->details as $detail)
         {
-            if ($request->id == 0)
+            if ($detail['id'] == 0)
             {
                 $TransactionDetail = new TransactionDetail();
             }
             else
             {
-                $TransactionDetail = TransactionDetail::where('id',$request->id)->first();
+                $TransactionDetail = TransactionDetail::where('id',$detail['id'])->first();
             }
 
             $TransactionDetail->transaction_id = $Transaction->id;
@@ -86,6 +87,7 @@ class SalesController extends Controller
             $TransactionDetail->value = $detail['value'];
             $TransactionDetail->save();
         }
+        return response()->json('ok');
     }
 
     /**
