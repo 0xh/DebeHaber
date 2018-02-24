@@ -266,6 +266,52 @@
                             </div>
                         </div>
                     </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h3> Paraguay </h3>
+                            <p class="lead"> Special reports from your country </p>
+
+                            <div class="m-widget4">
+                                <div class="m-widget4__item">
+                                    <div class="m-widget4__img m-widget4__img--icon">
+                                        <img src="/img/icons/clouds.svg" alt="">
+                                    </div>
+                                    <div class="m-widget4__info">
+                                        <span class="m-widget4__text">
+                                            <a href="#">Hechauka</a>
+                                            <br>
+                                            <small>Download your files</small>
+                                        </span>
+                                    </div>
+                                    <div class="m-widget4__ext">
+                                        <a href="#" class="m-widget4__icon">
+                                            <i class="la la-download"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="m-widget4__item">
+                                    <div class="m-widget4__img m-widget4__img--icon">
+                                        <img src="/img/icons/clouds.svg" alt="">
+                                    </div>
+                                    <div class="m-widget4__info">
+                                        <span class="m-widget4__text">
+                                            <a href="#">Aranduka</a>
+                                            <br>
+                                            <small>Download your files</small>
+                                        </span>
+                                    </div>
+                                    <div class="m-widget4__ext">
+                                        <a href="#" class="m-widget4__icon">
+                                            <i class="la la-download"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane" id="m_tabs_6_2" role="tabpanel">
                     It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
