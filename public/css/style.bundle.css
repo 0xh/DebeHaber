@@ -66,7 +66,7 @@ $table-inverse-color:           $body-bg !default;
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Open Sans, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
 *,
@@ -12119,7 +12119,7 @@ b, strong {
     display: block;
     margin: 0 0 20px 0;
     padding: 0;
-    font-family: "Roboto";
+    font-family: "Open Sans";
     font-weight: 500; }
   .m-section h4.m-section__heading {
     font-size: 1.1rem; }
@@ -16807,19 +16807,19 @@ code {
           vertical-align: middle;
           font-size: 1.3rem;
           font-weight: 500;
-          font-family: Roboto; }
+          font-family: Open Sans; }
           .m-portlet .m-portlet__head .m-portlet__head-caption .m-portlet__head-title .m-portlet__head-text small {
             display: inline-block;
             padding-left: 5px;
             font-size: 1rem;
             font-weight: 300;
-            font-family: Roboto; }
+            font-family: Open Sans; }
           .m-portlet .m-portlet__head .m-portlet__head-caption .m-portlet__head-title .m-portlet__head-text .m-portlet__head-desc {
             margin-top: 0.4rem;
             display: block;
             font-size: 0.85rem;
             font-weight: 300;
-            font-family: Roboto; }
+            font-family: Open Sans; }
     .m-portlet .m-portlet__head .m-portlet__head-tools {
       text-align: right;
       display: table-cell;
@@ -34865,10 +34865,9 @@ body.m-page--boxed {
   .m-subheader .m-subheader__title {
     display: inline-block;
     padding: 7px 25px 7px 0;
-    font-family: Roboto;
-    font-weight: 300;
+    font-family: "Open Sans";
     font-size: 1.55rem;
-    font-weight: 500;
+    font-weight: 600;
     vertical-align: middle;
     margin: 0 15px 0 0;
     color: #3f4047; }

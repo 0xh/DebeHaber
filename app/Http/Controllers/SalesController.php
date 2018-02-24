@@ -23,13 +23,15 @@ class SalesController extends Controller
 
     public function get_sales($taxPayerID)
     {
-        $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')->where('supplier_id', $taxPayerID)->with('details')
+        $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->where('supplier_id', $taxPayerID)->with('details')
         ->select(DB::raw('false as selected,transactions.id,taxpayers.name as Customer
         ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
         ,number,transactions.code,code_expiry'))
         ->get();
         return response()->json($Transaction);
     }
+
     public function get_salesByID($taxPayerID,$id)
     {
         $Transaction = Transaction::

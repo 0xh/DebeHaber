@@ -66,7 +66,7 @@
                                 </h3>
 
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="inner.html" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.SalesVAT')
@@ -286,16 +286,16 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
-                                        {{-- <i class="m-menu__link-icon flaticon-graphic-1"></i> --}}
+                                    <a href="inner.html" class="m-menu__link ">
+                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.JournalEntires')
                                         </span>
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
-                                        {{-- <i class="m-menu__link-icon flaticon-graphic-1"></i> --}}
+                                    <a href="inner.html" class="m-menu__link ">
+                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.GroupJournalEntries')
                                         </span>
@@ -303,7 +303,7 @@
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a  href="inner.html" class="m-menu__link ">
-                                        {{-- <i class="m-menu__link-icon flaticon-graphic-1"></i> --}}
+                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.BalanceSheet')
                                         </span>
@@ -311,31 +311,31 @@
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a  href="inner.html" class="m-menu__link ">
-                                        {{-- <i class="m-menu__link-icon flaticon-graphic-1"></i> --}}
+                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.BalanceSheet(Comparative)')
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                <li class="m-menu__item"  data-redirect="true" aria-haspopup="true">
                                     <a  href="inner.html" class="m-menu__link ">
-                                        {{-- <i class="m-menu__link-icon flaticon-graphic-1"></i> --}}
+                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.IncomeStatement')
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
-                                        {{-- <i class="m-menu__link-icon flaticon-graphic-1"></i> --}}
+                                <li class="m-menu__item" data-redirect="true" aria-haspopup="true">
+                                    <a href="inner.html" class="m-menu__link ">
+                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.StatementofCashflows')
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
-                                        {{-- <i class="m-menu__link-icon flaticon-graphic-1"></i> --}}
+                                <li class="m-menu__item"  data-redirect="true" aria-haspopup="true">
+                                    <a href="inner.html" class="m-menu__link ">
+                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.StatementofRetainedEarnings')
                                         </span>
@@ -347,10 +347,9 @@
                 </div>
             </div>
         </li>
-        <li class="m-menu__item  m-menu__item--submenu">
-            <a  href="#" class="m-menu__link m-menu__toggle">
-                {{-- <span class="m-menu__item-here"></span> --}}
-                <i class="m-menu__link-icon la la-line-chart"></i>
+        <li class="m-menu__item"  data-redirect="true" aria-haspopup="true">
+            <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                <i class="m-menu__link-icon la la-pie-chart"></i>
                 <span class="m-menu__link-text">
                     @lang('global.Reports')
                 </span>

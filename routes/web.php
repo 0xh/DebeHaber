@@ -63,9 +63,9 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
         });
 
-        Route::prefix('/reports/{country?}')->group(function ()
+        Route::prefix('reports')->group(function ()
         {
-            Route::get('/', 'ReportController@index');
+            Route::get('/', 'ReportController@index')->name('reports.index');
 
             Route::get('hechauka/generate_files/{start_date}/{end_date}', 'HechaukaController@generateFiles');
 
