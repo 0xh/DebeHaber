@@ -136,22 +136,7 @@ Vue.component('debit-note-form',{
                 {
                     if (data=='ok')
                     {
-                        app.id = 0;
-                        app.type = null;
-                        app.customer_id = null;
-                        app.supplier_id = null;
-                        app.document_id = null;
-                        app.currency_id = null;
-                        app.rate = null;
-                        app.payment_condition = null;
-                        app.chart_account_id = null;
-                        app.date = null;
-                        app.number = null;
-                        app.code = null;
-                        app.code_expiry = null;
-                        app.comment = null;
-                        app.ref_id = null;
-                        app.details = [];
+                        app.reset();
                         app.init();
                     }
                     else
@@ -185,46 +170,28 @@ Vue.component('debit-note-form',{
             app.code_expiry = data.code_expiry;
             app.comment = data.comment;
             app.ref_id = data.ref_id;
+            app.details=data.details;
+            app.$children[0].selectText=data.customer;
         },
-        init(){
+        onReset: function()
+        {
             var app=this;
-            $.ajax({
-                url: '/api/get_sales/' + this.taxpayer ,
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.id = data.id;
-                    app.type = data.type;
-                    app.customer_id = data.customer_id;
-                    app.supplier_id = data.supplier_id;
-                    app.document_id = data.document_id;
-                    app.currency_id = data.currency_id;
-                    app.rate = data.rate;
-                    app.payment_condition = data.payment_condition;
-                    app.chart_account_id = data.chart_account_id;
-                    app.date = data.date;
-                    app.number = data.number;
-                    app.code = data.code;
-                    app.code_expiry = data.code_expiry;
-                    app.comment = data.comment;
-                    app.ref_id = data.ref_id;
-
-                    app.details = [];
-
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.details.push({transaction_id:data[i]['name'],chart_id:data[i]['id'],
-                        chart_vat_id:data[i]['chart_vat_id'],value: data[i]['value']   });
-                    }
-
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(status);
-                }
-            });
+            app.id = 0;
+            app.type = null;
+            app.customer_id = null;
+            app.supplier_id = null;
+            app.document_id = null;
+            app.currency_id = null;
+            app.rate = null;
+            app.payment_condition = null;
+            app.chart_account_id = null;
+            app.date = null;
+            app.number = null;
+            app.code = null;
+            app.code_expiry = null;
+            app.comment = null;
+            app.ref_id = null;
+            app.details = [];
         },
         getDocuments: function(data)
         {
@@ -248,6 +215,11 @@ Vue.component('debit-note-form',{
                     console.log(xhr.responseText);
                 }
             });
+        },
+        cancel()
+        {
+            var app=this;
+            app.$parent.status=0;
         },
         getCurrencies: function(data)
         {
@@ -344,7 +316,7 @@ Vue.component('debit-note-form',{
 
     mounted: function mounted()
     {
-        this.init()
+        //this.init()
         this.getDocuments();
         this.getCurrencies();
         this.getCharts();

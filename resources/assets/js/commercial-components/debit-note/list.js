@@ -1,212 +1,136 @@
 
 Vue.component('debit-note-list',{
+
     props: ['taxpayer'],
-    data () {
+    data(){
         return {
-
-        }
-    },
-    created() {
-
-    },
-
-    methods:
-    {
-        onLoad ()
-        {
-            var options = {
-                data: {
-                    type: 'remote',
-                    source: {
-                        read: {
-                            url: '/api/get_sales/' + this.taxpayer,
-                            method: 'GET',
-                            // custom headers
-                            //  headers: { 'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
-                            params: {
-                                // custom query params
-                                query: {
-                                    //  taxPayerID: this.taxpayer
-                                    //  someParam: 'someValue',
-                                    //  token: 'token-value'
-                                }
-                            },
-                            map: function(raw) {
-                                // sample data mapping
-                                var dataSet = raw;
-                                if (typeof raw.data !== 'undefined') {
-                                    dataSet = raw.data;
-                                }
-                                return dataSet;
-                            },
-                        }
-                    },
-                    pageSize: 10,
-                    saveState: {
-                        cookie: true,
-                        webstorage: true
-                    },
-
-                    serverPaging: false,
-                    serverFiltering: false,
-                    serverSorting: false
-                },
-
-                layout: {
-                    theme: 'default',
-                    class: 'm-datatable--brand',
-                    scroll: false,
-                    height: null,
-                    footer: false,
-                    header: true,
-
-                    smoothScroll: {
-                        scrollbarShown: true
-                    },
-
-                    spinner: {
-                        overlayColor: '#000000',
-                        opacity: 0,
-                        type: 'loader',
-                        state: 'brand',
-                        message: true
-                    },
-
-                    icons: {
-                        sort: {asc: 'la la-arrow-up', desc: 'la la-arrow-down'},
-                        pagination: {
-                            next: 'la la-angle-right',
-                            prev: 'la la-angle-left',
-                            first: 'la la-angle-double-left',
-                            last: 'la la-angle-double-right',
-                            more: 'la la-ellipsis-h'
-                        },
-                        rowDetail: {expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right'}
-                    }
-                },
-
-                sortable: false,
-
-                pagination: true,
-
-                search: {
-                    // enable trigger search by keyup enter
-                    onEnter: false,
-                    // input text for search
-                    input: $('#generalSearch'),
-                    // search delay in milliseconds
-                    delay: 400,
-                },
-
-                detail: {
-                    title: 'Load sub table',
-                    content: function (e) {
-                        // e.data
-                        // e.detailCell
-                    }
-                },
-
-                rows: {
-                    callback: function() {},
-                    // auto hide columns, if rows overflow. work on non locked columns
-                    autoHide: false,
-                },
-
-                // columns definition
-                columns: [{
-                    field: "RecordID",
-                    title: "#",
-                    locked: {left: 'xl'},
+            columns: [
+                {
+                    label: 'SelectAll',
                     sortable: false,
-                    width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'}
-                }, {
-                    field: "id",
-                    title: "id",
-                    sortable: 'asc',
-                    filterable: false,
-                    width: 150,
-                    responsive: {visible: 'lg'},
-                    locked: {left: 'xl'},
-                    template: '{{id}}'
-                }, {
-                    field: "code",
-                    title: "code",
-                    width: 150,
-                    overflow: 'visible',
-                    template: function (row) {
-                        return row.code;
-                    }
-                }],
-
-                toolbar: {
-                    layout: ['pagination', 'info'],
-
-                    placement: ['bottom'],  //'top', 'bottom'
-
-                    items: {
-                        pagination: {
-                            type: 'default',
-
-                            pages: {
-                                desktop: {
-                                    layout: 'default',
-                                    pagesNumber: 6
-                                },
-                                tablet: {
-                                    layout: 'default',
-                                    pagesNumber: 3
-                                },
-                                mobile: {
-                                    layout: 'compact'
-                                }
-                            },
-
-                            navigation: {
-                                prev: true,
-                                next: true,
-                                first: true,
-                                last: true
-                            },
-
-                            pageSizeSelect: [10, 20, 30, 50, 100]
-                        },
-
-                        info: true
-                    }
+                },
+                {
+                    label: 'Code',
+                    field: 'code',
+                    filterable: true,
+                },
+                {
+                    label: 'Number',
+                    field: 'number',
+                    filterable: true,
+                },
+                {
+                    label: 'Date',
+                    field: 'date',
+                    type: 'date',
+                    inputFormat: 'YYYY-MM-DD',
+                    outputFormat: 'MMM Do YY',
+                },
+                {
+                    label: 'Action',
                 },
 
-                translate: {
-                    records: {
-                        processing: 'Please wait...',
-                        noRecords: 'No records found'
-                    },
-                    toolbar: {
-                        pagination: {
-                            items: {
-                                default: {
-                                    first: 'First',
-                                    prev: 'Previous',
-                                    next: 'Next',
-                                    last: 'Last',
-                                    more: 'More pages',
-                                    input: 'Page number',
-                                    select: 'Select page size'
-                                },
-                                info: 'Displaying {{start}} - {{end}} of {{total}} records'
-                            }
-                        }
-                    }
+            ],
+            rows: [
+
+            ],
+        };
+    },
+
+    methods: {
+        add()
+        {
+            var app=this;
+            app.$parent.status=1;
+            console.log(app.$parent.$children[0]);
+            //app.$parent.$children[0].onReset();
+
+
+
+        },
+
+        init(){
+            var app = this;
+            $.ajax({
+                url: '/api/get_debit_note/' + app.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+
+                    app.rows = [];
+                    app.rows=data;
+                    // for(let i = 0; i < data.length; i++)
+                    // {
+                    //     app.rows.push({
+                    //         selected: false,
+                    //         id : data[i]['id'],
+                    //         type : data[i]['type'],
+                    //         customer_id : data[i]['customer_id'],
+                    //         supplier_id : data[i]['supplier_id'],
+                    //         document_id : data[i]['document_id'],
+                    //         currency_id : data[i]['currency_id'],
+                    //         rate : data[i]['rate'],
+                    //         payment_condition : data[i]['payment_condition'],
+                    //         chart_account_id : data[i]['chart_account_id'],
+                    //         date : data[i]['date'],
+                    //         number : data[i]['number'],
+                    //         code : data[i]['code'],
+                    //         code_expiry :data[i]['code_expiry'],
+                    //         comment :data[i]['comment'],
+                    //         ref_id :data[i]['ref_id'],
+                    //         details : data[i]['details']
+                    //     });
+                    // }
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(status);
                 }
-            }
+            });
+        },
+        onEdit: function(data)
+        {
 
-            var datatable = $('.my_datatable').mDatatable(options);
+            var app = this;
+            app.$parent.status=1;
+            $.ajax({
+                url: '/api/get_debit_notesByID/' + app.taxpayer + '/' + data.id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
 
+
+                    app.$parent.$children[0].onEdit(data[0]);
+
+
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(status);
+                }
+            });
+
+        },
+        toggleSelectAll() {
+            this.allSelected = !this.allSelected;
+            this.rows.forEach(row => {
+                if(this.allSelected){
+                    row.selected = true;
+                }else{
+                    row.selected = false;
+                }
+            })
         }
     },
 
     mounted: function mounted()
     {
-        this.onLoad();
+        var app=this;
+        this.init();
+
     }
 });

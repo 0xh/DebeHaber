@@ -30,6 +30,7 @@
     "vue-typeahead": "^2.3.2"
   },
   "devDependencies": {
+    "vuetable-2": "^1.7.5",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1",
     "wepback": "^1.0.0"

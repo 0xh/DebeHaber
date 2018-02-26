@@ -6,6 +6,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\Transaction;
 use Illuminate\Http\Request;
+use DB;
 
 class PurchaseController extends Controller
 {
@@ -17,6 +18,31 @@ class PurchaseController extends Controller
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
         return view('/commercial/purchases');
+    }
+
+    public function get_purchases($taxPayerID)
+    {
+        $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+        ->where('customer_id', $taxPayerID)->with('details')
+        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as Supplier
+        ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
+        ,number,transactions.code,code_expiry'))
+        ->get();
+        return response()->json($Transaction);
+    }
+
+    public function get_salesByID($taxPayerID,$id)
+    {
+        $Transaction = Transaction::
+        Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+        ->where('customer_id', $taxPayerID)
+        ->where('transactions.id', $id)
+        ->with('details')
+        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as supplier
+        ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
+        ,number,transactions.code,code_expiry'))
+        ->get();
+        return response()->json($Transaction);
     }
 
     /**

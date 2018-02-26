@@ -1,24 +1,47 @@
-<vuetable ref="vuetable"
-    api-url="/api/get_sales/3"
-    :fields="fields"
-    :sort-order="sortOrder"
-    :css="css.table"
-    pagination-path=""
-    :per-page="3"
-    @vuetable:pagination-data="onPaginationData"
-    @vuetable:loading="onLoading"
-    @vuetable:loaded="onLoaded"
-  >
-    <template slot="actions" scope="props">
-      <div class="table-button-container">
-          <button class="btn btn-warning btn-sm" @click="editRow(props.rowData)">
-            <span class="glyphicon glyphicon-pencil"></span> Edit</button>&nbsp;&nbsp;
-          <button class="btn btn-danger btn-sm" @click="deleteRow(props.rowData)">
-            <span class="glyphicon glyphicon-trash"></span> Delete</button>&nbsp;&nbsp;
-      </div>
-      </template>
-    </vuetable>
-    <vuetable-pagination ref="pagination"
-      :css="css.pagination"
-      @vuetable-pagination:change-page="onChangePage"
-    ></vuetable-pagination>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+{{-- <router-view name="Datatable"  :taxpayer="{{ request()->route('taxPayer')}}"  /> --}}
+
+<purchases-list :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
+    <div>
+      <button @click="add()">add new</button>
+        <vue-good-table
+        :columns="columns"
+        :rows="rows"
+        :paginate="true"
+        :globalSearch="true"
+        styleClass="m-datatable__table">
+
+        {{-- SelectAll --}}
+        <template slot="table-column" slot-scope="props">
+            <span v-if="props.column.label =='SelectAll'">
+                <label class="checkbox">
+                    <input
+                    type="checkbox"
+                    @click="toggleSelectAll()">
+                </label>
+            </span>
+            <span v-else>
+                @{{props.column.label}}
+            </span>
+        </template>
+
+        {{-- Action Buttons --}}
+        <template slot="table-row-after" slot-scope="props">
+            <button @click="onEdit(rows[props.row.originalIndex])">Edit</button>
+        </template>
+
+        {{-- Checkbox --}}
+        <template slot="table-row-before" slot-scope="props">
+            <td>
+                <label class="checkbox">
+                    <input type="checkbox" v-model="rows[props.row.originalIndex].selected">
+                </label>
+            </td>
+        </template>
+
+        <tr class="m-datatable__row">
+        </tr>
+
+    </vue-good-table>
+</div>
+</purchases-list>

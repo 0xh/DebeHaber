@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<transaction :trantype ="1" :taxpayer="{{ request()->route('taxPayer')}}"  inline-template>
+<purchases-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
     <div>
         <div class="row">
             <div class="col-6">
@@ -230,8 +230,8 @@
         <button v-on:click="onSave($data,true,'')" class="btn btn-primary">
             Guardar & New
         </button>
-        <button v-on:click="onSave($data)" class="btn btn-default">
+        <button v-on:click="cancel()" class="btn btn-default">
             Cancelar
         </button>
     </div>
-</transaction>
+</purchases-form>

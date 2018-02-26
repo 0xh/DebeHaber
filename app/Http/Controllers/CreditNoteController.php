@@ -6,6 +6,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\Transaction;
 use Illuminate\Http\Request;
+use DB;
 
 class CreditNoteController extends Controller
 {
@@ -18,7 +19,30 @@ class CreditNoteController extends Controller
     {
         return view('/commercial/creditnote');
     }
+    public function get_credit_note($taxPayerID)
+    {
+        $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->where('supplier_id', $taxPayerID)->with('details')
+        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as Customer
+        ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
+        ,number,transactions.code,code_expiry'))
+        ->get();
+        return response()->json($Transaction);
+    }
 
+    public function get_credit_noteByID($taxPayerID,$id)
+    {
+        $Transaction = Transaction::
+        Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->where('supplier_id', $taxPayerID)
+        ->where('transactions.id', $id)
+        ->with('details')
+        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as customer
+        ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
+        ,number,transactions.code,code_expiry'))
+        ->get();
+        return response()->json($Transaction);
+    }
     /**
     * Show the form for creating a new resource.
     *

@@ -1,81 +1,136 @@
-  Vue.use(Vuetable);
-Vue.component('purchase-list',{
 
+Vue.component('purchases-list',{
 
+    props: ['taxpayer'],
+    data(){
+        return {
+            columns: [
+                {
+                    label: 'SelectAll',
+                    sortable: false,
+                },
+                {
+                    label: 'Code',
+                    field: 'code',
+                    filterable: true,
+                },
+                {
+                    label: 'Number',
+                    field: 'number',
+                    filterable: true,
+                },
+                {
+                    label: 'Date',
+                    field: 'date',
+                    type: 'date',
+                    inputFormat: 'YYYY-MM-DD',
+                    outputFormat: 'MMM Do YY',
+                },
+                {
+                    label: 'Action',
+                },
 
-    components: {
-     'vuetable-pagination': Vuetable.VuetablePagination
+            ],
+            rows: [
+
+            ],
+        };
     },
-    data: {
-      fields: [
+
+    methods: {
+        add()
         {
-          name: 'name',
-          title: '<span class="orange glyphicon glyphicon-user"></span> Full Name',
-          sortField: 'name'
+            var app=this;
+            app.$parent.status=1;
+            console.log(app.$parent.$children[0]);
+            //app.$parent.$children[0].onReset();
+
+
+
         },
+
+        init(){
+            var app = this;
+            $.ajax({
+                url: '/api/get_purchases/' + app.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+
+                    app.rows = [];
+                    app.rows=data;
+                    // for(let i = 0; i < data.length; i++)
+                    // {
+                    //     app.rows.push({
+                    //         selected: false,
+                    //         id : data[i]['id'],
+                    //         type : data[i]['type'],
+                    //         customer_id : data[i]['customer_id'],
+                    //         supplier_id : data[i]['supplier_id'],
+                    //         document_id : data[i]['document_id'],
+                    //         currency_id : data[i]['currency_id'],
+                    //         rate : data[i]['rate'],
+                    //         payment_condition : data[i]['payment_condition'],
+                    //         chart_account_id : data[i]['chart_account_id'],
+                    //         date : data[i]['date'],
+                    //         number : data[i]['number'],
+                    //         code : data[i]['code'],
+                    //         code_expiry :data[i]['code_expiry'],
+                    //         comment :data[i]['comment'],
+                    //         ref_id :data[i]['ref_id'],
+                    //         details : data[i]['details']
+                    //     });
+                    // }
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(status);
+                }
+            });
+        },
+        onEdit: function(data)
         {
-          name: 'email',
-          title: 'Email',
-          sortField: 'email'
+
+            var app = this;
+            app.$parent.status=1;
+            $.ajax({
+                url: '/api/get_purcahsesByID/' + app.taxpayer + '/' + data.id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+
+
+                    app.$parent.$children[0].onEdit(data[0]);
+
+
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(status);
+                }
+            });
+
         },
-        'birthdate','nickname',
-        {
-          name: 'gender',
-          title: 'Gender',
-          sortField: 'gender'
-        },
-        '__slot:actions'
-      ],
-      sortOrder: [
-        { field: 'name', direction: 'asc' }
-      ],
-      css: {
-        table: {
-          tableClass: 'table table-striped table-bordered table-hovered',
-          loadingClass: 'loading',
-          ascendingIcon: 'glyphicon glyphicon-chevron-up',
-          descendingIcon: 'glyphicon glyphicon-chevron-down',
-          handleIcon: 'glyphicon glyphicon-menu-hamburger',
-        },
-        pagination: {
-          infoClass: 'pull-left',
-          wrapperClass: 'vuetable-pagination pull-right',
-          activeClass: 'btn-primary',
-          disabledClass: 'disabled',
-          pageClass: 'btn btn-border',
-          linkClass: 'btn btn-border',
-          icons: {
-            first: '',
-            prev: '',
-            next: '',
-            last: '',
-          },
+        toggleSelectAll() {
+            this.allSelected = !this.allSelected;
+            this.rows.forEach(row => {
+                if(this.allSelected){
+                    row.selected = true;
+                }else{
+                    row.selected = false;
+                }
+            })
         }
-      }
     },
-    computed:{
-    /*httpOptions(){
-      return {headers: {'Authorization': "my-token"}} //table props -> :http-options="httpOptions"
-    },*/
-   },
-   methods: {
-      onPaginationData (paginationData) {
-        this.$refs.pagination.setPaginationData(paginationData)
-      },
-      onChangePage (page) {
-        this.$refs.vuetable.changePage(page)
-      },
-      editRow(rowData){
-        alert("You clicked edit on"+ JSON.stringify(rowData))
-      },
-      deleteRow(rowData){
-        alert("You clicked delete on"+ JSON.stringify(rowData))
-      },
-      onLoading() {
-        console.log('loading... show your spinner here')
-      },
-      onLoaded() {
-        console.log('loaded! .. hide your spinner here')
-      }
+
+    mounted: function mounted()
+    {
+        var app=this;
+        this.init();
+
     }
 });
