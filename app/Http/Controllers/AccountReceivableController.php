@@ -37,7 +37,28 @@ class AccountReceivableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      if ($request->id == 0)
+      {
+        $accountMovement = new AccountMovement();
+      }
+      else
+      {
+        $accountMovement = AccountMovement::where('id', $request->id)->first();
+      }
+
+      $accountMovement->taxpayer_id = $request->taxpayer_id;
+      $accountMovement->chart_id =$taxPayer->chart_id ;
+      $accountMovement->date = $request->date;
+      $accountMovement->transaction_id = $request->transaction_id;
+      $accountMovement->currency_id = $request->currency_id;
+      $accountMovement->rate = $request->rate;
+      $accountMovement->debit = $request->debit;
+      $accountMovement->credit = $request->credit;
+      $accountMovement->comment = $request->comment;
+
+      $accountMovement->save();
+
+      return response()->json('ok');
     }
 
     /**
