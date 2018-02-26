@@ -19,6 +19,13 @@ class InventoryController extends Controller
         //
     }
 
+    public function get_inventory($taxPayerID)
+    {
+        $Transaction = Inventory::where('taxpayer_id', $taxPayerID)->get();
+        return response()->json($Transaction);
+    }
+
+
     /**
     * Show the form for creating a new resource.
     *
@@ -37,7 +44,23 @@ class InventoryController extends Controller
     */
     public function store(Request $request)
     {
-        //
+      if ($request->id == 0)
+      {
+          $inventory = new Inventory();
+      }
+      else
+      {
+          $inventory = Inventory::where('id', $request->id)->first();
+      }
+
+      $inventory->taxpayer_id = $request->taxpayer_id;
+      $inventory->chart_id =$taxPayer->chart_id ;
+      $inventory->date = $request->date;
+      $inventory->current_value = $request->current_value;
+
+      $inventory->save();
+
+      return response()->json('ok');
     }
 
     /**

@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<purchases-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
+<purchases-form :trantype ="1" :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
     <div>
         <div class="row">
             <div class="col-6">

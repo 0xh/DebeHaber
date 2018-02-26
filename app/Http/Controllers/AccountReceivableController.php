@@ -16,7 +16,7 @@ class AccountReceivableController extends Controller
      */
      public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        //
+          return view('/commercial/account-receivables');
     }
 
     /**

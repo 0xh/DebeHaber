@@ -3,15 +3,15 @@
 @section('title', 'Accounts Receivables')
 
 @section('form')
-  <div>
+    <div>
     <div v-if="status===1">
-      @include('commercial/account-receivable/form')
+    @include('commercial/account-payable/form')
     </div>
     <div v-if="status===0">
-      @include('commercial/account-receivable/list')
+@include('commercial/account-payable/list')
     </div>
   </div>
 
-  
+
 
 @endsection

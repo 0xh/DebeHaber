@@ -3,7 +3,7 @@
 
 <debit-note-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
     <div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
@@ -222,7 +222,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <button v-on:click="onSave($data,false,'/current/{{request()->route('company') }}/sales')" class="btn btn-primary">
             Guardar
