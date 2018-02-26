@@ -15,6 +15,8 @@ require('./../spark-components/bootstrap');
 require('./../accounting-components/chart/bootstrap');
 require('./../accounting-components/chart-version/bootstrap');
 require('./../accounting-components/cycle/bootstrap');
+require('./../accounting-components/account-payable/bootstrap');
+require('./../accounting-components/account-receivable/bootstrap');
 
 //Commercial
 require('./../commercial-components/credit-note/bootstrap');

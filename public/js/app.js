@@ -88345,6 +88345,469 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/accounting-components/account-payable/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/accounting-components/account-payable/list.js");
+__webpack_require__("./resources/assets/js/accounting-components/account-payable/form.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/accounting-components/account-payable/form.js":
+/***/ (function(module, exports) {
+
+
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+Vue.component('account-payable-form', {
+    props: ['taxpayer'],
+    data: function data() {
+        return {
+            id: 0,
+            taxpayer_id: '',
+            chart_id: '',
+            date: '',
+            transaction_id: '',
+            currency_id: '',
+            rate: '',
+            debit: '',
+            credit: '',
+            currencies: [],
+            charts: []
+        };
+    },
+
+
+    methods: {
+
+        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+        //For updates code will be different and should use the ID's palced int he Json.
+        onSave: function onSave(json) {
+
+            var app = this;
+            var api = null;
+
+            $.ajax({
+                url: '',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    if (data == 'ok') {
+                        app.reset();
+                        app.init();
+                    } else {
+                        alert('Something Went Wrong...');
+                    }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+
+        onReset: function onReset() {
+            var app = this;
+
+            app.id = 0;
+            app.taxpayer_id = null;
+            app.chart_id = null;
+            app.date = null;
+            app.transaction_id = null;
+            app.currency_id = null;
+            app.rate = null;
+            app.debit = null;
+            app.credit = null;
+        },
+
+        cancel: function cancel() {
+            var app = this;
+            app.$parent.status = 0;
+        },
+
+        getCurrencies: function getCurrencies(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_currency/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.currencies = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error2) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCharts: function getCharts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_account/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.charts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+    },
+
+    mounted: function mounted() {
+        this.getCurrencies();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/accounting-components/account-payable/list.js":
+/***/ (function(module, exports) {
+
+
+Vue.component('account-receivable-list', {
+
+    props: ['taxpayer'],
+    data: function data() {
+        return {
+            columns: [{
+                label: 'SelectAll',
+                sortable: false
+            }, {
+                label: 'Code',
+                field: 'code',
+                filterable: true
+            }, {
+                label: 'Number',
+                field: 'number',
+                filterable: true
+            }, {
+                label: 'Date',
+                field: 'date',
+                type: 'date',
+                inputFormat: 'YYYY-MM-DD',
+                outputFormat: 'MMM Do YY'
+            }, {
+                label: 'Action'
+            }],
+            rows: []
+        };
+    },
+
+
+    methods: {
+        add: function add() {
+            var app = this;
+            app.$parent.status = 1;
+
+            //app.$parent.$children[0].onReset();
+
+        },
+        init: function init() {
+            var app = this;
+            $.ajax({
+                url: '/api/get_account_payable/' + app.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    app.rows = [];
+                    app.rows = data;
+                    // for(let i = 0; i < data.length; i++)
+                    // {
+                    //     app.rows.push({
+                    //         selected: false,
+                    //         id : data[i]['id'],
+                    //         type : data[i]['type'],
+                    //         customer_id : data[i]['customer_id'],
+                    //         supplier_id : data[i]['supplier_id'],
+                    //         document_id : data[i]['document_id'],
+                    //         currency_id : data[i]['currency_id'],
+                    //         rate : data[i]['rate'],
+                    //         payment_condition : data[i]['payment_condition'],
+                    //         chart_account_id : data[i]['chart_account_id'],
+                    //         date : data[i]['date'],
+                    //         number : data[i]['number'],
+                    //         code : data[i]['code'],
+                    //         code_expiry :data[i]['code_expiry'],
+                    //         comment :data[i]['comment'],
+                    //         ref_id :data[i]['ref_id'],
+                    //         details : data[i]['details']
+                    //     });
+                    // }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(status);
+                }
+            });
+        },
+        toggleSelectAll: function toggleSelectAll() {
+            var _this = this;
+
+            this.allSelected = !this.allSelected;
+            this.rows.forEach(function (row) {
+                if (_this.allSelected) {
+                    row.selected = true;
+                } else {
+                    row.selected = false;
+                }
+            });
+        }
+    },
+
+    mounted: function mounted() {
+        var app = this;
+        this.init();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/accounting-components/account-receivable/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/accounting-components/account-receivable/list.js");
+__webpack_require__("./resources/assets/js/accounting-components/account-receivable/form.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/accounting-components/account-receivable/form.js":
+/***/ (function(module, exports) {
+
+
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+Vue.component('account-receivable-form', {
+    props: ['taxpayer'],
+    data: function data() {
+        return {
+            id: 0,
+            taxpayer_id: '',
+            chart_id: '',
+            date: '',
+            transaction_id: '',
+            currency_id: '',
+            rate: '',
+            debit: '',
+            credit: '',
+            currencies: [],
+            charts: []
+
+        };
+    },
+
+
+    methods: {
+
+        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+        //For updates code will be different and should use the ID's palced int he Json.
+        onSave: function onSave(json) {
+
+            var app = this;
+            var api = null;
+
+            $.ajax({
+                url: '',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    if (data == 'ok') {
+                        app.reset();
+                        app.init();
+                    } else {
+                        alert('Something Went Wrong...');
+                    }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+
+        onReset: function onReset() {
+            var app = this;
+
+            app.id = 0;
+            app.taxpayer_id = null;
+            app.chart_id = null;
+            app.date = null;
+            app.transaction_id = null;
+            app.currency_id = null;
+            app.rate = null;
+            app.debit = null;
+            app.credit = null;
+        },
+
+        cancel: function cancel() {
+            var app = this;
+            app.$parent.status = 0;
+        },
+
+        getCurrencies: function getCurrencies(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_currency/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.currencies = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error2) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getCharts: function getCharts(data) {
+            var app = this;
+            $.ajax({
+                url: '/api/get_account/' + this.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+                    app.charts = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+    },
+
+    mounted: function mounted() {
+        this.getCurrencies();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/accounting-components/account-receivable/list.js":
+/***/ (function(module, exports) {
+
+
+Vue.component('account-receivable-list', {
+
+    props: ['taxpayer'],
+    data: function data() {
+        return {
+            columns: [{
+                label: 'SelectAll',
+                sortable: false
+            }, {
+                label: 'Code',
+                field: 'code',
+                filterable: true
+            }, {
+                label: 'Number',
+                field: 'number',
+                filterable: true
+            }, {
+                label: 'Date',
+                field: 'date',
+                type: 'date',
+                inputFormat: 'YYYY-MM-DD',
+                outputFormat: 'MMM Do YY'
+            }, {
+                label: 'Action'
+            }],
+            rows: []
+        };
+    },
+
+
+    methods: {
+        add: function add() {
+            var app = this;
+            app.$parent.status = 1;
+
+            //app.$parent.$children[0].onReset();
+
+        },
+        init: function init() {
+            var app = this;
+            $.ajax({
+                url: '/api/get_account_receivable/' + app.taxpayer,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    app.rows = [];
+                    app.rows = data;
+                    // for(let i = 0; i < data.length; i++)
+                    // {
+                    //     app.rows.push({
+                    //         selected: false,
+                    //         id : data[i]['id'],
+                    //         type : data[i]['type'],
+                    //         customer_id : data[i]['customer_id'],
+                    //         supplier_id : data[i]['supplier_id'],
+                    //         document_id : data[i]['document_id'],
+                    //         currency_id : data[i]['currency_id'],
+                    //         rate : data[i]['rate'],
+                    //         payment_condition : data[i]['payment_condition'],
+                    //         chart_account_id : data[i]['chart_account_id'],
+                    //         date : data[i]['date'],
+                    //         number : data[i]['number'],
+                    //         code : data[i]['code'],
+                    //         code_expiry :data[i]['code_expiry'],
+                    //         comment :data[i]['comment'],
+                    //         ref_id :data[i]['ref_id'],
+                    //         details : data[i]['details']
+                    //     });
+                    // }
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(status);
+                }
+            });
+        },
+        toggleSelectAll: function toggleSelectAll() {
+            var _this = this;
+
+            this.allSelected = !this.allSelected;
+            this.rows.forEach(function (row) {
+                if (_this.allSelected) {
+                    row.selected = true;
+                } else {
+                    row.selected = false;
+                }
+            });
+        }
+    },
+
+    mounted: function mounted() {
+        var app = this;
+        this.init();
+    }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/accounting-components/chart-version/bootstrap.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -90671,6 +91134,8 @@ __webpack_require__("./resources/assets/js/spark-components/bootstrap.js");
 __webpack_require__("./resources/assets/js/accounting-components/chart/bootstrap.js");
 __webpack_require__("./resources/assets/js/accounting-components/chart-version/bootstrap.js");
 __webpack_require__("./resources/assets/js/accounting-components/cycle/bootstrap.js");
+__webpack_require__("./resources/assets/js/accounting-components/account-payable/bootstrap.js");
+__webpack_require__("./resources/assets/js/accounting-components/account-receivable/bootstrap.js");
 
 //Commercial
 __webpack_require__("./resources/assets/js/commercial-components/credit-note/bootstrap.js");

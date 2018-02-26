@@ -16,6 +16,7 @@ Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@ind
 Route::get('/get_cycle/{teamID}', 'CycleController@get_cycle');
 Route::get('/get_chartversion/{teamID}', 'ChartVersionController@get_chartversion');
 Route::get('/get_product/{teamID}', 'ChartController@get_product');
+Route::get('/get_account/{teamID}', 'ChartController@get_account');
 Route::get('/get_tax/{teamID}', 'ChartController@get_tax');
 Route::get('/get_sales/{teamID}', 'SalesController@get_sales');
 Route::get('/get_salesByID/{teamID}/{id}', 'SalesController@get_salesByID');

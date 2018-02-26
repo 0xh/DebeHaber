@@ -56,6 +56,26 @@ class ChartController extends Controller
 
         return response()->json($chart);
     }
+    public function get_account($taxPayerID)
+    {
+        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)->where('charts.type', 1)
+        ->where('charts.sub_type', 1)
+        ->where('charts.sub_type', 3)
+        ->Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
+        ->select('charts.id',
+        'charts.country',
+        'charts.is_accountable',
+        'charts.code',
+        'charts.name',
+        'charts.level',
+        'charts.type as type',
+        'charts.sub_type',
+        'chart_versions.name as chart_version_name',
+        'chart_versions.id as chart_version_id')
+        ->get();
+
+        return response()->json($chart);
+    }
 
     public function get_tax($taxPayerID)
     {
