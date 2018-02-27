@@ -137,7 +137,7 @@ Vue.component('debit-note-form',{
                     if (data=='ok')
                     {
                         app.onReset();
-                      
+
                     }
                     else
                     {
@@ -244,6 +244,30 @@ Vue.component('debit-note-form',{
                     console.log(xhr.responseText);
                 }
             });
+        },
+        getRate: function()
+        {
+
+          var app=this;
+          $.ajax({
+            url: '/api/get_rateByCurrency/' + this.taxpayer + '/' + app.currency_id + '/' + app.date  ,
+            type: 'get',
+            dataType: 'json',
+            async: true,
+            success: function(data)
+            {
+
+              if (app.rate=='' || app.rate==null) {
+                app.rate=data;
+              }
+
+
+            },
+            error: function(xhr, status, error)
+            {
+              console.log(xhr.responseText);
+            }
+          });
         },
         getCharts: function(data)
         {

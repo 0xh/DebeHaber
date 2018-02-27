@@ -24,6 +24,7 @@ class CurrencyController extends Controller
 
         return response()->json($Currency);
     }
+  
     /**
     * Show the form for creating a new resource.
     *

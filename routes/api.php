@@ -27,6 +27,7 @@ Route::get('/get_credit_noteByID/{teamID}/{id}', 'CreditNoteController@get_credi
 Route::get('/get_debit_note/{teamID}', 'DebitNoteController@get_debit_note');
 Route::get('/get_debit_noteByID/{teamID}/{id}', 'DebitNoteController@get_debit_noteByID');
 Route::get('/get_currency/{teamID}', 'CurrencyController@get_currency');
+Route::get('/get_rateByCurrency/{teamID}/{id}/{date}', 'CurrencyRateController@get_rateByCurrency');
 Route::get('/get_document/{type}/{teamID}', 'DocumentController@get_document');
 Route::get('/get_taxpayer/{teamID}', 'TaxpayerController@get_taxpayer');
 Route::get('/get_account_receivable/{teamID}', 'AccountReceivableController@get_account_receivable');
