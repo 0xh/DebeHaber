@@ -98537,6 +98537,8 @@ Vue.component('sales-form', {
                 }
             });
         },
+
+        //Get Cost Centers
         getCharts: function getCharts(data) {
             var app = this;
             $.ajax({

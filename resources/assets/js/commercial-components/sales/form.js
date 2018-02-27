@@ -196,7 +196,7 @@ Vue.component('sales-form',{
         },
         getDocuments: function(data)
         {
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/api/get_document/1/' + this.taxpayer ,
                 type: 'get',
@@ -256,7 +256,7 @@ Vue.component('sales-form',{
                   async: true,
                   success: function(data)
                   {
-                     
+
                       if (app.rate=='' || app.rate==null) {
                               app.rate=data;
                       }
@@ -269,6 +269,8 @@ Vue.component('sales-form',{
                   }
               });
         },
+
+        //Get Cost Centers
         getCharts: function(data)
         {
             var app=this;
