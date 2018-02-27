@@ -21,6 +21,7 @@ return [
     'EndDate' => 'Fecha Final',
     'Code' => 'Timbrado',
     'Alias' => 'Alias',
+    'New' => 'Nuevo',
     'Save' => 'Guardar',
     'Cancel' => 'Cancelar',
     'Action' => 'Acciones',

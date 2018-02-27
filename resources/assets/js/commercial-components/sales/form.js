@@ -294,7 +294,8 @@ Vue.component('sales-form',{
                 }
             });
         },
-        getTaxs: function(data)
+        //VAT
+        getTaxes: function(data)
         {
             var app=this;
             $.ajax({
@@ -317,11 +318,12 @@ Vue.component('sales-form',{
                 }
             });
         },
+        //Get Money Accounts
         getAccounts: function(data)
         {
             var app = this;
             $.ajax({
-                url: '/api/get_account/' ,
+                url: '/api/get_account/' + this.taxpayer,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -347,6 +349,6 @@ Vue.component('sales-form',{
         this.getDocuments();
         this.getCurrencies();
         this.getCharts();
-        this.getTaxs();
+        this.getTaxes();
     }
 });

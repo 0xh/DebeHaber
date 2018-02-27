@@ -1,6 +1,6 @@
 @extends('spark::layouts.dashboard')
 
-@section('title', 'Reports')
+@section('title', __('global.Reports'))
 
 @section('nav')
 

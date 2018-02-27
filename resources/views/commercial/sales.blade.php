@@ -1,6 +1,6 @@
 @extends('spark::layouts.form')
 
-@section('title', 'Sales Book')
+@section('title', __('commercial.SalesBook'))
 
 @section('nav')
 

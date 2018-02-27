@@ -21,6 +21,7 @@ return [
     'EndDate' => 'Chart of Accounts',
     'Code' => 'Accounting Cycle',
     'Alias' => 'Alias',
+    'New' => 'New',
     'Save' => 'Save',
     'Cancel' => 'Cancel',
     'Action' => 'Action',
