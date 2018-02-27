@@ -2,7 +2,7 @@
 
 return [
 
-    'Assets' => 'Assets',
-    'Liabilities' => 'Liabilities',
+    'Assets' => 'Bienes',
+    'Liabilities' => 'Pasivos',
 
 ];

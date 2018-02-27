@@ -18,7 +18,7 @@ return [
     'JournalTemplate' => 'Plantilla de Asientos',
     'JournalSimulation' => 'Simulación de Asientos',
     'ChartofAccounts' => 'Plan de Cuentas',
-    'AccountingCycle' => 'Periodo Fiscal',
+    'AccountingCycle' => 'Período Fiscal',
     'ChartVersion' => 'Versión',
 
     'JournalEntries' => 'Libro Diario',

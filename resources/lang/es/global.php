@@ -15,7 +15,7 @@ return [
 
     'Reports' => 'Informes',
     'Name' => 'Nombre',
-    'Year' => 'Añp',
+    'Year' => 'Año',
     'Date' => 'Fecha',
     'StartDate' => 'Fecha de Inicio',
     'EndDate' => 'Fecha Final',
