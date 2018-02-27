@@ -3,7 +3,7 @@
 
 <sales-list :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
   <div>
-
+    <button @click="add()">add new</button>
  <datatable v-bind="$data" />
 </div>
 </sales-list>
