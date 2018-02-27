@@ -20,84 +20,6 @@ class ChartController extends Controller
         return view('accounting/chart');
     }
 
-    public function get_chart($taxPayerID)
-    {
-        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
-        ->join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-        ->select('charts.id',
-        'charts.country',
-        'charts.is_accountable',
-        'charts.code',
-        'charts.name','charts.level',
-        'charts.type as type',
-        'charts.sub_type',
-        'chart_versions.name as chart_version_name',
-        'chart_versions.id as chart_version_id')
-        ->get();
-
-        return response()->json($chart);
-    }
-
-    public function get_product($taxPayerID)
-    {
-        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)->where('charts.type', 1)->where('charts.sub_type', 8)
-        ->Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-        ->select('charts.id',
-        'charts.country',
-        'charts.is_accountable',
-        'charts.code',
-        'charts.name',
-        'charts.level',
-        'charts.type as type',
-        'charts.sub_type',
-        'chart_versions.name as chart_version_name',
-        'chart_versions.id as chart_version_id')
-        ->get();
-
-        return response()->json($chart);
-    }
-    public function get_account($taxPayerID)
-    {
-        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)->where('charts.type', 1)
-        ->where('charts.sub_type', 1)
-        ->orwhere('charts.sub_type', 3)
-        ->Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-        ->select('charts.id',
-        'charts.country',
-        'charts.is_accountable',
-        'charts.code',
-        'charts.name',
-        'charts.level',
-        'charts.type as type',
-        'charts.sub_type',
-        'chart_versions.name as chart_version_name',
-        'chart_versions.id as chart_version_id')
-        ->get();
-        
-        return response()->json($chart);
-    }
-
-    public function get_tax($taxPayerID)
-    {
-        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
-        ->where('charts.type', 1)
-        ->where('charts.sub_type', 12)
-        ->join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-        ->select('charts.id',
-        'charts.country',
-        'charts.is_accountable',
-        'charts.code',
-        'charts.name',
-        'charts.level',
-        'charts.type as type',
-        'charts.sub_type',
-        'chart_versions.name as chart_version_name',
-        'chart_versions.id as chart_version_id')
-        ->get();
-
-        return response()->json($chart);
-    }
-
     /**
     * Show the form for creating a new resource.
     *
@@ -116,7 +38,6 @@ class ChartController extends Controller
     */
     public function store(Request $request, $taxPayerID)
     {
-
         $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
         $chart->chart_version_id = $request->chart_version_id;
         $chart->country = $request->country;
@@ -173,5 +94,86 @@ class ChartController extends Controller
     public function destroy(Chart $chart)
     {
         //
+    }
+
+    public function get_chart($taxPayerID)
+    {
+        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
+        ->join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
+        ->select('charts.id',
+        'charts.country',
+        'charts.is_accountable',
+        'charts.code',
+        'charts.name','charts.level',
+        'charts.type as type',
+        'charts.sub_type',
+        'chart_versions.name as chart_version_name',
+        'chart_versions.id as chart_version_id')
+        ->get();
+
+        return response()->json($chart);
+    }
+
+    public function get_product($taxPayerID)
+    {
+        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
+        ->where('charts.type', 1)
+        ->where('charts.sub_type', 8)
+        ->Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
+        ->select('charts.id',
+        'charts.country',
+        'charts.is_accountable',
+        'charts.code',
+        'charts.name',
+        'charts.level',
+        'charts.type as type',
+        'charts.sub_type',
+        'chart_versions.name as chart_version_name',
+        'chart_versions.id as chart_version_id')
+        ->get();
+
+        return response()->json($chart);
+    }
+
+    public function get_account($taxPayerID)
+    {
+        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)->where('charts.type', 1)
+        ->where('charts.sub_type', 1)
+        ->orwhere('charts.sub_type', 3)
+        ->Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
+        ->select('charts.id',
+        'charts.country',
+        'charts.is_accountable',
+        'charts.code',
+        'charts.name',
+        'charts.level',
+        'charts.type as type',
+        'charts.sub_type',
+        'chart_versions.name as chart_version_name',
+        'chart_versions.id as chart_version_id')
+        ->get();
+
+        return response()->json($chart);
+    }
+
+    public function get_tax($taxPayerID)
+    {
+        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
+        ->where('charts.type', 1)
+        ->where('charts.sub_type', 12)
+        ->join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
+        ->select('charts.id',
+        'charts.country',
+        'charts.is_accountable',
+        'charts.code',
+        'charts.name',
+        'charts.level',
+        'charts.type as type',
+        'charts.sub_type',
+        'chart_versions.name as chart_version_name',
+        'chart_versions.id as chart_version_id')
+        ->get();
+
+        return response()->json($chart);
     }
 }
