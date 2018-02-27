@@ -247,10 +247,10 @@ Vue.component('credit-note-form',{
             });
         },
         getRate: function()
-            {
+        {
 
-              var app=this;
-              $.ajax({
+            var app=this;
+            $.ajax({
                 url: '/api/get_rateByCurrency/' + this.taxpayer + '/' + app.currency_id + '/' + app.date  ,
                 type: 'get',
                 dataType: 'json',
@@ -258,18 +258,18 @@ Vue.component('credit-note-form',{
                 success: function(data)
                 {
 
-                  if (app.rate=='' || app.rate==null) {
-                    app.rate=data;
-                  }
+                    if (app.rate=='' || app.rate==null) {
+                        app.rate=data;
+                    }
 
 
                 },
                 error: function(xhr, status, error)
                 {
-                  console.log(xhr.responseText);
+                    console.log(xhr.responseText);
                 }
-              });
-            },
+            });
+        },
         getCharts: function(data)
         {
             var app=this;

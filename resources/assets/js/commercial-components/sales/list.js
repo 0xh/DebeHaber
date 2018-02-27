@@ -5,35 +5,38 @@ Vue.component('sales-list',{
     data(){
         return {
             columns: [
+
                 {
-                    label: 'SelectAll',
+                    title: 'SelectAll',
                     sortable: false,
                 },
                 {
-                    label: 'Code',
+                    title: 'Code',
                     field: 'code',
                     filterable: true,
                 },
                 {
-                    label: 'Number',
+                    title: 'Number',
                     field: 'number',
                     filterable: true,
                 },
                 {
-                    label: 'Date',
+                    title: 'Date',
                     field: 'date',
                     type: 'date',
                     inputFormat: 'YYYY-MM-DD',
                     outputFormat: 'MMM Do YY',
                 },
                 {
-                    label: 'Action',
+                    title: 'Action',
                 },
 
             ],
-            rows: [
+            data: [
 
             ],
+            total: 0,
+            query: {}
         };
     },
 
@@ -59,8 +62,8 @@ Vue.component('sales-list',{
                 success: function(data)
                 {
 
-                    app.rows = [];
-                    app.rows=data;
+                    app.data = [];
+                    app.data=data;
                     // for(let i = 0; i < data.length; i++)
                     // {
                     //     app.rows.push({
@@ -117,11 +120,11 @@ Vue.component('sales-list',{
         },
         toggleSelectAll() {
             this.allSelected = !this.allSelected;
-            this.rows.forEach(row => {
+            this.data.forEach(row => {
                 if(this.allSelected){
-                    row.selected = true;
+                    data.selected = true;
                 }else{
-                    row.selected = false;
+                    data.selected = false;
                 }
             })
         }
