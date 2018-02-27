@@ -20,7 +20,7 @@ Route::prefix('{taxPayer}')->group(function ()
     Route::get('get_cycle', 'CycleController@get_cycle');
     Route::get('get_chartversion', 'ChartVersionController@get_chartversion');
     Route::get('get_currency', 'CurrencyController@get_currency');
-    Route::get('get_rateByCurrency/{id}/{date}', 'CurrencyRateController@get_rateByCurrency');
+    Route::get('get_rateByCurrency/{currencyID}/{date}', 'CurrencyRateController@get_rateByCurrency');
     Route::get('get_document/{type}', 'DocumentController@get_document');
     Route::get('get_taxpayer', 'TaxpayerController@get_taxpayer');
 
@@ -52,7 +52,7 @@ Route::prefix('{taxPayer}')->group(function ()
 
             Route::get('get_account_receivable', 'AccountReceivableController@get_account_receivable');
             Route::get('get_account_receivableByID/{id}', 'AccountReceivableController@get_account_receivableByID');
-            
+
             Route::get('get_account_payable', 'AccountPayableController@get_account_payable');
             Route::get('get_account_payableByID/{id}', 'AccountPayableController@get_account_payableByID');
         });
