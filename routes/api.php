@@ -29,6 +29,10 @@ Route::get('/get_debit_noteByID/{teamID}/{id}', 'DebitNoteController@get_debit_n
 Route::get('/get_currency/{teamID}', 'CurrencyController@get_currency');
 Route::get('/get_document/{type}/{teamID}', 'DocumentController@get_document');
 Route::get('/get_taxpayer/{teamID}', 'TaxpayerController@get_taxpayer');
+Route::get('/get_account_receivable/{teamID}', 'AccountReceivableController@get_account_receivable');
+Route::get('/get_account_receivableByID/{teamID}/{id}', 'AccountReceivableController@get_account_receivableByID');
+Route::get('/get_account_payable/{teamID}', 'AccountPayableController@get_account_payable');
+Route::get('/get_account_payableByID/{teamID}/{id}', 'AccountPayableController@get_account_payableByID');
 Route::group(['middleware' => 'auth:api'], function ()
 {
 

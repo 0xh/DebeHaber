@@ -1,34 +1,35 @@
 
-Vue.component('account-receivable-list',{
+Vue.component('account-payable-list',{
 
     props: ['taxpayer'],
     data(){
         return {
             columns: [
-                {
-                    label: 'SelectAll',
-                    sortable: false,
-                },
-                {
-                    label: 'Code',
-                    field: 'code',
-                    filterable: true,
-                },
-                {
-                    label: 'Number',
-                    field: 'number',
-                    filterable: true,
-                },
-                {
-                    label: 'Date',
-                    field: 'date',
-                    type: 'date',
-                    inputFormat: 'YYYY-MM-DD',
-                    outputFormat: 'MMM Do YY',
-                },
-                {
-                    label: 'Action',
-                },
+              {
+                  label: 'SelectAll',
+                  sortable: false,
+              },
+              {
+                  label: ' Chart',
+                  field: 'chart',
+                  filterable: true,
+              },
+              {
+                  label: 'Amount',
+                  field: 'debit',
+                  filterable: true,
+              },
+              {
+                  label: 'Date',
+                  field: 'date',
+                  type: 'date',
+                  inputFormat: 'YYYY-MM-DD',
+                  outputFormat: 'MMM Do YY',
+              },
+              {
+                  label: 'Action',
+              },
+
 
             ],
             rows: [
@@ -89,6 +90,31 @@ Vue.component('account-receivable-list',{
                     console.log(status);
                 }
             });
+        },
+        onEdit: function(data)
+        {
+
+            var app = this;
+            app.$parent.status=1;
+            $.ajax({
+                url: '/api/get_account_payableByID/' + app.taxpayer + '/' + data.id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+
+
+                    app.$parent.$children[0].onEdit(data[0]);
+
+
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(status);
+                }
+            });
+
         },
         toggleSelectAll() {
             this.allSelected = !this.allSelected;

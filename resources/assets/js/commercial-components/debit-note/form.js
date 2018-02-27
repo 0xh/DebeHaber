@@ -136,8 +136,8 @@ Vue.component('debit-note-form',{
                 {
                     if (data=='ok')
                     {
-                        app.reset();
-                        app.init();
+                        app.onReset();
+                      
                     }
                     else
                     {
@@ -192,6 +192,7 @@ Vue.component('debit-note-form',{
             app.comment = null;
             app.ref_id = null;
             app.details = [];
+            app.$parent.status=0;
         },
         getDocuments: function(data)
         {

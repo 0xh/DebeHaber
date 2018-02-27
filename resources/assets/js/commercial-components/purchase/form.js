@@ -136,8 +136,8 @@ Vue.component('purchases-form',{
                 {
                     if (data=='ok')
                     {
-                        app.reset();
-                        app.init();
+                        app.onReset();
+
                     }
                     else
                     {
@@ -172,6 +172,7 @@ Vue.component('purchases-form',{
             app.ref_id = data.ref_id;
             app.details=data.details;
             app.$children[0].selectText=data.customer;
+
         },
         onReset: function()
         {
@@ -192,6 +193,7 @@ Vue.component('purchases-form',{
             app.comment = null;
             app.ref_id = null;
             app.details = [];
+            app.$parent.status=0;
         },
         getDocuments: function(data)
         {

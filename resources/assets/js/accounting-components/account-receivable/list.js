@@ -10,13 +10,13 @@ Vue.component('account-receivable-list',{
                     sortable: false,
                 },
                 {
-                    label: 'Code',
-                    field: 'code',
+                    label: ' Chart',
+                    field: 'chart',
                     filterable: true,
                 },
                 {
-                    label: 'Number',
-                    field: 'number',
+                    label: 'Amount',
+                    field: 'credit',
                     filterable: true,
                 },
                 {
@@ -89,6 +89,31 @@ Vue.component('account-receivable-list',{
                     console.log(status);
                 }
             });
+        },
+        onEdit: function(data)
+        {
+
+            var app = this;
+            app.$parent.status=1;
+            $.ajax({
+                url: '/api/get_account_receivableByID/' + app.taxpayer + '/' + data.id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+
+
+                    app.$parent.$children[0].onEdit(data[0]);
+
+
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(status);
+                }
+            });
+
         },
         toggleSelectAll() {
             this.allSelected = !this.allSelected;

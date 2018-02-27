@@ -60,7 +60,7 @@ class ChartController extends Controller
     {
         $chart = Chart::where('charts.taxpayer_id', $taxPayerID)->where('charts.type', 1)
         ->where('charts.sub_type', 1)
-        ->where('charts.sub_type', 3)
+        ->orwhere('charts.sub_type', 3)
         ->Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->select('charts.id',
         'charts.country',
@@ -73,7 +73,7 @@ class ChartController extends Controller
         'chart_versions.name as chart_version_name',
         'chart_versions.id as chart_version_id')
         ->get();
-
+        
         return response()->json($chart);
     }
 

@@ -31,7 +31,7 @@ Vue.component('account-receivable-form',{
 
             var app = this;
             var api = null;
-
+            this.taxpayer_id=this.taxpayer;
             $.ajax({
                 url: '',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -43,8 +43,8 @@ Vue.component('account-receivable-form',{
                 {
                     if (data=='ok')
                     {
-                        app.reset();
-                        app.init();
+                        app.onReset();
+
                     }
                     else
                     {
@@ -58,6 +58,20 @@ Vue.component('account-receivable-form',{
                     console.log(xhr.responseText);
                 }
             });
+        },
+        onEdit: function(data)
+        {
+            var app = this;
+            app.id=data.id;
+            app.taxpayer_id= data.taxpayer_id;
+            app.chart_id= data.chart_id;
+            app.date= data.date;
+            app.transaction_id= data.transaction_id;
+            app.currency_id= data.currency_id;
+            app.rate= data.rate;
+            app.debit= data.debit;
+            app.credit= data.credit;
+
         },
 
         onReset: function()
@@ -75,7 +89,7 @@ Vue.component('account-receivable-form',{
             app.rate= null;
             app.debit= null;
             app.credit= null;
-
+            app.$parent.status=0;
 
         },
 
@@ -136,5 +150,6 @@ Vue.component('account-receivable-form',{
     mounted: function mounted()
     {
         this.getCurrencies();
+        this.getCharts();
     }
 });

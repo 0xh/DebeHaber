@@ -6,7 +6,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\AccountMovement;
 use Illuminate\Http\Request;
-
+use DB;
 class AccountReceivableController extends Controller
 {
     /**
@@ -16,9 +16,35 @@ class AccountReceivableController extends Controller
      */
      public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-          return view('/accounting/account-receivables');
+          return view('/commercial/accounts-receivable');
     }
 
+    public function get_account_receivable($taxPayerID)
+    {
+        $accountMovement = AccountMovement::
+        Join('charts', 'charts.id', 'account_movements.chart_id')
+        ->leftJoin('currencies', 'currencies.id', 'account_movements.currency_id')
+        ->where('account_movements.taxpayer_id', $taxPayerID)
+          ->where('credit','>',0)
+        ->select(DB::raw('false as selected,account_movements.id,charts.name as chart
+        ,transaction_id,currencies.name as currency,currency_id,rate,debit,credit,date
+        '))
+        ->get();
+        return response()->json($accountMovement);
+    }
+    public function get_account_receivableByID($taxPayerID,$id)
+    {
+        $accountMovement = AccountMovement::
+        Join('charts', 'charts.id', 'account_movements.chart_id')
+        ->leftJoin('currencies', 'currencies.id', 'account_movements.currency_id')
+        ->where('account_movements.taxpayer_id', $taxPayerID)
+        ->where('account_movements.id',$id)
+        ->select(DB::raw('false as selected,account_movements.id,charts.name as chart,chart_id
+        ,transaction_id,currencies.name as currency,currency_id,rate,debit,credit,date
+        '))
+        ->get();
+        return response()->json($accountMovement);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -47,13 +73,14 @@ class AccountReceivableController extends Controller
       }
 
       $accountMovement->taxpayer_id = $request->taxpayer_id;
-      $accountMovement->chart_id =$taxPayer->chart_id ;
+      $accountMovement->chart_id =$request->chart_id ;
       $accountMovement->date = $request->date;
-      $accountMovement->transaction_id = $request->transaction_id;
+
+      $accountMovement->transaction_id = $request->transaction_id!=''?$request->transaction_id:null;
       $accountMovement->currency_id = $request->currency_id;
       $accountMovement->rate = $request->rate;
-      $accountMovement->debit = $request->debit;
-      $accountMovement->credit = $request->credit;
+      $accountMovement->debit = $request->debit!=''?$request->debit:0;
+      $accountMovement->credit = $request->credit!=''?$request->credit:0;
       $accountMovement->comment = $request->comment;
 
       $accountMovement->save();

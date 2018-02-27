@@ -88386,7 +88386,7 @@ Vue.component('account-payable-form', {
 
             var app = this;
             var api = null;
-
+            this.taxpayer_id = this.taxpayer;
             $.ajax({
                 url: '',
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
@@ -88396,8 +88396,7 @@ Vue.component('account-payable-form', {
                 async: false,
                 success: function success(data) {
                     if (data == 'ok') {
-                        app.reset();
-                        app.init();
+                        app.onReset();
                     } else {
                         alert('Something Went Wrong...');
                     }
@@ -88420,6 +88419,7 @@ Vue.component('account-payable-form', {
             app.rate = null;
             app.debit = null;
             app.credit = null;
+            app.$parent.status = 0;
         },
 
         cancel: function cancel() {
@@ -88444,6 +88444,18 @@ Vue.component('account-payable-form', {
                     console.log(xhr.responseText);
                 }
             });
+        },
+        onEdit: function onEdit(data) {
+            var app = this;
+            app.id = data.id;
+            app.taxpayer_id = data.taxpayer_id;
+            app.chart_id = data.chart_id;
+            app.date = data.date;
+            app.transaction_id = data.transaction_id;
+            app.currency_id = data.currency_id;
+            app.rate = data.rate;
+            app.debit = data.debit;
+            app.credit = data.credit;
         },
         getCharts: function getCharts(data) {
             var app = this;
@@ -88477,7 +88489,7 @@ Vue.component('account-payable-form', {
 /***/ (function(module, exports) {
 
 
-Vue.component('account-receivable-list', {
+Vue.component('account-payable-list', {
 
     props: ['taxpayer'],
     data: function data() {
@@ -88486,12 +88498,12 @@ Vue.component('account-receivable-list', {
                 label: 'SelectAll',
                 sortable: false
             }, {
-                label: 'Code',
-                field: 'code',
+                label: ' Chart',
+                field: 'chart',
                 filterable: true
             }, {
-                label: 'Number',
-                field: 'number',
+                label: 'Amount',
+                field: 'debit',
                 filterable: true
             }, {
                 label: 'Date',
@@ -88550,6 +88562,25 @@ Vue.component('account-receivable-list', {
                     // }
                 },
                 error: function error(xhr, status, _error) {
+                    console.log(status);
+                }
+            });
+        },
+
+        onEdit: function onEdit(data) {
+
+            var app = this;
+            app.$parent.status = 1;
+            $.ajax({
+                url: '/api/get_account_payableByID/' + app.taxpayer + '/' + data.id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    app.$parent.$children[0].onEdit(data[0]);
+                },
+                error: function error(xhr, status, _error2) {
                     console.log(status);
                 }
             });
@@ -88618,7 +88649,7 @@ Vue.component('account-receivable-form', {
 
             var app = this;
             var api = null;
-
+            this.taxpayer_id = this.taxpayer;
             $.ajax({
                 url: '',
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
@@ -88628,8 +88659,7 @@ Vue.component('account-receivable-form', {
                 async: false,
                 success: function success(data) {
                     if (data == 'ok') {
-                        app.reset();
-                        app.init();
+                        app.onReset();
                     } else {
                         alert('Something Went Wrong...');
                     }
@@ -88638,6 +88668,18 @@ Vue.component('account-receivable-form', {
                     console.log(xhr.responseText);
                 }
             });
+        },
+        onEdit: function onEdit(data) {
+            var app = this;
+            app.id = data.id;
+            app.taxpayer_id = data.taxpayer_id;
+            app.chart_id = data.chart_id;
+            app.date = data.date;
+            app.transaction_id = data.transaction_id;
+            app.currency_id = data.currency_id;
+            app.rate = data.rate;
+            app.debit = data.debit;
+            app.credit = data.credit;
         },
 
         onReset: function onReset() {
@@ -88652,6 +88694,7 @@ Vue.component('account-receivable-form', {
             app.rate = null;
             app.debit = null;
             app.credit = null;
+            app.$parent.status = 0;
         },
 
         cancel: function cancel() {
@@ -88700,6 +88743,7 @@ Vue.component('account-receivable-form', {
 
     mounted: function mounted() {
         this.getCurrencies();
+        this.getCharts();
     }
 });
 
@@ -88718,12 +88762,12 @@ Vue.component('account-receivable-list', {
                 label: 'SelectAll',
                 sortable: false
             }, {
-                label: 'Code',
-                field: 'code',
+                label: ' Chart',
+                field: 'chart',
                 filterable: true
             }, {
-                label: 'Number',
-                field: 'number',
+                label: 'Amount',
+                field: 'credit',
                 filterable: true
             }, {
                 label: 'Date',
@@ -88782,6 +88826,25 @@ Vue.component('account-receivable-list', {
                     // }
                 },
                 error: function error(xhr, status, _error) {
+                    console.log(status);
+                }
+            });
+        },
+
+        onEdit: function onEdit(data) {
+
+            var app = this;
+            app.$parent.status = 1;
+            $.ajax({
+                url: '/api/get_account_receivableByID/' + app.taxpayer + '/' + data.id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    app.$parent.$children[0].onEdit(data[0]);
+                },
+                error: function error(xhr, status, _error2) {
                     console.log(status);
                 }
             });
@@ -89372,8 +89435,7 @@ Vue.component('credit-note-form', {
                 async: false,
                 success: function success(data) {
                     if (data == 'ok') {
-                        app.reset();
-                        app.init();
+                        app.onReset();
                     } else {
                         alert('Something Went Wrong...');
                     }
@@ -89421,6 +89483,7 @@ Vue.component('credit-note-form', {
             app.comment = null;
             app.ref_id = null;
             app.details = [];
+            app.$parent.status = 0;
         },
         getDocuments: function getDocuments(data) {
             var app = this;
@@ -89787,8 +89850,7 @@ Vue.component('debit-note-form', {
                 async: false,
                 success: function success(data) {
                     if (data == 'ok') {
-                        app.reset();
-                        app.init();
+                        app.onReset();
                     } else {
                         alert('Something Went Wrong...');
                     }
@@ -89836,6 +89898,7 @@ Vue.component('debit-note-form', {
             app.comment = null;
             app.ref_id = null;
             app.details = [];
+            app.$parent.status = 0;
         },
         getDocuments: function getDocuments(data) {
             var app = this;
@@ -90419,8 +90482,7 @@ Vue.component('purchases-form', {
                 async: false,
                 success: function success(data) {
                     if (data == 'ok') {
-                        app.reset();
-                        app.init();
+                        app.onReset();
                     } else {
                         alert('Something Went Wrong...');
                     }
@@ -90468,6 +90530,7 @@ Vue.component('purchases-form', {
             app.comment = null;
             app.ref_id = null;
             app.details = [];
+            app.$parent.status = 0;
         },
         getDocuments: function getDocuments(data) {
             var app = this;
@@ -90834,8 +90897,7 @@ Vue.component('sales-form', {
                 async: false,
                 success: function success(data) {
                     if (data == 'ok') {
-                        app.reset();
-                        app.init();
+                        app.onReset();
                     } else {
                         alert('Something Went Wrong...');
                     }
@@ -90883,6 +90945,7 @@ Vue.component('sales-form', {
             app.comment = null;
             app.ref_id = null;
             app.details = [];
+            app.$parent.status = 0;
         },
         getDocuments: function getDocuments(data) {
             var app = this;
