@@ -28,13 +28,15 @@ mix.sass('resources/assets/sass/app.scss', 'public/css')
     resolve: {
         modules: [
             path.resolve(__dirname, 'vendor/laravel/spark-aurelius/resources/assets/js'),
-            'node_modules'
+            'node_modules',
+            'vue2-datatable-component'
         ],
         alias: {
             'vue$': 'vue/dist/vue.js'
         }
     }
 });
+
 
 if (mix.inProduction())
 {

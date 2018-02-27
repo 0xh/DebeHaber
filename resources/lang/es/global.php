@@ -24,5 +24,6 @@ return [
     'Save' => 'Save',
     'Cancel' => 'Cancel',
     'Action' => 'Action',
-    'Notification' => 'Notification | Notifications'
+    'Notification' => 'Notification | Notifications',
+    'Dashboard' => 'Tablero :team'
 ];

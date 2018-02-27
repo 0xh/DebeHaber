@@ -19,14 +19,16 @@ require('./components/bootstrap');
 
 import VueRouter from 'vue-router';
 import SearchBox from './components/searchbox.vue';
-import Datatable from './components/datatable.vue';
+// import Datatable from './components/datatable.vue';
 import Vue from 'vue';
 import VueGoodTable from 'vue-good-table';
+import Datatable from 'vue2-datatable-component';
 
 window.Vue = require('vue');
 window.Vue.use(VueRouter);
 window.Vue.use(require('vue-shortkey'));
 Vue.use(VueGoodTable);
+Vue.use(Datatable);
 
 const routes = [
     {

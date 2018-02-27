@@ -16,7 +16,7 @@
                             <li class="m-nav__item m-nav__item--home">
                                 <a href="{{ route('hello') }}" class="m-nav__link m-nav__link--icon m--font-primary">
                                     <i class="la la-home"></i>
-                                    @{{ currentTeam.name }} @lang('global.Dashboard')
+                                    @lang('global.Dashboard',['team' => Auth::user()->currentTeam->name])
                                 </a>
                             </li>
                             <li class="m-nav__separator">

@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function ()
     //Takes the TaxPayer and puts it into the route passing it to Dashboard.
     Route::get('selectTaxPayer/{taxPayer}', 'TaxpayerController@selectTaxpayer')->name('selectTaxPayer');
 
+// ['middleware' => 'security'], 
     Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
     {
         //These Pages require Cycle in Session to perform searches and show relevant data.
@@ -71,13 +72,11 @@ Route::group(['middleware' => 'auth'], function ()
 
             Route::get('purchase-vat/{strDate}/{endDate}', 'ReportController@vatPurchase')->name('reports.purchaseVAT');
             Route::get('purchase-vat-bySupplier/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupBySupplier');
-            Route::get('purchase-vat-byCenter/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupByBusinessCenter');
-            Route::get('purchase-vat-byBranch/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupByBranch');
+            Route::get('purchase-vat-byChart/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupByBusinessCenter');
 
             Route::get('sales-vat/{strDate}/{endDate}', 'ReportController@vatSales')->name('reports.salesVAT');
             Route::get('sales-vat-byCustomer/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByCustomer');
-            Route::get('sales-vat-byCenter/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByBusinessCenter');
-            Route::get('sales-vat-byBranch/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByBranch');
+            Route::get('sales-vat-byChart/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByBusinessCenter');
 
             Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 

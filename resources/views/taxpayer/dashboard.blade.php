@@ -1,6 +1,6 @@
 @extends('spark::layouts.dashboard')
 
-@section('title', request()->route('taxPayer')->alias . ' Dashboard')
+@section('title', __('global.Dashboard',['team' => request()->route('taxPayer')->alias]))
 
 @section('content')
 
