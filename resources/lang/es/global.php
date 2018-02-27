@@ -13,17 +13,17 @@ return [
     |
     */
 
-    'Reports' => 'Reports',
-    'Name' => 'Journal',
-    'Year' => 'Year',
-    'Date' => 'Journal Template',
-    'StartDate' => 'Journal Simulation',
-    'EndDate' => 'Chart of Accounts',
-    'Code' => 'Accounting Cycle',
+    'Reports' => 'Informes',
+    'Name' => 'Nombre',
+    'Year' => 'Añp',
+    'Date' => 'Fecha',
+    'StartDate' => 'Fecha de Inicio',
+    'EndDate' => 'Fecha Final',
+    'Code' => 'Timbrado',
     'Alias' => 'Alias',
-    'Save' => 'Save',
-    'Cancel' => 'Cancel',
-    'Action' => 'Action',
-    'Notification' => 'Notification | Notifications',
+    'Save' => 'Guardar',
+    'Cancel' => 'Cancelar',
+    'Action' => 'Acciones',
+    'Notification' => 'Notificación | Notificaciones',
     'Dashboard' => 'Tablero :team'
 ];
