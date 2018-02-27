@@ -15,51 +15,49 @@ use Laravel\Passport;
 
 Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
 
-Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
+Route::prefix('{taxPayer}')->group(function ()
 {
     Route::get('get_cycle', 'CycleController@get_cycle');
     Route::get('get_chartversion', 'ChartVersionController@get_chartversion');
+    Route::get('get_currency', 'CurrencyController@get_currency');
+    Route::get('get_rateByCurrency/{id}/{date}', 'CurrencyRateController@get_rateByCurrency');
+    Route::get('get_document/{type}', 'DocumentController@get_document');
+    Route::get('get_taxpayer', 'TaxpayerController@get_taxpayer');
+
+    Route::prefix('{cycle}')->group(function ()
+    {
+        Route::prefix('accounting')->group(function ()
+        {
+            Route::prefix('chart')->group(function ()
+            {
+                Route::get('get_item', 'ChartController@get_item');
+                Route::get('get_account', 'ChartController@get_account');
+                Route::get('get_tax', 'ChartController@get_tax');
+            });
+        });
+
+        Route::prefix('commercial')->group(function ()
+        {
+            Route::get('get_sales', 'SalesController@get_sales');
+            Route::get('get_salesByID/{id}', 'SalesController@get_salesByID');
+
+            Route::get('get_purchases', 'PurchaseController@get_purchases');
+            Route::get('get_purchasesByID/{id}', 'PurchaseController@get_purchasesByID');
+
+            Route::get('get_credit_note', 'CreditNoteController@get_credit_note');
+            Route::get('get_credit_noteByID/{id}', 'CreditNoteController@get_credit_noteByID');
+
+            Route::get('get_debit_note', 'DebitNoteController@get_debit_note');
+            Route::get('get_debit_noteByID/{id}', 'DebitNoteController@get_debit_noteByID');
+
+            Route::get('get_account_receivable', 'AccountReceivableController@get_account_receivable');
+            Route::get('get_account_receivableByID/{id}', 'AccountReceivableController@get_account_receivableByID');
+            
+            Route::get('get_account_payable', 'AccountPayableController@get_account_payable');
+            Route::get('get_account_payableByID/{id}', 'AccountPayableController@get_account_payableByID');
+        });
+    });
 });
-
-
-
-Route::get('/get_product/{$taxPayerID}', 'ChartController@get_product');
-
-Route::get('/get_account/{$taxPayerID}', 'ChartController@get_account');
-
-Route::get('/get_tax/{$taxPayerID}', 'ChartController@get_tax');
-
-Route::get('/get_sales/{$taxPayerID}', 'SalesController@get_sales');
-
-Route::get('/get_salesByID/{$taxPayerID}/{id}', 'SalesController@get_salesByID');
-
-Route::get('/get_purchases/{$taxPayerID}', 'PurchaseController@get_purchases');
-
-Route::get('/get_purchasesByID/{$taxPayerID}/{id}', 'PurchaseController@get_purchasesByID');
-
-Route::get('/get_credit_note/{$taxPayerID}', 'CreditNoteController@get_credit_note');
-
-Route::get('/get_credit_noteByID/{$taxPayerID}/{id}', 'CreditNoteController@get_credit_noteByID');
-
-Route::get('/get_debit_note/{$taxPayerID}', 'DebitNoteController@get_debit_note');
-
-Route::get('/get_debit_noteByID/{$taxPayerID}/{id}', 'DebitNoteController@get_debit_noteByID');
-
-Route::get('/get_currency/{$taxPayerID}', 'CurrencyController@get_currency');
-
-Route::get('/get_rateByCurrency/{$taxPayerID}/{id}/{date}', 'CurrencyRateController@get_rateByCurrency');
-
-Route::get('/get_document/{type}/{$taxPayerID}', 'DocumentController@get_document');
-
-Route::get('/get_taxpayer/{$taxPayerID}', 'TaxpayerController@get_taxpayer');
-
-Route::get('/get_account_receivable/{$taxPayerID}', 'AccountReceivableController@get_account_receivable');
-
-Route::get('/get_account_receivableByID/{$taxPayerID}/{id}', 'AccountReceivableController@get_account_receivableByID');
-
-Route::get('/get_account_payable/{$taxPayerID}', 'AccountPayableController@get_account_payable');
-
-Route::get('/get_account_payableByID/{$taxPayerID}/{id}', 'AccountPayableController@get_account_payableByID');
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
@@ -67,17 +65,6 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         return['username' => 'tao'];
     });
-
-    //Get taxPayer List -> through Elastic Search
-
-    //Get Charts with is_accountable = true
-
-
-
-    //Get All Charts by Version
-
-    //Get
-
 });
 
 Route::get('create-test-token', function() {
