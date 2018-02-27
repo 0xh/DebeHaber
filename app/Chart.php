@@ -12,17 +12,22 @@ class Chart extends Model
 {
     //
     use Searchable;
-    public $searchable = ['id', 'code', 'name', 'type', 'country', 'taxpayer_id', 'sub_type', 'is_accountable'];
+    public $searchable = ['id',
+    'code',
+    'name',
+    'type',
+    'country',
+    'taxpayer_id',
+    'sub_type',
+    'is_accountable'];
 
 
+    //Assign General Scope to all Queries. Simplifies not having to individuall call a scope.
     protected static function boot()
     {
         parent::boot();
-        //static::addGlobalScope(new ChartScope);
 
-        // static::addGlobalScope('age', function (Builder $builder) {
-        //     $builder->where('age', '>', 200);
-        // });
+        static::addGlobalScope(new ChartScope);
     }
 
     //This scope is handled by the Global Scope.

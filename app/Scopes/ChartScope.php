@@ -9,16 +9,32 @@ use Illuminate\Database\Eloquent\Builder;
 class ChartScope implements Scope
 {
     /**
-     * Apply the scope to a given Eloquent query builder.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return void
-     */
+    * Global Scope that works as follows:
+    * Bring all Charts from Taxpayer, or where Taxpayer is null and country is same as taxpayer.
+    * This will allow to bring charts that are generic but only form same country.
+    *
+    * Problem: This will not bring from current Cycle Version. Include that into Logic.
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $builder
+    * @param  \Illuminate\Database\Eloquent\Model  $model
+    * @return void
+    */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('taxpayer_id', request()->route('taxPayer')->id)
-        ->orWhereIsNull('taxpayer_id')
-        ->where('country', request()->route('taxPayer')->country);
+        $taxPayer = request()->route('taxPayer');
+        $versionID = request()->route('cycle')->version_id;
+
+        $builder->where(function($query) use ($taxPayer)
+        {
+            $query
+            ->where('taxpayer_id', $taxPayer->id)
+            ->orWhere(function($subQuery) use ($taxPayer)
+            {
+                $subQuery
+                ->whereNull('taxpayer_id')
+                ->where('country', $taxPayer->country);
+            });
+        })
+        ->where('version_id', $versionID);
     }
 }
