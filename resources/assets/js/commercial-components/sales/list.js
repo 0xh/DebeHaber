@@ -1,7 +1,7 @@
 
 Vue.component('sales-list',{
 
-    props: ['taxpayer'],
+    props: ['taxpayer','cycle'],
     data(){
         return {
             columns: [
@@ -55,7 +55,7 @@ Vue.component('sales-list',{
         init(){
             var app = this;
             $.ajax({
-                url: '/api/get_sales/' + app.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_sales' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -99,7 +99,7 @@ Vue.component('sales-list',{
             var app = this;
             app.$parent.status=1;
             $.ajax({
-                url: '/api/get_salesByID/' + app.taxpayer + '/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data.id,
                 type: 'get',
                 dataType: 'json',
                 async: true,

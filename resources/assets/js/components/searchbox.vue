@@ -20,6 +20,14 @@
                                     <input type="text" v-model="name"/>
                                 </div>
                             </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    Code
+                                </label>
+                                <div class="col-lg-7">
+                                    <input type="text" v-model="code"/>
+                                </div>
+                            </div>
 
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-3 col-form-label">
@@ -117,7 +125,7 @@
 import VueTypeahead from 'vue-typeahead'
 import Vue from 'vue'
 import Axios from 'axios'
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.prototype.$http = Axios
 
 export default {
@@ -129,8 +137,9 @@ export default {
             gov_code:'',
             address:'',
             email:'',
+            code:'',
             telephone:'',
-            src: '/api' + this.url  + this.current_company,
+            src: '/api/' + this.current_company  + this.url,
             limit: 5,
             minChars: 3,
             queryParamName: '',
@@ -147,31 +156,34 @@ export default {
 
             app.selectText = item.name + ' | ' + item.code;
             app.id= item.id;
-            
+
         },
         onSave()
         {
-            axios({
-                method: 'post',
-                url: '/api/saveCompany/',
-                responseType: 'json',
-                data: {
-                    name:this.name,
-                    gov_code:this.code,
-                    address:this.address,
-                    email:this.email,
-                    telephone:this.telephone,
-                }
+            $.ajax({
+               url: '/taxpayer',
+               headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+               type: 'post',
+               data:{
+                   name:this.name,
+                   code:this.code,
+                   taxid:this.gov_code,
+                   address:this.address,
+                   email:this.email,
+                   telephone:this.telephone,
+               },
+               dataType: 'json',
+               async: false,
+               success: function(data)
+               {
+                   //console.log(data);
+               },
+               error: function(xhr, status, error)
+               {
+                   console.log(xhr.responseText);
+               }
+           });
 
-            }).then(function (response)
-            {
-
-
-            })
-            .catch(function (error)
-            {
-                console.log(error);
-            });
         }
     }
 }

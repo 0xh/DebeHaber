@@ -52,7 +52,7 @@ Vue.component('credit-note-list',{
         init(){
             var app = this;
             $.ajax({
-                url: '/api/get_credit_note/' + app.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_note' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -96,7 +96,7 @@ Vue.component('credit-note-list',{
             var app = this;
             app.$parent.status=1;
             $.ajax({
-                url: '/api/get_credit_noteByID/' + app.taxpayer + '/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_noteByID/' + data.id,
                 type: 'get',
                 dataType: 'json',
                 async: true,

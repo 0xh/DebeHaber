@@ -2,7 +2,7 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('debit-note-form',{
-    props: ['taxpayer','trantype'],
+    props: ['taxpayer','trantype','cycle'],
     data() {
         return {
             id:0,
@@ -198,7 +198,7 @@ Vue.component('debit-note-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/get_document/1/' + this.taxpayer ,
+                url: '/api/' + this.taxpayer + '/get_document/1/' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -226,7 +226,7 @@ Vue.component('debit-note-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/get_currency/' + this.taxpayer ,
+                url: '/api/' + this.taxpayer + '/get_currency' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -250,7 +250,7 @@ Vue.component('debit-note-form',{
 
           var app=this;
           $.ajax({
-            url: '/api/get_rateByCurrency/' + this.taxpayer + '/' + app.currency_id + '/' + app.date  ,
+            url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
             type: 'get',
             dataType: 'json',
             async: true,
@@ -273,7 +273,7 @@ Vue.component('debit-note-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/get_product/' + this.taxpayer ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -296,7 +296,7 @@ Vue.component('debit-note-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/get_tax/' + this.taxpayer ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -319,7 +319,7 @@ Vue.component('debit-note-form',{
         {
             var app = this;
             $.ajax({
-                url: '/api/get_account/' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -346,5 +346,6 @@ Vue.component('debit-note-form',{
         this.getCurrencies();
         this.getCharts();
         this.getTaxs();
+        this.getAccounts();
     }
 });

@@ -22,7 +22,7 @@ Route::prefix('{taxPayer}')->group(function ()
     Route::get('get_currency', 'CurrencyController@get_currency');
     Route::get('get_rateByCurrency/{currencyID}/{date}', 'CurrencyRateController@get_rateByCurrency');
     Route::get('get_document/{type}', 'DocumentController@get_document');
-    Route::get('get_taxpayer', 'TaxpayerController@get_taxpayer');
+    Route::get('get_taxpayer/{frase}', 'TaxpayerController@get_taxpayer');
 
     Route::prefix('{cycle}')->group(function ()
     {

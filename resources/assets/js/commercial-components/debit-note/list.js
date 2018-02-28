@@ -52,7 +52,7 @@ Vue.component('debit-note-list',{
         init(){
             var app = this;
             $.ajax({
-                url: '/api/get_debit_note/' + app.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_note' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -96,7 +96,7 @@ Vue.component('debit-note-list',{
             var app = this;
             app.$parent.status=1;
             $.ajax({
-                url: '/api/get_debit_notesByID/' + app.taxpayer + '/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_noteByID/' + data.id ,
                 type: 'get',
                 dataType: 'json',
                 async: true,

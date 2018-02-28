@@ -45,7 +45,7 @@
                         </label>
                         <div class="col-8">
                             <div class="input-group">
-                                <select required v-model="currency_id" class="custom-select">
+                                <select required v-model="currency_id" class="custom-select" v-on:change="getRate()">
                                     <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }}</option>
                                 </select>
                                 <input type="text" class="form-control" v-model="rate" />

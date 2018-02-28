@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<debit-note-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
+<debit-note-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
     <div>
         <div class="row">
             <div class="col-6">
@@ -19,7 +19,7 @@
                     </label>
 
                     <div class="col-8">
-                        <router-view name="SearchBox" :url="/get_taxpayer/"  :current_company="{{ request()->route('taxPayer') }}" ></router-view>
+                        <router-view name="SearchBox" :url="/get_taxpayer/"  :current_company="{{ request()->route('taxPayer')->id }}" ></router-view>
                     </div>
                 </div>
             </div>

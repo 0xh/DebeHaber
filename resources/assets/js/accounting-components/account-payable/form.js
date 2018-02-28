@@ -87,7 +87,7 @@ Vue.component('account-payable-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/get_currency/' + this.taxpayer ,
+                url: '/api/' + this.taxpayer + '/get_currency' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -106,6 +106,30 @@ Vue.component('account-payable-form',{
                 }
             });
         },
+        getRate: function()
+          {
+
+              var app=this;
+              $.ajax({
+                  url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
+                  type: 'get',
+                  dataType: 'json',
+                  async: true,
+                  success: function(data)
+                  {
+
+                      if (app.rate=='' || app.rate==null) {
+                          app.rate=data;
+                      }
+
+
+                  },
+                  error: function(xhr, status, error)
+                  {
+                      console.log(xhr.responseText);
+                  }
+              });
+          },
         onEdit: function(data)
         {
             var app = this;

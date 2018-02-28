@@ -96,8 +96,9 @@ class ChartController extends Controller
         //
     }
 
-    public function get_chart($taxPayerID)
+    public function get_chart($taxPayerID,$cycle)
     {
+
         $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
         ->join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->select('charts.id',
@@ -114,12 +115,13 @@ class ChartController extends Controller
         return response()->json($chart);
     }
 
-    public function get_product($taxPayerID)
+    public function get_item(Taxpayer $taxPayer,Cycle $cycle)
     {
-        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
+
+        $chart = Chart::
+        Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->where('charts.type', 1)
         ->where('charts.sub_type', 8)
-        ->Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->select('charts.id',
         'charts.country',
         'charts.is_accountable',
@@ -135,12 +137,12 @@ class ChartController extends Controller
         return response()->json($chart);
     }
 
-    public function get_account($taxPayerID)
+    public function get_account(Taxpayer $taxPayer,Cycle $cycle)
     {
-        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)->where('charts.type', 1)
+        $chart = Chart::Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
+        ->where('charts.type', 1)
         ->where('charts.sub_type', 1)
         ->orwhere('charts.sub_type', 3)
-        ->Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->select('charts.id',
         'charts.country',
         'charts.is_accountable',
@@ -156,12 +158,12 @@ class ChartController extends Controller
         return response()->json($chart);
     }
 
-    public function get_tax($taxPayerID)
+    public function get_tax(Taxpayer $taxPayer,Cycle $cycle)
     {
-        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
+        $chart = Chart::
+        join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->where('charts.type', 1)
         ->where('charts.sub_type', 12)
-        ->join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->select('charts.id',
         'charts.country',
         'charts.is_accountable',

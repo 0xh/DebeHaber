@@ -2940,11 +2940,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED_MODULE_2_axios___default.a;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2956,8 +2964,9 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED
             gov_code: '',
             address: '',
             email: '',
+            code: '',
             telephone: '',
-            src: '/api' + this.url + this.current_company,
+            src: '/api/' + this.current_company + this.url,
             limit: 5,
             minChars: 3,
             queryParamName: '',
@@ -2975,20 +2984,26 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED
             app.id = item.id;
         },
         onSave: function onSave() {
-            axios({
-                method: 'post',
-                url: '/api/saveCompany/',
-                responseType: 'json',
+            $.ajax({
+                url: '/taxpayer',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
                 data: {
                     name: this.name,
-                    gov_code: this.code,
+                    code: this.code,
+                    taxid: this.gov_code,
                     address: this.address,
                     email: this.email,
                     telephone: this.telephone
+                },
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    //console.log(data);
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
                 }
-
-            }).then(function (response) {}).catch(function (error) {
-                console.log(error);
             });
         }
     }
@@ -80060,6 +80075,37 @@ var render = function() {
               _c("div", { staticClass: "form-group m-form__group row" }, [
                 _c("label", { staticClass: "col-lg-3 col-form-label" }, [
                   _vm._v(
+                    "\n                                Nombre\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-7" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.code,
+                        expression: "code"
+                      }
+                    ],
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.code },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.code = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group m-form__group row" }, [
+                _c("label", { staticClass: "col-lg-3 col-form-label" }, [
+                  _vm._v(
                     "\n                                RUC\n                            "
                   )
                 ]),
@@ -95902,7 +95948,7 @@ Vue.component('account-payable-form', {
         getCurrencies: function getCurrencies(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_currency/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/get_currency',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -95913,6 +95959,25 @@ Vue.component('account-payable-form', {
                     }
                 },
                 error: function error(xhr, status, _error2) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getRate: function getRate() {
+
+            var app = this;
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    if (app.rate == '' || app.rate == null) {
+                        app.rate = data;
+                    }
+                },
+                error: function error(xhr, status, _error3) {
                     console.log(xhr.responseText);
                 }
             });
@@ -95942,7 +96007,7 @@ Vue.component('account-payable-form', {
                         app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error3) {
+                error: function error(xhr, status, _error4) {
                     console.log(xhr.responseText);
                 }
             });
@@ -96177,7 +96242,7 @@ Vue.component('account-receivable-form', {
         getCurrencies: function getCurrencies(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_currency/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/get_currency',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -96188,6 +96253,25 @@ Vue.component('account-receivable-form', {
                     }
                 },
                 error: function error(xhr, status, _error2) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+        getRate: function getRate() {
+
+            var app = this;
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    if (app.rate == '' || app.rate == null) {
+                        app.rate = data;
+                    }
+                },
+                error: function error(xhr, status, _error3) {
                     console.log(xhr.responseText);
                 }
             });
@@ -96205,7 +96289,7 @@ Vue.component('account-receivable-form', {
                         app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error3) {
+                error: function error(xhr, status, _error4) {
                     console.log(xhr.responseText);
                 }
             });
@@ -96788,7 +96872,7 @@ __webpack_require__("./resources/assets/js/commercial-components/credit-note/for
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('credit-note-form', {
-    props: ['taxpayer', 'trantype'],
+    props: ['taxpayer', 'trantype', 'cycle'],
     data: function data() {
         return {
             id: 0,
@@ -96961,7 +97045,7 @@ Vue.component('credit-note-form', {
         getDocuments: function getDocuments(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_document/2/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/get_document/2/',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -96984,7 +97068,7 @@ Vue.component('credit-note-form', {
         getCurrencies: function getCurrencies(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_currency/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/get_currency',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97003,7 +97087,7 @@ Vue.component('credit-note-form', {
 
             var app = this;
             $.ajax({
-                url: '/api/get_rateByCurrency/' + this.taxpayer + '/' + app.currency_id + '/' + app.date,
+                url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97021,7 +97105,7 @@ Vue.component('credit-note-form', {
         getCharts: function getCharts(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_product/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97039,7 +97123,7 @@ Vue.component('credit-note-form', {
         getTaxs: function getTaxs(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_tax/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97057,7 +97141,7 @@ Vue.component('credit-note-form', {
         getAccounts: function getAccounts(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_account/',
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97080,6 +97164,7 @@ Vue.component('credit-note-form', {
         this.getCurrencies();
         this.getCharts();
         this.getTaxs();
+        this.getAccounts();
     }
 });
 
@@ -97130,7 +97215,7 @@ Vue.component('credit-note-list', {
         init: function init() {
             var app = this;
             $.ajax({
-                url: '/api/get_credit_note/' + app.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_note',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97172,7 +97257,7 @@ Vue.component('credit-note-list', {
             var app = this;
             app.$parent.status = 1;
             $.ajax({
-                url: '/api/get_credit_noteByID/' + app.taxpayer + '/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_noteByID/' + data.id,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97222,7 +97307,7 @@ __webpack_require__("./resources/assets/js/commercial-components/debit-note/form
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('debit-note-form', {
-    props: ['taxpayer', 'trantype'],
+    props: ['taxpayer', 'trantype', 'cycle'],
     data: function data() {
         return {
             id: 0,
@@ -97395,7 +97480,7 @@ Vue.component('debit-note-form', {
         getDocuments: function getDocuments(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_document/1/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/get_document/1/',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97418,7 +97503,7 @@ Vue.component('debit-note-form', {
         getCurrencies: function getCurrencies(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_currency/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/get_currency',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97437,7 +97522,7 @@ Vue.component('debit-note-form', {
 
             var app = this;
             $.ajax({
-                url: '/api/get_rateByCurrency/' + this.taxpayer + '/' + app.currency_id + '/' + app.date,
+                url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97455,7 +97540,7 @@ Vue.component('debit-note-form', {
         getCharts: function getCharts(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_product/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97473,7 +97558,7 @@ Vue.component('debit-note-form', {
         getTaxs: function getTaxs(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_tax/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97491,7 +97576,7 @@ Vue.component('debit-note-form', {
         getAccounts: function getAccounts(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_account/',
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97514,6 +97599,7 @@ Vue.component('debit-note-form', {
         this.getCurrencies();
         this.getCharts();
         this.getTaxs();
+        this.getAccounts();
     }
 });
 
@@ -97564,7 +97650,7 @@ Vue.component('debit-note-list', {
         init: function init() {
             var app = this;
             $.ajax({
-                url: '/api/get_debit_note/' + app.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_note',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97606,7 +97692,7 @@ Vue.component('debit-note-list', {
             var app = this;
             app.$parent.status = 1;
             $.ajax({
-                url: '/api/get_debit_notesByID/' + app.taxpayer + '/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_noteByID/' + data.id,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -97873,7 +97959,7 @@ __webpack_require__("./resources/assets/js/commercial-components/purchase/form.j
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('purchases-form', {
-  props: ['taxpayer', 'trantype'],
+  props: ['taxpayer', 'trantype', 'cycle'],
   data: function data() {
     return {
       id: 0,
@@ -98046,7 +98132,7 @@ Vue.component('purchases-form', {
     getDocuments: function getDocuments(data) {
       var app = this;
       $.ajax({
-        url: '/api/get_document/2/' + this.taxpayer,
+        url: '/api/' + this.taxpayer + '/get_document/2/',
         type: 'get',
         dataType: 'json',
         async: true,
@@ -98069,7 +98155,7 @@ Vue.component('purchases-form', {
     getCurrencies: function getCurrencies(data) {
       var app = this;
       $.ajax({
-        url: '/api/get_currency/' + this.taxpayer,
+        url: '/api/' + this.taxpayer + '/get_currency',
         type: 'get',
         dataType: 'json',
         async: true,
@@ -98088,7 +98174,7 @@ Vue.component('purchases-form', {
 
       var app = this;
       $.ajax({
-        url: '/api/get_rateByCurrency/' + this.taxpayer + '/' + app.currency_id + '/' + app.date,
+        url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
         type: 'get',
         dataType: 'json',
         async: true,
@@ -98106,7 +98192,7 @@ Vue.component('purchases-form', {
     getCharts: function getCharts(data) {
       var app = this;
       $.ajax({
-        url: '/api/get_product/' + this.taxpayer,
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item',
         type: 'get',
         dataType: 'json',
         async: true,
@@ -98124,7 +98210,7 @@ Vue.component('purchases-form', {
     getTaxs: function getTaxs(data) {
       var app = this;
       $.ajax({
-        url: '/api/get_tax/' + this.taxpayer,
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax',
         type: 'get',
         dataType: 'json',
         async: true,
@@ -98142,7 +98228,7 @@ Vue.component('purchases-form', {
     getAccounts: function getAccounts(data) {
       var app = this;
       $.ajax({
-        url: '/api/get_account/',
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
         type: 'get',
         dataType: 'json',
         async: true,
@@ -98165,6 +98251,7 @@ Vue.component('purchases-form', {
     this.getCurrencies();
     this.getCharts();
     this.getTaxs();
+    this.getAccounts();
   }
 });
 
@@ -98176,7 +98263,7 @@ Vue.component('purchases-form', {
 
 Vue.component('purchases-list', {
 
-    props: ['taxpayer'],
+    props: ['taxpayer', 'cycle'],
     data: function data() {
         return {
             columns: [{
@@ -98215,7 +98302,7 @@ Vue.component('purchases-list', {
         init: function init() {
             var app = this;
             $.ajax({
-                url: '/api/get_purchases/' + app.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchases',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98257,7 +98344,7 @@ Vue.component('purchases-list', {
             var app = this;
             app.$parent.status = 1;
             $.ajax({
-                url: '/api/get_purcahsesByID/' + app.taxpayer + '/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchasesByID/' + data.id,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98307,7 +98394,7 @@ __webpack_require__("./resources/assets/js/commercial-components/sales/form.js")
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('sales-form', {
-    props: ['taxpayer', 'trantype'],
+    props: ['taxpayer', 'trantype', 'cycle'],
     data: function data() {
         return {
             id: 0,
@@ -98480,7 +98567,7 @@ Vue.component('sales-form', {
         getDocuments: function getDocuments(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_document/1/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/get_document/1/',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98503,7 +98590,7 @@ Vue.component('sales-form', {
         getCurrencies: function getCurrencies(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_currency/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/get_currency',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98522,7 +98609,7 @@ Vue.component('sales-form', {
 
             var app = this;
             $.ajax({
-                url: '/api/get_rateByCurrency/' + this.taxpayer + '/' + app.currency_id + '/' + app.date,
+                url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98542,7 +98629,7 @@ Vue.component('sales-form', {
         getCharts: function getCharts(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_product/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98557,10 +98644,11 @@ Vue.component('sales-form', {
                 }
             });
         },
-        getTaxs: function getTaxs(data) {
+        //VAT
+        getTaxes: function getTaxes(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_tax/' + this.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98575,10 +98663,11 @@ Vue.component('sales-form', {
                 }
             });
         },
+        //Get Money Accounts
         getAccounts: function getAccounts(data) {
             var app = this;
             $.ajax({
-                url: '/api/get_account/',
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98600,7 +98689,8 @@ Vue.component('sales-form', {
         this.getDocuments();
         this.getCurrencies();
         this.getCharts();
-        this.getTaxs();
+        this.getTaxes();
+        this.getAccounts();
     }
 });
 
@@ -98612,7 +98702,7 @@ Vue.component('sales-form', {
 
 Vue.component('sales-list', {
 
-    props: ['taxpayer'],
+    props: ['taxpayer', 'cycle'],
     data: function data() {
         return {
             columns: [{
@@ -98653,7 +98743,7 @@ Vue.component('sales-list', {
         init: function init() {
             var app = this;
             $.ajax({
-                url: '/api/get_sales/' + app.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_sales',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98695,7 +98785,7 @@ Vue.component('sales-list', {
             var app = this;
             app.$parent.status = 1;
             $.ajax({
-                url: '/api/get_salesByID/' + app.taxpayer + '/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data.id,
                 type: 'get',
                 dataType: 'json',
                 async: true,

@@ -21,20 +21,21 @@ class ChartScope implements Scope
     */
     public function apply(Builder $builder, Model $model)
     {
+
         $taxPayer = request()->route('taxPayer');
         $versionID = request()->route('cycle')->version_id;
 
         $builder->where(function($query) use ($taxPayer)
         {
             $query
-            ->where('taxpayer_id', $taxPayer->id)
+            ->where('charts.taxpayer_id', $taxPayer->id)
             ->orWhere(function($subQuery) use ($taxPayer)
             {
                 $subQuery
-                ->whereNull('taxpayer_id')
-                ->where('country', $taxPayer->country);
+                ->whereNull('charts.taxpayer_id')
+                ->where('charts.country', $taxPayer->country);
             });
         })
-        ->where('version_id', $versionID);
+        ->where('charts.chart_version_id', $versionID);
     }
 }

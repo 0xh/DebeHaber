@@ -22,15 +22,17 @@ class TaxpayerController extends Controller
 
     }
 
-    public function get_taxpayer($teamID)
+    public function get_taxpayer($teamID,$frase)
     {
-        $taxPayer = Taxpayer::where('id',$teamID)->first();
+        $taxPayers = Taxpayer::
+        where('name', 'LIKE', "%$frase%")
+        ->orwhere('code', 'LIKE', "$frase%")
+        ->orwhere('alias', 'LIKE', "%$frase%")
+        ->get();
 
-        if (isset($taxPayer))
-        {
-            $taxPayers = Taxpayer::get();
-            return response()->json($taxPayers);
-        }
+
+        return response()->json($taxPayers);
+
     }
 
     /**

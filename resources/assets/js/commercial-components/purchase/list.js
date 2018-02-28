@@ -1,7 +1,7 @@
 
 Vue.component('purchases-list',{
 
-    props: ['taxpayer'],
+    props: ['taxpayer','cycle'],
     data(){
         return {
             columns: [
@@ -52,7 +52,7 @@ Vue.component('purchases-list',{
         init(){
             var app = this;
             $.ajax({
-                url: '/api/get_purchases/' + app.taxpayer,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchases' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -96,7 +96,7 @@ Vue.component('purchases-list',{
             var app = this;
             app.$parent.status=1;
             $.ajax({
-                url: '/api/get_purcahsesByID/' + app.taxpayer + '/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchasesByID/' + data.id ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
