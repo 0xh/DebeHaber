@@ -9,6 +9,7 @@
         <taxpayer inline-template>
             <div>
                 <div class="row">
+
                     <div class="col-6">
                         <div class="form-group m-form__group row">
                             <label for="example-text-input" class="col-4 col-form-label">
@@ -19,6 +20,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-6">
                         <div class="form-group m-form__group row">
                             <label for="example-text-input" class="col-4 col-form-label">
@@ -29,6 +31,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-6">
                         <div class="form-group m-form__group row">
                             <label for="example-text-input" class="col-4 col-form-label">
@@ -39,6 +42,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-6">
                         <div class="form-group m-form__group row">
                             <label for="example-text-input" class="col-4 col-form-label">
@@ -46,38 +50,6 @@
                             </label>
                             <div class="col-8">
                                 <input type="text" class="form-control" v-model="alias" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group m-form__group row">
-                            <label for="example-text-input" class="col-4 col-form-label">
-                                @lang('global.Email')
-                            </label>
-                            <div class="col-8">
-                                <input type="text" class="form-control" v-model="email" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
-                        <div class="form-group m-form__group row">
-                            <label for="example-text-input" class="col-4 col-form-label">
-                                @lang('global.Email')
-                            </label>
-                            <div class="col-8">
-                                <input type="text" class="form-control" v-model="email" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
-                        <div class="form-group m-form__group row">
-                            <label for="example-text-input" class="col-4 col-form-label">
-                                @lang('global.Email')
-                            </label>
-                            <div class="col-8">
-                                <input type="text" class="form-control" v-model="email" />
                             </div>
                         </div>
                     </div>

@@ -14,12 +14,13 @@ return [
     */
 
     'Reports' => 'Reports',
-    'Name' => 'Journal',
+    'Name' => 'Name',
     'Year' => 'Year',
-    'Date' => 'Journal Template',
-    'StartDate' => 'Journal Simulation',
-    'EndDate' => 'Chart of Accounts',
-    'Code' => 'Accounting Cycle',
+    'Date' => 'Date',
+    'StartDate' => 'Start Date',
+    'EndDate' => 'End Date',
+    'Taxid' => 'Tax Identification Number',
+    'Code' => 'Code',
     'Alias' => 'Alias',
     'New' => 'New',
     'Save' => 'Save',
