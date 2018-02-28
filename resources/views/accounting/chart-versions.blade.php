@@ -1,6 +1,6 @@
 @extends('spark::layouts.one-column')
 
-@section('title', 'Chart Version')
+@section('title', __('accounting.ChartVersion'))
 
 @section('content')
   <meta name="csrf-token" content="{{ csrf_token() }}">

@@ -26,6 +26,9 @@ return [
     'Save' => 'Save',
     'Cancel' => 'Cancel',
     'Action' => 'Action',
+    'BelongsTo' => 'Belongs To',
+    'Type' => 'Type',
+    'SubType' => 'Sub Type',
     'Notification' => 'Notification | Notifications',
     'Dashboard' => ':team Dashboard'
 ];

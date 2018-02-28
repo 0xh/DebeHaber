@@ -1,6 +1,6 @@
 @extends('spark::layouts.form')
 
-@section('title', 'Accounts Receivables')
+@section('title', __('commercial.AccountsRecievable'))
 
 @section('form')
   <form-list  inline-template>

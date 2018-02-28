@@ -14,6 +14,7 @@ return [
     */
 
     'Accounting' => 'Contabilidad',
+    'Accounts' => 'Cuentas',
     'Journal' => 'Asientos',
     'JournalTemplate' => 'Plantilla de Asientos',
     'JournalSimulation' => 'Simulación de Asientos',
@@ -21,6 +22,7 @@ return [
     'AccountingCycle' => 'Período Fiscal',
     'ChartVersion' => 'Versión',
 
+    'IsAccountable' => 'Es Imputable',
     'JournalEntries' => 'Libro Diario',
     'GroupJournalEntries' => 'Libro Mayor',
     'BalanceSheet' => 'Balance General',

@@ -26,6 +26,10 @@ return [
     'Save' => 'Guardar',
     'Cancel' => 'Cancelar',
     'Action' => 'Acciones',
+
+    'BelongsTo' => 'Pertenece a',
+    'Type' => 'Tipo',
+    'SubType' => 'Sub Tipo',
     'Notification' => 'Notificación | Notificaciones',
     'Dashboard' => 'Tablero :team'
 ];

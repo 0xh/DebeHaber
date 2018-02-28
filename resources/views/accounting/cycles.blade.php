@@ -1,6 +1,6 @@
 @extends('spark::layouts.form')
 
-@section('title', 'Cycle')
+@section('title', __('accounting.AccountingCycle'))
 
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -68,27 +68,27 @@
                 <div class="row">
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            Name
+                            @lang('accounting.ChartVersion')
                         </span>
                     </div>
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            year
+                            @lang('global.Year')
                         </span>
                     </div>
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            Start Date
+                            @lang('global.StartDate')
                         </span>
                     </div>
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            End Date
+                            @lang('global.EndDate')
                         </span>
                     </div>
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            Action
+                            @lang('global.Action')
                         </span>
                     </div>
                 </div>

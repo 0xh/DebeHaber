@@ -1,6 +1,6 @@
 @extends('spark::layouts.form')
 
-@section('title', 'Chart of Accounts')
+@section('title',  __('accounting.ChartofAccounts'))
 
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -11,7 +11,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('accounting.Account')
+                            @lang('global.BelongsTo')
                         </label>
                         <div class="col-8">
                             <select v-model="parent_id" required class="custom-select" >
@@ -35,7 +35,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('global.code')
+                            @lang('global.Code')
                         </label>
                         <div class="col-8">
                             <input type="text" class="form-control" v-model="code" />
@@ -45,20 +45,17 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('global.name')
+                            @lang('global.Name')
                         </label>
                         <div class="col-8">
                             <input type="text" class="form-control" v-model="name" />
                         </div>
                     </div>
                 </div>
-
-
-
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('global.type')
+                            @lang('global.Type')
                         </label>
                         <div class="col-8">
                             <select v-model="type" required class="custom-select" >
@@ -75,7 +72,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('global.subtype')
+                            @lang('global.SubType')
                         </label>
                         <div class="col-8">
                             <template v-if="type === '1' || type=== 1">
@@ -141,7 +138,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('accounting.accountable')
+                            @lang('accounting.IsAccountable')
                         </label>
                         <div class="col-8">
                             <input type="checkbox" class="form-control" v-model="is_accountable" />
@@ -172,7 +169,7 @@
                     </div>
                     <div class="col-6">
                         <span class="m--font-boldest">
-                            @lang('accounting.Chart')
+                            @lang('accounting.Accounts')
                         </span>
                     </div>
                     <div class="col-2">
@@ -183,7 +180,7 @@
 
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            Action
+                            @lang('global.Action')
                         </span>
                     </div>
                 </div>

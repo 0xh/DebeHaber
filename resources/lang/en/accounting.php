@@ -14,6 +14,7 @@ return [
     */
 
     'Accounting' => 'Accounting',
+    'Accounts' => 'Accounts',
     'Journal' => 'Journal',
     'JournalTemplate' => 'Journal Template',
     'JournalSimulation' => 'Journal Simulation',
@@ -21,6 +22,7 @@ return [
     'AccountingCycle' => 'Accounting Cycle',
     'ChartVersion' => 'Chart Version',
 
+    'IsAccountable' => 'Is Accountable',
     'JournalEntries' => 'Journal Entries',
     'GroupJournalEntries' => 'Journal Entries by Chart',
     'BalanceSheet' => 'Balance Sheet',
