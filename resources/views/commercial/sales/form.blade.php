@@ -226,7 +226,7 @@
         <button v-on:click="onSave($data,true,'')" class="btn btn-primary">
             @lang('global.Save-and-New')
         </button>
-        <button v-on:click="cancel()" class="btn btn-default">
+        <button v-on:click="cancel()" v-shortkey.once="['esc']" @shortkey="cancel()" class="btn btn-default">
             @lang('global.Cancel')
         </button>
     </div>
