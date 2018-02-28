@@ -31,7 +31,7 @@
                     </label>
                     <div class="col-8">
                         <div class="input-group">
-                            <select v-model="document_id" required class="custom-select" >
+                            <select v-model="document_id" required class="custom-select" v-on:change="changeDocument()">
                                 <option v-for="document in documents" :value="document.id">@{{ document.name }}</option>
                             </select>
                         </div>

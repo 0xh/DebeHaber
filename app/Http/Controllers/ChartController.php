@@ -96,10 +96,10 @@ class ChartController extends Controller
         //
     }
 
-    public function get_chart($taxPayerID,$cycle)
+    public function get_chart(Taxpayer $taxPayer,Cycle $cycle)
     {
 
-        $chart = Chart::where('charts.taxpayer_id', $taxPayerID)
+        $chart = Chart::where('charts.taxpayer_id', $taxPayer->id)
         ->join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->select('charts.id',
         'charts.country',
@@ -143,6 +143,24 @@ class ChartController extends Controller
         ->where('charts.type', 1)
         ->where('charts.sub_type', 1)
         ->orwhere('charts.sub_type', 3)
+        ->select('charts.id',
+        'charts.country',
+        'charts.is_accountable',
+        'charts.code',
+        'charts.name',
+        'charts.level',
+        'charts.type as type',
+        'charts.sub_type',
+        'chart_versions.name as chart_version_name',
+        'chart_versions.id as chart_version_id')
+        ->get();
+
+        return response()->json($chart);
+    }
+    public function get_Parentaccount(Taxpayer $taxPayer,Cycle $cycle)
+    {
+        $chart = Chart::Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
+        ->where('is_accountable',0)
         ->select('charts.id',
         'charts.country',
         'charts.is_accountable',

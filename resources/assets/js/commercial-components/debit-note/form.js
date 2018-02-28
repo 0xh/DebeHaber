@@ -217,6 +217,29 @@ Vue.component('debit-note-form',{
                 }
             });
         },
+        changeDocument: function()
+        {
+
+            var app = this;
+
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id   ,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+
+                    app.number=data.current_range + 1;
+                    app.code=data.code;
+                    app.code_expiry=data.code_expiry;
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
         cancel()
         {
             var app=this;
@@ -248,26 +271,26 @@ Vue.component('debit-note-form',{
         getRate: function()
         {
 
-          var app=this;
-          $.ajax({
-            url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
-            type: 'get',
-            dataType: 'json',
-            async: true,
-            success: function(data)
-            {
+            var app=this;
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
 
-              if (app.rate=='' || app.rate==null) {
-                app.rate=data;
-              }
+                    if (app.rate=='' || app.rate==null) {
+                        app.rate=data;
+                    }
 
 
-            },
-            error: function(xhr, status, error)
-            {
-              console.log(xhr.responseText);
-            }
-          });
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
         },
         getCharts: function(data)
         {

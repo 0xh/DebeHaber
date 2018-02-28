@@ -18,9 +18,15 @@ class DocumentController extends Controller
     {
         //
     }
-    public function get_document($type,$teamID)
+    public function get_document(Taxpayer $taxPayer,$type)
     {
-        $Document=Document::where('type',$type)->where('taxpayer_id',$teamID)->get();
+        $Document=Document::where('type',$type)->where('taxpayer_id',$taxPayer->id)->get();
+
+        return response()->json($Document);
+    }
+    public function get_documentByID(Taxpayer $taxPayer,$id)
+    {
+        $Document=Document::where('id',$id)->first();
 
         return response()->json($Document);
     }

@@ -218,6 +218,29 @@ Vue.component('credit-note-form',{
                 }
             });
         },
+        changeDocument: function()
+        {
+
+            var app = this;
+
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id   ,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+
+                    app.number=data.current_range + 1;
+                    app.code=data.code;
+                    app.code_expiry=data.code_expiry;
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
         cancel()
         {
             var app=this;

@@ -23,8 +23,8 @@ class ChartScope implements Scope
     {
 
         $taxPayer = request()->route('taxPayer');
-        $versionID = request()->route('cycle')->version_id;
-
+        $versionID = request()->route('cycle')->chart_version_id;
+        
         $builder->where(function($query) use ($taxPayer)
         {
             $query

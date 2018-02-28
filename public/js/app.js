@@ -80075,7 +80075,7 @@ var render = function() {
               _c("div", { staticClass: "form-group m-form__group row" }, [
                 _c("label", { staticClass: "col-lg-3 col-form-label" }, [
                   _vm._v(
-                    "\n                                Nombre\n                            "
+                    "\n                                Code\n                            "
                   )
                 ]),
                 _vm._v(" "),
@@ -96536,134 +96536,158 @@ __webpack_require__("./resources/assets/js/accounting-components/chart/chart.js"
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('chart', {
-    props: ['taxpayer'],
-    data: function data() {
-        return {
-            id: 0,
-            chart_version_id: '',
-            country: '',
-            is_accountable: '',
-            code: '',
-            name: '',
-            level: '',
-            type: '',
-            sub_type: '',
-            list: [
-                //     id:0,
-                //     chart_version_id:'',
-                //     chart_version_name:'',
-                //     country:0,
-                //     is_accountable:'',
-                //     code:'',
-                //     name:'',
-                //     level:'',
-                //     type:'',
-                //     sub_type:''
-            ],
-            chartversions: []
+  props: ['taxpayer', 'cycle'],
+  data: function data() {
+    return {
+      id: 0,
+      parent_id: '',
+      chart_version_id: '',
+      country: '',
+      is_accountable: '',
+      code: '',
+      name: '',
+      level: '',
+      type: '',
+      sub_type: '',
+      coefficient: '',
+      list: [
+        //     id:0,
+        //     chart_version_id:'',
+        //     chart_version_name:'',
+        //     country:0,
+        //     is_accountable:'',
+        //     code:'',
+        //     name:'',
+        //     level:'',
+        //     type:'',
+        //     sub_type:''
+      ],
+      chartversions: [],
+      accounts: []
 
-        };
-    },
+    };
+  },
 
 
-    methods: {
+  methods: {
 
-        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
-        //For updates code will be different and should use the ID's palced int he Json.
-        onSave: function onSave(json) {
+    //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+    //For updates code will be different and should use the ID's palced int he Json.
+    onSave: function onSave(json) {
 
-            var app = this;
-            var api = null;
+      var app = this;
+      var api = null;
 
-            $.ajax({
-                url: 'charts/',
-                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-                type: 'post',
-                data: json,
-                dataType: 'json',
-                async: false,
-                success: function success(data) {
-                    if (data == 'ok') {
-                        app.id = 0;
-                        app.chart_version_id = null;
-                        app.country = null;
-                        app.is_accountable = null;
-                        app.code = null;
-                        app.name = null;
-                        app.level = null;
-                        app.type = null;
-                        app.sub_type = null;
-                        app.init();
-                    } else {
-                        alert('Something Went Wrong...');
-                    }
-                },
-                error: function error(xhr, status, _error) {
-                    console.log(xhr.responseText);
-                }
-            });
+      $.ajax({
+        url: 'charts/',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+        type: 'post',
+        data: json,
+        dataType: 'json',
+        async: false,
+        success: function success(data) {
+          if (data == 'ok') {
+            app.id = 0;
+            app.parent_id = null;
+            app.chart_version_id = null;
+            app.country = null;
+            app.is_accountable = null;
+            app.code = null;
+            app.name = null;
+            app.level = null;
+            app.type = null;
+            app.sub_type = null;
+            app.coefficient = null;
+            app.init();
+          } else {
+            alert('Something Went Wrong...');
+          }
         },
-        onEdit: function onEdit(data) {
-            console.log(data);
-            var app = this;
-            app.id = data.id;
-            app.chart_version_id = data.chart_version_id;
-            app.country = data.country;
-            app.is_accountable = data.is_accountable;
-            app.code = data.code;
-            app.name = data.name;
-            app.level = data.level;
-            app.type = data.type;
-            app.sub_type = data.sub_type;
-        },
-        init: function init() {
-            var app = this;
-            $.ajax({
-                url: '/api/get_chart/' + this.taxpayer,
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function success(data) {
-                    app.list = [];
-                    for (var i = 0; i < data.length; i++) {
-                        app.list.push({ id: data[i]['id'],
-                            chart_version_id: data[i]['chart_version_id'],
-                            chart_version_name: data[i]['chart_version_name'],
-                            country: data[i]['country'],
-                            is_accountable: data[i]['is_accountable'],
-                            code: data[i]['code'],
-                            name: data[i]['name'],
-                            level: data[i]['level'],
-                            type: data[i]['type'],
-                            sub_type: data[i]['sub_type'] });
-                    }
-                },
-                error: function error(xhr, status, _error2) {
-                    console.log(status);
-                }
-            });
+        error: function error(xhr, status, _error) {
+          console.log(xhr.responseText);
         }
+      });
     },
+    onEdit: function onEdit(data) {
 
-    mounted: function mounted() {
-        var app = this;
-        this.init();
-        $.ajax({
-            url: '/api/get_chartversion/' + this.taxpayer,
-            type: 'get',
-            dataType: 'json',
-            async: true,
-            success: function success(data) {
-                app.chartversions = [];
-                for (var i = 0; i < data.length; i++) {
-                    app.chartversions.push({ name: data[i]['name'], id: data[i]['id'] });
-                }
-            },
-            error: function error(xhr, status, _error3) {
-                console.log(xhr.responseText);
-            }
-        });
+      var app = this;
+      app.id = data.id;
+      app.parent_id = data.parent_id;
+      app.chart_version_id = data.chart_version_id;
+      app.country = data.country;
+      app.is_accountable = data.is_accountable;
+      app.code = data.code;
+      app.name = data.name;
+      app.level = data.level;
+      app.type = data.type;
+      app.sub_type = data.sub_type;
+      app.coefficient = data.coefficient;
+    },
+    init: function init() {
+      var app = this;
+      $.ajax({
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_chart/',
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+          app.list = [];
+          for (var i = 0; i < data.length; i++) {
+            app.list.push({ id: data[i]['id'],
+              parent_id: data[i]['parent_id'],
+              chart_version_id: data[i]['chart_version_id'],
+              chart_version_name: data[i]['chart_version_name'],
+              country: data[i]['country'],
+              is_accountable: data[i]['is_accountable'],
+              code: data[i]['code'],
+              name: data[i]['name'],
+              level: data[i]['level'],
+              type: data[i]['type'],
+              sub_type: data[i]['sub_type'],
+              coefficient: data[i]['coefficient'] });
+          }
+        },
+        error: function error(xhr, status, _error2) {
+          console.log(status);
+        }
+      });
     }
+  },
+
+  mounted: function mounted() {
+    var app = this;
+    this.init();
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/get_chartversion',
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function success(data) {
+        app.chartversions = [];
+        for (var i = 0; i < data.length; i++) {
+          app.chartversions.push({ name: data[i]['name'], id: data[i]['id'] });
+        }
+      },
+      error: function error(xhr, status, _error3) {
+        console.log(xhr.responseText);
+      }
+    });
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_Parentaccount/',
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function success(data) {
+        app.accounts = [];
+        for (var i = 0; i < data.length; i++) {
+          app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
+        }
+      },
+      error: function error(xhr, status, _error4) {
+        console.log(xhr.responseText);
+      }
+    });
+  }
 });
 
 /***/ }),
@@ -97060,6 +97084,26 @@ Vue.component('credit-note-form', {
                 }
             });
         },
+        changeDocument: function changeDocument() {
+
+            var app = this;
+
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    app.number = data.current_range + 1;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
         cancel: function cancel() {
             var app = this;
             app.$parent.status = 0;
@@ -97078,7 +97122,7 @@ Vue.component('credit-note-form', {
                         app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error3) {
+                error: function error(xhr, status, _error4) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97097,7 +97141,7 @@ Vue.component('credit-note-form', {
                         app.rate = data;
                     }
                 },
-                error: function error(xhr, status, _error4) {
+                error: function error(xhr, status, _error5) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97115,7 +97159,7 @@ Vue.component('credit-note-form', {
                         app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error5) {
+                error: function error(xhr, status, _error6) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97133,7 +97177,7 @@ Vue.component('credit-note-form', {
                         app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error6) {
+                error: function error(xhr, status, _error7) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97151,7 +97195,7 @@ Vue.component('credit-note-form', {
                         app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error7) {
+                error: function error(xhr, status, _error8) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97495,6 +97539,26 @@ Vue.component('debit-note-form', {
                 }
             });
         },
+        changeDocument: function changeDocument() {
+
+            var app = this;
+
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    app.number = data.current_range + 1;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
         cancel: function cancel() {
             var app = this;
             app.$parent.status = 0;
@@ -97513,7 +97577,7 @@ Vue.component('debit-note-form', {
                         app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error3) {
+                error: function error(xhr, status, _error4) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97532,7 +97596,7 @@ Vue.component('debit-note-form', {
                         app.rate = data;
                     }
                 },
-                error: function error(xhr, status, _error4) {
+                error: function error(xhr, status, _error5) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97550,7 +97614,7 @@ Vue.component('debit-note-form', {
                         app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error5) {
+                error: function error(xhr, status, _error6) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97568,7 +97632,7 @@ Vue.component('debit-note-form', {
                         app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error6) {
+                error: function error(xhr, status, _error7) {
                     console.log(xhr.responseText);
                 }
             });
@@ -97586,7 +97650,7 @@ Vue.component('debit-note-form', {
                         app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error7) {
+                error: function error(xhr, status, _error8) {
                     console.log(xhr.responseText);
                 }
             });
@@ -98147,6 +98211,26 @@ Vue.component('purchases-form', {
         }
       });
     },
+    changeDocument: function changeDocument() {
+
+      var app = this;
+
+      $.ajax({
+        url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+
+          app.number = data.current_range + 1;
+          app.code = data.code;
+          app.code_expiry = data.code_expiry;
+        },
+        error: function error(xhr, status, _error3) {
+          console.log(xhr.responseText);
+        }
+      });
+    },
     cancel: function cancel() {
       var app = this;
       app.$parent.status = 0;
@@ -98165,7 +98249,7 @@ Vue.component('purchases-form', {
             app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
           }
         },
-        error: function error(xhr, status, _error3) {
+        error: function error(xhr, status, _error4) {
           console.log(xhr.responseText);
         }
       });
@@ -98184,7 +98268,7 @@ Vue.component('purchases-form', {
             app.rate = data;
           }
         },
-        error: function error(xhr, status, _error4) {
+        error: function error(xhr, status, _error5) {
           console.log(xhr.responseText);
         }
       });
@@ -98202,7 +98286,7 @@ Vue.component('purchases-form', {
             app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
           }
         },
-        error: function error(xhr, status, _error5) {
+        error: function error(xhr, status, _error6) {
           console.log(xhr.responseText);
         }
       });
@@ -98220,7 +98304,7 @@ Vue.component('purchases-form', {
             app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
           }
         },
-        error: function error(xhr, status, _error6) {
+        error: function error(xhr, status, _error7) {
           console.log(xhr.responseText);
         }
       });
@@ -98238,7 +98322,7 @@ Vue.component('purchases-form', {
             app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
           }
         },
-        error: function error(xhr, status, _error7) {
+        error: function error(xhr, status, _error8) {
           console.log(xhr.responseText);
         }
       });
@@ -98582,6 +98666,26 @@ Vue.component('sales-form', {
                 }
             });
         },
+        changeDocument: function changeDocument() {
+
+            var app = this;
+
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
+
+                    app.number = data.current_range + 1;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
         cancel: function cancel() {
             var app = this;
             app.$parent.status = 0;
@@ -98600,7 +98704,7 @@ Vue.component('sales-form', {
                         app.currencies.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error3) {
+                error: function error(xhr, status, _error4) {
                     console.log(xhr.responseText);
                 }
             });
@@ -98619,7 +98723,7 @@ Vue.component('sales-form', {
                         app.rate = data;
                     }
                 },
-                error: function error(xhr, status, _error4) {
+                error: function error(xhr, status, _error5) {
                     console.log(xhr.responseText);
                 }
             });
@@ -98639,7 +98743,7 @@ Vue.component('sales-form', {
                         app.charts.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error5) {
+                error: function error(xhr, status, _error6) {
                     console.log(xhr.responseText);
                 }
             });
@@ -98658,7 +98762,7 @@ Vue.component('sales-form', {
                         app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error6) {
+                error: function error(xhr, status, _error7) {
                     console.log(xhr.responseText);
                 }
             });
@@ -98677,7 +98781,7 @@ Vue.component('sales-form', {
                         app.accounts.push({ name: data[i]['name'], id: data[i]['id'] });
                     }
                 },
-                error: function error(xhr, status, _error7) {
+                error: function error(xhr, status, _error8) {
                     console.log(xhr.responseText);
                 }
             });

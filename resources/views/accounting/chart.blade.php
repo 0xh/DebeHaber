@@ -5,9 +5,21 @@
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <chart :taxpayer="{{ request()->route('taxPayer')}}"  inline-template>
+    <chart :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id}}"  inline-template>
         <div>
             <div class="row">
+                <div class="col-6">
+                    <div class="form-group m-form__group row">
+                        <label for="example-text-input" class="col-4 col-form-label">
+                            @lang('accounting.Account')
+                        </label>
+                        <div class="col-8">
+                            <select v-model="parent_id" required class="custom-select" >
+                                <option v-for="account in accounts" :value="account.id">@{{ account.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
@@ -40,6 +52,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <div class="col-6">
                     <div class="form-group m-form__group row">
@@ -110,6 +124,17 @@
                                 </select>
                             </template>
 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6" v-if="type === '1' || type=== '2'">
+
+                    <div class="form-group m-form__group row" v-if="sub_type === '12' || sub_type=== '3'">
+                        <label for="example-text-input" class="col-4 col-form-label">
+                            @lang('global.coefficient')
+                        </label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" v-model="coefficient" />
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,7 @@ Route::prefix('{taxPayer}')->group(function ()
     Route::get('get_currency', 'CurrencyController@get_currency');
     Route::get('get_rateByCurrency/{currencyID}/{date}', 'CurrencyRateController@get_rateByCurrency');
     Route::get('get_document/{type}', 'DocumentController@get_document');
+    Route::get('get_documentByID/{id}', 'DocumentController@get_documentByID');
     Route::get('get_taxpayer/{frase}', 'TaxpayerController@get_taxpayer');
 
     Route::prefix('{cycle}')->group(function ()
@@ -30,8 +31,10 @@ Route::prefix('{taxPayer}')->group(function ()
         {
             Route::prefix('chart')->group(function ()
             {
+                Route::get('get_chart', 'ChartController@get_chart');
                 Route::get('get_item', 'ChartController@get_item');
                 Route::get('get_account', 'ChartController@get_account');
+                Route::get('get_Parentaccount', 'ChartController@get_Parentaccount');
                 Route::get('get_tax', 'ChartController@get_tax');
             });
         });

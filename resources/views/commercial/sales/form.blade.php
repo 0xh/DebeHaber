@@ -31,7 +31,7 @@
                     </label>
                     <div class="col-8">
                         <div class="input-group">
-                            <select v-model="document_id" required class="custom-select" >
+                            <select v-model="document_id" required class="custom-select" v-on:change="changeDocument()" >
                                 <option v-for="document in documents" :value="document.id">@{{ document.name }}</option>
                             </select>
                         </div>
@@ -44,7 +44,7 @@
                     <div class="col-8">
                         <div class="row">
                             <div class="col-5">
-                                <input class="form-control m-input" type="number" placeholder="Timbrado"  v-model="code">
+                                <input class="form-control m-input" type="text" placeholder="Timbrado"  v-model="code">
                             </div>
                             <div class="col-7">
                                 <input type="date" class="form-control m-input" v-model="code_expiry"/>
