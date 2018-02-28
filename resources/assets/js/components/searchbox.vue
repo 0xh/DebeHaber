@@ -5,108 +5,112 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-                            <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Crear Empresa</h4>
-                        </div>
-                        <div class="modal-body">
-
-
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-3 col-form-label">
-                                    Nombre
-                                </label>
-                                <div class="col-lg-7">
-                                    <input type="text" v-model="name"/>
-                                </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-3 col-form-label">
-                                    Code
-                                </label>
-                                <div class="col-lg-7">
-                                    <input type="text" v-model="code"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-3 col-form-label">
-                                    RUC
-                                </label>
-                                <div class="col-lg-7">
-                                    <input type="text" v-model="gov_code"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-3 col-form-label">
-                                    Dirección
-                                </label>
-                                <div class="col-lg-7">
-                                    <textarea  v-model="address"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-3 col-form-label">
-                                    Correo
-                                </label>
-                                <div class="col-lg-7">
-                                    <input type="text" v-model="email"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-3 col-form-label">
-                                    Teléfono
-                                </label>
-                                <div class="col-lg-7">
-                                    <input type="text" v-model="telephone"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-
-                                <div class="col-sm-7">
-                                    <button type="submit" data-dismiss="modal" class="btn btn-success store_empresa_ajax" v-on:click="onSave()"  >Guardar</button>
-                                </div>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Crear Contribuyente</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">
+                                Nombre
+                            </label>
+                            <div class="col-lg-7">
+                                <input type="text" v-model="name"/>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">
+                                Code
+                            </label>
+                            <div class="col-lg-7">
+                                <input type="text" v-model="code"/>
+                            </div>
                         </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">
+                                RUC
+                            </label>
+                            <div class="col-lg-7">
+                                <input type="text" v-model="gov_code"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">
+                                Dirección
+                            </label>
+                            <div class="col-lg-7">
+                                <textarea  v-model="address"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">
+                                Correo
+                            </label>
+                            <div class="col-lg-7">
+                                <input type="text" v-model="email"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">
+                                Teléfono
+                            </label>
+                            <div class="col-lg-7">
+                                <input type="text" v-model="telephone"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-sm-7">
+                                <button type="submit" data-dismiss="modal" class="btn btn-success" v-on:click="onSave()">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
-            <div class="input-group m-input-group">
-                <span class="input-group-addon" id="basic-addon1">
-                    <i class="fa fa-spinner fa-spin" v-if="loading"></i>
-                    <template v-else>
-                        <i class="fa fa-search" v-show="isEmpty"></i>
-                        <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
-                    </template>
-                </span>
+        </div>
+        <div class="input-group m-input-group">
+            <span class="input-group-addon" id="basic-addon1">
+                <i class="fa fa-spinner fa-spin" v-if="loading"></i>
+                <template v-else>
+                    <i class="fa fa-search" v-show="isEmpty"></i>
+                    <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
+                </template>
+            </span>
 
-                <input type="text"
-                name ="contribuyente"
-                class="form-control m-input"
-                placeholder="Buscar"
-                aria-describedby="basic-addon2"
-                autocomplete="off"
-                v-model="query"
-                @keydown.down="down"
-                @keydown.up="up"
-                @keydown.enter="hit"
-                @keydown.esc="reset"
-                @blur="reset"
-                @input="update"/>
+            <input type="text"
+            name ="contribuyente"
+            class="form-control m-input"
+            placeholder="Buscar"
+            aria-describedby="basic-addon2"
+            autocomplete="off"
 
-                <span class="input-group-addon" id="basic-addon1">
-                    {{ selectText }}
-                </span>
-                <span class="input-group-addon">
-                    <a class="btn-icon-only" data-pk="1" data-target="#myModal1" data-title="Añadir" data-toggle="modal"
-                    data-type="text" id="mostrar_modal_empresa" style="display: inline;">
+            v-shortkey.once="['ctrl', 'n']"
+            @shortkey="add()"
+
+            v-model="query"
+            @keydown.down="down"
+            @keydown.up="up"
+            @keydown.enter="hit"
+            @keydown.esc="reset"
+            @blur="reset"
+            @input="update"/>
+
+            <span class="input-group-addon" id="basic-addon1">
+                {{ selectText }}
+            </span>
+            <span class="input-group-addon">
+                <a class="btn-icon-only" data-pk="1" data-target="#myModal1" data-title="Añadir" data-toggle="modal" data-type="text">
                     <i class="fa fa-plus"></i>
+                    <!-- id="mostrar_modal_empresa" -->
                 </a>
             </span>
         </div>
@@ -161,28 +165,28 @@ export default {
         onSave()
         {
             $.ajax({
-               url: '/taxpayer',
-               headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-               type: 'post',
-               data:{
-                   name:this.name,
-                   code:this.code,
-                   taxid:this.gov_code,
-                   address:this.address,
-                   email:this.email,
-                   telephone:this.telephone,
-               },
-               dataType: 'json',
-               async: false,
-               success: function(data)
-               {
-                   //console.log(data);
-               },
-               error: function(xhr, status, error)
-               {
-                   console.log(xhr.responseText);
-               }
-           });
+                url: '/taxpayer',
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                type: 'post',
+                data:{
+                    name:this.name,
+                    code:this.code,
+                    taxid:this.gov_code,
+                    address:this.address,
+                    email:this.email,
+                    telephone:this.telephone,
+                },
+                dataType: 'json',
+                async: false,
+                success: function(data)
+                {
+                    //console.log(data);
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
 
         }
     }

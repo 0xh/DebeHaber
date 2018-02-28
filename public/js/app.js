@@ -2948,6 +2948,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -79624,6 +79626,13 @@ var render = function() {
       _c("input", {
         directives: [
           {
+            name: "shortkey",
+            rawName: "v-shortkey.once",
+            value: ["ctrl", "n"],
+            expression: "['ctrl', 'n']",
+            modifiers: { once: true }
+          },
+          {
             name: "model",
             rawName: "v-model",
             value: _vm.query,
@@ -79640,6 +79649,9 @@ var render = function() {
         },
         domProps: { value: _vm.query },
         on: {
+          shortkey: function($event) {
+            _vm.add()
+          },
           keydown: [
             function($event) {
               if (
@@ -79794,14 +79806,12 @@ var staticRenderFns = [
         "a",
         {
           staticClass: "btn-icon-only",
-          staticStyle: { display: "inline" },
           attrs: {
             "data-pk": "1",
             "data-target": "#myModal1",
             "data-title": "Añadir",
             "data-toggle": "modal",
-            "data-type": "text",
-            id: "mostrar_modal_empresa"
+            "data-type": "text"
           }
         },
         [_c("i", { staticClass: "fa fa-plus" })]
