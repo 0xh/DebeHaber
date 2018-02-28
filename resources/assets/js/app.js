@@ -29,6 +29,7 @@ window.Vue.use(VueRouter);
 window.Vue.use(require('vue-shortkey'));
 Vue.use(VueGoodTable);
 Vue.use(Datatable);
+Vue.use(require('vue-shortkey'))
 
 const routes = [
     {

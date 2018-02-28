@@ -3,18 +3,14 @@
 @section('title', __('commercial.DebitNote'))
 
 @section('form')
-  <form-list  inline-template>
-    <div>
-      <div v-if="status===1">
-        @include('commercial/debit-note/form')
-      </div>
-      <div v-if="status===0">
-        @include('commercial/debit-note/list')
-      </div>
-    </div>
-  </form-list>
-
-
-
-
+    <form-list inline-template>
+        <div>
+            <div v-if="status===1">
+                @include('commercial/debit-note/form')
+            </div>
+            <div v-if="status===0">
+                @include('commercial/debit-note/list')
+            </div>
+        </div>
+    </form-list>
 @endsection
