@@ -13,7 +13,8 @@ class CreateAnnouncementsTable extends Migration
     public function up()
     {
         Schema::create('announcements', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->increments('i');
+            $table->string('id')->index();
             $table->integer('user_id');
             $table->text('body');
             $table->string('action_text')->nullable();
