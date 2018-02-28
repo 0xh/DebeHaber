@@ -8,8 +8,8 @@ use Sleimanx2\Plastic\Searchable;
 class Taxpayer extends Model
 {
     //
-    use Searchable;
-    public $searchable = ['id', 'taxid', 'name', 'alias'];
+    // use Searchable;
+    // public $searchable = ['id', 'taxid', 'name', 'alias'];
     /**
     * Get the integrations for the model.
     *
