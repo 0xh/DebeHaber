@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Supplier
+                        @lang('commercial.Supplier')
                     </label>
 
                     <div class="col-8">
@@ -27,7 +27,7 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Documento
+                        @lang('commercial.Document')
                     </label>
                     <div class="col-8">
                         <div class="input-group">
@@ -225,13 +225,13 @@
         </div>
 
         <button v-on:click="onSave($data,false,'/current/{{request()->route('company') }}/sales')" class="btn btn-primary">
-            Guardar
+            @lang('global.Save')
         </button>
         <button v-on:click="onSave($data,true,'')" class="btn btn-primary">
             Guardar & New
         </button>
         <button v-on:click="cancel()" class="btn btn-default">
-            Cancelar
+            @lang('global.Cancel')
         </button>
     </div>
 </credit-note-form>

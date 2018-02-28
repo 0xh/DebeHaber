@@ -3,7 +3,8 @@
 
 <purchases-list :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
     <div>
-      <button @click="add()">add new</button>
+        <a href="#" v-on:click="add()" class="btn btn-outline-primary btn-sm m-btn m-btn--icon">
+
         <vue-good-table
         :columns="columns"
         :rows="rows"

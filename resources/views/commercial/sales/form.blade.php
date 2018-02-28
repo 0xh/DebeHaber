@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Supplier
+                        @lang('commercial.Customer')
                     </label>
 
                     <div class="col-8">
@@ -27,7 +27,7 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Documento
+                        @lang('commercial.Document')
                     </label>
                     <div class="col-8">
                         <div class="input-group">
@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Número de Factura
+                        @lang('commercial.InvoiceNumber')
                     </label>
                     <div class="col-8">
                         <input class="form-control m-input" type="text" value="001-001-0000000" v-model="number">
@@ -69,7 +69,7 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Condición
+                        @lang('commercial.Condition')
                     </label>
                     <div class="col-8">
                         <div class="input-group">
@@ -80,7 +80,7 @@
                 </div>
                 <div class="form-group m-form__group row" v-if="payment_condition == 0">
                     <label for="example-text-input" class="col-4 col-form-label ">
-                        Cuenta de Dinero
+                        @lang('commercial.Account')
                     </label>
                     <div class="col-8">
                         <div>
@@ -95,7 +95,7 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Moneda
+                        @lang('commercial.Currency')
                     </label>
                     <div class="col-8">
                         <div class="input-group">
@@ -106,8 +106,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -120,7 +118,7 @@
                             <i class="flaticon-calendar"></i>
                         </span>
                         <h3 class="m-portlet__head-text m--font-primary">
-                            Detalle de Factura
+                            @lang('commercial.Detail')
                         </h3>
                     </div>
                 </div>
@@ -129,7 +127,7 @@
                         <span>
                             <i class="la la-plus"></i>
                             <span>
-                                Agregar Detalle
+                                @lang('global.New')
                             </span>
                         </span>
                     </a>
@@ -138,24 +136,22 @@
             <div class="m-portlet__body">
                 <div class="row">
                     <div class="col-2">
-                        <span class="m--font-boldest">
-                            Cuenta
-                        </span>
+                        <span class="m--font-boldest">@lang('commercial.Account')</span>
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">IVA</span>
+                        <span class="m--font-boldest">@lang('commercial.SalesTax')</span>
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">Valor</span>
+                        <span class="m--font-boldest">@lang('commercial.Value')</span>
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">Exenta</span>
+                        <span class="m--font-boldest">@lang('commercial.Exempt')</span>
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">Gravada</span>
+                        <span class="m--font-boldest">@lang('commercial.Taxable')</span>
                     </div>
                     <div class="col-1">
-                        <span class="m--font-boldest">IVA</span>
+                        <span class="m--font-boldest">@lang('commercial.SalesTax')</span>
                     </div>
                     <div class="col-1">
                         <span class="m--font-boldest"></span>
@@ -202,7 +198,7 @@
 
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">Totales</span>
+                        <span class="m--font-boldest">@lang('global.Total')</span>
                     </div>
                     <div class="col-2">
 
@@ -225,13 +221,13 @@
         </div>
 
         <button v-on:click="onSave($data,false,'/current/{{request()->route('company') }}/sales')" class="btn btn-primary">
-            Guardar
+            @lang('global.Save')
         </button>
         <button v-on:click="onSave($data,true,'')" class="btn btn-primary">
-            Guardar & New
+            @lang('global.Save-and-New')
         </button>
         <button v-on:click="cancel()" class="btn btn-default">
-            Cancelar
+            @lang('global.Cancel')
         </button>
     </div>
 </sales-form>
