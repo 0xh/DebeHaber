@@ -43,6 +43,7 @@ Route::prefix('{taxPayer}')->group(function ()
         {
             Route::get('get_sales', 'SalesController@get_sales');
             Route::get('get_salesByID/{id}', 'SalesController@get_salesByID');
+            Route::get('get_lastDate', 'SalesController@get_lastDate');
 
             Route::get('get_purchases', 'PurchaseController@get_purchases');
             Route::get('get_purchasesByID/{id}', 'PurchaseController@get_purchasesByID');

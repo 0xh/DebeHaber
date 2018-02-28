@@ -98639,7 +98639,6 @@ Vue.component('sales-form', {
             app.rate = null;
             app.payment_condition = null;
             app.chart_account_id = null;
-            app.date = null;
             app.number = null;
             app.code = null;
             app.code_expiry = null;
@@ -98840,9 +98839,19 @@ Vue.component('sales-list', {
         add: function add() {
             var app = this;
             app.$parent.status = 1;
-            console.log(app.$parent.$children[0]);
-            //app.$parent.$children[0].onReset();
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_lastDate',
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function success(data) {
 
+                    app.$parent.$children[0].date = data;
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(status);
+                }
+            });
         },
         init: function init() {
             var app = this;
@@ -98878,7 +98887,7 @@ Vue.component('sales-list', {
                     //     });
                     // }
                 },
-                error: function error(xhr, status, _error) {
+                error: function error(xhr, status, _error2) {
                     console.log(status);
                 }
             });
@@ -98897,7 +98906,7 @@ Vue.component('sales-list', {
 
                     app.$parent.$children[0].onEdit(data[0]);
                 },
-                error: function error(xhr, status, _error2) {
+                error: function error(xhr, status, _error3) {
                     console.log(status);
                 }
             });

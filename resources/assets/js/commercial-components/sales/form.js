@@ -185,7 +185,6 @@ Vue.component('sales-form',{
             app.rate = null;
             app.payment_condition = null;
             app.chart_account_id = null;
-            app.date = null;
             app.number = null;
             app.code = null;
             app.code_expiry = null;
@@ -229,7 +228,7 @@ Vue.component('sales-form',{
                 async: true,
                 success: function(data)
                 {
-                    
+
                     app.number=data.current_range + 1;
                     app.code=data.code;
                     app.code_expiry=data.code_expiry;

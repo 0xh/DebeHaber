@@ -21,8 +21,9 @@ class SalesController extends Controller
         return view('/commercial/sales');
     }
 
-    public function get_sales($taxPayerID)
+    public function get_sales($taxPayerID,Cycle $cycle)
     {
+
         $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)->with('details')
         ->select(DB::raw('false as selected,transactions.id,taxpayers.name as Customer
@@ -32,7 +33,7 @@ class SalesController extends Controller
         return response()->json($Transaction);
     }
 
-    public function get_salesByID($taxPayerID,$id)
+    public function get_salesByID($taxPayerID,Cycle $cycle,$id)
     {
         $Transaction = Transaction::
         Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
@@ -45,6 +46,21 @@ class SalesController extends Controller
         ->get();
         return response()->json($Transaction);
     }
+    public function get_lastDate($taxPayerID,Cycle $cycle)
+    {
+        $Transaction = Transaction::
+        where('supplier_id', $taxPayerID)
+        ->orderBy('created_at', 'desc')
+        ->first();
+        if (isset($Transaction)) {
+            return response()->json($Transaction->date);
+        }
+        else {
+            return response()->json($cycle->start_date);
+        }
+
+    }
+
 
     /**
     * Show the form for creating a new resource.

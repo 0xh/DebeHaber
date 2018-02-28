@@ -45,8 +45,23 @@ Vue.component('sales-list',{
         {
             var app=this;
             app.$parent.status=1;
-            console.log(app.$parent.$children[0]);
-            //app.$parent.$children[0].onReset();
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_lastDate' ,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+
+                    app.$parent.$children[0].date=data;
+                    
+
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(status);
+                }
+            });
 
 
 
