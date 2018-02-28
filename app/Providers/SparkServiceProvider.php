@@ -86,7 +86,7 @@ class SparkServiceProvider extends ServiceProvider
             'First', 'Second', 'Third'
         ]);
 
-        // Spark::promotion('coupon-code');
+        Spark::promotion('coupon');
 
         Spark::checkPlanEligibilityUsing(function ($user, $plan) {
             if ($plan->name == 'Pro' && $user->todos->count() > 20) {

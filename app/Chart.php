@@ -10,16 +10,15 @@ use Sleimanx2\Plastic\Searchable;
 
 class Chart extends Model
 {
-    //
-    use Searchable;
-    public $searchable = ['id',
-    'code',
-    'name',
-    'type',
-    'country',
-    'taxpayer_id',
-    'sub_type',
-    'is_accountable'];
+    // use Searchable;
+    // public $searchable = ['id',
+    // 'code',
+    // 'name',
+    // 'type',
+    // 'country',
+    // 'taxpayer_id',
+    // 'sub_type',
+    // 'is_accountable'];
 
 
     //Assign General Scope to all Queries. Simplifies not having to individuall call a scope.
