@@ -43,7 +43,8 @@ Vue.component('chart',{
 
       var app = this;
       var api = null;
-
+      console.log(app);
+      app.parent_id=app.$children[0].id;
       $.ajax({
         url: 'charts/',
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -152,24 +153,6 @@ Vue.component('chart',{
         console.log(xhr.responseText);
       }
     });
-    $.ajax({
-      url: '/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get_Parentaccount/' ,
-      type: 'get',
-      dataType: 'json',
-      async: true,
-      success: function(data)
-      {
-        app.accounts=[];
-        for(let i = 0; i < data.length; i++)
-        {
-          app.accounts.push({name:data[i]['name'],id:data[i]['id']});
-        }
 
-      },
-      error: function(xhr, status, error)
-      {
-        console.log(xhr.responseText);
-      }
-    });
   }
 });

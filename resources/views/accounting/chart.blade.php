@@ -14,9 +14,10 @@
                             @lang('global.BelongsTo')
                         </label>
                         <div class="col-8">
-                            <select v-model="parent_id" required class="custom-select" >
-                                <option v-for="account in accounts" :value="account.id">@{{ account.name }}</option>
-                            </select>
+                            <router-view name="SearchBoxAccount" url="/accounting/chart/get_parentaccount/" :cycle="{{ request()->route('cycle')->id}}"  :current_company="{{ request()->route('taxPayer')->id }}" >
+
+                            </router-view>
+                            
                         </div>
                     </div>
                 </div>
