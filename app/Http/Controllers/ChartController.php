@@ -43,6 +43,7 @@ class ChartController extends Controller
     $chart->type = $request->type;
     $chart->sub_type = $request->sub_type;
     $chart->country = $taxPayer->country;
+    $chart->coefficient = $taxPayer->coefficient;
     if ($request->parent_id > 0)
     {
       $chart->parent_id = $request->parent_id;
