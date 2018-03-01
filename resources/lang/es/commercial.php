@@ -29,4 +29,17 @@ return [
     'MoneyTransfers' => 'Transferencia de Dinero',
     'Productions' => 'Producciones',
     'FixedAssets' => 'Activos Fijos',
+
+    'Exempt' => 'Exenta',
+    'Value' => 'Valor',
+    'SalesTax' => 'IVA',
+    'Taxable' => 'Gravada',
+    'Account' => 'Cuenta',
+    'Condition' => 'Condición',
+    'Customer' => 'Cliente',
+    'Supplier' => 'Proveedor',
+    'Document' => 'Documentp',
+    'InvoiceNumber' => 'Número de Factura',
+    'Currency' => 'Moneda',
+    'Total' => 'Total',
 ];

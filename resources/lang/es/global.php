@@ -23,7 +23,9 @@ return [
     'Code' => 'Codigo',
     'Alias' => 'Alias',
     'New' => 'Nuevo',
+    'Create' => 'Crear',
     'Save' => 'Guardar',
+    'Save-and-New' => 'Guardar y cargar otro',
     'Cancel' => 'Cancelar',
     'Action' => 'Acciones',
 
