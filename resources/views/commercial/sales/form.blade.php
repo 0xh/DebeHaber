@@ -19,7 +19,9 @@
                     </label>
 
                     <div class="col-8">
-                        <router-view name="SearchBox" :url="/get_taxpayer/"  :current_company="{{ request()->route('taxPayer')->id }}" ></router-view>
+                        <router-view name="SearchBox" :url="/get_taxpayer/"  :current_company="{{ request()->route('taxPayer')->id }}" >
+
+                        </router-view>
                     </div>
                 </div>
             </div>

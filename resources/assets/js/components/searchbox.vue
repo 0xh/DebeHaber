@@ -77,6 +77,7 @@
                 </div>
             </div>
         </div>
+
         <div class="input-group m-input-group">
             <span class="input-group-addon" id="basic-addon1">
                 <i class="fa fa-spinner fa-spin" v-if="loading"></i>
@@ -105,7 +106,7 @@
             @input="update"/>
 
             <span class="input-group-addon" id="basic-addon1">
-                {{ selectText }}
+                @{{ selectText }}
             </span>
             <span class="input-group-addon">
                 <a class="btn-icon-only" data-pk="1" data-target="#myModal1" data-title="Añadir" data-toggle="modal" data-type="text">

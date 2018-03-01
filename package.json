@@ -16,6 +16,7 @@
     "js-cookie": "^2.1.0",
     "laravel-mix": "1.*",
     "lodash": "^4.17.4",
+    "mockjs": "^1.0.1-beta3",
     "moment": "^2.10.6",
     "popper.js": "^1.12",
     "promise": "^7.1.1",

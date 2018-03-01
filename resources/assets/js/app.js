@@ -19,7 +19,9 @@ require('./components/bootstrap');
 
 import VueRouter from 'vue-router';
 import SearchBox from './components/searchbox.vue';
-// import Datatable from './components/datatable.vue';
+import SearchBoxAccount from './components/searchboxaccount.vue';
+import create from './components/create.vue';
+import List from './components/table.vue';
 import Vue from 'vue';
 import VueGoodTable from 'vue-good-table';
 import Datatable from 'vue2-datatable-component';
@@ -36,7 +38,10 @@ const routes = [
         path: '/',
         components: {
             SearchBox : SearchBox,
-            Datatable:Datatable
+            SearchBoxAccount:SearchBoxAccount,
+            Datatable:Datatable,
+            create:create,
+            List:List
         }
     },
 ]
