@@ -29,4 +29,18 @@ return [
     'MoneyTransfers' => 'Money Transfers',
     'Productions' => 'Productions',
     'FixedAssets' => 'Fixed Assets',
+
+    'Exempt' => 'Exempt',
+    'Value' => 'Value',
+    'SalesTax' => 'Sales Tax',
+    'Taxable' => 'Taxable',
+    'Account' => 'Account',
+    'Condition' => 'Condition',
+    'Customer' => 'Customer',
+    'Supplier' => 'Supplier',
+    'Document' => 'Document',
+    'InvoiceNumber' => 'Invoice Number',
+    'Currency' => 'Currency',
+    'Total' => 'Total',
+    'Detail' => 'Detail',
 ];
