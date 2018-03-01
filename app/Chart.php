@@ -20,68 +20,95 @@ class Chart extends Model
     // 'sub_type',
     // 'is_accountable'];
 
-
     //Assign General Scope to all Queries. Simplifies not having to individuall call a scope.
     protected static function boot()
     {
         parent::boot();
-
         static::addGlobalScope(new ChartScope);
     }
 
-    //This scope is handled by the Global Scope.
-    //This function is not necesary as calling the Model Directly will give you same results.
-    public function scopeMyCharts($query)
+    //Brings all Cash and Bank accounts.
+    public function scopeMoneyAccounts($query)
     {
-        return $query;
+        return $query
+        ->where('type', 1)
+        ->orWhere(function($subQuery)
+        {
+            $subQuery
+            ->where('subtype', 1)
+            ->orWhere('subtype', 3);
+        });
+    }
+    
+    //Brings all Item accounts (formally known as Cost Centers) into Sales Detail
+    public function scopeSalesAccounts($query)
+    {
+        return $query
+        ->where(function ($x)
+        {
+            $x
+            ->where(function($y)
+            {
+                //Bring all Income Types.
+                //Without worring about SubTypes because we need to bring all.
+                $y->where('type', 4);
+            })
+            ->where(function($y)
+            {
+                //Bring SubType = Fixed Asset (Type = Asset) incase you want to sell a car or house.
+                $y
+                ->where('type', 1)
+                ->where('subtype', 9);
+            });
+        });
     }
 
-    // public function getTypeAttribute($attribute)
-    // {
-    //     return new ChartTypeEnum($attribute);
-    // }
-    //
-    // public function getSubTypeAttribute($attribute)
-    // {
-    //     if ($this->attributes['type'] == 1) {
-    //         return new ChartAssetTypeEnum($attribute);
-    //     }
-    //     elseif($this->attributes['type'] == 2) {
-    //         return new ChartLiabilityTypeEnum($attribute);
-    //     }
-    //     elseif($this->attributes['type'] == 3) {
-    //         return new ChartEquityTypeEnum($attribute);
-    //     }
-    //     elseif($this->attributes['type'] == 4) {
-    //         return new ChartRevenueTypeEnum($attribute);
-    //     }
-    //     //If all else fails, Expense is the most common SubType
-    //     return new ChartExpenseTypeEnum($attribute);
-    // }
-    //
-    // public function setTypeAttribute(ChartTypeEnum $attribute) {
-    //     $this->attributes['type'] = $attribute->getValue();
-    // }
-    //
-    // public function setAssetAttribute(ChartAssetTypeEnum $attribute) {
-    //     $this->attributes['sub_type'] = $attribute->getValue();
-    // }
-    //
-    // public function setLiabilityAttribute(ChartLiabilityTypeEnum $attribute) {
-    //     $this->attributes['sub_type'] = $attribute->getValue();
-    // }
-    //
-    // public function setEquityAttribute(ChartEquityTypeEnum $attribute) {
-    //     $this->attributes['sub_type'] = $attribute->getValue();
-    // }
-    //
-    // public function setRevenueAttribute(ChartRevenueTypeEnum $attribute) {
-    //     $this->attributes['sub_type'] = $attribute->getValue();
-    // }
-    //
-    // public function setExpenseAttribute(ChartExpenseTypeEnum $attribute) {
-    //     $this->attributes['sub_type'] = $attribute->getValue();
-    // }
+    //Brings all Item Accounts (formally known as Cost Centers) into Purchase Detail
+    public function scopePurchaseAccounts($query)
+    {
+        return $query
+        ->where(function ($x)
+        {
+            $x
+            ->where(function($y)
+            {
+                $y->where('type', 5)
+                ->orWhere(function($z)
+                {
+                    //Bring all Expenses except for Wages, Depreciation, these accounts you cannot purchase.
+                    $z->Where('subtype', 2);
+                    $z->orWhere('subtype', 3);
+                    $z->orWhere('subtype', 6);
+                    $z->orWhere('subtype', 7);
+                    $z->orWhere('subtype', 9);
+                    $z->orWhere('subtype', 10);
+                });
+            })
+            ->where(function($y)
+            {
+                $y
+                ->where('type', 1)
+                ->where('subtype', 9);
+            });
+        });
+    }
+
+    //Debit VAT Accounts are used in Sales & Debit Notes
+    public function scopeDebitVATAccounts($query)
+    {
+        return $query
+        ->where('type', 2)
+        ->where('subtype', 3);
+    }
+
+    //Credit VAT Accounts are used in Purchases & Credit Notes
+    public function scopeCreditVATAccounts($query)
+    {
+        return $query
+        ->where('type', 1)
+        ->where('subtype', 12);
+    }
+
 
     /**
     * Get the version that owns the model.

@@ -17,7 +17,7 @@ class ChartAssetTypeEnum extends Enum
     const FixedAssets               = 9;
     const AccumulatedDepreciation   = 10; //(contra account)
     const OtherAssets               = 11;
-    const SalesTaxReceivable        = 12;
+    const VATReceivable             = 12;
 
     public static function labels()
     {
@@ -25,7 +25,7 @@ class ChartAssetTypeEnum extends Enum
             ->flip()
             ->map(function ($key) {
                 // Place your translation strings in `resources/lang/en/enum.php`
-                return trans(sprintf('enum.%s', strtolower($key)));
+                return trans(sprintf('enum.%s', $key));
             })
             ->all();
     }

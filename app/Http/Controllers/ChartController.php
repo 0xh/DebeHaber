@@ -145,25 +145,10 @@ class ChartController extends Controller
 
   public function get_account(Taxpayer $taxPayer, Cycle $cycle)
   {
-    $chart = Chart::join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-    ->where('charts.type', 1)
-    ->where('charts.sub_type', 1)
-    ->orWhere('charts.sub_type', 3)
-    ->select('charts.id',
-    'charts.country',
-    'charts.is_accountable',
-    'charts.code',
-    'charts.name',
-    'charts.level',
-    'charts.type as type',
-    'charts.sub_type',
-    'chart_versions.name as chart_version_name',
-    'chart_versions.id as chart_version_id')
-    ->get();
-
+    $chart = Chart::MoneyAccounts()->select('id', 'name', 'code')->get();
     return response()->json($chart);
   }
-  public function get_Parentaccount(Taxpayer $taxPayer, Cycle $cycle,$frase)
+  public function get_parentAccount(Taxpayer $taxPayer, Cycle $cycle,$frase)
   {
     $chart = Chart::join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
     ->where('is_accountable',0)

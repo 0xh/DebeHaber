@@ -8,7 +8,7 @@ class ChartTypeEnum extends Enum
 {
     const Assets            = 1;
     const Liabilities       = 2;
-    const Capital           = 3;
+    const Equity            = 3;
     const Revenues          = 4;
     const Expenses          = 5;
 
@@ -19,7 +19,7 @@ class ChartTypeEnum extends Enum
                 ->flip()
                 ->map(function ($key) {
                     // Place your translation strings in `resources/lang/en/enum.php`
-                    return trans(sprintf('enum.%s', strtolower($key)));
+                    return trans(sprintf('enum.%s', $key));
                 })
                 ->all();
         }

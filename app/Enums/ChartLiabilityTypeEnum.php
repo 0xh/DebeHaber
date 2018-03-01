@@ -8,10 +8,10 @@ class ChartLiabilityTypeEnum extends Enum
 {
     const AccountsPayable    = 1;
     const AccruedLiabilities = 2;
-    const SalesTaxPayable    = 3;
-    const TaxesPayable      = 4;
-    const WagesPayable      = 5;
-    const NotesPayable      = 6;
+    const VATPayable         = 3;
+    const TaxesPayable       = 4;
+    const WagesPayable       = 5;
+    const NotesPayable       = 6;
 
 
         public static function labels()
@@ -20,7 +20,7 @@ class ChartLiabilityTypeEnum extends Enum
                 ->flip()
                 ->map(function ($key) {
                     // Place your translation strings in `resources/lang/en/enum.php`
-                    return trans(sprintf('enum.%s', strtolower($key)));
+                    return trans(sprintf('enum.%s', $key));
                 })
                 ->all();
         }

@@ -17,7 +17,7 @@ class ChartEquityTypeEnum extends Enum
                 ->flip()
                 ->map(function ($key) {
                     // Place your translation strings in `resources/lang/en/enum.php`
-                    return trans(sprintf('enum.%s', strtolower($key)));
+                    return trans(sprintf('enum.%s', $key));
                 })
                 ->all();
         }
