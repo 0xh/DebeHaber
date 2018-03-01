@@ -36,15 +36,18 @@ class ChartController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request, $taxPayerID)
+    public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
         $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
         $chart->chart_version_id = $request->chart_version_id;
         $chart->country = $request->country;
+        if ($request->parent_id>0) {
+          $chart->parent_id = $request->parent_id;
+        }
 
         $chart->is_accountable = $request->is_accountable == 'true' ? 1 : 0;
         $chart->code = $request->code;
-        $chart->taxpayer_id = $taxPayerID;
+        $chart->taxpayer_id = $taxPayer->id;
         $chart->name = $request->name;
         $chart->save();
 
@@ -157,10 +160,13 @@ class ChartController extends Controller
 
         return response()->json($chart);
     }
-    public function get_Parentaccount(Taxpayer $taxPayer,Cycle $cycle)
+    public function get_Parentaccount(Taxpayer $taxPayer,Cycle $cycle,$frase)
     {
         $chart = Chart::Join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
         ->where('is_accountable',0)
+        ->where('charts.name', 'LIKE', "%$frase%")
+        ->orwhere('charts.code', 'LIKE', "$frase%")
+
         ->select('charts.id',
         'charts.country',
         'charts.is_accountable',
