@@ -42,4 +42,5 @@ return [
     'InvoiceNumber' => 'Número de Factura',
     'Currency' => 'Moneda',
     'Total' => 'Total',
+    'Detail' => 'Detalle',
 ];
