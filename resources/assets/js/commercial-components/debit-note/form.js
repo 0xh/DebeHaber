@@ -209,7 +209,6 @@ Vue.component('debit-note-form',{
                     {
                         app.documents.push({name:data[i]['code'],id:data[i]['id']});
                     }
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -229,10 +228,9 @@ Vue.component('debit-note-form',{
                 async: true,
                 success: function(data)
                 {
-
-                    app.number=data.current_range + 1;
-                    app.code=data.code;
-                    app.code_expiry=data.code_expiry;
+                    app.number = data.current_range + 1;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
                 },
                 error: function(xhr, status, error)
                 {
@@ -296,7 +294,7 @@ Vue.component('debit-note-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-purchases' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -319,7 +317,7 @@ Vue.component('debit-note-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -340,25 +338,25 @@ Vue.component('debit-note-form',{
         },
         getAccounts: function(data)
         {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account' ,
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.accounts = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.accounts.push({name:data[i]['name'],id:data[i]['id']});
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
+            // var app = this;
+            // $.ajax({
+            //     url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account' ,
+            //     type: 'get',
+            //     dataType: 'json',
+            //     async: true,
+            //     success: function(data)
+            //     {
+            //         app.accounts = [];
+            //         for(let i = 0; i < data.length; i++)
+            //         {
+            //             app.accounts.push({name:data[i]['name'],id:data[i]['id']});
+            //         }
+            //     },
+            //     error: function(xhr, status, error)
+            //     {
+            //         console.log(xhr.responseText);
+            //     }
+            // });
         }
     },
 
@@ -369,6 +367,6 @@ Vue.component('debit-note-form',{
         this.getCurrencies();
         this.getCharts();
         this.getTaxs();
-        this.getAccounts();
+        //this.getAccounts();
     }
 });

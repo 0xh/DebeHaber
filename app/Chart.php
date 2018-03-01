@@ -32,14 +32,22 @@ class Chart extends Model
     {
         return $query
         ->where('type', 1)
-        ->orWhere(function($subQuery)
+        ->where(function ($x)
         {
-            $subQuery
-            ->where('subtype', 1)
-            ->orWhere('subtype', 3);
+            $x
+            ->where('sub_type', 1)
+            ->orWhere('sub_type', 3);
         });
     }
-    
+
+    //Brings all Fixed Asset Type accounts into list.
+    public function scopeFixedAssets($query)
+    {
+        return $query
+        ->where('type', 1)
+        ->where('sub_type', 9);
+    }
+
     //Brings all Item accounts (formally known as Cost Centers) into Sales Detail
     public function scopeSalesAccounts($query)
     {
@@ -47,18 +55,15 @@ class Chart extends Model
         ->where(function ($x)
         {
             $x
-            ->where(function($y)
+            //Bring all Income Types.
+            //Without worring about sub_types because we need to bring all.
+            ->where('type', 4)
+            //Bring sub_type = Fixed Asset (Type = Asset) incase you want to sell a car or house.
+            ->orWhere(function ($y)
             {
-                //Bring all Income Types.
-                //Without worring about SubTypes because we need to bring all.
-                $y->where('type', 4);
-            })
-            ->where(function($y)
-            {
-                //Bring SubType = Fixed Asset (Type = Asset) incase you want to sell a car or house.
                 $y
                 ->where('type', 1)
-                ->where('subtype', 9);
+                ->where('sub_type', 9);
             });
         });
     }
@@ -70,43 +75,44 @@ class Chart extends Model
         ->where(function ($x)
         {
             $x
-            ->where(function($y)
+            ->where(function ($y)
             {
-                $y->where('type', 5)
-                ->orWhere(function($z)
+                $y
+                ->where('type', 5)
+                ->orWhere(function ($z)
                 {
                     //Bring all Expenses except for Wages, Depreciation, these accounts you cannot purchase.
-                    $z->Where('subtype', 2);
-                    $z->orWhere('subtype', 3);
-                    $z->orWhere('subtype', 6);
-                    $z->orWhere('subtype', 7);
-                    $z->orWhere('subtype', 9);
-                    $z->orWhere('subtype', 10);
+                    $z->where('sub_type', 2);
+                    $z->orWhere('sub_type', 3);
+                    $z->orWhere('sub_type', 6);
+                    $z->orWhere('sub_type', 7);
+                    $z->orWhere('sub_type', 9);
+                    $z->orWhere('sub_type', 10);
                 });
             })
-            ->where(function($y)
+            ->where(function ($y)
             {
                 $y
                 ->where('type', 1)
-                ->where('subtype', 9);
+                ->where('sub_type', 9);
             });
         });
     }
 
     //Debit VAT Accounts are used in Sales & Debit Notes
-    public function scopeDebitVATAccounts($query)
+    public function scopeVATDebitAccounts($query)
     {
         return $query
         ->where('type', 2)
-        ->where('subtype', 3);
+        ->where('sub_type', 3);
     }
 
     //Credit VAT Accounts are used in Purchases & Credit Notes
-    public function scopeCreditVATAccounts($query)
+    public function scopeVATCreditAccounts($query)
     {
         return $query
         ->where('type', 1)
-        ->where('subtype', 12);
+        ->where('sub_type', 12);
     }
 
 

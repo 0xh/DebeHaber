@@ -1,8 +1,8 @@
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-Vue.component('account-payable-form',{
-    props: ['taxpayer'],
+Vue.component('account-receivable-form',{
+    props: ['taxpayer', 'cycle'],
     data() {
         return {
             id:0,
@@ -16,6 +16,7 @@ Vue.component('account-payable-form',{
             credit:'',
             currencies:[],
             charts:[]
+
         }
     },
 
@@ -57,6 +58,20 @@ Vue.component('account-payable-form',{
                     console.log(xhr.responseText);
                 }
             });
+        },
+        onEdit: function(data)
+        {
+            var app = this;
+            app.id=data.id;
+            app.taxpayer_id= data.taxpayer_id;
+            app.chart_id= data.chart_id;
+            app.date= data.date;
+            app.transaction_id= data.transaction_id;
+            app.currency_id= data.currency_id;
+            app.rate= data.rate;
+            app.debit= data.debit;
+            app.credit= data.credit;
+
         },
 
         onReset: function()
@@ -130,25 +145,11 @@ Vue.component('account-payable-form',{
                   }
               });
           },
-        onEdit: function(data)
-        {
-            var app = this;
-            app.id=data.id;
-            app.taxpayer_id= data.taxpayer_id;
-            app.chart_id= data.chart_id;
-            app.date= data.date;
-            app.transaction_id= data.transaction_id;
-            app.currency_id= data.currency_id;
-            app.rate= data.rate;
-            app.debit= data.debit;
-            app.credit= data.credit;
-
-        },
         getCharts: function(data)
         {
             var app=this;
             $.ajax({
-                url: '/api/get_account/' + this.taxpayer ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -173,5 +174,6 @@ Vue.component('account-payable-form',{
     mounted: function mounted()
     {
         this.getCurrencies();
+        this.getCharts();
     }
 });

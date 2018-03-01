@@ -14,10 +14,9 @@
                             @lang('global.BelongsTo')
                         </label>
                         <div class="col-8">
-                            <router-view name="SearchBoxAccount" url="/accounting/chart/get_parentaccount/" :cycle="{{ request()->route('cycle')->id}}"  :current_company="{{ request()->route('taxPayer')->id }}" >
+                            <router-view name="SearchBoxAccount" url="/accounting/chart/get_parent-accounts/" :cycle="{{ request()->route('cycle') }}"  :current_company="{{ request()->route('taxPayer') }}" >
 
                             </router-view>
-                            
                         </div>
                     </div>
                 </div>
@@ -27,9 +26,7 @@
                             @lang('accounting.ChartVersion')
                         </label>
                         <div class="col-8">
-                            <select v-model="chart_version_id" required class="custom-select" >
-                                <option v-for="chartversion in chartversions" :value="chartversion.id">@{{ chartversion.name }}</option>
-                            </select>
+                            {{ request()->route('cycle')->chartVersion->name }}
                         </div>
                     </div>
                 </div>
@@ -65,7 +62,6 @@
                                         {{ $label }}
                                     </option>
                                 @endforeach
-
                             </select>
                         </div>
                     </div>

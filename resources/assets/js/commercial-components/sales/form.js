@@ -134,17 +134,14 @@ Vue.component('sales-form',{
                 async: false,
                 success: function(data)
                 {
-                    if (data=='ok')
+                    if (data == 'ok')
                     {
                         app.onReset();
-
                     }
                     else
                     {
                         alert('Something Went Wrong...')
                     }
-
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -269,27 +266,26 @@ Vue.component('sales-form',{
         },
         getRate: function()
         {
+            var app=this;
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
 
-              var app=this;
-              $.ajax({
-                  url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
-                  type: 'get',
-                  dataType: 'json',
-                  async: true,
-                  success: function(data)
-                  {
-
-                      if (app.rate=='' || app.rate==null) {
-                              app.rate=data;
-                      }
+                    if (app.rate=='' || app.rate==null) {
+                        app.rate=data;
+                    }
 
 
-                  },
-                  error: function(xhr, status, error)
-                  {
-                      console.log(xhr.responseText);
-                  }
-              });
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
         },
 
         //Get Cost Centers
@@ -297,7 +293,7 @@ Vue.component('sales-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -321,7 +317,7 @@ Vue.component('sales-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -345,7 +341,7 @@ Vue.component('sales-form',{
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,

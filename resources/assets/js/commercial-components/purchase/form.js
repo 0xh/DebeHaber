@@ -297,7 +297,7 @@ Vue.component('purchases-form',{
     {
       var app=this;
       $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item' ,
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-purchases' ,
         type: 'get',
         dataType: 'json',
         async: true,
@@ -320,7 +320,7 @@ Vue.component('purchases-form',{
     {
       var app=this;
       $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax' ,
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-credit' ,
         type: 'get',
         dataType: 'json',
         async: true,
@@ -343,7 +343,7 @@ Vue.component('purchases-form',{
     {
       var app = this;
       $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account' ,
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
         type: 'get',
         dataType: 'json',
         async: true,

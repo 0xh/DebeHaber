@@ -31,11 +31,13 @@ Route::prefix('{taxPayer}')->group(function ()
         {
             Route::prefix('chart')->group(function ()
             {
-                Route::get('get_chart', 'ChartController@get_chart');
-                Route::get('get_item', 'ChartController@get_item');
-                Route::get('get_account', 'ChartController@get_account');
-                Route::get('get_parentaccount/{frase}', 'ChartController@get_Parentaccount');
-                Route::get('get_tax', 'ChartController@get_tax');
+                Route::get('get', 'ChartController@getCharts');
+                Route::get('get_item-sales', 'ChartController@getSalesAccounts');
+                Route::get('get_item-purchases', 'ChartController@getPurchaseAccounts');
+                Route::get('get_money-accounts', 'ChartController@getMoneyAccounts');
+                Route::get('get_parent-accounts/{frase}', 'ChartController@getParentAccount');
+                Route::get('get_vat-debit', 'ChartController@getVATDebit');
+                Route::get('get_vat-credit', 'ChartController@getVATDebit');
             });
         });
 

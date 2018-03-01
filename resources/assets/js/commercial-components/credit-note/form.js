@@ -297,7 +297,7 @@ Vue.component('credit-note-form',{
         {
             var app=this;
             $.ajax({
-                url:  '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item' ,
+                url:  '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -320,7 +320,7 @@ Vue.component('credit-note-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_tax' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-credit' ,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -341,25 +341,25 @@ Vue.component('credit-note-form',{
         },
         getAccounts: function(data)
         {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account' ,
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.accounts = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.accounts.push({name:data[i]['name'],id:data[i]['id']});
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
+            // var app = this;
+            // $.ajax({
+            //     url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
+            //     type: 'get',
+            //     dataType: 'json',
+            //     async: true,
+            //     success: function(data)
+            //     {
+            //         app.accounts = [];
+            //         for(let i = 0; i < data.length; i++)
+            //         {
+            //             app.accounts.push({name:data[i]['name'],id:data[i]['id']});
+            //         }
+            //     },
+            //     error: function(xhr, status, error)
+            //     {
+            //         console.log(xhr.responseText);
+            //     }
+            // });
         }
     },
 
@@ -370,6 +370,6 @@ Vue.component('credit-note-form',{
         this.getCurrencies();
         this.getCharts();
         this.getTaxs();
-        this.getAccounts();
+        //this.getAccounts();
     }
 });

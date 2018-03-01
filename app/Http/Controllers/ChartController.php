@@ -10,183 +10,151 @@ use Illuminate\Http\Request;
 
 class ChartController extends Controller
 {
-  /**
-  * Display a listing of the resource.
-  *
-  * @return \Illuminate\Http\Response
-  */
-  public function index(Taxpayer $taxPayer, Cycle $cycle)
-  {
-    return view('accounting/chart');
-  }
-
-  /**
-  * Show the form for creating a new resource.
-  *
-  * @return \Illuminate\Http\Response
-  */
-  public function create()
-  {
-    //
-  }
-
-  /**
-  * Store a newly created resource in storage.
-  *
-  * @param  \Illuminate\Http\Request  $request
-  * @return \Illuminate\Http\Response
-  */
-  public function store(Request $request, Taxpayer $taxPayer, Cycle $cycle)
-  {
-    $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
-    $chart->chart_version_id = $cycle->chart_version_id;
-    $chart->type = $request->type;
-    $chart->sub_type = $request->sub_type;
-    $chart->country = $taxPayer->country;
-    $chart->coefficient = $taxPayer->coefficient;
-    if ($request->parent_id > 0)
+    /**
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-      $chart->parent_id = $request->parent_id;
+        return view('accounting/chart');
     }
 
-    $chart->is_accountable = $request->is_accountable == 'true' ? 1 : 0;
-    $chart->code = $request->code;
-    $chart->taxpayer_id = $taxPayer->id;
-    $chart->name = $request->name;
-    $chart->save();
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function create()
+    {
+        //
+    }
 
-    return response()->json('ok');
-  }
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function store(Request $request, Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
+        $chart->chart_version_id = $cycle->chart_version_id;
+        $chart->type = $request->type;
+        $chart->sub_type = $request->sub_type;
+        $chart->country = $taxPayer->country;
+        $chart->coefficient = $taxPayer->coefficient;
+        if ($request->parent_id > 0)
+        {
+            $chart->parent_id = $request->parent_id;
+        }
 
-  /**
-  * Display the specified resource.
-  *
-  * @param  \App\Chart  $chart
-  * @return \Illuminate\Http\Response
-  */
-  public function show(Chart $chart)
-  {
+        $chart->is_accountable = $request->is_accountable == 'true' ? 1 : 0;
+        $chart->code = $request->code;
+        $chart->taxpayer_id = $taxPayer->id;
+        $chart->name = $request->name;
+        $chart->save();
+
+        return response()->json('ok');
+    }
+
+    /**
+    * Display the specified resource.
+    *
+    * @param  \App\Chart  $chart
+    * @return \Illuminate\Http\Response
+    */
+    public function show(Chart $chart)
+    {
+        //
+    }
+
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  \App\Chart  $chart
+    * @return \Illuminate\Http\Response
+    */
+    public function edit(Chart $chart)
+    {
+        //
+    }
+
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \App\Chart  $chart
+    * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request, Chart $chart)
+    {
+        //
+    }
+
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  \App\Chart  $chart
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy(Chart $chart)
+    {
+        //
+    }
+
+    public function getCharts(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $charts = Chart::get();
+        return response()->json($charts);
+    }
+
     //
-  }
+    public function getSalesAccounts(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $charts = Chart::SalesAccounts()->get();
+        return response()->json($charts);
+    }
 
-  /**
-  * Show the form for editing the specified resource.
-  *
-  * @param  \App\Chart  $chart
-  * @return \Illuminate\Http\Response
-  */
-  public function edit(Chart $chart)
-  {
-    //
-  }
+    // Accounts used in Purchase. Expense + Fixed Assets
+    public function getPurchaseAccounts(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $charts = Chart::PurchaseAccounts()->get();
+        return response()->json($charts);
+    }
 
-  /**
-  * Update the specified resource in storage.
-  *
-  * @param  \Illuminate\Http\Request  $request
-  * @param  \App\Chart  $chart
-  * @return \Illuminate\Http\Response
-  */
-  public function update(Request $request, Chart $chart)
-  {
-    //
-  }
+    // Money Accounts
+    public function getMoneyAccounts(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $charts = Chart::MoneyAccounts()->get();
+        return response()->json($charts);
+    }
 
-  /**
-  * Remove the specified resource from storage.
-  *
-  * @param  \App\Chart  $chart
-  * @return \Illuminate\Http\Response
-  */
-  public function destroy(Chart $chart)
-  {
-    //
-  }
+    // Debit VAT, used in Sales. Also Normal Sales Tax (Not VAT).
+    public function getVATDebit(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $charts = Chart::VATDebitAccounts()->get();
+        return response()->json($charts);
+    }
 
-  public function get_chart(Taxpayer $taxPayer,Cycle $cycle)
-  {
+    // Credit VAT, used in Purchases
+    public function getVATCredit(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $charts = Chart::VATCreditAccounts()->get();
+        return response()->json($charts);
+    }
 
-    $chart = Chart::where('charts.taxpayer_id', $taxPayer->id)
-    ->join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-    ->select('charts.id',
-    'charts.country',
-    'charts.is_accountable',
-    'charts.code',
-    'charts.name','charts.level',
-    'charts.type as type',
-    'charts.sub_type',
-    'chart_versions.name as chart_version_name',
-    'chart_versions.id as chart_version_id')
-    ->get();
+    // Improve with Elastic Search
+    public function getParentAccount(Taxpayer $taxPayer, Cycle $cycle, $query)
+    {
+        $charts = Chart::where('is_accountable', false)
+        ->where(function ($q) use ($query)
+        {
+            $q->where('name', 'like', '%' . $query . '%')
+            ->orWhere('code', 'like', '%' . $query . '%');
+        })
+        ->get();
 
-    return response()->json($chart);
-  }
-
-  public function get_item(Taxpayer $taxPayer,Cycle $cycle)
-  {
-
-    $chart = Chart::join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-    ->where('charts.type', 1)
-    ->where('charts.sub_type', 8)
-    ->select('charts.id',
-    'charts.country',
-    'charts.is_accountable',
-    'charts.code',
-    'charts.name',
-    'charts.level',
-    'charts.type as type',
-    'charts.sub_type',
-    'chart_versions.name as chart_version_name',
-    'chart_versions.id as chart_version_id')
-    ->get();
-
-    return response()->json($chart);
-  }
-
-  public function get_account(Taxpayer $taxPayer, Cycle $cycle)
-  {
-    $chart = Chart::MoneyAccounts()->select('id', 'name', 'code')->get();
-    return response()->json($chart);
-  }
-  public function get_parentAccount(Taxpayer $taxPayer, Cycle $cycle,$frase)
-  {
-    $chart = Chart::join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-    ->where('is_accountable',0)
-    ->where('charts.name', 'LIKE', "%$frase%")
-    ->orwhere('charts.code', 'LIKE', "$frase%")
-
-    ->select('charts.id',
-    'charts.country',
-    'charts.is_accountable',
-    'charts.code',
-    'charts.name',
-    'charts.level',
-    'charts.type as type',
-    'charts.sub_type',
-    'chart_versions.name as chart_version_name',
-    'chart_versions.id as chart_version_id')
-    ->get();
-
-    return response()->json($chart);
-  }
-
-  public function get_tax(Taxpayer $taxPayer,Cycle $cycle)
-  {
-    $chart = Chart::join('chart_versions', 'charts.chart_version_id', 'chart_versions.id')
-    ->where('charts.type', 1)
-    ->where('charts.sub_type', 12)
-    ->select('charts.id',
-    'charts.country',
-    'charts.is_accountable',
-    'charts.code',
-    'charts.name',
-    'charts.level',
-    'charts.type as type',
-    'charts.sub_type',
-    'chart_versions.name as chart_version_name',
-    'chart_versions.id as chart_version_id')
-    ->get();
-
-    return response()->json($chart);
-  }
+        return response()->json($charts);
+    }
 }
