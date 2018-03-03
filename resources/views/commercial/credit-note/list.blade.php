@@ -2,46 +2,22 @@
 {{-- <router-view name="Datatable"  :taxpayer="{{ request()->route('taxPayer')}}"  /> --}}
 
 <credit-note-list :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
-    <div>
-      <button @click="add()">add new</button>
-        <vue-good-table
-        :columns="columns"
-        :rows="rows"
-        :paginate="true"
-        :globalSearch="true"
-        styleClass="m-datatable__table">
-
-        {{-- SelectAll --}}
-        <template slot="table-column" slot-scope="props">
-            <span v-if="props.column.label =='SelectAll'">
-                <label class="checkbox">
-                    <input
-                    type="checkbox"
-                    @click="toggleSelectAll()">
-                </label>
-            </span>
-            <span v-else>
-                @{{props.column.label}}
-            </span>
-        </template>
-
-        {{-- Action Buttons --}}
-        <template slot="table-row-after" slot-scope="props">
-            <button @click="onEdit(rows[props.row.originalIndex])">Edit</button>
-        </template>
-
-        {{-- Checkbox --}}
-        <template slot="table-row-before" slot-scope="props">
-            <td>
-                <label class="checkbox">
-                    <input type="checkbox" v-model="rows[props.row.originalIndex].selected">
-                </label>
-            </td>
-        </template>
-
-        <tr class="m-datatable__row">
-        </tr>
-
-    </vue-good-table>
-</div>
-</purchases-list>
+  <div>
+        <div>
+            <router-view name="create" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" />
+        </div>
+        <div>
+            <router-view name="List" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" inline-template>
+                <div>
+                    {{-- <p><code>query: @{{ query }}</code></p> --}}
+                    <datatable v-bind="$data">
+                        <button class="btn btn-default" @click="alertSelectedUids" :disabled="!selection.length">
+                            <i class="fa fa-commenting-o"></i>
+                            Alert selected uid(s)
+                        </button>
+                    </datatable>
+                </div>
+            </router-view>
+        </div>
+    </div>
+</credit-note-list>

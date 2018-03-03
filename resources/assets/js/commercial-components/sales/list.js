@@ -41,7 +41,7 @@ Vue.component('sales-list',{
     },
 
     methods: {
-      
+
 
         init(){
             var app = this;
@@ -53,8 +53,8 @@ Vue.component('sales-list',{
                 success: function(data)
                 {
 
-                    app.data = [];
-                    app.data=data;
+                    app.$children[1].data = [];
+                    app.$children[1].data=data;
                     // for(let i = 0; i < data.length; i++)
                     // {
                     //     app.rows.push({
@@ -90,7 +90,7 @@ Vue.component('sales-list',{
             var app = this;
             app.$parent.status=1;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -119,12 +119,5 @@ Vue.component('sales-list',{
                 }
             })
         }
-    },
-
-    mounted: function mounted()
-    {
-        var app=this;
-        this.init();
-
     }
 });

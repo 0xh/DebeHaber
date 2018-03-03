@@ -14,7 +14,6 @@
                             <i class="fa fa-commenting-o"></i>
                             Alert selected uid(s)
                         </button>
-                        
                     </datatable>
                 </div>
             </router-view>

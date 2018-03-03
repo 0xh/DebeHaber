@@ -59,8 +59,8 @@ Vue.component('credit-note-list',{
                 success: function(data)
                 {
 
-                    app.rows = [];
-                    app.rows=data;
+                  app.rows = [];
+                  app.rows=data;
                     // for(let i = 0; i < data.length; i++)
                     // {
                     //     app.rows.push({
@@ -96,7 +96,7 @@ Vue.component('credit-note-list',{
             var app = this;
             app.$parent.status=1;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_noteByID/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_noteByID/' + data,
                 type: 'get',
                 dataType: 'json',
                 async: true,

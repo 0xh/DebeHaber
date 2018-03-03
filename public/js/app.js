@@ -3036,7 +3036,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var app = this;
 
-      app.$parent.$parent.$parent.$parent.$parent.onEdit(data);
+      app.$parent.$parent.$parent.$parent.$parent.$parent.onEdit(data);
     }
   }
 });
@@ -3501,43 +3501,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var id = _ref.id;
         return id;
       }));
-    },
-
-    onEdit: function onEdit(data) {
-
-      var app = this;
-      app.$parent.$parent.status = 1;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data,
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function success(data) {
-
-          app.$parent.$parent.$children[0].onEdit(data[0]);
-        },
-        error: function error(xhr, status, _error) {
-          console.log(status);
-        }
-      });
     }
   },
   mounted: function mounted() {
     var app = this;
-    $.ajax({
-      url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_sales',
-      type: 'get',
-      dataType: 'json',
-      async: true,
-      success: function success(data) {
-
-        app.data = [];
-        app.data = data;
-      },
-      error: function error(xhr, status, _error2) {
-        console.log(status);
-      }
-    });
+    this.$parent.init();
   }
 });
 
@@ -108894,7 +108862,7 @@ Vue.component('credit-note-list', {
             var app = this;
             app.$parent.status = 1;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_noteByID/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_noteByID/' + data,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -109270,118 +109238,118 @@ Vue.component('debit-note-form', {
 
 Vue.component('debit-note-list', {
 
-    props: ['taxpayer'],
-    data: function data() {
-        return {
-            columns: [{
-                label: 'SelectAll',
-                sortable: false
-            }, {
-                label: 'Code',
-                field: 'code',
-                filterable: true
-            }, {
-                label: 'Number',
-                field: 'number',
-                filterable: true
-            }, {
-                label: 'Date',
-                field: 'date',
-                type: 'date',
-                inputFormat: 'YYYY-MM-DD',
-                outputFormat: 'MMM Do YY'
-            }, {
-                label: 'Action'
-            }],
-            rows: []
-        };
+  props: ['taxpayer'],
+  data: function data() {
+    return {
+      columns: [{
+        label: 'SelectAll',
+        sortable: false
+      }, {
+        label: 'Code',
+        field: 'code',
+        filterable: true
+      }, {
+        label: 'Number',
+        field: 'number',
+        filterable: true
+      }, {
+        label: 'Date',
+        field: 'date',
+        type: 'date',
+        inputFormat: 'YYYY-MM-DD',
+        outputFormat: 'MMM Do YY'
+      }, {
+        label: 'Action'
+      }],
+      rows: []
+    };
+  },
+
+
+  methods: {
+    add: function add() {
+      var app = this;
+      app.$parent.status = 1;
+      console.log(app.$parent.$children[0]);
+      //app.$parent.$children[0].onReset();
+
     },
+    init: function init() {
+      var app = this;
+      $.ajax({
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_note',
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
 
-
-    methods: {
-        add: function add() {
-            var app = this;
-            app.$parent.status = 1;
-            console.log(app.$parent.$children[0]);
-            //app.$parent.$children[0].onReset();
-
+          app.$children[1].data = [];
+          app.$children[1].data = data;
+          // for(let i = 0; i < data.length; i++)
+          // {
+          //     app.rows.push({
+          //         selected: false,
+          //         id : data[i]['id'],
+          //         type : data[i]['type'],
+          //         customer_id : data[i]['customer_id'],
+          //         supplier_id : data[i]['supplier_id'],
+          //         document_id : data[i]['document_id'],
+          //         currency_id : data[i]['currency_id'],
+          //         rate : data[i]['rate'],
+          //         payment_condition : data[i]['payment_condition'],
+          //         chart_account_id : data[i]['chart_account_id'],
+          //         date : data[i]['date'],
+          //         number : data[i]['number'],
+          //         code : data[i]['code'],
+          //         code_expiry :data[i]['code_expiry'],
+          //         comment :data[i]['comment'],
+          //         ref_id :data[i]['ref_id'],
+          //         details : data[i]['details']
+          //     });
+          // }
         },
-        init: function init() {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_note',
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function success(data) {
-
-                    app.rows = [];
-                    app.rows = data;
-                    // for(let i = 0; i < data.length; i++)
-                    // {
-                    //     app.rows.push({
-                    //         selected: false,
-                    //         id : data[i]['id'],
-                    //         type : data[i]['type'],
-                    //         customer_id : data[i]['customer_id'],
-                    //         supplier_id : data[i]['supplier_id'],
-                    //         document_id : data[i]['document_id'],
-                    //         currency_id : data[i]['currency_id'],
-                    //         rate : data[i]['rate'],
-                    //         payment_condition : data[i]['payment_condition'],
-                    //         chart_account_id : data[i]['chart_account_id'],
-                    //         date : data[i]['date'],
-                    //         number : data[i]['number'],
-                    //         code : data[i]['code'],
-                    //         code_expiry :data[i]['code_expiry'],
-                    //         comment :data[i]['comment'],
-                    //         ref_id :data[i]['ref_id'],
-                    //         details : data[i]['details']
-                    //     });
-                    // }
-                },
-                error: function error(xhr, status, _error) {
-                    console.log(status);
-                }
-            });
-        },
-
-        onEdit: function onEdit(data) {
-
-            var app = this;
-            app.$parent.status = 1;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_noteByID/' + data.id,
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function success(data) {
-
-                    app.$parent.$children[0].onEdit(data[0]);
-                },
-                error: function error(xhr, status, _error2) {
-                    console.log(status);
-                }
-            });
-        },
-        toggleSelectAll: function toggleSelectAll() {
-            var _this = this;
-
-            this.allSelected = !this.allSelected;
-            this.rows.forEach(function (row) {
-                if (_this.allSelected) {
-                    row.selected = true;
-                } else {
-                    row.selected = false;
-                }
-            });
+        error: function error(xhr, status, _error) {
+          console.log(status);
         }
+      });
     },
 
-    mounted: function mounted() {
-        var app = this;
-        this.init();
+    onEdit: function onEdit(data) {
+
+      var app = this;
+      app.$parent.status = 1;
+      $.ajax({
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_noteByID/' + data,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+
+          app.$parent.$children[0].onEdit(data[0]);
+        },
+        error: function error(xhr, status, _error2) {
+          console.log(status);
+        }
+      });
+    },
+    toggleSelectAll: function toggleSelectAll() {
+      var _this = this;
+
+      this.allSelected = !this.allSelected;
+      this.rows.forEach(function (row) {
+        if (_this.allSelected) {
+          row.selected = true;
+        } else {
+          row.selected = false;
+        }
+      });
     }
+  },
+
+  mounted: function mounted() {
+    var app = this;
+    this.init();
+  }
 });
 
 /***/ }),
@@ -109747,118 +109715,118 @@ Vue.component('purchases-form', {
 
 Vue.component('purchases-list', {
 
-    props: ['taxpayer', 'cycle'],
-    data: function data() {
-        return {
-            columns: [{
-                label: 'SelectAll',
-                sortable: false
-            }, {
-                label: 'Code',
-                field: 'code',
-                filterable: true
-            }, {
-                label: 'Number',
-                field: 'number',
-                filterable: true
-            }, {
-                label: 'Date',
-                field: 'date',
-                type: 'date',
-                inputFormat: 'YYYY-MM-DD',
-                outputFormat: 'MMM Do YY'
-            }, {
-                label: 'Action'
-            }],
-            rows: []
-        };
+  props: ['taxpayer', 'cycle'],
+  data: function data() {
+    return {
+      columns: [{
+        label: 'SelectAll',
+        sortable: false
+      }, {
+        label: 'Code',
+        field: 'code',
+        filterable: true
+      }, {
+        label: 'Number',
+        field: 'number',
+        filterable: true
+      }, {
+        label: 'Date',
+        field: 'date',
+        type: 'date',
+        inputFormat: 'YYYY-MM-DD',
+        outputFormat: 'MMM Do YY'
+      }, {
+        label: 'Action'
+      }],
+      rows: []
+    };
+  },
+
+
+  methods: {
+    add: function add() {
+      var app = this;
+      app.$parent.status = 1;
+      console.log(app.$parent.$children[0]);
+      //app.$parent.$children[0].onReset();
+
     },
+    init: function init() {
+      var app = this;
+      $.ajax({
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchases',
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
 
-
-    methods: {
-        add: function add() {
-            var app = this;
-            app.$parent.status = 1;
-            console.log(app.$parent.$children[0]);
-            //app.$parent.$children[0].onReset();
-
+          app.$children[1].data = [];
+          app.$children[1].data = data;
+          // for(let i = 0; i < data.length; i++)
+          // {
+          //     app.rows.push({
+          //         selected: false,
+          //         id : data[i]['id'],
+          //         type : data[i]['type'],
+          //         customer_id : data[i]['customer_id'],
+          //         supplier_id : data[i]['supplier_id'],
+          //         document_id : data[i]['document_id'],
+          //         currency_id : data[i]['currency_id'],
+          //         rate : data[i]['rate'],
+          //         payment_condition : data[i]['payment_condition'],
+          //         chart_account_id : data[i]['chart_account_id'],
+          //         date : data[i]['date'],
+          //         number : data[i]['number'],
+          //         code : data[i]['code'],
+          //         code_expiry :data[i]['code_expiry'],
+          //         comment :data[i]['comment'],
+          //         ref_id :data[i]['ref_id'],
+          //         details : data[i]['details']
+          //     });
+          // }
         },
-        init: function init() {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchases',
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function success(data) {
-
-                    app.rows = [];
-                    app.rows = data;
-                    // for(let i = 0; i < data.length; i++)
-                    // {
-                    //     app.rows.push({
-                    //         selected: false,
-                    //         id : data[i]['id'],
-                    //         type : data[i]['type'],
-                    //         customer_id : data[i]['customer_id'],
-                    //         supplier_id : data[i]['supplier_id'],
-                    //         document_id : data[i]['document_id'],
-                    //         currency_id : data[i]['currency_id'],
-                    //         rate : data[i]['rate'],
-                    //         payment_condition : data[i]['payment_condition'],
-                    //         chart_account_id : data[i]['chart_account_id'],
-                    //         date : data[i]['date'],
-                    //         number : data[i]['number'],
-                    //         code : data[i]['code'],
-                    //         code_expiry :data[i]['code_expiry'],
-                    //         comment :data[i]['comment'],
-                    //         ref_id :data[i]['ref_id'],
-                    //         details : data[i]['details']
-                    //     });
-                    // }
-                },
-                error: function error(xhr, status, _error) {
-                    console.log(status);
-                }
-            });
-        },
-
-        onEdit: function onEdit(data) {
-
-            var app = this;
-            app.$parent.status = 1;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchasesByID/' + data.id,
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function success(data) {
-
-                    app.$parent.$children[0].onEdit(data[0]);
-                },
-                error: function error(xhr, status, _error2) {
-                    console.log(status);
-                }
-            });
-        },
-        toggleSelectAll: function toggleSelectAll() {
-            var _this = this;
-
-            this.allSelected = !this.allSelected;
-            this.rows.forEach(function (row) {
-                if (_this.allSelected) {
-                    row.selected = true;
-                } else {
-                    row.selected = false;
-                }
-            });
+        error: function error(xhr, status, _error) {
+          console.log(status);
         }
+      });
     },
 
-    mounted: function mounted() {
-        var app = this;
-        this.init();
+    onEdit: function onEdit(data) {
+
+      var app = this;
+      app.$parent.status = 1;
+      $.ajax({
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchasesByID/' + data,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function success(data) {
+
+          app.$parent.$children[0].onEdit(data[0]);
+        },
+        error: function error(xhr, status, _error2) {
+          console.log(status);
+        }
+      });
+    },
+    toggleSelectAll: function toggleSelectAll() {
+      var _this = this;
+
+      this.allSelected = !this.allSelected;
+      this.rows.forEach(function (row) {
+        if (_this.allSelected) {
+          row.selected = true;
+        } else {
+          row.selected = false;
+        }
+      });
     }
+  },
+
+  mounted: function mounted() {
+    var app = this;
+    this.init();
+  }
 });
 
 /***/ }),
@@ -110244,8 +110212,8 @@ Vue.component('sales-list', {
                 async: true,
                 success: function success(data) {
 
-                    app.data = [];
-                    app.data = data;
+                    app.$children[1].data = [];
+                    app.$children[1].data = data;
                     // for(let i = 0; i < data.length; i++)
                     // {
                     //     app.rows.push({
@@ -110280,7 +110248,7 @@ Vue.component('sales-list', {
             var app = this;
             app.$parent.status = 1;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data.id,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data,
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -110305,11 +110273,6 @@ Vue.component('sales-list', {
                 }
             });
         }
-    },
-
-    mounted: function mounted() {
-        var app = this;
-        this.init();
     }
 });
 

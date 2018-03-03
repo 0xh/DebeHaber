@@ -36,7 +36,7 @@ export default {
 
       var app = this;
 
-      app.$parent.$parent.$parent.$parent.$parent.onEdit(data);
+      app.$parent.$parent.$parent.$parent.$parent.$parent.onEdit(data);
 
 
     }

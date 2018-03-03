@@ -36,7 +36,7 @@ export default {
             if (groupsDef[groupName].includes(col.title)) {
               col.group = groupName
             }
-            
+
           })
           return col
         })
@@ -63,53 +63,13 @@ export default {
 
     alertSelectedUids () {
       alert(this.selection.map(({ id }) => id))
-    },
-    onEdit: function(data)
-    {
-
-      var app = this;
-      app.$parent.$parent.status=1;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data,
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-
-
-          app.$parent.$parent.$children[0].onEdit(data[0]);
-
-
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(status);
-        }
-      });
-
     }
+
   },
   mounted: function mounted()
   {
     var app=this;
-    $.ajax({
-      url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_sales' ,
-      type: 'get',
-      dataType: 'json',
-      async: true,
-      success: function(data)
-      {
-
-        app.data = [];
-        app.data=data;
-
-      },
-      error: function(xhr, status, error)
-      {
-        console.log(status);
-      }
-    });
+    this.$parent.init();
   }
 }
 </script>
