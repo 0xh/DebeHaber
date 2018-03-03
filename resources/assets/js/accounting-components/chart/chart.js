@@ -43,8 +43,8 @@ Vue.component('chart',{
 
             var app = this;
             var api = null;
-        
-            app.parent_id=app.$children[0].id;
+
+            app.parent_id = app.$children[0].id;
             $.ajax({
                 url: 'charts/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -54,6 +54,7 @@ Vue.component('chart',{
                 async: false,
                 success: function(data)
                 {
+                    console.log(data);
                     if (data == 'ok')
                     {
                         app.id = 0;
@@ -82,7 +83,6 @@ Vue.component('chart',{
         },
         onEdit: function(data)
         {
-
             var app = this;
             app.id = data.id;
             app.parent_id = data.parent_id;
@@ -105,7 +105,6 @@ Vue.component('chart',{
                 async: true,
                 success: function(data)
                 {
-
                     app.list = [];
                     for(let i = 0; i < data.length; i++)
                     {
