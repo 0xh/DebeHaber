@@ -144,7 +144,6 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group m-form__group row">
-
                         <div class="col-8">
                             <button v-on:click="onSave($data)" class="btn btn-primary">
                                 @lang('global.Save')

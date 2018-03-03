@@ -107586,7 +107586,6 @@ Vue.component('chart', {
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function onSave(json) {
-
             var app = this;
             var api = null;
 
@@ -107618,6 +107617,7 @@ Vue.component('chart', {
                     }
                 },
                 error: function error(xhr, status, _error) {
+                    alert('Something went wrong, check logs...');
                     console.log(xhr.responseText);
                 }
             });

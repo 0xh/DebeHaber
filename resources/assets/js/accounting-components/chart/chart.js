@@ -40,7 +40,6 @@ Vue.component('chart',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
-
             var app = this;
             var api = null;
 
@@ -77,6 +76,7 @@ Vue.component('chart',{
                 },
                 error: function(xhr, status, error)
                 {
+                    alert('Something went wrong, check logs...');
                     console.log(xhr.responseText);
                 }
             });
