@@ -54,6 +54,10 @@ class TransactionController extends Controller
 
     public function checkChart()
     {
+        //Check if Chart Exists
 
+        //If not Create with Taxpayer ID and Country as reference.
+
+        //Return Chart Object or ID
     }
 }

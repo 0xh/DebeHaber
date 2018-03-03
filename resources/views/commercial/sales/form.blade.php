@@ -76,7 +76,6 @@
                     <div class="col-8">
                         <div class="input-group">
                             <input id="payment_condition" type="text" class="form-control" v-model="payment_condition" placeholder=" 0 = Contado 1 0 mas = credito "/>
-
                         </div>
                     </div>
                 </div>
@@ -92,7 +91,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="col-6">
                 <div class="form-group m-form__group row">
