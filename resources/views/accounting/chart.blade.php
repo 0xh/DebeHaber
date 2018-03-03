@@ -26,7 +26,7 @@
                             @lang('accounting.ChartVersion')
                         </label>
                         <div class="col-8">
-                            {{ request()->route('cycle')->chartVersion->name }}
+                            {{ request()->route('taxPayer')->country . ' ' . request()->route('cycle')->chartVersion->name }}
                         </div>
                     </div>
                 </div>
