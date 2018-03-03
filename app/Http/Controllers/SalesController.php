@@ -28,7 +28,7 @@ class SalesController extends Controller
         ->where('supplier_id', $taxPayerID)->with('details')
         ->select(DB::raw('false as selected,transactions.id,taxpayers.name as Customer
         ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-        ,number,transactions.code,code_expiry'))
+        ,number,transactions.code,code_expiry,0 as friends'))
         ->get();
         return response()->json($Transaction);
     }

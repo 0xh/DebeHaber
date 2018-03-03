@@ -1,9 +1,6 @@
 <template>
   <div class="-nested-dsp-row-comp">
-    <button class="btn btn-xs btn-link -nested-dsp-row-close-btn"
-      @click="nested.$toggle(false)">
-      <i class="fa fa-times fa-lg"></i>
-    </button>
+    
     <dl class="dl-horizontal">
       <template v-for="(val, key) in row">
         <dt>{{ key }}</dt>

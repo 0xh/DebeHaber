@@ -1,16 +1,12 @@
 <template>
   <div class="btn-group btn-group-sm">
-    <button class="btn btn-default" title="Display row"
-      :class="{ '-nested-comp-open-btn': isDisplayRowVisible }"
-      @click="toggleNestedComp('DisplayRow')">
-      <i class="fa fa-list-ul"></i>
-    </button>
+    <button @click="onEdit(row.id)">Edit</button>
     <button class="btn btn-default" title="Friends"
-      :class="{ '-nested-comp-open-btn': isFriendsTableVisible }"
-      @click="toggleNestedComp('FriendsTable')">
-      <i class="fa fa-users"></i> {{ row.friends.length }}
-    </button>
-  </div>
+
+    @click="toggleNestedComp('FriendsTable')">
+    <i class="fa fa-users"></i> {{ row.friends.length }}
+  </button>
+</div>
 </template>
 <script>
 
@@ -34,6 +30,15 @@ export default {
       const { nested } = this
       if (nested.comp === comp) return nested.$toggle()
       nested.$toggle(comp, true)
+    },
+    onEdit: function(data)
+    {
+
+      var app = this;
+
+      app.$parent.$parent.$parent.$parent.$parent.onEdit(data);
+
+
     }
   }
 }
