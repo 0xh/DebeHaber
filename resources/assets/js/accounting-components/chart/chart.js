@@ -105,6 +105,7 @@ Vue.component('chart',{
                 async: true,
                 success: function(data)
                 {
+
                     app.list = [];
                     for(let i = 0; i < data.length; i++)
                     {
@@ -132,6 +133,6 @@ Vue.component('chart',{
 
     mounted: function mounted()
     {
-        
+        this.init();
     }
 });
