@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="LogViewer">
     <meta name="author" content="ARCANEDEV">
-    <title>LogViewer - Created by ARCANEDEV</title>
+    <title>Logs | DebeHaber</title>
     {{-- Styles --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -213,9 +213,9 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark p-0">
+    <nav class="navbar navbar-expand-md navbar-light sticky-top bg-light p-0">
         <a href="{{ route('log-viewer::dashboard') }}" class="navbar-brand mr-0">
-            <i class="fa fa-fw fa-book"></i> LogViewer
+            <img src="/img/logos/debehaber.svg" alt="" width="128">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -249,7 +249,7 @@
                 LogViewer - <span class="badge badge-info">version {{ log_viewer()->version() }}</span>
             </p>
             <p class="text-muted pull-right">
-                Created with <i class="fa fa-heart"></i> by ARCANEDEV <sup>&copy;</sup>
+                &copy; DebeHaber
             </p>
         </div>
     </footer>
