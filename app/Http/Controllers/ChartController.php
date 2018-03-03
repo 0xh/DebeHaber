@@ -38,8 +38,9 @@ class ChartController extends Controller
     */
     public function store(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
-        $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
         console.log($chart);
+        $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
+
         $chart->chart_version_id = $cycle->chart_version_id;
         $chart->type = $request->type;
         $chart->sub_type = $request->sub_type;
