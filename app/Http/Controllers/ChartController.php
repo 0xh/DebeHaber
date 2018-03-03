@@ -38,7 +38,7 @@ class ChartController extends Controller
     */
     public function store(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
-        console.log($chart);
+        dd($chart);
         $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
 
         $chart->chart_version_id = $cycle->chart_version_id;
