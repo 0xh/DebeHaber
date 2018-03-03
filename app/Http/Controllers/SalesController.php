@@ -23,12 +23,12 @@ class SalesController extends Controller
 
     public function get_sales($taxPayerID,Cycle $cycle)
     {
-
+        //friends column is used to display the button in data like dit ,delete
         $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)->with('details')
-        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as Customer
+        ->select(DB::raw('0 as friends,transactions.id,taxpayers.name as Customer
         ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-        ,number,transactions.code,code_expiry,0 as friends'))
+        ,number,transactions.code,code_expiry'))
         ->get();
         return response()->json($Transaction);
     }

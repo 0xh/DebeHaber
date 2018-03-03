@@ -36,6 +36,7 @@ export default {
             if (groupsDef[groupName].includes(col.title)) {
               col.group = groupName
             }
+            
           })
           return col
         })
