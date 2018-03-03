@@ -43,7 +43,7 @@ Vue.component('chart',{
 
             var app = this;
             var api = null;
-            console.log(app);
+        
             app.parent_id=app.$children[0].id;
             $.ajax({
                 url: 'charts/',
