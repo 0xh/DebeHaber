@@ -40,7 +40,7 @@ class ChartController extends Controller
     {
 
         $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
-    dd($chart);
+
         $chart->chart_version_id = $cycle->chart_version_id;
         $chart->type = $request->type;
         $chart->sub_type = $request->sub_type;
