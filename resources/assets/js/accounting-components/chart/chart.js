@@ -48,7 +48,7 @@ Vue.component('chart',{
                 url: 'charts/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'post',
-                data:json,
+                data: json,
                 dataType: 'json',
                 async: false,
                 success: function(data)
