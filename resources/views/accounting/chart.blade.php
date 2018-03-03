@@ -5,7 +5,7 @@
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <chart :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id}}"  inline-template>
+    <chart :taxpayer="{{ request()->route('taxPayer') }}" :cycle="{{ request()->route('cycle') }}" inline-template>
         <div>
             <div class="row">
                 <div class="col-6">
