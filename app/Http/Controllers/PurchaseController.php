@@ -24,7 +24,7 @@ class PurchaseController extends Controller
     {
         $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->where('customer_id', $taxPayerID)->with('details')
-        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as Supplier
+        ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
         ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
         ,number,transactions.code,code_expiry'))
         ->get();
