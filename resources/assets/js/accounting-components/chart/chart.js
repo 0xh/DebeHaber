@@ -76,7 +76,7 @@ Vue.component('chart',{
                 },
                 error: function(xhr, status, error)
                 {
-                    alert('Something went wrong, check logs...');
+                    alert('Something went wrong, check logs...' + error);
                     console.log(xhr.responseText);
                 }
             });
