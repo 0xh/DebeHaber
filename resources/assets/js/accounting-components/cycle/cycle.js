@@ -37,7 +37,7 @@ Vue.component('cycle',{
       var api=null;
 
       $.ajax({
-        url: 'cycles/',
+        url: '',
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'post',
         data:json,

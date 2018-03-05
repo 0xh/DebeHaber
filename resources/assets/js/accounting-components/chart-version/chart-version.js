@@ -32,7 +32,7 @@ Vue.component('chart-version',{
       var api=null;
 
       $.ajax({
-        url: this.taxpayer +  '/chart-versions/',
+        url: '',
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'post',
         data:json,
