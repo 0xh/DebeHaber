@@ -39,26 +39,36 @@ class ChartController extends Controller
     public function store(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
 
-
         $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
 
         $chart->chart_version_id = $cycle->chart_version_id;
-        $chart->type = $request->type;
-        $chart->sub_type = $request->sub_type;
         $chart->country = $taxPayer->country;
-        $chart->coefficient = $taxPayer->coefficient;
+        $chart->taxpayer_id = $taxPayer->id;
+
         if ($request->parent_id > 0)
         {
             $chart->parent_id = $request->parent_id;
         }
 
-        $chart->is_accountable = $request->is_accountable == 'true' ? 1 : 0;
+        if ($request->is_accountable == 'true')
+        {
+            $chart->is_accountable = 1;
+            $chart->sub_type = $request->sub_type;
+        }
+        else
+        {
+            $chart->is_accountable = 0;
+            $chart->sub_type = 0;
+        }
+
+        $chart->type = $request->type;
+        $chart->coefficient = $taxPayer->coefficient;
+
         $chart->code = $request->code;
-        $chart->taxpayer_id = $taxPayer->id;
         $chart->name = $request->name;
         $chart->save();
 
-    return response()->json('ok');
+        return response()->json('ok');
     }
 
     /**
