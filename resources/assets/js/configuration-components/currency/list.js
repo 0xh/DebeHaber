@@ -72,6 +72,7 @@ Vue.component('currency',{
       var app = this;
       $.ajax({
         url: '/api/get_Allrate' ,
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,
@@ -98,6 +99,7 @@ Vue.component('currency',{
       var app=this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_currency' ,
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,

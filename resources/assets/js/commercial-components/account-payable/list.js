@@ -1,4 +1,4 @@
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('account-payable-list',{
 
     props: ['taxpayer'],
@@ -54,6 +54,7 @@ Vue.component('account-payable-list',{
             var app = this;
             $.ajax({
                 url: '/api/get_account_payable/' + app.taxpayer,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -98,6 +99,7 @@ Vue.component('account-payable-list',{
             app.$parent.status=1;
             $.ajax({
                 url: '/api/get_account_payableByID/' + app.taxpayer + '/' + data.id,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,

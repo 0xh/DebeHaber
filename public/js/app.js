@@ -107510,6 +107510,7 @@ Vue.component('chart-version', {
       var app = this;
       $.ajax({
         url: '/get_chartversion/',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -107640,6 +107641,7 @@ Vue.component('chart', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get/',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -107758,6 +107760,7 @@ Vue.component('cycle', {
       var app = this;
       $.ajax({
         url: '/api/get_cycle/',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -107783,6 +107786,7 @@ Vue.component('cycle', {
     app.init();
     $.ajax({
       url: '/api/get_chartversion/',
+      headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
       type: 'get',
       dataType: 'json',
       async: true,
@@ -107961,6 +107965,7 @@ Vue.component('account-payable-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -107981,6 +107986,7 @@ Vue.component('account-payable-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108012,6 +108018,7 @@ Vue.component('account-payable-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108039,7 +108046,7 @@ Vue.component('account-payable-form', {
 /***/ "./resources/assets/js/commercial-components/account-payable/list.js":
 /***/ (function(module, exports) {
 
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('account-payable-list', {
 
     props: ['taxpayer'],
@@ -108082,6 +108089,7 @@ Vue.component('account-payable-list', {
             var app = this;
             $.ajax({
                 url: '/api/get_account_payable/' + app.taxpayer,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108124,6 +108132,7 @@ Vue.component('account-payable-list', {
             app.$parent.status = 1;
             $.ajax({
                 url: '/api/get_account_payableByID/' + app.taxpayer + '/' + data.id,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108257,6 +108266,7 @@ Vue.component('account-receivable-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108276,6 +108286,7 @@ Vue.component('account-receivable-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108294,6 +108305,7 @@ Vue.component('account-receivable-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108322,7 +108334,7 @@ Vue.component('account-receivable-form', {
 /***/ "./resources/assets/js/commercial-components/account-receivable/list.js":
 /***/ (function(module, exports) {
 
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('account-receivable-list', {
 
     props: ['taxpayer'],
@@ -108365,6 +108377,7 @@ Vue.component('account-receivable-list', {
             var app = this;
             $.ajax({
                 url: '/api/get_account_receivable/' + app.taxpayer,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108407,6 +108420,7 @@ Vue.component('account-receivable-list', {
             app.$parent.status = 1;
             $.ajax({
                 url: '/api/get_account_receivableByID/' + app.taxpayer + '/' + data.id,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108630,6 +108644,7 @@ Vue.component('credit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_document/2/',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108650,6 +108665,7 @@ Vue.component('credit-note-form', {
 
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108673,6 +108689,7 @@ Vue.component('credit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108692,6 +108709,7 @@ Vue.component('credit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108710,6 +108728,7 @@ Vue.component('credit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108728,6 +108747,7 @@ Vue.component('credit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-credit',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108780,7 +108800,7 @@ Vue.component('credit-note-form', {
 /***/ "./resources/assets/js/commercial-components/credit-note/list.js":
 /***/ (function(module, exports) {
 
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('credit-note-list', {
 
     props: ['taxpayer'],
@@ -108823,6 +108843,7 @@ Vue.component('credit-note-list', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_note',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -108865,6 +108886,7 @@ Vue.component('credit-note-list', {
             app.$parent.status = 1;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_credit_noteByID/' + data,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -109088,6 +109110,7 @@ Vue.component('debit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_document/1/',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -109108,6 +109131,7 @@ Vue.component('debit-note-form', {
 
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -109130,6 +109154,7 @@ Vue.component('debit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -109149,6 +109174,7 @@ Vue.component('debit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -109167,6 +109193,7 @@ Vue.component('debit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-purchases',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -109185,6 +109212,7 @@ Vue.component('debit-note-form', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -109237,7 +109265,7 @@ Vue.component('debit-note-form', {
 /***/ "./resources/assets/js/commercial-components/debit-note/list.js":
 /***/ (function(module, exports) {
 
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('debit-note-list', {
 
   props: ['taxpayer'],
@@ -109280,6 +109308,7 @@ Vue.component('debit-note-list', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_note',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109322,6 +109351,7 @@ Vue.component('debit-note-list', {
       app.$parent.status = 1;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_debit_noteByID/' + data,
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109567,6 +109597,7 @@ Vue.component('purchases-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_document/2/',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109587,6 +109618,7 @@ Vue.component('purchases-form', {
 
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id,
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109610,6 +109642,7 @@ Vue.component('purchases-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_currency',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109629,6 +109662,7 @@ Vue.component('purchases-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109647,6 +109681,7 @@ Vue.component('purchases-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-purchases',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109665,6 +109700,7 @@ Vue.component('purchases-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-credit',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109683,6 +109719,7 @@ Vue.component('purchases-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109714,7 +109751,7 @@ Vue.component('purchases-form', {
 /***/ "./resources/assets/js/commercial-components/purchase/list.js":
 /***/ (function(module, exports) {
 
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('purchases-list', {
 
   props: ['taxpayer', 'cycle'],
@@ -109757,6 +109794,7 @@ Vue.component('purchases-list', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchases',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -109799,6 +109837,7 @@ Vue.component('purchases-list', {
       app.$parent.status = 1;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchasesByID/' + data,
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -110021,6 +110060,7 @@ Vue.component('sales-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_document/1/',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -110041,6 +110081,7 @@ Vue.component('sales-form', {
 
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id,
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -110064,6 +110105,7 @@ Vue.component('sales-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_currency',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -110082,6 +110124,7 @@ Vue.component('sales-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date,
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -110102,6 +110145,7 @@ Vue.component('sales-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -110121,6 +110165,7 @@ Vue.component('sales-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -110160,6 +110205,7 @@ Vue.component('sales-form', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -110191,7 +110237,7 @@ Vue.component('sales-form', {
 /***/ "./resources/assets/js/commercial-components/sales/list.js":
 /***/ (function(module, exports) {
 
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('sales-list', {
 
     props: ['taxpayer', 'cycle'],
@@ -110229,6 +110275,7 @@ Vue.component('sales-list', {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_sales',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -110271,6 +110318,7 @@ Vue.component('sales-list', {
             app.$parent.status = 1;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data,
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -111185,6 +111233,7 @@ Vue.component('currency', {
       var app = this;
       $.ajax({
         url: '/api/get_Allrate',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -111208,6 +111257,7 @@ Vue.component('currency', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_currency',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -111330,6 +111380,7 @@ Vue.component('document', {
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_Alldocument',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'get',
         dataType: 'json',
         async: true,
@@ -111401,6 +111452,7 @@ Vue.component('taxpayer', {
             $.ajax({
                 url: '/taxpayer',
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+
                 type: 'post',
                 data: json,
                 dataType: 'json',
@@ -111427,6 +111479,7 @@ Vue.component('taxpayer', {
         init: function init() {
             $.ajax({
                 url: '/get_taxpayers/',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
                 async: true,

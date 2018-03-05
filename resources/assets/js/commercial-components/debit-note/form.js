@@ -199,6 +199,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_document/1/' ,
+                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -223,6 +224,7 @@ Vue.component('debit-note-form',{
 
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id   ,
+                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -248,6 +250,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency' ,
+                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -272,6 +275,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
+                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -295,6 +299,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-purchases' ,
+                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -318,6 +323,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit' ,
+                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,

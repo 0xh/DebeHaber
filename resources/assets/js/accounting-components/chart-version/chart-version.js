@@ -67,6 +67,7 @@ Vue.component('chart-version',{
       var app=this;
       $.ajax({
         url: '/get_chartversion/' ,
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,

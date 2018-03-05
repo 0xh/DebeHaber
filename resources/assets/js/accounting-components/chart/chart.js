@@ -100,6 +100,7 @@ Vue.component('chart',{
             var app = this;
             $.ajax({
                 url: '/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get/' ,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,

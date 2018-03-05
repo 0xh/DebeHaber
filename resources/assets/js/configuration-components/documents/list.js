@@ -95,6 +95,7 @@ Vue.component('document',{
       var app = this;
       $.ajax({
         url: '/api/'  + this.taxpayer + '/get_Alldocument' ,
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,

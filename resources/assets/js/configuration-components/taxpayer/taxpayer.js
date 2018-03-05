@@ -28,6 +28,7 @@ Vue.component('taxpayer',{
             $.ajax({
                 url: '/taxpayer',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+
                 type: 'post',
                 data:json,
                 dataType: 'json',
@@ -60,6 +61,7 @@ Vue.component('taxpayer',{
         init(){
             $.ajax({
                 url: '/get_taxpayers/' ,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,

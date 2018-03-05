@@ -103,6 +103,7 @@ Vue.component('account-receivable-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency' ,
+                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -127,6 +128,7 @@ Vue.component('account-receivable-form',{
               var app=this;
               $.ajax({
                   url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
+                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                   type: 'get',
                   dataType: 'json',
                   async: true,
@@ -150,6 +152,7 @@ Vue.component('account-receivable-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
+                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,

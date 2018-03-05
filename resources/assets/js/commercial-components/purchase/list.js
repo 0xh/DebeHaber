@@ -1,4 +1,4 @@
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('purchases-list',{
 
   props: ['taxpayer','cycle'],
@@ -53,6 +53,7 @@ Vue.component('purchases-list',{
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchases' ,
+          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,
@@ -97,6 +98,7 @@ Vue.component('purchases-list',{
       app.$parent.status=1;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchasesByID/' + data ,
+          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,
