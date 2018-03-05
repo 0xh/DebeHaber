@@ -1,15 +1,15 @@
 <template>
-    <div class="">
-
-
+    <div>
         <div class="input-group m-input-group">
-            <span class="input-group-addon" id="basic-addon1">
-                <i class="fa fa-spinner fa-spin" v-if="loading"></i>
-                <template v-else>
-                    <i class="fa fa-search" v-show="isEmpty"></i>
-                    <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
-                </template>
-            </span>
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-spinner fa-spin" v-if="loading"></i>
+                    <template v-else>
+                        <i class="fa fa-search" v-show="isEmpty"></i>
+                        <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
+                    </template>
+                </span>
+            </div>
 
             <input type="text"
             name ="contribuyente"
@@ -29,12 +29,15 @@
             @blur="reset"
             @input="update"/>
 
-            <span class="input-group-addon" id="basic-addon1">
-                @{{ selectText }}
-            </span>
-        
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1">
+                    @{{ selectText }}
+                </span>
+            </div>
         </div>
+
         <span class="m-form__help">
+            If this is a top level account, keep this field blank, or else please select it's parent.
             <ul v-show="hasItems">
                 <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
                     <span class="name" v-text="item.name"></span>

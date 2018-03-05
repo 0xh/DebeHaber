@@ -79,13 +79,15 @@
         </div>
 
         <div class="input-group m-input-group">
-            <span class="input-group-addon" id="basic-addon1">
-                <i class="fa fa-spinner fa-spin" v-if="loading"></i>
-                <template v-else>
-                    <i class="fa fa-search" v-show="isEmpty"></i>
-                    <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
-                </template>
-            </span>
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-spinner fa-spin" v-if="loading"></i>
+                    <template v-else>
+                        <i class="fa fa-search" v-show="isEmpty"></i>
+                        <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
+                    </template>
+                </span>
+            </div>
 
             <input type="text"
             name ="contribuyente"
@@ -105,15 +107,14 @@
             @blur="reset"
             @input="update"/>
 
-            <span class="input-group-addon" id="basic-addon1">
-                @{{ selectText }}
-            </span>
-            <span class="input-group-addon">
-                <a class="btn-icon-only" data-pk="1" data-target="#myModal1" data-title="Añadir" data-toggle="modal" data-type="text">
-                    <i class="fa fa-plus"></i>
-                    <!-- id="mostrar_modal_empresa" -->
-                </a>
-            </span>
+            <div class="input-group-append">
+                <span class="input-group-text m--font-boldest" id="basic-addon1">
+                    <a class="btn-icon-only" data-pk="1" data-target="#myModal1" data-title="Añadir" data-toggle="modal" data-type="text">
+                        <i class="la la-plus"></i>
+                    </a>
+                    @{{ selectText }}
+                </span>
+            </div>
         </div>
         <span class="m-form__help">
             <ul v-show="hasItems">
