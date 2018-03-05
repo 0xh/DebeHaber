@@ -44,7 +44,7 @@ Vue.component('chart',{
             var api = null;
 
             app.parent_id = app.$children[0].id;
-
+    console.log(JSON.stringify(json));
             $.ajax({
                 url: 'charts/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -54,7 +54,7 @@ Vue.component('chart',{
                 async: false,
                 success: function(data)
                 {
-                    console.log(JSON.stringify(json));
+
                     if (data == 'ok')
                     {
                         app.id = 0;
