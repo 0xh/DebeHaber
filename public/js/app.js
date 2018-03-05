@@ -107620,7 +107620,7 @@ Vue.component('chart', {
                 },
                 error: function error(xhr, status, _error) {
                     alert('Something went wrong, check logs...' + _error);
-                    console.log(xhr.responseText);
+                    console.log(_error);
                 }
             });
         },

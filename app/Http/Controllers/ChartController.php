@@ -38,7 +38,7 @@ class ChartController extends Controller
     */
     public function store(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
-        return response()->json($request);
+
 
         $chart = $request->id == 0 ? $chart = new Chart() : Chart::where('id', $request->id)->first();
 
@@ -58,7 +58,7 @@ class ChartController extends Controller
         $chart->name = $request->name;
         $chart->save();
 
-
+    return response()->json('ok');
     }
 
     /**
