@@ -44,12 +44,12 @@ Vue.component('chart',{
             var api = null;
 
             app.parent_id = app.$children[0].id;
-            
+
             $.ajax({
                 url: 'charts/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'post',
-                data: JSON.parse(json),
+                data: json,
                 dataType: 'json',
                 async: false,
                 success: function(data)
