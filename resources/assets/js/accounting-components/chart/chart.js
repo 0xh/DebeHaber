@@ -54,7 +54,7 @@ Vue.component('chart',{
                 async: false,
                 success: function(data)
                 {
-                    console.log(data);
+                    console.log(JSON.stringify(json));
                     if (data == 'ok')
                     {
                         app.id = 0;

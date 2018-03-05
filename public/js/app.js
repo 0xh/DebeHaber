@@ -107601,7 +107601,7 @@ Vue.component('chart', {
                 dataType: 'json',
                 async: false,
                 success: function success(data) {
-                    console.log(data);
+                    console.log(JSON.stringify(json));
                     if (data == 'ok') {
                         app.id = 0;
                         app.parent_id = null;
