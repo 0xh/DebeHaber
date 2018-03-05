@@ -57,7 +57,7 @@ class ChartController extends Controller
         $chart->name = $request->name;
         $chart->save();
 
-        return response()->json('ok');
+        return response()->json($request);
     }
 
     /**

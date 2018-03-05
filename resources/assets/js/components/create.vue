@@ -12,7 +12,7 @@
 </template>
 
 <script>
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 export default {
 
 props: ['taxpayer','cycle'],
@@ -26,6 +26,7 @@ props: ['taxpayer','cycle'],
 
               $.ajax({
               url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_lastDate' ,
+              headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
               type: 'get',
               dataType: 'json',
               async: true,

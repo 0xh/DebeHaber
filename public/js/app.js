@@ -2833,7 +2833,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 /* harmony default export */ __webpack_exports__["default"] = ({
 
               props: ['taxpayer', 'cycle'],
@@ -2846,6 +2846,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                                           $.ajax({
                                                         url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_lastDate',
+                                                        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                                                         type: 'get',
                                                         dataType: 'json',
                                                         async: true,
