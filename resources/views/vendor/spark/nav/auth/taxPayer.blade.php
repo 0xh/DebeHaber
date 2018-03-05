@@ -199,6 +199,14 @@
                                         </span>
                                     </a>
                                 </li>
+                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                    <a href="{{ route('CurrencyRate.index') }}" class="m-menu__link ">
+                                        <i class="m-menu__link-icon la la-file-o"></i>
+                                        <span class="m-menu__link-text">
+                                            @lang('commercial.Rate')
+                                        </span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

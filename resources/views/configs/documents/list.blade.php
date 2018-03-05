@@ -1,44 +1,179 @@
-<meta name="csrf-token" content="{{ csrf_token() }}">
-{{-- <router-view name="Datatable"  :taxpayer="{{ request()->route('taxPayer')}}"  /> --}}
+@extends('spark::layouts.form')
 
-<DocumentController-list :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
-    <div>
-      <button @click="add()">add new</button>
-        <vue-good-table
-        :columns="columns"
-        :rows="rows"
-        :paginate="true"
-        :globalSearch="true"
-        styleClass="m-datatable__table">
+@section('title',  __('accounting.Documents'))
 
-        {{-- SelectAll --}}
-        <template slot="table-column" slot-scope="props">
-            <span v-if="props.column.label =='SelectAll'">
-                <label class="checkbox">
-                    <input
-                    type="checkbox"
-                    @click="toggleSelectAll()">
-                </label>
-            </span>
-            <span v-else>
-                @{{props.column.label}}
-            </span>
-        </template>
+@section('form')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <document :taxpayer="{{ request()->route('taxPayer')->id }}"  inline-template>
+        <diV>
+            <div>
+                <div class="row">
+
+                    <div class="col-6">
+                        <div class="form-group m-form__group row">
+                            <label for="example-text-input" class="col-4 col-form-label">
+                                @lang('accounting.prefix')
+                            </label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" v-model="prefix" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group m-form__group row">
+                            <label for="example-text-input" class="col-4 col-form-label">
+                                @lang('global.mask')
+                            </label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" v-model="mask" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group m-form__group row">
+                            <label for="example-text-input" class="col-4 col-form-label">
+                                @lang('global.current_range')
+                            </label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" v-model="current_range" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group m-form__group row">
+                            <label for="example-text-input" class="col-4 col-form-label">
+                                @lang('global.start_range')
+                            </label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" v-model="start_range" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group m-form__group row">
+                            <label for="example-text-input" class="col-4 col-form-label">
+                                @lang('global.end_range')
+                            </label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" v-model="end_range" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group m-form__group row">
+                            <label for="example-text-input" class="col-4 col-form-label">
+                                @lang('global.code')
+                            </label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" v-model="code" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group m-form__group row">
+                            <label for="example-text-input" class="col-4 col-form-label">
+                                @lang('global.code Expiry')
+                            </label>
+                            <div class="col-8">
+                                <input type="Date" class="form-control" v-model="code_expiry" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group m-form__group row">
+                            <label for="example-text-input" class="col-4 col-form-label">
+                                @lang('global.Type')
+                            </label>
+                            <div class="col-8">
+                                <select v-model="type" required class="custom-select" >
+                                    @foreach (App\Enums\DocumentTypeEnum::labels() as $value => $label)
+                                        <option value="{{ $value }}">
+                                            {{ $label }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
 
+                    <div class="form-group m-form__group row">
+                        <div class="col-8">
+                            <button v-on:click="onSave($data)" class="btn btn-primary">
+                                @lang('global.Save')
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        {{-- Checkbox --}}
-        <template slot="table-row-before" slot-scope="props">
-            <td>
-                <label class="checkbox">
-                    <input type="checkbox" v-model="rows[props.row.originalIndex].selected">
-                </label>
-            </td>
-        </template>
+            <hr>
 
-        <tr class="m-datatable__row">
-        </tr>
+            <div class="m-portlet__body">
+                <div class="row">
 
-    </vue-good-table>
-</div>
-</purchases-list>
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('global.Prefix')
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('accounting.Mask')
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('accounting.Start Range')
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('accounting.End Range')
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('accounting.Current Range')
+                        </span>
+                    </div>
+
+
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('global.Action')
+                        </span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row" v-for="data in list">
+                    <div class="col-2">
+                        @{{ data.prefix }}
+                    </div>
+                    <div class="col-2">
+                        @{{ data.mask }}
+                    </div>
+                    <div class="col-2">
+                        @{{ data.start_range }}
+                    </div>
+                    <div class="col-2">
+                        @{{ data.end_range }}
+                    </div>
+                    <div class="col-2">
+                        @{{ data.current_range }}
+                    </div>
+                    <div class="col-2">
+                        <button v-on:click="onEdit(data)" class="btn btn-outline-pencil m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+                            <i class="la la-pencil"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </document>
+
+@endsection

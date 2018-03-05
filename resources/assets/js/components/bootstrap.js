@@ -27,6 +27,8 @@ require('./../commercial-components/account-receivable/bootstrap');
 
 //Configuration
 require('./../configuration-components/taxpayer/bootstrap');
+require('./../configuration-components/documents/bootstrap');
+require('./../configuration-components/currency/bootstrap');
 require('./../dashboard-components/team/bootstrap');
 
 

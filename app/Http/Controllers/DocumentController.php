@@ -16,11 +16,17 @@ class DocumentController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        //
+        return view('/configs/documents/list');
     }
     public function get_document(Taxpayer $taxPayer,$type)
     {
         $Document=Document::where('type',$type)->where('taxpayer_id',$taxPayer->id)->get();
+
+        return response()->json($Document);
+    }
+    public function get_Alldocument(Taxpayer $taxPayer)
+    {
+        $Document=Document::where('taxpayer_id',$taxPayer->id)->get();
 
         return response()->json($Document);
     }
@@ -46,9 +52,23 @@ class DocumentController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request)
+    public function store(Request $request,Taxpayer $taxPayer)
     {
-        //
+
+        $document = $request->id == 0 ? $document = new Document() : Document::where('id', $request->id)->first();
+
+        $document->prefix = $request->prefix;
+        $document->type = $request->type;
+        $document->mask = $request->mask;
+        $document->start_range = $request->start_range;
+        $document->current_range = $request->current_range;
+        $document->end_range = $request->end_range;
+        $document->code = $request->code;
+        $document->taxpayer_id = $taxPayer->id;
+        $document->code_expiry = $request->code_expiry;
+        $document->save();
+
+        return response()->json('ok');
     }
 
     /**

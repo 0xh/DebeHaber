@@ -7,6 +7,7 @@ use App\Cycle;
 use App\CurrencyRate;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use DB;
 
 class CurrencyRateController extends Controller
 {
@@ -17,7 +18,8 @@ class CurrencyRateController extends Controller
   */
   public function index(Taxpayer $taxPayer, Cycle $cycle)
   {
-    //
+    return view('/configs/currencies/list');
+
   }
   public function get_rateByCurrency($taxPayer,$id,$date)
   {
@@ -28,6 +30,16 @@ class CurrencyRateController extends Controller
       return response()->json($currencyRate->rate);
     }
     return response()->json(1);
+
+  }
+  public function get_Allrate()
+  {
+
+    $currencyRate=CurrencyRate::Join('currencies', 'currencies.id', 'currency_rates.currency_id')
+    ->select(DB::raw('currencies.name,rate'))->get();
+
+    return response()->json($currencyRate);
+
 
   }
 
@@ -49,7 +61,14 @@ class CurrencyRateController extends Controller
   */
   public function store(Request $request)
   {
-    //
+    $currencyrate = $request->id == 0 ? $currencyrate = new CurrencyRate() : CurrencyRate::where('id', $request->id)->first();
+
+    $currencyrate->currency_id = $request->currency_id;
+    $currencyrate->rate = $request->rate;
+
+    $currencyrate->save();
+
+    return response()->json('ok');
   }
 
   /**
