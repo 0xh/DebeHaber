@@ -2,7 +2,7 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('cycle',{
-
+  props: ['taxpayer'],
   data() {
     return {
       id:0,
@@ -79,7 +79,7 @@ Vue.component('cycle',{
     init(){
       var app=this;
       $.ajax({
-        url: '/api/get_cycle/' ,
+        url: '/api/' + this.taxpayer + '/get_cycle/' ,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
@@ -109,7 +109,7 @@ Vue.component('cycle',{
     var app=this;
     app.init();
     $.ajax({
-      url: '/api/get_chartversion/' ,
+      url: '/api/' + this.taxpayer +'/get_chartversion/' ,
       headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
       type: 'get',
       dataType: 'json',
