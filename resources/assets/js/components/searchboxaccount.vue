@@ -10,7 +10,7 @@
                     </template>
                 </span>
             </div>
-<!-- {{ $t('global.Search') }} -->
+
             <input type="text"
             name ="contribuyente"
             class="form-control m-input"
@@ -32,7 +32,7 @@
 
             <div class="input-group-append">
                 <span class="input-group-text m--font-boldest" id="basic-addon1">
-                    {{ selectText }}
+                    {{ selectText }}  {{ $t('global.Search') }}
                 </span>
             </div>
         </div>
