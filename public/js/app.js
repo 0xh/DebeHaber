@@ -96925,6 +96925,1559 @@ module.exports = __webpack_require__(85);
 
 /***/ }),
 
+/***/ "./node_modules/vue-i18n/dist/vue-i18n.esm.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/*!
+ * vue-i18n v7.4.2 
+ * (c) 2018 kazuya kawaguchi
+ * Released under the MIT License.
+ */
+/*  */
+
+/**
+ * utilites
+ */
+
+function warn (msg, err) {
+  if (typeof console !== 'undefined') {
+    console.warn('[vue-i18n] ' + msg);
+    /* istanbul ignore if */
+    if (err) {
+      console.warn(err.stack);
+    }
+  }
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+var toString = Object.prototype.toString;
+var OBJECT_STRING = '[object Object]';
+function isPlainObject (obj) {
+  return toString.call(obj) === OBJECT_STRING
+}
+
+function isNull (val) {
+  return val === null || val === undefined
+}
+
+function parseArgs () {
+  var args = [], len = arguments.length;
+  while ( len-- ) args[ len ] = arguments[ len ];
+
+  var locale = null;
+  var params = null;
+  if (args.length === 1) {
+    if (isObject(args[0]) || Array.isArray(args[0])) {
+      params = args[0];
+    } else if (typeof args[0] === 'string') {
+      locale = args[0];
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      locale = args[0];
+    }
+    /* istanbul ignore if */
+    if (isObject(args[1]) || Array.isArray(args[1])) {
+      params = args[1];
+    }
+  }
+
+  return { locale: locale, params: params }
+}
+
+function getOldChoiceIndexFixed (choice) {
+  return choice
+    ? choice > 1
+      ? 1
+      : 0
+    : 1
+}
+
+function getChoiceIndex (choice, choicesLength) {
+  choice = Math.abs(choice);
+
+  if (choicesLength === 2) { return getOldChoiceIndexFixed(choice) }
+
+  return choice ? Math.min(choice, 2) : 0
+}
+
+function fetchChoice (message, choice) {
+  /* istanbul ignore if */
+  if (!message && typeof message !== 'string') { return null }
+  var choices = message.split('|');
+
+  choice = getChoiceIndex(choice, choices.length);
+  if (!choices[choice]) { return message }
+  return choices[choice].trim()
+}
+
+function looseClone (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+function remove (arr, item) {
+  if (arr.length) {
+    var index = arr.indexOf(item);
+    if (index > -1) {
+      return arr.splice(index, 1)
+    }
+  }
+}
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn (obj, key) {
+  return hasOwnProperty.call(obj, key)
+}
+
+function merge (target) {
+  var arguments$1 = arguments;
+
+  var output = Object(target);
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments$1[i];
+    if (source !== undefined && source !== null) {
+      var key = (void 0);
+      for (key in source) {
+        if (hasOwn(source, key)) {
+          if (isObject(source[key])) {
+            output[key] = merge(output[key], source[key]);
+          } else {
+            output[key] = source[key];
+          }
+        }
+      }
+    }
+  }
+  return output
+}
+
+function looseEqual (a, b) {
+  if (a === b) { return true }
+  var isObjectA = isObject(a);
+  var isObjectB = isObject(b);
+  if (isObjectA && isObjectB) {
+    try {
+      var isArrayA = Array.isArray(a);
+      var isArrayB = Array.isArray(b);
+      if (isArrayA && isArrayB) {
+        return a.length === b.length && a.every(function (e, i) {
+          return looseEqual(e, b[i])
+        })
+      } else if (!isArrayA && !isArrayB) {
+        var keysA = Object.keys(a);
+        var keysB = Object.keys(b);
+        return keysA.length === keysB.length && keysA.every(function (key) {
+          return looseEqual(a[key], b[key])
+        })
+      } else {
+        /* istanbul ignore next */
+        return false
+      }
+    } catch (e) {
+      /* istanbul ignore next */
+      return false
+    }
+  } else if (!isObjectA && !isObjectB) {
+    return String(a) === String(b)
+  } else {
+    return false
+  }
+}
+
+var canUseDateTimeFormat =
+  typeof Intl !== 'undefined' && typeof Intl.DateTimeFormat !== 'undefined';
+
+var canUseNumberFormat =
+  typeof Intl !== 'undefined' && typeof Intl.NumberFormat !== 'undefined';
+
+/*  */
+
+function extend (Vue) {
+  // $FlowFixMe
+  Object.defineProperty(Vue.prototype, '$t', {
+    get: function get () {
+      var this$1 = this;
+
+      return function (key) {
+        var values = [], len = arguments.length - 1;
+        while ( len-- > 0 ) values[ len ] = arguments[ len + 1 ];
+
+        var i18n = this$1.$i18n;
+        return i18n._t.apply(i18n, [ key, i18n.locale, i18n._getMessages(), this$1 ].concat( values ))
+      }
+    }
+  });
+  // $FlowFixMe
+  Object.defineProperty(Vue.prototype, '$tc', {
+    get: function get$1 () {
+      var this$1 = this;
+
+      return function (key, choice) {
+        var values = [], len = arguments.length - 2;
+        while ( len-- > 0 ) values[ len ] = arguments[ len + 2 ];
+
+        var i18n = this$1.$i18n;
+        return i18n._tc.apply(i18n, [ key, i18n.locale, i18n._getMessages(), this$1, choice ].concat( values ))
+      }
+    }
+  });
+  // $FlowFixMe
+  Object.defineProperty(Vue.prototype, '$te', {
+    get: function get$2 () {
+      var this$1 = this;
+
+      return function (key, locale) {
+        var i18n = this$1.$i18n;
+        return i18n._te(key, i18n.locale, i18n._getMessages(), locale)
+      }
+    }
+  });
+  // $FlowFixMe
+  Object.defineProperty(Vue.prototype, '$d', {
+    get: function get$3 () {
+      var this$1 = this;
+
+      return function (value) {
+        var args = [], len = arguments.length - 1;
+        while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+        return (ref = this$1.$i18n).d.apply(ref, [ value ].concat( args ))
+        var ref;
+      }
+    }
+  });
+  // $FlowFixMe
+  Object.defineProperty(Vue.prototype, '$n', {
+    get: function get$4 () {
+      var this$1 = this;
+
+      return function (value) {
+        var args = [], len = arguments.length - 1;
+        while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+        return (ref = this$1.$i18n).n.apply(ref, [ value ].concat( args ))
+        var ref;
+      }
+    }
+  });
+}
+
+/*  */
+
+var mixin = {
+  beforeCreate: function beforeCreate () {
+    var options = this.$options;
+    options.i18n = options.i18n || (options.__i18n ? {} : null);
+
+    if (options.i18n) {
+      if (options.i18n instanceof VueI18n) {
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            var localeMessages = {};
+            options.__i18n.forEach(function (resource) {
+              localeMessages = merge(localeMessages, JSON.parse(resource));
+            });
+            Object.keys(localeMessages).forEach(function (locale) {
+              options.i18n.mergeLocaleMessage(locale, localeMessages[locale]);
+            });
+          } catch (e) {
+            if (true) {
+              warn("Cannot parse locale messages via custom blocks.", e);
+            }
+          }
+        }
+        this._i18n = options.i18n;
+        this._i18nWatcher = this._i18n.watchI18nData();
+        this._i18n.subscribeDataChanging(this);
+        this._subscribing = true;
+      } else if (isPlainObject(options.i18n)) {
+        // component local i18n
+        if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+          options.i18n.root = this.$root.$i18n;
+          options.i18n.formatter = this.$root.$i18n.formatter;
+          options.i18n.fallbackLocale = this.$root.$i18n.fallbackLocale;
+          options.i18n.silentTranslationWarn = this.$root.$i18n.silentTranslationWarn;
+        }
+
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            var localeMessages$1 = {};
+            options.__i18n.forEach(function (resource) {
+              localeMessages$1 = merge(localeMessages$1, JSON.parse(resource));
+            });
+            options.i18n.messages = localeMessages$1;
+          } catch (e) {
+            if (true) {
+              warn("Cannot parse locale messages via custom blocks.", e);
+            }
+          }
+        }
+
+        this._i18n = new VueI18n(options.i18n);
+        this._i18nWatcher = this._i18n.watchI18nData();
+        this._i18n.subscribeDataChanging(this);
+        this._subscribing = true;
+
+        if (options.i18n.sync === undefined || !!options.i18n.sync) {
+          this._localeWatcher = this.$i18n.watchLocale();
+        }
+      } else {
+        if (true) {
+          warn("Cannot be interpreted 'i18n' option.");
+        }
+      }
+    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+      // root i18n
+      this._i18n = this.$root.$i18n;
+      this._i18n.subscribeDataChanging(this);
+      this._subscribing = true;
+    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
+      // parent i18n
+      this._i18n = options.parent.$i18n;
+      this._i18n.subscribeDataChanging(this);
+      this._subscribing = true;
+    }
+  },
+
+  beforeDestroy: function beforeDestroy () {
+    if (!this._i18n) { return }
+
+    if (this._subscribing) {
+      this._i18n.unsubscribeDataChanging(this);
+      delete this._subscribing;
+    }
+
+    if (this._i18nWatcher) {
+      this._i18nWatcher();
+      delete this._i18nWatcher;
+    }
+
+    if (this._localeWatcher) {
+      this._localeWatcher();
+      delete this._localeWatcher;
+    }
+
+    this._i18n = null;
+  }
+};
+
+/*  */
+
+var component = {
+  name: 'i18n',
+  functional: true,
+  props: {
+    tag: {
+      type: String,
+      default: 'span'
+    },
+    path: {
+      type: String,
+      required: true
+    },
+    locale: {
+      type: String
+    },
+    places: {
+      type: [Array, Object]
+    }
+  },
+  render: function render (h, ref) {
+    var props = ref.props;
+    var data = ref.data;
+    var children = ref.children;
+    var parent = ref.parent;
+
+    var i18n = parent.$i18n;
+
+    children = (children || []).filter(function (child) {
+      return child.tag || (child.text = child.text.trim())
+    });
+
+    if (!i18n) {
+      if (true) {
+        warn('Cannot find VueI18n instance!');
+      }
+      return children
+    }
+
+    var path = props.path;
+    var locale = props.locale;
+
+    var params = {};
+    var places = props.places || {};
+
+    var hasPlaces = Array.isArray(places)
+      ? places.length > 0
+      : Object.keys(places).length > 0;
+
+    var everyPlace = children.every(function (child) {
+      if (child.data && child.data.attrs) {
+        var place = child.data.attrs.place;
+        return (typeof place !== 'undefined') && place !== ''
+      }
+    });
+
+    if (hasPlaces && children.length > 0 && !everyPlace) {
+      warn('If places prop is set, all child elements must have place prop set.');
+    }
+
+    if (Array.isArray(places)) {
+      places.forEach(function (el, i) {
+        params[i] = el;
+      });
+    } else {
+      Object.keys(places).forEach(function (key) {
+        params[key] = places[key];
+      });
+    }
+
+    children.forEach(function (child, i) {
+      var key = everyPlace
+        ? ("" + (child.data.attrs.place))
+        : ("" + i);
+      params[key] = child;
+    });
+
+    return h(props.tag, data, i18n.i(path, locale, params))
+  }
+};
+
+/*  */
+
+function bind (el, binding, vnode) {
+  if (!assert(el, vnode)) { return }
+
+  t$1(el, binding, vnode);
+}
+
+function update (el, binding, vnode, oldVNode) {
+  if (!assert(el, vnode)) { return }
+
+  if (localeEqual(el, vnode) && looseEqual(binding.value, binding.oldValue)) { return }
+
+  t$1(el, binding, vnode);
+}
+
+function assert (el, vnode) {
+  var vm = vnode.context;
+  if (!vm) {
+    warn('not exist Vue instance in VNode context');
+    return false
+  }
+
+  if (!vm.$i18n) {
+    warn('not exist VueI18n instance in Vue instance');
+    return false
+  }
+
+  return true
+}
+
+function localeEqual (el, vnode) {
+  var vm = vnode.context;
+  return el._locale === vm.$i18n.locale
+}
+
+function t$1 (el, binding, vnode) {
+  var value = binding.value;
+
+  var ref = parseValue(value);
+  var path = ref.path;
+  var locale = ref.locale;
+  var args = ref.args;
+  if (!path && !locale && !args) {
+    warn('not support value type');
+    return
+  }
+
+  if (!path) {
+    warn('required `path` in v-t directive');
+    return
+  }
+
+  var vm = vnode.context;
+  el._vt = el.textContent = (ref$1 = vm.$i18n).t.apply(ref$1, [ path ].concat( makeParams(locale, args) ));
+  el._locale = vm.$i18n.locale;
+  var ref$1;
+}
+
+function parseValue (value) {
+  var path;
+  var locale;
+  var args;
+
+  if (typeof value === 'string') {
+    path = value;
+  } else if (isPlainObject(value)) {
+    path = value.path;
+    locale = value.locale;
+    args = value.args;
+  }
+
+  return { path: path, locale: locale, args: args }
+}
+
+function makeParams (locale, args) {
+  var params = [];
+
+  locale && params.push(locale);
+  if (args && (Array.isArray(args) || isPlainObject(args))) {
+    params.push(args);
+  }
+
+  return params
+}
+
+var Vue;
+
+function install (_Vue) {
+  Vue = _Vue;
+
+  var version = (Vue.version && Number(Vue.version.split('.')[0])) || -1;
+  /* istanbul ignore if */
+  if ("development" !== 'production' && install.installed) {
+    warn('already installed.');
+    return
+  }
+  install.installed = true;
+
+  /* istanbul ignore if */
+  if ("development" !== 'production' && version < 2) {
+    warn(("vue-i18n (" + (install.version) + ") need to use Vue 2.0 or later (Vue: " + (Vue.version) + ")."));
+    return
+  }
+
+  Object.defineProperty(Vue.prototype, '$i18n', {
+    get: function get () { return this._i18n }
+  });
+
+  extend(Vue);
+  Vue.mixin(mixin);
+  Vue.directive('t', { bind: bind, update: update });
+  Vue.component(component.name, component);
+
+  // use object-based merge strategy
+  var strats = Vue.config.optionMergeStrategies;
+  strats.i18n = strats.methods;
+}
+
+/*  */
+
+var BaseFormatter = function BaseFormatter () {
+  this._caches = Object.create(null);
+};
+
+BaseFormatter.prototype.interpolate = function interpolate (message, values) {
+  if (!values) {
+    return [message]
+  }
+  var tokens = this._caches[message];
+  if (!tokens) {
+    tokens = parse(message);
+    this._caches[message] = tokens;
+  }
+  return compile(tokens, values)
+};
+
+var RE_TOKEN_LIST_VALUE = /^(\d)+/;
+var RE_TOKEN_NAMED_VALUE = /^(\w)+/;
+
+function parse (format) {
+  var tokens = [];
+  var position = 0;
+
+  var text = '';
+  while (position < format.length) {
+    var char = format[position++];
+    if (char === '{') {
+      if (text) {
+        tokens.push({ type: 'text', value: text });
+      }
+
+      text = '';
+      var sub = '';
+      char = format[position++];
+      while (char !== '}') {
+        sub += char;
+        char = format[position++];
+      }
+
+      var type = RE_TOKEN_LIST_VALUE.test(sub)
+        ? 'list'
+        : RE_TOKEN_NAMED_VALUE.test(sub)
+          ? 'named'
+          : 'unknown';
+      tokens.push({ value: sub, type: type });
+    } else if (char === '%') {
+      // when found rails i18n syntax, skip text capture
+      if (format[(position)] !== '{') {
+        text += char;
+      }
+    } else {
+      text += char;
+    }
+  }
+
+  text && tokens.push({ type: 'text', value: text });
+
+  return tokens
+}
+
+function compile (tokens, values) {
+  var compiled = [];
+  var index = 0;
+
+  var mode = Array.isArray(values)
+    ? 'list'
+    : isObject(values)
+      ? 'named'
+      : 'unknown';
+  if (mode === 'unknown') { return compiled }
+
+  while (index < tokens.length) {
+    var token = tokens[index];
+    switch (token.type) {
+      case 'text':
+        compiled.push(token.value);
+        break
+      case 'list':
+        compiled.push(values[parseInt(token.value, 10)]);
+        break
+      case 'named':
+        if (mode === 'named') {
+          compiled.push((values)[token.value]);
+        } else {
+          if (true) {
+            warn(("Type of token '" + (token.type) + "' and format of value '" + mode + "' don't match!"));
+          }
+        }
+        break
+      case 'unknown':
+        if (true) {
+          warn("Detect 'unknown' type of token!");
+        }
+        break
+    }
+    index++;
+  }
+
+  return compiled
+}
+
+/*  */
+
+/**
+ *  Path paerser
+ *  - Inspired:
+ *    Vue.js Path parser
+ */
+
+// actions
+var APPEND = 0;
+var PUSH = 1;
+var INC_SUB_PATH_DEPTH = 2;
+var PUSH_SUB_PATH = 3;
+
+// states
+var BEFORE_PATH = 0;
+var IN_PATH = 1;
+var BEFORE_IDENT = 2;
+var IN_IDENT = 3;
+var IN_SUB_PATH = 4;
+var IN_SINGLE_QUOTE = 5;
+var IN_DOUBLE_QUOTE = 6;
+var AFTER_PATH = 7;
+var ERROR = 8;
+
+var pathStateMachine = [];
+
+pathStateMachine[BEFORE_PATH] = {
+  'ws': [BEFORE_PATH],
+  'ident': [IN_IDENT, APPEND],
+  '[': [IN_SUB_PATH],
+  'eof': [AFTER_PATH]
+};
+
+pathStateMachine[IN_PATH] = {
+  'ws': [IN_PATH],
+  '.': [BEFORE_IDENT],
+  '[': [IN_SUB_PATH],
+  'eof': [AFTER_PATH]
+};
+
+pathStateMachine[BEFORE_IDENT] = {
+  'ws': [BEFORE_IDENT],
+  'ident': [IN_IDENT, APPEND],
+  '0': [IN_IDENT, APPEND],
+  'number': [IN_IDENT, APPEND]
+};
+
+pathStateMachine[IN_IDENT] = {
+  'ident': [IN_IDENT, APPEND],
+  '0': [IN_IDENT, APPEND],
+  'number': [IN_IDENT, APPEND],
+  'ws': [IN_PATH, PUSH],
+  '.': [BEFORE_IDENT, PUSH],
+  '[': [IN_SUB_PATH, PUSH],
+  'eof': [AFTER_PATH, PUSH]
+};
+
+pathStateMachine[IN_SUB_PATH] = {
+  "'": [IN_SINGLE_QUOTE, APPEND],
+  '"': [IN_DOUBLE_QUOTE, APPEND],
+  '[': [IN_SUB_PATH, INC_SUB_PATH_DEPTH],
+  ']': [IN_PATH, PUSH_SUB_PATH],
+  'eof': ERROR,
+  'else': [IN_SUB_PATH, APPEND]
+};
+
+pathStateMachine[IN_SINGLE_QUOTE] = {
+  "'": [IN_SUB_PATH, APPEND],
+  'eof': ERROR,
+  'else': [IN_SINGLE_QUOTE, APPEND]
+};
+
+pathStateMachine[IN_DOUBLE_QUOTE] = {
+  '"': [IN_SUB_PATH, APPEND],
+  'eof': ERROR,
+  'else': [IN_DOUBLE_QUOTE, APPEND]
+};
+
+/**
+ * Check if an expression is a literal value.
+ */
+
+var literalValueRE = /^\s?(true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/;
+function isLiteral (exp) {
+  return literalValueRE.test(exp)
+}
+
+/**
+ * Strip quotes from a string
+ */
+
+function stripQuotes (str) {
+  var a = str.charCodeAt(0);
+  var b = str.charCodeAt(str.length - 1);
+  return a === b && (a === 0x22 || a === 0x27)
+    ? str.slice(1, -1)
+    : str
+}
+
+/**
+ * Determine the type of a character in a keypath.
+ */
+
+function getPathCharType (ch) {
+  if (ch === undefined || ch === null) { return 'eof' }
+
+  var code = ch.charCodeAt(0);
+
+  switch (code) {
+    case 0x5B: // [
+    case 0x5D: // ]
+    case 0x2E: // .
+    case 0x22: // "
+    case 0x27: // '
+    case 0x30: // 0
+      return ch
+
+    case 0x5F: // _
+    case 0x24: // $
+    case 0x2D: // -
+      return 'ident'
+
+    case 0x20: // Space
+    case 0x09: // Tab
+    case 0x0A: // Newline
+    case 0x0D: // Return
+    case 0xA0:  // No-break space
+    case 0xFEFF:  // Byte Order Mark
+    case 0x2028:  // Line Separator
+    case 0x2029:  // Paragraph Separator
+      return 'ws'
+  }
+
+  // a-z, A-Z
+  if ((code >= 0x61 && code <= 0x7A) || (code >= 0x41 && code <= 0x5A)) {
+    return 'ident'
+  }
+
+  // 1-9
+  if (code >= 0x31 && code <= 0x39) { return 'number' }
+
+  return 'else'
+}
+
+/**
+ * Format a subPath, return its plain form if it is
+ * a literal string or number. Otherwise prepend the
+ * dynamic indicator (*).
+ */
+
+function formatSubPath (path) {
+  var trimmed = path.trim();
+  // invalid leading 0
+  if (path.charAt(0) === '0' && isNaN(path)) { return false }
+
+  return isLiteral(trimmed) ? stripQuotes(trimmed) : '*' + trimmed
+}
+
+/**
+ * Parse a string path into an array of segments
+ */
+
+function parse$1 (path) {
+  var keys = [];
+  var index = -1;
+  var mode = BEFORE_PATH;
+  var subPathDepth = 0;
+  var c;
+  var key;
+  var newChar;
+  var type;
+  var transition;
+  var action;
+  var typeMap;
+  var actions = [];
+
+  actions[PUSH] = function () {
+    if (key !== undefined) {
+      keys.push(key);
+      key = undefined;
+    }
+  };
+
+  actions[APPEND] = function () {
+    if (key === undefined) {
+      key = newChar;
+    } else {
+      key += newChar;
+    }
+  };
+
+  actions[INC_SUB_PATH_DEPTH] = function () {
+    actions[APPEND]();
+    subPathDepth++;
+  };
+
+  actions[PUSH_SUB_PATH] = function () {
+    if (subPathDepth > 0) {
+      subPathDepth--;
+      mode = IN_SUB_PATH;
+      actions[APPEND]();
+    } else {
+      subPathDepth = 0;
+      key = formatSubPath(key);
+      if (key === false) {
+        return false
+      } else {
+        actions[PUSH]();
+      }
+    }
+  };
+
+  function maybeUnescapeQuote () {
+    var nextChar = path[index + 1];
+    if ((mode === IN_SINGLE_QUOTE && nextChar === "'") ||
+      (mode === IN_DOUBLE_QUOTE && nextChar === '"')) {
+      index++;
+      newChar = '\\' + nextChar;
+      actions[APPEND]();
+      return true
+    }
+  }
+
+  while (mode !== null) {
+    index++;
+    c = path[index];
+
+    if (c === '\\' && maybeUnescapeQuote()) {
+      continue
+    }
+
+    type = getPathCharType(c);
+    typeMap = pathStateMachine[mode];
+    transition = typeMap[type] || typeMap['else'] || ERROR;
+
+    if (transition === ERROR) {
+      return // parse error
+    }
+
+    mode = transition[0];
+    action = actions[transition[1]];
+    if (action) {
+      newChar = transition[2];
+      newChar = newChar === undefined
+        ? c
+        : newChar;
+      if (action() === false) {
+        return
+      }
+    }
+
+    if (mode === AFTER_PATH) {
+      return keys
+    }
+  }
+}
+
+
+
+
+
+function empty (target) {
+  /* istanbul ignore else */
+  if (Array.isArray(target)) {
+    return target.length === 0
+  } else {
+    return false
+  }
+}
+
+var I18nPath = function I18nPath () {
+  this._cache = Object.create(null);
+};
+
+/**
+ * External parse that check for a cache hit first
+ */
+I18nPath.prototype.parsePath = function parsePath (path) {
+  var hit = this._cache[path];
+  if (!hit) {
+    hit = parse$1(path);
+    if (hit) {
+      this._cache[path] = hit;
+    }
+  }
+  return hit || []
+};
+
+/**
+ * Get path value from path string
+ */
+I18nPath.prototype.getPathValue = function getPathValue (obj, path) {
+  if (!isObject(obj)) { return null }
+
+  var paths = this.parsePath(path);
+  if (empty(paths)) {
+    return null
+  } else {
+    var length = paths.length;
+    var ret = null;
+    var last = obj;
+    var i = 0;
+    while (i < length) {
+      var value = last[paths[i]];
+      if (value === undefined) {
+        last = null;
+        break
+      }
+      last = value;
+      i++;
+    }
+
+    ret = last;
+    return ret
+  }
+};
+
+/*  */
+
+var VueI18n = function VueI18n (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #290
+  /* istanbul ignore if */
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  var locale = options.locale || 'en-US';
+  var fallbackLocale = options.fallbackLocale || 'en-US';
+  var messages = options.messages || {};
+  var dateTimeFormats = options.dateTimeFormats || {};
+  var numberFormats = options.numberFormats || {};
+
+  this._vm = null;
+  this._formatter = options.formatter || new BaseFormatter();
+  this._missing = options.missing || null;
+  this._root = options.root || null;
+  this._sync = options.sync === undefined ? true : !!options.sync;
+  this._fallbackRoot = options.fallbackRoot === undefined
+    ? true
+    : !!options.fallbackRoot;
+  this._silentTranslationWarn = options.silentTranslationWarn === undefined
+    ? false
+    : !!options.silentTranslationWarn;
+  this._dateTimeFormatters = {};
+  this._numberFormatters = {};
+  this._path = new I18nPath();
+  this._dataListeners = [];
+
+  this._exist = function (message, key) {
+    if (!message || !key) { return false }
+    return !isNull(this$1._path.getPathValue(message, key))
+  };
+
+  this._initVM({
+    locale: locale,
+    fallbackLocale: fallbackLocale,
+    messages: messages,
+    dateTimeFormats: dateTimeFormats,
+    numberFormats: numberFormats
+  });
+};
+
+var prototypeAccessors = { vm: {},messages: {},dateTimeFormats: {},numberFormats: {},locale: {},fallbackLocale: {},missing: {},formatter: {},silentTranslationWarn: {} };
+
+VueI18n.prototype._initVM = function _initVM (data) {
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  this._vm = new Vue({ data: data });
+  Vue.config.silent = silent;
+};
+
+VueI18n.prototype.subscribeDataChanging = function subscribeDataChanging (vm) {
+  this._dataListeners.push(vm);
+};
+
+VueI18n.prototype.unsubscribeDataChanging = function unsubscribeDataChanging (vm) {
+  remove(this._dataListeners, vm);
+};
+
+VueI18n.prototype.watchI18nData = function watchI18nData () {
+  var self = this;
+  return this._vm.$watch('$data', function () {
+    var i = self._dataListeners.length;
+    while (i--) {
+      Vue.nextTick(function () {
+        self._dataListeners[i] && self._dataListeners[i].$forceUpdate();
+      });
+    }
+  }, { deep: true })
+};
+
+VueI18n.prototype.watchLocale = function watchLocale () {
+  /* istanbul ignore if */
+  if (!this._sync || !this._root) { return null }
+  var target = this._vm;
+  return this._root.vm.$watch('locale', function (val) {
+    target.$set(target, 'locale', val);
+    target.$forceUpdate();
+  }, { immediate: true })
+};
+
+prototypeAccessors.vm.get = function () { return this._vm };
+
+prototypeAccessors.messages.get = function () { return looseClone(this._getMessages()) };
+prototypeAccessors.dateTimeFormats.get = function () { return looseClone(this._getDateTimeFormats()) };
+prototypeAccessors.numberFormats.get = function () { return looseClone(this._getNumberFormats()) };
+
+prototypeAccessors.locale.get = function () { return this._vm.locale };
+prototypeAccessors.locale.set = function (locale) {
+  this._vm.$set(this._vm, 'locale', locale);
+};
+
+prototypeAccessors.fallbackLocale.get = function () { return this._vm.fallbackLocale };
+prototypeAccessors.fallbackLocale.set = function (locale) {
+  this._vm.$set(this._vm, 'fallbackLocale', locale);
+};
+
+prototypeAccessors.missing.get = function () { return this._missing };
+prototypeAccessors.missing.set = function (handler) { this._missing = handler; };
+
+prototypeAccessors.formatter.get = function () { return this._formatter };
+prototypeAccessors.formatter.set = function (formatter) { this._formatter = formatter; };
+
+prototypeAccessors.silentTranslationWarn.get = function () { return this._silentTranslationWarn };
+prototypeAccessors.silentTranslationWarn.set = function (silent) { this._silentTranslationWarn = silent; };
+
+VueI18n.prototype._getMessages = function _getMessages () { return this._vm.messages };
+VueI18n.prototype._getDateTimeFormats = function _getDateTimeFormats () { return this._vm.dateTimeFormats };
+VueI18n.prototype._getNumberFormats = function _getNumberFormats () { return this._vm.numberFormats };
+
+VueI18n.prototype._warnDefault = function _warnDefault (locale, key, result, vm) {
+  if (!isNull(result)) { return result }
+  if (this._missing) {
+    this._missing.apply(null, [locale, key, vm]);
+  } else {
+    if ("development" !== 'production' && !this._silentTranslationWarn) {
+      warn(
+        "Cannot translate the value of keypath '" + key + "'. " +
+        'Use the value of keypath as default.'
+      );
+    }
+  }
+  return key
+};
+
+VueI18n.prototype._isFallbackRoot = function _isFallbackRoot (val) {
+  return !val && !isNull(this._root) && this._fallbackRoot
+};
+
+VueI18n.prototype._interpolate = function _interpolate (
+  locale,
+  message,
+  key,
+  host,
+  interpolateMode,
+  values
+) {
+  if (!message) { return null }
+
+  var pathRet = this._path.getPathValue(message, key);
+  if (Array.isArray(pathRet)) { return pathRet }
+
+  var ret;
+  if (isNull(pathRet)) {
+    /* istanbul ignore else */
+    if (isPlainObject(message)) {
+      ret = message[key];
+      if (typeof ret !== 'string') {
+        if ("development" !== 'production' && !this._silentTranslationWarn) {
+          warn(("Value of key '" + key + "' is not a string!"));
+        }
+        return null
+      }
+    } else {
+      return null
+    }
+  } else {
+    /* istanbul ignore else */
+    if (typeof pathRet === 'string') {
+      ret = pathRet;
+    } else {
+      if ("development" !== 'production' && !this._silentTranslationWarn) {
+        warn(("Value of key '" + key + "' is not a string!"));
+      }
+      return null
+    }
+  }
+
+  // Check for the existance of links within the translated string
+  if (ret.indexOf('@:') >= 0) {
+    ret = this._link(locale, message, ret, host, interpolateMode, values);
+  }
+
+  return this._render(ret, interpolateMode, values)
+};
+
+VueI18n.prototype._link = function _link (
+  locale,
+  message,
+  str,
+  host,
+  interpolateMode,
+  values
+) {
+    var this$1 = this;
+
+  var ret = str;
+
+  // Match all the links within the local
+  // We are going to replace each of
+  // them with its translation
+  var matches = ret.match(/(@:[\w\-_|.]+)/g);
+  for (var idx in matches) {
+    // ie compatible: filter custom array
+    // prototype method
+    if (!matches.hasOwnProperty(idx)) {
+      continue
+    }
+    var link = matches[idx];
+    // Remove the leading @:
+    var linkPlaceholder = link.substr(2);
+    // Translate the link
+    var translated = this$1._interpolate(
+      locale, message, linkPlaceholder, host,
+      interpolateMode === 'raw' ? 'string' : interpolateMode,
+      interpolateMode === 'raw' ? undefined : values
+    );
+
+    if (this$1._isFallbackRoot(translated)) {
+      if ("development" !== 'production' && !this$1._silentTranslationWarn) {
+        warn(("Fall back to translate the link placeholder '" + linkPlaceholder + "' with root locale."));
+      }
+      /* istanbul ignore if */
+      if (!this$1._root) { throw Error('unexpected error') }
+      var root = this$1._root;
+      translated = root._translate(
+        root._getMessages(), root.locale, root.fallbackLocale,
+        linkPlaceholder, host, interpolateMode, values
+      );
+    }
+    translated = this$1._warnDefault(locale, linkPlaceholder, translated, host);
+
+    // Replace the link with the translated
+    ret = !translated ? ret : ret.replace(link, translated);
+  }
+
+  return ret
+};
+
+VueI18n.prototype._render = function _render (message, interpolateMode, values) {
+  var ret = this._formatter.interpolate(message, values);
+  // if interpolateMode is **not** 'string' ('row'),
+  // return the compiled data (e.g. ['foo', VNode, 'bar']) with formatter
+  return interpolateMode === 'string' ? ret.join('') : ret
+};
+
+VueI18n.prototype._translate = function _translate (
+  messages,
+  locale,
+  fallback,
+  key,
+  host,
+  interpolateMode,
+  args
+) {
+  var res =
+    this._interpolate(locale, messages[locale], key, host, interpolateMode, args);
+  if (!isNull(res)) { return res }
+
+  res = this._interpolate(fallback, messages[fallback], key, host, interpolateMode, args);
+  if (!isNull(res)) {
+    if ("development" !== 'production' && !this._silentTranslationWarn) {
+      warn(("Fall back to translate the keypath '" + key + "' with '" + fallback + "' locale."));
+    }
+    return res
+  } else {
+    return null
+  }
+};
+
+VueI18n.prototype._t = function _t (key, _locale, messages, host) {
+    var values = [], len = arguments.length - 4;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 4 ];
+
+  if (!key) { return '' }
+
+  var parsedArgs = parseArgs.apply(void 0, values);
+  var locale = parsedArgs.locale || _locale;
+
+  var ret = this._translate(
+    messages, locale, this.fallbackLocale, key,
+    host, 'string', parsedArgs.params
+  );
+  if (this._isFallbackRoot(ret)) {
+    if ("development" !== 'production' && !this._silentTranslationWarn) {
+      warn(("Fall back to translate the keypath '" + key + "' with root locale."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return (ref = this._root).t.apply(ref, [ key ].concat( values ))
+  } else {
+    return this._warnDefault(locale, key, ret, host)
+  }
+    var ref;
+};
+
+VueI18n.prototype.t = function t (key) {
+    var values = [], len = arguments.length - 1;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 1 ];
+
+  return (ref = this)._t.apply(ref, [ key, this.locale, this._getMessages(), null ].concat( values ))
+    var ref;
+};
+
+VueI18n.prototype._i = function _i (key, locale, messages, host, values) {
+  var ret =
+    this._translate(messages, locale, this.fallbackLocale, key, host, 'raw', values);
+  if (this._isFallbackRoot(ret)) {
+    if ("development" !== 'production' && !this._silentTranslationWarn) {
+      warn(("Fall back to interpolate the keypath '" + key + "' with root locale."));
+    }
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.i(key, locale, values)
+  } else {
+    return this._warnDefault(locale, key, ret, host)
+  }
+};
+
+VueI18n.prototype.i = function i (key, locale, values) {
+  /* istanbul ignore if */
+  if (!key) { return '' }
+
+  if (typeof locale !== 'string') {
+    locale = this.locale;
+  }
+
+  return this._i(key, locale, this._getMessages(), null, values)
+};
+
+VueI18n.prototype._tc = function _tc (
+  key,
+  _locale,
+  messages,
+  host,
+  choice
+) {
+    var values = [], len = arguments.length - 5;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 5 ];
+
+  if (!key) { return '' }
+  if (choice === undefined) {
+    choice = 1;
+  }
+  return fetchChoice((ref = this)._t.apply(ref, [ key, _locale, messages, host ].concat( values )), choice)
+    var ref;
+};
+
+VueI18n.prototype.tc = function tc (key, choice) {
+    var values = [], len = arguments.length - 2;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 2 ];
+
+  return (ref = this)._tc.apply(ref, [ key, this.locale, this._getMessages(), null, choice ].concat( values ))
+    var ref;
+  };
+
+  VueI18n.prototype._te = function _te (key, locale, messages) {
+    var args = [], len = arguments.length - 3;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 3 ];
+
+    var _locale = parseArgs.apply(void 0, args).locale || locale;
+  return this._exist(messages[_locale], key)
+};
+
+VueI18n.prototype.te = function te (key, locale) {
+  return this._te(key, this.locale, this._getMessages(), locale)
+};
+
+VueI18n.prototype.getLocaleMessage = function getLocaleMessage (locale) {
+  return looseClone(this._vm.messages[locale] || {})
+};
+
+VueI18n.prototype.setLocaleMessage = function setLocaleMessage (locale, message) {
+  this._vm.messages[locale] = message;
+};
+
+VueI18n.prototype.mergeLocaleMessage = function mergeLocaleMessage (locale, message) {
+  this._vm.$set(this._vm.messages, locale, Vue.util.extend(this._vm.messages[locale] || {}, message));
+};
+
+VueI18n.prototype.getDateTimeFormat = function getDateTimeFormat (locale) {
+  return looseClone(this._vm.dateTimeFormats[locale] || {})
+};
+
+VueI18n.prototype.setDateTimeFormat = function setDateTimeFormat (locale, format) {
+    this._vm.dateTimeFormats[locale] = format;
+  };
+
+VueI18n.prototype.mergeDateTimeFormat = function mergeDateTimeFormat (locale, format) {
+  this._vm.$set(this._vm.dateTimeFormats, locale, Vue.util.extend(this._vm.dateTimeFormats[locale] || {}, format));
+};
+
+VueI18n.prototype._localizeDateTime = function _localizeDateTime (
+  value,
+  locale,
+  fallback,
+  dateTimeFormats,
+  key
+) {
+  var _locale = locale;
+  var formats = dateTimeFormats[_locale];
+
+  // fallback locale
+  if (isNull(formats) || isNull(formats[key])) {
+    if (true) {
+      warn(("Fall back to '" + fallback + "' datetime formats from '" + locale + " datetime formats."));
+    }
+    _locale = fallback;
+    formats = dateTimeFormats[_locale];
+  }
+
+  if (isNull(formats) || isNull(formats[key])) {
+    return null
+  } else {
+    var format = formats[key];
+    var id = _locale + "__" + key;
+    var formatter = this._dateTimeFormatters[id];
+    if (!formatter) {
+      formatter = this._dateTimeFormatters[id] = new Intl.DateTimeFormat(_locale, format);
+    }
+    return formatter.format(value)
+  }
+};
+
+VueI18n.prototype._d = function _d (value, locale, key) {
+  /* istanbul ignore if */
+  if ("development" !== 'production' && !VueI18n.availabilities.dateTimeFormat) {
+    warn('Cannot format a Date value due to not support Intl.DateTimeFormat.');
+    return ''
+  }
+
+  if (!key) {
+    return new Intl.DateTimeFormat(locale).format(value)
+  }
+
+  var ret =
+    this._localizeDateTime(value, locale, this.fallbackLocale, this._getDateTimeFormats(), key);
+  if (this._isFallbackRoot(ret)) {
+    if (true) {
+      warn(("Fall back to datetime localization of root: key '" + key + "' ."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.d(value, key, locale)
+  } else {
+    return ret || ''
+  }
+};
+
+VueI18n.prototype.d = function d (value) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+  var locale = this.locale;
+  var key = null;
+
+  if (args.length === 1) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    } else if (isObject(args[0])) {
+      if (args[0].locale) {
+        locale = args[0].locale;
+      }
+      if (args[0].key) {
+        key = args[0].key;
+      }
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    }
+    if (typeof args[1] === 'string') {
+      locale = args[1];
+    }
+  }
+
+  return this._d(value, locale, key)
+};
+
+VueI18n.prototype.getNumberFormat = function getNumberFormat (locale) {
+  return looseClone(this._vm.numberFormats[locale] || {})
+};
+
+VueI18n.prototype.setNumberFormat = function setNumberFormat (locale, format) {
+    this._vm.numberFormats[locale] = format;
+};
+
+VueI18n.prototype.mergeNumberFormat = function mergeNumberFormat (locale, format) {
+  this._vm.$set(this._vm.numberFormats, locale, Vue.util.extend(this._vm.numberFormats[locale] || {}, format));
+};
+
+VueI18n.prototype._localizeNumber = function _localizeNumber (
+  value,
+  locale,
+  fallback,
+  numberFormats,
+  key
+) {
+  var _locale = locale;
+  var formats = numberFormats[_locale];
+
+  // fallback locale
+  if (isNull(formats) || isNull(formats[key])) {
+    if (true) {
+      warn(("Fall back to '" + fallback + "' number formats from '" + locale + " number formats."));
+    }
+    _locale = fallback;
+    formats = numberFormats[_locale];
+  }
+
+  if (isNull(formats) || isNull(formats[key])) {
+    return null
+  } else {
+    var format = formats[key];
+    var id = _locale + "__" + key;
+    var formatter = this._numberFormatters[id];
+    if (!formatter) {
+      formatter = this._numberFormatters[id] = new Intl.NumberFormat(_locale, format);
+    }
+    return formatter.format(value)
+  }
+};
+
+VueI18n.prototype._n = function _n (value, locale, key) {
+  /* istanbul ignore if */
+  if ("development" !== 'production' && !VueI18n.availabilities.numberFormat) {
+    warn('Cannot format a Date value due to not support Intl.NumberFormat.');
+    return ''
+  }
+
+  if (!key) {
+    return new Intl.NumberFormat(locale).format(value)
+  }
+
+  var ret =
+    this._localizeNumber(value, locale, this.fallbackLocale, this._getNumberFormats(), key);
+  if (this._isFallbackRoot(ret)) {
+    if (true) {
+      warn(("Fall back to number localization of root: key '" + key + "' ."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.n(value, key, locale)
+  } else {
+    return ret || ''
+  }
+};
+
+VueI18n.prototype.n = function n (value) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+  var locale = this.locale;
+  var key = null;
+
+  if (args.length === 1) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    } else if (isObject(args[0])) {
+      if (args[0].locale) {
+        locale = args[0].locale;
+      }
+      if (args[0].key) {
+        key = args[0].key;
+      }
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    }
+    if (typeof args[1] === 'string') {
+      locale = args[1];
+    }
+  }
+
+  return this._n(value, locale, key)
+};
+
+Object.defineProperties( VueI18n.prototype, prototypeAccessors );
+
+VueI18n.availabilities = {
+  dateTimeFormat: canUseDateTimeFormat,
+  numberFormat: canUseNumberFormat
+};
+VueI18n.install = install;
+VueI18n.version = '7.4.2';
+
+/* harmony default export */ __webpack_exports__["a"] = (VueI18n);
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/component-normalizer.js":
 /***/ (function(module, exports) {
 
@@ -99171,7 +100724,10 @@ var render = function() {
       _c("div", { staticClass: "input-group-append" }, [
         _c(
           "span",
-          { staticClass: "input-group-text", attrs: { id: "basic-addon1" } },
+          {
+            staticClass: "input-group-text m--font-boldest",
+            attrs: { id: "basic-addon1" }
+          },
           [
             _vm._v(
               "\n                " + _vm._s(_vm.selectText) + "\n            "
@@ -102573,6 +104129,18 @@ module.exports = function listToStyles (parentId, list) {
   return styles
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-sweetalert/build/vue-sweetalert.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.VueSweetAlert=t():e.VueSweetAlert=t()}(this,function(){return function(e){function t(o){if(n[o])return n[o].exports;var a=n[o]={exports:{},id:o,loaded:!1};return e[o].call(a.exports,a,a.exports,t),a.loaded=!0,a.exports}var n={};return t.m=e,t.c=n,t.p="/build/",t(0)}([function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var a=n(1),r=o(a);t.default=r.default},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var a=n(6),r=o(a);n(5);var i={};i.install=function(e){e.prototype.$swal=r.default},t.default=i},function(e,t,n){t=e.exports=n(3)(),t.push([e.id,'body.swal2-shown{overflow-y:hidden}.swal2-container,body.swal2-iosfix{position:fixed;left:0;right:0}.swal2-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;top:0;bottom:0;padding:10px;background-color:transparent;z-index:1060}.swal2-container.swal2-fade{transition:background-color .1s}.swal2-container.swal2-shown{background-color:rgba(0,0,0,.4)}.swal2-modal{background-color:#fff;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;border-radius:5px;box-sizing:border-box;text-align:center;margin:auto;overflow-x:hidden;overflow-y:auto;display:none;position:relative;max-width:100%}.swal2-modal:focus{outline:none}.swal2-modal.swal2-loading{overflow-y:hidden}.swal2-modal .swal2-title{color:#595959;font-size:30px;text-align:center;font-weight:600;text-transform:none;position:relative;margin:0 0 .4em;padding:0;display:block;word-wrap:break-word}.swal2-modal .swal2-buttonswrapper{margin-top:15px}.swal2-modal .swal2-buttonswrapper:not(.swal2-loading) .swal2-styled[disabled]{opacity:.4;cursor:no-drop}.swal2-modal .swal2-buttonswrapper.swal2-loading .swal2-styled.swal2-confirm{box-sizing:border-box;border:4px solid transparent;border-color:transparent;width:40px;height:40px;padding:0;margin:7.5px;vertical-align:top;background-color:transparent!important;color:transparent;cursor:default;border-radius:100%;-webkit-animation:rotate-loading 1.5s linear 0s infinite normal;animation:rotate-loading 1.5s linear 0s infinite normal;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-modal .swal2-buttonswrapper.swal2-loading .swal2-styled.swal2-cancel{margin-left:30px;margin-right:30px}.swal2-modal .swal2-buttonswrapper.swal2-loading :not(.swal2-styled).swal2-confirm:after{display:inline-block;content:"";margin-left:5px 0 15px;vertical-align:-1px;height:15px;width:15px;border:3px solid #999;box-shadow:1px 1px 1px #fff;border-right-color:transparent;border-radius:50%;-webkit-animation:rotate-loading 1.5s linear 0s infinite normal;animation:rotate-loading 1.5s linear 0s infinite normal}.swal2-modal .swal2-styled{border:0;border-radius:3px;box-shadow:none;color:#fff;cursor:pointer;font-size:17px;font-weight:500;margin:15px 5px 0;padding:10px 32px}.swal2-modal .swal2-image{margin:20px auto;max-width:100%}.swal2-modal .swal2-close{background:transparent;border:0;margin:0;padding:0;width:38px;height:40px;font-size:36px;line-height:40px;font-family:serif;position:absolute;top:5px;right:8px;cursor:pointer;color:#ccc;transition:color .1s ease}.swal2-modal .swal2-close:hover{color:#d55}.swal2-modal>.swal2-checkbox,.swal2-modal>.swal2-file,.swal2-modal>.swal2-input,.swal2-modal>.swal2-radio,.swal2-modal>.swal2-select,.swal2-modal>.swal2-textarea{display:none}.swal2-modal .swal2-content{font-size:18px;text-align:center;font-weight:300;position:relative;float:none;margin:0;padding:0;line-height:normal;color:#545454;word-wrap:break-word}.swal2-modal .swal2-checkbox,.swal2-modal .swal2-file,.swal2-modal .swal2-input,.swal2-modal .swal2-radio,.swal2-modal .swal2-select,.swal2-modal .swal2-textarea{margin:20px auto}.swal2-modal .swal2-file,.swal2-modal .swal2-input,.swal2-modal .swal2-textarea{width:100%;box-sizing:border-box;font-size:18px;border-radius:3px;border:1px solid #d9d9d9;box-shadow:inset 0 1px 1px rgba(0,0,0,.06);transition:border-color box-shadow .3s}.swal2-modal .swal2-file.swal2-inputerror,.swal2-modal .swal2-input.swal2-inputerror,.swal2-modal .swal2-textarea.swal2-inputerror{border-color:#f27474!important;box-shadow:0 0 2px #f27474!important}.swal2-modal .swal2-file:focus,.swal2-modal .swal2-input:focus,.swal2-modal .swal2-textarea:focus{outline:none;border:1px solid #b4dbed;box-shadow:0 0 3px #c4e6f5}.swal2-modal .swal2-file:focus::-webkit-input-placeholder,.swal2-modal .swal2-input:focus::-webkit-input-placeholder,.swal2-modal .swal2-textarea:focus::-webkit-input-placeholder{transition:opacity .3s ease .03s;opacity:.8}.swal2-modal .swal2-file:focus:-ms-input-placeholder,.swal2-modal .swal2-input:focus:-ms-input-placeholder,.swal2-modal .swal2-textarea:focus:-ms-input-placeholder{transition:opacity .3s ease .03s;opacity:.8}.swal2-modal .swal2-file:focus::placeholder,.swal2-modal .swal2-input:focus::placeholder,.swal2-modal .swal2-textarea:focus::placeholder{transition:opacity .3s ease .03s;opacity:.8}.swal2-modal .swal2-file::-webkit-input-placeholder,.swal2-modal .swal2-input::-webkit-input-placeholder,.swal2-modal .swal2-textarea::-webkit-input-placeholder{color:#e6e6e6}.swal2-modal .swal2-file:-ms-input-placeholder,.swal2-modal .swal2-input:-ms-input-placeholder,.swal2-modal .swal2-textarea:-ms-input-placeholder{color:#e6e6e6}.swal2-modal .swal2-file::placeholder,.swal2-modal .swal2-input::placeholder,.swal2-modal .swal2-textarea::placeholder{color:#e6e6e6}.swal2-modal .swal2-range input{float:left;width:80%}.swal2-modal .swal2-range output{float:right;width:20%;font-size:20px;font-weight:600;text-align:center}.swal2-modal .swal2-range input,.swal2-modal .swal2-range output{height:43px;line-height:43px;vertical-align:middle;margin:20px auto;padding:0}.swal2-modal .swal2-input{height:43px;padding:0 12px}.swal2-modal .swal2-input[type=number]{max-width:150px}.swal2-modal .swal2-file{font-size:20px}.swal2-modal .swal2-textarea{height:108px;padding:12px}.swal2-modal .swal2-select{color:#545454;font-size:inherit;padding:5px 10px;min-width:40%;max-width:100%}.swal2-modal .swal2-radio{border:0}.swal2-modal .swal2-radio label:not(:first-child){margin-left:20px}.swal2-modal .swal2-radio input,.swal2-modal .swal2-radio span{vertical-align:middle}.swal2-modal .swal2-radio input{margin:0 3px 0 0}.swal2-modal .swal2-checkbox{color:#545454}.swal2-modal .swal2-checkbox input,.swal2-modal .swal2-checkbox span{vertical-align:middle}.swal2-modal .swal2-validationerror{background-color:#f0f0f0;margin:0 -20px;overflow:hidden;padding:10px;color:gray;font-size:16px;font-weight:300;display:none}.swal2-modal .swal2-validationerror:before{content:"!";display:inline-block;width:24px;height:24px;border-radius:50%;background-color:#ea7d7d;color:#fff;line-height:24px;text-align:center;margin-right:10px}@supports (-ms-accelerator:true){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@media (-ms-high-contrast:active),(-ms-high-contrast:none){.swal2-range input{width:100%!important}.swal2-range output{display:none}}.swal2-icon{width:80px;height:80px;border:4px solid transparent;border-radius:50%;margin:20px auto 30px;padding:0;position:relative;box-sizing:content-box;cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-icon.swal2-error{border-color:#f27474}.swal2-icon.swal2-error .swal2-x-mark{position:relative;display:block}.swal2-icon.swal2-error [class^=swal2-x-mark-line]{position:absolute;height:5px;width:47px;background-color:#f27474;display:block;top:37px;border-radius:2px}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{-webkit-transform:rotate(45deg);transform:rotate(45deg);left:17px}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{-webkit-transform:rotate(-45deg);transform:rotate(-45deg);right:16px}.swal2-icon.swal2-warning{font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:#f8bb86;border-color:#facea8}.swal2-icon.swal2-info,.swal2-icon.swal2-warning{font-size:60px;line-height:80px;text-align:center}.swal2-icon.swal2-info{font-family:Open Sans,sans-serif;color:#3fc3ee;border-color:#9de0f6}.swal2-icon.swal2-question{font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:#87adbd;border-color:#c9dae1;font-size:60px;line-height:80px;text-align:center}.swal2-icon.swal2-success{border-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-circular-line]{border-radius:50%;position:absolute;width:60px;height:120px;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left]{border-radius:120px 0 0 120px;top:-7px;left:-33px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:60px 60px;transform-origin:60px 60px}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right]{border-radius:0 120px 120px 0;top:-11px;left:30px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:0 60px;transform-origin:0 60px}.swal2-icon.swal2-success .swal2-success-ring{width:80px;height:80px;border:4px solid hsla(98,55%,69%,.2);border-radius:50%;box-sizing:content-box;position:absolute;left:-4px;top:-4px;z-index:2}.swal2-icon.swal2-success .swal2-success-fix{width:7px;height:90px;position:absolute;left:28px;top:8px;z-index:1;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-icon.swal2-success [class^=swal2-success-line]{height:5px;background-color:#a5dc86;display:block;border-radius:2px;position:absolute;z-index:2}.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip]{width:25px;left:14px;top:46px;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-line][class$=long]{width:47px;right:8px;top:38px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-progresssteps{font-weight:600;margin:0 0 20px;padding:0}.swal2-progresssteps li{display:inline-block;position:relative}.swal2-progresssteps .swal2-progresscircle{background:#3085d6;border-radius:2em;color:#fff;height:2em;line-height:2em;text-align:center;width:2em;z-index:20}.swal2-progresssteps .swal2-progresscircle:first-child{margin-left:0}.swal2-progresssteps .swal2-progresscircle:last-child{margin-right:0}.swal2-progresssteps .swal2-progresscircle.swal2-activeprogressstep{background:#3085d6}.swal2-progresssteps .swal2-progresscircle.swal2-activeprogressstep~.swal2-progresscircle,.swal2-progresssteps .swal2-progresscircle.swal2-activeprogressstep~.swal2-progressline{background:#add8e6}.swal2-progresssteps .swal2-progressline{background:#3085d6;height:.4em;margin:0 -1px;z-index:10}[class^=swal2]{-webkit-tap-highlight-color:transparent}@-webkit-keyframes showSweetAlert{0%{-webkit-transform:scale(.7);transform:scale(.7)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}@keyframes showSweetAlert{0%{-webkit-transform:scale(.7);transform:scale(.7)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}@-webkit-keyframes hideSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}to{-webkit-transform:scale(.5);transform:scale(.5);opacity:0}}@keyframes hideSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}to{-webkit-transform:scale(.5);transform:scale(.5);opacity:0}}.swal2-show{-webkit-animation:showSweetAlert .3s;animation:showSweetAlert .3s}.swal2-show.swal2-noanimation{-webkit-animation:none;animation:none}.swal2-hide{-webkit-animation:hideSweetAlert .15s forwards;animation:hideSweetAlert .15s forwards}.swal2-hide.swal2-noanimation{-webkit-animation:none;animation:none}@-webkit-keyframes animate-success-tip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@keyframes animate-success-tip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@-webkit-keyframes animate-success-long{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}@keyframes animate-success-long{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}@-webkit-keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}.swal2-animate-success-line-tip{-webkit-animation:animate-success-tip .75s;animation:animate-success-tip .75s}.swal2-animate-success-line-long{-webkit-animation:animate-success-long .75s;animation:animate-success-long .75s}.swal2-success.swal2-animate-success-icon .swal2-success-circular-line-right{-webkit-animation:rotatePlaceholder 4.25s ease-in;animation:rotatePlaceholder 4.25s ease-in}@-webkit-keyframes animate-error-icon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@keyframes animate-error-icon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}.swal2-animate-error-icon{-webkit-animation:animate-error-icon .5s;animation:animate-error-icon .5s}@-webkit-keyframes animate-x-mark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}@keyframes animate-x-mark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}.swal2-animate-x-mark{-webkit-animation:animate-x-mark .5s;animation:animate-x-mark .5s}@-webkit-keyframes rotate-loading{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes rotate-loading{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}',""])},function(e,t){e.exports=function(){var e=[];return e.toString=function(){for(var e=[],t=0;t<this.length;t++){var n=this[t];n[2]?e.push("@media "+n[2]+"{"+n[1]+"}"):e.push(n[1])}return e.join("")},e.i=function(t,n){"string"==typeof t&&(t=[[null,t,""]]);for(var o={},a=0;a<this.length;a++){var r=this[a][0];"number"==typeof r&&(o[r]=!0)}for(a=0;a<t.length;a++){var i=t[a];"number"==typeof i[0]&&o[i[0]]||(n&&!i[2]?i[2]=n:n&&(i[2]="("+i[2]+") and ("+n+")"),e.push(i))}},e}},function(e,t,n){function o(e,t){for(var n=0;n<e.length;n++){var o=e[n],a=f[o.id];if(a){a.refs++;for(var r=0;r<a.parts.length;r++)a.parts[r](o.parts[r]);for(;r<o.parts.length;r++)a.parts.push(c(o.parts[r],t))}else{for(var i=[],r=0;r<o.parts.length;r++)i.push(c(o.parts[r],t));f[o.id]={id:o.id,refs:1,parts:i}}}}function a(e){for(var t=[],n={},o=0;o<e.length;o++){var a=e[o],r=a[0],i=a[1],s=a[2],l=a[3],c={css:i,media:s,sourceMap:l};n[r]?n[r].parts.push(c):t.push(n[r]={id:r,parts:[c]})}return t}function r(e,t){var n=g(),o=x[x.length-1];if("top"===e.insertAt)o?o.nextSibling?n.insertBefore(t,o.nextSibling):n.appendChild(t):n.insertBefore(t,n.firstChild),x.push(t);else{if("bottom"!==e.insertAt)throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");n.appendChild(t)}}function i(e){e.parentNode.removeChild(e);var t=x.indexOf(e);t>=0&&x.splice(t,1)}function s(e){var t=document.createElement("style");return t.type="text/css",r(e,t),t}function l(e){var t=document.createElement("link");return t.rel="stylesheet",r(e,t),t}function c(e,t){var n,o,a;if(t.singleton){var r=b++;n=h||(h=s(t)),o=u.bind(null,n,r,!1),a=u.bind(null,n,r,!0)}else e.sourceMap&&"function"==typeof URL&&"function"==typeof URL.createObjectURL&&"function"==typeof URL.revokeObjectURL&&"function"==typeof Blob&&"function"==typeof btoa?(n=l(t),o=p.bind(null,n),a=function(){i(n),n.href&&URL.revokeObjectURL(n.href)}):(n=s(t),o=d.bind(null,n),a=function(){i(n)});return o(e),function(t){if(t){if(t.css===e.css&&t.media===e.media&&t.sourceMap===e.sourceMap)return;o(e=t)}else a()}}function u(e,t,n,o){var a=n?"":o.css;if(e.styleSheet)e.styleSheet.cssText=v(t,a);else{var r=document.createTextNode(a),i=e.childNodes;i[t]&&e.removeChild(i[t]),i.length?e.insertBefore(r,i[t]):e.appendChild(r)}}function d(e,t){var n=t.css,o=t.media;if(o&&e.setAttribute("media",o),e.styleSheet)e.styleSheet.cssText=n;else{for(;e.firstChild;)e.removeChild(e.firstChild);e.appendChild(document.createTextNode(n))}}function p(e,t){var n=t.css,o=t.sourceMap;o&&(n+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))+" */");var a=new Blob([n],{type:"text/css"}),r=e.href;e.href=URL.createObjectURL(a),r&&URL.revokeObjectURL(r)}var f={},m=function(e){var t;return function(){return"undefined"==typeof t&&(t=e.apply(this,arguments)),t}},w=m(function(){return/msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase())}),g=m(function(){return document.head||document.getElementsByTagName("head")[0]}),h=null,b=0,x=[];e.exports=function(e,t){t=t||{},"undefined"==typeof t.singleton&&(t.singleton=w()),"undefined"==typeof t.insertAt&&(t.insertAt="bottom");var n=a(e);return o(n,t),function(e){for(var r=[],i=0;i<n.length;i++){var s=n[i],l=f[s.id];l.refs--,r.push(l)}if(e){var c=a(e);o(c,t)}for(var i=0;i<r.length;i++){var l=r[i];if(0===l.refs){for(var u=0;u<l.parts.length;u++)l.parts[u]();delete f[l.id]}}}};var v=function(){var e=[];return function(t,n){return e[t]=n,e.filter(Boolean).join("\n")}}()},function(e,t,n){var o=n(2);"string"==typeof o&&(o=[[e.id,o,""]]);n(4)(o,{});o.locals&&(e.exports=o.locals)},function(e,t,n){/*!
+	 * sweetalert2 v6.6.6
+	 * Released under the MIT License.
+	 */
+!function(t,n){e.exports=n()}(this,function(){"use strict";var e={title:"",titleText:"",text:"",html:"",type:null,customClass:"",target:"body",animation:!0,allowOutsideClick:!0,allowEscapeKey:!0,allowEnterKey:!0,showConfirmButton:!0,showCancelButton:!1,preConfirm:null,confirmButtonText:"OK",confirmButtonColor:"#3085d6",confirmButtonClass:null,cancelButtonText:"Cancel",cancelButtonColor:"#aaa",cancelButtonClass:null,buttonsStyling:!0,reverseButtons:!1,focusCancel:!1,showCloseButton:!1,showLoaderOnConfirm:!1,imageUrl:null,imageWidth:null,imageHeight:null,imageClass:null,timer:null,width:500,padding:20,background:"#fff",input:null,inputPlaceholder:"",inputValue:"",inputOptions:{},inputAutoTrim:!0,inputClass:null,inputAttributes:{},inputValidator:null,progressSteps:[],currentProgressStep:null,progressStepsDistance:"40px",onOpen:null,onClose:null,useRejections:!0},t="swal2-",n=function(e){var n={};for(var o in e)n[e[o]]=t+e[o];return n},o=n(["container","shown","iosfix","modal","overlay","fade","show","hide","noanimation","close","title","content","buttonswrapper","confirm","cancel","icon","image","input","file","range","select","radio","checkbox","textarea","inputerror","validationerror","progresssteps","activeprogressstep","progresscircle","progressline","loading","styled"]),a=n(["success","warning","info","question","error"]),r=function(e,t){e=String(e).replace(/[^0-9a-f]/gi,""),e.length<6&&(e=e[0]+e[0]+e[1]+e[1]+e[2]+e[2]),t=t||0;for(var n="#",o=0;o<3;o++){var a=parseInt(e.substr(2*o,2),16);a=Math.round(Math.min(Math.max(0,a+a*t),255)).toString(16),n+=("00"+a).substr(a.length)}return n},i=function(e){var t=[];for(var n in e)t.indexOf(e[n])===-1&&t.push(e[n]);return t},s={previousWindowKeyDown:null,previousActiveElement:null,previousBodyPadding:null},l=function(e){if("undefined"==typeof document)return void console.error("SweetAlert2 requires document to initialize");var t=document.createElement("div");t.className=o.container,t.innerHTML=c;var n=document.querySelector(e.target);n||(console.warn("SweetAlert2: Can't find the target \""+e.target+'"'),n=document.body),n.appendChild(t);var a=d(),r=P(a,o.input),i=P(a,o.file),s=a.querySelector("."+o.range+" input"),l=a.querySelector("."+o.range+" output"),u=P(a,o.select),p=a.querySelector("."+o.checkbox+" input"),f=P(a,o.textarea);return r.oninput=function(){Y.resetValidationError()},r.onkeydown=function(t){setTimeout(function(){13===t.keyCode&&e.allowEnterKey&&(t.stopPropagation(),Y.clickConfirm())},0)},i.onchange=function(){Y.resetValidationError()},s.oninput=function(){Y.resetValidationError(),l.value=s.value},s.onchange=function(){Y.resetValidationError(),s.previousSibling.value=s.value},u.onchange=function(){Y.resetValidationError()},p.onchange=function(){Y.resetValidationError()},f.oninput=function(){Y.resetValidationError()},a},c=('\n <div role="dialog" aria-labelledby="'+o.title+'" aria-describedby="'+o.content+'" class="'+o.modal+'" tabindex="-1">\n   <ul class="'+o.progresssteps+'"></ul>\n   <div class="'+o.icon+" "+a.error+'">\n     <span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span>\n   </div>\n   <div class="'+o.icon+" "+a.question+'">?</div>\n   <div class="'+o.icon+" "+a.warning+'">!</div>\n   <div class="'+o.icon+" "+a.info+'">i</div>\n   <div class="'+o.icon+" "+a.success+'">\n     <div class="swal2-success-circular-line-left"></div>\n     <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>\n     <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>\n     <div class="swal2-success-circular-line-right"></div>\n   </div>\n   <img class="'+o.image+'" />\n   <h2 class="'+o.title+'" id="'+o.title+'"></h2>\n   <div id="'+o.content+'" class="'+o.content+'"></div>\n   <input class="'+o.input+'" />\n   <input type="file" class="'+o.file+'" />\n   <div class="'+o.range+'">\n     <output></output>\n     <input type="range" />\n   </div>\n   <select class="'+o.select+'"></select>\n   <div class="'+o.radio+'"></div>\n   <label for="'+o.checkbox+'" class="'+o.checkbox+'">\n     <input type="checkbox" />\n   </label>\n   <textarea class="'+o.textarea+'"></textarea>\n   <div class="'+o.validationerror+'"></div>\n   <div class="'+o.buttonswrapper+'">\n     <button type="button" class="'+o.confirm+'">OK</button>\n     <button type="button" class="'+o.cancel+'">Cancel</button>\n   </div>\n   <button type="button" class="'+o.close+'" aria-label="Close this dialog">×</button>\n </div>\n').replace(/(^|\n)\s*/g,""),u=function(){return document.body.querySelector("."+o.container)},d=function(){return u()?u().querySelector("."+o.modal):null},p=function(){var e=d();return e.querySelectorAll("."+o.icon)},f=function(e){return u()?u().querySelector("."+e):null},m=function(){return f(o.title)},w=function(){return f(o.content)},g=function(){return f(o.image)},h=function(){return f(o.buttonswrapper)},b=function(){return f(o.progresssteps)},x=function(){return f(o.validationerror)},v=function(){return f(o.confirm)},y=function(){return f(o.cancel)},k=function(){return f(o.close)},C=function(e){var t=[v(),y()];e&&t.reverse();var n=t.concat(Array.prototype.slice.call(d().querySelectorAll('button, input:not([type=hidden]), textarea, select, a, *[tabindex]:not([tabindex="-1"])')));return i(n)},S=function(e,t){return!!e.classList&&e.classList.contains(t)},A=function(e){if(e.focus(),"file"!==e.type){var t=e.value;e.value="",e.value=t}},E=function(e,t){if(e&&t){var n=t.split(/\s+/).filter(Boolean);n.forEach(function(t){e.classList.add(t)})}},B=function(e,t){if(e&&t){var n=t.split(/\s+/).filter(Boolean);n.forEach(function(t){e.classList.remove(t)})}},P=function(e,t){for(var n=0;n<e.childNodes.length;n++)if(S(e.childNodes[n],t))return e.childNodes[n]},L=function(e,t){t||(t="block"),e.style.opacity="",e.style.display=t},M=function(e){e.style.opacity="",e.style.display="none"},T=function(e){for(;e.firstChild;)e.removeChild(e.firstChild)},O=function(e){return e.offsetWidth||e.offsetHeight||e.getClientRects().length},q=function(e,t){e.style.removeProperty?e.style.removeProperty(t):e.style.removeAttribute(t)},H=function(e){if(!O(e))return!1;if("function"==typeof MouseEvent){var t=new MouseEvent("click",{view:window,bubbles:!1,cancelable:!0});e.dispatchEvent(t)}else if(document.createEvent){var n=document.createEvent("MouseEvents");n.initEvent("click",!1,!1),e.dispatchEvent(n)}else document.createEventObject?e.fireEvent("onclick"):"function"==typeof e.onclick&&e.onclick()},V=function(){var e=document.createElement("div"),t={WebkitAnimation:"webkitAnimationEnd",OAnimation:"oAnimationEnd oanimationend",msAnimation:"MSAnimationEnd",animation:"animationend"};for(var n in t)if(t.hasOwnProperty(n)&&void 0!==e.style[n])return t[n];return!1}(),j=function(){if(window.onkeydown=s.previousWindowKeyDown,s.previousActiveElement&&s.previousActiveElement.focus){var e=window.scrollX,t=window.scrollY;s.previousActiveElement.focus(),e&&t&&window.scrollTo(e,t)}},z=function(){var e="ontouchstart"in window||navigator.msMaxTouchPoints;if(e)return 0;var t=document.createElement("div");t.style.width="50px",t.style.height="50px",t.style.overflow="scroll",document.body.appendChild(t);var n=t.offsetWidth-t.clientWidth;return document.body.removeChild(t),n},N=function(e,t){var n=void 0;return function(){var o=function(){n=null,e()};clearTimeout(n),n=setTimeout(o,t)}},R="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},U=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},I=U({},e),K=[],D=void 0,W=function(t){var n=d()||l(t);for(var r in t)e.hasOwnProperty(r)||"extraParams"===r||console.warn('SweetAlert2: Unknown parameter "'+r+'"');n.style.width="number"==typeof t.width?t.width+"px":t.width,n.style.padding=t.padding+"px",n.style.background=t.background;for(var i=n.querySelectorAll("[class^=swal2-success-circular-line], .swal2-success-fix"),s=0;s<i.length;s++)i[s].style.background=t.background;var c=m(),u=w(),f=h(),x=v(),C=y(),S=k();if(t.titleText?c.innerText=t.titleText:c.innerHTML=t.title.split("\n").join("<br />"),t.text||t.html){if("object"===R(t.html))if(u.innerHTML="",0 in t.html)for(var A=0;A in t.html;A++)u.appendChild(t.html[A].cloneNode(!0));else u.appendChild(t.html.cloneNode(!0));else t.html?u.innerHTML=t.html:t.text&&(u.textContent=t.text);L(u)}else M(u);t.showCloseButton?L(S):M(S),n.className=o.modal,t.customClass&&E(n,t.customClass);var P=b(),O=parseInt(null===t.currentProgressStep?Y.getQueueStep():t.currentProgressStep,10);t.progressSteps.length?(L(P),T(P),O>=t.progressSteps.length&&console.warn("SweetAlert2: Invalid currentProgressStep parameter, it should be less than progressSteps.length (currentProgressStep like JS arrays starts from 0)"),t.progressSteps.forEach(function(e,n){var a=document.createElement("li");if(E(a,o.progresscircle),a.innerHTML=e,n===O&&E(a,o.activeprogressstep),P.appendChild(a),n!==t.progressSteps.length-1){var r=document.createElement("li");E(r,o.progressline),r.style.width=t.progressStepsDistance,P.appendChild(r)}})):M(P);for(var H=p(),V=0;V<H.length;V++)M(H[V]);if(t.type){var j=!1;for(var z in a)if(t.type===z){j=!0;break}if(!j)return console.error("SweetAlert2: Unknown alert type: "+t.type),!1;var N=n.querySelector("."+o.icon+"."+a[t.type]);if(L(N),t.animation)switch(t.type){case"success":E(N,"swal2-animate-success-icon"),E(N.querySelector(".swal2-success-line-tip"),"swal2-animate-success-line-tip"),E(N.querySelector(".swal2-success-line-long"),"swal2-animate-success-line-long");break;case"error":E(N,"swal2-animate-error-icon"),E(N.querySelector(".swal2-x-mark"),"swal2-animate-x-mark")}}var U=g();t.imageUrl?(U.setAttribute("src",t.imageUrl),L(U),t.imageWidth?U.setAttribute("width",t.imageWidth):U.removeAttribute("width"),t.imageHeight?U.setAttribute("height",t.imageHeight):U.removeAttribute("height"),U.className=o.image,t.imageClass&&E(U,t.imageClass)):M(U),t.showCancelButton?C.style.display="inline-block":M(C),t.showConfirmButton?q(x,"display"):M(x),t.showConfirmButton||t.showCancelButton?L(f):M(f),x.innerHTML=t.confirmButtonText,C.innerHTML=t.cancelButtonText,t.buttonsStyling&&(x.style.backgroundColor=t.confirmButtonColor,C.style.backgroundColor=t.cancelButtonColor),x.className=o.confirm,E(x,t.confirmButtonClass),C.className=o.cancel,E(C,t.cancelButtonClass),t.buttonsStyling?(E(x,o.styled),E(C,o.styled)):(B(x,o.styled),B(C,o.styled),x.style.backgroundColor=x.style.borderLeftColor=x.style.borderRightColor="",C.style.backgroundColor=C.style.borderLeftColor=C.style.borderRightColor=""),t.animation===!0?B(n,o.noanimation):E(n,o.noanimation)},_=function(e,t){var n=u(),a=d();e?(E(a,o.show),E(n,o.fade),B(a,o.hide)):B(a,o.fade),L(a),n.style.overflowY="hidden",V&&!S(a,o.noanimation)?a.addEventListener(V,function e(){a.removeEventListener(V,e),n.style.overflowY="auto"}):n.style.overflowY="auto",E(document.documentElement,o.shown),E(document.body,o.shown),E(n,o.shown),X(),Z(),s.previousActiveElement=document.activeElement,null!==t&&"function"==typeof t&&setTimeout(function(){t(a)})},X=function(){null===s.previousBodyPadding&&document.body.scrollHeight>window.innerHeight&&(s.previousBodyPadding=document.body.style.paddingRight,document.body.style.paddingRight=z()+"px")},$=function(){null!==s.previousBodyPadding&&(document.body.style.paddingRight=s.previousBodyPadding,s.previousBodyPadding=null)},Z=function(){var e=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;if(e&&!S(document.body,o.iosfix)){var t=document.body.scrollTop;document.body.style.top=t*-1+"px",E(document.body,o.iosfix)}},Q=function(){if(S(document.body,o.iosfix)){var e=parseInt(document.body.style.top,10);B(document.body,o.iosfix),document.body.style.top="",document.body.scrollTop=e*-1}},Y=function e(){for(var t=arguments.length,n=Array(t),a=0;a<t;a++)n[a]=arguments[a];if(void 0===n[0])return console.error("SweetAlert2 expects at least 1 attribute!"),!1;var i=U({},I);switch(R(n[0])){case"string":i.title=n[0],i.html=n[1],i.type=n[2];break;case"object":U(i,n[0]),i.extraParams=n[0].extraParams,"email"===i.input&&null===i.inputValidator&&(i.inputValidator=function(e){return new Promise(function(t,n){var o=/^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;o.test(e)?t():n("Invalid email address")})}),"url"===i.input&&null===i.inputValidator&&(i.inputValidator=function(e){return new Promise(function(t,n){var o=/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&\/\/=]*)$/;o.test(e)?t():n("Invalid URL")})});break;default:return console.error('SweetAlert2: Unexpected type of argument! Expected "string" or "object", got '+R(n[0])),!1}W(i);var l=u(),c=d();return new Promise(function(t,n){i.timer&&(c.timeout=setTimeout(function(){e.closeModal(i.onClose),i.useRejections?n("timer"):t({dismiss:"timer"})},i.timer));var a=function(e){if(e=e||i.input,!e)return null;switch(e){case"select":case"textarea":case"file":return P(c,o[e]);case"checkbox":return c.querySelector("."+o.checkbox+" input");case"radio":return c.querySelector("."+o.radio+" input:checked")||c.querySelector("."+o.radio+" input:first-child");case"range":return c.querySelector("."+o.range+" input");default:return P(c,o.input)}},p=function(){var e=a();if(!e)return null;switch(i.input){case"checkbox":return e.checked?1:0;case"radio":return e.checked?e.value:null;case"file":return e.files.length?e.files[0]:null;default:return i.inputAutoTrim?e.value.trim():e.value}};i.input&&setTimeout(function(){var e=a();e&&A(e)},0);for(var f=function(n){i.showLoaderOnConfirm&&e.showLoading(),i.preConfirm?i.preConfirm(n,i.extraParams).then(function(o){e.closeModal(i.onClose),t(o||n)},function(t){e.hideLoading(),t&&e.showValidationError(t)}):(e.closeModal(i.onClose),t(i.useRejections?n:{value:n}))},S=function(o){var a=o||window.event,s=a.target||a.srcElement,l=v(),c=y(),u=l&&(l===s||l.contains(s)),d=c&&(c===s||c.contains(s));switch(a.type){case"mouseover":case"mouseup":i.buttonsStyling&&(u?l.style.backgroundColor=r(i.confirmButtonColor,-.1):d&&(c.style.backgroundColor=r(i.cancelButtonColor,-.1)));break;case"mouseout":i.buttonsStyling&&(u?l.style.backgroundColor=i.confirmButtonColor:d&&(c.style.backgroundColor=i.cancelButtonColor));break;case"mousedown":i.buttonsStyling&&(u?l.style.backgroundColor=r(i.confirmButtonColor,-.2):d&&(c.style.backgroundColor=r(i.cancelButtonColor,-.2)));break;case"click":if(u&&e.isVisible())if(e.disableButtons(),i.input){var m=p();i.inputValidator?(e.disableInput(),i.inputValidator(m,i.extraParams).then(function(){e.enableButtons(),e.enableInput(),f(m)},function(t){e.enableButtons(),e.enableInput(),t&&e.showValidationError(t)})):f(m)}else f(!0);else d&&e.isVisible()&&(e.disableButtons(),e.closeModal(i.onClose),i.useRejections?n("cancel"):t({dismiss:"cancel"}))}},T=c.querySelectorAll("button"),q=0;q<T.length;q++)T[q].onclick=S,T[q].onmouseover=S,T[q].onmouseout=S,T[q].onmousedown=S;k().onclick=function(){e.closeModal(i.onClose),i.useRejections?n("close"):t({dismiss:"close"})},l.onclick=function(o){o.target===l&&i.allowOutsideClick&&(e.closeModal(i.onClose),i.useRejections?n("overlay"):t({dismiss:"overlay"}))};var V=h(),j=v(),z=y();i.reverseButtons?j.parentNode.insertBefore(z,j):j.parentNode.insertBefore(j,z);var U=function(e,t){for(var n=C(i.focusCancel),o=0;o<n.length;o++){e+=t,e===n.length?e=0:e===-1&&(e=n.length-1);var a=n[e];if(O(a))return a.focus()}},I=function(o){var a=o||window.event,r=a.keyCode||a.which;if([9,13,32,27,37,38,39,40].indexOf(r)!==-1){for(var s=a.target||a.srcElement,l=C(i.focusCancel),c=-1,u=0;u<l.length;u++)if(s===l[u]){c=u;break}9===r?(a.shiftKey?U(c,-1):U(c,1),a.stopPropagation(),a.preventDefault()):37===r||38===r||39===r||40===r?document.activeElement===j&&O(z)?z.focus():document.activeElement===z&&O(j)&&j.focus():13===r||32===r?c===-1&&i.allowEnterKey&&(i.focusCancel?H(z,a):H(j,a),a.stopPropagation(),a.preventDefault()):27===r&&i.allowEscapeKey===!0&&(e.closeModal(i.onClose),i.useRejections?n("esc"):t({dismiss:"esc"}))}};window.onkeydown&&window.onkeydown.toString()===I.toString()||(s.previousWindowKeyDown=window.onkeydown,window.onkeydown=I),i.buttonsStyling&&(j.style.borderLeftColor=i.confirmButtonColor,j.style.borderRightColor=i.confirmButtonColor),e.hideLoading=e.disableLoading=function(){i.showConfirmButton||(M(j),i.showCancelButton||M(h())),B(V,o.loading),B(c,o.loading),j.disabled=!1,z.disabled=!1},e.getTitle=function(){return m()},e.getContent=function(){return w()},e.getInput=function(){return a()},e.getImage=function(){return g()},e.getButtonsWrapper=function(){return h()},e.getConfirmButton=function(){return v()},e.getCancelButton=function(){return y()},e.enableButtons=function(){j.disabled=!1,z.disabled=!1},e.disableButtons=function(){j.disabled=!0,z.disabled=!0},e.enableConfirmButton=function(){j.disabled=!1},e.disableConfirmButton=function(){j.disabled=!0},e.enableInput=function(){var e=a();if(!e)return!1;if("radio"===e.type)for(var t=e.parentNode.parentNode,n=t.querySelectorAll("input"),o=0;o<n.length;o++)n[o].disabled=!1;else e.disabled=!1},e.disableInput=function(){var e=a();if(!e)return!1;if(e&&"radio"===e.type)for(var t=e.parentNode.parentNode,n=t.querySelectorAll("input"),o=0;o<n.length;o++)n[o].disabled=!0;else e.disabled=!0},e.recalculateHeight=N(function(){var e=d();if(e){var t=e.style.display;e.style.minHeight="",L(e),e.style.minHeight=e.scrollHeight+1+"px",e.style.display=t}},50),e.showValidationError=function(e){var t=x();t.innerHTML=e,L(t);var n=a();n&&(A(n),E(n,o.inputerror))},e.resetValidationError=function(){var t=x();M(t),e.recalculateHeight();var n=a();n&&B(n,o.inputerror)},e.getProgressSteps=function(){return i.progressSteps},e.setProgressSteps=function(e){i.progressSteps=e,W(i)},e.showProgressSteps=function(){L(b())},e.hideProgressSteps=function(){M(b())},e.enableButtons(),e.hideLoading(),e.resetValidationError();for(var K=["input","file","range","select","radio","checkbox","textarea"],X=void 0,$=0;$<K.length;$++){var Z=o[K[$]],Q=P(c,Z);if(X=a(K[$])){for(var Y in X.attributes)if(X.attributes.hasOwnProperty(Y)){var J=X.attributes[Y].name;"type"!==J&&"value"!==J&&X.removeAttribute(J)}for(var F in i.inputAttributes)X.setAttribute(F,i.inputAttributes[F])}Q.className=Z,i.inputClass&&E(Q,i.inputClass),M(Q)}var G=void 0;switch(i.input){case"text":case"email":case"password":case"number":case"tel":case"url":X=P(c,o.input),X.value=i.inputValue,X.placeholder=i.inputPlaceholder,X.type=i.input,L(X);break;case"file":X=P(c,o.file),X.placeholder=i.inputPlaceholder,X.type=i.input,L(X);break;case"range":var ee=P(c,o.range),te=ee.querySelector("input"),ne=ee.querySelector("output");te.value=i.inputValue,te.type=i.input,ne.value=i.inputValue,L(ee);break;case"select":var oe=P(c,o.select);if(oe.innerHTML="",i.inputPlaceholder){var ae=document.createElement("option");ae.innerHTML=i.inputPlaceholder,ae.value="",ae.disabled=!0,ae.selected=!0,oe.appendChild(ae)}G=function(e){for(var t in e){var n=document.createElement("option");n.value=t,n.innerHTML=e[t],i.inputValue===t&&(n.selected=!0),oe.appendChild(n)}L(oe),oe.focus()};break;case"radio":var re=P(c,o.radio);re.innerHTML="",G=function(e){for(var t in e){var n=document.createElement("input"),a=document.createElement("label"),r=document.createElement("span");n.type="radio",n.name=o.radio,n.value=t,i.inputValue===t&&(n.checked=!0),r.innerHTML=e[t],a.appendChild(n),a.appendChild(r),a.for=n.id,re.appendChild(a)}L(re);var s=re.querySelectorAll("input");s.length&&s[0].focus()};break;case"checkbox":var ie=P(c,o.checkbox),se=a("checkbox");se.type="checkbox",se.value=1,se.id=o.checkbox,se.checked=Boolean(i.inputValue);var le=ie.getElementsByTagName("span");le.length&&ie.removeChild(le[0]),le=document.createElement("span"),le.innerHTML=i.inputPlaceholder,ie.appendChild(le),L(ie);break;case"textarea":var ce=P(c,o.textarea);ce.value=i.inputValue,ce.placeholder=i.inputPlaceholder,L(ce);break;case null:break;default:console.error('SweetAlert2: Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "'+i.input+'"')}"select"!==i.input&&"radio"!==i.input||(i.inputOptions instanceof Promise?(e.showLoading(),i.inputOptions.then(function(t){e.hideLoading(),G(t)})):"object"===R(i.inputOptions)?G(i.inputOptions):console.error("SweetAlert2: Unexpected type of inputOptions! Expected object or Promise, got "+R(i.inputOptions))),_(i.animation,i.onOpen),i.allowEnterKey?U(-1,1):document.activeElement&&document.activeElement.blur(),u().scrollTop=0,"undefined"==typeof MutationObserver||D||(D=new MutationObserver(e.recalculateHeight),D.observe(c,{childList:!0,characterData:!0,subtree:!0}))})};return Y.isVisible=function(){return!!d()},Y.queue=function(e){K=e;var t=function(){K=[],document.body.removeAttribute("data-swal2-queue-step")},n=[];return new Promise(function(e,o){!function a(r,i){r<K.length?(document.body.setAttribute("data-swal2-queue-step",r),Y(K[r]).then(function(e){n.push(e),a(r+1,i)},function(e){t(),o(e)})):(t(),e(n))}(0)})},Y.getQueueStep=function(){return document.body.getAttribute("data-swal2-queue-step")},Y.insertQueueStep=function(e,t){return t&&t<K.length?K.splice(t,0,e):K.push(e)},Y.deleteQueueStep=function(e){"undefined"!=typeof K[e]&&K.splice(e,1)},Y.close=Y.closeModal=function(e){var t=u(),n=d();if(n){B(n,o.show),E(n,o.hide),clearTimeout(n.timeout),j();var a=function(){t.parentNode&&t.parentNode.removeChild(t),B(document.documentElement,o.shown),B(document.body,o.shown),$(),Q()};V&&!S(n,o.noanimation)?n.addEventListener(V,function e(){n.removeEventListener(V,e),S(n,o.hide)&&a()}):a(),null!==e&&"function"==typeof e&&setTimeout(function(){e(n)})}},Y.clickConfirm=function(){return v().click()},Y.clickCancel=function(){return y().click()},Y.showLoading=Y.enableLoading=function(){var e=d();e||Y("");var t=h(),n=v(),a=y();L(t),L(n,"inline-block"),E(t,o.loading),E(e,o.loading),n.disabled=!0,a.disabled=!0},Y.setDefaults=function(t){if(!t||"object"!==("undefined"==typeof t?"undefined":R(t)))return console.error("SweetAlert2: the argument for setDefaults() is required and has to be a object");for(var n in t)e.hasOwnProperty(n)||"extraParams"===n||(console.warn('SweetAlert2: Unknown parameter "'+n+'"'),delete t[n]);U(I,t)},Y.resetDefaults=function(){I=U({},e)},Y.noop=function(){},Y.version="6.6.6",Y.default=Y,Y}),window.Sweetalert2&&(window.sweetAlert=window.swal=window.Sweetalert2)}])});
+//# sourceMappingURL=vue-sweetalert.js.map
 
 /***/ }),
 
@@ -114560,7 +116128,8 @@ __webpack_require__("./resources/assets/js/accounting-components/chart/chart.js"
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-throw new Error("Cannot find module \"vue-sweetalert\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_sweetalert__ = __webpack_require__("./node_modules/vue-sweetalert/build/vue-sweetalert.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_sweetalert__);
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -114865,6 +116434,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue_good_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_vue_good_table__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue2_datatable_component__ = __webpack_require__("./node_modules/vue2-datatable-component/src/main.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vee_validate__ = __webpack_require__("./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_i18n__ = __webpack_require__("./node_modules/vue-i18n/dist/vue-i18n.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__vue_i18n_locales_generated_js__ = __webpack_require__("./resources/assets/js/vue-i18n-locales.generated.js");
 
 /*
  |--------------------------------------------------------------------------
@@ -114894,6 +116465,8 @@ __webpack_require__("./resources/assets/js/components/bootstrap.js");
 
 
 
+
+
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.js");
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 window.Vue.use(__webpack_require__("./node_modules/vue-shortkey/dist/index.js"));
@@ -114901,6 +116474,12 @@ __WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_6_vue_
 __WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_7_vue2_datatable_component__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__webpack_require__("./node_modules/vue-shortkey/dist/index.js"));
 __WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_8_vee_validate__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vue_i18n__["a" /* default */]);
+
+__WEBPACK_IMPORTED_MODULE_5_vue___default.a.config.lang = 'en';
+Object.keys(__WEBPACK_IMPORTED_MODULE_10__vue_i18n_locales_generated_js__["a" /* default */]).forEach(function (lang) {
+    __WEBPACK_IMPORTED_MODULE_5_vue___default.a.locale(lang, __WEBPACK_IMPORTED_MODULE_10__vue_i18n_locales_generated_js__["a" /* default */][lang]);
+});
 
 var routes = [{
     path: '/',
@@ -119239,6 +120818,2381 @@ var base = __webpack_require__("./spark/resources/assets/js/settings/teams/updat
 
 Vue.component('spark-update-team-photo', {
     mixins: [base]
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/vue-i18n-locales.generated.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    "ar": {
+        ":trialDays Day Trial": "{trialDays} يوم اختبار",
+        "API": "واجهة التطبيقات",
+        "API Token": "واجهة التطبيقات رمز",
+        "API Tokens": "واجهة التطبيقات رموز",
+        "Action Button Text": "النص الخاص بالزر",
+        "Your application's dashboard.": "لوحة التحكم الخاصة بك.",
+        "Dashboard": "لوحة التحكم",
+        "Action Button URL": "الرابط الخاص بالزر",
+        "Add Discount": "أضف تخفيض",
+        "Address": "العنوان",
+        "Address Line 2": "العنوان",
+        "After logging in via your emergency token, two-factor authentication will be disabled for your account. If you would like to maintain two-factor authentication security, you should re-enable it after logging in.": "بعد تسجيل الدخول سيتم تعطيل التوثيق الثنائي. يمكنك تفعيلع مرة اخري بعد تسجيل الدخول.",
+        "All subscription plan prices are excluding applicable VAT.": "كل الأسعار لا تشمل ضريبة القيمة المضافة.",
+        "All subscription plan prices include applicable VAT.": "كل الأسعار تشمل ضريبة القيمة المضافة.",
+        "Amount": "القيمة",
+        "Announcement": "اعلان",
+        "Announcements": "الاعلانات",
+        "Announcements you create here will be sent to the \"Product Announcements\" section of the notifications modal window, informing your users about new features and improvements to your application.": "الاعلانات التي تقوم بارسالها سوف يتم عرضها في قسم التحديثات في نافذة الاعلانات.",
+        "Apply Discount": "طبق الخصم",
+        "Applying": "يتم التطبيق",
+        "Are you sure you want to cancel your subscription?": "هل انت متأكد من رغبتك في الغاء الاشتراك؟",
+        "Are you sure you want to delete this announcement?": "هل انت متأكد من رغبتك في حذف الاعلان؟",
+        "Are you sure you want to switch to the :planName plan?": "هل انت متأكد من رغبتك في التحويل الي {planName}؟",
+        "Are you sure you want to delete this token? If deleted, API requests that attempt to authenticate using this token will no longer be accepted.": "ل انت متأكد من رغبتك في حذف هذا الرمز؟",
+        "Assign All Abilities": "أضف كل القدرات",
+        "Authentication Token": "رمز المصادقة",
+        "Back To My Account": "العودة إلى حسابي",
+        "Billing": "الفواتير",
+        "Billing Information": "معلومات الفواتير",
+        "Cancel": "إلغاء",
+        "Cancel Subscription": "إلغاء الاشتراك",
+        "Cancelling": "جاري الالغاء",
+        "Card": "البطاقة",
+        "Cardholder's Name": "اسم حامل البطاقة",
+        "City": "المدينة",
+        "Click here to reset your password:": "انقر هنا لإعادة تعيين كلمة المرور:",
+        "Close": "اغلاق",
+        "Confirm Password": "تأكيد كلمة المرور",
+        "Contact Information": "معلومات الاتصال",
+        "Copy To Clipboard": "نسخ إلى الحافظة",
+        "Country": "بلد",
+        "Country Code": "الرقم الدولي",
+        "Coupon": "قسيمة",
+        "Coupon Code": "رمز القسيمة",
+        "Coupon accepted! The discount will be applied to your next invoice.": "تم قبول القسيمة! سيتم تطبيق الخصم على الفاتورة التالية.",
+        "Create": "انشاء",
+        "Create API Token": "انشاء رمز جديد",
+        "Create Announcement": "إنشاء إعلان",
+        "Created": "تم الانشاء",
+        "Current Password": "كلمة السر الحالية",
+        "Daily Volume": "الحجم اليومي",
+        "Date": "تاريخ",
+        "Day Trial": "يوم تجربه",
+        "Delete Announcement": "حذف الإعلان",
+        "Delete Token": "حذف الرمز",
+        "Deleting": "يتم الخذف",
+        "Developer": "مطور",
+        "Disable Two-Factor Authentication": "تعطيل التوقيق الثنائي",
+        "Disabling": "يتم التعطيل",
+        "Download PDF": "تحميل PDF",
+        "Duration": "المدة",
+        "E-Mail": "البريد الالكتروني",
+        "E-Mail Address": "البريد الالكتروني",
+        "Edit Token": "تعديل الرمز",
+        "Email Address": "البريد الالكتروني",
+        "Email Us": "راسلنا",
+        "Emergency Token": "رمز الطوارئ",
+        "Enable": "فعل",
+        "Enabling": "جاري التفيل",
+        "Expiration": "انتهاء الصلاحية",
+        "Extra Billing Information": "معلومات إضافية",
+        "Features": "الميزات",
+        "Forever": "إلى الأبد",
+        "Forgot Your Password?": "نسيت رقمك السري؟",
+        "Free": "مجانا",
+        "Go To Login": "انتقل إلى تسجيل الدخول",
+        "Got It!": "حسنا!",
+        "Here is your new API token.": "إليك رمز واجهة برمجة التطبيقات الجديد.",
+        "Hi :name": "اهلا {name}",
+        "Hi!": "اهلا!",
+        "I Accept :linkOpen The Terms Of Service :linkClose": "موافق علي {linkOpen} شروط الخدمة{linkClose}",
+        "If you do not already have an account, you may click the following link to get started:": "إذا لم يكن لديك حساب بالفعل، فيمكنك النقر على الرابط التالي للبدء:",
+        "If you lose your two-factor authentication device, you may use this emergency reset token to disable two-factor authentication on your account.": "إذا فقدت جهاز المصادقة المكون من عاملين، يمكنك استخدام رمز إعادة تعيين الطوارئ هذا لتعطيل المصادقة الثنائية على حسابك.",
+        "Impersonate": "انتحال",
+        "Impersonation": "التمثيل",
+        "In order to use two-factor authentication, you must install the :authyLink application on your smartphone. Authy is available for iOS and Android.": "من أجل استخدام عاملين التوثيق، يجب تثبيت  {authyLink} علي جوالك. التطبيق متاح لـiOS و Android.",
+        "Invoices": "الفواتير",
+        "Joined": "منضم",
+        "Kiosk": "الادارة",
+        "Last Used": "آخر أستخدام",
+        "Loading": "جار التحميل",
+        "Loading Notifications": "تحميل الإشعارات",
+        "Login": "تسجيل الدخول",
+        "Login Via Emergency Token": "تسجيل الدخول عبر رمز الطوارئ",
+        "Logout": "الخروج",
+        "Lost Your Device?": "فقدت جهازك؟",
+        "Mailed Invitations": "دعوات بالبريد",
+        "Membership": "العضوية",
+        "Message": "الرسالة",
+        "Metrics": "المقاييس",
+        "Monthly": "شهريا",
+        "monthly": "شهريا",
+        "Yearly": "سنوي",
+        "yearly": "سنوي",
+        "Monthly Recurring Revenue": "الأرباح الشهرية المتكررة",
+        "Search By Name Or E-Mail Address...": "البحث حسب الاسم أو عنوان البريد الإلكتروني...",
+        "Months": "الشهور",
+        "Multiple Months": "أشهر متعددة",
+        "N\/A": "N\/A",
+        "Name": "الاسم",
+        "Never": "ابدا",
+        "New Invitation!": "دعوة جديدة!",
+        "New Users": "مستخدمون جدد",
+        "State": "الولاية",
+        "Postal Code": "الرمز البريدي",
+        "No customer support request recipient is defined.": "لم يتم تعريف أي مستلم لطلبات دعم العملاء.",
+        "No users matched the given criteria.": "لم يطابق أي مستخدم المعايير المحددة.",
+        "No, Go Back": "لا، العودة",
+        "None": "لا شيء",
+        "Notifications": "إخطارات",
+        "On Generic Trial": "في تجربة",
+        "Once": "مرة واحدة",
+        "Owner": "المالك",
+        "Password": "كلمه السر",
+        "Payment Method": "طريقة الدفع او السداد",
+        "Pending Invitations": "الدعوات المعلقة",
+        "Percentage": "النسبة المئوية",
+        "Phone Number": "رقم الهاتف",
+        "Please select at least one ability.": "يرجى تحديد قدرة واحدة على الأقل.",
+        "Profile": "الملف الشخصي",
+        "Profile Photo": "صورة الملف الشخصي",
+        "Recent Announcements": "الإعلانات الأخيرة",
+        "Recurring Revenue": "الإعلانات الأخيرة",
+        "Redeem": "استرداد",
+        "Redeem Coupon": "استرداد القسيمة",
+        "Redeeming": "جاري الاسترداد",
+        "Register": "تسجيل",
+        "Registering": "جاري التسجيل",
+        "Remember Me": "تذكرني",
+        "Remove All Abilities": "إزالة جميع القدرات",
+        "Reset Password": "إعادة تعيين كلمة المرور",
+        "Resume": "استئنف",
+        "Resume Subscription": "استئناف الاشتراك",
+        "Resuming": "جاري الااستئناف",
+        "Role": "وظيفة",
+        "Search Results": "نتائج البحث",
+        "Searching": "البحث",
+        "Security": "الأمان",
+        "Security Code": "رمز الحماية",
+        "See you soon!": "اراك قريبا!",
+        "Select All": "اختر الكل",
+        "Send": "إرسال",
+        "Send Invitation": "إرسال دعوة",
+        "Send Password Reset Link": "إرسال رابط إعادة تعيين كلمة المرور",
+        "Sending": "جاري الإرسال",
+        "Session Expired": "انتهت الجلسة",
+        "Settings": "الإعدادات",
+        "Since you already have an account, you may accept the invitation from your account settings screen.": "نظرا لأن لديك حسابا، يمكنك قبول الدعوة من شاشة إعدادات الحساب.",
+        "Something went wrong!": "هناك خطأ ما!",
+        "Something went wrong. Please try again or contact customer support.": "هناك خطأ ما. الرجاء إعادة المحاولة أو الاتصال بدعم العملاء.",
+        "State & ZIP \/ Postal Code": "الدولة و الرمز البريدي",
+        "Subject": "الموضوع",
+        "Subscribe": "الاشتراك",
+        "Subscribers": "المشتركين",
+        "Subscribing": "جاري الاشتراك",
+        "Subscription": "الاشتراك",
+        "Support": "اشتراك",
+        "Support Request: ": "طلب دعم: ",
+        "Switch": "تغيير",
+        "Tax": "الضريبة",
+        "Terms Of Service": "شروط الخدمة",
+        "Thanks for your continued support. We've attached a copy of your invoice for your records. Please let us know if you have any questions or concerns!": "شكرا لدعمكم المتواصل. لقد أرفقنا نسخة من فاتورتك لسجلاتك. واسمحوا لنا أن نعرف إذا كان لديك أي أسئلة أو استفسارات!",
+        "Thanks!": "شكرا!",
+        "The benefits of your subscription will continue until your current billing period ends on :date. You may resume your subscription at no extra cost until the end of the billing period.": "ستستمر فوائد الاشتراك حتى تنتهي فترة الفوترة الحالية في: التاريخ. يمكنك استئناف اشتراكك بدون أي تكلفة إضافية حتى نهاية فترة الفوترة.",
+        "The coupon :value discount will be applied to your subscription!": "سيتك تطبيق قسيمة بقيمة {value}!",
+        "The emergency token was invalid.": "الرمز المميز للطوارئ غير صالح.",
+        "The given password does not match our records.": "لا تتطابق كلمة المرور المعينة مع سجلاتنا.",
+        "The invitation has been sent!": "تم إرسال الدعوة!",
+        "This country does not match the origin country of your card.": "لا يتطابق هذا البلد مع بلد المنشأ لبطاقتك.",
+        "This coupon code is invalid.": "رمز القسيمة هذا غير صالح.",
+        "This information will appear on all of your receipts, and is a great place to add your full business name, VAT number, or address of record. Do not include any confidential or financial information such as credit card numbers.": "ستظهر هذه المعلومات في جميع الإيصالات، وهي مكان رائع لإضافة اسم نشاطك التجاري بالكامل أو رقم ضريبة القيمة المضافة أو عنوان السجل. لا تتضمن أي معلومات سرية أو مالية مثل أرقام بطاقات الائتمان.",
+        "This invitation code is invalid.": "رمز الدعوة هذا غير صالح.",
+        "This is the only time the token will ever be displayed, so be sure not to lose it!": "هذه هي المرة الوحيدة التي سيتم عرض الرمز المميز من أي وقت مضى، لذلك تأكد من عدم فقدانه!",
+        "This is the only time this token will be displayed, so be sure not to lose it!": "هذه هي المرة الوحيدة التي سيتم عرض هذا الرمز المميز، لذلك تأكد من عدم فقدانه!",
+        "This plan has been discontinued, but you may continue your subscription to this plan as long as you wish. If you cancel your subscription and later want to begin a new subscription, you will need to choose from one of the active plans listed below.": "تم إيقاف هذه الخطة، ولكن يمكنك متابعة اشتراكك في هذه الخطة طالما شئت. إذا ألغيت اشتراكك وترغب لاحقا في بدء اشتراك جديد، فستحتاج إلى الاختيار من بين إحدى الخطط النشطة المدرجة أدناه.",
+        "This user has a discount of :discountAmount for a single invoice.": "هذا المستخدم لديه تنزيل بقيمة {discountAmount}.",
+        "This user has a discount of :discountAmount for all invoices during the next :months months.": "هذا المستخدم لديه تنزيل بقيمة {discountAmount} لمدة {months} شهور.",
+        "This user has a discount of :discountAmount for all invoices during the next month.": "هذا المستخدم لديه تنزيل بقيمة {discountAmount} الشهر القادم.",
+        "This user has a discount of :discountAmount forever.": "هذا المستخدم لديه تنزيل بقيمة {discountAmount}.",
+        "Toggle Navigation": "تبديل الملاحة",
+        "Token Can": "امكانيات الرمز",
+        "Token Name": "اسم الرمز",
+        "Total Price Including Tax": "السعر الإجمالي بما في ذلك الضرائب",
+        "Total Revenue": "إجمالي الأرباح",
+        "Total Volume": "الحجم الكلي",
+        "Trial": "التجربة",
+        "Trialing": "تجريب",
+        "Two-Factor Authentication": "توثيق ذو عاملين",
+        "Two-Factor Authentication Reset Code": "رمز تعيين التوقيق القنائي",
+        "Type": "النوع",
+        "Update": "تحديث",
+        "Update Announcement": "تحديث الإعلان",
+        "Update Password": "تطوير كلمة السر",
+        "Update Payment Method": "تحديث طريقة الدفع",
+        "Update Photo": "تحديث الصورة",
+        "Update Subscription": "تحديث الاشتراك",
+        "Update VAT ID": "تحديث معرف ضريبة القيمة المضافة",
+        "Updating": "جاري التعديل",
+        "Users": "المستخدمين",
+        "Users Currently Trialing": "المستخدمين الذين يجربون",
+        "VAT ID": "معرف ضريبة القيمة المضافة",
+        "Verify": "التحقق",
+        "We don't have anything to show you right now! But when we do, we'll be sure to let you know. Talk to you soon!": "ليس لدينا أي شيء لتظهر لك الآن! ولكن عندما نفعل ذلك، سنكون على يقين من أن تتيح لك معرفة. سأكلمك قريبا!",
+        "We had trouble updating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.": "واجهنا مشكلة في تحديث بطاقتك. من المحتمل أن مزود البطاقة يمنعنا من شحن البطاقة. يرجى الاتصال بموفر البطاقة أو دعم العملاء.",
+        "We had trouble updating your payment method. It's possible your payment provider is preventing us from charging the payment method. Please contact your payment provider or customer support.": "لقد واجهنا مشكلة في تحديث طريقة الدفع. من المحتمل أن مزود الدفع يمنعنا من فرض رسوم على طريقة الدفع. يرجى الاتصال بموفر الدفع أو دعم العملاء.",
+        "We had trouble validating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.": "واجهنا مشكلة في التحقق من بطاقتك. من المحتمل أن مزود البطاقة يمنعنا من شحن البطاقة. يرجى الاتصال بموفر البطاقة أو دعم العملاء.",
+        "We have received your message and will respond soon!": "لقد تلقينا رسالتك وسنرد عليها قريبا!",
+        "We were not able to enable two-factor authentication for this phone number.": "لم نتمكن من تمكين المصادقة الثنائية لهذا رقم الهاتف.",
+        "We were unable to update your subscription. Please contact customer support.": "تعذر علينا تحديث اشتراكك. يرجى الاتصال بدعم العملاء.",
+        "Whoops!": "Whoops!",
+        "Whoops! This coupon code is invalid.": "رمز القسيمة هذا غير صالح.",
+        "Whoops! This invitation code is invalid.": "رمز الدعوة هذا غير صالحة.",
+        "Yearly Recurring Revenue": "الإيرادات المتكررة سنويا",
+        "Yes, Cancel": "نعم، إلغاء",
+        "Yes, Delete": "نعم، إلغاء",
+        "Yes, I'm Sure": "نعم أنا متأكد",
+        "Yes, Leave": "نعم، اترك",
+        "Yes, Remove": "نعم، إزالة",
+        "You": "أنت",
+        "You are currently subscribed to the :planName plan.": "أنت مشترك حاليا في {planName}.",
+        "You are currently within your free trial period. Your trial will expire on :date.": "أنت حاليا ضمن الفترة التجريبية المجانية. ستنتهي صلاحية النسخة التجريبية {date}.",
+        "You currently have :count invitation(s) remaining.": "لديم {count} دعوة متبقية.",
+        "You currently receive a discount of :discountAmount for a single invoice.": "انت الان تحصل علي خصم بقيمة {discountAmount}.",
+        "You currently receive a discount of :discountAmount for all invoices during the next :months billing cycles.": "انت الان تحصل علي خصم بقيمة {discountAmount}.",
+        "You currently receive a discount of :discountAmount for all invoices during the next :months months.": "انت الان تحصل علي خصم بقيمة {discountAmount}.",
+        "You currently receive a discount of :discountAmount for all invoices during the next billing cycle.": "انت الان تحصل علي خصم بقيمة {discountAmount}.",
+        "You currently receive a discount of :discountAmount for all invoices during the next month.": "انت الان تحصل علي خصم بقيمة {discountAmount}.",
+        "You currently receive a discount of :discountAmount forever.": "انت الان تحصل علي خصم بقيمة {discountAmount}.",
+        "You have cancelled your subscription to the :planName plan.": "لقد ألغيت اشتراكك.",
+        "You may revoke the token at any time from your API settings.": "يمكنك إلغاء الرمز المميز في أي وقت.",
+        "Your Email Address": "عنوان بريدك  الإلكتروني",
+        "Your Settings": "إعداداتك",
+        "Your VAT ID has been updated!": "تم تحديث معرف ضريبة القيمة المضافة!",
+        "Your billing information has been updated!": "تم تحديث معلومات الفوترة!",
+        "Your card has been updated.": "تم تحديث بطاقتك.",
+        "Your contact information has been updated!": "تم تحديث معلومات الاتصال الخاصة بك!",
+        "Your password has been updated!": "لقد تم تحديث كلمة السر الخاصة بك!",
+        "Your payment method has been updated.": "تم تحديث طريقة الدفع.",
+        "Your session has expired. Please login again to continue.": "انتهت صلاحية جلسة العمل الخاصة بك. الرجاء تسجيل الدخول مرة أخرى للمتابعة.",
+        "Your trial period will expire on ": "ستنتهي صلاحية الفترة التجريبية ",
+        "ZIP \/ Postal Code": "الرمز البريدي",
+        "Your current plan doesn't allow you to invite more members, please upgrade your subscription.": "لا تسمح خطتك الحالية بدعوة المزيد من الأعضاء، يرجى ترقية اشتراكك.",
+        "please upgrade your subscription": "يرجى ترقية اشتراكك",
+        "second address line": "خط العنوان الثاني",
+        "Alabama": "ألاباما",
+        "Alaska": "ألاسكا",
+        "Arizona": "أريزونا",
+        "Arkansas": "أركنساس",
+        "California": "كاليفورنيا",
+        "Colorado": "كولورادو",
+        "Connecticut": "كونيتيكت",
+        "Delaware": "ديلاوير",
+        "District of Columbia": "مقاطعة كولومبيا",
+        "Federated States Of Micronesia": "ولايات ميكرونيزيا الموحدة",
+        "Florida": "فلوريدا",
+        "Hawaii": "هاواي",
+        "Idaho": "ايداهو",
+        "Illinois": "إلينوي",
+        "Indiana": "إنديانا",
+        "Iowa": "أيوا",
+        "Kansas": "كانساس",
+        "Kentucky": "كنتاكي",
+        "Louisiana": "لويزيانا",
+        "Maine": "مين",
+        "Maryland": "ماريلاند",
+        "Massachusetts": "ماساتشوستس",
+        "Michigan": "ميشيغان",
+        "Minnesota": "مينيسوتا",
+        "Mississippi": "ميسيسيبي",
+        "Missouri": "ميسوري",
+        "Montana": "مونتانا",
+        "Nebraska": "نبراسكا",
+        "Nevada": "نيفادا",
+        "New Hampshire": "نيو همشاير",
+        "New Jersey": "نيو جيرسي",
+        "New Mexico": "نيومكسيكو",
+        "New York": "نيويورك",
+        "North Carolina": "الشمال، كارولينا",
+        "North Dakota": "نورث داكوتا",
+        "Ohio": "أوهايو",
+        "Oklahoma": "أوكلاهوما",
+        "Oregon": "ولاية أوريغون",
+        "Pennsylvania": "بنسلفانيا",
+        "Rhode Island": "رود الجزيرة",
+        "South Carolina": "ساوث كارولينا",
+        "South Dakota": "ساوث داكوتا",
+        "Tennessee": "تينيسي",
+        "Texas": "تكساس",
+        "Utah": "يوتا",
+        "Vermont": "فيرمونت",
+        "Virgin Islands": "جزر فيرجن",
+        "Virginia": "فرجينيا",
+        "Washington": "واشنطن",
+        "West Virginia": "فرجينيا الغربية",
+        "Wisconsin": "ولاية ويسكونسن",
+        "Wyoming": "وايومنغ",
+        "Armed Forces Africa \/ Canada \/ Europe \/ Middle East": "القوات المسلحة أفريقيا \/ كندا \/ أوروبا \/ الشرق الأوسط",
+        "Armed Forces America (Except Canada)": "القوات المسلحة الأمريكية (باستثناء كندا)",
+        "Armed Forces Pacific": "القوات المسلحة في المحيط الهادئ",
+        "Alberta": "ألبرتا",
+        "British Columbia": "بريتيش كولومبيا",
+        "Manitoba": "مانيتوبا",
+        "New Brunswick": "نيوبرونسويك",
+        "Newfoundland and Labrador": "نيوفوندلاند و لبرادور",
+        "Northwest Territories": "الأقاليم الشمالية الغربية",
+        "Nova Scotia": "نوفاسكوشيا",
+        "Nunavut": "نونافوت",
+        "Ontario": "أونتاريو",
+        "Prince Edward Island": "جزيرة الأمير إدوارد",
+        "Quebec": "كيبيك",
+        "Saskatchewan": "ساسكاتشوان",
+        "Yukon": "يوكون",
+        "Afghanistan": "أفغانستان",
+        "Åland Islands": "جزر أولاند",
+        "Albania": "ألبانيا",
+        "Algeria": "الجزائر",
+        "American Samoa": "ساموا الأمريكية",
+        "Andorra": "أندورا",
+        "Angola": "أنغولا",
+        "Anguilla": "أنغيلا",
+        "Antarctica": "القارة القطبية الجنوبية",
+        "Antigua and Barbuda": "أنتيغوا وبربودا",
+        "Argentina": "الأرجنتين",
+        "Armenia": "أرمينيا",
+        "Aruba": "أروبا",
+        "Australia": "أستراليا",
+        "Austria": "النمسا",
+        "Azerbaijan": "أذربيجان",
+        "Bahamas": "الباهاما",
+        "Bahrain": "البحرين",
+        "Bangladesh": "بنغلاديش",
+        "Barbados": "بربادوس",
+        "Belarus": "روسيا البيضاء",
+        "Belgium": "بلجيكا",
+        "Belize": "بليز",
+        "Benin": "بنين",
+        "Bermuda": "برمودا",
+        "Bhutan": "بوتان",
+        "Bolivia, Plurinational State of": "بوليفيا، دولة - المتعددة القوميات",
+        "Bosnia and Herzegovina": "البوسنة والهرسك",
+        "Botswana": "بوتسوانا",
+        "Bouvet Island": "جزيرة بوفيت",
+        "Brazil": "البرازيل",
+        "British Indian Ocean Territory": "إقليم المحيط الهندي البريطاني",
+        "Brunei Darussalam": "بروني دار السلام",
+        "Bulgaria": "بلغاريا",
+        "Burkina Faso": "بوركينا فاصو",
+        "Burundi": "بوروندي",
+        "Cambodia": "كمبوديا",
+        "Cameroon": "الكاميرون",
+        "Canada": "كندا",
+        "Cape Verde": "الرأس الأخضر",
+        "Cayman Islands": "جزر كايمان",
+        "Central African Republic": "جمهورية أفريقيا الوسطى",
+        "Chad": "تشاد",
+        "Chile": "تشيلي",
+        "China": "الصين",
+        "Christmas Island": "جزيرة الكريسماس",
+        "Cocos (Keeling) Islands": "جزر كوكوس (كيلينغ)",
+        "Colombia": "كولومبيا",
+        "Comoros": "جزر القمر",
+        "Congo": "الكونغو",
+        "Congo, the Democratic Republic of the": "الكونغو، جمهورية الكونغو الديمقراطية",
+        "Cook Islands": "جزر كوك",
+        "Costa Rica": "كوستاريكا",
+        "Côte d'Ivoire": "كوت ديفوار",
+        "Croatia": "كرواتيا",
+        "Cuba": "كوبا",
+        "Cyprus": "قبرص",
+        "Czech Republic": "الجمهورية التشيكية",
+        "Denmark": "الدنمارك",
+        "Djibouti": "جيبوتي",
+        "Dominica": "دومينيكا",
+        "Dominican Republic": "جمهورية الدومينيكان",
+        "Ecuador": "الإكوادور",
+        "Egypt": "مصر",
+        "El Salvador": "السلفادور",
+        "Equatorial Guinea": "غينيا الاستوائية",
+        "Eritrea": "إريتريا",
+        "Estonia": "استونيا",
+        "Ethiopia": "أثيوبيا",
+        "Falkland Islands (Malvinas)": "جزر فوكلاند (مالفيناس)",
+        "Faroe Islands": "جزر فارو",
+        "Fiji": "فيجي",
+        "Finland": "فنلندا",
+        "France": "فرنسا",
+        "French Guiana": "غيانا الفرنسية",
+        "French Polynesia": "بولونيزيا الفرنسي",
+        "French Southern Territories": "المقاطعات الجنوبية الفرنسية",
+        "Gabon": "الغابون",
+        "Gambia": "غامبيا",
+        "Georgia": "جورجيا",
+        "Germany": "ألمانيا",
+        "Ghana": "غانا",
+        "Gibraltar": "جبل طارق",
+        "Greece": "يونان",
+        "Greenland": "غرينلاند",
+        "Grenada": "غرينادا",
+        "Guadeloupe": "جوادلوب",
+        "Guam": "غوام",
+        "Guatemala": "غواتيمالا",
+        "Guernsey": "غيرنسي",
+        "Guinea": "غينيا",
+        "Guinea-Bissau": "غينيا بيساو",
+        "Guyana": "غيانا",
+        "Haiti": "هايتي",
+        "Heard Island and McDonald Islands": "جزيرة هيرد وجزر ماكدونالد",
+        "Holy See (Vatican City State)": "الكرسي الرسولي (دولة الفاتيكان)",
+        "Honduras": "هندوراس",
+        "Hong Kong": "هونغ كونغ",
+        "Hungary": "هنغاريا",
+        "Iceland": "أيسلندا",
+        "India": "الهند",
+        "Indonesia": "أندونيسيا",
+        "Iran, Islamic Republic of": "إيران، جمهورية إيران الإسلامية",
+        "Iraq": "العراق",
+        "Ireland": "أيرلندا",
+        "Isle of Man": "جزيرة مان",
+        "Israel": "إسرائيل",
+        "Italy": "إيطاليا",
+        "Jamaica": "جامايكا",
+        "Japan": "اليابان",
+        "Jersey": "جيرسي",
+        "Jordan": "الأردن",
+        "Kazakhstan": "كازاخستان",
+        "Kenya": "كينيا",
+        "Kiribati": "كيريباس",
+        "Korea, Democratic People's Republic of": "كوريا، جمهورية كوريا الديمقراطية الشعبية",
+        "Korea, Republic of": "جمهورية كوريا",
+        "Kuwait": "الكويت",
+        "Kyrgyzstan": "قرغيزستان",
+        "Lao People's Democratic Republic": "جمهورية لاو الديمقراطية الشعبية",
+        "Latvia": "لاتفيا",
+        "Lebanon": "لبنان",
+        "Lesotho": "ليسوتو",
+        "Liberia": "ليبيريا",
+        "Libyan Arab Jamahiriya": "الجماهيرية العربية الليبية",
+        "Liechtenstein": "ليختنشتاين",
+        "Lithuania": "المملكة المتحدة",
+        "Luxembourg": "لوكسمبورغ",
+        "Macao": "ماكاو",
+        "Macedonia, the former Yugoslav Republic of": "مقدونيا، جمهورية يوغوسلافيا السابقة",
+        "Madagascar": "مدغشقر",
+        "Malawi": "مالاوي",
+        "Malaysia": "ماليزيا",
+        "Maldives": "جزر المالديف",
+        "Mali": "مالي",
+        "Malta": "مالطا",
+        "Marshall Islands": "جزر مارشال",
+        "Martinique": "مارتينيك",
+        "Mauritania": "موريتانيا",
+        "Mauritius": "موريشيوس",
+        "Mayotte": "مايوت",
+        "Mexico": "مكسيكو سيتي",
+        "Micronesia, Federated States of": "ميكرونيزيا، ولايات - الموحدة",
+        "Moldova, Republic of": "مولدوفا، جمهورية",
+        "Monaco": "موناكو",
+        "Mongolia": "منغوليا",
+        "Montenegro": "الجبل الأسود",
+        "Montserrat": "مونتسيرات",
+        "Morocco": "المغرب",
+        "Mozambique": "موزمبيق",
+        "Myanmar": "ميانمار",
+        "Namibia": "ناميبيا",
+        "Nauru": "ناورو",
+        "Nepal": "نيبال",
+        "Netherlands": "هولندا",
+        "Netherlands Antilles": "جزر الأنتيل الهولندية",
+        "New Caledonia": "كاليدونيا الجديدة",
+        "New Zealand": "نيوزيلندا",
+        "Nicaragua": "نيكاراغوا",
+        "Niger": "النيجر",
+        "Nigeria": "نيجيريا",
+        "Niue": "نيوي",
+        "Norfolk Island": "جزيرة نورفولك",
+        "Northern Mariana Islands": "جزر ماريانا الشمالية",
+        "Norway": "النرويج",
+        "Oman": "عمان",
+        "Pakistan": "باكستان",
+        "Palau": "بالاو",
+        "Palestinian Territory, Occupied": "الأراضي الفلسطينية المحتلة",
+        "Panama": "بناما",
+        "Papua New Guinea": "بابوا غينيا الجديدة",
+        "Paraguay": "باراغواي",
+        "Peru": "بيرو",
+        "Philippines": "الفلبين",
+        "Pitcairn": "بيتكيرن",
+        "Poland": "بولندا",
+        "Portugal": "البرتغال",
+        "Puerto Rico": "بورتوريكو",
+        "Qatar": "قطر",
+        "Réunion": "ريونيون",
+        "Romania": "رومانيا",
+        "Russian Federation": "الاتحاد الروسي",
+        "Rwanda": "رواندا",
+        "Saint Barthélemy": "سانت بارتيليمي",
+        "Saint Helena": "سانت هيلانة",
+        "Saint Kitts and Nevis": "سانت كيتس ونيفيس",
+        "Saint Lucia": "سانت لوسيا",
+        "Saint Martin (French part)": "سانت مارتن (الجزء الفرنسي)",
+        "Saint Pierre and Miquelon": "سانت بيير وميكلون",
+        "Saint Vincent and the Grenadines": "سانت فنسنت وجزر غرينادين",
+        "Samoa": "ساموا",
+        "San Marino": "سان مارينو",
+        "Sao Tome and Principe": "ساو تومي وبرينسيبي",
+        "Saudi Arabia": "المملكة العربية السعودية",
+        "Senegal": "السنغال",
+        "Serbia": "صربيا",
+        "Seychelles": "سيشيل",
+        "Sierra Leone": "سيراليون",
+        "Singapore": "سنغافورة",
+        "Slovakia": "سلوفاكيا",
+        "Slovenia": "سلوفينيا",
+        "Solomon Islands": "جزر سليمان",
+        "Somalia": "الصومال",
+        "South Africa": "جنوب أفريقيا",
+        "South Georgia and the South Sandwich Islands": "جورجيا الجنوبية وجزر ساندويتش الجنوبية",
+        "Spain": "إسبانيا",
+        "Sri Lanka": "سري لانكا",
+        "Sudan": "سودان",
+        "Suriname": "سورينام",
+        "Svalbard and Jan Mayen": "سفالبارد وجان ماين",
+        "Swaziland": "سوازيلاند",
+        "Sweden": "السويد",
+        "Switzerland": "سويسرا",
+        "Syrian Arab Republic": "الجمهورية العربية السورية",
+        "Taiwan, Province of China": "تايوان، مقاطعة الصين",
+        "Tajikistan": "طاجيكستان",
+        "Tanzania, United Republic of": "جمهورية تنزانيا المتحدة",
+        "Thailand": "تايلاند",
+        "Timor-Leste": "تيمور الشرقية",
+        "Togo": "توغو",
+        "Tokelau": "توكيلاو",
+        "Tonga": "تونغا",
+        "Trinidad and Tobago": "ترينيداد وتوباغو",
+        "Tunisia": "تونس",
+        "Turkey": "تركيا",
+        "Turkmenistan": "تركمانستان",
+        "Turks and Caicos Islands": "جزر تركس وكايكوس",
+        "Tuvalu": "توفالو",
+        "Uganda": "أوغندا",
+        "Ukraine": "أوكرانيا",
+        "United Arab Emirates": "الإمارات العربية المتحدة",
+        "United Kingdom": "المملكة المتحدة",
+        "United States": "الولايات المتحدة",
+        "United States Minor Outlying Islands": "الولايات المتحدة، أقل، إنحراف، إسلاندس",
+        "Uruguay": "أوروغواي",
+        "Uzbekistan": "أوزبكستان",
+        "Vanuatu": "فانواتو",
+        "Venezuela, Bolivarian Republic of": "فنزويلا، جمهورية - البوليفارية",
+        "Viet Nam": "فييت نام",
+        "Virgin Islands, British": "جزر فيرجن، البريطانيون",
+        "Virgin Islands, U.S.": "جزر فيرجن، الولايات المتحدة.",
+        "Wallis and Futuna": "واليس وفوتونا",
+        "Western Sahara": "الصحراء الغربية",
+        "Yemen": "يمني",
+        "Zambia": "زامبيا",
+        "Zimbabwe": "زيمبابوي",
+        "validation": {
+            "accepted": "يجب قبول {attribute}",
+            "active_url": "{attribute} لا يُمثّل رابطًا صحيحًا",
+            "after": "يجب على {attribute} أن يكون تاريخًا لاحقًا للتاريخ {date}.",
+            "after_or_equal": "{attribute} يجب أن يكون تاريخاً لاحقاً أو مطابقاً للتاريخ {date}.",
+            "alpha": "يجب أن لا يحتوي {attribute} سوى على حروف",
+            "alpha_dash": "يجب أن لا يحتوي {attribute} على حروف، أرقام ومطّات.",
+            "alpha_num": "يجب أن يحتوي {attribute} على حروفٍ وأرقامٍ فقط",
+            "array": "يجب أن يكون {attribute} ًمصفوفة",
+            "before": "يجب على {attribute} أن يكون تاريخًا سابقًا للتاريخ {date}.",
+            "before_or_equal": "{attribute} يجب أن يكون تاريخا سابقا أو مطابقا للتاريخ {date}",
+            "between": {
+                "numeric": "يجب أن تكون قيمة {attribute} بين {min} و {max}.",
+                "file": "يجب أن يكون حجم الملف {attribute} بين {min} و {max} كيلوبايت.",
+                "string": "يجب أن يكون عدد حروف النّص {attribute} بين {min} و {max}",
+                "array": "يجب أن يحتوي {attribute} على عدد من العناصر بين {min} و {max}"
+            },
+            "boolean": "يجب أن تكون قيمة {attribute} إما true أو false ",
+            "confirmed": "حقل التأكيد غير مُطابق للحقل {attribute}",
+            "date": "{attribute} ليس تاريخًا صحيحًا",
+            "date_format": "لا يتوافق {attribute} مع الشكل {format}.",
+            "different": "يجب أن يكون الحقلان {attribute} و {other} مُختلفان",
+            "digits": "يجب أن يحتوي {attribute} على {digits} رقمًا\/أرقام",
+            "digits_between": "يجب أن يحتوي {attribute} بين {min} و {max} رقمًا\/أرقام ",
+            "dimensions": "الـ {attribute} يحتوي على أبعاد صورة غير صالحة.",
+            "distinct": "للحقل {attribute} قيمة مُكرّرة.",
+            "email": "يجب أن يكون {attribute} عنوان بريد إلكتروني صحيح البُنية",
+            "exists": "القيمة المحددة {attribute} غير موجودة",
+            "file": "الـ {attribute} يجب أن يكون ملفا.",
+            "filled": "{attribute} إجباري",
+            "image": "يجب أن يكون {attribute} صورةً",
+            "in": "{attribute} لاغٍ",
+            "in_array": "{attribute} غير موجود في {other}.",
+            "integer": "يجب أن يكون {attribute} عددًا صحيحًا",
+            "ip": "يجب أن يكون {attribute} عنوان IP صحيحًا",
+            "ipv4": "يجب أن يكون {attribute} عنوان IPv4 صحيحًا.",
+            "ipv6": "يجب أن يكون {attribute} عنوان IPv6 صحيحًا.",
+            "json": "يجب أن يكون {attribute} نصآ من نوع JSON.",
+            "max": {
+                "numeric": "يجب أن تكون قيمة {attribute} مساوية أو أصغر لـ {max}.",
+                "file": "يجب أن لا يتجاوز حجم الملف {attribute} {max} كيلوبايت",
+                "string": "يجب أن لا يتجاوز طول النّص {attribute} {max} حروفٍ\/حرفًا",
+                "array": "يجب أن لا يحتوي {attribute} على أكثر من {max} عناصر\/عنصر."
+            },
+            "mimes": "يجب أن يكون ملفًا من نوع : {values}.",
+            "mimetypes": "يجب أن يكون ملفًا من نوع : {values}.",
+            "min": {
+                "numeric": "يجب أن تكون قيمة {attribute} مساوية أو أكبر لـ {min}.",
+                "file": "يجب أن يكون حجم الملف {attribute} على الأقل {min} كيلوبايت",
+                "string": "يجب أن يكون طول النص {attribute} على الأقل {min} حروفٍ\/حرفًا",
+                "array": "يجب أن يحتوي {attribute} على الأقل على {min} عُنصرًا\/عناصر"
+            },
+            "not_in": "{attribute} لاغٍ",
+            "numeric": "يجب على {attribute} أن يكون رقمًا",
+            "present": "يجب تقديم {attribute}",
+            "regex": "صيغة {attribute} .غير صحيحة",
+            "required": "{attribute} مطلوب.",
+            "required_if": "{attribute} مطلوب في حال ما إذا كان {other} يساوي {value}.",
+            "required_unless": "{attribute} مطلوب في حال ما لم يكن {other} يساوي {values}.",
+            "required_with": "{attribute} مطلوب إذا توفّر {values}.",
+            "required_with_all": "{attribute} مطلوب إذا توفّر {values}.",
+            "required_without": "{attribute} مطلوب إذا لم يتوفّر {values}.",
+            "required_without_all": "{attribute} مطلوب إذا لم يتوفّر {values}.",
+            "same": "يجب أن يتطابق {attribute} مع {other}",
+            "size": {
+                "numeric": "يجب أن تكون قيمة {attribute} مساوية لـ {size}",
+                "file": "يجب أن يكون حجم الملف {attribute} {size} كيلوبايت",
+                "string": "يجب أن يحتوي النص {attribute} على {size} حروفٍ\/حرفًا بالظبط",
+                "array": "يجب أن يحتوي {attribute} على {size} عنصرٍ\/عناصر بالظبط"
+            },
+            "string": "يجب أن يكون {attribute} نصآ.",
+            "timezone": "يجب أن يكون {attribute} نطاقًا زمنيًا صحيحًا",
+            "unique": "قيمة {attribute} مُستخدمة من قبل",
+            "uploaded": "فشل في تحميل الـ {attribute}",
+            "url": "صيغة الرابط {attribute} غير صحيحة",
+            "custom": {
+                "attribute-name": {
+                    "rule-name": "custom-message"
+                }
+            },
+            "attributes": {
+                "name": "الاسم",
+                "username": "اسم المُستخدم",
+                "email": "البريد الالكتروني",
+                "first_name": "الاسم الأول",
+                "last_name": "اسم العائلة",
+                "password": "كلمة السر",
+                "password_confirmation": "تأكيد كلمة السر",
+                "city": "المدينة",
+                "country": "الدولة",
+                "address": "عنوان السكن",
+                "phone": "الهاتف",
+                "mobile": "الجوال",
+                "age": "العمر",
+                "sex": "الجنس",
+                "gender": "النوع",
+                "day": "اليوم",
+                "month": "الشهر",
+                "year": "السنة",
+                "hour": "ساعة",
+                "minute": "دقيقة",
+                "second": "ثانية",
+                "title": "العنوان",
+                "content": "المُحتوى",
+                "description": "الوصف",
+                "excerpt": "المُلخص",
+                "date": "التاريخ",
+                "time": "الوقت",
+                "available": "مُتاح",
+                "size": "الحجم",
+                "team": "الفريق"
+            }
+        },
+        "teams": {
+            "create_team": "إنشاء فريق",
+            "team_name": "اسم الفريق",
+            "team_slug": "وسم الفريق",
+            "team_members": "أعضاء الفريق",
+            "team_trial": "تجريبي",
+            "member": "عضو",
+            "you_have_x_teams_remaining": "متبقي لديك {teamCount} عضو.",
+            "slug_input_explanation": "يتم استخدام هذه العبارة لتحديد فريقك في عناوين المواقع.",
+            "plan_allows_no_more_teams": "لا تسمح خطتك الحالية بإنشاء المزيد من الفرق",
+            "team": " فريق",
+            "update_team_name": "تحديث اسم الفريق",
+            "team_name_was_updated": "تم تحديث اسم فريقك!",
+            "current_teams": "الفرق الحالية",
+            "leave_team": "ترك الفريق",
+            "are_you_sure_you_want_to_leave_team": "هل تريد بالتأكيد مغادرة هذا الفريق؟",
+            "delete_team": "حذف الفريق",
+            "are_you_sure_you_want_to_delete_team": "هل تريد بالتأكيد حذف هذا الفريق؟",
+            "if_you_delete_team_all_data_will_be_deleted": "إذا اخترت حذف الفريق، فسيتم حذف جميع البيانات نهائيا.",
+            "team_photo": " صورة الفريق",
+            "edit_team_member": " تحرير عضو الفريق",
+            "remove_team_member": "إزالة عضو الفريق",
+            "are_you_sure_you_want_to_delete_member": "هل تريد بالتأكيد إزالة عضو الفريق هذا؟",
+            "team_settings": "إعدادات الفريق",
+            "team_profile": "الملف الشخصي للفريق",
+            "view_all_teams": "عرض جميع الفرق",
+            "team_billing": "الفواتير",
+            "you_have_x_invitations_remaining": "لديك {count} دعوة متبقية",
+            "teams": "الفرق",
+            "teams_currently_trialing": "الفرق التي تجرب النظام",
+            "we_found_invitation_to_team": "وجدنا دعوة باسمك الي فريق {teamName}!",
+            "wheres_your_team": "اين فريقك?",
+            "looks_like_you_are_not_part_of_team": "يبدو أنك لست جزءا من أي فريق!",
+            "user_invited_to_join_team": "قام {userName} بدعوتك لفريقه",
+            "please_upgrade_to_create_more_teams": "يرجى ترقية اشتراكك لإنشاء المزيد من الفرق.",
+            "team_trial_will_expire_on": "التجربة ستنتهي في {date}.",
+            "you_have_been_invited_to_join_team": "تمت دعوتك للاشتراك في فريق {teamName}!",
+            "please_upgrade_to_add_more_members": "يرجى ترقية اشتراكك لإضافة المزيد من أعضاء الفريق.",
+            "user_already_on_team": "هذا المستخدم موجود بالفعل في الفريق.",
+            "user_already_invited_to_team": "هذا المستخدم مدعو بالفعل إلى الفريق.",
+            "user_doesnt_belong_to_team": "المستخدم لا ينتمي إلى فريق معين.",
+            "not_eligible_based_on_current_members_teams": "لست مؤهلا لهذه الخطة بناء على العدد الحالي من الفرق \/ أعضاء الفريق."
+        }
+    },
+    "en": {
+        ":trialDays Day Trial": "{trialDays} Day Trial",
+        "API": "API",
+        "API Token": "API Token",
+        "API Tokens": "API Tokens",
+        "Action Button Text": "Action Button Text",
+        "Your application's dashboard.": "Your application's Dashboard",
+        "Dashboard": "Dashboard",
+        "Action Button URL": "Action Button URL",
+        "Add Discount": "Add Discount",
+        "Address": "Address",
+        "Address Line 2": "Address Line 2",
+        "After logging in via your emergency token, two-factor authentication will be disabled for your account. If you would like to maintain two-factor authentication security, you should re-enable it after logging in.": "After logging in via your emergency token, two-factor authentication will be disabled for your account. If you would like to maintain two-factor authentication security, you should re-enable it after logging in.",
+        "All subscription plan prices are excluding applicable VAT.": "All subscription plan prices are excluding applicable VAT.",
+        "All subscription plan prices include applicable VAT.": "All subscription plan prices include applicable VAT.",
+        "Amount": "Amount",
+        "Announcement": "Announcement",
+        "Announcements": "Announcements",
+        "Announcements you create here will be sent to the \"Product Announcements\" section of the notifications modal window, informing your users about new features and improvements to your application.": "Announcements you create here will be sent to the \"Product Announcements\" section of the notifications modal window, informing your users about new features and improvements to your application.",
+        "Apply Discount": "Apply Discount",
+        "Applying": "Applying",
+        "Are you sure you want to cancel your subscription?": "Are you sure you want to cancel your subscription?",
+        "Are you sure you want to delete this announcement?": "Are you sure you want to delete this announcement?",
+        "Are you sure you want to switch to the :planName plan?": "Are you sure you want to switch to the {planName} plan?",
+        "Are you sure you want to delete this token? If deleted, API requests that attempt to authenticate using this token will no longer be accepted.": "Are you sure you want to delete this token? If deleted, API requests that attempt to authenticate using this token will no longer be accepted.",
+        "Assign All Abilities": "Assign All Abilities",
+        "Authentication Token": "Authentication Token",
+        "Back To My Account": "Back To My Account",
+        "Billing": "Billing",
+        "Billing Information": "Billing Information",
+        "Cancel": "Cancel",
+        "Cancel Subscription": "Cancel Subscription",
+        "Cancelling": "Cancelling",
+        "Card": "Card",
+        "Cardholder's Name": "Cardholder's Name",
+        "City": "City",
+        "Click here to reset your password:": "Click here to reset your password:",
+        "Close": "Close",
+        "Confirm Password": "Confirm Password",
+        "Contact Information": "Contact Information",
+        "Copy To Clipboard": "Copy To Clipboard",
+        "Country": "Country",
+        "Country Code": "Country Code",
+        "Coupon": "Coupon",
+        "Coupon Code": "Coupon Code",
+        "Coupon accepted! The discount will be applied to your next invoice.": "Coupon accepted! The discount will be applied to your next invoice.",
+        "Create": "Create",
+        "Create API Token": "Create API Token",
+        "Create Announcement": "Create Announcement",
+        "Created": "Created",
+        "Current Password": "Current Password",
+        "Daily Volume": "Daily Volume",
+        "Date": "Date",
+        "Day Trial": "Day Trial",
+        "Delete Announcement": "Delete Announcement",
+        "Delete Token": "Delete Token",
+        "Deleting": "Deleting",
+        "Developer": "Developer",
+        "Disable Two-Factor Authentication": "Disable Two-Factor Authentication",
+        "Disabling": "Disabling",
+        "Download PDF": "Download PDF",
+        "Duration": "Duration",
+        "E-Mail": "E-Mail",
+        "E-Mail Address": "E-Mail Address",
+        "Edit Token": "Edit Token",
+        "Email Address": "Email Address",
+        "Email Us": "Email Us",
+        "Emergency Token": "Emergency Token",
+        "Enable": "Enable",
+        "Enabling": "Enabling",
+        "Expiration": "Expiration",
+        "Extra Billing Information": "Extra Billing Information",
+        "Features": "Features",
+        "Forever": "Forever",
+        "Forgot Your Password?": "Forgot Your Password?",
+        "Free": "Free",
+        "Go To Login": "Go To Login",
+        "Got It!": "Got It!",
+        "Here is your new API token.": "Here is your new API token.",
+        "Hi :name": "Hi {name}",
+        "Hi!": "Hi!",
+        "I Accept :linkOpenThe Terms Of Service:linkClose": "I Accept {linkOpen} The Terms Of Service{linkClose}",
+        "If you do not already have an account, you may click the following link to get started:": "If you do not already have an account, you may click the following link to get started:",
+        "If you lose your two-factor authentication device, you may use this emergency reset token to disable two-factor authentication on your account.": "If you lose your two-factor authentication device, you may use this emergency reset token to disable two-factor authentication on your account.",
+        "Impersonate": "Impersonate",
+        "Impersonation": "Impersonation",
+        "In order to use two-factor authentication, you must install the :authyLink application on your smartphone. Authy is available for iOS and Android.": "In order to use two-factor authentication, you must install the {authyLink} application on your smartphone. Authy is available for iOS and Android.",
+        "Invoices": "Invoices",
+        "Joined": "Joined",
+        "Kiosk": "Kiosk",
+        "Last Used": "Last Used",
+        "Loading": "Loading",
+        "Loading Notifications": "Loading Notifications",
+        "Login": "Login",
+        "Login Via Emergency Token": "Login Via Emergency Token",
+        "Logout": "Logout",
+        "Lost Your Device?": "Lost Your Device?",
+        "Mailed Invitations": "Mailed Invitations",
+        "Membership": "Membership",
+        "Message": "Message",
+        "Metrics": "Metrics",
+        "Monthly": "Monthly",
+        "Yearly": "Yearly",
+        "Monthly Recurring Revenue": "Monthly Recurring Revenue",
+        "Search By Name Or E-Mail Address...": "Search By Name Or E-Mail Address...",
+        "Months": "Months",
+        "Multiple Months": "Multiple Months",
+        "N\/A": "N\/A",
+        "Name": "Name",
+        "Never": "Never",
+        "New Invitation!": "New Invitation!",
+        "New Users": "New Users",
+        "State": "State",
+        "Postal Code": "Postal Code",
+        "No customer support request recipient is defined.": "No customer support request recipient is defined.",
+        "No users matched the given criteria.": "No users matched the given criteria.",
+        "No, Go Back": "No, Go Back",
+        "None": "None",
+        "Notifications": "Notifications",
+        "On Generic Trial": "On Generic Trial",
+        "Once": "Once",
+        "Owner": "Owner",
+        "Password": "Password",
+        "Payment Method": "Payment Method",
+        "Pending Invitations": "Pending Invitations",
+        "Percentage": "Percentage",
+        "Phone Number": "Phone Number",
+        "Please select at least one ability.": "Please select at least one ability.",
+        "Profile": "Profile",
+        "Profile Photo": "Profile Photo",
+        "Recent Announcements": "Recent Announcements",
+        "Recurring Revenue": "Recurring Revenue",
+        "Redeem": "Redeem",
+        "Redeem Coupon": "Redeem Coupon",
+        "Redeeming": "Redeeming",
+        "Register": "Register",
+        "Registering": "Registering",
+        "Remember Me": "Remember Me",
+        "Remove All Abilities": "Remove All Abilities",
+        "Reset Password": "Reset Password",
+        "Resume": "Resume",
+        "Resume Subscription": "Resume Subscription",
+        "Resuming": "Resuming",
+        "Role": "Role",
+        "Search Results": "Search Results",
+        "Searching": "Searching",
+        "Security": "Security",
+        "Security Code": "Security Code",
+        "See you soon!": "See you soon!",
+        "Select All": "Select All",
+        "Send": "Send",
+        "Send Invitation": "Send Invitation",
+        "Send Password Reset Link": "Send Password Reset Link",
+        "Sending": "Sending",
+        "Session Expired": "Session Expired",
+        "Settings": "Settings",
+        "Since you already have an account, you may accept the invitation from your account settings screen.": "Since you already have an account, you may accept the invitation from your account settings screen.",
+        "Something went wrong!": "Something went wrong!",
+        "Something went wrong. Please try again or contact customer support.": "Something went wrong. Please try again or contact customer support.",
+        "State & ZIP \/ Postal Code": "State & ZIP \/ Postal Code",
+        "Subject": "Subject",
+        "Subscribe": "Subscribe",
+        "Subscribers": "Subscribers",
+        "Subscribing": "Subscribing",
+        "Subscription": "Subscription",
+        "Support": "Support",
+        "Support Request: ": "Support Request: ",
+        "Switch": "Switch",
+        "Tax": "Tax",
+        "Terms Of Service": "Terms Of Service",
+        "Thanks for your continued support. We've attached a copy of your invoice for your records. Please let us know if you have any questions or concerns!": "Thanks for your continued support. We've attached a copy of your invoice for your records. Please let us know if you have any questions or concerns!",
+        "Thanks!": "Thanks!",
+        "The benefits of your subscription will continue until your current billing period ends on :date. You may resume your subscription at no extra cost until the end of the billing period.": "The benefits of your subscription will continue until your current billing period ends on {date}. You may resume your subscription at no extra cost until the end of the billing period.",
+        "The coupon :value discount will be applied to your subscription!": "The coupon {value} discount will be applied to your subscription!",
+        "The emergency token was invalid.": "The emergency token was invalid.",
+        "The given password does not match our records.": "The given password does not match our records.",
+        "The invitation has been sent!": "The invitation has been sent!",
+        "This country does not match the origin country of your card.": "This country does not match the origin country of your card.",
+        "This coupon code is invalid.": "This coupon code is invalid.",
+        "This information will appear on all of your receipts, and is a great place to add your full business name, VAT number, or address of record. Do not include any confidential or financial information such as credit card numbers.": "This information will appear on all of your receipts, and is a great place to add your full business name, VAT number, or address of record. Do not include any confidential or financial information such as credit card numbers.",
+        "This invitation code is invalid.": "This invitation code is invalid.",
+        "This is the only time the token will ever be displayed, so be sure not to lose it!": "This is the only time the token will ever be displayed, so be sure not to lose it!",
+        "This is the only time this token will be displayed, so be sure not to lose it!": "This is the only time this token will be displayed, so be sure not to lose it!",
+        "This plan has been discontinued, but you may continue your subscription to this plan as long as you wish. If you cancel your subscription and later want to begin a new subscription, you will need to choose from one of the active plans listed below.": "This plan has been discontinued, but you may continue your subscription to this plan as long as you wish. If you cancel your subscription and later want to begin a new subscription, you will need to choose from one of the active plans listed below.",
+        "This user has a discount of :discountAmount for a single invoice.": "This user has a discount of {discountAmount} for a single invoice.",
+        "This user has a discount of :discountAmount for all invoices during the next :months months.": "This user has a discount of {discountAmount} for all invoices during the next {months} months.",
+        "This user has a discount of :discountAmount for all invoices during the next month.": "This user has a discount of {discountAmount} for all invoices during the next month.",
+        "This user has a discount of :discountAmount forever.": "This user has a discount of {discountAmount} forever.",
+        "Toggle Navigation": "Toggle Navigation",
+        "Token Can": "Token Can",
+        "Token Name": "Token Name",
+        "Total Price Including Tax": "Total Price Including Tax",
+        "Total Revenue": "Total Revenue",
+        "Total Volume": "Total Volume",
+        "Trial": "Trial",
+        "Trialing": "Trialing",
+        "Two-Factor Authentication": "Two-Factor Authentication",
+        "Two-Factor Authentication Reset Code": "Two-Factor Authentication Reset Code",
+        "Type": "Type",
+        "Update": "Update",
+        "Update Announcement": "Update Announcement",
+        "Update Password": "Update Password",
+        "Update Payment Method": "Update Payment Method",
+        "Update Photo": "Update Photo",
+        "Update Subscription": "Update Subscription",
+        "Update VAT ID": "Update VAT ID",
+        "Updating": "Updating",
+        "Users": "Users",
+        "Users Currently Trialing": "Users Currently Trialing",
+        "VAT ID": "VAT ID",
+        "Verify": "Verify",
+        "We don't have anything to show you right now! But when we do, we'll be sure to let you know. Talk to you soon!": "We don't have anything to show you right now! But when we do, we'll be sure to let you know. Talk to you soon!",
+        "We had trouble updating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.": "We had trouble updating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.",
+        "We had trouble updating your payment method. It's possible your payment provider is preventing us from charging the payment method. Please contact your payment provider or customer support.": "We had trouble updating your payment method. It's possible your payment provider is preventing us from charging the payment method. Please contact your payment provider or customer support.",
+        "We had trouble validating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.": "We had trouble validating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.",
+        "We have received your message and will respond soon!": "We have received your message and will respond soon!",
+        "We were not able to enable two-factor authentication for this phone number.": "We were not able to enable two-factor authentication for this phone number.",
+        "We were unable to update your subscription. Please contact customer support.": "We were unable to update your subscription. Please contact customer support.",
+        "Whoops!": "Whoops!",
+        "Whoops! This coupon code is invalid.": "Whoops! This coupon code is invalid.",
+        "Whoops! This invitation code is invalid.": "Whoops! This invitation code is invalid.",
+        "Yearly Recurring Revenue": "Yearly Recurring Revenue",
+        "Yes, Cancel": "Yes, Cancel",
+        "Yes, Delete": "Yes, Delete",
+        "Yes, I'm Sure": "Yes, I'm Sure",
+        "Yes, Leave": "Yes, Leave",
+        "Yes, Remove": "Yes, Remove",
+        "You": "You",
+        "You are currently subscribed to the :planName plan.": "You are currently subscribed to the {planName} plan.",
+        "You are currently within your free trial period. Your trial will expire on :date.": "You are currently within your free trial period. Your trial will expire on {date}.",
+        "You currently have :count invitation(s) remaining.": "You currently have {count} invitation(s) remaining.",
+        "You currently receive a discount of :discountAmount for a single invoice.": "You currently receive a discount of {discountAmount} for a single invoice.",
+        "You currently receive a discount of :discountAmount for all invoices during the next :months billing cycles.": "You currently receive a discount of {discountAmount} for all invoices during the next {months} billing cycles.",
+        "You currently receive a discount of :discountAmount for all invoices during the next :months months.": "You currently receive a discount of {discountAmount} for all invoices during the next {months} months.",
+        "You currently receive a discount of :discountAmount for all invoices during the next billing cycle.": "You currently receive a discount of {discountAmount} for all invoices during the next billing cycle.",
+        "You currently receive a discount of :discountAmount for all invoices during the next month.": "You currently receive a discount of {discountAmount} for all invoices during the next month.",
+        "You currently receive a discount of :discountAmount forever.": "You currently receive a discount of {discountAmount} forever.",
+        "You have cancelled your subscription to the :planName plan.": "You have cancelled your subscription to the {planName} plan.",
+        "You may revoke the token at any time from your API settings.": "You may revoke the token at any time from your API settings.",
+        "Your Email Address": "Your Email Address",
+        "Your Settings": "Your Settings",
+        "Your VAT ID has been updated!": "Your VAT ID has been updated!",
+        "Your billing information has been updated!": "Your billing information has been updated!",
+        "Your card has been updated.": "Your card has been updated.",
+        "Your contact information has been updated!": "Your contact information has been updated!",
+        "Your password has been updated!": "Your password has been updated!",
+        "Your payment method has been updated.": "Your payment method has been updated.",
+        "Your session has expired. Please login again to continue.": "Your session has expired. Please login again to continue.",
+        "Your trial period will expire on ": "Your trial period will expire on ",
+        "ZIP \/ Postal Code": "ZIP \/ Postal Code",
+        "Your current plan doesn't allow you to invite more members, please upgrade your subscription.": "Your current plan doesn't allow you to invite more members, please upgrade your subscription.",
+        "please upgrade your subscription": "please upgrade your subscription",
+        "second address line": "second address line",
+        "Alabama": "Alabama",
+        "Alaska": "Alaska",
+        "Arizona": "Arizona",
+        "Arkansas": "Arkansas",
+        "California": "California",
+        "Colorado": "Colorado",
+        "Connecticut": "Connecticut",
+        "Delaware": "Delaware",
+        "District of Columbia": "District of Columbia",
+        "Federated States Of Micronesia": "Federated States Of Micronesia",
+        "Florida": "Florida",
+        "Hawaii": "Hawaii",
+        "Idaho": "Idaho",
+        "Illinois": "Illinois",
+        "Indiana": "Indiana",
+        "Iowa": "Iowa",
+        "Kansas": "Kansas",
+        "Kentucky": "Kentucky",
+        "Louisiana": "Louisiana",
+        "Maine": "Maine",
+        "Maryland": "Maryland",
+        "Massachusetts": "Massachusetts",
+        "Michigan": "Michigan",
+        "Minnesota": "Minnesota",
+        "Mississippi": "Mississippi",
+        "Missouri": "Missouri",
+        "Montana": "Montana",
+        "Nebraska": "Nebraska",
+        "Nevada": "Nevada",
+        "New Hampshire": "New Hampshire",
+        "New Jersey": "New Jersey",
+        "New Mexico": "New Mexico",
+        "New York": "New York",
+        "North Carolina": "North Carolina",
+        "North Dakota": "North Dakota",
+        "Ohio": "Ohio",
+        "Oklahoma": "Oklahoma",
+        "Oregon": "Oregon",
+        "Pennsylvania": "Pennsylvania",
+        "Rhode Island": "Rhode Island",
+        "South Carolina": "South Carolina",
+        "South Dakota": "South Dakota",
+        "Tennessee": "Tennessee",
+        "Texas": "Texas",
+        "Utah": "Utah",
+        "Vermont": "Vermont",
+        "Virgin Islands": "Virgin Islands",
+        "Virginia": "Virginia",
+        "Washington": "Washington",
+        "West Virginia": "West Virginia",
+        "Wisconsin": "Wisconsin",
+        "Wyoming": "Wyoming",
+        "Armed Forces Africa \/ Canada \/ Europe \/ Middle East": "Armed Forces Africa \/ Canada \/ Europe \/ Middle East",
+        "Armed Forces America (Except Canada)": "Armed Forces America (Except Canada)",
+        "Armed Forces Pacific": "Armed Forces Pacific",
+        "Alberta": "Alberta",
+        "British Columbia": "British Columbia",
+        "Manitoba": "Manitoba",
+        "New Brunswick": "New Brunswick",
+        "Newfoundland and Labrador": "Newfoundland and Labrador",
+        "Northwest Territories": "Northwest Territories",
+        "Nova Scotia": "Nova Scotia",
+        "Nunavut": "Nunavut",
+        "Ontario": "Ontario",
+        "Prince Edward Island": "Prince Edward Island",
+        "Quebec": "Quebec",
+        "Saskatchewan": "Saskatchewan",
+        "Yukon": "Yukon",
+        "Afghanistan": "Afghanistan",
+        "Åland Islands": "Åland Islands",
+        "Albania": "Albania",
+        "Algeria": "Algeria",
+        "American Samoa": "American Samoa",
+        "Andorra": "Andorra",
+        "Angola": "Angola",
+        "Anguilla": "Anguilla",
+        "Antarctica": "Antarctica",
+        "Antigua and Barbuda": "Antigua and Barbuda",
+        "Argentina": "Argentina",
+        "Armenia": "Armenia",
+        "Aruba": "Aruba",
+        "Australia": "Australia",
+        "Austria": "Austria",
+        "Azerbaijan": "Azerbaijan",
+        "Bahamas": "Bahamas",
+        "Bahrain": "Bahrain",
+        "Bangladesh": "Bangladesh",
+        "Barbados": "Barbados",
+        "Belarus": "Belarus",
+        "Belgium": "Belgium",
+        "Belize": "Belize",
+        "Benin": "Benin",
+        "Bermuda": "Bermuda",
+        "Bhutan": "Bhutan",
+        "Bolivia, Plurinational State of": "Bolivia, Plurinational State of",
+        "Bosnia and Herzegovina": "Bosnia and Herzegovina",
+        "Botswana": "Botswana",
+        "Bouvet Island": "Bouvet Island",
+        "Brazil": "Brazil",
+        "British Indian Ocean Territory": "British Indian Ocean Territory",
+        "Brunei Darussalam": "Brunei Darussalam",
+        "Bulgaria": "Bulgaria",
+        "Burkina Faso": "Burkina Faso",
+        "Burundi": "Burundi",
+        "Cambodia": "Cambodia",
+        "Cameroon": "Cameroon",
+        "Canada": "Canada",
+        "Cape Verde": "Cape Verde",
+        "Cayman Islands": "Cayman Islands",
+        "Central African Republic": "Central African Republic",
+        "Chad": "Chad",
+        "Chile": "Chile",
+        "China": "China",
+        "Christmas Island": "Christmas Island",
+        "Cocos (Keeling) Islands": "Cocos (Keeling) Islands",
+        "Colombia": "Colombia",
+        "Comoros": "Comoros",
+        "Congo": "Congo",
+        "Congo, the Democratic Republic of the": "Congo, the Democratic Republic of the",
+        "Cook Islands": "Cook Islands",
+        "Costa Rica": "Costa Rica",
+        "Côte d'Ivoire": "Côte d'Ivoire",
+        "Croatia": "Croatia",
+        "Cuba": "Cuba",
+        "Cyprus": "Cyprus",
+        "Czech Republic": "Czech Republic",
+        "Denmark": "Denmark",
+        "Djibouti": "Djibouti",
+        "Dominica": "Dominica",
+        "Dominican Republic": "Dominican Republic",
+        "Ecuador": "Ecuador",
+        "Egypt": "Egypt",
+        "El Salvador": "El Salvador",
+        "Equatorial Guinea": "Equatorial Guinea",
+        "Eritrea": "Eritrea",
+        "Estonia": "Estonia",
+        "Ethiopia": "Ethiopia",
+        "Falkland Islands (Malvinas)": "Falkland Islands (Malvinas)",
+        "Faroe Islands": "Faroe Islands",
+        "Fiji": "Fiji",
+        "Finland": "Finland",
+        "France": "France",
+        "French Guiana": "French Guiana",
+        "French Polynesia": "French Polynesia",
+        "French Southern Territories": "French Southern Territories",
+        "Gabon": "Gabon",
+        "Gambia": "Gambia",
+        "Georgia": "Georgia",
+        "Germany": "Germany",
+        "Ghana": "Ghana",
+        "Gibraltar": "Gibraltar",
+        "Greece": "Greece",
+        "Greenland": "Greenland",
+        "Grenada": "Grenada",
+        "Guadeloupe": "Guadeloupe",
+        "Guam": "Guam",
+        "Guatemala": "Guatemala",
+        "Guernsey": "Guernsey",
+        "Guinea": "Guinea",
+        "Guinea-Bissau": "Guinea-Bissau",
+        "Guyana": "Guyana",
+        "Haiti": "Haiti",
+        "Heard Island and McDonald Islands": "Heard Island and McDonald Islands",
+        "Holy See (Vatican City State)": "Holy See (Vatican City State)",
+        "Honduras": "Honduras",
+        "Hong Kong": "Hong Kong",
+        "Hungary": "Hungary",
+        "Iceland": "Iceland",
+        "India": "India",
+        "Indonesia": "Indonesia",
+        "Iran, Islamic Republic of": "Iran, Islamic Republic of",
+        "Iraq": "Iraq",
+        "Ireland": "Ireland",
+        "Isle of Man": "Isle of Man",
+        "Israel": "Israel",
+        "Italy": "Italy",
+        "Jamaica": "Jamaica",
+        "Japan": "Japan",
+        "Jersey": "Jersey",
+        "Jordan": "Jordan",
+        "Kazakhstan": "Kazakhstan",
+        "Kenya": "Kenya",
+        "Kiribati": "Kiribati",
+        "Korea, Democratic People's Republic of": "Korea, Democratic People's Republic of",
+        "Korea, Republic of": "Korea, Republic of",
+        "Kuwait": "Kuwait",
+        "Kyrgyzstan": "Kyrgyzstan",
+        "Lao People's Democratic Republic": "Lao People's Democratic Republic",
+        "Latvia": "Latvia",
+        "Lebanon": "Lebanon",
+        "Lesotho": "Lesotho",
+        "Liberia": "Liberia",
+        "Libyan Arab Jamahiriya": "Libyan Arab Jamahiriya",
+        "Liechtenstein": "Liechtenstein",
+        "Lithuania": "Lithuania",
+        "Luxembourg": "Luxembourg",
+        "Macao": "Macao",
+        "Macedonia, the former Yugoslav Republic of": "Macedonia, the former Yugoslav Republic of",
+        "Madagascar": "Madagascar",
+        "Malawi": "Malawi",
+        "Malaysia": "Malaysia",
+        "Maldives": "Maldives",
+        "Mali": "Mali",
+        "Malta": "Malta",
+        "Marshall Islands": "Marshall Islands",
+        "Martinique": "Martinique",
+        "Mauritania": "Mauritania",
+        "Mauritius": "Mauritius",
+        "Mayotte": "Mayotte",
+        "Mexico": "Mexico",
+        "Micronesia, Federated States of": "Micronesia, Federated States of",
+        "Moldova, Republic of": "Moldova, Republic of",
+        "Monaco": "Monaco",
+        "Mongolia": "Mongolia",
+        "Montenegro": "Montenegro",
+        "Montserrat": "Montserrat",
+        "Morocco": "Morocco",
+        "Mozambique": "Mozambique",
+        "Myanmar": "Myanmar",
+        "Namibia": "Namibia",
+        "Nauru": "Nauru",
+        "Nepal": "Nepal",
+        "Netherlands": "Netherlands",
+        "Netherlands Antilles": "Netherlands Antilles",
+        "New Caledonia": "New Caledonia",
+        "New Zealand": "New Zealand",
+        "Nicaragua": "Nicaragua",
+        "Niger": "Niger",
+        "Nigeria": "Nigeria",
+        "Niue": "Niue",
+        "Norfolk Island": "Norfolk Island",
+        "Northern Mariana Islands": "Northern Mariana Islands",
+        "Norway": "Norway",
+        "Oman": "Oman",
+        "Pakistan": "Pakistan",
+        "Palau": "Palau",
+        "Palestinian Territory, Occupied": "Palestinian Territory, Occupied",
+        "Panama": "Panama",
+        "Papua New Guinea": "Papua New Guinea",
+        "Paraguay": "Paraguay",
+        "Peru": "Peru",
+        "Philippines": "Philippines",
+        "Pitcairn": "Pitcairn",
+        "Poland": "Poland",
+        "Portugal": "Portugal",
+        "Puerto Rico": "Puerto Rico",
+        "Qatar": "Qatar",
+        "Réunion": "Réunion",
+        "Romania": "Romania",
+        "Russian Federation": "Russian Federation",
+        "Rwanda": "Rwanda",
+        "Saint Barthélemy": "Saint Barthélemy",
+        "Saint Helena": "Saint Helena",
+        "Saint Kitts and Nevis": "Saint Kitts and Nevis",
+        "Saint Lucia": "Saint Lucia",
+        "Saint Martin (French part)": "Saint Martin (French part)",
+        "Saint Pierre and Miquelon": "Saint Pierre and Miquelon",
+        "Saint Vincent and the Grenadines": "Saint Vincent and the Grenadines",
+        "Samoa": "Samoa",
+        "San Marino": "San Marino",
+        "Sao Tome and Principe": "Sao Tome and Principe",
+        "Saudi Arabia": "Saudi Arabia",
+        "Senegal": "Senegal",
+        "Serbia": "Serbia",
+        "Seychelles": "Seychelles",
+        "Sierra Leone": "Sierra Leone",
+        "Singapore": "Singapore",
+        "Slovakia": "Slovakia",
+        "Slovenia": "Slovenia",
+        "Solomon Islands": "Solomon Islands",
+        "Somalia": "Somalia",
+        "South Africa": "South Africa",
+        "South Georgia and the South Sandwich Islands": "South Georgia and the South Sandwich Islands",
+        "Spain": "Spain",
+        "Sri Lanka": "Sri Lanka",
+        "Sudan": "Sudan",
+        "Suriname": "Suriname",
+        "Svalbard and Jan Mayen": "Svalbard and Jan Mayen",
+        "Swaziland": "Swaziland",
+        "Sweden": "Sweden",
+        "Switzerland": "Switzerland",
+        "Syrian Arab Republic": "Syrian Arab Republic",
+        "Taiwan, Province of China": "Taiwan, Province of China",
+        "Tajikistan": "Tajikistan",
+        "Tanzania, United Republic of": "Tanzania, United Republic of",
+        "Thailand": "Thailand",
+        "Timor-Leste": "Timor-Leste",
+        "Togo": "Togo",
+        "Tokelau": "Tokelau",
+        "Tonga": "Tonga",
+        "Trinidad and Tobago": "Trinidad and Tobago",
+        "Tunisia": "Tunisia",
+        "Turkey": "Turkey",
+        "Turkmenistan": "Turkmenistan",
+        "Turks and Caicos Islands": "Turks and Caicos Islands",
+        "Tuvalu": "Tuvalu",
+        "Uganda": "Uganda",
+        "Ukraine": "Ukraine",
+        "United Arab Emirates": "United Arab Emirates",
+        "United Kingdom": "United Kingdom",
+        "United States": "United States",
+        "United States Minor Outlying Islands": "United States Minor Outlying Islands",
+        "Uruguay": "Uruguay",
+        "Uzbekistan": "Uzbekistan",
+        "Vanuatu": "Vanuatu",
+        "Venezuela, Bolivarian Republic of": "Venezuela, Bolivarian Republic of",
+        "Viet Nam": "Viet Nam",
+        "Virgin Islands, British": "Virgin Islands, British",
+        "Virgin Islands, U.S.": "Virgin Islands, U.S.",
+        "Wallis and Futuna": "Wallis and Futuna",
+        "Western Sahara": "Western Sahara",
+        "Yemen": "Yemen",
+        "Zambia": "Zambia",
+        "Zimbabwe": "Zimbabwe",
+        "global": {
+            "Reports": "Reports",
+            "Name": "Name",
+            "Year": "Year",
+            "Date": "Date",
+            "StartDate": "Start Date",
+            "EndDate": "End Date",
+            "Taxid": "Tax Identification Number",
+            "Code": "Code",
+            "Alias": "Alias",
+            "New": "New",
+            "Create": "Create",
+            "Save": "Save",
+            "Save-and-New": "Save and create new",
+            "Cancel": "Cancel",
+            "Action": "Action",
+            "BelongsTo": "Belongs To",
+            "Type": "Type",
+            "SubType": "Sub Type",
+            "Notification": "Notification | Notifications",
+            "Dashboard": "{team} Dashboard"
+        },
+        "passwords": {
+            "password": "Passwords must be at least six characters and match the confirmation.",
+            "reset": "Your password has been reset!",
+            "sent": "We have e-mailed your password reset link!",
+            "token": "This password reset token is invalid.",
+            "user": "We can't find a user with that e-mail address."
+        },
+        "auth": {
+            "failed": "These credentials do not match our records.",
+            "throttle": "Too many login attempts. Please try again in {seconds} seconds."
+        },
+        "pagination": {
+            "previous": "&laquo; Previous",
+            "next": "Next &raquo;"
+        },
+        "enum": {
+            "Assets": "Assets",
+            "Liabilities": "Liabilities",
+            "Equity": "Equity",
+            "Revenues": "Revenues",
+            "Expenses": "Expenses",
+            "descAsset": "Include anything you own that has value, like buildings, land, equipments, vehicles, valuables, and inventory",
+            "descLiability": "Include bank loans, mortgages, personal loans and promissory notes, income tax payments due, payroll taxes due, and accounts payable",
+            "descEquity": "Represent the residual equity (in simple terms, assets minus liabilities)",
+            "descRevenue": "Represent your earnings. Common examples include sales, service revenue and interest income",
+            "descExpense": "Represent your expenditures. Common examples are utilities, rents, depreciation, interest, and insurance",
+            "BankAccount": "Bank Account",
+            "PayrollAccount": "Payroll Account",
+            "PettyCash": "Petty Cash",
+            "MarketableSecurities": "Marketable Securities",
+            "AccountsReceivable": "Accounts Receivable",
+            "AllowanceDoubtfulAccounts": "Allowance Doubtful Accounts",
+            "PrepaidExpenses": "Prepaid Expenses",
+            "Inventory": "Inventory",
+            "FixedAssets": "Fixed Assets",
+            "AccumulatedDepreciation": "Accumulated Depreciation",
+            "OtherAssets": "Other Assets",
+            "VATReceivable": "VAT Receivable",
+            "CommonStock": "Common Stock",
+            "PreferredStock": "Preferred Stock",
+            "RetainedEarnings": "Retained Earnings",
+            "CostofGoodsSold": "Cost of Goods Sold",
+            "AdvertisingExpense": "Advertising Expense",
+            "FinancialFees": "Financial Fees",
+            "DepreciationExpense": "Depreciation Expense",
+            "PayrollTaxExpense": "Payroll Tax Expense",
+            "RentExpense": "Rent Expense",
+            "SuppliesExpense": "Supplies Expense",
+            "UtilitiesExpense": "Utilities Expense",
+            "WagesExpense": "Wages Expense",
+            "OtherExpenses": "Other Expenses",
+            "AccountsPayable": "Accounts Payable",
+            "AccruedLiabilities": "Accrued Liabilities",
+            "VATPayable": "VAT Payable",
+            "TaxesPayable": "Taxes Payable",
+            "WagesPayable": "Wages Payable",
+            "NotesPayable": "Notes Payable",
+            "Revenue": "Revenue",
+            "SalesReturns": "Sales Returns"
+        },
+        "accounting": {
+            "Accounting": "Accounting",
+            "Accounts": "Accounts",
+            "Journal": "Journal",
+            "JournalTemplate": "Journal Template",
+            "JournalSimulation": "Journal Simulation",
+            "ChartofAccounts": "Chart of Accounts",
+            "AccountingCycle": "Accounting Cycle",
+            "ChartVersion": "Chart Version",
+            "IsAccountable": "Is Accountable",
+            "JournalEntries": "Journal Entries",
+            "GroupJournalEntries": "Journal Entries by Chart",
+            "BalanceSheet": "Balance Sheet",
+            "BalanceSheet(Comparative)": "Balance Sheet (Comparative)",
+            "IncomeStatement": "Income Statement",
+            "StatementofCashflows": "Statement of Cashflows"
+        },
+        "commercial": {
+            "Sales": "Sales",
+            "Purchases": "Purchases",
+            "SalesBook": "Sales Book",
+            "AccountsReceivable": "Accounts Receivable",
+            "CreditNotes": "Credit Notes",
+            "Exports": "Exports",
+            "PurchaseBook": "Purchase Book",
+            "AccountsPayable": "Accounts Payable",
+            "DebitNotes": "Debit Notes",
+            "Imports": "Imports",
+            "SalesVAT": "Sales VAT",
+            "PurchaseVAT": "Purchase VAT",
+            "Inventory": "Inventory",
+            "MoneyTransfers": "Money Transfers",
+            "Productions": "Productions",
+            "FixedAssets": "Fixed Assets",
+            "Exempt": "Exempt",
+            "Value": "Value",
+            "SalesTax": "Sales Tax",
+            "Taxable": "Taxable",
+            "Account": "Account",
+            "Condition": "Condition",
+            "Customer": "Customer",
+            "Supplier": "Supplier",
+            "Document": "Document",
+            "InvoiceNumber": "Invoice Number",
+            "Currency": "Currency",
+            "Total": "Total",
+            "Detail": "Detail"
+        },
+        "validation": {
+            "accepted": "The {attribute} must be accepted.",
+            "active_url": "The {attribute} is not a valid URL.",
+            "after": "The {attribute} must be a date after {date}.",
+            "alpha": "The {attribute} may only contain letters.",
+            "alpha_dash": "The {attribute} may only contain letters, numbers, and dashes.",
+            "alpha_num": "The {attribute} may only contain letters and numbers.",
+            "array": "The {attribute} must be an array.",
+            "before": "The {attribute} must be a date before {date}.",
+            "between": {
+                "numeric": "The {attribute} must be between {min} and {max}.",
+                "file": "The {attribute} must be between {min} and {max} kilobytes.",
+                "string": "The {attribute} must be between {min} and {max} characters.",
+                "array": "The {attribute} must have between {min} and {max} items."
+            },
+            "boolean": "The {attribute} field must be true or false.",
+            "confirmed": "The {attribute} confirmation does not match.",
+            "country": "The {attribute} field is not a valid country.",
+            "date": "The {attribute} is not a valid date.",
+            "date_format": "The {attribute} does not match the format {format}.",
+            "different": "The {attribute} and {other} must be different.",
+            "digits": "The {attribute} must be {digits} digits.",
+            "digits_between": "The {attribute} must be between {min} and {max} digits.",
+            "distinct": "The {attribute} field has a duplicate value.",
+            "email": "The {attribute} must be a valid email address.",
+            "exists": "The selected {attribute} is invalid.",
+            "filled": "The {attribute} field is required.",
+            "image": "The {attribute} must be an image.",
+            "in": "The selected {attribute} is invalid.",
+            "in_array": "The {attribute} field does not exist in {other}.",
+            "integer": "The {attribute} must be an integer.",
+            "ip": "The {attribute} must be a valid IP address.",
+            "json": "The {attribute} must be a valid JSON string.",
+            "max": {
+                "numeric": "The {attribute} may not be greater than {max}.",
+                "file": "The {attribute} may not be greater than {max} kilobytes.",
+                "string": "The {attribute} may not be greater than {max} characters.",
+                "array": "The {attribute} may not have more than {max} items."
+            },
+            "mimes": "The {attribute} must be a file of type: {values}.",
+            "min": {
+                "numeric": "The {attribute} must be at least {min}.",
+                "file": "The {attribute} must be at least {min} kilobytes.",
+                "string": "The {attribute} must be at least {min} characters.",
+                "array": "The {attribute} must have at least {min} items."
+            },
+            "not_in": "The selected {attribute} is invalid.",
+            "numeric": "The {attribute} must be a number.",
+            "present": "The {attribute} field must be present.",
+            "regex": "The {attribute} format is invalid.",
+            "required": "The {attribute} field is required.",
+            "required_if": "The {attribute} field is required when {other} is {value}.",
+            "required_unless": "The {attribute} field is required unless {other} is in {values}.",
+            "required_with": "The {attribute} field is required when {values} is present.",
+            "required_with_all": "The {attribute} field is required when {values} is present.",
+            "required_without": "The {attribute} field is required when {values} is not present.",
+            "required_without_all": "The {attribute} field is required when none of {values} are present.",
+            "same": "The {attribute} and {other} must match.",
+            "size": {
+                "numeric": "The {attribute} must be {size}.",
+                "file": "The {attribute} must be {size} kilobytes.",
+                "string": "The {attribute} must be {size} characters.",
+                "array": "The {attribute} must contain {size} items."
+            },
+            "state": "This state is not valid for the specified country.",
+            "string": "The {attribute} must be a string.",
+            "timezone": "The {attribute} must be a valid zone.",
+            "unique": "The {attribute} has already been taken.",
+            "url": "The {attribute} format is invalid.",
+            "vat_id": "This VAT identification number is invalid.",
+            "custom": {
+                "attribute-name": {
+                    "rule-name": "custom-message"
+                }
+            },
+            "attributes": {
+                "team": "team"
+            }
+        },
+        "teams": {
+            "create_team": "Create Team",
+            "team_name": " Team Name",
+            "team_slug": "Team Slug",
+            "team_members": "Team Members",
+            "team_trial": "Team Trial",
+            "member": " Member",
+            "you_have_x_teams_remaining": "You currently have {teamCount} teams remaining.",
+            "slug_input_explanation": "This slug is used to identify your team in URLs.",
+            "plan_allows_no_more_teams": "Your current plan doesn't allow you to create more teams",
+            "team": " Team",
+            "update_team_name": "Update Team Name",
+            "team_name_was_updated": " Your team name has been updated!",
+            "current_teams": " Current Teams",
+            "leave_team": " Leave Team",
+            "are_you_sure_you_want_to_leave_team": "Are you sure you want to leave this team?",
+            "delete_team": " Delete Team",
+            "are_you_sure_you_want_to_delete_team": "Are you sure you want to delete this team?",
+            "if_you_delete_team_all_data_will_be_deleted": "If you choose to delete the team all data will be permanently deleted.",
+            "team_photo": " Team Photo",
+            "edit_team_member": " Edit Team Member",
+            "remove_team_member": "Remove Team Member",
+            "are_you_sure_you_want_to_delete_member": " Are you sure you want to remove this team member?",
+            "team_settings": "Team Settings",
+            "team_profile": " Team Profile",
+            "view_all_teams": "View All Teams",
+            "team_billing": "Team Billing",
+            "you_have_x_invitations_remaining": " You currently have {count} invitation(s) remaining.",
+            "teams": " Teams",
+            "teams_currently_trialing": "Teams Currently Trialing",
+            "we_found_invitation_to_team": "We found your invitation to the {teamName} team!",
+            "wheres_your_team": "Where's Your Team?",
+            "looks_like_you_are_not_part_of_team": "It looks like you're not part of any team!",
+            "user_invited_to_join_team": "{userName} has invited you to join their team!",
+            "please_upgrade_to_create_more_teams": "Please upgrade your subscription to create more teams.",
+            "team_trial_will_expire_on": "The team's trial period will expire on {date}.",
+            "you_have_been_invited_to_join_team": "You have been invited to join the {teamName} team!",
+            "please_upgrade_to_add_more_members": " Please upgrade your subscription to add more team members.",
+            "user_already_on_team": "That user is already on the team.",
+            "user_already_invited_to_team": "That user is already invited to the team.",
+            "user_doesnt_belong_to_team": "The user does not belong to the given team.",
+            "not_eligible_based_on_current_members_teams": "You are not eligible for this plan based on your current number of teams \/ team members."
+        }
+    },
+    "es": {
+        ":trialDays Day Trial": "{trialDays} días de prueba",
+        "API": "API",
+        "API Token": "Token de Accesso",
+        "API Tokens": "Lista de Tokens de Accesso",
+        "Action Button Text": "Texto del botón de acción",
+        "Your application's dashboard.": "El tablero de su aplicación",
+        "Dashboard": "Tablero",
+        "Action Button URL": "URL del botón de acción",
+        "Add Discount": "Adicionar Descuento",
+        "Address": "Dirección",
+        "Address Line 2": "Dirección 2",
+        "After logging in via your emergency token, two-factor authentication will be disabled for your account. If you would like to maintain two-factor authentication security, you should re-enable it after logging in.": "Después de iniciar sesión mediante su token de emergencia, la autenticación de dos factores se desactivará para su cuenta. Si desea mantener la seguridad de autenticación de dos factores, debe volver a habilitarla después de iniciar sesión.",
+        "All subscription plan prices are excluding applicable VAT.": "Ninguno de los precios del plan de suscripción incluyen IVA.",
+        "All subscription plan prices include applicable VAT.": "Todos los precios del plan de suscripción incluyen IVA.",
+        "Amount": "Monto",
+        "Announcement": "Anuncio",
+        "Announcements": "Anuncios",
+        "Announcements you create here will be sent to the \"Product Announcements\" section of the notifications modal window, informing your users about new features and improvements to your application.": "Los anuncios que cree aquí se enviarán a \"Anuncios de Productos\" en la section de la ventana de notificaciones, informando a los usuarios sobre nuevas funciones y mejoras en su aplicación.",
+        "Apply Discount": "Aplicar descuento",
+        "Applying": "Aplicando",
+        "Are you sure you want to cancel your subscription?": "¿Seguro que quieres cancelar tu suscripción?",
+        "Are you sure you want to delete this announcement?": "¿Seguro que quieres eliminar este anuncio?",
+        "Are you sure you want to switch to the :planName plan?": "¿Seguro que quieres cambiar el plan {planName} ?",
+        "Are you sure you want to delete this token? If deleted, API requests that attempt to authenticate using this token will no longer be accepted.": "¿Seguro que quieres eliminar este token? Si se elimina, las solicitudes de API que intentan autenticarse con este token ya no se aceptarán.",
+        "Assign All Abilities": "Asignar todos los privilegios",
+        "Authentication Token": "Token de autenticación",
+        "Back To My Account": "Volver a mi Cuenta",
+        "Billing": "Facturación",
+        "Billing Information": "Información de Facturación",
+        "Cancel": "Cancelar",
+        "Cancel Subscription": "Cancelar suscripción",
+        "Cancelling": "Cancelando",
+        "Card": "Tarjeta",
+        "Cardholder's Name": "Nombre del tarjetahabiente",
+        "City": "Ciudad",
+        "Click here to reset your password:": "Haga clic aquí para restablecer la contraseña:",
+        "Close": "Cerrar",
+        "Confirm Password": "Confirmar contraseña",
+        "Contact Information": "Información de Contacto.",
+        "Copy To Clipboard": "Copiar al portapapeles",
+        "Country": "País",
+        "Country Code": "Código de País",
+        "Coupon": "Cupón",
+        "Coupon Code": "Código de cupón",
+        "Coupon accepted! The discount will be applied to your next invoice.": "Cupón aceptado! El descuento se aplicará a su próxima factura.",
+        "Create": "Crear",
+        "Create API Token": "Crear API Token",
+        "Create Announcement": "Crear Anuncio",
+        "Created": "Creado",
+        "Current Password": "Contraseña Actual",
+        "Daily Volume": "Volumen diario",
+        "Date": "Fecha",
+        "Day Trial": "Día de prueba",
+        "Delete Announcement": "Eliminar Anuncio",
+        "Delete Token": "Eliminar Token",
+        "Deleting": "Eliminando",
+        "Developer": "Desarrollador",
+        "Disable Two-Factor Authentication": "Deshabilitar la autenticación de dos factores",
+        "Disabling": "Deshabilitando",
+        "Download PDF": "Descargar PDF",
+        "Duration": "Duración",
+        "E-Mail": "Correo electrónico",
+        "E-Mail Address": "Dirección de Correo electrónico",
+        "Edit Token": "Editar Token",
+        "Email Address": "Dirección de Correo electrónico",
+        "Email Us": "Envíanos un correo electrónico",
+        "Emergency Token": "Token de emergencia",
+        "Enable": "Habilitar",
+        "Enabling": "Habilitado",
+        "Expiration": "Vencimiento",
+        "Extra Billing Information": "Información de facturación adicional",
+        "Features": "Caracteristicas",
+        "Forever": "Siempre",
+        "Forgot Your Password?": "Olvido su contraseña?",
+        "Free": "Gratis",
+        "Go To Login": "Ir a Iniciar Sesión",
+        "Got It!": "Lo tengo!",
+        "Here is your new API token.": "Aquí está su nueva API token.",
+        "Hi :name": "Hola {name}",
+        "Hi!": "Hola!",
+        "I Accept :linkOpenThe Terms Of Service:linkClose": "Acepto {linkOpen} los términos y condiciones del Servicio {linkClose}",
+        "If you do not already have an account, you may click the following link to get started:": "Si aún no tiene una cuenta, puede hacer clic en el siguiente enlace para comenzar",
+        "If you lose your two-factor authentication device, you may use this emergency reset token to disable two-factor authentication on your account.": "Si pierde su dispositivo de autenticación de dos factores, puede usar este token de restablecimiento de emergencia para deshabilitar la autenticación de dos factores en su cuenta..",
+        "Impersonate": "Interpretar",
+        "Impersonation": "Interpretación",
+        "In order to use two-factor authentication, you must install the :authyLink application on your smartphone. Authy is available for iOS and Android.": "Para utilizar la autenticación de dos factores, debe instalar la aplicación {authyLink} en su teléfono inteligente. Authy está disponible para iOS y Android.",
+        "Invoices": "Facturas",
+        "Joined": "Unido",
+        "Kiosk": "Quiosco",
+        "Last Used": "Utilizado por última vez",
+        "Loading": "Cargando",
+        "Loading Notifications": "Cargando Notificaciones",
+        "Login": "Ingresar",
+        "Login Via Emergency Token": "Ingresar a través de un token de emergencia",
+        "Logout": "Cerrar sesión",
+        "Lost Your Device?": "Perdió su dispositivo?",
+        "Mailed Invitations": "Invitaciones por correo",
+        "Membership": "Afiliación",
+        "Message": "Mensaje",
+        "Metrics": "Metricas",
+        "Monthly": "Mensual",
+        "Yearly": "Anual",
+        "Monthly Recurring Revenue": "Ingresos recurrentes mensuales",
+        "Search By Name Or E-Mail Address...": "Búsqueda por nombre o dirección de correo electrónico",
+        "Months": "Meses",
+        "Multiple Months": "Múltiples meses",
+        "N\/A": "N\/A",
+        "Name": "Nombre",
+        "Never": "Nunca",
+        "New Invitation!": "Nueva Invitación!",
+        "New Users": "Nuevos Usuarios",
+        "State": "Estado",
+        "Postal Code": "Código Postal",
+        "No customer support request recipient is defined.": "No se define ningún destinatario de solicitud de soporte al cliente.",
+        "No users matched the given criteria.": "Ningún usuario coincide con los criterios dados.",
+        "No, Go Back": "No, Regresa",
+        "None": "Ninguno",
+        "Notifications": "Notificaciones",
+        "On Generic Trial": "En prueba genérica",
+        "Once": "Una vez",
+        "Owner": "Propietario",
+        "Password": "Contaseña",
+        "Payment Method": "Método de pago",
+        "Pending Invitations": "Invitaciones pendientes",
+        "Percentage": "Porcentaje",
+        "Phone Number": "Número de teléfono",
+        "Please select at least one ability.": "Por favor seleccione al menos una habilidad.",
+        "Profile": "Perfil",
+        "Profile Photo": "Foto de Perfil",
+        "Recent Announcements": "Anuncios recientes",
+        "Recurring Revenue": "Ingresos recurrentes",
+        "Redeem": "Canjear",
+        "Redeem Coupon": "Canjear cupón",
+        "Redeeming": "Canjeando",
+        "Register": "Registro",
+        "Registering": "Registering",
+        "Remember Me": "Recuérdame",
+        "Remove All Abilities": "Eliminar todos los privilegios",
+        "Reset Password": "Resetear contraseña",
+        "Resume": "Resumen",
+        "Resume Subscription": "Resumen de suscripción",
+        "Resuming": "Resumido",
+        "Role": "Rol",
+        "Search Results": "Resultados de la búsqueda",
+        "Searching": "Buscando",
+        "Security": "Seguridad",
+        "Security Code": "Código de Seguridad",
+        "See you soon!": "See you soon!",
+        "Select All": "Select All",
+        "Send": "Send",
+        "Send Invitation": "Send Invitation",
+        "Send Password Reset Link": "Send Password Reset Link",
+        "Sending": "Sending",
+        "Session Expired": "Session Expired",
+        "Settings": "Settings",
+        "Since you already have an account, you may accept the invitation from your account settings screen.": "Since you already have an account, you may accept the invitation from your account settings screen.",
+        "Something went wrong!": "Something went wrong!",
+        "Something went wrong. Please try again or contact customer support.": "Something went wrong. Please try again or contact customer support.",
+        "State & ZIP \/ Postal Code": "State & ZIP \/ Postal Code",
+        "Subject": "Subject",
+        "Subscribe": "Subscribe",
+        "Subscribers": "Subscribers",
+        "Subscribing": "Subscribing",
+        "Subscription": "Subscription",
+        "Support": "Support",
+        "Support Request: ": "Support Request: ",
+        "Switch": "Switch",
+        "Tax": "Tax",
+        "Terms Of Service": "Terms Of Service",
+        "Thanks for your continued support. We've attached a copy of your invoice for your records. Please let us know if you have any questions or concerns!": "Thanks for your continued support. We've attached a copy of your invoice for your records. Please let us know if you have any questions or concerns!",
+        "Thanks!": "Thanks!",
+        "The benefits of your subscription will continue until your current billing period ends on :date. You may resume your subscription at no extra cost until the end of the billing period.": "The benefits of your subscription will continue until your current billing period ends on {date}. You may resume your subscription at no extra cost until the end of the billing period.",
+        "The coupon :value discount will be applied to your subscription!": "The coupon {value} discount will be applied to your subscription!",
+        "The emergency token was invalid.": "The emergency token was invalid.",
+        "The given password does not match our records.": "The given password does not match our records.",
+        "The invitation has been sent!": "The invitation has been sent!",
+        "This country does not match the origin country of your card.": "This country does not match the origin country of your card.",
+        "This coupon code is invalid.": "This coupon code is invalid.",
+        "This information will appear on all of your receipts, and is a great place to add your full business name, VAT number, or address of record. Do not include any confidential or financial information such as credit card numbers.": "This information will appear on all of your receipts, and is a great place to add your full business name, VAT number, or address of record. Do not include any confidential or financial information such as credit card numbers.",
+        "This invitation code is invalid.": "This invitation code is invalid.",
+        "This is the only time the token will ever be displayed, so be sure not to lose it!": "This is the only time the token will ever be displayed, so be sure not to lose it!",
+        "This is the only time this token will be displayed, so be sure not to lose it!": "This is the only time this token will be displayed, so be sure not to lose it!",
+        "This plan has been discontinued, but you may continue your subscription to this plan as long as you wish. If you cancel your subscription and later want to begin a new subscription, you will need to choose from one of the active plans listed below.": "This plan has been discontinued, but you may continue your subscription to this plan as long as you wish. If you cancel your subscription and later want to begin a new subscription, you will need to choose from one of the active plans listed below.",
+        "This user has a discount of :discountAmount for a single invoice.": "This user has a discount of {discountAmount} for a single invoice.",
+        "This user has a discount of :discountAmount for all invoices during the next :months months.": "This user has a discount of {discountAmount} for all invoices during the next {months} months.",
+        "This user has a discount of :discountAmount for all invoices during the next month.": "This user has a discount of {discountAmount} for all invoices during the next month.",
+        "This user has a discount of :discountAmount forever.": "This user has a discount of {discountAmount} forever.",
+        "Toggle Navigation": "Toggle Navigation",
+        "Token Can": "Token Can",
+        "Token Name": "Token Name",
+        "Total Price Including Tax": "Total Price Including Tax",
+        "Total Revenue": "Total Revenue",
+        "Total Volume": "Total Volume",
+        "Trial": "Trial",
+        "Trialing": "Trialing",
+        "Two-Factor Authentication": "Two-Factor Authentication",
+        "Two-Factor Authentication Reset Code": "Two-Factor Authentication Reset Code",
+        "Type": "Type",
+        "Update": "Update",
+        "Update Announcement": "Update Announcement",
+        "Update Password": "Update Password",
+        "Update Payment Method": "Update Payment Method",
+        "Update Photo": "Update Photo",
+        "Update Subscription": "Update Subscription",
+        "Update VAT ID": "Update VAT ID",
+        "Updating": "Updating",
+        "Users": "Users",
+        "Users Currently Trialing": "Users Currently Trialing",
+        "VAT ID": "VAT ID",
+        "Verify": "Verify",
+        "We don't have anything to show you right now! But when we do, we'll be sure to let you know. Talk to you soon!": "We don't have anything to show you right now! But when we do, we'll be sure to let you know. Talk to you soon!",
+        "We had trouble updating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.": "We had trouble updating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.",
+        "We had trouble updating your payment method. It's possible your payment provider is preventing us from charging the payment method. Please contact your payment provider or customer support.": "We had trouble updating your payment method. It's possible your payment provider is preventing us from charging the payment method. Please contact your payment provider or customer support.",
+        "We had trouble validating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.": "We had trouble validating your card. It's possible your card provider is preventing us from charging the card. Please contact your card provider or customer support.",
+        "We have received your message and will respond soon!": "We have received your message and will respond soon!",
+        "We were not able to enable two-factor authentication for this phone number.": "We were not able to enable two-factor authentication for this phone number.",
+        "We were unable to update your subscription. Please contact customer support.": "We were unable to update your subscription. Please contact customer support.",
+        "Whoops!": "Whoops!",
+        "Whoops! This coupon code is invalid.": "Whoops! This coupon code is invalid.",
+        "Whoops! This invitation code is invalid.": "Whoops! This invitation code is invalid.",
+        "Yearly Recurring Revenue": "Yearly Recurring Revenue",
+        "Yes, Cancel": "Yes, Cancel",
+        "Yes, Delete": "Yes, Delete",
+        "Yes, I'm Sure": "Yes, I'm Sure",
+        "Yes, Leave": "Yes, Leave",
+        "Yes, Remove": "Yes, Remove",
+        "You": "You",
+        "You are currently subscribed to the :planName plan.": "You are currently subscribed to the {planName} plan.",
+        "You are currently within your free trial period. Your trial will expire on :date.": "You are currently within your free trial period. Your trial will expire on {date}.",
+        "You currently have :count invitation(s) remaining.": "You currently have {count} invitation(s) remaining.",
+        "You currently receive a discount of :discountAmount for a single invoice.": "You currently receive a discount of {discountAmount} for a single invoice.",
+        "You currently receive a discount of :discountAmount for all invoices during the next :months billing cycles.": "You currently receive a discount of {discountAmount} for all invoices during the next {months} billing cycles.",
+        "You currently receive a discount of :discountAmount for all invoices during the next :months months.": "You currently receive a discount of {discountAmount} for all invoices during the next {months} months.",
+        "You currently receive a discount of :discountAmount for all invoices during the next billing cycle.": "You currently receive a discount of {discountAmount} for all invoices during the next billing cycle.",
+        "You currently receive a discount of :discountAmount for all invoices during the next month.": "You currently receive a discount of {discountAmount} for all invoices during the next month.",
+        "You currently receive a discount of :discountAmount forever.": "You currently receive a discount of {discountAmount} forever.",
+        "You have cancelled your subscription to the :planName plan.": "You have cancelled your subscription to the {planName} plan.",
+        "You may revoke the token at any time from your API settings.": "You may revoke the token at any time from your API settings.",
+        "Your Email Address": "Your Email Address",
+        "Your Settings": "Your Settings",
+        "Your VAT ID has been updated!": "Your VAT ID has been updated!",
+        "Your billing information has been updated!": "Your billing information has been updated!",
+        "Your card has been updated.": "Your card has been updated.",
+        "Your contact information has been updated!": "Your contact information has been updated!",
+        "Your password has been updated!": "Your password has been updated!",
+        "Your payment method has been updated.": "Your payment method has been updated.",
+        "Your session has expired. Please login again to continue.": "Your session has expired. Please login again to continue.",
+        "Your trial period will expire on ": "Your trial period will expire on ",
+        "ZIP \/ Postal Code": "ZIP \/ Postal Code",
+        "Your current plan doesn't allow you to invite more members, please upgrade your subscription.": "Your current plan doesn't allow you to invite more members, please upgrade your subscription.",
+        "please upgrade your subscription": "please upgrade your subscription",
+        "second address line": "second address line",
+        "Alabama": "Alabama",
+        "Alaska": "Alaska",
+        "Arizona": "Arizona",
+        "Arkansas": "Arkansas",
+        "California": "California",
+        "Colorado": "Colorado",
+        "Connecticut": "Connecticut",
+        "Delaware": "Delaware",
+        "District of Columbia": "District of Columbia",
+        "Federated States Of Micronesia": "Federated States Of Micronesia",
+        "Florida": "Florida",
+        "Hawaii": "Hawaii",
+        "Idaho": "Idaho",
+        "Illinois": "Illinois",
+        "Indiana": "Indiana",
+        "Iowa": "Iowa",
+        "Kansas": "Kansas",
+        "Kentucky": "Kentucky",
+        "Louisiana": "Louisiana",
+        "Maine": "Maine",
+        "Maryland": "Maryland",
+        "Massachusetts": "Massachusetts",
+        "Michigan": "Michigan",
+        "Minnesota": "Minnesota",
+        "Mississippi": "Mississippi",
+        "Missouri": "Missouri",
+        "Montana": "Montana",
+        "Nebraska": "Nebraska",
+        "Nevada": "Nevada",
+        "New Hampshire": "New Hampshire",
+        "New Jersey": "New Jersey",
+        "New Mexico": "New Mexico",
+        "New York": "New York",
+        "North Carolina": "North Carolina",
+        "North Dakota": "North Dakota",
+        "Ohio": "Ohio",
+        "Oklahoma": "Oklahoma",
+        "Oregon": "Oregon",
+        "Pennsylvania": "Pennsylvania",
+        "Rhode Island": "Rhode Island",
+        "South Carolina": "South Carolina",
+        "South Dakota": "South Dakota",
+        "Tennessee": "Tennessee",
+        "Texas": "Texas",
+        "Utah": "Utah",
+        "Vermont": "Vermont",
+        "Virgin Islands": "Virgin Islands",
+        "Virginia": "Virginia",
+        "Washington": "Washington",
+        "West Virginia": "West Virginia",
+        "Wisconsin": "Wisconsin",
+        "Wyoming": "Wyoming",
+        "Armed Forces Africa \/ Canada \/ Europe \/ Middle East": "Armed Forces Africa \/ Canada \/ Europe \/ Middle East",
+        "Armed Forces America (Except Canada)": "Armed Forces America (Except Canada)",
+        "Armed Forces Pacific": "Armed Forces Pacific",
+        "Alberta": "Alberta",
+        "British Columbia": "British Columbia",
+        "Manitoba": "Manitoba",
+        "New Brunswick": "New Brunswick",
+        "Newfoundland and Labrador": "Newfoundland and Labrador",
+        "Northwest Territories": "Northwest Territories",
+        "Nova Scotia": "Nova Scotia",
+        "Nunavut": "Nunavut",
+        "Ontario": "Ontario",
+        "Prince Edward Island": "Prince Edward Island",
+        "Quebec": "Quebec",
+        "Saskatchewan": "Saskatchewan",
+        "Yukon": "Yukon",
+        "Afghanistan": "Afghanistan",
+        "Åland Islands": "Åland Islands",
+        "Albania": "Albania",
+        "Algeria": "Algeria",
+        "American Samoa": "American Samoa",
+        "Andorra": "Andorra",
+        "Angola": "Angola",
+        "Anguilla": "Anguilla",
+        "Antarctica": "Antarctica",
+        "Antigua and Barbuda": "Antigua and Barbuda",
+        "Argentina": "Argentina",
+        "Armenia": "Armenia",
+        "Aruba": "Aruba",
+        "Australia": "Australia",
+        "Austria": "Austria",
+        "Azerbaijan": "Azerbaijan",
+        "Bahamas": "Bahamas",
+        "Bahrain": "Bahrain",
+        "Bangladesh": "Bangladesh",
+        "Barbados": "Barbados",
+        "Belarus": "Belarus",
+        "Belgium": "Belgium",
+        "Belize": "Belize",
+        "Benin": "Benin",
+        "Bermuda": "Bermuda",
+        "Bhutan": "Bhutan",
+        "Bolivia, Plurinational State of": "Bolivia, Plurinational State of",
+        "Bosnia and Herzegovina": "Bosnia and Herzegovina",
+        "Botswana": "Botswana",
+        "Bouvet Island": "Bouvet Island",
+        "Brazil": "Brazil",
+        "British Indian Ocean Territory": "British Indian Ocean Territory",
+        "Brunei Darussalam": "Brunei Darussalam",
+        "Bulgaria": "Bulgaria",
+        "Burkina Faso": "Burkina Faso",
+        "Burundi": "Burundi",
+        "Cambodia": "Cambodia",
+        "Cameroon": "Cameroon",
+        "Canada": "Canada",
+        "Cape Verde": "Cape Verde",
+        "Cayman Islands": "Cayman Islands",
+        "Central African Republic": "Central African Republic",
+        "Chad": "Chad",
+        "Chile": "Chile",
+        "China": "China",
+        "Christmas Island": "Christmas Island",
+        "Cocos (Keeling) Islands": "Cocos (Keeling) Islands",
+        "Colombia": "Colombia",
+        "Comoros": "Comoros",
+        "Congo": "Congo",
+        "Congo, the Democratic Republic of the": "Congo, the Democratic Republic of the",
+        "Cook Islands": "Cook Islands",
+        "Costa Rica": "Costa Rica",
+        "Côte d'Ivoire": "Côte d'Ivoire",
+        "Croatia": "Croatia",
+        "Cuba": "Cuba",
+        "Cyprus": "Cyprus",
+        "Czech Republic": "Czech Republic",
+        "Denmark": "Denmark",
+        "Djibouti": "Djibouti",
+        "Dominica": "Dominica",
+        "Dominican Republic": "Dominican Republic",
+        "Ecuador": "Ecuador",
+        "Egypt": "Egypt",
+        "El Salvador": "El Salvador",
+        "Equatorial Guinea": "Equatorial Guinea",
+        "Eritrea": "Eritrea",
+        "Estonia": "Estonia",
+        "Ethiopia": "Ethiopia",
+        "Falkland Islands (Malvinas)": "Falkland Islands (Malvinas)",
+        "Faroe Islands": "Faroe Islands",
+        "Fiji": "Fiji",
+        "Finland": "Finland",
+        "France": "France",
+        "French Guiana": "French Guiana",
+        "French Polynesia": "French Polynesia",
+        "French Southern Territories": "French Southern Territories",
+        "Gabon": "Gabon",
+        "Gambia": "Gambia",
+        "Georgia": "Georgia",
+        "Germany": "Germany",
+        "Ghana": "Ghana",
+        "Gibraltar": "Gibraltar",
+        "Greece": "Greece",
+        "Greenland": "Greenland",
+        "Grenada": "Grenada",
+        "Guadeloupe": "Guadeloupe",
+        "Guam": "Guam",
+        "Guatemala": "Guatemala",
+        "Guernsey": "Guernsey",
+        "Guinea": "Guinea",
+        "Guinea-Bissau": "Guinea-Bissau",
+        "Guyana": "Guyana",
+        "Haiti": "Haiti",
+        "Heard Island and McDonald Islands": "Heard Island and McDonald Islands",
+        "Holy See (Vatican City State)": "Holy See (Vatican City State)",
+        "Honduras": "Honduras",
+        "Hong Kong": "Hong Kong",
+        "Hungary": "Hungary",
+        "Iceland": "Iceland",
+        "India": "India",
+        "Indonesia": "Indonesia",
+        "Iran, Islamic Republic of": "Iran, Islamic Republic of",
+        "Iraq": "Iraq",
+        "Ireland": "Ireland",
+        "Isle of Man": "Isle of Man",
+        "Israel": "Israel",
+        "Italy": "Italy",
+        "Jamaica": "Jamaica",
+        "Japan": "Japan",
+        "Jersey": "Jersey",
+        "Jordan": "Jordan",
+        "Kazakhstan": "Kazakhstan",
+        "Kenya": "Kenya",
+        "Kiribati": "Kiribati",
+        "Korea, Democratic People's Republic of": "Korea, Democratic People's Republic of",
+        "Korea, Republic of": "Korea, Republic of",
+        "Kuwait": "Kuwait",
+        "Kyrgyzstan": "Kyrgyzstan",
+        "Lao People's Democratic Republic": "Lao People's Democratic Republic",
+        "Latvia": "Latvia",
+        "Lebanon": "Lebanon",
+        "Lesotho": "Lesotho",
+        "Liberia": "Liberia",
+        "Libyan Arab Jamahiriya": "Libyan Arab Jamahiriya",
+        "Liechtenstein": "Liechtenstein",
+        "Lithuania": "Lithuania",
+        "Luxembourg": "Luxembourg",
+        "Macao": "Macao",
+        "Macedonia, the former Yugoslav Republic of": "Macedonia, the former Yugoslav Republic of",
+        "Madagascar": "Madagascar",
+        "Malawi": "Malawi",
+        "Malaysia": "Malaysia",
+        "Maldives": "Maldives",
+        "Mali": "Mali",
+        "Malta": "Malta",
+        "Marshall Islands": "Marshall Islands",
+        "Martinique": "Martinique",
+        "Mauritania": "Mauritania",
+        "Mauritius": "Mauritius",
+        "Mayotte": "Mayotte",
+        "Mexico": "Mexico",
+        "Micronesia, Federated States of": "Micronesia, Federated States of",
+        "Moldova, Republic of": "Moldova, Republic of",
+        "Monaco": "Monaco",
+        "Mongolia": "Mongolia",
+        "Montenegro": "Montenegro",
+        "Montserrat": "Montserrat",
+        "Morocco": "Morocco",
+        "Mozambique": "Mozambique",
+        "Myanmar": "Myanmar",
+        "Namibia": "Namibia",
+        "Nauru": "Nauru",
+        "Nepal": "Nepal",
+        "Netherlands": "Netherlands",
+        "Netherlands Antilles": "Netherlands Antilles",
+        "New Caledonia": "New Caledonia",
+        "New Zealand": "New Zealand",
+        "Nicaragua": "Nicaragua",
+        "Niger": "Niger",
+        "Nigeria": "Nigeria",
+        "Niue": "Niue",
+        "Norfolk Island": "Norfolk Island",
+        "Northern Mariana Islands": "Northern Mariana Islands",
+        "Norway": "Norway",
+        "Oman": "Oman",
+        "Pakistan": "Pakistan",
+        "Palau": "Palau",
+        "Palestinian Territory, Occupied": "Palestinian Territory, Occupied",
+        "Panama": "Panama",
+        "Papua New Guinea": "Papua New Guinea",
+        "Paraguay": "Paraguay",
+        "Peru": "Peru",
+        "Philippines": "Philippines",
+        "Pitcairn": "Pitcairn",
+        "Poland": "Poland",
+        "Portugal": "Portugal",
+        "Puerto Rico": "Puerto Rico",
+        "Qatar": "Qatar",
+        "Réunion": "Réunion",
+        "Romania": "Romania",
+        "Russian Federation": "Russian Federation",
+        "Rwanda": "Rwanda",
+        "Saint Barthélemy": "Saint Barthélemy",
+        "Saint Helena": "Saint Helena",
+        "Saint Kitts and Nevis": "Saint Kitts and Nevis",
+        "Saint Lucia": "Saint Lucia",
+        "Saint Martin (French part)": "Saint Martin (French part)",
+        "Saint Pierre and Miquelon": "Saint Pierre and Miquelon",
+        "Saint Vincent and the Grenadines": "Saint Vincent and the Grenadines",
+        "Samoa": "Samoa",
+        "San Marino": "San Marino",
+        "Sao Tome and Principe": "Sao Tome and Principe",
+        "Saudi Arabia": "Saudi Arabia",
+        "Senegal": "Senegal",
+        "Serbia": "Serbia",
+        "Seychelles": "Seychelles",
+        "Sierra Leone": "Sierra Leone",
+        "Singapore": "Singapore",
+        "Slovakia": "Slovakia",
+        "Slovenia": "Slovenia",
+        "Solomon Islands": "Solomon Islands",
+        "Somalia": "Somalia",
+        "South Africa": "South Africa",
+        "South Georgia and the South Sandwich Islands": "South Georgia and the South Sandwich Islands",
+        "Spain": "Spain",
+        "Sri Lanka": "Sri Lanka",
+        "Sudan": "Sudan",
+        "Suriname": "Suriname",
+        "Svalbard and Jan Mayen": "Svalbard and Jan Mayen",
+        "Swaziland": "Swaziland",
+        "Sweden": "Sweden",
+        "Switzerland": "Switzerland",
+        "Syrian Arab Republic": "Syrian Arab Republic",
+        "Taiwan, Province of China": "Taiwan, Province of China",
+        "Tajikistan": "Tajikistan",
+        "Tanzania, United Republic of": "Tanzania, United Republic of",
+        "Thailand": "Thailand",
+        "Timor-Leste": "Timor-Leste",
+        "Togo": "Togo",
+        "Tokelau": "Tokelau",
+        "Tonga": "Tonga",
+        "Trinidad and Tobago": "Trinidad and Tobago",
+        "Tunisia": "Tunisia",
+        "Turkey": "Turkey",
+        "Turkmenistan": "Turkmenistan",
+        "Turks and Caicos Islands": "Turks and Caicos Islands",
+        "Tuvalu": "Tuvalu",
+        "Uganda": "Uganda",
+        "Ukraine": "Ukraine",
+        "United Arab Emirates": "United Arab Emirates",
+        "United Kingdom": "United Kingdom",
+        "United States": "United States",
+        "United States Minor Outlying Islands": "United States Minor Outlying Islands",
+        "Uruguay": "Uruguay",
+        "Uzbekistan": "Uzbekistan",
+        "Vanuatu": "Vanuatu",
+        "Venezuela, Bolivarian Republic of": "Venezuela, Bolivarian Republic of",
+        "Viet Nam": "Viet Nam",
+        "Virgin Islands, British": "Virgin Islands, British",
+        "Virgin Islands, U.S.": "Virgin Islands, U.S.",
+        "Wallis and Futuna": "Wallis and Futuna",
+        "Western Sahara": "Western Sahara",
+        "Yemen": "Yemen",
+        "Zambia": "Zambia",
+        "Zimbabwe": "Zimbabwe",
+        "global": {
+            "Reports": "Informes",
+            "Name": "Nombre",
+            "Year": "Año",
+            "Date": "Fecha",
+            "StartDate": "Fecha de Inicio",
+            "EndDate": "Fecha Final",
+            "Taxid": "Cedula de Identidad",
+            "Code": "Codigo",
+            "Alias": "Alias",
+            "New": "Nuevo",
+            "Create": "Crear",
+            "Save": "Guardar",
+            "Save-and-New": "Guardar y cargar otro",
+            "Cancel": "Cancelar",
+            "Action": "Acciones",
+            "BelongsTo": "Pertenece a",
+            "Type": "Tipo",
+            "SubType": "Sub Tipo",
+            "Notification": "Notificación | Notificaciones",
+            "Dashboard": "Tablero {team}"
+        },
+        "passwords": {
+            "password": "Las contraseñas deben tener al menos seis caracteres y coincidir con la confirmación.",
+            "reset": "¡Tu contraseña ha sido restablecida!",
+            "sent": "¡Le hemos enviado por correo electrónico el enlace de restablecimiento de contraseña!",
+            "token": "Este token de restablecimiento de contraseña no es válido.",
+            "user": "No podemos encontrar un usuario con esa dirección de correo electrónico."
+        },
+        "auth": {
+            "failed": "Las credenciales no coinciden con nuestros registros.",
+            "throttle": "Demasiados intentos de inicio de sesión. Por favor, inténtelo de nuevo en minutos."
+        },
+        "pagination": {
+            "previous": "&laquo; anterior",
+            "next": "siguiente &raquo;"
+        },
+        "enum": {
+            "Assets": "Activos",
+            "Liabilities": "Passivos",
+            "Equity": "Patrimonio",
+            "Revenues": "Ingresos",
+            "Expenses": "Egresos",
+            "descAsset": "Todo lo que posee que tenga valor, como edificios, terrenos, equipos, vehículos, otros objetos de valor e inventario",
+            "descLiability": "Incluyen préstamos bancarios, hipotecas, préstamos personales y pagarés, pagos de impuestos a la renta adeudados, impuestos a la nómina adeudados y cuentas por pagar",
+            "descEquity": "Representa el patrimonio residual (en pocas palabras activos menos los pasivos)",
+            "descRevenue": "Representa tus ganancias Ejemplos comunes incluyen ventas, ingresos por servicios e ingresos por intereses",
+            "descExpense": "Represente sus gastos. Ejemplos comunes son utilidades, rentas, depreciación, interés y seguro",
+            "BankAccount": "Cuentas de Banco",
+            "PayrollAccount": "Cuentas de Nómina",
+            "PettyCash": "Caja Chica",
+            "MarketableSecurities": "Marketable Securities",
+            "AccountsReceivable": "Cuentas por Cobrar",
+            "AllowanceDoubtfulAccounts": "Allowance Doubtful Accounts",
+            "PrepaidExpenses": "Gastos Prepagos",
+            "Inventory": "Inventario",
+            "FixedAssets": "Activos Fijos",
+            "AccumulatedDepreciation": "Depreciación Acumulada",
+            "OtherAssets": "Otros Activos",
+            "VATReceivable": "IVA Crédito",
+            "CommonStock": "Acciones",
+            "PreferredStock": "Preferred Stock",
+            "RetainedEarnings": "Ganancias Retenidas",
+            "CostofGoodsSold": "Costo de Mercaderia Vendida",
+            "AdvertisingExpense": "Gastos de Publicidad",
+            "FinancialFees": "Gastos Financieros",
+            "DepreciationExpense": "Gasto de Depreciación",
+            "PayrollTaxExpense": "Payroll Tax Expense",
+            "RentExpense": "Rent Expense",
+            "SuppliesExpense": "Supplies Expense",
+            "UtilitiesExpense": "Utilities Expense",
+            "WagesExpense": "Wages Expense",
+            "OtherExpenses": "Other Expenses",
+            "AccountsPayable": "Accounts Payable",
+            "AccruedLiabilities": "Accrued Liabilities",
+            "VATPayable": "VAT Payable",
+            "TaxesPayable": "Taxes Payable",
+            "WagesPayable": "Wages Payable",
+            "NotesPayable": "Notes Payable",
+            "Revenue": "Revenue",
+            "SalesReturns": "Sales Returns"
+        },
+        "accounting": {
+            "Accounting": "Contabilidad",
+            "Accounts": "Cuentas",
+            "Journal": "Asientos",
+            "JournalTemplate": "Plantilla de Asientos",
+            "JournalSimulation": "Simulación de Asientos",
+            "ChartofAccounts": "Plan de Cuentas",
+            "AccountingCycle": "Período Fiscal",
+            "ChartVersion": "Versión",
+            "IsAccountable": "Es Imputable",
+            "JournalEntries": "Libro Diario",
+            "GroupJournalEntries": "Libro Mayor",
+            "BalanceSheet": "Balance General",
+            "BalanceSheet(Comparative)": "Balance General (Comparative)",
+            "IncomeStatement": "Income Statement",
+            "StatementofCashflows": "Flujo de Caja"
+        },
+        "commercial": {
+            "Sales": "Ventas",
+            "Purchases": "Compras",
+            "SalesBook": "Libro Ventas",
+            "AccountsRecievable": "Cuentas por Cobrar",
+            "CreditNotes": "Notas de Créditos",
+            "Exports": "Exportaciones",
+            "PurchaseBook": "Libro Compras",
+            "AccountsPayable": "Cuentas por Pagar",
+            "DebitNotes": "Notas de Debito",
+            "Imports": "Importaciones",
+            "SalesVAT": "Libro IVA Ventas",
+            "PurchaseVAT": "Libro IVA Compras",
+            "Inventory": "Inventario",
+            "MoneyTransfers": "Transferencia de Dinero",
+            "Productions": "Producciones",
+            "FixedAssets": "Activos Fijos",
+            "Exempt": "Exenta",
+            "Value": "Valor",
+            "SalesTax": "IVA",
+            "Taxable": "Gravada",
+            "Account": "Cuenta",
+            "Condition": "Condición",
+            "Customer": "Cliente",
+            "Supplier": "Proveedor",
+            "Document": "Documentp",
+            "InvoiceNumber": "Número de Factura",
+            "Currency": "Moneda",
+            "Total": "Total",
+            "Detail": "Detalle"
+        },
+        "validation": {
+            "accepted": "The {attribute} must be accepted.",
+            "active_url": "The {attribute} is not a valid URL.",
+            "after": "The {attribute} must be a date after {date}.",
+            "alpha": "The {attribute} may only contain letters.",
+            "alpha_dash": "The {attribute} may only contain letters, numbers, and dashes.",
+            "alpha_num": "The {attribute} may only contain letters and numbers.",
+            "array": "The {attribute} must be an array.",
+            "before": "The {attribute} must be a date before {date}.",
+            "between": {
+                "numeric": "The {attribute} must be between {min} and {max}.",
+                "file": "The {attribute} must be between {min} and {max} kilobytes.",
+                "string": "The {attribute} must be between {min} and {max} characters.",
+                "array": "The {attribute} must have between {min} and {max} items."
+            },
+            "boolean": "The {attribute} field must be true or false.",
+            "confirmed": "The {attribute} confirmation does not match.",
+            "country": "The {attribute} field is not a valid country.",
+            "date": "The {attribute} is not a valid date.",
+            "date_format": "The {attribute} does not match the format {format}.",
+            "different": "The {attribute} and {other} must be different.",
+            "digits": "The {attribute} must be {digits} digits.",
+            "digits_between": "The {attribute} must be between {min} and {max} digits.",
+            "distinct": "The {attribute} field has a duplicate value.",
+            "email": "The {attribute} must be a valid email address.",
+            "exists": "The selected {attribute} is invalid.",
+            "filled": "El campo de {attribute} es obligatorio.",
+            "image": "The {attribute} must be an image.",
+            "in": "The selected {attribute} is invalid.",
+            "in_array": "The {attribute} field does not exist in {other}.",
+            "integer": "The {attribute} must be an integer.",
+            "ip": "The {attribute} must be a valid IP address.",
+            "json": "The {attribute} must be a valid JSON string.",
+            "max": {
+                "numeric": "The {attribute} may not be greater than {max}.",
+                "file": "The {attribute} may not be greater than {max} kilobytes.",
+                "string": "The {attribute} may not be greater than {max} characters.",
+                "array": "The {attribute} may not have more than {max} items."
+            },
+            "mimes": "The {attribute} must be a file of type: {values}.",
+            "min": {
+                "numeric": "The {attribute} must be at least {min}.",
+                "file": "The {attribute} must be at least {min} kilobytes.",
+                "string": "The {attribute} must be at least {min} characters.",
+                "array": "The {attribute} must have at least {min} items."
+            },
+            "not_in": "The selected {attribute} is invalid.",
+            "numeric": "The {attribute} must be a number.",
+            "present": "The {attribute} field must be present.",
+            "regex": "The {attribute} format is invalid.",
+            "required": "The {attribute} field is required.",
+            "required_if": "The {attribute} field is required when {other} is {value}.",
+            "required_unless": "The {attribute} field is required unless {other} is in {values}.",
+            "required_with": "The {attribute} field is required when {values} is present.",
+            "required_with_all": "The {attribute} field is required when {values} is present.",
+            "required_without": "The {attribute} field is required when {values} is not present.",
+            "required_without_all": "The {attribute} field is required when none of {values} are present.",
+            "same": "The {attribute} and {other} must match.",
+            "size": {
+                "numeric": "The {attribute} must be {size}.",
+                "file": "The {attribute} must be {size} kilobytes.",
+                "string": "The {attribute} must be {size} characters.",
+                "array": "The {attribute} must contain {size} items."
+            },
+            "state": "This state is not valid for the specified country.",
+            "string": "The {attribute} must be a string.",
+            "timezone": "The {attribute} must be a valid zone.",
+            "unique": "The {attribute} has already been taken.",
+            "url": "The {attribute} format is invalid.",
+            "vat_id": "This VAT identification number is invalid.",
+            "custom": {
+                "attribute-name": {
+                    "rule-name": "custom-message"
+                }
+            },
+            "attributes": {
+                "team": "team"
+            }
+        },
+        "teams": {
+            "create_team": "Crear Equipo",
+            "team_name": "Nombre del Equipo",
+            "team_slug": "Team Slug",
+            "team_members": "Miembros del Equipo",
+            "team_trial": "Team Trial",
+            "member": " Miembro",
+            "you_have_x_teams_remaining": "Tu Actualmente tienes {teamCount} equipos restantes.",
+            "slug_input_explanation": "Este slug se usa para identificar a su equipo en las URL.",
+            "plan_allows_no_more_teams": "Su plan actual no le permite crear más equipos",
+            "team": " Equipo",
+            "update_team_name": "Actualizar nombre del equipo",
+            "team_name_was_updated": " ¡Tu nombre de equipo ha sido actualizado!",
+            "current_teams": "Equipos actuales",
+            "leave_team": "Salir del equipo",
+            "are_you_sure_you_want_to_leave_team": "¿Estás seguro de que quieres abandonar este equipo?",
+            "delete_team": " Eliminar Equipo",
+            "are_you_sure_you_want_to_delete_team": "¿Seguro que quieres eliminar este equipo?",
+            "if_you_delete_team_all_data_will_be_deleted": "Si elige eliminar el equipo, todos los datos se eliminarán permanentemente.",
+            "team_photo": "Foto del Equipo",
+            "edit_team_member": "Editar miembro del equipo",
+            "remove_team_member": "Eliminar miembro del equipo",
+            "are_you_sure_you_want_to_delete_member": "¿Seguro que quieres eliminar a este miembro del equipo?",
+            "team_settings": "Configuración del equipo",
+            "team_profile": "Perfil del equipo",
+            "view_all_teams": "Ver todos los equipos",
+            "team_billing": "Facturación del equipo",
+            "you_have_x_invitations_remaining": "Tu Actualmente tienes {count} invitacion(es) pendientes",
+            "teams": " Equipos",
+            "teams_currently_trialing": "Equipos actualmente en prueba",
+            "we_found_invitation_to_team": "Encontramos tu invitación al equipo {teamName}",
+            "wheres_your_team": "¿Dónde está tu equipo?",
+            "looks_like_you_are_not_part_of_team": "¡Parece que no eres parte de ningún equipo!",
+            "user_invited_to_join_team": "{userName} te ha invitado a unirte a su equipo!",
+            "please_upgrade_to_create_more_teams": "Por favor, actualice su suscripción para crear más equipos.",
+            "team_trial_will_expire_on": "El período de prueba del equipo caducará el {date}.",
+            "you_have_been_invited_to_join_team": "Usted ha sido invitado a unirse al equipo {teamName}",
+            "please_upgrade_to_add_more_members": "Actualice su suscripción para agregar más miembros del equipo.",
+            "user_already_on_team": "Ese usuario ya está en el equipo.",
+            "user_already_invited_to_team": "Ese usuario ya está invitado al equipo.",
+            "user_doesnt_belong_to_team": "El usuario no pertenece al equipo dado.",
+            "not_eligible_based_on_current_members_teams": "No es elegible para este plan en función de su número actual de equipos \/ miembros del equipo."
+        }
+    }
 });
 
 /***/ }),

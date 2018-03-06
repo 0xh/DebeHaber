@@ -57,7 +57,9 @@
                                 </div>
                                 <input type="text" class="form-control m-input" v-validate:name="'required|alpha_spaces'" v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
                             </div>
-                            <div class="form-control-feedback" v-show="errors.has('name')">@lang('validation.filled', ['attribute' => __('commercial.Account')])</div>
+                            <div class="form-control-feedback" v-show="errors.has('name')">
+                                @lang('validation.filled', ['attribute' => __('commercial.Account')])
+                            </div>
                             <span class="m-form__help">Create an account code (number) and give it a name for easy identification</span>
                         </div>
                     </div>

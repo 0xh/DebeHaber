@@ -30,7 +30,7 @@
             @input="update"/>
 
             <div class="input-group-append">
-                <span class="input-group-text" id="basic-addon1">
+                <span class="input-group-text m--font-boldest" id="basic-addon1">
                     {{ selectText }}
                 </span>
             </div>

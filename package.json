@@ -26,6 +26,7 @@
     "vee-validate": "^2.0.5",
     "vue": "2.*",
     "vue-good-table": "^1.19.3",
+    "vue-i18n": "^7.4.2",
     "vue-laravel-forms": "^1.0.10-beta",
     "vue-router": "^3.0.1",
     "vue-shortkey": "^3.0.4",

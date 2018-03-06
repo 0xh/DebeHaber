@@ -166,6 +166,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Sleimanx2\Plastic\PlasticServiceProvider::class,
         Hootlex\Friendships\FriendshipsServiceProvider::class,
+        MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
     ],
 
     /*
