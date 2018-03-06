@@ -91,14 +91,14 @@ Vue.component('purchases-list',{
         }
       });
     },
-    onEdit: function(data)
+    onEdit: function(id)
     {
 
       var app = this;
       app.$parent.status=1;
       $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchasesByID/' + data ,
-          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_purchasesByID/' + id ,
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,

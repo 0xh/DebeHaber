@@ -109504,7 +109504,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('chart', {
                     }
                 },
                 error: function error(xhr, status, _error2) {
-                    this.$swal(status);
+                    app.$swal(status);
                 }
             });
         }

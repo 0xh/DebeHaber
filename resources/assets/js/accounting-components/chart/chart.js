@@ -155,7 +155,7 @@ Vue.component('chart',{
                 },
                 error: function(xhr, status, error)
                 {
-                    this.$swal(status)
+                    app.$swal(status)
                 }
             });
         }
