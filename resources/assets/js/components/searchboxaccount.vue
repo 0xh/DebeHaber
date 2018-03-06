@@ -10,11 +10,12 @@
                     </template>
                 </span>
             </div>
-
+<!-- {{ $t('global.Search') }} -->
             <input type="text"
             name ="contribuyente"
             class="form-control m-input"
             placeholder=""
+
             aria-describedby="basic-addon2"
             autocomplete="off"
 
