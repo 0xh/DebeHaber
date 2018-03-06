@@ -62,7 +62,7 @@ class ChartController extends Controller
         }
 
         $chart->type = $request->type;
-        $chart->coefficient = $taxPayer->coefficient;
+        $chart->coefficient = $request->coefficient;
 
         $chart->code = $request->code;
         $chart->name = $request->name;
