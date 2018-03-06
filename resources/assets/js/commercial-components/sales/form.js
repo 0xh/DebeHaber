@@ -118,6 +118,7 @@ Vue.component('sales-form',{
       var app = this;
       var api = null;
       app.type = app.trantype;
+      console.log(this.$children);
       if (this.type == 1)
       {
         this.customer_id = this.$children[0].id;
