@@ -166,6 +166,7 @@ class ChartController extends Controller
             $q->where('name', 'like', '%' . $query . '%')
             ->orWhere('code', 'like', '%' . $query . '%');
         })
+        ->with('children')
         ->get();
 
         return response()->json($charts);

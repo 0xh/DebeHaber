@@ -115,6 +115,15 @@ class Chart extends Model
         ->where('sub_type', 12);
     }
 
+    /**
+    * Get the aliases for the model.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function children()
+    {
+        return $this->hasMany(Chart::class, 'parent_id', 'id');
+    }
 
     /**
     * Get the version that owns the model.
@@ -133,7 +142,7 @@ class Chart extends Model
     */
     public function aliases()
     {
-        return $this->hasMany(ChartAlias::class, 'foreign_key', 'local_key');
+        return $this->hasMany(ChartAlias::class);
     }
 
     /**
@@ -153,7 +162,7 @@ class Chart extends Model
     */
     public function partner()
     {
-        return $this->belongsTo(Taxpayer::class);
+        return $this->belongsTo(Taxpayer::class, 'id', 'partner_id');
     }
 
     /**

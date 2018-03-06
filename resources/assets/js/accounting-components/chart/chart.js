@@ -16,6 +16,7 @@ Vue.component('chart',{
             type:'',
             sub_type:'',
             coefficient:'',
+            canChange: true,
             list: [
                 //     id:0,
                 //     chart_version_id:'',
@@ -30,7 +31,6 @@ Vue.component('chart',{
             ],
             chartversions:[],
             accounts:[]
-
         }
     },
 

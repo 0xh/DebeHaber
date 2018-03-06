@@ -3408,7 +3408,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     extends: __WEBPACK_IMPORTED_MODULE_0_vue_typeahead___default.a,
-    props: ['url', 'current_company', 'cycle'],
+    props: ['url', 'current_company', 'cycle', 'controlName'],
     data: function data() {
         return {
             name: '',
@@ -3419,8 +3419,9 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED
             limit: 5,
             minChars: 3,
             queryParamName: '',
-            selectText: 'Favor Elegir',
-            id: ''
+            selectText: '...',
+            id: '',
+            children: []
         };
     },
 
@@ -3429,8 +3430,13 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED
         onHit: function onHit(item) {
             var app = this;
 
-            app.selectText = item.name + ' | ' + item.code;
+            app.selectText = item.code + ' | ' + item.name;
+
             app.id = item.id;
+            app.children = item.children;
+            app.$parent.code = item.code + '.0' + (Number(item.children.length) + 1);
+            app.$parent.type = item.type;
+            app.$parent.canChange = false;
         }
     }
 });
@@ -92106,8 +92112,8 @@ var render = function() {
           {
             name: "shortkey",
             rawName: "v-shortkey.once",
-            value: ["ctrl", "n"],
-            expression: "['ctrl', 'n']",
+            value: ["alt", "n"],
+            expression: "['alt', 'n']",
             modifiers: { once: true }
           },
           {
@@ -92121,7 +92127,7 @@ var render = function() {
         attrs: {
           type: "text",
           name: "contribuyente",
-          placeholder: "Buscar",
+          placeholder: "",
           "aria-describedby": "basic-addon2",
           autocomplete: "off"
         },
@@ -92187,7 +92193,7 @@ var render = function() {
           { staticClass: "input-group-text", attrs: { id: "basic-addon1" } },
           [
             _vm._v(
-              "\n                @" + _vm._s(_vm.selectText) + "\n            "
+              "\n                " + _vm._s(_vm.selectText) + "\n            "
             )
           ]
         )
@@ -107505,7 +107511,7 @@ Vue.component('chart-version', {
       var api = null;
 
       $.ajax({
-        url: this.taxpayer + '/chart-versions/',
+        url: '',
         headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'post',
         data: json,
@@ -107587,6 +107593,7 @@ Vue.component('chart', {
             type: '',
             sub_type: '',
             coefficient: '',
+            canChange: true,
             list: [
                 //     id:0,
                 //     chart_version_id:'',
@@ -107601,7 +107608,6 @@ Vue.component('chart', {
             ],
             chartversions: [],
             accounts: []
-
         };
     },
 
@@ -107748,7 +107754,7 @@ Vue.component('cycle', {
       var api = null;
 
       $.ajax({
-        url: 'cycles/',
+        url: '',
         headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
         type: 'post',
         data: json,

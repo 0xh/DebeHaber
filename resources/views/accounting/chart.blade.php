@@ -42,7 +42,7 @@
                             @lang('global.BelongsTo'):
                         </label>
                         <div class="col-lg-6">
-                            <router-view name="SearchBoxAccount" url="/accounting/chart/get_parent-accounts/" :cycle="{{ request()->route('cycle')->id }}"  :current_company="{{ request()->route('taxPayer')->id }}" >
+                            <router-view name="SearchBoxAccount" url="/accounting/chart/get_parent-accounts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
 
                             </router-view>
                         </div>
@@ -58,7 +58,7 @@
                                 </div>
                                 <input type="text" class="form-control m-input" v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
                             </div>
-                            <span class="m-form__help">Create an account code (number) and name for easy identification</span>
+                            <span class="m-form__help">Create an account code (number) and give it a name for easy identification</span>
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
@@ -72,7 +72,7 @@
                                         <label class="m-option m-option m-option--plain">
                                             <span class="m-option__control">
                                                 <span class="m-radio m-radio--brand m-radio--check-bold">
-                                                    <input type="radio" v-model="type" value="{{ $value }}">
+                                                    <input type="radio" v-model="type" value="{{ $value }}" :disabled="canChange == false">
                                                     <span></span>
                                                 </span>
                                             </span>

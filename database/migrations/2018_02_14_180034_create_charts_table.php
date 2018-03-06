@@ -41,7 +41,7 @@ class CreateChartsTable extends Migration
             5 = Expense
             ');
 
-            $table->unsignedTinyInteger('sub_type')->default(1)
+            $table->unsignedTinyInteger('sub_type')->nullable()
             ->comment('1 = Cash and Bank Accounts
             2 = Accounts Receivable
             3 = Undeposited Funds

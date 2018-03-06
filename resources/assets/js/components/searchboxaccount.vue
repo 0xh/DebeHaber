@@ -14,11 +14,11 @@
             <input type="text"
             name ="contribuyente"
             class="form-control m-input"
-            placeholder="Buscar"
+            placeholder=""
             aria-describedby="basic-addon2"
             autocomplete="off"
 
-            v-shortkey.once="['ctrl', 'n']"
+            v-shortkey.once="['alt', 'n']"
             @shortkey="add()"
 
             v-model="query"
@@ -31,7 +31,7 @@
 
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon1">
-                    @{{ selectText }}
+                    {{ selectText }}
                 </span>
             </div>
         </div>
@@ -57,7 +57,7 @@ Vue.prototype.$http = Axios
 
 export default {
     extends: VueTypeahead,
-    props: ['url','current_company','cycle'],
+    props: ['url', 'current_company', 'cycle', 'controlName'],
     data () {
         return {
             name:'',
@@ -68,8 +68,9 @@ export default {
             limit: 5,
             minChars: 3,
             queryParamName: '',
-            selectText:'Favor Elegir',
-            id:''
+            selectText:'...',
+            id:'',
+            children:[]
         }
     },
 
@@ -77,11 +78,15 @@ export default {
     {
         onHit (item)
         {
-            var app = this  ;
+            var app = this;
 
-            app.selectText = item.name + ' | ' + item.code;
-            app.id= item.id;
+            app.selectText = item.code + ' | ' + item.name;
 
+            app.id = item.id;
+            app.children = item.children;
+            app.$parent.code = item.code + '.0' + (Number(item.children.length) + 1);
+            app.$parent.type = item.type;
+            app.$parent.canChange = false;
         }
     }
 }
