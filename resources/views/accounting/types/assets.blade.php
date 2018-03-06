@@ -19,7 +19,7 @@
                 </span>
             </span>
             <span class="m-option__body m--font-metal">
-                Assets are awsome. You should have more of these.
+                @lang('enum.descAsset')
             </span>
         </span>
     </label>

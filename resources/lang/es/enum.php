@@ -8,6 +8,12 @@ return [
     'Revenues' => 'Ingresos',
     'Expenses' => 'Egresos',
 
+    'descAsset' => 'Todo lo que posee que tenga valor, como edificios, terrenos, equipos, vehículos, otros objetos de valor e inventario',
+    'descLiability' => 'Incluyen préstamos bancarios, hipotecas, préstamos personales y pagarés, pagos de impuestos a la renta adeudados, impuestos a la nómina adeudados y cuentas por pagar',
+    'descEquity' => 'Representa el patrimonio residual (en pocas palabras activos menos los pasivos)',
+    'descRevenue' => 'Representa tus ganancias Ejemplos comunes incluyen ventas, ingresos por servicios e ingresos por intereses',
+    'descExpense' => 'Represente sus gastos. Ejemplos comunes son utilidades, rentas, depreciación, interés y seguro',
+
     //Chart of Account = Sub Types
     'BankAccount' => 'Cuentas de Banco',
     'PayrollAccount' => 'Cuentas de Nómina',
