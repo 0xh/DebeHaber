@@ -62,13 +62,17 @@ class ChartController extends Controller
         }
 
         $chart->type = $request->type;
-        $chart->coefficient = $request->coefficient;
+        if ($request->coefficient > 0)
+        {
+          $chart->coefficient = $request->coefficient;
+
+        }
 
         $chart->code = $request->code;
         $chart->name = $request->name;
         $chart->save();
 
-        return response()->json('ok');
+        return response()->json(200);
     }
 
     /**

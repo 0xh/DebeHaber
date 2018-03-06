@@ -1,7 +1,12 @@
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+import Vue from 'vue';
+import VueSweetAlert from 'vue-sweetalert';
+
+Vue.use(VueSweetAlert);
 
 Vue.component('chart',{
+
     props: ['taxpayer','cycle'],
     data() {
         return {
@@ -45,6 +50,29 @@ Vue.component('chart',{
 
             app.parent_id = app.$children[0].id;
 
+            if (app.code=='')
+            {
+                app.$swal('Please Check fields?',
+  'code',
+  'warning'
+);
+                return;
+            }
+            if (app.name=='')
+            {
+                app.$swal('Please fill name...');
+                return;
+            }
+            if (app.type==0)
+            {
+                app.$swal('Please Select Type...');
+                return;
+            }
+            if (app.sub_type==0)
+            {
+                app.$swal('Please Select Sub Type...');
+                return;
+            }
             $.ajax({
                 url: '',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -55,7 +83,7 @@ Vue.component('chart',{
                 success: function(data)
                 {
 
-                    if (data == 'ok')
+                    if (data == 200)
                     {
                         app.id = 0;
                         app.parent_id = null;
@@ -77,8 +105,8 @@ Vue.component('chart',{
                 },
                 error: function(xhr, status, error)
                 {
-                    alert('Something went wrong, check logs...' + error);
-                    console.log(error);
+                    app.$swal('Something went wrong, check logs...' + error);
+                    console.log(xhr.responseText);
                 }
             });
         },
@@ -98,6 +126,7 @@ Vue.component('chart',{
             app.coefficient = data.coefficient;
         },
         init(){
+
             var app = this;
             $.ajax({
                 url: '/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get/' ,
@@ -126,7 +155,7 @@ Vue.component('chart',{
                 },
                 error: function(xhr, status, error)
                 {
-                    console.log(status);
+                    this.$swal(status)
                 }
             });
         }

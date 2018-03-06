@@ -133,7 +133,7 @@
           </div>
         </div>
       </div>
-@{{type}} @{{sub_type}}
+
       <div v-if="type === '1' || type=== '2' || type === 1 || type=== 2">
         <div class="form-group m-form__group row" v-if="sub_type === '12' || sub_type=== '3' || sub_type === 12 || sub_type=== 3">
           <label class="col-lg-2 col-form-label">
