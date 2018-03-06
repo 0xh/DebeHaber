@@ -19,18 +19,18 @@
     <chart :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" inline-template>
         <div>
             {{-- <div class="m-portlet"> --}}
-            <div class="m-portlet__head">
+            {{-- <div class="m-portlet__head">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
                             <i class="la la-gear"></i>
                         </span>
                         <h3 class="m-portlet__head-text">
-                            Border Seperator Form Groups
+                            Form
                         </h3>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="m-form__seperator m-form__seperator--dashed"></div>
 
