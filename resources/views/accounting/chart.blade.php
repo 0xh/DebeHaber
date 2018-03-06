@@ -32,8 +32,6 @@
                 </div>
             </div> --}}
 
-            <div class="m-form__seperator m-form__seperator--dashed"></div>
-
             <!--begin::Form-->
             <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator">
                 <div class="m-portlet__body">
@@ -47,20 +45,25 @@
                             </router-view>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+
+                    <div class="form-group m-form__group row has-danger">
                         <label class="col-lg-2 col-form-label">
-                            @lang('accounting.ChartofAccounts'):
+                            @lang('commercial.Account'):
                         </label>
                         <div class="col-lg-6">
                             <div class="input-group">
                                 <div class="input-group-preappend">
                                     <input type="text" class="input-group-text" v-model="code" placeholder="@lang('global.Code')" aria-describedby="basic-addon2">
                                 </div>
-                                <input type="text" class="form-control m-input" v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control m-input" v-validate:name="'required|alpha_spaces'" v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
                             </div>
+                            <div class="form-control-feedback" v-show="errors.has('name')">@lang('validation.filled', ['attribute' => __('commercial.Account')])</div>
                             <span class="m-form__help">Create an account code (number) and give it a name for easy identification</span>
                         </div>
                     </div>
+
+                    <div class="m-form__seperator m-form__seperator--dashed"></div>
+
                     <div class="form-group m-form__group row">
                         <label class="col-lg-2 col-form-label">
                             @lang('global.Type'):
@@ -69,15 +72,15 @@
                             <div class="row">
                                 @foreach (App\Enums\ChartTypeEnum::labels() as $value => $label)
                                     @if ($value == 1)
-                                        @include('accounting.types.assets')
+                                        @include('accounting.types.asset')
                                     @elseif ($value == 2)
-                                        @include('accounting.types.liabilities')
+                                        @include('accounting.types.liability')
                                     @elseif ($value == 3)
-                                        @include('accounting.types.equities')
+                                        @include('accounting.types.equity')
                                     @elseif ($value == 4)
-                                        @include('accounting.types.revenues')
+                                        @include('accounting.types.revenue')
                                     @elseif ($value == 5)
-                                        @include('accounting.types.expenses')
+                                        @include('accounting.types.expense')
                                     @endif
                                 @endforeach
                             </div>

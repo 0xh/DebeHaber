@@ -25,6 +25,7 @@ import List from './components/table.vue';
 import Vue from 'vue';
 import VueGoodTable from 'vue-good-table';
 import Datatable from 'vue2-datatable-component';
+import VeeValidate from 'vee-validate';
 
 window.Vue = require('vue');
 window.Vue.use(VueRouter);
@@ -32,6 +33,7 @@ window.Vue.use(require('vue-shortkey'));
 Vue.use(VueGoodTable);
 Vue.use(Datatable);
 Vue.use(require('vue-shortkey'))
+Vue.use(VeeValidate);
 
 const routes = [
     {
