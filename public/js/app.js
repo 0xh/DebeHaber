@@ -114554,12 +114554,22 @@ __webpack_require__("./resources/assets/js/accounting-components/chart/chart.js"
 /***/ }),
 
 /***/ "./resources/assets/js/accounting-components/chart/chart.js":
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+throw new Error("Cannot find module \"vue-sweetalert\"");
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-Vue.component('chart', {
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_sweetalert___default.a);
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('chart', {
+
     props: ['taxpayer', 'cycle'],
     data: function data() {
         return {
@@ -114603,6 +114613,22 @@ Vue.component('chart', {
 
             app.parent_id = app.$children[0].id;
 
+            if (app.code == '') {
+                app.$swal('Please Check fields?', 'code', 'warning');
+                return;
+            }
+            if (app.name == '') {
+                app.$swal('Please fill name...');
+                return;
+            }
+            if (app.type == 0) {
+                app.$swal('Please Select Type...');
+                return;
+            }
+            if (app.sub_type == 0) {
+                app.$swal('Please Select Sub Type...');
+                return;
+            }
             $.ajax({
                 url: '',
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
@@ -114612,7 +114638,7 @@ Vue.component('chart', {
                 async: false,
                 success: function success(data) {
 
-                    if (data == 'ok') {
+                    if (data == 200) {
                         app.id = 0;
                         app.parent_id = null;
                         app.chart_version_id = null;
@@ -114630,8 +114656,8 @@ Vue.component('chart', {
                     }
                 },
                 error: function error(xhr, status, _error) {
-                    alert('Something went wrong, check logs...' + _error);
-                    console.log(_error);
+                    app.$swal('Something went wrong, check logs...' + _error);
+                    console.log(xhr.responseText);
                 }
             });
         },
@@ -114650,6 +114676,7 @@ Vue.component('chart', {
             app.coefficient = data.coefficient;
         },
         init: function init() {
+
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get/',
@@ -114675,7 +114702,7 @@ Vue.component('chart', {
                     }
                 },
                 error: function error(xhr, status, _error2) {
-                    console.log(status);
+                    this.$swal(status);
                 }
             });
         }

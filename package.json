@@ -29,6 +29,7 @@
     "vue-laravel-forms": "^1.0.10-beta",
     "vue-router": "^3.0.1",
     "vue-shortkey": "^3.0.4",
+    "vue-sweetalert": "^0.1.18",
     "vue-typeahead": "^2.3.2",
     "vue2-datatable-component": "^2.2.2"
   },
