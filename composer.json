@@ -19,6 +19,7 @@
         "laravel/passport": "^5.0",
         "laravel/spark-aurelius": "*@dev",
         "laravel/tinker": "~1.0",
+        "martinlindhe/laravel-vue-i18n-generator": "^0.1.28",
         "mcamara/laravel-localization": "^1.3",
         "nasyrov/laravel-enums": "^1.1",
         "pragmarx/countries": "^0.5.5",
