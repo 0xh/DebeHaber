@@ -68,30 +68,17 @@
                         <div class="col-10">
                             <div class="row">
                                 @foreach (App\Enums\ChartTypeEnum::labels() as $value => $label)
-                                    <div class="col-4">
-                                        <label class="m-option m-option m-option--plain">
-                                            <span class="m-option__control">
-                                                <span class="m-radio m-radio--brand m-radio--check-bold">
-                                                    <input type="radio" v-model="type" value="{{ $value }}" :disabled="canChange == false">
-                                                    <span></span>
-                                                </span>
-                                            </span>
-                                            <span class="m-option__label">
-                                                <span class="m-option__head">
-                                                    <span class="m-option__title">
-                                                        <span class="m--font-bolder">{{ $label }}</span>
-                                                    </span>
-                                                </span>
-                                                <span class="m-option__body m--font-metal">
-                                                    @if ($value == 1)
-                                                        Assets are awsome. You should have more of these.
-                                                    @else
-                                                        Liabilities are bad. Try having less of those.
-                                                    @endif
-                                                </span>
-                                            </span>
-                                        </label>
-                                    </div>
+                                    @if ($value == 1)
+                                        @include('accounting.types.assets')
+                                    @elseif ($value == 2)
+                                        @include('accounting.types.liabilities')
+                                    @elseif ($value == 3)
+                                        @include('accounting.types.equities')
+                                    @elseif ($value == 4)
+                                        @include('accounting.types.revenues')
+                                    @elseif ($value == 5)
+                                        @include('accounting.types.expenses')
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -118,27 +105,27 @@
                             <div class="row">
                                 <template v-if="type === '1' || type=== 1">
                                     @foreach (App\Enums\ChartAssetTypeEnum::labels() as $value => $label)
-                                        @include('accounting.types.assets')
+                                        @include('accounting.sub-types.assets')
                                     @endforeach
                                 </template>
                                 <template v-else-if="type === '2' || type=== 2">
                                     @foreach (App\Enums\ChartLiabilityTypeEnum::labels() as $value => $label)
-                                        @include('accounting.types.liabilities')
+                                        @include('accounting.sub-types.liabilities')
                                     @endforeach
                                 </template>
                                 <template v-else-if="type === '3' || type=== 3">
                                     @foreach (App\Enums\ChartEquityTypeEnum::labels() as $value => $label)
-                                        @include('accounting.types.equities')
+                                        @include('accounting.sub-types.equities')
                                     @endforeach
                                 </template>
                                 <template v-else-if="type === '4' || type=== 4">
                                     @foreach (App\Enums\ChartRevenueTypeEnum::labels() as $value => $label)
-                                        @include('accounting.types.revenues')
+                                        @include('accounting.sub-types.revenues')
                                     @endforeach
                                 </template>
                                 <template v-else-if="type === '5' || type=== 5">
                                     @foreach (App\Enums\ChartExpenseTypeEnum::labels() as $value => $label)
-                                        @include('accounting.types.expenses')
+                                        @include('accounting.sub-types.expenses')
                                     @endforeach
                                 </template>
                             </div>
