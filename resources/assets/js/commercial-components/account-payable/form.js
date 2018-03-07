@@ -152,7 +152,7 @@ Vue.component('account-payable-form',{
         {
             var app=this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_account',
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts',
                   headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',

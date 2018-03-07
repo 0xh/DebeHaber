@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<account-receivable-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
+<account-receivable-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
     <div>
 
         <div>
