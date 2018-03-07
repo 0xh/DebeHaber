@@ -76,7 +76,7 @@ class Chart extends Model
         {
             $y
             ->where('type', 5)
-            ->orWhere(function ($z)
+            ->where(function ($z)
             {
                 //Bring all Expenses except for Wages, Depreciation, these accounts you cannot purchase.
                 $z->where('sub_type', 2);
@@ -87,7 +87,7 @@ class Chart extends Model
                 $z->orWhere('sub_type', 10);
             });
         })
-        ->orwhere(function ($y)
+        ->orWhere(function ($y)
         {
             $y
             ->where('type', 1)
