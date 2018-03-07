@@ -1,7 +1,7 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('debit-note-list',{
 
-  props: ['taxpayer'],
+  props: ['taxpayer','cycle'],
   data(){
     return {
       columns: [

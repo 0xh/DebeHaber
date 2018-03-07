@@ -16,7 +16,7 @@ class JournalController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        //
+          return view('/accounting/journal/journal');
     }
 
     /**

@@ -100,7 +100,7 @@ Vue.component('debit-note-form',{
     methods: {
         addDetail: function()
         {
-            this.details.push({  value:0, chart_vat_id:1, chart_id:0,vat:0,totalvat:0,withoutvat:0 })
+            this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0,vat:0,totalvat:0,withoutvat:0 })
         },
 
         //Removes Detail. Make sure it removes the correct detail, and not in randome.
@@ -118,13 +118,9 @@ Vue.component('debit-note-form',{
             var app = this;
             var api = null;
             app.type = app.trantype;
-            if (this.type == 1)
-            {
-                this.customer_id = this.$children[0].id;
-            }
-            else {
-                this.supplier_id = this.$children[0].id;
-            }
+
+            this.supplier_id = this.$children[0].id;
+
             $.ajax({
                 url: '',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -171,7 +167,8 @@ Vue.component('debit-note-form',{
             app.comment = data.comment;
             app.ref_id = data.ref_id;
             app.details=data.details;
-            app.$children[0].selectText=data.customer;
+            app.$children[0].selectText=data.supplier;
+            app.$children[0].id=data.supplier_id;
         },
         onReset: function()
         {
@@ -199,7 +196,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_document/1/' ,
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -224,7 +221,7 @@ Vue.component('debit-note-form',{
 
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id   ,
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -250,7 +247,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency' ,
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -275,7 +272,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -299,7 +296,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-purchases' ,
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -323,7 +320,7 @@ Vue.component('debit-note-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit' ,
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -341,6 +338,36 @@ Vue.component('debit-note-form',{
                     console.log(xhr.responseText);
                 }
             });
+        },
+        onPriceChange: function(detail)
+        {
+            var app=this;
+
+
+            for (let i = 0; i < app.ivas.length; i++)
+            {
+
+                if (detail.chart_vat_id == app.ivas[i].id)
+                {
+
+                    if (parseFloat(app.ivas[i].coefficient) > 0)
+                    {
+
+                        if (app.ivas[i].coefficient == '0.00')
+                        {
+                            detail.exenta = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.ivas[i].coefficient))).toFixed(2);
+                        }
+                        else
+                        {
+
+                            detail.gravada = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.ivas[i].coefficient))).toFixed(2);
+                        }
+
+
+                    }
+                    detail.iva = parseFloat(parseFloat(detail.value).toFixed(2) - (  detail.gravada == 0 ?   detail.exenta :   detail.gravada)).toFixed(2);
+                }
+            }
         },
         getAccounts: function(data)
         {

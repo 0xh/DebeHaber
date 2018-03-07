@@ -100,7 +100,7 @@ Vue.component('purchases-form',{
   methods: {
     addDetail: function()
     {
-      this.details.push({  value:0, chart_vat_id:1, chart_id:0,vat:0,totalvat:0,withoutvat:0 })
+      this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0,vat:0,totalvat:0,withoutvat:0 })
     },
 
     //Removes Detail. Make sure it removes the correct detail, and not in randome.
@@ -118,265 +118,292 @@ Vue.component('purchases-form',{
       var app = this;
       var api = null;
       app.type = app.trantype;
-      if (this.type == 1)
-      {
-        this.customer_id = this.$children[0].id;
-      }
-      else {
-        this.supplier_id = this.$children[0].id;
-      }
-      $.ajax({
-        url: '',
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'post',
-        data:json,
-        dataType: 'json',
-        async: false,
-        success: function(data)
-        {
-          if (data=='ok')
-          {
-            app.onReset();
 
+      this.supplier_id = this.$children[0].id;
+
+    $.ajax({
+      url: '',
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'post',
+      data:json,
+      dataType: 'json',
+      async: false,
+      success: function(data)
+      {
+        if (data=='ok')
+        {
+          app.onReset();
+
+        }
+        else
+        {
+          alert('Something Went Wrong...')
+        }
+
+
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
+  },
+  onEdit: function(data)
+  {
+    var app = this;
+    app.id = data.id;
+    app.type = data.type;
+    app.customer_id = data.customer_id;
+    app.supplier_id = data.supplier_id;
+    app.document_id = data.document_id;
+    app.currency_id = data.currency_id;
+    app.rate = data.rate;
+    app.payment_condition = data.payment_condition;
+    app.chart_account_id = data.chart_account_id;
+    app.date = data.date;
+    app.number = data.number;
+    app.code = data.code;
+    app.code_expiry = data.code_expiry;
+    app.comment = data.comment;
+    app.ref_id = data.ref_id;
+    app.details=data.details;
+    app.$children[0].selectText=data.supplier;
+    app.$children[0].id=data.supplier_id;
+
+  },
+  onReset: function()
+  {
+    var app=this;
+    app.id = 0;
+    app.type = null;
+    app.customer_id = null;
+    app.supplier_id = null;
+    app.document_id = null;
+    app.currency_id = null;
+    app.rate = null;
+    app.payment_condition = null;
+    app.chart_account_id = null;
+    app.date = null;
+    app.number = null;
+    app.code = null;
+    app.code_expiry = null;
+    app.comment = null;
+    app.ref_id = null;
+    app.details = [];
+    app.$parent.status=0;
+  },
+  getDocuments: function(data)
+  {
+    var app=this;
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/get_document/2/' ,
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function(data)
+      {
+        app.documents=[];
+        for(let i = 0; i < data.length; i++)
+        {
+          app.documents.push({name:data[i]['code'],id:data[i]['id']});
+        }
+
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
+  },
+  changeDocument: function()
+  {
+
+    var app = this;
+
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id   ,
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function(data)
+      {
+
+        app.number=data.current_range + 1;
+        app.code=data.code;
+        app.code_expiry=data.code_expiry;
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
+  },
+  cancel()
+  {
+    var app=this;
+    app.$parent.status=0;
+  },
+  getCurrencies: function(data)
+  {
+    var app=this;
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/get_currency' ,
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function(data)
+      {
+        app.currencies=[];
+        for(let i = 0; i < data.length; i++)
+        {
+          app.currencies.push({name:data[i]['name'],id:data[i]['id']});
+        }
+
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
+  },
+  getRate: function()
+  {
+
+    var app=this;
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function(data)
+      {
+
+        if (app.rate=='' || app.rate==null) {
+          app.rate=data;
+        }
+
+
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
+  },
+  getCharts: function(data)
+  {
+    var app=this;
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-purchases' ,
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function(data)
+      {
+        app.charts = [];
+        for(let i = 0; i < data.length; i++)
+        {
+          app.charts.push({name:data[i]['name'],id:data[i]['id']});
+        }
+
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
+  },
+  getTaxs: function(data)
+  {
+    var app=this;
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-credit' ,
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function(data)
+      {
+        app.ivas = [];
+        for(let i = 0; i < data.length; i++)
+        {
+          app.ivas.push({name:data[i]['name'],id:data[i]['id']});
+        }
+
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
+  },
+  onPriceChange: function(detail)
+  {
+    var app=this;
+
+
+    for (let i = 0; i < app.ivas.length; i++)
+    {
+
+      if (detail.chart_vat_id == app.ivas[i].id)
+      {
+
+        if (parseFloat(app.ivas[i].coefficient) > 0)
+        {
+
+          if (app.ivas[i].coefficient == '0.00')
+          {
+            detail.exenta = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.ivas[i].coefficient))).toFixed(2);
           }
           else
           {
-            alert('Something Went Wrong...')
+
+            detail.gravada = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.ivas[i].coefficient))).toFixed(2);
           }
 
 
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
         }
-      });
-    },
-    onEdit: function(data)
-    {
-      var app = this;
-      app.id = data.id;
-      app.type = data.type;
-      app.customer_id = data.customer_id;
-      app.supplier_id = data.supplier_id;
-      app.document_id = data.document_id;
-      app.currency_id = data.currency_id;
-      app.rate = data.rate;
-      app.payment_condition = data.payment_condition;
-      app.chart_account_id = data.chart_account_id;
-      app.date = data.date;
-      app.number = data.number;
-      app.code = data.code;
-      app.code_expiry = data.code_expiry;
-      app.comment = data.comment;
-      app.ref_id = data.ref_id;
-      app.details=data.details;
-      app.$children[0].selectText=data.customer;
-
-    },
-    onReset: function()
-    {
-      var app=this;
-      app.id = 0;
-      app.type = null;
-      app.customer_id = null;
-      app.supplier_id = null;
-      app.document_id = null;
-      app.currency_id = null;
-      app.rate = null;
-      app.payment_condition = null;
-      app.chart_account_id = null;
-      app.date = null;
-      app.number = null;
-      app.code = null;
-      app.code_expiry = null;
-      app.comment = null;
-      app.ref_id = null;
-      app.details = [];
-      app.$parent.status=0;
-    },
-    getDocuments: function(data)
-    {
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/get_document/2/' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.documents=[];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.documents.push({name:data[i]['code'],id:data[i]['id']});
-          }
-
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    changeDocument: function()
-    {
-
-      var app = this;
-
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id   ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-
-          app.number=data.current_range + 1;
-          app.code=data.code;
-          app.code_expiry=data.code_expiry;
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    cancel()
-    {
-      var app=this;
-      app.$parent.status=0;
-    },
-    getCurrencies: function(data)
-    {
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/get_currency' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.currencies=[];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.currencies.push({name:data[i]['name'],id:data[i]['id']});
-          }
-
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getRate: function()
-    {
-
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-
-          if (app.rate=='' || app.rate==null) {
-            app.rate=data;
-          }
-
-
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getCharts: function(data)
-    {
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-purchases' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.charts = [];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.charts.push({name:data[i]['name'],id:data[i]['id']});
-          }
-
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getTaxs: function(data)
-    {
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-credit' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.ivas = [];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.ivas.push({name:data[i]['name'],id:data[i]['id']});
-          }
-
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getAccounts: function(data)
-    {
-      var app = this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.accounts = [];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.accounts.push({name:data[i]['name'],id:data[i]['id']});
-          }
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
+        detail.iva = parseFloat(parseFloat(detail.value).toFixed(2) - (  detail.gravada == 0 ?   detail.exenta :   detail.gravada)).toFixed(2);
+      }
     }
   },
-
-  mounted: function mounted()
+  getAccounts: function(data)
   {
-    //this.init()
-    this.getDocuments();
-    this.getCurrencies();
-    this.getCharts();
-    this.getTaxs();
-    this.getAccounts();
+    var app = this;
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function(data)
+      {
+        app.accounts = [];
+        for(let i = 0; i < data.length; i++)
+        {
+          app.accounts.push({name:data[i]['name'],id:data[i]['id']});
+        }
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
   }
+},
+
+mounted: function mounted()
+{
+  //this.init()
+  this.getDocuments();
+  this.getCurrencies();
+  this.getCharts();
+  this.getTaxs();
+  this.getAccounts();
+}
 });

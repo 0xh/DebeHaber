@@ -119,13 +119,9 @@ Vue.component('sales-form',{
       var api = null;
       app.type = app.trantype;
       console.log(this.$children);
-      if (this.type == 1)
-      {
-        this.customer_id = this.$children[0].id;
-      }
-      else {
-        this.supplier_id = this.$children[0].id;
-      }
+
+      this.customer_id = this.$children[0].id;
+
       $.ajax({
         url: '',
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -170,6 +166,7 @@ Vue.component('sales-form',{
       app.ref_id = data.ref_id;
       app.details=data.details;
       app.$children[0].selectText=data.customer;
+      app.$children[0].id=data.customer_id;
     },
     onReset: function()
     {
@@ -222,7 +219,7 @@ Vue.component('sales-form',{
 
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id   ,
-          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,
@@ -249,7 +246,7 @@ Vue.component('sales-form',{
       var app=this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_currency' ,
-          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,
@@ -273,7 +270,7 @@ Vue.component('sales-form',{
       var app=this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
-          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,
@@ -299,7 +296,7 @@ Vue.component('sales-form',{
       var app=this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
-          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,
@@ -324,7 +321,7 @@ Vue.component('sales-form',{
       var app=this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit' ,
-          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,
@@ -379,7 +376,7 @@ Vue.component('sales-form',{
       var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
-          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
         async: true,

@@ -32,7 +32,7 @@ class PurchaseController extends Controller
     return response()->json($Transaction);
   }
 
-  public function get_salesByID($taxPayerID,$id)
+  public function get_purchasesByID($taxPayerID,Cycle $cycle,$id)
   {
     $Transaction = Transaction::
     Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
@@ -43,6 +43,7 @@ class PurchaseController extends Controller
     ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
     ,number,transactions.code,code_expiry'))
     ->get();
+
     return response()->json($Transaction);
   }
 
@@ -73,8 +74,8 @@ class PurchaseController extends Controller
       $Transaction = Transaction::where('id', $request->id)->first();
     }
 
-    $Transaction->customer_id = $request->customer_id;
-    $Transaction->supplier_id = $taxPayer->id;
+    $Transaction->customer_id = $taxPayer->id;
+    $Transaction->supplier_id = $request->supplier_id;
     if ($request->document_id>0) {
       $Transaction->document_id = $request->document_id;
     }
@@ -96,13 +97,13 @@ class PurchaseController extends Controller
 
     foreach ($request->details as $detail)
     {
-      if ($request->id == 0)
+      if ($detail['id'] == 0)
       {
         $TransactionDetail = new TransactionDetail();
       }
       else
       {
-        $TransactionDetail = TransactionDetail::where('id',$request->id)->first();
+        $TransactionDetail = TransactionDetail::where('id',$detail['id'])->first();
       }
 
       $TransactionDetail->transaction_id = $Transaction->id;
@@ -111,6 +112,7 @@ class PurchaseController extends Controller
       $TransactionDetail->value = $detail['value'];
       $TransactionDetail->save();
     }
+      return response()->json('ok');
   }
 
   /**

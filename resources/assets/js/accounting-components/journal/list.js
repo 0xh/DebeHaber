@@ -1,41 +1,62 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-Vue.component('credit-note-list',{
 
-    props: ['taxpayer','cycle'],
-    data(){
-        return {
-            columns: [
-                {
-                    label: 'SelectAll',
-                    sortable: false,
-                },
-                {
-                    label: 'Code',
-                    field: 'code',
-                    filterable: true,
-                },
-                {
-                    label: 'Number',
-                    field: 'number',
-                    filterable: true,
-                },
-                {
-                    label: 'Date',
-                    field: 'date',
-                    type: 'date',
-                    inputFormat: 'YYYY-MM-DD',
-                    outputFormat: 'MMM Do YY',
-                },
-                {
-                    label: 'Action',
-                },
+Vue.component('list',{
 
-            ],
-            rows: [
+    props: ['taxpayer','cycle','row'],
+    data () {
+      const amINestedComp = !!this.row
 
-            ],
-        };
+      return {
+        supportBackup: true,
+        supportNested: true,
+        tblClass: 'table-bordered',
+        tblStyle: 'color: #666',
+        pageSizeOptions: [5, 10, 15, 20],
+        columns: (() => {
+          const cols = [
+            { title: 'UID', field: 'uid', label: 'User ID', sortable: true, visible: 'true' },
+            { title: 'Email', field: 'email', visible: false, thComp: 'FilterTh', tdComp: 'Email' },
+            { title: 'Username', field: 'name', thComp: 'FilterTh', tdStyle: { fontStyle: 'italic' } },
+            { title: 'Country', field: 'country', thComp: 'FilterTh', thStyle: { fontWeight: 'normal' } },
+            { title: 'IP', field: 'ip', visible: false, tdComp: 'IP' },
+            { title: 'Age', field: 'age', sortable: true, thClass: 'text-info', tdClass: 'text-success' },
+            { title: 'Create time', field: 'createTime', sortable: true, colClass: 'w-240', thComp: 'CreatetimeTh', tdComp: 'CreatetimeTd' },
+            { title: 'Color', field: 'color', explain: 'Favorite color', visible: false, tdComp: 'Color' },
+            { title: 'Language', field: 'lang', visible: false, thComp: 'FilterTh' },
+            { title: 'PL', field: 'programLang', explain: 'Programming Language', visible: false, thComp: 'FilterTh' },
+            { title: 'Operation', tdComp: 'Opt', visible: 'true' }
+          ]
+          const groupsDef = {
+            Normal: ['Email', 'Username', 'Country', 'IP'],
+            Sortable: ['UID', 'Age', 'Create time'],
+            Extra: ['Operation', 'Color', 'Language', 'PL']
+          }
+          return cols.map(col => {
+            Object.keys(groupsDef).forEach(groupName => {
+              if (groupsDef[groupName].includes(col.title)) {
+                col.group = groupName
+              }
+            })
+            return col
+          })
+        })(),
+        data: [],
+        total: 0,
+        selection: [],
+        summary: {},
+
+        // `query` will be initialized to `{ limit: 10, offset: 0, sort: '', order: '' }` by default
+        // other query conditions should be either declared explicitly in the following or set with `Vue.set / $vm.$set` manually later
+        // otherwise, the new added properties would not be reactive
+        query: amINestedComp ? { uid: this.row.friends } : {},
+
+        // any other staff that you want to pass to dynamic components (thComp / tdComp / nested components)
+        xprops: {
+          eventbus: new Vue()
+        }
+      }
     },
+
 
     methods: {
         add()
