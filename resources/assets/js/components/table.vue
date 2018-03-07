@@ -9,6 +9,7 @@ export default {
   name: 'FriendsTable', // `name` is required as a recursive component
   props: ['row','cycle','taxpayer'], // from the parent FriendsTable (if exists)
   data () {
+    
     const amINestedComp = !!this.row
 
     return {

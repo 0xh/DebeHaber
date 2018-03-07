@@ -12,7 +12,8 @@ use Laravel\Passport;
 | loaded automatically by this application's RouteServiceProvider.
 |
 */
-
+Route::group(['middleware' => 'auth:api'], function ()
+{
   Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
   Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
   Route::prefix('{taxPayer}')->group(function ()
@@ -40,6 +41,11 @@ use Laravel\Passport;
           Route::get('get_vat-debit', 'ChartController@getVATDebit');
           Route::get('get_vat-credit', 'ChartController@getVATDebit');
         });
+        Route::prefix('journal')->group(function ()
+        {
+          Route::get('get', 'JournalController@getJournals');
+
+        });
       });
 
       Route::prefix('commercial')->group(function ()
@@ -64,8 +70,7 @@ use Laravel\Passport;
         Route::get('get_account_payableByID/{id}', 'AccountPayableController@get_account_payableByID');
       });
     });
-    Route::group(['middleware' => 'auth:api'], function ()
-    {
+
   });
 
 

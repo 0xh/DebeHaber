@@ -55,11 +55,11 @@
                                 <div class="input-group-preappend">
                                     <input type="text" class="input-group-text" v-model="code" placeholder="@lang('global.Code')" aria-describedby="basic-addon2">
                                 </div>
-                                <input type="text" class="form-control m-input" v-validate:name="'required|alpha_spaces'" v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control m-input"  v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
                             </div>
-                            <div class="form-control-feedback" v-show="errors.has('name')">
+                            {{-- <div class="form-control-feedback" v-show="errors.has('name')">
                                 @lang('validation.filled', ['attribute' => __('commercial.Account')])
-                            </div>
+                            </div> --}}
                             <span class="m-form__help">Create an account code (number) and give it a name for easy identification</span>
                         </div>
                     </div>
