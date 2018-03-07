@@ -329,6 +329,7 @@ Vue.component('purchases-form',{
       async: true,
       success: function(data)
       {
+        console.log(data);
         app.ivas = [];
         for(let i = 0; i < data.length; i++)
         {

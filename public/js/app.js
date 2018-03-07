@@ -111791,6 +111791,7 @@ Vue.component('purchases-form', {
         dataType: 'json',
         async: true,
         success: function success(data) {
+          console.log(data);
           app.ivas = [];
           for (var i = 0; i < data.length; i++) {
             app.ivas.push({ name: data[i]['name'], id: data[i]['id'] });

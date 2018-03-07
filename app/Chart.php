@@ -87,7 +87,7 @@ class Chart extends Model
                 $z->orWhere('sub_type', 10);
             });
         })
-        ->where(function ($y)
+        ->orwhere(function ($y)
         {
             $y
             ->where('type', 1)
