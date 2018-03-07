@@ -72,30 +72,26 @@ class Chart extends Model
     public function scopePurchaseAccounts($query)
     {
         return $query
-        ->where(function ($x)
+        ->where(function ($y)
         {
-            $x
-            ->where(function ($y)
+            $y
+            ->where('type', 5)
+            ->orWhere(function ($z)
             {
-                $y
-                ->where('type', 5)
-                ->orWhere(function ($z)
-                {
-                    //Bring all Expenses except for Wages, Depreciation, these accounts you cannot purchase.
-                    $z->where('sub_type', 2);
-                    $z->orWhere('sub_type', 3);
-                    $z->orWhere('sub_type', 6);
-                    $z->orWhere('sub_type', 7);
-                    $z->orWhere('sub_type', 9);
-                    $z->orWhere('sub_type', 10);
-                });
-            })
-            ->where(function ($y)
-            {
-                $y
-                ->where('type', 1)
-                ->where('sub_type', 9);
+                //Bring all Expenses except for Wages, Depreciation, these accounts you cannot purchase.
+                $z->where('sub_type', 2);
+                $z->orWhere('sub_type', 3);
+                $z->orWhere('sub_type', 6);
+                $z->orWhere('sub_type', 7);
+                $z->orWhere('sub_type', 9);
+                $z->orWhere('sub_type', 10);
             });
+        })
+        ->where(function ($y)
+        {
+            $y
+            ->where('type', 1)
+            ->where('sub_type', 9);
         });
     }
 
