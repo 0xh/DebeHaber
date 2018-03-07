@@ -141,10 +141,8 @@
 
             <div class="m-portlet__body">
                 <div class="row">
-                    <div class="col-2">
-                        <span class="m--font-boldest">
-                            @lang('global.Code')
-                        </span>
+                    <div class="col-1">
+
                     </div>
                     <div class="col-6">
                         <span class="m--font-boldest">
@@ -165,11 +163,40 @@
                 <hr>
 
                 <div class="row" v-for="data in list">
-                    <div class="col-2">
-                        @{{ data.code }}
+                    <div class="col-1">
+
                     </div>
                     <div class="col-6">
-                        @{{ data.name }}
+                        <div v-if="data.type == 1">
+                            <span class="m-badge m-badge--info m-badge--wide m-badge--rounded">
+                                <b>@{{ data.code }}</b>
+                            </span>
+                            @{{ data.name }}
+                        </div>
+                        <div v-else-if="data.type == 2">
+                            <span class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
+                                <b>@{{ data.code }}</b>
+                            </span>
+                            @{{ data.name }}
+                        </div>
+                        <div v-else-if="data.type == 3">
+                            <span class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
+                                <b>@{{ data.code }}</b>
+                            </span>
+                            @{{ data.name }}
+                        </div>
+                        <div v-else-if="data.type == 4">
+                            <span class="m-badge m-badge--success m-badge--wide m-badge--rounded">
+                                <b>@{{ data.code }}</b>
+                            </span>
+                            @{{ data.name }}
+                        </div>
+                        <div v-else-if="data.type == 4">
+                            <span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
+                                <b>@{{ data.code }}</b>
+                            </span>
+                            @{{ data.name }}
+                        </div>
                     </div>
                     <div class="col-2">
                         <div v-if="data.is_accountable">
