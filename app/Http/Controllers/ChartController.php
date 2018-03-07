@@ -122,28 +122,28 @@ class ChartController extends Controller
 
     public function getCharts(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::get();
+        $charts = Chart::orderBy('code')->get();
         return response()->json($charts);
     }
 
     //
     public function getSalesAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::SalesAccounts()->get();
+        $charts = Chart::SalesAccounts()->orderBy('name')->get();
         return response()->json($charts);
     }
 
     // Accounts used in Purchase. Expense + Fixed Assets
     public function getPurchaseAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::PurchaseAccounts()->get();
+        $charts = Chart::PurchaseAccounts()->orderBy('name')->get();
         return response()->json($charts);
     }
 
     // Money Accounts
     public function getMoneyAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::MoneyAccounts()->get();
+        $charts = Chart::MoneyAccounts()->orderBy('name')->get();
         return response()->json($charts);
     }
 
