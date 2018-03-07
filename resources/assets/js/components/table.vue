@@ -50,7 +50,7 @@ export default {
       // `query` will be initialized to `{ limit: 10, offset: 0, sort: '', order: '' }` by default
       // other query conditions should be either declared explicitly in the following or set with `Vue.set / $vm.$set` manually later
       // otherwise, the new added properties would not be reactive
-      query: amINestedComp ? { uid: this.row.friends } : {},
+      query: amINestedComp ? { uid: this.row.id } : {},
 
       // any other staff that you want to pass to dynamic components (thComp / tdComp / nested components)
       xprops: {

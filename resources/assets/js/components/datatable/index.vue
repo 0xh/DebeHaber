@@ -31,7 +31,7 @@ import PageSizeSelect from './PageSizeSelect.vue'
 import props from './_mixins/props'
 
 export default {
-    name: 'Datatable',
+      name: 'FriendsTable',
     mixins: [props],
     components: { HeaderSettings, Tbl, Pagination, PageSizeSelect },
     created () {

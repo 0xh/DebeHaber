@@ -56,6 +56,8 @@ Vue.component('sales-list',{
 
                     app.$children[1].data = [];
                     app.$children[1].data=data;
+                    app.$children[1].summary =[];
+                    app.$children[1].summary=data;
                     // for(let i = 0; i < data.length; i++)
                     // {
                     //     app.rows.push({

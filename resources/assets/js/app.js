@@ -22,7 +22,6 @@ import SearchBox from './components/searchbox.vue';
 import SearchBoxAccount from './components/searchboxaccount.vue';
 import create from './components/create.vue';
 import List from './components/table.vue';
-import Journal from './components/table1.vue';
 import Vue from 'vue';
 import VueGoodTable from 'vue-good-table';
 import Datatable from 'vue2-datatable-component';
@@ -59,8 +58,8 @@ const routes = [
             SearchBoxAccount:SearchBoxAccount,
             Datatable:Datatable,
             create:create,
-            List:List,
-            Journal:Journal
+            List:List
+
         }
     },
 ]
