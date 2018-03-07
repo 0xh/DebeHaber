@@ -82,7 +82,6 @@ Vue.component('chart',{
                 async: false,
                 success: function(data)
                 {
-
                     if (data == 200)
                     {
                         app.id = 0;
@@ -141,6 +140,7 @@ Vue.component('chart',{
                     {
                         app.list.push({id : data[i]['id'],
                         parent_id : data[i]['parent_id'],
+                        taxpayer_id : data[i]['taxpayer_id'],
                         chart_version_id : data[i]['chart_version_id'],
                         chart_version_name : data[i]['chart_version_name'],
                         country : data[i]['country'],
