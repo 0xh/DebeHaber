@@ -100,7 +100,7 @@ Vue.component('sales-form',{
   methods: {
     addDetail: function()
     {
-      this.details.push({  value:0, chart_vat_id:1, chart_id:0,vat:0,totalvat:0,withoutvat:0 })
+      this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0,vat:0,totalvat:0,withoutvat:0 })
     },
 
     //Removes Detail. Make sure it removes the correct detail, and not in randome.
@@ -112,7 +112,7 @@ Vue.component('sales-form',{
 
     //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
     //For updates code will be different and should use the ID's palced int he Json.
-    onSave: function(json)
+    onSave: function(json,isnew)
     {
 
       var app = this;
@@ -133,7 +133,7 @@ Vue.component('sales-form',{
         {
           if (data == 'ok')
           {
-            app.onReset();
+            app.onReset(isnew);
           }
           else
           {
@@ -168,7 +168,7 @@ Vue.component('sales-form',{
       app.$children[0].selectText=data.customer;
       app.$children[0].id=data.customer_id;
     },
-    onReset: function()
+    onReset: function(isnew)
     {
       var app=this;
       app.id = 0;
@@ -186,7 +186,10 @@ Vue.component('sales-form',{
       app.comment = null;
       app.ref_id = null;
       app.details = [];
-      app.$parent.status=0;
+      if (isnew==false) {
+          app.$parent.status=0;
+      }
+
     },
     getDocuments: function(data)
     {

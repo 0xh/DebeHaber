@@ -25,7 +25,7 @@ Vue.component('account-payable-form',{
 
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
-        onSave: function(json)
+        onSave: function(json,isnew)
         {
 
             var app = this;
@@ -42,7 +42,7 @@ Vue.component('account-payable-form',{
                 {
                     if (data=='ok')
                     {
-                        app.onReset();
+                        app.onReset(isnew);
 
                     }
                     else
@@ -59,7 +59,7 @@ Vue.component('account-payable-form',{
             });
         },
 
-        onReset: function()
+        onReset: function(isnew)
         {
             var app=this;
 
@@ -74,7 +74,10 @@ Vue.component('account-payable-form',{
             app.rate= null;
             app.debit= null;
             app.credit= null;
-            app.$parent.status=0;
+            if (isnew==false) {
+                app.$parent.status=0;
+            }
+
 
         },
 

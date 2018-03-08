@@ -43,6 +43,7 @@ use Laravel\Passport;
         Route::prefix('journal')->group(function ()
         {
           Route::get('get', 'JournalController@getJournals');
+          Route::get('getJournalsByID/{id}', 'JournalController@getJournalsByID');
 
         });
       });

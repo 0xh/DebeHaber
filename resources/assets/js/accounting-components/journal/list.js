@@ -63,9 +63,9 @@ Vue.component('journals-list',{
                 async: true,
                 success: function(data)
                 {
-
-                    app.$children[0].data = [];
-                    app.$children[0].data=data;
+                    
+                    app.$children[1].data = [];
+                    app.$children[1].data=data;
 
 
                     // for(let i = 0; i < data.length; i++)
@@ -103,7 +103,7 @@ Vue.component('journals-list',{
             var app = this;
             app.$parent.status=1;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/journal/getJournalsByID/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',

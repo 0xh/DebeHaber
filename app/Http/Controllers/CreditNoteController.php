@@ -23,7 +23,9 @@ class CreditNoteController extends Controller
     public function get_credit_note($taxPayerID)
     {
         $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
-        ->where('supplier_id', $taxPayerID)->with('details')
+        ->where('supplier_id', $taxPayerID)
+->where('type', 4)
+        ->with('details')
         ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Customer
         ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
         ,number,transactions.code,code_expiry'))
