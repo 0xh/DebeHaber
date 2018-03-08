@@ -12,227 +12,212 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-  // public function formatData($data)
-  // {
-  //     return Transaction::make($data)->resolve();
-  // }
+    // public function formatData($data)
+    // {
+    //     return Transaction::make($data)->resolve();
+    // }
 
-  public function start(Request $request)
-  {
-    //Convert data from
-    $data = collect(json_decode($request, true));
-
-    //Process Transaction by 100 to speed up but not overload.
-    foreach ($data->chunk(100) as $chunkedData)
+    public function start(Request $request)
     {
-      $this->processTransaction($chunkedData);
-    }
-  }
+        //Convert data from
+        $data = collect(json_decode($request, true));
 
-  public function processTransaction($data,$taxpayer,$cycle)
-  {
-    // //process transaction
-    //
-    // //process detail
-    // $details = $data->detail;
-    // $this->processDetail($details);
-    // //return transaction saved status (ok or error).
-    //
-    // $transactions = array(
-    //     array('user_id'=>'Coder 1', 'subject_id'=> 4096),
-    //     array('user_id'=>'Coder 2', 'subject_id'=> 2048),
-    // );
-    //
-    // Model::insert($transactions);
-
-
-
-    $Transaction = new Transaction();
-    $customer=$this->checkTaxPayer($data->gov_code,$data->contact);
-    $taxpayer=$this->checkTaxPayer($data->gov_code,$data->company);
-    $cycle=Cycle::where('taxpayer_id', $taxPayer->id)->first();
-    $Transaction->customer_id =$customer->id;
-    $Transaction->supplier_id =$taxpayer->id ;
-
-    $Transaction->currency_id = $this->checkCurrency($data->currency,$taxpayer,$cycle);
-    $Transaction->rate = $this->checkCurrencyRate($Transaction->currency_id,$taxpayer,$cycle);
-    $Transaction->payment_condition = $request->payment_condition;
-    if ($request->chart_account_id>0) {
-      $Transaction->chart_account_id = $this->checkChartAccount($Transaction->account,$taxpayer,$cycle);
-    }
-    $Transaction->date = $request->date;
-    $Transaction->number = $request->number;
-    if ($Transaction->code!='') {
-      $Transaction->code = $request->code;
-    }
-    if ($Transaction->code_expiry!='') {
-      $Transaction->code_expiry = $request->code_expiry;
+        //Process Transaction by 100 to speed up but not overload.
+        foreach ($data->chunk(100) as $chunkedData)
+        {
+            $this->processTransaction($chunkedData);
+        }
     }
 
-    $Transaction->comment = $request->comment;
-
-    $Transaction->type = 1;
-    $Transaction->save();
-
-    $this->processDetail($request->details,$Transaction->id);
-
-  }
-
-  public function processDetail($details,$id)
-  {
-    foreach ($details as $detail)
+    public function processTransaction($data, $taxpayer, $cycle)
     {
-      $TransactionDetail = new TransactionDetail();
-      $TransactionDetail->transaction_id = $id;
-      $TransactionDetail->chart_id =$this->checkChart($detail['chart'],$taxpayer,$cycle);
-      $TransactionDetail->chart_vat_id = $this->checkChartVat($detail['vat'],$taxpayer,$cycle);
-      $TransactionDetail->value = $detail['value'];
-      $TransactionDetail->save();
-    }
-  }
+        // //process transaction
+        //
+        // //process detail
+        // $details = $data->detail;
+        // $this->processDetail($details);
+        // //return transaction saved status (ok or error).
+        //
+        // $transactions = array(
+        //     array('user_id'=>'Coder 1', 'subject_id'=> 4096),
+        //     array('user_id'=>'Coder 2', 'subject_id'=> 2048),
+        // );
+        //
+        // Model::insert($transactions);
 
-  public function checkTaxPayer($code,$name,$taxpayer,$cycle)
-  {
-    if ($name!='')
+        $transaction = new Transaction();
+
+        if ($data->type == 1 || $data->type == 3)
+        {
+            $customer = $this->checkTaxPayer($data->customerTaxID, $data->customerName);
+            $supplier = $taxpayer;
+        }
+        else if($data->type == 2 || $data->type == 4)
+        {
+            $customer = $taxpayer;
+            $supplier = $this->checkTaxPayer($data->supplierTaxID, $data->supplierName);
+        }
+
+        $transaction->type = $data->type;
+
+        $cycle = Cycle::where('taxpayer_id', $taxPayer->id)->first();
+
+        $transaction->customer_id = $customer->id;
+        $transaction->supplier_id = $supplier->id;
+
+        $transaction->currency_id = $this->checkCurrency($data->currency, $taxpayer);
+
+        //TODO, this is not enough. Remove Cycle, and exchange that for Invoice Date. Since this will tell you better the exchange rate for that day.
+        $transaction->rate = $this->checkCurrencyRate($transaction->currency_id, $taxpayer, $request->date);
+
+        $transaction->payment_condition = $request->payment_condition;
+
+        //TODO, do not ask if chart account id is null.
+        if ($transaction->account != null)
+        {
+            $transaction->chart_account_id = $this->checkChartAccount($transaction->account, $taxpayer, $cycle);
+        }
+
+        //You may need to update the code to a Carbon nuetral. Check this, I may be wrong.
+        $transaction->date = $request->date;
+        $transaction->number = $request->number;
+        $transaction->code = $request->code != '' ? $request->code : null;
+        $transaction->code_expiry = $request->code_expiry != '' ? $request->code_expiry : null;
+        $transaction->comment = $request->comment;
+        $transaction->save();
+
+        $this->processDetail($request->details,$transaction->id);
+    }
+
+    public function processDetail($details, $transaction_id)
     {
-      $taxPayer=Taxpayer::where('name', $name)
-      ->where('taxid',$code)
-      ->first();
-      if ($taxPayer==null)
-      {
-
-        $taxPayer= new Taxpayer();
-        $taxPayer= new Taxpayer();
-
-      }
-      //TODO Country from Selection Box
-      $taxPayer->name = $name;
-      $taxPayer->taxid = $code;
-      $taxPayer->code = $name;
-
-
-      $taxPayer->save();
-
-      $current_date = Carbon::now();
-      $chartVersion = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
-      if (!isset($chartVersion))
-      {
-        $chartVersion = new ChartVersion();
-      }
-
-      $chartVersion->name = $current_date->year;
-      $chartVersion->taxpayer_id = $taxPayer->id;
-      $chartVersion->save();
-
-
-
-      
-      $cycle = Cycle::where('chart_version_id', $chartVersion->id)
-      ->where('taxpayer_id', $taxPayer->id)
-      ->first();
-      if (!isset($cycle))
-      {
-        $cycle = new Cycle();
-      }
-
-      $cycle->chart_version_id = $chartVersion->id;
-      $cycle->year = $current_date->year;
-      $cycle->start_date = new Carbon('first day of January');
-      $cycle->end_date = new Carbon('last day of December');
-      $cycle->taxpayer_id = $taxPayer->id;
-      $cycle->save();
-
-      return $taxPayer
-
-
+        foreach ($details as $detail)
+        {
+            $transactionDetail = new TransactionDetail();
+            $transactionDetail->transaction_id = $transaction_id;
+            $transactionDetail->chart_id = $this->checkChart($detail['chart'], $taxpayer, $cycle);
+            $transactionDetail->chart_vat_id = $this->checkChartVat($detail['vat'], $taxpayer, $cycle);
+            $transactionDetail->value = $detail['value'];
+            $transactionDetail->save();
+        }
     }
 
-  }
+    public function checkTaxPayer($taxid, $name)
+    {
+        //This code is a good chance to make sure un necesary code doesn't get inserted into database.
+        //Sometimes users write information that is not acceptable by government, and the accountant needs to clean up.
+        //For example, if a foreigner buys sometime, their taxid is not recognized by government.
+        //So the accountant will change to a default taxpayer. Here we should do the same based on the country add a function
+        //and logic per country that detects if the value passed is a proper taxid or not. If not then give a default taxpayer that is meant to be used in those conditions.
 
-  public function checkChart($name,$taxpayer,$cycle)
-  {
-    //Check if Chart Exists
-    if ($name!='') {
-      $chart=Chart::SalesAccounts()->where('name', $name)->first();
-      if ($chart==null) {
+        if ($name != '')
+        {
+            //TODO Clean up $code to remove extra '-', '.' and ',' from the code to search in a clean manner.
+            //if there is a -, then it will remove everything after it.
+            $taxid = $taxid.contains('-') ? strstr($taxid, '-', true) : $taxid;
+            //removes all letters and only keeps numbers.
+            $taxid = preg_replace('/[^0-9.]+/', '', $taxid);
 
-        $chart= new Chart();
+            $taxPayer = Taxpayer::where('taxid', $taxid)->first() ?? new Taxpayer();
 
+            //get code from taxid. create function based on country.
+            //run function based on country.
 
+            //TODO Country from Selection Box
+            $taxPayer->name = $name;
+            $taxPayer->taxid = $taxid;
+            $taxPayer->code = $code;
 
-        $chart->chart_version_id = $cycle->chart_version_id;
-        $chart->country = $taxPayer->country;
-        $chart->taxpayer_id = $taxPayer->id;
-        $chart->is_accountable = 1;
-        $chart->sub_type = 9;
-        $chart->type =1;
+            $taxPayer->save();
 
-        $chart->code = $name;
-        $chart->name = $name;
-        $chart->save();
-
-      }
+            return $taxPayer;
+        }
     }
-    //If not Create with Taxpayer ID and Country as reference.
 
-    //Return Chart Object or ID
-  }
-  public function checkChartVat($name,$taxpayer,$cycle)
-  {
-    //Check if Chart Exists
-    if ($name!='') {
-      $chart=Chart::VATDebitAccounts()->where('name', $name)->first();
-      if ($chart==null) {
+    //These Charts will not work as they use the global scope for Taxpayer and Cycle.
+    //you will have to call no global scopes for these methods and then manually assign the same query.
 
-        $chart= new Chart();
+    public function checkChart($name,$taxpayer,$cycle)
+    {
+        //Check if Chart Exists
+        if ($name != '')
+        {
+            $chart = Chart::SalesAccounts()->where('name', $name)->first();
 
+            if ($chart == null)
+            {
+                $chart = new Chart();
 
+                $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->country = $taxPayer->country;
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->is_accountable = 1;
+                $chart->sub_type = 9;
+                $chart->type = 1;
 
-        $chart->chart_version_id = $cycle->chart_version_id;
-        $chart->country = $taxPayer->country;
-        $chart->taxpayer_id = $taxPayer->id;
-        $chart->is_accountable = 1;
-        $chart->type =2;
-        $chart->sub_type = 3;
-
-
-        $chart->code = $name;
-        $chart->name = $name;
-        $chart->save();
-
-      }
+                $chart->code = $name;
+                $chart->name = $name;
+                $chart->save();
+            }
+            return $chart->id;
+        }
+        return null;
     }
-    //If not Create with Taxpayer ID and Country as reference.
 
-    //Return Chart Object or ID
-  }
-  public function checkChartAccount($name,$taxpayer,$cycle)
-  {
-    //Check if Chart Exists
-    if ($name!='') {
-      $chart=Chart::MoneyAccounts()->where('name', $name)->first();
-      if ($chart==null) {
+    public function checkChartVat($name,$taxpayer,$cycle)
+    {
+        //Check if Chart Exists
+        if ($name != '')
+        {
+            $chart = Chart::VATDebitAccounts()->where('name', $name)->first();
 
-        $chart= new Chart();
+            if ($chart == null)
+            {
+                $chart = new Chart();
+                $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->country = $taxPayer->country;
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->is_accountable = 1;
+                $chart->type = 2;
+                $chart->sub_type = 3;
 
+                $chart->code = $name;
+                $chart->name = $name;
+                $chart->save();
+            }
 
+            return $chart->id;
+        }
 
-        $chart->chart_version_id = $cycle->chart_version_id;
-        $chart->country = $taxPayer->country;
-        $chart->taxpayer_id = $taxPayer->id;
-        $chart->is_accountable = 1;
-        $chart->type =1;
-        $chart->sub_type = 3;
-
-
-        $chart->code = $name;
-        $chart->name = $name;
-        $chart->save();
-
-      }
+        return null;
     }
-    //If not Create with Taxpayer ID and Country as reference.
 
-    //Return Chart Object or ID
-  }
+    public function checkChartAccount($name, $taxpayer, $cycle)
+    {
+        //Check if Chart Exists
+        if ($name != '')
+        {
+            $chart = Chart::MoneyAccounts()->where('name', $name)->first();
+
+            if ($chart == null)
+            {
+                $chart = new Chart();
+                $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->country = $taxPayer->country;
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->is_accountable = 1;
+                $chart->type = 1;
+                $chart->sub_type = 3;
+
+                $chart->code = 'N/A';
+                $chart->name = $name;
+                $chart->save();
+
+            }
+
+            return $chart->id;
+        }
+
+        return null;
+    }
 }
