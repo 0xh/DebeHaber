@@ -48,8 +48,12 @@ class TransactionController extends Controller
 
 
     $Transaction = new Transaction();
-    $Transaction->customer_id =$this->checkTaxPayer($data->gov_code,$data->contact);
-    $Transaction->supplier_id =$this->checkTaxPayerCompany($data->gov_code,$data->company) ;
+    $customer=$this->checkTaxPayer($data->gov_code,$data->contact);
+    $taxpayer=$this->checkTaxPayer($data->gov_code,$data->company);
+    $cycle=Cycle::where('taxpayer_id', $taxPayer->id)->first();
+    $Transaction->customer_id =$customer->id;
+    $Transaction->supplier_id =$taxpayer->id ;
+
     $Transaction->currency_id = $this->checkCurrency($data->currency,$taxpayer,$cycle);
     $Transaction->rate = $this->checkCurrencyRate($Transaction->currency_id,$taxpayer,$cycle);
     $Transaction->payment_condition = $request->payment_condition;
@@ -87,13 +91,15 @@ class TransactionController extends Controller
     }
   }
 
-  public function checkTaxPayerCompany($code,$name,$taxpayer,$cycle)
+  public function checkTaxPayer($code,$name,$taxpayer,$cycle)
   {
-    if ($name!='') {
+    if ($name!='')
+    {
       $taxPayer=Taxpayer::where('name', $name)
       ->where('taxid',$code)
       ->first();
-      if ($taxPayer==null) {
+      if ($taxPayer==null)
+      {
 
         $taxPayer= new Taxpayer();
         $taxPayer= new Taxpayer();
@@ -109,7 +115,8 @@ class TransactionController extends Controller
 
       $current_date = Carbon::now();
       $chartVersion = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
-      if (!isset($chartVersion)) {
+      if (!isset($chartVersion))
+      {
         $chartVersion = new ChartVersion();
       }
 
@@ -119,11 +126,12 @@ class TransactionController extends Controller
 
 
 
-
+      
       $cycle = Cycle::where('chart_version_id', $chartVersion->id)
       ->where('taxpayer_id', $taxPayer->id)
       ->first();
-      if (!isset($cycle)) {
+      if (!isset($cycle))
+      {
         $cycle = new Cycle();
       }
 
@@ -134,97 +142,97 @@ class TransactionController extends Controller
       $cycle->taxpayer_id = $taxPayer->id;
       $cycle->save();
 
-
+      return $taxPayer
 
 
     }
+
   }
-}
 
-public function checkChart($name,$taxpayer,$cycle)
-{
-  //Check if Chart Exists
-  if ($name!='') {
-    $chart=Chart::SalesAccounts()->where('name', $name)->first();
-    if ($chart==null) {
+  public function checkChart($name,$taxpayer,$cycle)
+  {
+    //Check if Chart Exists
+    if ($name!='') {
+      $chart=Chart::SalesAccounts()->where('name', $name)->first();
+      if ($chart==null) {
 
-      $chart= new Chart();
-
+        $chart= new Chart();
 
 
-      $chart->chart_version_id = $cycle->chart_version_id;
-      $chart->country = $taxPayer->country;
-      $chart->taxpayer_id = $taxPayer->id;
-      $chart->is_accountable = 1;
-      $chart->sub_type = 9;
-      $chart->type =1;
 
-      $chart->code = $name;
-      $chart->name = $name;
-      $chart->save();
+        $chart->chart_version_id = $cycle->chart_version_id;
+        $chart->country = $taxPayer->country;
+        $chart->taxpayer_id = $taxPayer->id;
+        $chart->is_accountable = 1;
+        $chart->sub_type = 9;
+        $chart->type =1;
 
+        $chart->code = $name;
+        $chart->name = $name;
+        $chart->save();
+
+      }
     }
+    //If not Create with Taxpayer ID and Country as reference.
+
+    //Return Chart Object or ID
   }
-  //If not Create with Taxpayer ID and Country as reference.
+  public function checkChartVat($name,$taxpayer,$cycle)
+  {
+    //Check if Chart Exists
+    if ($name!='') {
+      $chart=Chart::VATDebitAccounts()->where('name', $name)->first();
+      if ($chart==null) {
 
-  //Return Chart Object or ID
-}
-public function checkChartVat($name,$taxpayer,$cycle)
-{
-  //Check if Chart Exists
-  if ($name!='') {
-    $chart=Chart::VATDebitAccounts()->where('name', $name)->first();
-    if ($chart==null) {
-
-      $chart= new Chart();
+        $chart= new Chart();
 
 
 
-      $chart->chart_version_id = $cycle->chart_version_id;
-      $chart->country = $taxPayer->country;
-      $chart->taxpayer_id = $taxPayer->id;
-      $chart->is_accountable = 1;
-      $chart->type =2;
-      $chart->sub_type = 3;
+        $chart->chart_version_id = $cycle->chart_version_id;
+        $chart->country = $taxPayer->country;
+        $chart->taxpayer_id = $taxPayer->id;
+        $chart->is_accountable = 1;
+        $chart->type =2;
+        $chart->sub_type = 3;
 
 
-      $chart->code = $name;
-      $chart->name = $name;
-      $chart->save();
+        $chart->code = $name;
+        $chart->name = $name;
+        $chart->save();
 
+      }
     }
+    //If not Create with Taxpayer ID and Country as reference.
+
+    //Return Chart Object or ID
   }
-  //If not Create with Taxpayer ID and Country as reference.
+  public function checkChartAccount($name,$taxpayer,$cycle)
+  {
+    //Check if Chart Exists
+    if ($name!='') {
+      $chart=Chart::MoneyAccounts()->where('name', $name)->first();
+      if ($chart==null) {
 
-  //Return Chart Object or ID
-}
-public function checkChartAccount($name,$taxpayer,$cycle)
-{
-  //Check if Chart Exists
-  if ($name!='') {
-    $chart=Chart::MoneyAccounts()->where('name', $name)->first();
-    if ($chart==null) {
-
-      $chart= new Chart();
+        $chart= new Chart();
 
 
 
-      $chart->chart_version_id = $cycle->chart_version_id;
-      $chart->country = $taxPayer->country;
-      $chart->taxpayer_id = $taxPayer->id;
-      $chart->is_accountable = 1;
-      $chart->type =1;
-      $chart->sub_type = 3;
+        $chart->chart_version_id = $cycle->chart_version_id;
+        $chart->country = $taxPayer->country;
+        $chart->taxpayer_id = $taxPayer->id;
+        $chart->is_accountable = 1;
+        $chart->type =1;
+        $chart->sub_type = 3;
 
 
-      $chart->code = $name;
-      $chart->name = $name;
-      $chart->save();
+        $chart->code = $name;
+        $chart->name = $name;
+        $chart->save();
 
+      }
     }
-  }
-  //If not Create with Taxpayer ID and Country as reference.
+    //If not Create with Taxpayer ID and Country as reference.
 
-  //Return Chart Object or ID
-}
+    //Return Chart Object or ID
+  }
 }
