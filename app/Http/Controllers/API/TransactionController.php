@@ -108,7 +108,7 @@ class TransactionController extends Controller
 
     public function checkTaxPayer($taxid, $name)
     {
-        //This code is a good chance to make sure un necesary code doesn't get inserted into database.
+        //This code is a good chance to make sure un necesary records get inserted into database.
         //Sometimes users write information that is not acceptable by government, and the accountant needs to clean up.
         //For example, if a foreigner buys sometime, their taxid is not recognized by government.
         //So the accountant will change to a default taxpayer. Here we should do the same based on the country add a function
@@ -159,7 +159,7 @@ class TransactionController extends Controller
                 $chart->sub_type = 9;
                 $chart->type = 1;
 
-                $chart->code = $name;
+                $chart->code = 'N/A';
                 $chart->name = $name;
                 $chart->save();
             }
@@ -185,7 +185,7 @@ class TransactionController extends Controller
                 $chart->type = 2;
                 $chart->sub_type = 3;
 
-                $chart->code = $name;
+                $chart->code = 'N/A';
                 $chart->name = $name;
                 $chart->save();
             }
