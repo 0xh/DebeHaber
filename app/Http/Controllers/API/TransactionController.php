@@ -138,12 +138,14 @@ class TransactionController extends Controller
         }
     }
 
-    public function checkCurrency($name,$taxpayer,$cycle)
+    public function checkCurrency($code, $taxpayer)
     {
         //Check if Chart Exists
         if ($name != '')
         {
-            $currency = Currency::where('name', $name)->first();
+            $currency = Currency::where('code', $code)
+            ->where('country', $taxPayer->country)
+            ->first();
 
             if ($currency == null)
             {
@@ -158,14 +160,14 @@ class TransactionController extends Controller
         }
         return null;
     }
-    public function checkCurrencyRate($id,$taxpayer,$date)
-    {
 
+    public function checkCurrencyRate($id,$taxpayer,$date)
+    {        
         $currencyRate=CurrencyRate::where('currency_id',$id)
-    ->where('created_at',Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))->first();
-    if (isset($currencyRate)) {
-      return $currencyRate->rate;
-    }
+        ->where('created_at',Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))->first();
+        if (isset($currencyRate)) {
+            return $currencyRate->rate;
+        }
 
         return null;
     }

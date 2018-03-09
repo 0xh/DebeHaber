@@ -59,7 +59,8 @@
                         @lang('commercial.InvoiceNumber')
                     </label>
                     <div class="col-8">
-                        <input class="form-control m-input" type="text" value="001-001-0000000" v-model="number">
+                        <masked-input class="form-control m-input" mask="{{ config(request()->route('taxPayer')->country.'document-mask', '') }}" 
+                            v-model="number">
                     </div>
                 </div>
             </div>

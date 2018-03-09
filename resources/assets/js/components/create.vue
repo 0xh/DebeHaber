@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <a href="#" v-on:click="add()" v-shortkey.once="['ctrl', 'n']" @shortkey="add()" class="btn btn-outline-primary btn-sm m-btn m-btn--icon">
+        <a href="#" v-on:click="add()" v-shortkey.once="['alt', 'n']" @shortkey="add()" class="btn btn-outline-primary btn-sm m-btn m-btn--icon">
             <span>
                 <i class="la la-plus"></i>
                 <span>
