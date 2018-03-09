@@ -138,6 +138,38 @@ class TransactionController extends Controller
         }
     }
 
+    public function checkCurrency($name,$taxpayer,$cycle)
+    {
+        //Check if Chart Exists
+        if ($name != '')
+        {
+            $currency = Currency::where('name', $name)->first();
+
+            if ($currency == null)
+            {
+                $currency = new Currency();
+
+                $currency->country = $taxPayer->country;
+                $currency->code = 'N/A';
+                $currency->name = $name;
+                $currency->save();
+            }
+            return $currency->id;
+        }
+        return null;
+    }
+    public function checkCurrencyRate($id,$taxpayer,$date)
+    {
+
+        $currencyRate=CurrencyRate::where('currency_id',$id)
+    ->where('created_at',Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))->first();
+    if (isset($currencyRate)) {
+      return $currencyRate->rate;
+    }
+
+        return null;
+    }
+
     //These Charts will not work as they use the global scope for Taxpayer and Cycle.
     //you will have to call no global scopes for these methods and then manually assign the same query.
 
