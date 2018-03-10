@@ -59,7 +59,7 @@
                         @lang('commercial.InvoiceNumber')
                     </label>
                     <div class="col-8">
-                        <masked-input mask="(111) 1111-11" placeholder="Number"  @input="rawVal = arguments[1]" v-model="number" />
+                        <masked-input mask="111-1111111" placeholder="Number"  @input="rawVal = arguments[1]" v-model="number" />
 
                     </div>
                 </div>

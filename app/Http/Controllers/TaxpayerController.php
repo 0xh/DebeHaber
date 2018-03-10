@@ -25,7 +25,7 @@ class TaxpayerController extends Controller
   public function get_taxpayer($teamID,$frase)
   {
     $taxPayers = Taxpayer::
-    where('name', 'LIKE', "%$frase%")
+     where('name', 'LIKE', "%$frase%")
     ->orwhere('taxid', 'LIKE', "$frase%")
     ->orwhere('code', 'LIKE', "$frase%")
     ->orwhere('alias', 'LIKE', "%$frase%")
