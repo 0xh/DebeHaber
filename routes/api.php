@@ -15,7 +15,7 @@ use Laravel\Passport;
 
   Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
   Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
-    Route::get('/syncData', 'TransactionController@start');
+    Route::post('/syncData', 'API\TransactionController@start');
   Route::prefix('{taxPayer}')->group(function ()
   {
     Route::get('get_cycle', 'CycleController@get_cycle');

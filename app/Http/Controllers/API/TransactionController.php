@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controller\API;
+namespace App\Http\Controllers\API;
 
 use App\Taxpayer;
 use App\Chart;
@@ -20,10 +20,11 @@ class TransactionController extends Controller
     public function start(Request $request)
     {
         //Convert data from
-        $data = collect(json_decode($request, true));
+        $data = $request->Transactions[0];
+        $data=$data['Commercial_Invoices'];
 
         //Process Transaction by 100 to speed up but not overload.
-        foreach ($data->chunk(100) as $chunkedData)
+        foreach ($data as $chunkedData)
         {
             $this->processTransaction($chunkedData);
         }
@@ -67,7 +68,7 @@ class TransactionController extends Controller
         $transaction->customer_id = $customer->id;
         $transaction->supplier_id = $supplier->id;
 
-        $transaction->currency_id = $this->checkCurrency($data->currency, $taxpayer);
+        $transaction->currency_id = $this->checkCurrency($data->currencyCode, $taxpayer);
 
         //TODO, this is not enough. Remove Cycle, and exchange that for Invoice Date. Since this will tell you better the exchange rate for that day.
         $transaction->rate = $this->checkCurrencyRate($transaction->currency_id, $taxpayer, $request->date);
@@ -162,7 +163,7 @@ class TransactionController extends Controller
     }
 
     public function checkCurrencyRate($id,$taxpayer,$date)
-    {        
+    {
         $currencyRate=CurrencyRate::where('currency_id',$id)
         ->where('created_at',Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))->first();
         if (isset($currencyRate)) {

@@ -92258,8 +92258,8 @@ var render = function() {
           {
             name: "shortkey",
             rawName: "v-shortkey.once",
-            value: ["ctrl", "n"],
-            expression: "['ctrl', 'n']",
+            value: ["alt", "n"],
+            expression: "['alt', 'n']",
             modifiers: { once: true }
           }
         ],
