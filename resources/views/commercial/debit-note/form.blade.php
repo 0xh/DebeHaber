@@ -44,7 +44,7 @@
                     <div class="col-8">
                         <div class="row">
                             <div class="col-5">
-                                <input class="form-control m-input" type="number" placeholder="Timbrado"  v-model="code">
+                            <masked-input mask="(111) 1111-11" placeholder="Number"  @input="rawVal = arguments[1]" v-model="number" />
                             </div>
                             <div class="col-7">
                                 <input type="date" class="form-control m-input" v-model="code_expiry"/>

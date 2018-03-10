@@ -25,7 +25,8 @@ class TaxpayerController extends Controller
   public function get_taxpayer($teamID,$frase)
   {
     $taxPayers = Taxpayer::
-    where('taxid', 'LIKE', "%$frase%")
+    where('name', 'LIKE', "%$frase%")
+    ->orwhere('taxid', 'LIKE', "$frase%")
     ->orwhere('code', 'LIKE', "$frase%")
     ->orwhere('alias', 'LIKE', "%$frase%")
     ->get();
@@ -112,7 +113,7 @@ class TaxpayerController extends Controller
       $taxpayerIntegration->is_owner = 1;
     }
     else {
-          $taxpayerIntegration->is_owner = 0;
+      $taxpayerIntegration->is_owner = 0;
     }
     $taxpayerIntegration->taxpayer_id = $taxPayer->id;
     $taxpayerIntegration->team_id = Auth::user()->current_team_id;

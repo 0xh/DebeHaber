@@ -1,7 +1,10 @@
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
+import MaskedInput from 'vue-masked-input';
 Vue.component('purchases-form',{
+  components: {
+    MaskedInput
+  },
   props: ['taxpayer','trantype','cycle'],
   data() {
     return {

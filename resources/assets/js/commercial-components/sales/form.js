@@ -1,7 +1,10 @@
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
+import MaskedInput from 'vue-masked-input';
 Vue.component('sales-form',{
+  components: {
+    MaskedInput
+  },
   props: ['taxpayer','trantype','cycle'],
   data() {
     return {
@@ -23,14 +26,14 @@ Vue.component('sales-form',{
       details: [
         //     {
         //     id:0,
-        //     transaction_id:'',
+        //     transaction_id:0,
         //     chart_id:'',
         //     chart_vat_id:0,
-        //     value:''
-        //     vat:0,
-        //     totalvat:0,
-        //     withoutvat:0,
-
+        //     value:0,
+        //     iva:0,
+        //     exenta:0,
+        //     gravada:0,
+        //
         // }
       ],
       documents:[],
@@ -50,13 +53,14 @@ Vue.component('sales-form',{
 
     grandTotal: function()
     {
+      var app=this;
       var total = 0.0;
 
-      for(let i = 0; i < this.details.length; i++)
+      for(let i = 0; i < app.details.length; i++)
       {
-        total +=  parseFloat(this.details[i].value).toFixed(2) ;
+        total +=  parseFloat(app.details[i].value).toFixed(2) ;
       }
-
+      console.log(total);
       return parseFloat(total).toFixed(2);
     },
 
@@ -65,7 +69,7 @@ Vue.component('sales-form',{
       var total = 0.0;
       for(let i = 0; i < this.details.length; i++)
       {
-        total += parseFloat(this.details[i].withoutvat).toFixed(2);
+        total += parseFloat(this.details[i].exenta).toFixed(2);
       }
 
       return parseFloat(total).toFixed(2);
@@ -79,7 +83,7 @@ Vue.component('sales-form',{
       for(let i = 0; i < app.details.length; i++)
       {
 
-        total += parseFloat(app.details[i].vat).toFixed(2);
+        total += parseFloat(app.details[i].gravada).toFixed(2);
       }
 
       return parseFloat(total).toFixed(2);
@@ -90,7 +94,7 @@ Vue.component('sales-form',{
       var total = 0.0;
       for(let i = 0; i < this.details.length; i++)
       {
-        total += parseFloat(this.details[i].totalvat).toFixed(2);
+        total += parseFloat(this.details[i].iva).toFixed(2);
       }
 
       return parseFloat(total).toFixed(2);
@@ -100,7 +104,7 @@ Vue.component('sales-form',{
   methods: {
     addDetail: function()
     {
-      this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0,vat:0,totalvat:0,withoutvat:0 })
+      this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0,iva:0,exenta:0,gravada:0 })
     },
 
     //Removes Detail. Make sure it removes the correct detail, and not in randome.
@@ -118,7 +122,7 @@ Vue.component('sales-form',{
       var app = this;
       var api = null;
       app.type = app.trantype;
-      console.log(this.$children);
+
 
       this.customer_id = this.$children[0].id;
 
@@ -187,7 +191,7 @@ Vue.component('sales-form',{
       app.ref_id = null;
       app.details = [];
       if (isnew==false) {
-          app.$parent.status=0;
+        app.$parent.status=0;
       }
 
     },
@@ -365,6 +369,7 @@ Vue.component('sales-form',{
             {
 
               detail.gravada = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.ivas[i].coefficient))).toFixed(2);
+
             }
 
 

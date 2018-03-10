@@ -57,7 +57,7 @@
                         @lang('commercial.InvoiceNumber')
                     </label>
                     <div class="col-8">
-                        <input class="form-control m-input" type="text" value="001-001-0000000" v-model="number">
+                      <masked-input mask="(111) 1111-11" placeholder="Number"  @input="rawVal = arguments[1]" v-model="number" />
                     </div>
                 </div>
             </div>
