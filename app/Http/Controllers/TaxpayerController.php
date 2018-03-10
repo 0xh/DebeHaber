@@ -31,9 +31,7 @@ class TaxpayerController extends Controller
         ->orwhere('alias', 'LIKE', "%$frase%")
         ->get();
 
-
         return response()->json($taxPayers);
-
     }
 
     /**
@@ -122,6 +120,30 @@ class TaxpayerController extends Controller
         $taxpayerIntegration->save();
 
         //TODO Check if Default Version is available for Country.
+        return response()->json('ok');
+    }
+
+    //This is for Customers or Suppliers that are also Taxpayers.
+    public function createTaxPayer(Request $request, Taxpayer $taxPayer)
+    {
+        $customerOrSupplier = Taxpayer::where('taxid', $request->taxid)->where('country', $taxPayer->country)->first();
+
+        if (!isset($customerOrSupplier))
+        {
+            $customerOrSupplier= new Taxpayer();
+            $customerOrSupplier->name = $request->name;
+        }
+
+        //TODO Country from Selection Box
+        $customerOrSupplier->taxid = $request->taxid;
+        $customerOrSupplier->code = $request->code;
+
+        $customerOrSupplier->alias = $request->alias;
+        $customerOrSupplier->address = $request->address;
+        $customerOrSupplier->telephone = $request->telephone;
+        $customerOrSupplier->email = $request->email;
+
+        $customerOrSupplier->save();
 
         return response()->json('ok');
     }

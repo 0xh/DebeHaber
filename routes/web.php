@@ -20,10 +20,12 @@ Route::group(['middleware' => 'auth'], function ()
 {
     //Taxpayer Resource, CRUD
     Route::resource('taxpayer', 'TaxpayerController');
+
     //Takes the TaxPayer and puts it into the route passing it to Dashboard.
     Route::get('selectTaxPayer/{taxPayer}', 'TaxpayerController@selectTaxpayer')->name('selectTaxPayer');
     Route::resource('CurrencyRate', 'CurrencyRateController');
-// ['middleware' => 'security'],
+
+    // ['middleware' => 'security'],
     Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
     {
         //These Pages require Cycle in Session to perform searches and show relevant data.

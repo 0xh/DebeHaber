@@ -158,25 +158,25 @@ export default {
     {
         onHit (item)
         {
-            var app = this  ;
+            var app = this;
 
             app.selectText = item.name + ' | ' + item.code;
-            app.id= item.id;
-
+            app.id = item.id;
         },
+
         onSave()
         {
             $.ajax({
-                url: '/taxpayer',
+                url: '/' + this.current_company + '/store-taxpayer',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'post',
                 data:{
-                    name:this.name,
-                    code:this.code,
-                    taxid:this.gov_code,
-                    address:this.address,
-                    email:this.email,
-                    telephone:this.telephone,
+                    name : this.name,
+                    code : this.code,
+                    taxid : this.gov_code,
+                    address : this.address,
+                    email : this.email,
+                    telephone : this.telephone,
                 },
                 dataType: 'json',
                 async: false,
@@ -189,13 +189,10 @@ export default {
                     console.log(xhr.responseText);
                 }
             });
-
         }
     }
 }
 </script>
-
-
 
 <style scoped>
 
