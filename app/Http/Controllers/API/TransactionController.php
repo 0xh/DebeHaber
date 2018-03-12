@@ -206,7 +206,7 @@ class TransactionController extends Controller
         //Check if Chart Exists
         if ($name != '')
         {
-            $chart = Chart::SalesAccounts()->where('name', $name)->first();
+            $chart = Chart::withoutGlobalScopes()->SalesAccounts()->where('name', $name)->first();
 
             if ($chart == null)
             {
@@ -233,7 +233,7 @@ class TransactionController extends Controller
         //Check if Chart Exists
         if ($name != '')
         {
-            $chart = Chart::VATDebitAccounts()->where('name', $name)->first();
+            $chart = Chart::withoutGlobalScopes()->VATDebitAccounts()->where('name', $name)->first();
 
             if ($chart == null)
             {
@@ -261,7 +261,7 @@ class TransactionController extends Controller
         //Check if Chart Exists
         if ($name != '')
         {
-            $chart = Chart::MoneyAccounts()->where('name', $name)->first();
+            $chart = Chart::withoutGlobalScopes()->MoneyAccounts()->where('name', $name)->first();
 
             if ($chart == null)
             {
