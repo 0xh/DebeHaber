@@ -136,7 +136,7 @@ Vue.prototype.$http = Axios
 
 export default {
     extends: VueTypeahead,
-    props: ['url','current_company'],
+    props: ['url','current_company','cycle'],
     data () {
         return {
             name:'',
@@ -145,7 +145,7 @@ export default {
             email:'',
             code:'',
             telephone:'',
-            src: '/api/' + this.current_company  + this.url,
+            src: '/api/' + this.current_company  + '/get_taxpayer/',
             limit: 5,
             minChars: 3,
             queryParamName: '',
@@ -162,6 +162,32 @@ export default {
 
             app.selectText = item.name + ' | ' + item.code;
             app.id= item.id;
+
+            $.ajax({
+
+                url: '/api/' + this.current_company + '/' + this.cycle + '/commercial'  + this.url,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                type: 'get',
+                dataType: 'json',
+                async: false,
+                success: function(data)
+                {
+                    app.$parent.code=data.code;
+                    app.$parent.code_expiry=data.code_expiry;
+                    app.$parent.currency_id=data.currency_id;
+                    app.$parent.payment_condition=data.payment_condition;
+                    app.$parent.chart_account_id=data.chart_account_id;
+                    if (data.details!=null) {
+                        if (data.details[0]!=null) {
+                            app.$parent.details.push({ id:0, value:0, chart_vat_id:data.details[0].chart_vat_id, chart_id:data.details[0].chart_id,vat:0,totalvat:0,withoutvat:0 })
+                        }
+                    }
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
 
         },
         onSave()

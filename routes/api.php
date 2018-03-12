@@ -56,6 +56,7 @@ use Laravel\Passport;
         Route::get('get_lastDate', 'SalesController@get_lastDate');
 
         Route::get('get_purchases', 'PurchaseController@get_purchases');
+        Route::get('getLastPurchase', 'PurchaseController@getLastPurchase');
         Route::get('get_purchasesByID/{id}', 'PurchaseController@get_purchasesByID');
 
         Route::get('get_credit_note', 'CreditNoteController@get_credit_note');

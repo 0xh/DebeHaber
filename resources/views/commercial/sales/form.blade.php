@@ -19,7 +19,7 @@
                     </label>
 
                     <div class="col-8">
-                        <router-view name="SearchBox" :url="/get_taxpayer/"  :current_company="{{ request()->route('taxPayer')->id }}" >
+                        <router-view name="SearchBox" :url="/get_taxpayer/"  :current_company="{{ request()->route('taxPayer')->id }}" :cycle="{{request()->route('cycle')->id }}">
 
                         </router-view>
                     </div>

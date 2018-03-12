@@ -4,11 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Taxpayer;
 use App\Chart;
+use App\Currency;
+use App\CurrencyRate;
 use App\Cycle;
 use App\ChartAlias;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
@@ -26,11 +30,22 @@ class TransactionController extends Controller
         //Process Transaction by 100 to speed up but not overload.
         foreach ($data as $chunkedData)
         {
-            $this->processTransaction($chunkedData);
+
+            if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 3)
+            {
+                $taxpayer = $this->checkTaxPayer($chunkedData['supplierTaxID'], $chunkedData['supplierName']);
+
+            }
+            else if($chunkedData['Type'] == 2 || $chunkedData['Type'] == 4)
+            {
+                $taxpayer = $this->checkTaxPayer($chunkedData['customerTaxID'], $chunkedData['customerName']);
+
+            }
+            $this->processTransaction($chunkedData,$taxpayer);
         }
     }
 
-    public function processTransaction($data, $taxpayer, $cycle)
+    public function processTransaction($data, $taxpayer)
     {
         // //process transaction
         //
@@ -48,32 +63,33 @@ class TransactionController extends Controller
 
         //TODO. There should be logic that checks if RefID for this Taxpayer is already int the system. If so, then only update, or else create.
         //Im not too happy with this code since it will call db every time there is a new invoice. Maybe there is a better way, or simply remove this part and insert it again.
-        $transaction = Transaction::where('ref_id', $request->id)->first() ?? new Transaction();
 
-        if ($data->type == 1 || $data->type == 3)
+        $transaction = Transaction::where('ref_id', $data['id'])->first() ?? new Transaction();
+
+        if ($data['Type'] == 1 || $data['Type'] == 3)
         {
-            $customer = $this->checkTaxPayer($data->customerTaxID, $data->customerName);
+            $customer = $this->checkTaxPayer($data['customerTaxID'], $data['customerName']);
             $supplier = $taxpayer;
         }
-        else if($data->type == 2 || $data->type == 4)
+        else if($data['Type'] == 2 || $data['Type'] == 4)
         {
             $customer = $taxpayer;
-            $supplier = $this->checkTaxPayer($data->supplierTaxID, $data->supplierName);
+            $supplier = $this->checkTaxPayer($data['supplierTaxID'], $data['supplierName']);
         }
 
-        $transaction->type = $data->type;
+        $transaction->type = $data['Type'];
 
-        $cycle = Cycle::where('taxpayer_id', $taxPayer->id)->first();
+        $cycle = Cycle::where('taxpayer_id', $taxpayer->id)->first();
 
         $transaction->customer_id = $customer->id;
         $transaction->supplier_id = $supplier->id;
 
-        $transaction->currency_id = $this->checkCurrency($data->currencyCode, $taxpayer);
+        $transaction->currency_id = $this->checkCurrency($data['currencyCode'], $taxpayer);
 
         //TODO, this is not enough. Remove Cycle, and exchange that for Invoice Date. Since this will tell you better the exchange rate for that day.
-        $transaction->rate = $this->checkCurrencyRate($transaction->currency_id, $taxpayer, $request->date);
+        $transaction->rate = $this->checkCurrencyRate($transaction->currency_id, $taxpayer, $data['date']) ??1;
 
-        $transaction->payment_condition = $request->payment_condition;
+        $transaction->payment_condition = $data['paymentCondition'];
 
         //TODO, do not ask if chart account id is null.
         if ($transaction->account != null)
@@ -82,27 +98,36 @@ class TransactionController extends Controller
         }
 
         //You may need to update the code to a Carbon nuetral. Check this, I may be wrong.
-        $transaction->date = $request->date;
-        $transaction->number = $request->number;
-        $transaction->code = $request->code != '' ? $request->code : null;
-        $transaction->code_expiry = $request->code_expiry != '' ? $request->code_expiry : null;
-        $transaction->comment = $request->comment;
-        $transaction->ref_id = $request->id;
+        $transaction->date =$this->convert_date($data['date']);
+        $transaction->number = $data['number'];
+        $transaction->code = $data['code'] != '' ? $data['code'] : null;
+        $transaction->code_expiry = $data['code_expiry'] != '' ? $data['code_expiry'] : null;
+        $transaction->comment = $data['comment'];
+        $transaction->ref_id = $data['id'];
         $transaction->save();
 
-        $this->processDetail($request->details,$transaction->id);
+        $this->processDetail($data['CommercialInvoice_Detail'],$taxpayer,$transaction->id);
+    }
+    public function convert_date($date)
+    {
+        $trans_date = $date;
+
+        preg_match('/(\d{10})(\d{3})/', $date, $matches);
+
+        $trans_date = Carbon::createFromTimestamp($matches[1]);
+        return $trans_date;
     }
 
-    public function processDetail($details, $transaction_id)
+    public function processDetail($details,$taxpayer, $transaction_id)
     {
         foreach ($details as $detail)
         {
             $transactionDetail = new TransactionDetail();
             $transactionDetail->transaction_id = $transaction_id;
-            $transactionDetail->chart_id = $this->checkChart($detail['chart'], $taxpayer, $cycle);
-            $transactionDetail->chart_vat_id = $this->checkChartVat($detail['vat'], $taxpayer, $cycle);
+            $transactionDetail->chart_id = $this->checkChart($detail['chart'], $taxpayer);
+            $transactionDetail->chart_vat_id = $this->checkChartVat($detail['vat'], $taxpayer);
             $transactionDetail->value = $detail['value'];
-            $transactionDetail->ref_id = $request->id;
+            $transactionDetail->ref_id = $detail['id'];
             $transactionDetail->save();
         }
     }
@@ -119,7 +144,7 @@ class TransactionController extends Controller
         {
             //TODO Clean up $code to remove extra '-', '.' and ',' from the code to search in a clean manner.
             //if there is a -, then it will remove everything after it.
-            $taxid = $taxid.contains('-') ? strstr($taxid, '-', true) : $taxid;
+            $taxid = str::contains($taxid,'-') ? strstr($taxid, '-', true) : $taxid;
             //removes all letters and only keeps numbers.
             $taxid = preg_replace('/[^0-9.]+/', '', $taxid);
 
@@ -131,7 +156,7 @@ class TransactionController extends Controller
             //TODO Country from Selection Box
             $taxPayer->name = $name;
             $taxPayer->taxid = $taxid;
-            $taxPayer->code = $code;
+            //    $taxPayer->code = $code;
 
             $taxPayer->save();
 
@@ -142,19 +167,19 @@ class TransactionController extends Controller
     public function checkCurrency($code, $taxpayer)
     {
         //Check if Chart Exists
-        if ($name != '')
+        if ($code != '')
         {
             $currency = Currency::where('code', $code)
-            ->where('country', $taxPayer->country)
+            ->where('country', $taxpayer->country)
             ->first();
 
             if ($currency == null)
             {
                 $currency = new Currency();
 
-                $currency->country = $taxPayer->country;
-                $currency->code = 'N/A';
-                $currency->name = $name;
+                $currency->country = $taxpayer->country;
+                $currency->code = $code;
+                $currency->name = 'N/A';
                 $currency->save();
             }
             return $currency->id;
@@ -165,7 +190,7 @@ class TransactionController extends Controller
     public function checkCurrencyRate($id,$taxpayer,$date)
     {
         $currencyRate=CurrencyRate::where('currency_id',$id)
-        ->where('created_at',Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))->first();
+        ->where('created_at',$this->convert_date($date))->first();
         if (isset($currencyRate)) {
             return $currencyRate->rate;
         }
@@ -176,7 +201,7 @@ class TransactionController extends Controller
     //These Charts will not work as they use the global scope for Taxpayer and Cycle.
     //you will have to call no global scopes for these methods and then manually assign the same query.
 
-    public function checkChart($name,$taxpayer,$cycle)
+    public function checkChart($name,$taxpayer)
     {
         //Check if Chart Exists
         if ($name != '')
