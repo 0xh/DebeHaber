@@ -15,9 +15,13 @@ use Laravel\Passport;
 
   Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
   Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
-    Route::post('/syncData', 'API\TransactionController@start');
+  Route::post('/syncData', 'API\TransactionController@start');
+
   Route::prefix('{taxPayer}')->group(function ()
   {
+    // This creates taxpayers to be used only in Sales and Purchases. Not Taxpayers that will be used for accounting.
+    Route::post('store-taxpayer', 'TaxpayerController@createTaxPayer');
+
     Route::get('get_cycle', 'CycleController@get_cycle');
     Route::get('get_chartversion', 'ChartVersionController@get_chartversion');
     Route::get('get_currency', 'CurrencyController@get_currency');
