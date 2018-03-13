@@ -26,6 +26,9 @@ class CreateTransactionsTable extends Migration
             $table->unsignedInteger('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('taxpayers')->onDelete('cascade');
 
+            $table->unsignedTinyInteger('document_type')->default(1)->nullable()
+            ->comment('Use Document Enum');
+
             $table->unsignedInteger('document_id')->nullable();
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
 
