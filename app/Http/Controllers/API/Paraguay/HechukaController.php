@@ -28,17 +28,16 @@ class HechukaController extends Controller
         ->where('team_id', Auth::user()->currentTeamID)
         ->first();
 
-        //This query could be sped up if called Transaction instead of TransactionDetail.
-        $data = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+        $data = Transaction::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
         ->join('taxpayers as customer', 'customer.id', 'transactions.customer_id')
         ->join('charts as vat', 'customer.id', 'transaction_details.chart_vat_id')
         ->where('supplier_id', $taxpayerID)
         ->where('transactions.type', 1)
         ->where('transactions.type', 3)
         ->groupBy('transaction_details.chart_vat_id')
-        ->select('customer.name', 'customer.taxid', 'customer.code',
+        ->select('customer.name as customer', 'customer.taxid as customerTaxID', 'customer.code as customerCode',
         'transactions.date', 'transactions.number', 'transactions.code', 'transactions.code_expiry', 'transactions.payment_condition', 'transactions.rate',
-        DB::raw("SUM(value) as valueByVAT"),
+        DB::raw("SUM(transaction_details.value) as valueByVAT"),
         'vat.coefficient'
         )
         ->sum('transaction_details')
@@ -66,6 +65,7 @@ class HechukaController extends Controller
         $detalle = array();
         $cantidad_registros = 0;
 
+        //todo this is wrong. Your foreachs hould be smaller
         foreach ($transaction as  $item)
         {
             $date = date_create($item->date);
