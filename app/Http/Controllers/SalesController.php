@@ -35,6 +35,21 @@ class SalesController extends Controller
     return response()->json($Transaction);
   }
 
+  public function getLastPurchase($taxPayerID)
+  {
+    $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+    ->where('supplier_id', $taxPayerID)
+    ->where('type', 1)
+    ->with('details')
+    ->orderBy('date', 'desc')
+    ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
+    ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
+    ,number,transactions.code,code_expiry'))
+    ->first();
+    return response()->json($Transaction);
+  }
+
+
   public function get_salesByID($taxPayerID,Cycle $cycle,$id)
   {
     $Transaction = Transaction::
