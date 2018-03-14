@@ -18,83 +18,84 @@ Route::get('/home', 'HomeController@show')->name('hello');
 
 Route::group(['middleware' => 'auth'], function ()
 {
-    //Taxpayer Resource, CRUD
-    Route::resource('taxpayer', 'TaxpayerController');
+   //Taxpayer Resource, CRUD
+   Route::resource('taxpayer', 'TaxpayerController');
 
-    //Takes the TaxPayer and puts it into the route passing it to Dashboard.
-    Route::get('selectTaxPayer/{taxPayer}', 'TaxpayerController@selectTaxpayer')->name('selectTaxPayer');
-    Route::resource('CurrencyRate', 'CurrencyRateController');
+   //Takes the TaxPayer and puts it into the route passing it to Dashboard.
+   Route::get('selectTaxPayer/{taxPayer}', 'TaxpayerController@selectTaxpayer')->name('selectTaxPayer');
+   Route::resource('CurrencyRate', 'CurrencyRateController');
+   Route::get('{taxPayer}/hechukasales/{startDate}/{endDate}', 'API\Paraguay\HechukaController@getHechaukaSales');
+   Route::get('{taxPayer}/hechukapurchase/{startDate}/{endDate}', 'API\Paraguay\HechukaController@getHechaukaPurchase');
+   // ['middleware' => 'security'],
+   Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
+   {
+      //These Pages require Cycle in Session to perform searches and show relevant data.
+      Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
+      Route::get('cycles', 'CycleController@index')->name('cycles.index');
 
-    // ['middleware' => 'security'],
-    Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
-    {
-        //These Pages require Cycle in Session to perform searches and show relevant data.
-        Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
-        Route::get('cycles', 'CycleController@index')->name('cycles.index');
+      Route::prefix('commercial')->group(function ()
+      {
+         Route::resources([
+            'sales' => 'SalesController',
+            'account-receivables' => 'AccountReceivableController',
+            'credit-notes' => 'CreditNoteController',
+            'impex-exports' => 'ImpexExportController',
 
-        Route::prefix('commercial')->group(function ()
-        {
-            Route::resources([
-                'sales' => 'SalesController',
-                'account-receivables' => 'AccountReceivableController',
-                'credit-notes' => 'CreditNoteController',
-                'impex-exports' => 'ImpexExportController',
+            'purchases' => 'PurchaseController',
+            'account-payables' => 'AccountPayableController',
+            'debit-notes' => 'DebitNoteController',
+            'impex-imports' => 'ImpexImportController',
 
-                'purchases' => 'PurchaseController',
-                'account-payables' => 'AccountPayableController',
-                'debit-notes' => 'DebitNoteController',
-                'impex-imports' => 'ImpexImportController',
+            'inventories' => 'InventoryController',
+            'money-transfers' => 'MoneyTransferController',
+            'productions' => 'ProductionController',
+            'fixed-assets' => 'FixedAssetController',
+            'documents' => 'DocumentController'
+         ]);
+      });
 
-                'inventories' => 'InventoryController',
-                'money-transfers' => 'MoneyTransferController',
-                'productions' => 'ProductionController',
-                'fixed-assets' => 'FixedAssetController',
-                'documents' => 'DocumentController'
-            ]);
-        });
+      Route::prefix('/accounting')->group(function ()
+      {
+         Route::resources([
+            'chart-versions' => 'ChartVersionController',
+            'charts' => 'ChartController',
+            'journals' => 'JournalController',
+            'journal-templates' => 'JournalTemplateController',
+            'journal-simulations' => 'JournalSimulationController'
+         ]);
 
-        Route::prefix('/accounting')->group(function ()
-        {
-            Route::resources([
-                'chart-versions' => 'ChartVersionController',
-                'charts' => 'ChartController',
-                'journals' => 'JournalController',
-                'journal-templates' => 'JournalTemplateController',
-                'journal-simulations' => 'JournalSimulationController'
-            ]);
+         Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
+      });
 
-            Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
-        });
+      Route::prefix('reports')->group(function ()
+      {
+         Route::get('/', 'ReportController@index')->name('reports.index');
 
-        Route::prefix('reports')->group(function ()
-        {
-            Route::get('/', 'ReportController@index')->name('reports.index');
+         Route::get('hechauka/generate_files/{start_date}/{end_date}', 'HechaukaController@generateFiles');
 
-            Route::get('hechauka/generate_files/{start_date}/{end_date}', 'HechaukaController@generateFiles');
+         Route::get('purchase-vat/{strDate}/{endDate}', 'ReportController@vatPurchase')->name('reports.purchaseVAT');
+         Route::get('purchase-vat-bySupplier/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupBySupplier');
+         Route::get('purchase-vat-byChart/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupByBusinessCenter');
 
-            Route::get('purchase-vat/{strDate}/{endDate}', 'ReportController@vatPurchase')->name('reports.purchaseVAT');
-            Route::get('purchase-vat-bySupplier/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupBySupplier');
-            Route::get('purchase-vat-byChart/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupByBusinessCenter');
+         Route::get('sales-vat/{strDate}/{endDate}', 'ReportController@vatSales')->name('reports.salesVAT');
+         Route::get('sales-vat-byCustomer/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByCustomer');
+         Route::get('sales-vat-byChart/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByBusinessCenter');
 
-            Route::get('sales-vat/{strDate}/{endDate}', 'ReportController@vatSales')->name('reports.salesVAT');
-            Route::get('sales-vat-byCustomer/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByCustomer');
-            Route::get('sales-vat-byChart/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByBusinessCenter');
+         Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 
-            Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
+         Route::get('account-customer/{strDate}/{endDate}/', 'ReportController@accountCustomer');
+         Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');
 
-            Route::get('account-customer/{strDate}/{endDate}/', 'ReportController@accountCustomer');
-            Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');
+         Route::get('journal/{strDate}/{endDate}/', 'ReportController@journal');
+         Route::get('journal-ByChart/{strDate}/{endDate}/', 'ReportController@journal_ByChart');
+         Route::get('journal-ByDate/{strDate}/{endDate}/', 'ReportController@journal_ByDate');
+         Route::get('journal-ByEntry/{strDate}/{endDate}/', 'ReportController@journal_ByEntry');
 
-            Route::get('journal/{strDate}/{endDate}/', 'ReportController@journal');
-            Route::get('journal-ByChart/{strDate}/{endDate}/', 'ReportController@journal_ByChart');
-            Route::get('journal-ByDate/{strDate}/{endDate}/', 'ReportController@journal_ByDate');
-            Route::get('journal-ByEntry/{strDate}/{endDate}/', 'ReportController@journal_ByEntry');
-
-            Route::get('balance-sums-balances/{strDate}/{endDate}/', 'ReportController@balanceSumsBalances');
-            Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
-            Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet');
-            Route::get('results/{strDate}/{endDate}/', 'ReportController@resultsTable');
-            Route::get('cash-flow/{strDate}/{endDate}/', 'ReportController@cashFlow');
-        });
-    });
+         Route::get('balance-sums-balances/{strDate}/{endDate}/', 'ReportController@balanceSumsBalances');
+         Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
+         Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet');
+         Route::get('results/{strDate}/{endDate}/', 'ReportController@resultsTable');
+         Route::get('cash-flow/{strDate}/{endDate}/', 'ReportController@cashFlow');
+      });
+   });
 });

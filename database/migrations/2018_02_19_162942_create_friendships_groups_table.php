@@ -21,7 +21,6 @@ class CreateFriendshipsGroupsTable extends Migration
                 ->references('id')
                 ->on(config('friendships.tables.fr_pivot'))
                 ->onDelete('cascade');
-
             $table->unique(['friendship_id', 'friend_id', 'friend_type', 'group_id'], 'unique');
 
         });
