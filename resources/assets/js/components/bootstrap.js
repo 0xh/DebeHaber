@@ -32,5 +32,8 @@ require('./../configuration-components/documents/bootstrap');
 require('./../configuration-components/currency/bootstrap');
 require('./../dashboard-components/team/bootstrap');
 
+//reports
+require('./../report-components/bootstrap');
+
 
 require('./home');

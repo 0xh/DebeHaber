@@ -113618,6 +113618,9 @@ __webpack_require__("./resources/assets/js/configuration-components/documents/bo
 __webpack_require__("./resources/assets/js/configuration-components/currency/bootstrap.js");
 __webpack_require__("./resources/assets/js/dashboard-components/team/bootstrap.js");
 
+//reports
+__webpack_require__("./resources/assets/js/report-components/bootstrap.js");
+
 __webpack_require__("./resources/assets/js/components/home.js");
 
 /***/ }),
@@ -114804,6 +114807,53 @@ Vue.component('dashboard-team', {
     mounted: function mounted() {
         this.init();
     }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/report-components/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/report-components/paraguay.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/report-components/paraguay.js":
+/***/ (function(module, exports) {
+
+Vue.component('reports', {
+  data: function data() {
+    return {
+      pickerOptions2: {
+        shortcuts: [{
+          text: 'Semana',
+          onClick: function onClick(picker) {
+            var end = new Date();
+            var start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: 'Mes',
+          onClick: function onClick(picker) {
+            var end = new Date();
+            var start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: 'Año',
+          onClick: function onClick(picker) {
+            var end = new Date();
+            var start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
+      dateRange: [moment().subtract(1, 'months').startOf('month').format("YYYY-MM-DD"), moment().subtract(1, 'months').endOf('month').format("YYYY-MM-DD")]
+    };
+  }
 });
 
 /***/ }),
