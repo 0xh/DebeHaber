@@ -25,7 +25,7 @@ class CreateChartsTable extends Migration
             $table->unsignedInteger('taxpayer_id')->nullable();
             $table->foreign('taxpayer_id')->references('id')->on('taxpayers')->onDelete('cascade');
 
-            $table->string('country', 2)->default('PRY');
+            $table->string('country', 3)->default('PRY');
 
             $table->boolean('is_accountable')->default(true);
 

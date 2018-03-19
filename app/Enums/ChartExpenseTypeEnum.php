@@ -21,8 +21,8 @@ class ChartExpenseTypeEnum extends Enum
     {
         return static::constants()
         ->flip()
-        ->map(function ($key) {
-            // Place your translation strings in `resources/lang/en/enum.php`
+        ->map(function ($key)
+        {
             return trans(sprintf('enum.%s', $key));
         })
         ->all();
