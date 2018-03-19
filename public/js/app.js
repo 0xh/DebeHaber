@@ -3336,7 +3336,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED
         },
         onSave: function onSave() {
             $.ajax({
-                url: '/' + this.current_company + '/store-taxpayer',
+                url: '/api/' + this.current_company + '/store-taxpayer',
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'post',
                 data: {

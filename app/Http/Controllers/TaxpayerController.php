@@ -66,7 +66,10 @@ class TaxpayerController extends Controller
         }
 
         //TODO Country from Selection Box
-        $taxPayer->taxid = $request->taxid;
+        if ($taxPayer->taxid >0 ) {
+            $taxPayer->taxid = $request->taxid;
+        }
+
         $taxPayer->code = $request->code;
 
         $taxPayer->alias = $request->alias;

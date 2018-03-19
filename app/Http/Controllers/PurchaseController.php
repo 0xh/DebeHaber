@@ -95,8 +95,10 @@ class PurchaseController extends Controller
     if ($request->document_id>0) {
       $Transaction->document_id = $request->document_id;
     }
+    if ($request->currency_id>0) {
+      $Transaction->currency_id = $request->currency_id;
+    }
 
-    $Transaction->currency_id = $request->currency_id;
     $Transaction->rate = $request->rate;
     $Transaction->payment_condition = $request->payment_condition;
     if ($request->chart_account_id>0) {
@@ -128,7 +130,7 @@ class PurchaseController extends Controller
       $TransactionDetail->value = $detail['value'];
       $TransactionDetail->save();
     }
-      return response()->json('ok');
+    return response()->json('ok');
   }
 
   /**

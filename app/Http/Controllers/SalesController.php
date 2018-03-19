@@ -107,8 +107,10 @@ class SalesController extends Controller
     {
       $Transaction = Transaction::where('id', $request->id)->first();
     }
+    if ($request->customer_id>0) {
+      $Transaction->customer_id = $request->customer_id;
+    }
 
-    $Transaction->customer_id = $request->customer_id;
     $Transaction->supplier_id =$taxPayer->id ;
     if ($request->document_id>0) {
       $Transaction->document_id = $request->document_id;

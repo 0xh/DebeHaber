@@ -28,7 +28,7 @@ class JournalController extends Controller
         ->Join('journal_details', 'journals.id', 'journal_details.journal_id')
         ->where('cycle_id', $cycle->id)->with('details')
         ->groupBy('journals.id')
-        ->select(DB::raw('0 as friends,journals.id,journals.number
+        ->select(DB::raw('0 as friends,journals.id,max(journals.number) as number
         ,journals.comment,date,sum(debit) as debit,sum(credit) as credit'))
         ->get();
         return response()->json($Transaction);

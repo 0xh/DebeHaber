@@ -60,11 +60,13 @@ class ChartController extends Controller
             $chart->is_accountable = 0;
             $chart->sub_type = 0;
         }
+        if ($request->type>0) {
+            $chart->type = $request->type;
+        }
 
-        $chart->type = $request->type;
         if ($request->coefficient > 0)
         {
-          $chart->coefficient = $request->coefficient;
+            $chart->coefficient = $request->coefficient;
 
         }
 
