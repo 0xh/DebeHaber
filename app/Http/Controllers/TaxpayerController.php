@@ -58,7 +58,8 @@ class TaxpayerController extends Controller
         //$taxPayer = $request->id == 0 ? new Taxpayer() : Taxpayer::find($request->id)->first();
 
         //Check Taxpayer by TaxID. If exists, use it, or else create it.
-        $taxPayer = Taxpayer::where('taxid', $request->taxid)->where('country', 'PY')->first();
+        $taxPayer = Taxpayer::where('taxid', $request->taxid)->where('country', 'PRY')->first();
+        
         if (!isset($taxPayer))
         {
             $taxPayer= new Taxpayer();

@@ -11,26 +11,26 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function calculateDV($taxID)
+    public function calculateTaxCode($taxID)
     {
         $base_max = 11;
-        $array_ruc = str_split($ruc);
-        $n = count($array_ruc);
+        $arrayTaxID = str_split($taxID);
+        $n = count($arrayTaxID);
 
         $suma = 0;
         $k = 2;
 
         for ($i = $n - 1; $i >= 0; $i--)
         {
-            if (is_numeric($array_ruc[$i]))
+            if (is_numeric($arrayTaxID[$i]))
             {
                 $k = $k > $base_max ? 2 : $k;
-                $suma += ($array_ruc[$i] * $k++);
+                $suma += ($arrayTaxID[$i] * $k++);
             }
         }
 
         $v_resto = $suma % 11;
-        $dv = $v_resto > 1 ? 11 - $v_resto : 0;
-        return $dv;
+        $code = $v_resto > 1 ? 11 - $v_resto : 0;
+        return $code;
     }
 }
