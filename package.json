@@ -32,6 +32,7 @@
         "vue-laravel-forms": "^1.0.10-beta",
         "vue-masked-input": "^0.5.2",
         "vue-router": "^3.0.1",
+        "vue-server-renderer": "^2.5.16",
         "vue-shortkey": "^3.1.0",
         "vue-sweetalert": "^0.1.18",
         "vue-typeahead": "^2.3.2",
