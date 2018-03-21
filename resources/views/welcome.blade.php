@@ -84,7 +84,8 @@
         </nav>
         <div class="flex-fill flex-center">
             <h1 class="text-center">
-                <img src="/img/color-logo.png">
+                DebeHaber
+                {{-- <img src="/img/color-logo.png"> --}}
             </h1>
         </div>
     </div>

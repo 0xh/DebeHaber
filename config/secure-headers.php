@@ -146,12 +146,12 @@ return [
         ],
 
         'script-src' => [
-            'allow' =>
+            'allow' => [
                 $protocol.'cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
                 $protocol.'www.google-analytics.com',
                 $protocol.'www.googletagmanager.com',
                 $protocol.'js.stripe.com/v3/',
-                $protocol.'fonts.googleapis.com',
+                $protocol.'fonts.googleapis.com'
             ],
 
             'hashes' => [
