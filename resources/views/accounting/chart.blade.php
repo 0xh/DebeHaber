@@ -167,35 +167,29 @@
 
                     </div>
                     <div class="col-6">
-                        <div v-if="data.type == 1">
-                            <span class="m-badge m-badge--info m-badge--wide m-badge--rounded">
+                        <div class="">
+                            <span v-if="data.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
                                 <b>@{{ data.code }}</b>
                             </span>
-                            @{{ data.name }}
-                        </div>
-                        <div v-else-if="data.type == 2">
-                            <span class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
+                            <span v-else-if="data.type == 2" class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
                                 <b>@{{ data.code }}</b>
                             </span>
-                            @{{ data.name }}
-                        </div>
-                        <div v-else-if="data.type == 3">
-                            <span class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
+                            <span v-else-if="data.type == 3" class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
                                 <b>@{{ data.code }}</b>
                             </span>
-                            @{{ data.name }}
-                        </div>
-                        <div v-else-if="data.type == 4">
-                            <span class="m-badge m-badge--success m-badge--wide m-badge--rounded">
+                            <span v-else-if="data.type == 4" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
                                 <b>@{{ data.code }}</b>
                             </span>
-                            @{{ data.name }}
-                        </div>
-                        <div v-else-if="data.type == 4">
-                            <span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
+                            <span v-else-if="data.type == 5" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
                                 <b>@{{ data.code }}</b>
                             </span>
-                            @{{ data.name }}
+
+                            <span v-if="data.is_accountable">
+                                @{{ data.name }}
+                            </span>
+                            <span v-else>
+                                <b>@{{ data.name }}</b>
+                            </span>
                         </div>
                     </div>
                     <div class="col-2">
@@ -207,7 +201,7 @@
                     </div>
                     <div class="col-2">
                         <div v-if="data.taxpayer_id != null">
-                            <button v-on:click="onEdit(data)" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only">
+                            <button v-on:click="onEdit(data)" class="btn btn-outline-info m-btn m-btn--icon m-btn--icon-only">
                                 <i class="la la-pencil"></i>
                             </button>
                         </div>
@@ -216,5 +210,4 @@
             </div>
         </div>
     </chart>
-
 @endsection
