@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
 
             $table->unsignedTinyInteger('type')->default(1)
-            ->comment('1 = Purchases, 2 = Self-Invoice (Purchases), 3 = Sales Invoice');
+            ->comment('1 = Purchases, 2 = Self-Invoice (Purchases), 3 = Debit Note, 4 = Sales Invoice, 5 = Credit Note');
 
             $table->unsignedInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('taxpayers')->onDelete('cascade');
