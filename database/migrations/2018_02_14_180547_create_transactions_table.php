@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
 
             $table->unsignedTinyInteger('type')->default(1)
-            ->comment('1 = Purchases, 2 = Self-Invoice (Purchases), 3 = Debit Note, 4 = Sales Invoice, 5 = Credit Note');
+            ->comment('1  = Purchases, 2 = Self-Invoice (Purchases), 3 = Debit Note (Purchase), 4 = Sales Invoice, 5 = Credit Note (Sales)');
 
             $table->unsignedInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('taxpayers')->onDelete('cascade');
@@ -46,6 +46,8 @@ class CreateTransactionsTable extends Migration
             $table->string('number', 30)->nullable();
             $table->string('code', 18)->nullable();
             $table->date('code_expiry')->nullable();
+
+            $table->boolean('is_deductible')->default(false);
 
             $table->string('comment')->nullable();
             $table->unsignedInteger('ref_id')->nullable();

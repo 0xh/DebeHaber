@@ -64,6 +64,8 @@ class CreateChartsTable extends Migration
             $table->unsignedDecimal('coefficient', 4, 4)->nullable();
             $table->unsignedDecimal('asset_years', 4, 4)->nullable();
 
+            $table->unsignedInteger('ref_id')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });
