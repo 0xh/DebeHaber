@@ -39,7 +39,7 @@ class SalesController extends Controller
   {
     $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
     ->where('supplier_id', $taxPayerID)
-    ->where('type', 1)
+    ->where('type', 4)
     ->with('details')
     ->orderBy('date', 'desc')
     ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
