@@ -44,7 +44,7 @@ class SalesController extends Controller
     ->orderBy('date', 'desc')
     ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
     ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-    ,number,transactions.code,code_expiry'))
+    ,number,transactions.code,code_expiry'))->take(100)
     ->first();
     return response()->json($Transaction);
   }
