@@ -71,7 +71,7 @@ Route::group(['middleware' => 'auth'], function ()
       {
          Route::get('/', 'ReportController@index')->name('reports.index');
 
-         Route::get('hechauka/generate_files/{start_date}/{end_date}', 'HechaukaController@generateFiles');
+         Route::get('hechauka/generate_files/{start_date}/{end_date}', 'API\Paraguay\HechukaController@generateFiles');
 
          Route::get('purchase-vat/{strDate}/{endDate}', 'ReportController@vatPurchase')->name('reports.purchaseVAT');
          Route::get('purchase-vat-bySupplier/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupBySupplier');

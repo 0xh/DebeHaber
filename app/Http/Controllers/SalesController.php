@@ -26,7 +26,7 @@ class SalesController extends Controller
     //friends column is used to display the button in data like dit ,delete
     $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
     ->where('supplier_id', $taxPayerID)
-    ->where('type', 1)
+    ->where('type', 4)
     ->with('details')
     ->select(DB::raw('0 as friends,transactions.id,taxpayers.name as Customer
     ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Paraguay;
 use App\Transaction;
 use App\TransactionDetail;
 use App\Taxpayer;
+use App\cycle;
 use App\TaxpayerIntegration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -21,14 +22,14 @@ class HechukaController extends Controller
         return $code = explode("-", $codigo);
     }
 
-    public function getHechaukaSales($taxpayerID, $startDate, $endDate)
+    public function getHechaukaSales($taxpayer, $startDate, $endDate,$teamID)
     {
 
-        $taxpayer = Taxpayer::where('id', $taxpayerID)->first();
+
 
         //Get the Integration Once. No need to bring it into the Query.
-        $integration = TaxpayerIntegration::where('taxpayer_id', $taxpayerID)
-        ->where('team_id', Auth::user()->currentTeamID)
+        $integration = TaxpayerIntegration::where('taxpayer_id', $taxpayer->id)
+        ->where('team_id', $teamID)
         ->first();
 
         $data = DB::select('select id, max(date) as date,max(number) as number,max(code) as code,
@@ -94,12 +95,17 @@ class HechukaController extends Controller
             round($item->valueByvat0) .  "\t" . round($item->valuevat0) . "\t";
 
 
-            $detalle = $item->type . "\t" . $ruc . "\t" . $dv . "\t" . $item->customer . "\t" . $item->type
+            $detalle = $detalle . "\n" . $item->type . "\t" . $ruc . "\t" . $dv . "\t" . $item->customer . "\t" . $item->type
             . "\t" . $item->number . "\t" . $fecha . "\t" . $str
             . "\t" . $item->payment_condition . "\t" . $cantidad_cuotas . "\t" . $item->code;
-            Storage::disk('local')->append( $item->number .  '.txt', $detalle);
+
         }
+        Storage::disk('local')->append( $data[0]->number .  '.txt', $detalle);
+
+
+        return Storage::download($data[0]->number .  '.txt');
     }
+
 
     public function getHechaukaPurchase($taxpayerID, $startDate, $endDate)
     {
@@ -174,5 +180,12 @@ class HechukaController extends Controller
             //Maybe save to string variable frist, and then append at the end.
             Storage::disk('local')->append( $item->number .  '.txt', $detalle);
         }
+    }
+
+    public function generateFiles(Taxpayer $taxPayer,Cycle $cycle, $startDate, $endDate)
+    {
+
+        $this->getHechaukaSales($taxPayer, $startDate, $endDate,Auth::user()->currentTeamID);
+
     }
 }

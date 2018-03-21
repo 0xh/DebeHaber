@@ -281,7 +281,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a href="#">Hechauka</a>
+                                            <a href="reports/hechauka/generate_files/2017-02-1/2017-02-28">Hechauka</a>
                                             <br>
                                             <small>Download your files</small>
                                         </span>
