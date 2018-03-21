@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb13e57aee298132bf260a91d30a5804",
+    "content-hash": "a99fce94ab2294cb3f101a409be646f6",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -242,16 +242,16 @@
         },
         {
             "name": "bepsvpt/secure-headers",
-            "version": "4.1.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BePsvPT/secure-headers.git",
-                "reference": "76965664f1727a053734ac4fe7297905c6af18c8"
+                "reference": "d57de9eb9643cd948fc47260a672fcb759967e87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BePsvPT/secure-headers/zipball/76965664f1727a053734ac4fe7297905c6af18c8",
-                "reference": "76965664f1727a053734ac4fe7297905c6af18c8",
+                "url": "https://api.github.com/repos/BePsvPT/secure-headers/zipball/d57de9eb9643cd948fc47260a672fcb759967e87",
+                "reference": "d57de9eb9643cd948fc47260a672fcb759967e87",
                 "shasum": ""
             },
             "require": {
@@ -264,7 +264,7 @@
                 "codeclimate/php-test-reporter": "0.4.*",
                 "doctrine/instantiator": "1.0.*",
                 "orchestra/testbench": "3.5.*",
-                "phpunit/phpunit": "6.0.*"
+                "phpunit/phpunit": "6.5.*"
             },
             "type": "library",
             "extra": {
@@ -299,7 +299,7 @@
                 "https",
                 "laravel"
             ],
-            "time": "2017-09-01T12:27:38+00:00"
+            "time": "2018-03-11T01:11:57+00:00"
         },
         {
             "name": "colinodell/json5",
