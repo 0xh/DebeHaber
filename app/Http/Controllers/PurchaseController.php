@@ -30,7 +30,7 @@ class PurchaseController extends Controller
         $x
         ->where('type', 1)
         ->orWhere('type', 2);
-    });
+    })
 
     ->with('details')
     ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
