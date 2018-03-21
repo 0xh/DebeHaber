@@ -110928,23 +110928,25 @@ Vue.component('journals-list', {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_searchbox_vue__ = __webpack_require__("./resources/assets/js/components/searchbox.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_searchbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_searchbox_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_searchboxaccount_vue__ = __webpack_require__("./resources/assets/js/components/searchboxaccount.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_searchboxaccount_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_searchboxaccount_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_create_vue__ = __webpack_require__("./resources/assets/js/components/create.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_create_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_create_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_table_vue__ = __webpack_require__("./resources/assets/js/components/table.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_table_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue__ = __webpack_require__("./node_modules/vue/dist/vue.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue_good_table__ = __webpack_require__("./node_modules/vue-good-table/dist/vue-good-table.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue_good_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_vue_good_table__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue2_datatable_component__ = __webpack_require__("./node_modules/vue2-datatable-component/src/main.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vuex_i18n__ = __webpack_require__("./node_modules/vuex-i18n/dist/vuex-i18n.es.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__vue_i18n_locales_generated_js__ = __webpack_require__("./resources/assets/js/vue-i18n-locales.generated.js");
+throw new Error("Cannot find module \"element-ui\"");
+throw new Error("Cannot find module \"element-ui/lib/locale/lang/es\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_searchbox_vue__ = __webpack_require__("./resources/assets/js/components/searchbox.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_searchbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_searchbox_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_searchboxaccount_vue__ = __webpack_require__("./resources/assets/js/components/searchboxaccount.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_searchboxaccount_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_searchboxaccount_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_create_vue__ = __webpack_require__("./resources/assets/js/components/create.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_create_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_create_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_table_vue__ = __webpack_require__("./resources/assets/js/components/table.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_table_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue__ = __webpack_require__("./node_modules/vue/dist/vue.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vue_good_table__ = __webpack_require__("./node_modules/vue-good-table/dist/vue-good-table.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vue_good_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_vue_good_table__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue2_datatable_component__ = __webpack_require__("./node_modules/vue2-datatable-component/src/main.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_vuex_i18n__ = __webpack_require__("./node_modules/vuex-i18n/dist/vuex-i18n.es.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__vue_i18n_locales_generated_js__ = __webpack_require__("./resources/assets/js/vue-i18n-locales.generated.js");
 
 /*
  |--------------------------------------------------------------------------
@@ -110967,6 +110969,7 @@ __webpack_require__("./resources/assets/js/components/bootstrap.js");
 
 
 
+__WEBPACK_IMPORTED_MODULE_7_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a, { locale: __WEBPACK_IMPORTED_MODULE_1_element_ui_lib_locale_lang_es___default.a });
 
 
 
@@ -110977,40 +110980,44 @@ __webpack_require__("./resources/assets/js/components/bootstrap.js");
 
 
 
-var store = new __WEBPACK_IMPORTED_MODULE_8_vuex__["a" /* default */].Store();
 
-__WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vuex_i18n__["a" /* default */].plugin, store);
 
-__WEBPACK_IMPORTED_MODULE_5_vue___default.a.i18n.add('en', __WEBPACK_IMPORTED_MODULE_10__vue_i18n_locales_generated_js__["a" /* default */].en);
-__WEBPACK_IMPORTED_MODULE_5_vue___default.a.i18n.add('de', __WEBPACK_IMPORTED_MODULE_10__vue_i18n_locales_generated_js__["a" /* default */].de);
+
+
+var store = new __WEBPACK_IMPORTED_MODULE_10_vuex__["a" /* default */].Store();
+
+__WEBPACK_IMPORTED_MODULE_7_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_11_vuex_i18n__["a" /* default */].plugin, store);
+
+__WEBPACK_IMPORTED_MODULE_7_vue___default.a.i18n.add('en', __WEBPACK_IMPORTED_MODULE_12__vue_i18n_locales_generated_js__["a" /* default */].en);
+__WEBPACK_IMPORTED_MODULE_7_vue___default.a.i18n.add('de', __WEBPACK_IMPORTED_MODULE_12__vue_i18n_locales_generated_js__["a" /* default */].de);
 
 // set the start locale to use
-__WEBPACK_IMPORTED_MODULE_5_vue___default.a.i18n.set(Spark.locale);
+__WEBPACK_IMPORTED_MODULE_7_vue___default.a.i18n.set(Spark.locale);
 
 __webpack_require__("./resources/assets/js/components/bootstrap.js");
 
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.js");
-window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
+window.Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]);
 window.Vue.use(__webpack_require__("./node_modules/vue-shortkey/dist/index.js"));
-__WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_6_vue_good_table___default.a);
-__WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_7_vue2_datatable_component__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_5_vue___default.a.use(__webpack_require__("./node_modules/vue-shortkey/dist/index.js"));
+__WEBPACK_IMPORTED_MODULE_7_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_8_vue_good_table___default.a);
+__WEBPACK_IMPORTED_MODULE_7_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vue2_datatable_component__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_7_vue___default.a.use(__webpack_require__("./node_modules/vue-shortkey/dist/index.js"));
 
 var routes = [{
     path: '/',
     components: {
-        SearchBox: __WEBPACK_IMPORTED_MODULE_1__components_searchbox_vue___default.a,
-        SearchBoxAccount: __WEBPACK_IMPORTED_MODULE_2__components_searchboxaccount_vue___default.a,
-        Datatable: __WEBPACK_IMPORTED_MODULE_7_vue2_datatable_component__["a" /* default */],
-        create: __WEBPACK_IMPORTED_MODULE_3__components_create_vue___default.a,
-        List: __WEBPACK_IMPORTED_MODULE_4__components_table_vue___default.a
+        SearchBox: __WEBPACK_IMPORTED_MODULE_3__components_searchbox_vue___default.a,
+        SearchBoxAccount: __WEBPACK_IMPORTED_MODULE_4__components_searchboxaccount_vue___default.a,
+        Datatable: __WEBPACK_IMPORTED_MODULE_9_vue2_datatable_component__["a" /* default */],
+        create: __WEBPACK_IMPORTED_MODULE_5__components_create_vue___default.a,
+        List: __WEBPACK_IMPORTED_MODULE_6__components_table_vue___default.a
 
     }
 }];
 
-var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ routes: routes });
+var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({ routes: routes });
 
-var app = new __WEBPACK_IMPORTED_MODULE_5_vue___default.a({
+var app = new __WEBPACK_IMPORTED_MODULE_7_vue___default.a({
     router: router,
     mixins: [__webpack_require__("./spark/resources/assets/js/spark.js")]
 });

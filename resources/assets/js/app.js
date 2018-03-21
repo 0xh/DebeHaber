@@ -17,6 +17,7 @@
 require('spark-bootstrap');
 require('./components/bootstrap');
 
+
 import VueRouter from 'vue-router';
 import SearchBox from './components/searchbox.vue';
 import SearchBoxAccount from './components/searchboxaccount.vue';
