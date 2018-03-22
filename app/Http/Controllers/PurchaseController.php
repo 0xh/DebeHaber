@@ -44,7 +44,7 @@ class PurchaseController extends Controller
     number,
     transactions.code,
     code_expiry'))
-    ->orderBy('transactions.date')
+    ->orderBy('transactions.date', 'DESC')
     ->take(100)
     ->get();
 

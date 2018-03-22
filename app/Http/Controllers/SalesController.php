@@ -41,11 +41,11 @@ class SalesController extends Controller
     number,
     transactions.code,
     code_expiry'))
-    ->orderBy('date')
+    ->orderBy('date', 'DESC')
     ->take(100)
     ->get();
     return response()->json($Transaction);
-    
+
   }
 
   public function getLastPurchase($taxPayerID)
