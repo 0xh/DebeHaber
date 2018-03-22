@@ -1,7 +1,8 @@
 <?php
 
 $protocol = 'https://';
-if (! isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') {
+if (! isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
+{
     $protocol = 'http://';
 }
 
@@ -203,17 +204,14 @@ return [
         */
 
         'font-src' => [
-            //
             'self' => true,
         ],
 
         'connect-src' => [
-            //
             'self' => true,
         ],
 
         'form-action' => [
-            //
             'self' => true,
         ],
 
@@ -222,7 +220,7 @@ return [
         ],
 
         'media-src' => [
-            //
+            'self' => true,
         ],
 
         'object-src' => [

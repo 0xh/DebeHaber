@@ -198,16 +198,12 @@
                                 @lang('accounting.Generic')
                             </button>
 
-                            <button v-else type="button" class="m-btn btn btn-success">
-                                <i class="la la-pencil"></i>
-                            </button>
-
                             <div v-else>
                                 <button type="button" class="m-btn btn btn-warning">
-                                    <i class="la la-trash-o"></i>
+                                    <i class="la la-pencil"></i>
                                 </button>
                                 <button type="button" class="m-btn btn btn-info">
-                                    <i class="la la-scissors"></i>
+                                    <i class="la la-trash-o"></i>
                                 </button>
                             </div>
 
