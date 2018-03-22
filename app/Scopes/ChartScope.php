@@ -21,7 +21,6 @@ class ChartScope implements Scope
     */
     public function apply(Builder $builder, Model $model)
     {
-
         $taxPayer = request()->route('taxPayer');
         $versionID = request()->route('cycle')->chart_version_id;
 
@@ -34,8 +33,8 @@ class ChartScope implements Scope
                 $subQuery
                 ->whereNull('charts.taxpayer_id')
                 ->where('charts.country', $taxPayer->country);
-            });
-        })
-        ->where('charts.chart_version_id', $versionID);
+            })
+            ->where('charts.chart_version_id', $versionID);
+        });
     }
 }
