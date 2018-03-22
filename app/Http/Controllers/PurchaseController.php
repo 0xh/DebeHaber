@@ -23,7 +23,7 @@ class PurchaseController extends Controller
 
   public function get_purchases($taxPayerID)
   {
-    $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+    $transactions = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
     ->where('customer_id', $taxPayerID)
     ->where(function ($x)
     {
@@ -31,13 +31,24 @@ class PurchaseController extends Controller
         ->where('type', 1)
         ->orWhere('type', 2);
     })
-
     ->with('details')
-    ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
-    ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-    ,number,transactions.code,code_expiry'))->take(100)
+    ->select(DB::raw('false as friends,
+    transactions.id,
+    taxpayers.name as Supplier,
+    supplier_id,
+    document_id,
+    currency_id,
+    rate,
+    payment_condition,
+    chart_account_id,date,
+    number,
+    transactions.code,
+    code_expiry'))
+    ->orderBy('transactions.date')
+    ->take(100)
     ->get();
-    return response()->json($Transaction);
+
+    return response()->json($transactions);
   }
 
   public function getLastPurchase($taxPayerID)
