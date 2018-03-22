@@ -40,10 +40,10 @@ Vue.component('sales-list',{
         };
     },
 
-    methods: {
-
-
-        init(){
+    methods:
+    {
+        init()
+        {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_sales' ,
@@ -53,33 +53,8 @@ Vue.component('sales-list',{
                 async: true,
                 success: function(data)
                 {
-
                     app.$children[1].data = [];
-                    app.$children[1].data=data;
-
-                
-                    // for(let i = 0; i < data.length; i++)
-                    // {
-                    //     app.rows.push({
-                    //         selected: false,
-                    //         id : data[i]['id'],
-                    //         type : data[i]['type'],
-                    //         customer_id : data[i]['customer_id'],
-                    //         supplier_id : data[i]['supplier_id'],
-                    //         document_id : data[i]['document_id'],
-                    //         currency_id : data[i]['currency_id'],
-                    //         rate : data[i]['rate'],
-                    //         payment_condition : data[i]['payment_condition'],
-                    //         chart_account_id : data[i]['chart_account_id'],
-                    //         date : data[i]['date'],
-                    //         number : data[i]['number'],
-                    //         code : data[i]['code'],
-                    //         code_expiry :data[i]['code_expiry'],
-                    //         comment :data[i]['comment'],
-                    //         ref_id :data[i]['ref_id'],
-                    //         details : data[i]['details']
-                    //     });
-                    // }
+                    app.$children[1].data = data;
                 },
                 error: function(xhr, status, error)
                 {
@@ -87,11 +62,11 @@ Vue.component('sales-list',{
                 }
             });
         },
+
         onEdit: function(data)
         {
-
             var app = this;
-            app.$parent.status=1;
+            app.$parent.status = 1;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_salesByID/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -100,25 +75,25 @@ Vue.component('sales-list',{
                 async: true,
                 success: function(data)
                 {
-
-
                     app.$parent.$children[0].onEdit(data[0]);
-
-
                 },
                 error: function(xhr, status, error)
                 {
                     console.log(status);
                 }
             });
-
         },
-        toggleSelectAll() {
+
+        toggleSelectAll()
+        {
             this.allSelected = !this.allSelected;
             this.data.forEach(row => {
-                if(this.allSelected){
+                if (this.allSelected)
+                {
                     data.selected = true;
-                }else{
+                }
+                else
+                {
                     data.selected = false;
                 }
             })

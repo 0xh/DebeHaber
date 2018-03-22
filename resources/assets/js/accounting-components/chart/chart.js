@@ -74,12 +74,12 @@ Vue.component('chart',{
             return;
         }
         $.ajax({
-            url: '',
-            headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-            type: 'post',
-            data:json,
-            dataType: 'json',
-            async: false,
+            url : '',
+            headers : {'X-CSRF-TOKEN': CSRF_TOKEN},
+            type : 'post',
+            data : json,
+            dataType : 'json',
+            async : false,
             success: function(data)
             {
                 if (data == 200)
@@ -135,7 +135,7 @@ Vue.component('chart',{
             success: function(data)
             {
                 app.list = [];
-                for(let i = 0; i < data.length; i++)
+                for (let i = 0; i < data.length; i++)
                 {
                     app.list.push({id : data[i]['id'],
                     parent_id : data[i]['parent_id'],
