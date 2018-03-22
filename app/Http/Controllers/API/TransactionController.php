@@ -25,6 +25,8 @@ class TransactionController extends Controller
         $startDate = '';
         $endDate = '';
 
+        $cycle = null;
+
         //Process Transaction by 100 to speed up but not overload.
         for ($i = 0; $i < 100 ; $i++)
         {
@@ -35,6 +37,7 @@ class TransactionController extends Controller
             else if($chunkedData['Type'] == 2 || $chunkedData['Type'] == 4)
             { $taxPayer = $this->checkTaxPayer($chunkedData['customerTaxID'], $chunkedData['customerName']); }
 
+            //No need to run this query for each invoice, just check if the date is in between.
             $cycle = Cycle::where('start_date', '<=', $this->convert_date($chunkedData['date']))
             ->where('end_date', '>=', $this->convert_date($chunkedData['date']))
             ->where('taxpayer_id', $taxPayer->id)
@@ -82,7 +85,7 @@ class TransactionController extends Controller
         return response()->json($transactionData);
     }
 
-    public function processTransaction($data, $taxPayer,$cycle)
+    public function processTransaction($data, Taxpayer $taxPayer, Cycle $cycle)
     {
         //TODO. There should be logic that checks if RefID for this Taxpayer is already int the system. If so, then only update, or else create.
         //Im not too happy with this code since it will call db every time there is a new invoice. Maybe there is a better way, or simply remove this part and insert it again.
