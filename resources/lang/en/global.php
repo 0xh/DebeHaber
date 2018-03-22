@@ -32,5 +32,6 @@ return [
     'Type' => 'Type',
     'SubType' => 'Sub Type',
     'Notification' => 'Notification | Notifications',
-    'Dashboard' => ':team Dashboard'
+    'Dashboard' => ':team Dashboard',
+    'Search' => 'Search'
 ];

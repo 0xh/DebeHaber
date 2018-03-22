@@ -33,5 +33,6 @@ return [
     'Type' => 'Tipo',
     'SubType' => 'Sub Tipo',
     'Notification' => 'Notificación | Notificaciones',
-    'Dashboard' => 'Tablero :team'
+    'Dashboard' => 'Tablero :team',
+    'Search' => 'Buscar'
 ];
