@@ -1,22 +1,21 @@
 
 /*
- |--------------------------------------------------------------------------
- | Laravel Spark Bootstrap
- |--------------------------------------------------------------------------
- |
- | First, we will load all of the "core" dependencies for Spark which are
- | libraries such as Vue and jQuery. This also loads the Spark helpers
- | for things such as HTTP calls, forms, and form validation errors.
- |
- | Next, we'll create the root Vue application for Spark. This will start
- | the entire application and attach it to the DOM. Of course, you may
- | customize this script as you desire and load your own components.
- |
- */
+|--------------------------------------------------------------------------
+| Laravel Spark Bootstrap
+|--------------------------------------------------------------------------
+|
+| First, we will load all of the "core" dependencies for Spark which are
+| libraries such as Vue and jQuery. This also loads the Spark helpers
+| for things such as HTTP calls, forms, and form validation errors.
+|
+| Next, we'll create the root Vue application for Spark. This will start
+| the entire application and attach it to the DOM. Of course, you may
+| customize this script as you desire and load your own components.
+|
+*/
 
 require('spark-bootstrap');
 require('./components/bootstrap');
-
 
 import VueRouter from 'vue-router';
 import SearchBox from './components/searchbox.vue';
@@ -27,20 +26,27 @@ import Vue from 'vue';
 import VueGoodTable from 'vue-good-table';
 import Datatable from 'vue2-datatable-component';
 
-
 import Vuex from 'vuex';
 import vuexI18n from 'vuex-i18n';
 import Locales from './vue-i18n-locales.generated.js';
+import Bars from 'vuebars'
+import Trend from 'vuetrend';
 
 const store = new Vuex.Store();
 
 Vue.use(vuexI18n.plugin, store);
+Vue.use(Bars)
+Vue.use(Trend);
 
 Vue.i18n.add('en', Locales.en);
 Vue.i18n.add('de', Locales.de);
 
 // set the start locale to use
 Vue.i18n.set(Spark.locale);
+
+// Vue.config.devtools = false
+// Vue.config.debug = false
+// Vue.config.silent = true
 
 require('./components/bootstrap');
 

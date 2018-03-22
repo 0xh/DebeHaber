@@ -6,7 +6,7 @@ if (! isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
     $protocol = 'http://';
 }
 
-$protocol = 'https://';
+//$protocol = 'https://';
 
 return [
 
@@ -154,7 +154,8 @@ return [
                 $protocol.'js.stripe.com/v3/',
                 $protocol.'fonts.googleapis.com/',
                 $protocol.'www.gravatar.com/avatar/',
-                $protocol.'ajax.googleapis.com/ajax/libs/webfont/'
+                $protocol.'ajax.googleapis.com/ajax/libs/webfont/',
+                $protocol.'code.jquery.com/jquery-3.2.1.min.js',
             ],
 
             'hashes' => [
@@ -174,7 +175,9 @@ return [
 
         'style-src' => [
             'allow' => [
-                //
+                $protocol.'fonts.googleapis.com/',
+                $protocol.'maxcdn.bootstrapcdn.com/',
+                $protocol.'cdnjs.cloudflare.com',
             ],
 
             'self' => true,
@@ -186,6 +189,7 @@ return [
             'allow' => [
                 $protocol.'www.debehaber.com',
                 $protocol.'www.google-analytics.com',
+                $protocol.'www.gravatar.com/avatar/',
             ],
 
             'types' => [
@@ -204,6 +208,10 @@ return [
         */
 
         'font-src' => [
+            'allow' => [
+                $protocol.'fonts.gstatic.com/s/',
+            ],
+
             'self' => true,
         ],
 

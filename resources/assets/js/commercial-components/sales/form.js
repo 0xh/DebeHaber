@@ -199,7 +199,7 @@ Vue.component('sales-form',{
     {
       var app = this;
       $.ajax({
-        url: '/api/' + this.taxpayer + '/get_document/1/'   ,
+        url: '/api/' + this.taxpayer + '/get_documents/1/'   ,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
@@ -272,9 +272,10 @@ Vue.component('sales-form',{
         }
       });
     },
+
     getRate: function()
     {
-      var app=this;
+      var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -300,7 +301,7 @@ Vue.component('sales-form',{
     //Get Cost Centers
     getCharts: function(data)
     {
-      var app=this;
+      var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -325,7 +326,7 @@ Vue.component('sales-form',{
     //VAT
     getTaxes: function(data)
     {
-      var app=this;
+      var app = this;
       $.ajax({
         url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit' ,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},

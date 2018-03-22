@@ -202,7 +202,7 @@ Vue.component('credit-note-form',{
     {
       var app=this;
       $.ajax({
-        url: '/api/' + this.taxpayer + '/get_document/2/' ,
+        url: '/api/' + this.taxpayer + '/get_documents/2/' ,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',

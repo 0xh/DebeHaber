@@ -122,6 +122,9 @@ class ChartController extends Controller
         //
     }
 
+
+    // All API related Queries.
+
     public function getCharts(Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = Chart::orderBy('code')->get();
