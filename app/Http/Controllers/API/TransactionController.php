@@ -17,47 +17,41 @@ use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
-    // public function formatData($data)
-    // {
-    //     return Transaction::make($data)->resolve();
-    // }
-
     public function start(Request $request)
     {
 
-        $transactionData=array();
-        //Convert data from
-
+        $transactionData = array();
 
         //Process Transaction by 100 to speed up but not overload.
-        for ($i=0; $i <100 ; $i++)
+        for ($i = 0; $i < 100 ; $i++)
         {
             $chunkedData = $request[$i]['Commercial_Invoices'][0];
-
 
             if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 3)
             {
                 $taxpayer = $this->checkTaxPayer($chunkedData['supplierTaxID'], $chunkedData['supplierName']);
-
             }
             else if($chunkedData['Type'] == 2 || $chunkedData['Type'] == 4)
             {
                 $taxpayer = $this->checkTaxPayer($chunkedData['customerTaxID'], $chunkedData['customerName']);
-
             }
 
-            $cycle=Cycle::where('start_date','<=',$this->convert_date($chunkedData['date']))
-            ->where('end_date','>=',$this->convert_date($chunkedData['date']))->where('taxpayer_id',$taxpayer->id)->first();
-            if (!isset($cycle)) {
+            $cycle = Cycle::where('start_date', '<=', $this->convert_date($chunkedData['date']))
+            ->where('end_date', '>=', $this->convert_date($chunkedData['date']))
+            ->where('taxpayer_id', $taxpayer->id)->first();
+
+            if (!isset($cycle))
+            {
                 $current_date = Carbon::now();
                 $chartVersion = ChartVersion::where('taxpayer_id', $taxpayer->id)->first();
-                if (!isset($chartVersion)) {
-                    $chartVersion = new ChartVersion();
-                }
+
+                if (!isset($chartVersion))
+                { $chartVersion = new ChartVersion(); }
 
                 $chartVersion->name = $current_date->year;
                 $chartVersion->taxpayer_id = $taxpayer->id;
                 $chartVersion->save();
+
                 $cycle = new Cycle();
                 $cycle->chart_version_id = $chartVersion->id;
                 $cycle->year = $current_date->year;
@@ -65,33 +59,17 @@ class TransactionController extends Controller
                 $cycle->end_date = new Carbon('last day of December');
                 $cycle->taxpayer_id = $taxpayer->id;
                 $cycle->save();
-
             }
 
             $transaction = $this->processTransaction($chunkedData,$taxpayer,$cycle);
             $transactionData[$i] = $transaction;
-
-
         }
-        return    response()->json($transactionData);
+
+        return response()->json($transactionData);
     }
 
     public function processTransaction($data, $taxpayer,$cycle)
     {
-        // //process transaction
-        //
-        // //process detail
-        // $details = $data->detail;
-        // $this->processDetail($details);
-        // //return transaction saved status (ok or error).
-        //
-        // $transactions = array(
-        //     array('user_id'=>'Coder 1', 'subject_id'=> 4096),
-        //     array('user_id'=>'Coder 2', 'subject_id'=> 2048),
-        // );
-        //
-        // Model::insert($transactions);
-
         //TODO. There should be logic that checks if RefID for this Taxpayer is already int the system. If so, then only update, or else create.
         //Im not too happy with this code since it will call db every time there is a new invoice. Maybe there is a better way, or simply remove this part and insert it again.
 
@@ -111,7 +89,8 @@ class TransactionController extends Controller
 
             $transaction->type = $datab['Type'] == 2 ? 1 : 3;
         }
-        $transaction->type=4;
+
+        $transaction->type = 4;
         $transaction->customer_id = $customer->id;
         $transaction->supplier_id = $supplier->id;
 
@@ -129,7 +108,7 @@ class TransactionController extends Controller
         }
 
         //You may need to update the code to a Carbon nuetral. Check this, I may be wrong.
-        $transaction->date =$this->convert_date($data['date']);
+        $transaction->date = $this->convert_date($data['date']);
         $transaction->number = $data['number'];
         $transaction->code = $data['code'] != '' ? $data['code'] : null;
         $transaction->code_expiry = $data['code_expiry'] != '' ? $data['code_expiry'] : null;
@@ -139,9 +118,8 @@ class TransactionController extends Controller
 
         $this->processDetail($data['CommercialInvoice_Detail'],$taxpayer,$transaction->id,$cycle);
         return $transaction;
-
-
     }
+
     public function convert_date($date)
     {
         $trans_date = $date;
@@ -158,8 +136,8 @@ class TransactionController extends Controller
         {
             $transactionDetail = new TransactionDetail();
             $transactionDetail->transaction_id = $transaction_id;
-            $transactionDetail->chart_id = $this->checkChart($detail['chart'], $taxpayer,$cycle);
-            $transactionDetail->chart_vat_id = $this->checkChartVat($detail['vat'], $taxpayer,$cycle);
+            $transactionDetail->chart_id = $this->checkChart($detail['chart'], $taxpayer, $cycle);
+            $transactionDetail->chart_vat_id = $this->checkDebitVAT($detail['vat'], $taxpayer, $cycle);
             $transactionDetail->value = $detail['value'];
 
             $transactionDetail->save();
@@ -168,11 +146,8 @@ class TransactionController extends Controller
 
     public function checkTaxPayer($taxid, $name)
     {
-
-
         $cleanTaxID = strtok($taxid , '-');
         $cleanDV = substr($taxid , -1);
-
 
         if (is_numeric($cleanTaxID))
         {
@@ -182,12 +157,14 @@ class TransactionController extends Controller
         {
             $customer = Taxpayer::where('taxid', '88888801')->first();
         }
+
         if (!isset($customer))
         {
-
             $customer = new taxpayer();
             $customer->name = $name ?? 'No Name';
-            if ($cleanTaxID==false) {
+
+            if ($cleanTaxID == false)
+            {
                 $customer->taxid = 88888801;
                 $customer->code = 00000;
             }
@@ -202,7 +179,6 @@ class TransactionController extends Controller
         }
 
         return $customer;
-
     }
 
     public function checkCurrency($code, $taxpayer)
@@ -223,16 +199,21 @@ class TransactionController extends Controller
                 $currency->name = $code;
                 $currency->save();
             }
+
             return $currency->id;
         }
+
         return null;
     }
 
     public function checkCurrencyRate($id,$taxpayer,$date)
     {
         $currencyRate=CurrencyRate::where('currency_id',$id)
-        ->where('created_at',$this->convert_date($date))->first();
-        if (isset($currencyRate)) {
+        ->where('created_at', $this->convert_date($date))
+        ->first();
+
+        if (isset($currencyRate))
+        {
             return $currencyRate->rate;
         }
 
@@ -242,25 +223,16 @@ class TransactionController extends Controller
     //These Charts will not work as they use the global scope for Taxpayer and Cycle.
     //you will have to call no global scopes for these methods and then manually assign the same query.
 
-    public function checkChart($name,$taxpayer,$cycle)
+    public function checkChart($name, $taxPayer, $cycle)
     {
         //Check if Chart Exists
         if ($name != '')
         {
             $chart = Chart::withoutGlobalScopes()
-            ->where(function($query) use ($taxpayer)
-            {
-                $query
-                ->where('charts.taxpayer_id', $taxpayer->id)
-                ->orWhere(function($subQuery) use ($taxpayer)
-                {
-                    $subQuery
-                    ->whereNull('charts.taxpayer_id')
-                    ->where('charts.country', $taxpayer->country);
-                });
-            })
-            ->where('charts.chart_version_id', $cycle->chart_version_id)
-            ->SalesAccounts()->where('name', $name)->first();
+            ->My($taxPayer, $cycle)
+            ->SalesAccounts()
+            ->where('name', $name)
+            ->first();
 
             if ($chart == null)
             {
@@ -269,7 +241,7 @@ class TransactionController extends Controller
                 $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->country = 'PRY';
                 $chart->taxpayer_id = $taxpayer->id;
-                $chart->is_accountable = 1;
+                $chart->is_accountable = true;
                 $chart->sub_type = 9;
                 $chart->type = 1;
 
@@ -277,25 +249,31 @@ class TransactionController extends Controller
                 $chart->name = $name;
                 $chart->save();
             }
+
             return $chart->id;
         }
+
         return null;
     }
 
-    public function checkChartVat($name,$taxpayer,$cycle)
+    public function checkDebitVAT($name,$taxPayer,$cycle)
     {
         //Check if Chart Exists
         if ($name != '')
         {
-            $chart = Chart::withoutGlobalScopes()->VATDebitAccounts()->where('name', $name)->first();
+            $chart = Chart::withoutGlobalScopes()
+            ->My($taxPayer, $cycle)
+            ->VATDebitAccounts()
+            ->where('name', $name)
+            ->first();
 
             if ($chart == null)
             {
                 $chart = new Chart();
                 $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->country = 'PRY';
-                $chart->taxpayer_id = $taxpayer->id;
-                $chart->is_accountable = 1;
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->is_accountable = true;
                 $chart->type = 2;
                 $chart->sub_type = 3;
 
@@ -310,12 +288,18 @@ class TransactionController extends Controller
         return null;
     }
 
-    public function checkChartAccount($name, $taxpayer, $cycle)
+    public function checkChartAccount($name, $taxPayer, $cycle)
     {
         //Check if Chart Exists
         if ($name != '')
         {
-            $chart = Chart::withoutGlobalScopes()->MoneyAccounts()->where('name', $name)->first();
+            //TODO Wrong, you need to specify taxpayerID or else you risk bringing other accounts not belonging to taxpayer.
+            //I have done this already.
+            $chart = Chart::withoutGlobalScopes()
+            ->My($taxPayer, $cycle)
+            ->MoneyAccounts()
+            ->where('name', $name)
+            ->first();
 
             if ($chart == null)
             {
@@ -323,14 +307,13 @@ class TransactionController extends Controller
                 $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->country = 'PRY';
                 $chart->taxpayer_id = $taxPayer->id;
-                $chart->is_accountable = 1;
+                $chart->is_accountable = true;
                 $chart->type = 1;
                 $chart->sub_type = 3;
 
                 $chart->code = 'N/A';
                 $chart->name = $name;
                 $chart->save();
-
             }
 
             return $chart->id;

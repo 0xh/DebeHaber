@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Taxpayer;
+use App\Cycle;
 use App\Scopes\ChartScope;
 use App\Enums\ChartTypeEnum;
 use App\Enums\ChartAssetTypeEnum;
@@ -38,6 +40,22 @@ class Chart extends Model
             ->where('sub_type', 1)
             ->orWhere('sub_type', 3);
         });
+    }
+
+    public function scopeMy($query, Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $query->where(function($query) use ($taxPayer)
+        {
+            $query
+            ->where('charts.taxpayer_id', $taxPayer->id)
+            ->orWhere(function($subQuery) use ($taxPayer)
+            {
+                $subQuery
+                ->whereNull('charts.taxpayer_id')
+                ->where('charts.country', $taxPayer->country);
+            });
+        })
+        ->where('charts.chart_version_id', $cycle->chart_version_id);
     }
 
     //Brings all Fixed Asset Type accounts into list.

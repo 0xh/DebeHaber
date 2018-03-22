@@ -110976,7 +110976,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('chart', {
             app.coefficient = data.coefficient;
         },
         init: function init() {
-
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get/',
