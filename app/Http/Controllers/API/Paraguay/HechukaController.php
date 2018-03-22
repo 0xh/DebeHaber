@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\Paraguay;
 use App\Transaction;
 use App\TransactionDetail;
 use App\Taxpayer;
-use App\cycle;
+use App\Cycle;
 use App\TaxpayerIntegration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -24,9 +24,6 @@ class HechukaController extends Controller
 
     public function getHechaukaSales($taxpayer, $startDate, $endDate,$teamID)
     {
-
-
-
         //Get the Integration Once. No need to bring it into the Query.
         $integration = TaxpayerIntegration::where('taxpayer_id', $taxpayer->id)
         ->where('team_id', $teamID)

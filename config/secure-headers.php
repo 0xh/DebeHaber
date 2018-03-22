@@ -1,75 +1,83 @@
 <?php
 
+$protocol = 'https://';
+if (! isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
+{
+    $protocol = 'http://';
+}
+
+$protocol = 'https://';
+
 return [
 
     /*
-     * X-Content-Type-Options
-     *
-     * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-     *
-     * Available Value: 'nosniff'
-     */
+    * X-Content-Type-Options
+    *
+    * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+    *
+    * Available Value: 'nosniff'
+    */
 
     'x-content-type-options' => 'nosniff',
 
     /*
-     * X-Download-Options
-     *
-     * Reference: https://msdn.microsoft.com/en-us/library/jj542450(v=vs.85).aspx
-     *
-     * Available Value: 'noopen'
-     */
+    * X-Download-Options
+    *
+    * Reference: https://msdn.microsoft.com/en-us/library/jj542450(v=vs.85).aspx
+    *
+    * Available Value: 'noopen'
+    */
 
     'x-download-options' => 'noopen',
 
     /*
-     * X-Frame-Options
-     *
-     * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-     *
-     * Available Value: 'deny', 'sameorigin', 'allow-from <uri>'
-     */
+    * X-Frame-Options
+    *
+    * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+    *
+    * Available Value: 'deny', 'sameorigin', 'allow-from <uri>'
+    */
 
     'x-frame-options' => 'sameorigin',
 
     /*
-     * X-Permitted-Cross-Domain-Policies
-     *
-     * Reference: https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
-     *
-     * Available Value: 'all', 'none', 'master-only', 'by-content-type', 'by-ftp-filename'
-     */
+    * X-Permitted-Cross-Domain-Policies
+    *
+    * Reference: https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
+    *
+    * Available Value: 'all', 'none', 'master-only', 'by-content-type', 'by-ftp-filename'
+    */
 
     'x-permitted-cross-domain-policies' => 'none',
 
     /*
-     * X-XSS-Protection
-     *
-     * Reference: https://blogs.msdn.microsoft.com/ieinternals/2011/01/31/controlling-the-xss-filter
-     *
-     * Available Value: '1', '0', '1; mode=block'
-     */
+    * X-XSS-Protection
+    *
+    * Reference: https://blogs.msdn.microsoft.com/ieinternals/2011/01/31/controlling-the-xss-filter
+    *
+    * Available Value: '1', '0', '1; mode=block'
+    */
 
     'x-xss-protection' => '1; mode=block',
 
     /*
-     * Referrer-Policy
-     *
-     * Reference: https://w3c.github.io/webappsec-referrer-policy
-     *
-     * Available Value: 'no-referrer', 'no-referrer-when-downgrade', 'origin', 'origin-when-cross-origin',
-     *                  'same-origin', 'strict-origin', 'strict-origin-when-cross-origin', 'unsafe-url'
-     */
+    * Referrer-Policy
+    *
+    * Reference: https://w3c.github.io/webappsec-referrer-policy
+    *
+    * Available Value: 'no-referrer', 'no-referrer-when-downgrade', 'origin', 'origin-when-cross-origin',
+    *                  'same-origin', 'strict-origin', 'strict-origin-when-cross-origin', 'unsafe-url'
+    */
 
     'referrer-policy' => 'no-referrer',
 
     /*
-     * HTTP Strict Transport Security
-     *
-     * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/HTTP_strict_transport_security
-     *
-     * Please ensure your website had set up ssl/tls before enable hsts.
-     */
+    * HTTP Strict Transport Security
+    *
+    * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/HTTP_strict_transport_security
+    *
+    * Please ensure your website had set up ssl/tls before enable hsts.
+    */
 
     'hsts' => [
         'enable' => false,
@@ -80,12 +88,12 @@ return [
     ],
 
     /*
-     * Public Key Pinning
-     *
-     * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
-     *
-     * hpkp will be ignored if hashes is empty.
-     */
+    * Public Key Pinning
+    *
+    * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
+    *
+    * hpkp will be ignored if hashes is empty.
+    */
 
     'hpkp' => [
         'hashes' => [
@@ -105,14 +113,14 @@ return [
     ],
 
     /*
-     * Content Security Policy
-     *
-     * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/CSP
-     *
-     * csp will be ignored if custom-csp is not null. To disable csp, set custom-csp to empty string.
-     *
-     * Note: custom-csp does not support report-only.
-     */
+    * Content Security Policy
+    *
+    * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/CSP
+    *
+    * csp will be ignored if custom-csp is not null. To disable csp, set custom-csp to empty string.
+    *
+    * Note: custom-csp does not support report-only.
+    */
 
     'custom-csp' => null,
 
@@ -140,7 +148,13 @@ return [
 
         'script-src' => [
             'allow' => [
-                //
+                $protocol.'cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
+                $protocol.'www.google-analytics.com/',
+                $protocol.'www.googletagmanager.com/',
+                $protocol.'js.stripe.com/v3/',
+                $protocol.'fonts.googleapis.com/',
+                $protocol.'www.gravatar.com/avatar/',
+                $protocol.'ajax.googleapis.com/ajax/libs/webfont/'
             ],
 
             'hashes' => [
@@ -153,9 +167,9 @@ return [
 
             'self' => true,
 
-            'unsafe-inline' => false,
+            'unsafe-inline' => true,
 
-            'unsafe-eval' => false,
+            'unsafe-eval' => true,
         ],
 
         'style-src' => [
@@ -164,13 +178,14 @@ return [
             ],
 
             'self' => true,
-
-            'unsafe-inline' => false,
+            //TODO Change to false;
+            'unsafe-inline' => true,
         ],
 
         'img-src' => [
             'allow' => [
-                //
+                $protocol.'www.debehaber.com',
+                $protocol.'www.google-analytics.com',
             ],
 
             'types' => [
@@ -183,21 +198,21 @@ return [
         ],
 
         /*
-         * The following directives are all use 'allow' and 'self' flag.
-         *
-         * Note: default value of 'self' flag is false.
-         */
+        * The following directives are all use 'allow' and 'self' flag.
+        *
+        * Note: default value of 'self' flag is false.
+        */
 
         'font-src' => [
-            //
+            'self' => true,
         ],
 
         'connect-src' => [
-            //
+            'self' => true,
         ],
 
         'form-action' => [
-            //
+            'self' => true,
         ],
 
         'frame-ancestors' => [
@@ -205,7 +220,7 @@ return [
         ],
 
         'media-src' => [
-            //
+            'self' => true,
         ],
 
         'object-src' => [
@@ -213,8 +228,8 @@ return [
         ],
 
         /*
-         * plugin-types only support 'allow'.
-         */
+        * plugin-types only support 'allow'.
+        */
 
         'plugin-types' => [
             //

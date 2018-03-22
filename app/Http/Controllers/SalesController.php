@@ -28,11 +28,24 @@ class SalesController extends Controller
     ->where('supplier_id', $taxPayerID)
     ->where('type', 4)
     ->with('details')
-    ->select(DB::raw('0 as friends,transactions.id,taxpayers.name as Customer
-    ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-    ,number,transactions.code,code_expiry'))
+    ->select(DB::raw('0 as friends,
+    transactions.id,
+    taxpayers.name as Customer,
+    customer_id,
+    document_id,
+    currency_id,
+    rate,
+    payment_condition,
+    chart_account_id,
+    date,
+    number,
+    transactions.code,
+    code_expiry'))
+    ->orderBy('date', 'DESC')
+    ->take(100)
     ->get();
     return response()->json($Transaction);
+
   }
 
   public function getLastPurchase($taxPayerID)
