@@ -28,13 +28,13 @@ class ChartScope implements Scope
         {
             $query
             ->where('charts.taxpayer_id', $taxPayer->id)
+            // ->where('charts.chart_version_id', $versionID)
             ->orWhere(function($subQuery) use ($taxPayer)
             {
                 $subQuery
                 ->whereNull('charts.taxpayer_id')
                 ->where('charts.country', $taxPayer->country);
-            })
-            ->where('charts.chart_version_id', $versionID);
+            });
         });
     }
 }
