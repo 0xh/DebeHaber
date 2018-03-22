@@ -27,12 +27,13 @@ class TransactionController extends Controller
         $i=0;
         $transactionData=array();
         //Convert data from
-        $data = $request->Transactions[0];
-        $data=$data['Commercial_Invoices'];
+
 
         //Process Transaction by 100 to speed up but not overload.
-        foreach ($data as $chunkedData)
+        for ($i=0; $i <100 ; $i++)
         {
+            $chunkedData = $request[$i]['Commercial_Invoices'][0];
+
 
             if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 3)
             {
@@ -70,8 +71,9 @@ class TransactionController extends Controller
             $transaction=$this->processTransaction($chunkedData,$taxpayer,$cycle);
             $transactionData[$i]=$transaction;
             $i=$i+1;
+
         }
-    return    response()->json($transactionData);
+        return    response()->json($transactionData);
     }
 
     public function processTransaction($data, $taxpayer,$cycle)
@@ -166,34 +168,41 @@ class TransactionController extends Controller
 
     public function checkTaxPayer($taxid, $name)
     {
-        //This code is a good chance to make sure un necesary records get inserted into database.
-        //Sometimes users write information that is not acceptable by government, and the accountant needs to clean up.
-        //For example, if a foreigner buys sometime, their taxid is not recognized by government.
-        //So the accountant will change to a default taxpayer. Here we should do the same based on the country add a function
-        //and logic per country that detects if the value passed is a proper taxid or not. If not then give a default taxpayer that is meant to be used in those conditions.
 
-        if ($name != '')
+
+        $cleanTaxID = strtok($taxid , '-');
+        $cleanDV = substr($taxid , -1);
+
+
+        if (is_numeric($cleanTaxID))
         {
-            //TODO Clean up $code to remove extra '-', '.' and ',' from the code to search in a clean manner.
-            //if there is a -, then it will remove everything after it.
-            $taxid = str::contains($taxid,'-') ? strstr($taxid, '-', true) : $taxid;
-            //removes all letters and only keeps numbers.
-            $taxid = preg_replace('/[^0-9.]+/', '', $taxid);
-
-            $taxPayer = Taxpayer::where('taxid', $taxid)->first() ?? new Taxpayer();
-
-            //get code from taxid. create function based on country.
-            //run function based on country.
-
-            //TODO Country from Selection Box
-            $taxPayer->name = $name;
-            $taxPayer->taxid = $taxid;
-            //    $taxPayer->code = $code;
-
-            $taxPayer->save();
-
-            return $taxPayer;
+            $customer = Taxpayer::where('taxid', $cleanTaxID)->first();
         }
+        else
+        {
+            $customer = Taxpayer::where('taxid', '88888801')->first();
+        }
+        if (!isset($customer))
+        {
+
+            $customer = new taxpayer();
+            $customer->name = $name ?? 'No Name';
+            if ($cleanTaxID==false) {
+                $customer->taxid = 88888801;
+                $customer->code = 00000;
+            }
+            else
+            {
+                $customer->taxid = $cleanTaxID ?? 88888801;
+                $customer->code = is_numeric($cleanDV) ? $cleanDV : null;
+            }
+
+            $customer->alias = $name;
+            $customer->save();
+        }
+
+        return $customer;
+
     }
 
     public function checkCurrency($code, $taxpayer)
@@ -209,7 +218,7 @@ class TransactionController extends Controller
             {
                 $currency = new Currency();
 
-                $currency->country = $taxpayer->country;
+                $currency->country = 'PRY';
                 $currency->code = $code;
                 $currency->name = 'N/A';
                 $currency->save();
@@ -258,7 +267,7 @@ class TransactionController extends Controller
                 $chart = new Chart();
 
                 $chart->chart_version_id = $cycle->chart_version_id;
-                $chart->country = $taxpayer->country;
+                $chart->country = 'PRY';
                 $chart->taxpayer_id = $taxpayer->id;
                 $chart->is_accountable = 1;
                 $chart->sub_type = 9;
@@ -284,7 +293,7 @@ class TransactionController extends Controller
             {
                 $chart = new Chart();
                 $chart->chart_version_id = $cycle->chart_version_id;
-                $chart->country = $taxpayer->country;
+                $chart->country = 'PRY';
                 $chart->taxpayer_id = $taxpayer->id;
                 $chart->is_accountable = 1;
                 $chart->type = 2;
@@ -312,7 +321,7 @@ class TransactionController extends Controller
             {
                 $chart = new Chart();
                 $chart->chart_version_id = $cycle->chart_version_id;
-                $chart->country = $taxPayer->country;
+                $chart->country = 'PRY';
                 $chart->taxpayer_id = $taxPayer->id;
                 $chart->is_accountable = 1;
                 $chart->type = 1;
