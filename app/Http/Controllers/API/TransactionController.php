@@ -24,7 +24,7 @@ class TransactionController extends Controller
 
     public function start(Request $request)
     {
-        
+
         $transactionData=array();
         //Convert data from
 
@@ -220,7 +220,7 @@ class TransactionController extends Controller
 
                 $currency->country = 'PRY';
                 $currency->code = $code;
-                $currency->name = 'N/A';
+                $currency->name = $code;
                 $currency->save();
             }
             return $currency->id;
