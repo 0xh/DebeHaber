@@ -166,48 +166,63 @@
                     <div class="col-1">
 
                     </div>
+                    <div class="col-1">
+                        <span v-if="data.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
+                            <b>@{{ data.code }}</b>
+                        </span>
+                        <span v-else-if="data.type == 2" class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
+                            <b>@{{ data.code }}</b>
+                        </span>
+                        <span v-else-if="data.type == 3" class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
+                            <b>@{{ data.code }}</b>
+                        </span>
+                        <span v-else-if="data.type == 4" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
+                            <b>@{{ data.code }}</b>
+                        </span>
+                        <span v-else-if="data.type == 5" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
+                            <b>@{{ data.code }}</b>
+                        </span>
+                    </div>
                     <div class="col-6">
-                        <div class="">
-                            <span v-if="data.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
-                                <b>@{{ data.code }}</b>
-                            </span>
-                            <span v-else-if="data.type == 2" class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
-                                <b>@{{ data.code }}</b>
-                            </span>
-                            <span v-else-if="data.type == 3" class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
-                                <b>@{{ data.code }}</b>
-                            </span>
-                            <span v-else-if="data.type == 4" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
-                                <b>@{{ data.code }}</b>
-                            </span>
-                            <span v-else-if="data.type == 5" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
-                                <b>@{{ data.code }}</b>
-                            </span>
+                        <span v-if="data.is_accountable">
+                            @{{ data.name }}
+                        </span>
+                        <span v-else>
+                            <b>@{{ data.name }}</b>
+                        </span>
+                    </div>
+                    <div class="col-4">
+                        <div class="m-btn-group m-btn-group--pill btn-group m--margin-5" role="group" aria-label="First group">
 
-                            <span v-if="data.is_accountable">
-                                @{{ data.name }}
-                            </span>
-                            <span v-else>
-                                <b>@{{ data.name }}</b>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div v-if="data.is_accountable">
-                            <span class="m-badge m-badge--metal m-badge--wide">
-                                @lang('accounting.IsAccountable')
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div v-if="data.taxpayer_id != null">
-                            <button v-on:click="onEdit(data)" class="btn btn-outline-info m-btn m-btn--icon m-btn--icon-only">
+                            <button v-if="data.taxpayer_id == null" type="button" class="m-btn btn btn-metal">
+                                @lang('accounting.Generic')
+                            </button>
+
+                            <button v-else type="button" class="m-btn btn btn-success">
                                 <i class="la la-pencil"></i>
                             </button>
+
+                            <div v-else>
+                                <button type="button" class="m-btn btn btn-warning">
+                                    <i class="la la-trash-o"></i>
+                                </button>
+                                <button type="button" class="m-btn btn btn-info">
+                                    <i class="la la-scissors"></i>
+                                </button>
+                            </div>
+
+                            <button v-if="data.is_accountable" type="button" class="m-btn btn btn-primary">
+                                @lang('accounting.IsAccountable')
+                            </button>
                         </div>
-                    </div>
-                </div>
+                        {{-- <div v-if="data.taxpayer_id != null">
+                        <button v-on:click="onEdit(data)" class="btn btn-outline-primary m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+                        <i class="la la-pencil"></i>
+                    </button>
+                </div> --}}
             </div>
         </div>
-    </chart>
+    </div>
+</div>
+</chart>
 @endsection
