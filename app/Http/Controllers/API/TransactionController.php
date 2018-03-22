@@ -24,7 +24,7 @@ class TransactionController extends Controller
 
     public function start(Request $request)
     {
-        $i=0;
+
         $transactionData=array();
         //Convert data from
 
@@ -68,9 +68,9 @@ class TransactionController extends Controller
 
             }
 
-            $transaction=$this->processTransaction($chunkedData,$taxpayer,$cycle);
-            $transactionData[$i]=$transaction;
-            $i=$i+1;
+            $transaction = $this->processTransaction($chunkedData,$taxpayer,$cycle);
+            $transactionData[$i] = $transaction;
+
 
         }
         return    response()->json($transactionData);
@@ -101,17 +101,17 @@ class TransactionController extends Controller
         {
             $customer = $this->checkTaxPayer($data['customerTaxID'], $data['customerName']);
             $supplier = $taxpayer;
+
+            $transaction->type = $data['Type'] == 1 ? 4 : 5;
         }
         else if($data['Type'] == 2 || $data['Type'] == 4)
         {
             $customer = $taxpayer;
             $supplier = $this->checkTaxPayer($data['supplierTaxID'], $data['supplierName']);
+
+            $transaction->type = $datab['Type'] == 2 ? 1 : 3;
         }
-
-        $transaction->type = $data['Type'];
-
-
-
+        $transaction->type=4;
         $transaction->customer_id = $customer->id;
         $transaction->supplier_id = $supplier->id;
 
@@ -220,7 +220,7 @@ class TransactionController extends Controller
 
                 $currency->country = 'PRY';
                 $currency->code = $code;
-                $currency->name = 'N/A';
+                $currency->name = $code;
                 $currency->save();
             }
             return $currency->id;
