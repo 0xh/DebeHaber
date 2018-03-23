@@ -5,77 +5,72 @@ import mockData from './datatable/_mockData'
 import components from './datatable/comps/'
 
 export default {
-  components,
-  name: 'FriendsTable', // `name` is required as a recursive component
-  props: ['row','cycle','taxpayer'], // from the parent FriendsTable (if exists)
-  data () {
-    
-    const amINestedComp = !!this.row
+    components,
+    name: 'FriendsTable', // `name` is required as a recursive component
+    props: ['row','cycle','taxpayer'], // from the parent FriendsTable (if exists)
+    data () {
+        const amINestedComp = !!this.row
+        return {
+            supportBackup: true,
+            supportNested: true,
+            tblClass: 'table-bordered',
+            tblStyle: 'color: #666',
+            pageSizeOptions: [5, 10, 15, 20],
+            columns: (() => {
+                const cols = [
+                    { title: 'ID', field: 'id', label: 'ID', sortable: true, visible: 'true' },
+                    { title: 'Code', field: 'code', visible: false, thComp: 'FilterTh', tdComp: 'Email' },
+                    { title: 'Number', field: 'number', thComp: 'FilterTh', tdStyle: { fontStyle: 'italic' } },
+                    { title: 'Date', field: 'date',type: 'date',inputFormat: 'YYYY-MM-DD',outputFormat: 'MMM Do YY'},
 
-    return {
-      supportBackup: true,
-      supportNested: true,
-      tblClass: 'table-bordered',
-      tblStyle: 'color: #666',
-      pageSizeOptions: [5, 10, 15, 20],
-      columns: (() => {
-        const cols = [
-          { title: 'ID', field: 'id', label: 'ID', sortable: true, visible: 'true' },
-          { title: 'Code', field: 'code', visible: false, thComp: 'FilterTh', tdComp: 'Email' },
-          { title: 'Number', field: 'number', thComp: 'FilterTh', tdStyle: { fontStyle: 'italic' } },
-          { title: 'Date', field: 'date',type: 'date',inputFormat: 'YYYY-MM-DD',outputFormat: 'MMM Do YY'},
+                    { title: 'Operation', tdComp: 'Opt', visible: 'true' }
+                ]
+                const groupsDef = {
+                    Normal: ['Code', 'Number', 'Date'],
+                    Sortable: ['Code', 'Number', 'Date'],
+                    Extra: ['Operation']
+                }
+                return cols.map(col => {
+                    Object.keys(groupsDef).forEach(groupName => {
+                        if (groupsDef[groupName].includes(col.title)) {
+                            col.group = groupName
+                        }
+                    })
+                    return col
+                })
+            })(),
+            data: [],
+            total: 0,
+            selection: [],
+            summary: {},
+            tabledata:[],
 
-          { title: 'Operation', tdComp: 'Opt', visible: 'true' }
-        ]
-        const groupsDef = {
-          Normal: ['Code', 'Number', 'Date'],
-          Sortable: ['Code', 'Number', 'Date'],
-          Extra: ['Operation']
-        }
-        return cols.map(col => {
-          Object.keys(groupsDef).forEach(groupName => {
-            if (groupsDef[groupName].includes(col.title)) {
-              col.group = groupName
+            // `query` will be initialized to `{ limit: 10, offset: 0, sort: '', order: '' }` by default
+            // other query conditions should be either declared explicitly in the following or set with `Vue.set / $vm.$set` manually later
+            // otherwise, the new added properties would not be reactive
+            query: amINestedComp ? { uid: this.row.id } : {},
+
+            // any other staff that you want to pass to dynamic components (thComp / tdComp / nested components)
+            xprops: {
+                eventbus: new Vue()
             }
+        }
+    },
 
-          })
-          return col
-        })
-      })(),
-      data: [],
-      total: 0,
-      selection: [],
-      summary: {},
-      tabledata:[],
-
-      // `query` will be initialized to `{ limit: 10, offset: 0, sort: '', order: '' }` by default
-      // other query conditions should be either declared explicitly in the following or set with `Vue.set / $vm.$set` manually later
-      // otherwise, the new added properties would not be reactive
-      query: amINestedComp ? { uid: this.row.id } : {},
-
-      // any other staff that you want to pass to dynamic components (thComp / tdComp / nested components)
-      xprops: {
-        eventbus: new Vue()
-      }
+    methods: {
+        alertSelectedUids () {
+            alert(this.selection.map(({ id }) => id))
+        }
+    },
+    mounted: function mounted()
+    {
+        var app = this;
+        this.$parent.init();
     }
-  },
-
-  methods: {
-
-    alertSelectedUids () {
-      alert(this.selection.map(({ id }) => id))
-    }
-
-  },
-  mounted: function mounted()
-  {
-    var app=this;
-    this.$parent.init();
-  }
 }
 </script>
 <style>
 .w-240 {
-  width: 240px;
+    width: 240px;
 }
 </style>

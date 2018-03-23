@@ -186,7 +186,6 @@ return [
 
         'img-src' => [
             'allow' => [
-                $protocol.'www.debehaber.com',
                 $protocol.'www.google-analytics.com',
                 $protocol.'www.gravatar.com/avatar/',
             ],
