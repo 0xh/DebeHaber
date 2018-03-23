@@ -92,7 +92,7 @@ class TransactionController extends Controller
   {
     //TODO. There should be logic that checks if RefID for this Taxpayer is already int the system. If so, then only update, or else create.
     //Im not too happy with this code since it will call db every time there is a new invoice. Maybe there is a better way, or simply remove this part and insert it again.
-    $transaction = Transaction::where('ref_id', $data['id'])->first() ?? new Transaction();
+    $transaction = new Transaction();
 
     if ($data['Type'] == 1 || $data['Type'] == 3)
     {
