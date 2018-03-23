@@ -125,9 +125,10 @@ Vue.component('chart',{
         app.coefficient = data.coefficient;
     },
     init(){
+
         var app = this;
         $.ajax({
-            url: '/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get/' ,
+            url: '/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get_charts/' ,
             headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
             type: 'get',
             dataType: 'json',
