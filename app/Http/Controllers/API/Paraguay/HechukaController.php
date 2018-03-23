@@ -29,35 +29,67 @@ class HechukaController extends Controller
         ->where('team_id', $teamID)
         ->first();
         //
-        // $data = DB::select('select id, max(date) as date,max(number) as number,max(code) as code,
-        // max(code_expiry) as code_expiry ,max(payment_condition) as payment_condition, max(type) as type
-        // ,max(coefficient) as coefficient,sum(value) as value,max(customer) as customer,
-        // sum(valueByvat5) as valueByvat5,sum(valuevat5) as valuevat5,sum(valueByvat0) as valueByvat0,
-        // sum(valuevat0) as valuevat0,sum(valueByvat10) as valueByvat10,sum(valuevat10) as valuevat10
-        // from (select transactions.id, `customer`.`name` as `customer`, `customer`.`taxid` as `customerTaxID`, `customer`.`code` as `customerCode`,
-        // MAX(transactions.date) as date,
-        // MAX(transactions.number) as number,
-        // MAX(transactions.code) as code,
-        // MAX(transactions.code_expiry) as code_expiry,
-        // MAX(transactions.payment_condition) as payment_condition,
-        // MAX(transactions.rate) as rate, MAX(transactions.type) as type,
-        // SUM(transaction_details.value) as value, max(vat.coefficient) as coefficient,
-        // if(max(vat.coefficient) = 0.0500, SUM(transaction_details.value) / (1 + SUM(vat.coefficient)), 0) as valueByvat5,
-        // if(max(vat.coefficient) = 0.0500, SUM(transaction_details.value) - SUM(transaction_details.value) /(1 + SUM(vat.coefficient)), 0) as valuevat5,
-        // if((max(vat.coefficient)) is NULL, SUM(transaction_details.value),0) as valueByvat0,
-        // if(max(vat.coefficient) is NULL, SUM(transaction_details.value) - SUM(transaction_details.value),0) as valuevat0,
-        // if(max(vat.coefficient) = 0.1000,SUM(transaction_details.value) /(1+ SUM(vat.coefficient)),0) as valueByvat10,
-        // if(max(vat.coefficient) = 0.1000,SUM(transaction_details.value) - SUM(transaction_details.value) /(1+ SUM(vat.coefficient)),0) as valuevat10
-        // from `transaction_details`
-        // inner join `transactions` on `transactions`.`id` = `transaction_details`.`transaction_id`
-        // inner join `taxpayers` as `customer` on `customer`.`id` = `transactions`.`customer_id`
-        // inner join `charts` as `vat` on `vat`.`id` = `transaction_details`.`chart_vat_id`
-        // where `supplier_id` = '. $taxpayer->id .' and (`transactions`.`type` = 3 or `transactions`.`type` = 1)
-        // and date between "'. $startDate . '" and "'. $endDate . '"
-        // group by `transaction_details`.`chart_vat_id`,`transactions`.`id`) as i group by id');
+
+        select
+        t.id,
+        max(customer.name), max(customer.taxid), max(customer.code),
+        // max(supplier.name), max(supplier.taxid), max(supplier.code),
+        max(t.number), max(t.code),
+        (sum(td.ValueInZero) / t.rate) as ValueInZero,
+        (sum(td.ValueInFive) / t.rate) as ValueInFive,
+        (sum(td.ValueInFive) / t.rate) / 21 as VATInFive,
+        (sum(td.ValueInTen) / t.rate) as ValueInTen,
+        (sum(td.ValueInTen) / t.rate) / 11 as VATInTen
+        from transactions as t
+        join
+        (
+        select
+        max(transaction_id) as transaction_id,
+        sum(value) as value,
+        max(c.coefficient) as coefficient,
+        if(max(c.coefficient) = 0, sum(value), 0) as ValueInZero,
+        if(max(c.coefficient) = 0.5, sum(value), 0) as ValueInFive,
+        if(max(c.coefficient) = 0.1, sum(value), 0) as ValueInTen
+        from transaction_details
+        join charts as c on transaction_details.chart_vat_id = c.id
+        group by transaction_id, transaction_details.chart_vat_id
+        ) as td on td.transaction_id = t.id
+        join taxpayers as customer on t.customer_id = customer.id
+        // join taxpayers as supplier on t.supplier_id = supplier.id
+        where supplier.taxid = 80015117 and t.number like '%00818%'
+        group by t.id
 
 
-        $data=TransactionDetail
+
+        $data = DB::select('select id, max(date) as date,max(number) as number,max(code) as code,
+        max(code_expiry) as code_expiry ,max(payment_condition) as payment_condition, max(type) as type
+        ,max(coefficient) as coefficient,sum(value) as value,max(customer) as customer,
+        sum(valueByvat5) as valueByvat5,sum(valuevat5) as valuevat5,sum(valueByvat0) as valueByvat0,
+        sum(valuevat0) as valuevat0,sum(valueByvat10) as valueByvat10,sum(valuevat10) as valuevat10
+        from (select transactions.id, `customer`.`name` as `customer`, `customer`.`taxid` as `customerTaxID`, `customer`.`code` as `customerCode`,
+        MAX(transactions.date) as date,
+        MAX(transactions.number) as number,
+        MAX(transactions.code) as code,
+        MAX(transactions.code_expiry) as code_expiry,
+        MAX(transactions.payment_condition) as payment_condition,
+        MAX(transactions.rate) as rate, MAX(transactions.type) as type,
+        SUM(transaction_details.value) as value, max(vat.coefficient) as coefficient,
+        if(max(vat.coefficient) = 0.0500, SUM(transaction_details.value) / (1 + SUM(vat.coefficient)), 0) as valueByvat5,
+        if(max(vat.coefficient) = 0.0500, SUM(transaction_details.value) - SUM(transaction_details.value) /(1 + SUM(vat.coefficient)), 0) as valuevat5,
+        if((max(vat.coefficient)) is NULL, SUM(transaction_details.value),0) as valueByvat0,
+        if(max(vat.coefficient) is NULL, SUM(transaction_details.value) - SUM(transaction_details.value),0) as valuevat0,
+        if(max(vat.coefficient) = 0.1000,SUM(transaction_details.value) /(1+ SUM(vat.coefficient)),0) as valueByvat10,
+        if(max(vat.coefficient) = 0.1000,SUM(transaction_details.value) - SUM(transaction_details.value) /(1+ SUM(vat.coefficient)),0) as valuevat10
+        from `transaction_details`
+        inner join `transactions` on `transactions`.`id` = `transaction_details`.`transaction_id`
+        inner join `taxpayers` as `customer` on `customer`.`id` = `transactions`.`customer_id`
+        inner join `charts` as `vat` on `vat`.`id` = `transaction_details`.`chart_vat_id`
+        where `supplier_id` = '. $taxpayer->id .' and (`transactions`.`type` = 3 or `transactions`.`type` = 1)
+        and date between "'. $startDate . '" and "'. $endDate . '"
+        group by `transaction_details`.`chart_vat_id`,`transactions`.`id`) as i group by id');
+
+
+        $data = TransactionDetail;
 
         $cantidad_registros = 0;
         $cantidad_cuotas = 0;
@@ -120,6 +152,37 @@ class HechukaController extends Controller
         $integration = TaxpayerIntegration::where('taxpayer_id', $taxpayerID)
         ->where('team_id', Auth::user()->currentTeamID)
         ->first();
+
+        select
+        t.id,
+        // max(customer.name), max(customer.taxid), max(customer.code), 
+        max(supplier.name), max(supplier.taxid), max(supplier.code),
+        max(t.number), max(t.code),
+        (sum(td.ValueInZero) / t.rate) as ValueInZero,
+        (sum(td.ValueInFive) / t.rate) as ValueInFive,
+        (sum(td.ValueInFive) / t.rate) / 21 as VATInFive,
+        (sum(td.ValueInTen) / t.rate) as ValueInTen,
+        (sum(td.ValueInTen) / t.rate) / 11 as VATInTen
+        from transactions as t
+        join
+        (
+        select
+        max(transaction_id) as transaction_id,
+        sum(value) as value,
+        max(c.coefficient) as coefficient,
+        if(max(c.coefficient) = 0, sum(value), 0) as ValueInZero,
+        if(max(c.coefficient) = 0.5, sum(value), 0) as ValueInFive,
+        if(max(c.coefficient) = 0.1, sum(value), 0) as ValueInTen
+        from transaction_details
+        join charts as c on transaction_details.chart_vat_id = c.id
+        group by transaction_id, transaction_details.chart_vat_id
+        ) as td on td.transaction_id = t.id
+        // join taxpayers as customer on t.customer_id = customer.id
+        join taxpayers as supplier on t.supplier_id = supplier.id
+        where supplier.taxid = 80015117 and t.number like '%00818%'
+        group by t.id
+
+
 
         $data = DB::select('select max(date) as date,max(number) as number,max(code) as code,
         max(code_expiry) as code_expiry ,max(payment_condition) as payment_condition,max(type) as type
