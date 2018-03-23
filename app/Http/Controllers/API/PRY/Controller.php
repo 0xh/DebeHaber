@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Paraguay;
+namespace App\Http\Controllers\API\PRY;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

@@ -79,6 +79,11 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::get('get_account_payableByID/{id}', 'AccountPayableController@get_account_payableByID');
             });
         });
+
+        Route::prefix('PRY')->group(function()
+        {
+            Route::get('/hechauka/{startDate}/{endDate}', 'API\PRY\HechukaController@getHechauka');
+        });
     });
 
     Route::get('users', function()

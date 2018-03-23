@@ -24,8 +24,7 @@ Route::group(['middleware' => 'auth'], function ()
    //Takes the TaxPayer and puts it into the route passing it to Dashboard.
    Route::get('selectTaxPayer/{taxPayer}', 'TaxpayerController@selectTaxpayer')->name('selectTaxPayer');
    Route::resource('CurrencyRate', 'CurrencyRateController');
-   Route::get('{taxPayer}/hechukasales/{startDate}/{endDate}', 'API\Paraguay\HechukaController@getHechaukaSales');
-   Route::get('{taxPayer}/hechukapurchase/{startDate}/{endDate}', 'API\Paraguay\HechukaController@getHechaukaPurchase');
+
    // ['middleware' => 'security'],
    Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
    {
