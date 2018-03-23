@@ -8,10 +8,12 @@ use App\Taxpayer;
 use App\Chart;
 use App\Cycle;
 
+
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Carbon\Carbon;
 
 class Controller extends BaseController
 {
@@ -155,18 +157,35 @@ class Controller extends BaseController
         return null;
     }
 
-    public function checkChartAccount($name, Taxpayer $taxPayer, Cycle $cycle)
+    public function checkChartAccount($costcenter, Taxpayer $taxPayer, Cycle $cycle)
     {
         //Check if Chart Exists
         if ($name != '')
         {
             //TODO Wrong, you need to specify taxpayerID or else you risk bringing other accounts not belonging to taxpayer.
             //I have done this already.
-            $chart = Chart::withoutGlobalScopes()
-            ->My($taxPayer, $cycle)
-            ->MoneyAccounts()
-            ->where('name', $name)
-            ->first();
+            if ($costcenter['type']==1) {
+              $chart = Chart::withoutGlobalScopes()
+              ->My($taxPayer, $cycle)
+              ->MoneyAccounts()
+              ->where('name', $costcenter['name'])
+              ->first();
+            }
+            elseif ($costcenter['type']==2) {
+              $chart = Chart::withoutGlobalScopes()
+              ->My($taxPayer, $cycle)
+              ->SalesAccounts()
+              ->where('name', $costcenter['name'])
+              ->first();
+            }
+            elseif ($costcenter['type']==3) {
+              $chart = Chart::withoutGlobalScopes()
+              ->My($taxPayer, $cycle)
+              ->fixedAssets()
+              ->where('name', $costcenter['name'])
+              ->first();
+            }
+
 
             if ($chart == null)
             {
