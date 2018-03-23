@@ -150,7 +150,7 @@ class TransactionController extends Controller
       {
         $detail = new TransactionDetail();
         $detail->transaction_id = $transaction_id;
-        $detail->chart_id = $this->checkChart($groupedRows->chart, $taxPayer, $cycle);
+        $detail->chart_id = $this->checkChart($groupedRows->CostCenter, $taxPayer, $cycle);
         $detail->chart_vat_id = $this->checkDebitVAT($groupedRows->vat, $taxPayer, $cycle);
         $detail->value = $groupedRows->sum('value'); //$detail['value'];
 
