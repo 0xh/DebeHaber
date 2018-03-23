@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers\API\Paraguay;
 use App\Transaction;
 use App\TransactionDetail;
