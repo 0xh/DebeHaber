@@ -141,6 +141,7 @@ class TransactionController extends Controller
 
   public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle)
   {
+
     //TODO to reduce data stored, group by VAT and Chart Type.
     //If 5 rows can be converted into 1 row it is better for our system's health and reduce server load.
 
@@ -148,14 +149,18 @@ class TransactionController extends Controller
     {
       foreach ($detailByVAT->groupBy('chart') as $groupedRows)
       {
+
         $detail = new TransactionDetail();
         $detail->transaction_id = $transaction_id;
-        $detail->chart_id = $this->checkChart($groupedRows->CostCenter, $taxPayer, $cycle);
-        $detail->chart_vat_id = $this->checkDebitVAT($groupedRows->vat, $taxPayer, $cycle);
+
+        $detail->chart_id = $this->checkChart($groupedRows->first()['CostCenter'], $taxPayer, $cycle);
+        $detail->chart_vat_id = $this->checkDebitVAT($groupedRows->first()['coefficient'], $taxPayer, $cycle);
         $detail->value = $groupedRows->sum('value'); //$detail['value'];
 
         $detail->save();
       }
     }
   }
+
+
 }
