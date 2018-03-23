@@ -28,32 +28,36 @@ class HechukaController extends Controller
         $integration = TaxpayerIntegration::where('taxpayer_id', $taxpayer->id)
         ->where('team_id', $teamID)
         ->first();
+        //
+        // $data = DB::select('select id, max(date) as date,max(number) as number,max(code) as code,
+        // max(code_expiry) as code_expiry ,max(payment_condition) as payment_condition, max(type) as type
+        // ,max(coefficient) as coefficient,sum(value) as value,max(customer) as customer,
+        // sum(valueByvat5) as valueByvat5,sum(valuevat5) as valuevat5,sum(valueByvat0) as valueByvat0,
+        // sum(valuevat0) as valuevat0,sum(valueByvat10) as valueByvat10,sum(valuevat10) as valuevat10
+        // from (select transactions.id, `customer`.`name` as `customer`, `customer`.`taxid` as `customerTaxID`, `customer`.`code` as `customerCode`,
+        // MAX(transactions.date) as date,
+        // MAX(transactions.number) as number,
+        // MAX(transactions.code) as code,
+        // MAX(transactions.code_expiry) as code_expiry,
+        // MAX(transactions.payment_condition) as payment_condition,
+        // MAX(transactions.rate) as rate, MAX(transactions.type) as type,
+        // SUM(transaction_details.value) as value, max(vat.coefficient) as coefficient,
+        // if(max(vat.coefficient) = 0.0500, SUM(transaction_details.value) / (1 + SUM(vat.coefficient)), 0) as valueByvat5,
+        // if(max(vat.coefficient) = 0.0500, SUM(transaction_details.value) - SUM(transaction_details.value) /(1 + SUM(vat.coefficient)), 0) as valuevat5,
+        // if((max(vat.coefficient)) is NULL, SUM(transaction_details.value),0) as valueByvat0,
+        // if(max(vat.coefficient) is NULL, SUM(transaction_details.value) - SUM(transaction_details.value),0) as valuevat0,
+        // if(max(vat.coefficient) = 0.1000,SUM(transaction_details.value) /(1+ SUM(vat.coefficient)),0) as valueByvat10,
+        // if(max(vat.coefficient) = 0.1000,SUM(transaction_details.value) - SUM(transaction_details.value) /(1+ SUM(vat.coefficient)),0) as valuevat10
+        // from `transaction_details`
+        // inner join `transactions` on `transactions`.`id` = `transaction_details`.`transaction_id`
+        // inner join `taxpayers` as `customer` on `customer`.`id` = `transactions`.`customer_id`
+        // inner join `charts` as `vat` on `vat`.`id` = `transaction_details`.`chart_vat_id`
+        // where `supplier_id` = '. $taxpayer->id .' and (`transactions`.`type` = 3 or `transactions`.`type` = 1)
+        // and date between "'. $startDate . '" and "'. $endDate . '"
+        // group by `transaction_details`.`chart_vat_id`,`transactions`.`id`) as i group by id');
 
-        $data = DB::select('select id, max(date) as date,max(number) as number,max(code) as code,
-        max(code_expiry) as code_expiry ,max(payment_condition) as payment_condition, max(type) as type
-        ,max(coefficient) as coefficient,sum(value) as value,max(customer) as customer,
-        sum(valueByvat5) as valueByvat5,sum(valuevat5) as valuevat5,sum(valueByvat0) as valueByvat0,
-        sum(valuevat0) as valuevat0,sum(valueByvat10) as valueByvat10,sum(valuevat10) as valuevat10
-        from (select transactions.id, `customer`.`name` as `customer`, `customer`.`taxid` as `customerTaxID`, `customer`.`code` as `customerCode`,
-        MAX(transactions.date) as date,
-        MAX(transactions.number) as number,
-        MAX(transactions.code) as code,
-        MAX(transactions.code_expiry) as code_expiry,
-        MAX(transactions.payment_condition) as payment_condition,
-        MAX(transactions.rate) as rate, MAX(transactions.type) as type,
-        SUM(transaction_details.value) as value, max(vat.coefficient) as coefficient,
-        if(max(vat.coefficient) = 0.0500, SUM(transaction_details.value) / (1 + SUM(vat.coefficient)), 0) as valueByvat5,
-        if(max(vat.coefficient) = 0.0500, SUM(transaction_details.value) - SUM(transaction_details.value) /(1 + SUM(vat.coefficient)), 0) as valuevat5,
-        if((max(vat.coefficient)) is NULL, SUM(transaction_details.value),0) as valueByvat0,
-        if(max(vat.coefficient) is NULL, SUM(transaction_details.value) - SUM(transaction_details.value),0) as valuevat0,
-        if(max(vat.coefficient) = 0.1000,SUM(transaction_details.value) /(1+ SUM(vat.coefficient)),0) as valueByvat10,
-        if(max(vat.coefficient) = 0.1000,SUM(transaction_details.value) - SUM(transaction_details.value) /(1+ SUM(vat.coefficient)),0) as valuevat10
-        from `transaction_details`
-        inner join `transactions` on `transactions`.`id` = `transaction_details`.`transaction_id`
-        inner join `taxpayers` as `customer` on `customer`.`id` = `transactions`.`customer_id`
-        inner join `charts` as `vat` on `vat`.`id` = `transaction_details`.`chart_vat_id`
-        where `supplier_id` = '. $taxpayer->id .' and (`transactions`.`type` = 3 or `transactions`.`type` = 1)
-        group by `transaction_details`.`chart_vat_id`,`transactions`.`id`) as i group by id');
+
+        $data=TransactionDetail
 
         $cantidad_registros = 0;
         $cantidad_cuotas = 0;
@@ -61,46 +65,50 @@ class HechukaController extends Controller
         $dv = 0;
         $detalle = '';
 
-        $date = date_create($data[0]->date);
-        $fecha = date_format($date, 'd/m/Y');
-
-        $agent = '';
-        $agentTaxID = 0;
-        $agentTaxCode = 0;
-
-        if (isset($integration))
+        if (count($data)>0)
         {
-            $agent = $integration->agent_name;
-            $agentTaxID = $integration->agent_taxid;
-            $agentTaxCode = $integration->agent_name;
+
+
+            $date = date_create($data[0]->date);
+            $fecha = date_format($date, 'd/m/Y');
+
+            $agent = '';
+            $agentTaxID = 0;
+            $agentTaxCode = 0;
+
+            if (isset($integration))
+            {
+                $agent = $integration->agent_name;
+                $agentTaxID = $integration->agent_taxid;
+                $agentTaxCode = $integration->agent_name;
+            }
+
+            $encabezado = "1" . "\t" . $date->format('Y') . $date->format('m') . "\t" . "1" . "\t" . "921" . "\t" . "221" . "\t" .
+            $ruc . "\t" . $dv . "\t" . $data[0]->customer . "\t" . $agentTaxID . "\t" . $agentTaxCode . "\t" . $agent . "\t" . $cantidad_registros .
+            "\t" . round($data[0]->value) . "\t" . "2";
+
+            Storage::disk('local')->append( $data[0]->number .  '.txt', $encabezado);
+
+
+            //todo this is wrong. Your foreachs hould be smaller
+            foreach ($data as  $item)
+            {
+                $str = '';
+
+                $str = $str . round($item->valueByvat5) .  "\t" . round($item->valuevat5) . "\t" .
+                round($item->valueByvat10) .  "\t" . round($item->valuevat10) . "\t" .
+                round($item->valueByvat0) .  "\t" . round($item->valuevat0) . "\t";
+
+
+                $detalle = $detalle . "\n" . $item->type . "\t" . $ruc . "\t" . $dv . "\t" . $item->customer . "\t" . $item->type
+                . "\t" . $item->number . "\t" . $fecha . "\t" . $str
+                . "\t" . $item->payment_condition . "\t" . $cantidad_cuotas . "\t" . $item->code;
+
+            }
+            Storage::disk('local')->append( $data[0]->number .  '.txt', $detalle);
+
         }
 
-        $encabezado = "1" . "\t" . $date->format('Y') . $date->format('m') . "\t" . "1" . "\t" . "921" . "\t" . "221" . "\t" .
-        $ruc . "\t" . $dv . "\t" . $data[0]->customer . "\t" . $agentTaxID . "\t" . $agentTaxCode . "\t" . $agent . "\t" . $cantidad_registros .
-        "\t" . round($data[0]->value) . "\t" . "2";
-
-        Storage::disk('local')->append( $data[0]->number .  '.txt', $encabezado);
-
-
-        //todo this is wrong. Your foreachs hould be smaller
-        foreach ($data as  $item)
-        {
-            $str = '';
-
-            $str = $str . round($item->valueByvat5) .  "\t" . round($item->valuevat5) . "\t" .
-            round($item->valueByvat10) .  "\t" . round($item->valuevat10) . "\t" .
-            round($item->valueByvat0) .  "\t" . round($item->valuevat0) . "\t";
-
-
-            $detalle = $detalle . "\n" . $item->type . "\t" . $ruc . "\t" . $dv . "\t" . $item->customer . "\t" . $item->type
-            . "\t" . $item->number . "\t" . $fecha . "\t" . $str
-            . "\t" . $item->payment_condition . "\t" . $cantidad_cuotas . "\t" . $item->code;
-
-        }
-        Storage::disk('local')->append( $data[0]->number .  '.txt', $detalle);
-
-
-        return Storage::download($data[0]->number .  '.txt');
     }
 
 
@@ -181,8 +189,33 @@ class HechukaController extends Controller
 
     public function generateFiles(Taxpayer $taxPayer,Cycle $cycle, $startDate, $endDate)
     {
+        $directorio = Storage::disk('local');
 
+        $path = $directorio->getDriver()->getAdapter()->getPathPrefix();
         $this->getHechaukaSales($taxPayer, $startDate, $endDate,Auth::user()->currentTeamID);
+        $files = File::allFiles($path);
+
+        $zipname = 'Hechauka.zip';
+        $zip = new ZipArchive;
+        $zip->open($zipname, ZipArchive::CREATE);
+        if ($files != [])
+        {
+            foreach ($files as $file)
+            {
+                $zip->addFile($path . $file->getFilename(), $file->getFilename());
+            }
+            //dd($zip);
+            $zip->close();
+
+            if ($directorio->exists("ventas-" . $taxPayer->taxid . '.txt'))
+            {
+                $directorio->delete("ventas-" . $taxPayer->taxid . '.txt');
+            }
+            return response()->download($zipname)->deleteFileAfterSend(true);
+        }
+        return redirect()->back();
+
+
 
     }
 }

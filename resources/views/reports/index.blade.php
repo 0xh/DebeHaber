@@ -85,7 +85,7 @@
                   </div>
                   <div class="m-widget4__info">
                     <span class="m-widget4__text">
-                      <a href="#">@lang('report.SalesByVAT')</a>
+                      <a :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">@lang('report.SalesByVAT')</a>
                       <br>
                       <small>List of invoices grouped by sales tax</small>
                     </span>
@@ -195,7 +195,7 @@
                   </div>
                   <div class="m-widget4__info">
                     <span class="m-widget4__text">
-                      <a href="#">@lang('report.SalesByVAT')</a>
+                      <a :href="'reports/purchase-vat/'+dateRange[0]+'/'+dateRange[1]">@lang('report.PurchaseByVAT')</a>
                       <br>
                       <small>List of purchase invoices grouped by sales tax</small>
                     </span>

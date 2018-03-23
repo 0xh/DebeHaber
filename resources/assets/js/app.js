@@ -25,7 +25,9 @@ import List from './components/table.vue';
 import Vue from 'vue';
 import VueGoodTable from 'vue-good-table';
 import Datatable from 'vue2-datatable-component';
-
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale/lang/es';
 import Vuex from 'vuex';
 import vuexI18n from 'vuex-i18n';
 import Locales from './vue-i18n-locales.generated.js';
@@ -37,6 +39,7 @@ const store = new Vuex.Store();
 Vue.use(vuexI18n.plugin, store);
 Vue.use(Bars)
 Vue.use(Trend);
+Vue.use(ElementUI, {locale});
 
 Vue.i18n.add('en', Locales.en);
 Vue.i18n.add('de', Locales.de);
