@@ -92,29 +92,57 @@ class Controller extends BaseController
     //These Charts will not work as they use the global scope for Taxpayer and Cycle.
     //you will have to call no global scopes for these methods and then manually assign the same query.
 
-    public function checkChart($name, Taxpayer $taxPayer, Cycle $cycle)
+    public function checkChart($costcenter, Taxpayer $taxPayer, Cycle $cycle)
     {
+
         //Check if Chart Exists
-        if ($name != '')
+        if (isset($costcenter))
         {
+            // if ($costcenter[0]['Type']==1) {
+            //   $chart = Chart::withoutGlobalScopes()
+            //   ->My($taxPayer, $cycle)
+            //   ->MoneyAccounts()
+            //   ->where('name', $costcenter[0]['Name'])
+            //   ->first();
+            // }
+            // elseif ($costcenter[0]['Type']==2) {
+            //
+            //   $chart = Chart::withoutGlobalScopes()
+            //   ->My($taxPayer, $cycle)
+            //   ->SalesAccounts()
+            //   ->where('name', $costcenter[0]['Name'])
+            //   ->first();
+            // }
+            // elseif ($costcenter[0]['Type']==3)
+            // {
+            //   $chart = Chart::withoutGlobalScopes()
+            //   ->My($taxPayer, $cycle)
+            //   ->fixedAssets()
+            //   ->where('name', $costcenter[0]['Name'])
+            //   ->first();
+            // }
+
+
             $chart = Chart::withoutGlobalScopes()
             ->My($taxPayer, $cycle)
             ->SalesAccounts()
-            ->where('name', $name)
+            ->where('name', $costcenter[0]['Name'])
             ->first();
+
 
             if ($chart == null)
             {
+
                 $chart = new Chart();
                 $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->country = $taxPayer->country;
                 $chart->taxpayer_id = $taxPayer->id;
                 $chart->is_accountable = true;
-                $chart->sub_type = 9;
-                $chart->type = 1;
+                $chart->sub_type = 1;
+                $chart->type = 4;
 
                 $chart->code = 'N/A';
-                $chart->name = $name;
+                $chart->name = $costcenter[0]['Name'];
                 $chart->save();
             }
 
@@ -124,15 +152,16 @@ class Controller extends BaseController
         return null;
     }
 
-    public function checkDebitVAT($name, Taxpayer $taxPayer, Cycle $cycle)
+    public function checkDebitVAT($coefficient, Taxpayer $taxPayer, Cycle $cycle)
     {
+
         //Check if Chart Exists
-        if ($name != '')
+        if ($coefficient != '')
         {
             $chart = Chart::withoutGlobalScopes()
             ->My($taxPayer, $cycle)
             ->VATDebitAccounts()
-            ->where('name', $name)
+            ->where('coefficient', 0.1)
             ->first();
 
             if ($chart == null)
@@ -144,11 +173,15 @@ class Controller extends BaseController
                 $chart->is_accountable = true;
                 $chart->type = 2;
                 $chart->sub_type = 3;
-                $chart->coeficient = 0;
+                $chart->coefficient = 0.1;
 
                 $chart->code = 'N/A';
-                $chart->name = $name;
+
+                $chart->name = 'Vat Debit';
+                $chart->level = 1;
+
                 $chart->save();
+
             }
 
             return $chart->id;
@@ -157,34 +190,19 @@ class Controller extends BaseController
         return null;
     }
 
-    public function checkChartAccount($costcenter, Taxpayer $taxPayer, Cycle $cycle)
+    public function checkChartAccount($name, Taxpayer $taxPayer, Cycle $cycle)
     {
+
         //Check if Chart Exists
         if ($name != '')
         {
             //TODO Wrong, you need to specify taxpayerID or else you risk bringing other accounts not belonging to taxpayer.
             //I have done this already.
-            if ($costcenter['type']==1) {
-              $chart = Chart::withoutGlobalScopes()
-              ->My($taxPayer, $cycle)
-              ->MoneyAccounts()
-              ->where('name', $costcenter['name'])
-              ->first();
-            }
-            elseif ($costcenter['type']==2) {
-              $chart = Chart::withoutGlobalScopes()
-              ->My($taxPayer, $cycle)
-              ->SalesAccounts()
-              ->where('name', $costcenter['name'])
-              ->first();
-            }
-            elseif ($costcenter['type']==3) {
-              $chart = Chart::withoutGlobalScopes()
-              ->My($taxPayer, $cycle)
-              ->fixedAssets()
-              ->where('name', $costcenter['name'])
-              ->first();
-            }
+            $chart = Chart::withoutGlobalScopes()
+            ->My($taxPayer, $cycle)
+            ->MoneyAccounts()
+            ->where('name', $costcenter['name'])
+            ->first();
 
 
             if ($chart == null)

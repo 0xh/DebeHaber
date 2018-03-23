@@ -107,7 +107,7 @@ class HechukaController extends Controller
                     . "\t" . $item->payment_condition . "\t" . $cantidad_cuotas . "\t" . $item->code;
 
                 }
-                
+
                 Storage::disk('local')->append( $data[0]->number .  '.txt', $detalle);
             }
         }
