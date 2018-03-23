@@ -22,7 +22,7 @@ class HechukaController extends Controller
         return $code = explode("-", $codigo);
     }
 
-    public function getHechaukaSales($taxpayer, $startDate, $endDate,$teamID)
+    public function getHechaukaSales($taxpayer, $startDate, $endDate, $teamID)
     {
         //Get the Integration Once. No need to bring it into the Query.
         $integration = TaxpayerIntegration::where('taxpayer_id', $taxpayer->id)
@@ -61,15 +61,13 @@ class HechukaController extends Controller
             where supplier.taxid = ' . $taxpayer . ' and date between "' . $startDate . '" and "' . $endDate . '"
             group by t.id');
 
-            $data = TransactionDetail;
-
             $cantidad_registros = 0;
             $cantidad_cuotas = 0;
             $ruc = 0;
             $dv = 0;
             $detalle = '';
 
-            if (count($data)>0)
+            if (count($data) > 0)
             {
                 $date = date_create($data[0]->date);
                 $fecha = date_format($date, 'd/m/Y');
@@ -82,7 +80,7 @@ class HechukaController extends Controller
                 {
                     $agent = $integration->agent_name;
                     $agentTaxID = $integration->agent_taxid;
-                    $agentTaxCode = $integration->agent_name;
+                    $agentTaxCode = $integration->agent_code;
                 }
 
                 $encabezado = "1" . "\t" . $date->format('Y') . $date->format('m') . "\t" . "1" . "\t" . "921" . "\t" . "221" . "\t" .
