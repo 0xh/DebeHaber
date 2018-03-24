@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a99fce94ab2294cb3f101a409be646f6",
+    "content-hash": "418c232c4a5f6a84d8c11ed0265c7b12",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -5665,16 +5665,16 @@
         },
         {
             "name": "spatie/laravel-model-status",
-            "version": "1.1.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-model-status.git",
-                "reference": "b11525dec5365ea880dc08ced24df03bb14ea7fc"
+                "reference": "57bebd45a750baaafceb349ce96e01ce228a1565"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-model-status/zipball/b11525dec5365ea880dc08ced24df03bb14ea7fc",
-                "reference": "b11525dec5365ea880dc08ced24df03bb14ea7fc",
+                "url": "https://api.github.com/repos/spatie/laravel-model-status/zipball/57bebd45a750baaafceb349ce96e01ce228a1565",
+                "reference": "57bebd45a750baaafceb349ce96e01ce228a1565",
                 "shasum": ""
             },
             "require": {
@@ -5722,7 +5722,7 @@
                 "laravel-status",
                 "spatie"
             ],
-            "time": "2018-03-02T14:14:56+00:00"
+            "time": "2018-03-22T09:04:25+00:00"
         },
         {
             "name": "spatie/laravel-robots-middleware",

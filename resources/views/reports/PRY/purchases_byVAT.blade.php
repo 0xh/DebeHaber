@@ -1,12 +1,12 @@
 
 
 @extends('reports.master')
-@section('reportName', 'Libro IVA Compras por Sucursal')
+@section('reportName', 'Libro IVA Compras por Concepto')
 
 @section('data')
     <table class="u-full-width">
         <tbody>
-            @foreach ($data->groupBy('branch') as $groupedRows)
+            @foreach ($data->groupBy('costCenter') as $groupedRows)
                 <thead>
                     <tr>
                         <th>Fecha</th>
@@ -24,10 +24,10 @@
                     </tr>
                 </thead>
                 <tr class="group">
-                    <td colspan="3"><b>{{ $groupedRows->first()->branch }}</b></td>
+                    <td colspan="3"><b>{{ $groupedRows->first()->costCenter }}</b></td>
                     <td></td>
                     <td></td>
-                    <td>Total del Concepto</td>
+                    <td>Sub Total</td>
                     <td class="number"><b>{{ number_format($groupedRows->where('coeficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format(($groupedRows->where('coeficient', '=', 0.1)->sum('localCurrencyValue') - $groupedRows->where('coeficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format($groupedRows->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
@@ -54,7 +54,7 @@
                         <td>{{ $row->payment_condition > 0 ? 'Credito' : 'Contado' }}</td>
 
                         <td class="number important">
-                            {{ ($row->coeficient == 0.1 ? number_format($row->vatValue, 0, ',', '.') : 0) }}
+                            {{ $row->coeficient == 0.1 ? number_format($row->vatValue, 0, ',', '.') : 0 }}
                         </td>
 
                         <td class="number important">

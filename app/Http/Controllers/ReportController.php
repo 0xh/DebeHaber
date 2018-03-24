@@ -16,13 +16,13 @@ class ReportController extends Controller
         return view('reports/index');
     }
 
-    public function vatPurchase(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function purchases(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         if (isset($taxPayer))
         {
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/purchase_vat')
+            return view('reports/PRY/purchases')
             ->with('header', $taxPayer)
             ->with('data', $data)
             ->with('strDate', $startDate)
@@ -30,13 +30,69 @@ class ReportController extends Controller
         }
     }
 
-    public function vatSales(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function vatPurchase(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/PRY/purchase_ByVAT')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function sales(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         if (isset($taxPayer))
         {
             $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/sales_vat')
+            return view('reports/PRY/sales')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function salesByVAT(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/PRY/sales_byVat')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function salesByChart(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/PRY/sales_byVat')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function salesByCustomer(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/PRY/sales_byVat')
             ->with('header', $taxPayer)
             ->with('data', $data)
             ->with('strDate', $startDate)

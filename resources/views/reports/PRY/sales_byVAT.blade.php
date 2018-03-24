@@ -1,13 +1,12 @@
 
 
 @extends('reports.master')
-@section('reportName', 'Libro IVA Ventas por Sucursal')
+@section('reportName', 'Libro IVA Ventas por Concepto')
 
 @section('data')
     <table class="u-full-width">
         <tbody>
-            @foreach ($data->groupBy('branch') as $groupedRows)
-
+            @foreach ($data->groupBy('costCenter') as $groupedRows)
                 <thead>
                     <tr>
                         <th>Fecha</th>
@@ -25,12 +24,14 @@
                     </tr>
                 </thead>
                 <tr class="group">
-                    <td colspan="4"><b>{{ $groupedRows[0]->branch }}</b></td>
-                    <td colspan="2">Total de la Sucursal</td>
+                    <td colspan="3"><b>{{ $groupedRows[0]->costCenter }}</b></td>
+                    <td></td>
+                    <td></td>
+                    <td>Sub Total</td>
                     <td class="number"><b>{{ number_format($groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
-                    <td class="number"><b>{{ number_format($groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.1)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
+                    <td class="number"><b>{{ number_format(($groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.1)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format($groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
-                    <td class="number"><b>{{ number_format($groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.05)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
+                    <td class="number"><b>{{ number_format(($groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.05)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.05)->sum('vatValue')), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format($groupedRows->where('status', '!=', 3)->where('coeficient', '=', 0.00)->sum('vatValue'), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format($groupedRows->where('status', '!=', 3)->sum('vatValue'), 0, ',', '.') }}</b></td>
                 </tr>
@@ -45,7 +46,7 @@
                         <td class="number">{{ $row->first()->invoice_code }}</td>
 
                         <td class="important">
-                            <a href="/current/{{ (request()->route('company'))->id }}/sales/{{ $row->first()->purchaseID }}/edit" target="_blank">
+                            <a href="/current/{{ (request()->route('company'))->id }}/sales/{{ $row->first()->salesID }}/edit" target="_blank">
                                 {{ $row->first()->invoice_number }}
                             </a>
                         </td>
@@ -67,7 +68,6 @@
                         <td class="number important">
                             {{ number_format($row->where('coeficient', '=', 0.05)->sum('localCurrencyValue') - $row->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}
                         </td>
-
 
                         <td class="number important">
                             {{ number_format($row->where('coeficient', '=', 0)->sum('localCurrencyValue'), 0, ',', '.') }}
