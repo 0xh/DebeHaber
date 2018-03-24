@@ -20,6 +20,8 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
+
+
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
             return view('reports/PRY/purchase_vat')
@@ -52,7 +54,7 @@ class ReportController extends Controller
         ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('customer.id', $taxPayer->id)
-        ->whereBetween('transactions.date', array($this->carbonStartDate($startDate), $this->carbonEndDate($endDate)))
+        ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('supplier.name as supplier',
         'supplier.taxid as supplier_code',
         'transactions.type',

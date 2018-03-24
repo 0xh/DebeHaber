@@ -187,7 +187,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a href="#">@lang('commercial.PurchaseBook')</a>
+                                            <a :href="'reports/purchase-vat/'+dateRange[0]+'/'+dateRange[1]">@lang('commercial.PurchaseBook')</a>
                                             <br>
                                             <small>Simple list of purchase invoices</small>
                                         </span>

@@ -7,7 +7,7 @@
     </title>
     <link href="{{url('/')}}/css/normalize.css" rel="stylesheet" type="text/css" />
     <link href="{{url('/')}}/css/skeleton.css" rel="stylesheet" type="text/css" />
-    <link href="{{url('/')}}/auxiliar/DataTables/datatables.min.css" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{url('/')}}/auxiliar/DataTables/datatables.min.css" rel="stylesheet" type="text/css" /> --}}
     <style>
 
     @import url('https://fonts.googleapis.com/css?family=OpenSans');
@@ -109,109 +109,107 @@
 
     </style>
 
-    <script src="/auxiliar/axios/axios.min.js"></script>
+    {{-- <script src="/auxiliar/axios/axios.min.js"></script>
     <script src="/assets/front-end/js/jquery.min.js"></script>
     <script src="/auxiliar/DataTables/datatables.min.js"></script>
     <script type="text/javascript">
     var jsonData = {!! json_encode(array('data'=>$data,'reportName'=>'LibroIvaVEntas')) !!};
 
     function exportToExcel(){
-        axios({
-            method: 'post',
-            url: '{{ URL::to('exportToExcel') }}',
-            responseType: 'blob',
-            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'},
-            data: {
-                'jsonData' : jsonData
-            },
-        }).then(response => {
-            var blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-            var downloadUrl = URL.createObjectURL(blob);
-            var a = document.createElement("a");
-            a.href = downloadUrl;
-            a.download = "data.xls";
-            document.body.appendChild(a);
-            a.click();
-        }).catch(response => {
-            console.log(response);
-        });}
+    axios({
+    method: 'post',
+    url: '{{ URL::to('exportToExcel') }}',
+    responseType: 'blob',
+    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}',
+    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'},
+    data: {
+    'jsonData' : jsonData
+},
+}).then(response => {
+var blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+var downloadUrl = URL.createObjectURL(blob);
+var a = document.createElement("a");
+a.href = downloadUrl;
+a.download = "data.xls";
+document.body.appendChild(a);
+a.click();
+}).catch(response => {
+console.log(response);
+});}
 
-        $(document).ready(function(){
-            $('#data').DataTable( {
-                "searching": true,
-                "paging": false,
-                "info":     false,
-                "ordering": false
-            } );
-        });
+$(document).ready(function(){
+$('#data').DataTable( {
+"searching": true,
+"paging": false,
+"info":     false,
+"ordering": false
+} );
+});
 
-        </script>
-    </head>
+</script> --}}
+</head>
 
-    <body>
+<body>
 
+    <div class="row">
+        <div class="four columns">
+            <h5><b>@yield('reportName')</b></h5>
+        </div>
+
+        {{ csrf_field() }}
+        <div class="eight columns">
+            <h5 class="u-pull-right">{{ $header->name }} | <b><small>{{ $header->taxid }}</small></b></h5>
+        </div>
+    </div>
+
+    <div class="container">
         <div class="row">
-            <div class="four columns">
-                <h5><b>@yield('reportName')</b></h5>
+            <table class="u-full-width">
+                <tr>
+                    <td style="text-align:right">@lang('Taxpayer')</td>
+                    <td style="text-align:left"><b>{{ $header->name }}</b></td>
+                    <td style="text-align:right">Representante Legal</td>
+                    {{-- <td style="text-align:left"><b>{{ $header->companySubscription->name_agent }}</b></td> --}}
+                </tr>
+                <tr>
+                    <td style="text-align:right">@lang('TaxID')</td>
+                    <td style="text-align:left"><b>{{ $header->taxid }}-{{ $header->code }}</b></td>
+                    <td style="text-align:right">Cedula de Identidad del Representante</td>
+                    {{-- <td style="text-align:left"><b>{{ $header->companySubscription->gov_code_agent }}</b></td> --}}
+                </tr>
+                <tr>
+                    <td style="text-align:right">@lang('DateRange')</td>
+                    <td style="text-align:left"><small>DESDE</small> <b>{{ $strDate }}</b> | <small>HASTA</small> <b>{{ $endDate }}</b></td>
+                    <td style="text-align:right">Fecha de Impressión</td>
+                    <td style="text-align:left"><b>{{ Carbon\Carbon::now() }}</b> |
+                        <small>
+                            # de Registros
+                        </small>
+                        @isset($data)
+                            <b>{{ $data->count() }}</b>
+                        @endisset
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    @yield('data')
+
+    <div class="container">
+        <div class="row">
+            <div class="three columns">
+                <p>Fecha y Hora de Impressión <b>{{ Carbon\Carbon::now() }}</b></p>
             </div>
 
-            {{ csrf_field() }}
-            <div class="eight columns">
-                <h5 class="u-pull-right">{{ $header->name }} | <b><small>{{ $header->gov_code }}</small></b></h5>
+            <div class="five columns">
+                <img src="/img/logos/debehaber.svg" height="64" alt="">
+            </div>
+
+            <div class="three columns">
+                <p>Emitido Por: <b>{{ Auth::user()->name }}</b> | {{ Auth::user()->email }}</p>
             </div>
         </div>
-
-        <div class="container">
-            <div class="row">
-                <table class="u-full-width">
-                    <tr>
-                        <td style="text-align:right">Contribuyente</td>
-                        <td style="text-align:left"><b>{{ $header->name }}</b></td>
-                        <td style="text-align:right">Representante Legal</td>
-                        <td style="text-align:left"><b>{{ $header->companySubscription->name_agent }}</b></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right">Cedula de Identidad o RUC</td>
-                        <td style="text-align:left"><b>{{ $header->gov_code }}</b></td>
-                        <td style="text-align:right">Cedula de Identidad del Representante</td>
-                        <td style="text-align:left"><b>{{ $header->companySubscription->gov_code_agent }}</b></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right">Rango de Fecha</td>
-                        <td style="text-align:left"><small>DESDE</small> <b>{{ $strDate }}</b> | <small>HASTA</small> <b>{{ $endDate }}</b></td>
-                        <td style="text-align:right">Fecha de Impressión</td>
-                        <td style="text-align:left"><b>{{ Carbon\Carbon::now() }}</b> |
-                            <small>
-                                # de Registros
-                            </small>
-                            @isset($data)
-                                <b>{{ $data->count() }}</b>
-                            @endisset
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        @yield('data')
-
-        <div class="container">
-            {{-- <div class="row"> --}}
-
-            <div class="one-third column">
-                Fecha y Hora de Impressión <b>{{ Carbon\Carbon::now() }}</b>
-            </div>
-
-            <div class="one-third column">
-                <img src="/img/debehaber_small.png" style="height:32px" alt="">
-            </div>
-
-            <div class="one-third column">
-                Emitido Por: <b>{{Auth::user()->name}}</b> | {{Auth::user()->email}}
-            </div>
-
-            {{-- </div> --}}
-        </div>
-    </body>
-    </html>
+    </div>
+</body>
+</html>
