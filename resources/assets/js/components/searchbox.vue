@@ -145,7 +145,7 @@ export default {
             email:'',
             code:'',
             telephone:'',
-            src: '/api/' + this.current_company  + '/get_taxpayer/',
+            src: '/api/' + this.current_company  + '/get_taxpayers/',
             limit: 5,
             minChars: 3,
             queryParamName: '',
@@ -161,7 +161,7 @@ export default {
             var app = this;
 
             app.selectText = item.name + ' | ' + item.code;
-            app.id= item.id;
+            app.id = item.id;
 
             $.ajax({
 
