@@ -25,12 +25,7 @@ class PurchaseController extends Controller
     {
         $transactions = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->where('customer_id', $taxPayerID)
-        ->where(function ($x)
-        {
-            $x
-            ->where('type', 1)
-            ->orWhere('type', 2);
-        })
+        ->whereIn('transactions.type', [1, 2])
         ->with('details')
         ->select(DB::raw('false as friends,
         transactions.id,
@@ -55,7 +50,7 @@ class PurchaseController extends Controller
     {
         $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->where('customer_id', $taxPayerID)
-        ->where('type', 1)
+        ->whereIn('transactions.type', [1, 2])
         ->with('details')
         ->orderBy('date', 'desc')
         ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
@@ -71,6 +66,7 @@ class PurchaseController extends Controller
         Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->where('customer_id', $taxPayerID)
         ->where('transactions.id', $id)
+        ->whereIn('transactions.type', [1, 2])
         ->with('details')
         ->select(DB::raw('false as selected,transactions.id,taxpayers.name as supplier
         ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
