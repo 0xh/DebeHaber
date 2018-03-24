@@ -28,6 +28,8 @@ class DebitNoteController extends Controller
     ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
     ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
     ,number,transactions.code,code_expiry'))
+    ->orderBy('date', 'desc')
+    ->orderBy('number', 'desc')
     ->get();
     return response()->json($Transaction);
   }

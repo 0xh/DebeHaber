@@ -41,6 +41,7 @@ class SalesController extends Controller
         transactions.code,
         code_expiry'))
         ->orderBy('date', 'desc')
+        ->orderBy('number', 'desc')
         ->take(100)
         ->get();
         return response()->json($Transaction);
