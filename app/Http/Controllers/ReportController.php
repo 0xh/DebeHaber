@@ -30,7 +30,35 @@ class ReportController extends Controller
         }
     }
 
-    public function vatPurchase(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function purchasesByVAT(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/PRY/purchase_ByVAT')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function purchasesByChart(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/PRY/purchase_ByVAT')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function purchasesBySupplier(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         if (isset($taxPayer))
         {
@@ -110,6 +138,7 @@ class ReportController extends Controller
         ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('customer.id', $taxPayer->id)
+        ->whereIn('transactions.type', [1, 2])
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('supplier.name as supplier',
         'supplier.taxid as supplier_code',
@@ -146,6 +175,7 @@ class ReportController extends Controller
         ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('supplier.id', $taxPayer->id)
+        ->where('transactions.type', 4)
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('customer.name as customer',
         'customer.taxid as customer_code',

@@ -72,13 +72,15 @@ Route::group(['middleware' => 'auth'], function ()
 
          Route::get('hechauka/generate_files/{start_date}/{end_date}', 'API\Paraguay\HechukaController@generateFiles');
 
-         Route::get('purchase-vat/{strDate}/{endDate}', 'ReportController@vatPurchase')->name('reports.purchaseVAT');
-         Route::get('purchase-vat-bySupplier/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupBySupplier');
-         Route::get('purchase-vat-byChart/{strDate}/{endDate}/', 'ReportController@vatPurchase_GroupByBusinessCenter');
+         Route::get('purchases/{strDate}/{endDate}', 'ReportController@purchases')->name('reports.purchases');
+         Route::get('purchases-byVAT/{strDate}/{endDate}', 'ReportController@purchasesByVAT')->name('reports.purchaseVAT');
+         Route::get('purchases-bySupplier/{strDate}/{endDate}/', 'ReportController@purchasesBySupplier');
+         Route::get('purchases-byChart/{strDate}/{endDate}/', 'ReportController@purchasesByChart');
 
-         Route::get('sales-vat/{strDate}/{endDate}', 'ReportController@vatSales')->name('reports.salesVAT');
-         Route::get('sales-vat-byCustomer/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByCustomer');
-         Route::get('sales-vat-byChart/{strDate}/{endDate}/', 'ReportController@vatSales_GroupByBusinessCenter');
+         Route::get('sales/{strDate}/{endDate}', 'ReportController@sales')->name('reports.salesVAT');
+         Route::get('sales-byVAT/{strDate}/{endDate}', 'ReportController@salesByVAT')->name('reports.salesVAT');
+         Route::get('sales-byCustomer/{strDate}/{endDate}/', 'ReportController@salesByCustomer');
+         Route::get('sales-byChart/{strDate}/{endDate}/', 'ReportController@salesByChart');
 
          Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 

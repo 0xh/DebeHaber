@@ -40,12 +40,12 @@
                     </td>
 
                     @php
-                    $vat10 = $row->where('coeficient', '=', 0.1)->sum('vatValue');
-                    $vat5 = $row->where('coeficient', '=', 0.05)->sum('vatValue');
+                    $vat10 = $row->where('coefficient', '=', 0.1)->sum('vatValue');
+                    $vat5 = $row->where('coefficient', '=', 0.05)->sum('vatValue');
 
-                    $base10 = $row->where('coeficient', '=', 0.1)->sum('localCurrencyValue');
-                    $base5 = $row->where('coeficient', '=', 0.05)->sum('localCurrencyValue');
-                    $exe = $row->where('coeficient', '=', 0)->sum('localCurrencyValue');
+                    $base10 = $row->where('coefficient', '=', 0.1)->sum('localCurrencyValue');
+                    $base5 = $row->where('coefficient', '=', 0.05)->sum('localCurrencyValue');
+                    $exe = $row->where('coefficient', '=', 0)->sum('localCurrencyValue');
                     @endphp
 
                     <td class="number important">
@@ -86,11 +86,11 @@
                 <td></td>
                 <td></td>
                 <td>Gran Total</td>
-                <td class="number"><b>{{ number_format($data->where('coeficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
-                <td class="number"><b>{{ number_format(($data->where('coeficient', '=', 0.1)->sum('localCurrencyValue') - $data->where('coeficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
-                <td class="number"><b>{{ number_format($data->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
-                <td class="number"><b>{{ number_format(($data->where('coeficient', '=', 0.05)->sum('localCurrencyValue') - $data->where('coeficient', '=', 0.05)->sum('vatValue')), 0, ',', '.') }}</b></td>
-                <td class="number"><b>{{ number_format($data->where('coeficient', '=', 0.00)->sum('vatValue'), 0, ',', '.') }}</b></td>
+                <td class="number"><b>{{ number_format($data->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
+                <td class="number"><b>{{ number_format(($data->where('coefficient', '=', 0.1)->sum('localCurrencyValue') - $data->where('coefficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
+                <td class="number"><b>{{ number_format($data->where('coefficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
+                <td class="number"><b>{{ number_format(($data->where('coefficient', '=', 0.05)->sum('localCurrencyValue') - $data->where('coefficient', '=', 0.05)->sum('vatValue')), 0, ',', '.') }}</b></td>
+                <td class="number"><b>{{ number_format($data->where('coefficient', '=', 0.00)->sum('vatValue'), 0, ',', '.') }}</b></td>
                 <td class="number"><b>{{ number_format($data->sum('localCurrencyValue'), 0, ',', '.') }}</b></td>
                 <td></td>
                 <td></td>

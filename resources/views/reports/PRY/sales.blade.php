@@ -38,14 +38,14 @@
                             {{ $group->first()->number }}
                         </a>
                     </td>
-                    
-                    @php
-                    $vat10 = $group->where('coeficient', '=', 0.1)->sum('vatValue');
-                    $vat5 = $group->where('coeficient', '=', 0.05)->sum('vatValue');
 
-                    $base10 = $group->where('coeficient', '=', 0.1)->sum('localCurrencyValue');
-                    $base5 = $group->where('coeficient', '=', 0.05)->sum('localCurrencyValue');
-                    $exe = $group->where('coeficient', '=', 0)->sum('localCurrencyValue');
+                    @php
+                    $vat10 = $group->where('coefficient', '=', 0.1)->sum('vatValue');
+                    $vat5 = $group->where('coefficient', '=', 0.05)->sum('vatValue');
+
+                    $base10 = $group->where('coefficient', '=', 0.1)->sum('localCurrencyValue');
+                    $base5 = $group->where('coefficient', '=', 0.05)->sum('localCurrencyValue');
+                    $exe = $group->where('coefficient', '=', 0)->sum('localCurrencyValue');
                     @endphp
 
                     @if ($group->first()->status != 3)
@@ -108,17 +108,17 @@
                 <td></td>
                 <td>Gran Total</td>
                 <td class="number">
-                    <b>{{ number_format($data->where('status', '!=', 3)->where('coeficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
+                    <b>{{ number_format($data->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                     <td class="number">
-                        <b>{{ number_format(($data->where('status', '!=', 3)->where('coeficient', '=', 0.1)->sum('localCurrencyValue') - $data->where('status', '!=', 3)->where('coeficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b>
+                        <b>{{ number_format(($data->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('localCurrencyValue') - $data->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b>
                     </td>
                     <td class="number">
-                        <b>{{ number_format($data->where('status', '!=', 3)->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
+                        <b>{{ number_format($data->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
                         <td class="number">
-                            <b>{{ number_format(($data->where('status', '!=', 3)->where('coeficient', '=', 0.05)->sum('localCurrencyValue') - $data->where('status', '!=', 3)->where('coeficient', '=', 0.05)->sum('vatValue')), 0, ',', '.') }}</b>
+                            <b>{{ number_format(($data->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('localCurrencyValue') - $data->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('vatValue')), 0, ',', '.') }}</b>
                         </td>
                         <td class="number">
-                            <b>{{ number_format($data->where('status', '!=', 3)->where('coeficient', '=', 0.00)->sum('vatValue'), 0, ',', '.') }}</b></td>
+                            <b>{{ number_format($data->where('status', '!=', 3)->where('coefficient', '=', 0.00)->sum('vatValue'), 0, ',', '.') }}</b></td>
                             <td class="number"><b>{{ number_format($data->where('status', '!=', 3)->sum('localCurrencyValue'), 0, ',', '.') }}</b></td>
                             <td></td>
                             <td></td>

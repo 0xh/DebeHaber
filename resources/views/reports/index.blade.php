@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
+                                            <a :href="'reports/sales/'+dateRange[0]+'/'+dateRange[1]">
                                                 @lang('commercial.SalesBook')
                                             </a>
                                             <br>
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
+                                            <a :href="'reports/sales-byVAT/'+dateRange[0]+'/'+dateRange[1]">
                                                 @lang('report.SalesByVAT')
                                             </a>
                                             <br>
@@ -187,7 +187,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/purchase-vat/'+dateRange[0]+'/'+dateRange[1]">@lang('commercial.PurchaseBook')</a>
+                                            <a :href="'reports/purchases/'+dateRange[0]+'/'+dateRange[1]">@lang('commercial.PurchaseBook')</a>
                                             <br>
                                             <small>Simple list of purchase invoices</small>
                                         </span>
@@ -204,7 +204,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/purchase-vat/'+dateRange[0]+'/'+dateRange[1]">@lang('report.PurchaseByVAT')</a>
+                                            <a :href="'reports/purchases-byVAT/'+dateRange[0]+'/'+dateRange[1]">@lang('report.PurchaseByVAT')</a>
                                             <br>
                                             <small>List of purchase invoices grouped by sales tax</small>
                                         </span>
