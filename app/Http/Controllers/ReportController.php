@@ -138,7 +138,7 @@ class ReportController extends Controller
         ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('customer.id', $taxPayer->id)
-        ->whereIn('transactions.type', [1, 2])
+        ->whereIn('transactions.type', [1, 2, 3])
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('supplier.name as supplier',
         'supplier.taxid as supplier_code',
@@ -153,12 +153,9 @@ class ReportController extends Controller
         'charts.name as costCenter',
         'vats.name as vat',
         'vats.coefficient',
-        DB::raw('transactions.rate * if(transactions.type = 4,
-        -transaction_details.value,
-        transaction_details.value) as localCurrencyValue,
-        (transactions.rate * if(transactions.type = 4,
-        -transaction_details.value,
-        transaction_details.value)) / (vats.coefficient + 1) as vatValue'
+        DB::raw(
+            'transactions.rate * if(transactions.type = 3, -transaction_details.value, transaction_details.value) as localCurrencyValue,
+        (transactions.rate * if(transactions.type = 3, -transaction_details.value, transaction_details.value)) / (vats.coefficient + 1) as vatValue'
         )
         )
         ->orderBy('transactions.date', 'asc')
@@ -175,7 +172,7 @@ class ReportController extends Controller
         ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('supplier.id', $taxPayer->id)
-        ->where('transactions.type', 4)
+        ->whereIn('transactions.type', [4, 5])
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('customer.name as customer',
         'customer.taxid as customer_code',
@@ -190,12 +187,8 @@ class ReportController extends Controller
         'charts.name as costCenter',
         'vats.name as vat',
         'vats.coefficient',
-        DB::raw('transactions.rate * if(transactions.type = 4,
-        -transaction_details.value,
-        transaction_details.value) as localCurrencyValue,
-        (transactions.rate * if(transactions.type = 4,
-        -transaction_details.value,
-        transaction_details.value)) / (vats.coefficient + 1) as vatValue'
+        DB::raw('transactions.rate * if(transactions.type = 5, -transaction_details.value, transaction_details.value) as localCurrencyValue,
+        (transactions.rate * if(transactions.type = 5, -transaction_details.value, transaction_details.value)) / (vats.coefficient + 1) as vatValue'
         )
         )
         ->orderBy('transactions.date', 'asc')
