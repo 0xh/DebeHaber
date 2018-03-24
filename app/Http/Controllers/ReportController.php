@@ -29,6 +29,7 @@ class ReportController extends Controller
             ->with('endDate', $endDate);
         }
     }
+
     public function vatSales(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         if (isset($taxPayer))
@@ -88,7 +89,7 @@ class ReportController extends Controller
         ->join('transactions', 'transactions.id', 'transaction_details.transaction_id')
         ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
-        ->where('customer.id', $taxPayer->id)
+        ->where('supplier.id', $taxPayer->id)
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('customer.name as customer',
         'customer.taxid as customer_code',
