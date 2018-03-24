@@ -45,7 +45,7 @@
         <div class="m-widget24__item">
             {{-- @if ($totalSales > 0) --}}
             <h4 class="m-widget24__title">
-                <img src="/img/icons/ventas.svg" alt="" width="16"> Libro Ventas
+                <img src="/img/icons/ventas.svg" alt="" width="16"> @lang('commercial.SalesBook')
             </h4>
 
             <br>
@@ -96,7 +96,7 @@
         <div class="m-widget24__item">
             {{-- @if ($totalPurchase > 0) --}}
             <h4 class="m-widget24__title">
-                <img src="/img/icons/compras.svg" alt="" width="16"> Libro Compras
+                <img src="/img/icons/compras.svg" alt="" width="16"> @lang('commercial.PurchaseBook')
             </h4>
             <br>
             <span class="m-widget24__desc">
@@ -147,7 +147,7 @@
             <li class="m-nav__item">
                 {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
                 <i class="m-nav__link-icon la la-paper-plane-o"></i>
-                <span class="m-nav__link-text">Libro IVA Ventas</span>
+                <span class="m-nav__link-text">@lang('commercial.PurchaseBook')</span>
                 {{-- </a> --}}
             </li>
             <li class="m-nav__item">
@@ -251,10 +251,10 @@
                 <img src="/img/icons/account.svg" width="60">
                 <div class="m-widget4__info">
                     <span class="m-widget4__title">
-                        {{-- <a href="{{ route('accounts.index', request()->route('company')) }}">
-                        Cuentas de Dinero <i class="la la-chevron-circle-right"></i>
-                    </a> --}}
-                    {{-- <small class="text-info"><i>Cant. de Registros: {{ $totalAccounts }}</i></small> --}}
+                        <a href="{{ route('accounts.index', request()->route('company')) }}">
+                            Cuentas de Dinero <i class="la la-chevron-circle-right"></i>
+                        </a>
+                    <small class="text-info"><i>Cant. de Registros: {{ $chartMoneyAccounts->count() }}</i></small>
                 </span><br>
                 <span class="m-widget4__sub">
                     Cuenta de Banco o tipo Caja, que pueden almacenar fondos. Integrado con Compras, Ventas, y Pagos.
@@ -317,7 +317,7 @@
             {{-- <a href="{{ route('asset-group.index', request()->route('company')) }}"> --}}
             Cuentas de Activos Fijos <i class="la la-chevron-circle-right"></i>
         </a>
-        {{-- <small class="text-{{ $totalFixedAssets == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $totalFixedAssets }}</i></small> --}}
+        <small class="text-{{ $chartFixedAssets == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartFixedAssets->count() }}</i></small>
     </span>
     <br>
     <span class="m-widget4__sub">

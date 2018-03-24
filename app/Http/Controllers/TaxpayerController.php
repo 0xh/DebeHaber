@@ -6,6 +6,7 @@ use App\Taxpayer;
 use App\TaxpayerIntegration;
 use App\ChartVersion;
 use App\Cycle;
+use App\Chart;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -207,7 +208,13 @@ class TaxpayerController extends Controller
 
     public function showDashboard(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return view('taxpayer/dashboard');
+        $chartFixedAssets = Chart::FixedAssets()->count();
+        $chartMoneyAccounts = Chart::MoneyAccounts()->count();
+        //$chartFixedAssets = Chart::FixedAssets()->get();
+        //$chartFixedAssets = Chart::FixedAssets()->get();
+        return view('taxpayer/dashboard')
+        ->with('chartFixedAssets', $chartFixedAssets)
+        ->with('chartMoneyAccounts', $chartMoneyAccounts);
     }
 
     public function selectTaxpayer(Taxpayer $taxPayer)

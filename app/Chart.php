@@ -66,6 +66,15 @@ class Chart extends Model
         ->where('sub_type', 9);
     }
 
+    //Brings all Fixed Asset Type accounts into list.
+    public function scopeExpenses($query)
+    {
+        return $query
+        ->where('type', 5)
+        ->where('sub_type', 9);
+    }
+
+
     //Brings all Item accounts (formally known as Cost Centers) into Sales Detail
     public function scopeSalesAccounts($query)
     {
