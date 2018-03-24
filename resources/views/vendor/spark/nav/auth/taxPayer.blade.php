@@ -10,6 +10,12 @@
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
                 <i class="m-menu__ver-arrow la la-angle-right"></i>
             </a>
+
+            @php
+                $startDate = new Carbon\Carbon('first day of last month');
+                $endDate = new Carbon\Carbon('last day of last month');
+            @endphp
+
             <div class="m-menu__submenu m-menu__submenu--fixed m-menu__submenu--left" style="width:900px">
                 <span class="m-menu__arrow m-menu__arrow--adjust"></span>
                 <div class="m-menu__subnav">
@@ -23,7 +29,7 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
-                                    <a  href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                    <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-paper-plane"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.SalesBook')
@@ -34,7 +40,7 @@
                                     <a href="{{ route('account-receivables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-money"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.AccountsRecievable')
+                                            @lang('commercial.AccountsReceivable')
                                         </span>
                                     </a>
                                 </li>
@@ -42,7 +48,7 @@
                                     <a href="{{ route('credit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-mail-reply"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.CreditNote')
+                                            @lang('commercial.CreditNotes')
                                         </span>
                                     </a>
                                 </li>
@@ -66,10 +72,10 @@
                                 </h3>
 
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('reports.sales', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" target="_blank" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.SalesVAT')
+                                            @lang('commercial.SalesBook')
                                         </span>
                                     </a>
                                 </li>
@@ -104,9 +110,8 @@
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a href="{{ route('debit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-mail-reply"></i>
-
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.DebitNote')
+                                            @lang('commercial.DebitNotes')
                                         </span>
                                     </a>
                                 </li>
@@ -128,10 +133,10 @@
                                 </h3>
 
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('reports.purchases', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" target="_blank" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.PurchaseVAT')
+                                            @lang('commercial.PurchaseBook')
                                         </span>
                                     </a>
                                 </li>
@@ -149,7 +154,7 @@
                                     <a href="{{ route('inventories.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-gear"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.Profile and Settings')
+                                            @lang('global.ProfileAndSettings')
                                         </span>
                                     </a>
                                 </li>

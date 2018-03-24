@@ -70,17 +70,17 @@ Route::group(['middleware' => 'auth'], function ()
       {
          Route::get('/', 'ReportController@index')->name('reports.index');
 
-         Route::get('hechauka/generate_files/{start_date}/{end_date}', 'API\Paraguay\HechukaController@generateFiles');
+         Route::get('hechauka/generate_files/{start_date}/{end_date}', 'API\PRY\HechaukaController@generateFiles');
 
          Route::get('purchases/{strDate}/{endDate}', 'ReportController@purchases')->name('reports.purchases');
-         Route::get('purchases-byVAT/{strDate}/{endDate}', 'ReportController@purchasesByVAT')->name('reports.purchaseVAT');
-         Route::get('purchases-bySupplier/{strDate}/{endDate}/', 'ReportController@purchasesBySupplier');
-         Route::get('purchases-byChart/{strDate}/{endDate}/', 'ReportController@purchasesByChart');
+         Route::get('purchases-byVAT/{strDate}/{endDate}', 'ReportController@purchasesByVAT')->name('reports.purchaseByVAT');
+         Route::get('purchases-bySupplier/{strDate}/{endDate}/', 'ReportController@purchasesBySupplier')->name('reports.salesByCustomer');
+         Route::get('purchases-byChart/{strDate}/{endDate}/', 'ReportController@purchasesByChart')->name('reports.salesByChart');
 
-         Route::get('sales/{strDate}/{endDate}', 'ReportController@sales')->name('reports.salesVAT');
-         Route::get('sales-byVAT/{strDate}/{endDate}', 'ReportController@salesByVAT')->name('reports.salesVAT');
-         Route::get('sales-byCustomer/{strDate}/{endDate}/', 'ReportController@salesByCustomer');
-         Route::get('sales-byChart/{strDate}/{endDate}/', 'ReportController@salesByChart');
+         Route::get('sales/{strDate}/{endDate}', 'ReportController@sales')->name('reports.sales');
+         Route::get('sales-byVAT/{strDate}/{endDate}', 'ReportController@salesByVAT')->name('reports.salesByVAT');
+         Route::get('sales-byCustomer/{strDate}/{endDate}/', 'ReportController@salesByCustomer')->name('reports.salesByCustomer');
+         Route::get('sales-byChart/{strDate}/{endDate}/', 'ReportController@salesByChart')->name('reports.salesByChart');
 
          Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 

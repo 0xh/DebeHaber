@@ -33,8 +33,7 @@
 
                     <td class="important">
                         {{----}}
-                        <a href="{{route('sales.edit', [request()->route('taxPayer')->id, request()->route('cycle')->id, $group->first()->salesID])}}"
-                            target="_blank">
+                        <a href="{{route('sales.edit', [request()->route('taxPayer')->id, request()->route('cycle')->id, $group->first()->salesID])}}" target="_blank">
                             {{ $group->first()->number }}
                         </a>
                     </td>
@@ -90,13 +89,9 @@
                     </td>
 
                     @if ($group->first()->status != 3)
-
                         <td>{{ $group->first()->payment_condition > 0 ? 'Credito' : 'Contado' }}</td>
-
                     @else
-
                         <td>Anulado</td>
-
                     @endif
 
                 </tr>

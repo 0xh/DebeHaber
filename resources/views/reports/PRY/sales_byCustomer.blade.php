@@ -43,7 +43,7 @@
                         <td class="number">{{ $row->first()->invoice_code }}</td>
 
                         <td class="important">
-                            <a href="/current/{{ (request()->route('company'))->id }}/sales/{{ $row->first()->salesID }}/edit" target="_blank">
+                            <a href="{{route('sales.edit', [request()->route('taxPayer')->id, request()->route('cycle')->id, $row->first()->salesID])}}" target="_blank">
                                 {{ $row->first()->invoice_number }}
                             </a>
                         </td>

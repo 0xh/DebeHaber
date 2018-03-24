@@ -13,14 +13,14 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            @lang('global.Date')
+                            @lang('global.DateRange')
                             <el-date-picker v-model="dateRange"
                             type="daterange"
                             align="right"
                             unlink-panels
-                            range-separator="-"
-                            start-placeholder="Start date"
-                            end-placeholder="End date"
+                            range-separator="|"
+                            start-placeholder="@lang('global.StartDate')"
+                            end-placeholder="@lang('global.EndDate')"
                             format = "dd/MM/yyyy"
                             value-format = "yyyy-MM-dd"
                             :picker-options="pickerOptions2">
@@ -33,7 +33,7 @@
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_portlet_base_demo_1_tab_content" role="tab" aria-selected="false">
                             <i class="la la-briefcase"></i>
-                            @lang('commercial.Commercial')
+                            @lang('global.Commercial')
                         </a>
                     </li>
                     <li class="nav-item m-tabs__item">
@@ -125,7 +125,7 @@
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
                                             <a :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
-                                                @lang('commercial.CreditNote')
+                                                @lang('commercial.CreditNotes')
                                             </a>
                                             <br>
                                             <small>List of credit returns made</small>
@@ -238,7 +238,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a href="#">@lang('commercial.DebitNote')</a>
+                                            <a href="#">@lang('commercial.DebitNotes')</a>
                                             <br>
                                             <small>List of Debit Notes</small>
                                         </span>

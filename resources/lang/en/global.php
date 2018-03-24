@@ -12,11 +12,14 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
+    'Commercial' => 'Commercial',
+    'Audits' => 'Audits',
     'Reports' => 'Reports',
     'Name' => 'Name',
     'Year' => 'Year',
     'Date' => 'Date',
+    'InvoiceDate' => 'Invoice Date',
+    'DateRange' => 'Date Range',
     'StartDate' => 'Start Date',
     'EndDate' => 'End Date',
     'Taxid' => 'Tax Identification Number',
@@ -33,5 +36,7 @@ return [
     'SubType' => 'Sub Type',
     'Notification' => 'Notification | Notifications',
     'Dashboard' => ':team Dashboard',
-    'Search' => 'Search'
+    'Search' => 'Search',
+    'ProfileAndSettings' => 'Profile and Settings',
+    'Total' => 'Total',
 ];

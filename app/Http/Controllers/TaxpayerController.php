@@ -29,7 +29,7 @@ class TaxpayerController extends Controller
         ->orwhere('taxid', 'LIKE', "$frase%")
         ->take(50)
         ->get();
-        
+
         return response()->json($taxPayers);
     }
 
@@ -66,7 +66,8 @@ class TaxpayerController extends Controller
         }
 
         //TODO Country from Selection Box
-        if ($taxPayer->taxid >0 ) {
+        if ($taxPayer->taxid >0 )
+        {
             $taxPayer->taxid = $request->taxid;
         }
 
@@ -87,19 +88,21 @@ class TaxpayerController extends Controller
             ->orWhere('taxpayer_id', null);
         })
         ->first();
-        if (!isset($chartVersion)) {
+
+        if (!isset($chartVersion))
+        {
             $chartVersion = new ChartVersion();
             $chartVersion->name = $current_date->year;
             $chartVersion->taxpayer_id = $taxPayer->id;
             $chartVersion->save();
         }
 
-
-
         $cycle = Cycle::where('chart_version_id', $chartVersion->id)
         ->where('taxpayer_id', $taxPayer->id)
         ->first();
-        if (!isset($cycle)) {
+
+        if (!isset($cycle))
+        {
             $cycle = new Cycle();
         }
 
@@ -110,9 +113,9 @@ class TaxpayerController extends Controller
         $cycle->taxpayer_id = $taxPayer->id;
         $cycle->save();
 
-        $existingtaxpayerIntegration = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)
-        ->first();
+        $existingtaxpayerIntegration = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)->first();
         $taxpayerIntegration = new TaxpayerIntegration();
+
         if (!isset($existingtaxpayerIntegration))
         {
             $taxpayerIntegration->is_owner = 1;
@@ -154,7 +157,6 @@ class TaxpayerController extends Controller
         $customerOrSupplier->email = $request->email;
 
         $customerOrSupplier->save();
-
         return response()->json('ok');
     }
 

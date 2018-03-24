@@ -7,7 +7,7 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Fecha de Fact.
+                        <b>@lang('global.InvoiceDate')</b>
                     </label>
                     <div class="col-8">
                         <input type="date" class="form-control" v-model="date" />
@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        @lang('commercial.Customer')
+                        <b>@lang('commercial.Customer')</b>
                     </label>
 
                     <div class="col-8">
@@ -29,7 +29,7 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        @lang('commercial.Document')
+                        <b>@lang('commercial.Document')</b>
                     </label>
                     <div class="col-8">
                         <div class="input-group">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Timbrado &amp; Venci.
+                        <b>Timbrado &amp; Venci.</b>
                     </label>
                     <div class="col-8">
                         <div class="row">
@@ -56,7 +56,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        @lang('commercial.InvoiceNumber')
+                        <b>@lang('commercial.InvoiceNumber')</b>
                     </label>
                     <div class="col-8">
                         <masked-input class="form-control m-input" mask="{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-mask') }}"  @input="rawVal = arguments[1]" v-model="number" />
@@ -71,7 +71,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('commercial.Condition')
+                            <b>@lang('commercial.Condition')</b>
                         </label>
                         <div class="col-8">
                             <div class="input-group">
@@ -81,7 +81,7 @@
                     </div>
                     <div class="form-group m-form__group row" v-if="payment_condition == 0">
                         <label for="example-text-input" class="col-4 col-form-label ">
-                            @lang('commercial.Account')
+                            <b>@lang('commercial.Account')</b>
                         </label>
                         <div class="col-8">
                             <div>
@@ -95,7 +95,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('commercial.Currency')
+                            <b>@lang('commercial.Currency')</b>
                         </label>
                         <div class="col-8">
                             <div class="input-group">
@@ -118,7 +118,7 @@
                                 <i class="flaticon-calendar"></i>
                             </span>
                             <h3 class="m-portlet__head-text m--font-primary">
-                                @lang('commercial.Detail')
+                                <b>@lang('commercial.Detail')</b>
                             </h3>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                             <span>
                                 <i class="la la-plus"></i>
                                 <span>
-                                    @lang('global.New')
+                                    <b>@lang('global.New')</b>
                                 </span>
                             </span>
                         </a>

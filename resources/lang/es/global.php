@@ -12,11 +12,14 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
+    'Commercial' => 'Comercial',
+    'Audits' => 'Auditorias',
     'Reports' => 'Informes',
     'Name' => 'Nombre',
     'Year' => 'Año',
     'Date' => 'Fecha',
+    'InvoiceDate' => 'Fecha de Factura',
+    'DateRange' => 'Rango de Fecha',
     'StartDate' => 'Fecha de Inicio',
     'EndDate' => 'Fecha Final',
     'Taxid' => 'Cedula de Identidad',
@@ -34,5 +37,6 @@ return [
     'SubType' => 'Sub Tipo',
     'Notification' => 'Notificación | Notificaciones',
     'Dashboard' => 'Tablero :team',
-    'Search' => 'Buscar'
+    'Search' => 'Buscar',
+    'Total' => 'Total',
 ];
