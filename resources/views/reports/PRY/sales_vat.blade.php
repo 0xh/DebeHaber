@@ -33,7 +33,7 @@
 
                 <td class="important">
                     {{----}}
-                    <a href="{{route('sales.edit',[request()->route('taxpayer')->id,$group->first()->salesID])}}"
+                    <a href="{{route('sales.edit', [request()->route('taxPayer')->id, $group->first()->salesID])}}"
                        target="_blank">
                         {{ $group->first()->invoice_number }}
                     </a>
