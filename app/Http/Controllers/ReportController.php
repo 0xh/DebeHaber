@@ -20,8 +20,6 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-
-
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
             return view('reports/PRY/purchase_vat')
@@ -44,6 +42,7 @@ class ReportController extends Controller
             ->with('endDate', $endDate);
         }
     }
+
     public function vatPurchaseQuery(Taxpayer $taxPayer, $startDate, $endDate)
     {
         DB::connection()->disableQueryLog();
@@ -91,8 +90,8 @@ class ReportController extends Controller
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('customer.id', $taxPayer->id)
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
-        ->select('supplier.name as supplier',
-        'supplier.taxid as supplier_code',
+        ->select('customer.name as customer',
+        'customer.taxid as customer_code',
         'transactions.type',
         'transactions.id as salesID',
         'transactions.date',
