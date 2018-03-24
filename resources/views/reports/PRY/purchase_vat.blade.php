@@ -25,17 +25,17 @@
         <tbody>
             @foreach ($data->groupBy('purchaseID') as $row)
                 <tr>
-                    <td>{{ \Carbon\Carbon::parse($row->first()->invoice_date)->format('d/m/Y')}}</td>
+                    <td>{{ \Carbon\Carbon::parse($row->first()->date)->format('d/m/Y')}}</td>
 
                     <td class="important">{{ $row->first()->supplier_code }}</td>
 
                     <td class="text">{{ $row->first()->supplier }}</td>
 
-                    <td class="number">{{ $row->first()->invoice_code }}</td>
+                    <td class="number">{{ $row->first()->code }}</td>
 
                     <td class="important">
                         <a href="/current/{{ (request()->route('taxPayer'))->id }}/purchases/{{ $row->first()->purchaseID }}/edit" target="_blank">
-                            {{ $row->first()->invoice_number }}
+                            {{ $row->first()->number }}
                         </a>
                     </td>
 

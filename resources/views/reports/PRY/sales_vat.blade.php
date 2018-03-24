@@ -23,19 +23,19 @@
         <tbody>
         @foreach ($data->groupBy('salesID') as $group)
             <tr @if ($group->first()->status == 3) class="danger" @endif>
-                <td>{{ \Carbon\Carbon::parse($group->first()->invoice_date)->format('d/m/Y')}}</td>
+                <td>{{ \Carbon\Carbon::parse($group->first()->date)->format('d/m/Y')}}</td>
 
                 <td class="important">{{ $group->first()->customer_code }}</td>
 
                 <td class="text">{{ $group->first()->customer }}</td>
 
-                <td class="number">{{ $group->first()->invoice_code }}</td>
+                <td class="number">{{ $group->first()->code }}</td>
 
                 <td class="important">
                     {{----}}
                     <a href="{{route('sales.edit', [request()->route('taxPayer')->id, $group->first()->salesID])}}"
                        target="_blank">
-                        {{ $group->first()->invoice_number }}
+                        {{ $group->first()->number }}
                     </a>
                 </td>
 
