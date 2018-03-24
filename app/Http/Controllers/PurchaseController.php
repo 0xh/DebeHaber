@@ -23,9 +23,8 @@ class PurchaseController extends Controller
 
     public function get_purchases($taxPayerID)
     {
-        $transactions = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+        $transactions = Transaction::MyPurchases()->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->where('customer_id', $taxPayerID)
-        ->whereIn('transactions.type', [1, 2])
         ->with('details')
         ->select(DB::raw('false as friends,
         transactions.id,
@@ -48,9 +47,8 @@ class PurchaseController extends Controller
 
     public function getLastPurchase($taxPayerID)
     {
-        $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+        $Transaction = Transaction::MyPurchases()->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->where('customer_id', $taxPayerID)
-        ->whereIn('transactions.type', [1, 2])
         ->with('details')
         ->orderBy('date', 'desc')
         ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
@@ -62,11 +60,10 @@ class PurchaseController extends Controller
 
     public function get_purchasesByID($taxPayerID,Cycle $cycle,$id)
     {
-        $Transaction = Transaction::
-        Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+        $Transaction = Transaction::MyPurchases()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->where('customer_id', $taxPayerID)
         ->where('transactions.id', $id)
-        ->whereIn('transactions.type', [1, 2])
         ->with('details')
         ->select(DB::raw('false as selected,transactions.id,taxpayers.name as supplier
         ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date

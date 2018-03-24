@@ -22,9 +22,8 @@ class DebitNoteController extends Controller
   }
   public function get_debit_note($taxPayerID)
   {
-    $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+    $Transaction = Transaction::MyDebitNotes()->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
     ->where('customer_id', $taxPayerID)
-    ->where('type',3)
     ->with('details')
     ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
     ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
@@ -35,8 +34,8 @@ class DebitNoteController extends Controller
 
   public function get_debit_noteByID($taxPayerID,Cycle $cycle,$id)
   {
-    $Transaction = Transaction::
-    Join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+    $Transaction = Transaction::MyDebitNotes()
+    ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
     ->where('customer_id', $taxPayerID)
     ->where('transactions.id', $id)
     ->with('details')
@@ -75,13 +74,15 @@ class DebitNoteController extends Controller
 
     $Transaction->customer_id = $taxPayer->id;
     $Transaction->supplier_id = $request->supplier_id;
-    if ($request->document_id>0) {
+    if ($request->document_id > 0)
+    {
       $Transaction->document_id = $request->document_id;
     }
     $Transaction->currency_id = $request->currency_id;
     $Transaction->rate = $request->rate;
     $Transaction->payment_condition = $request->payment_condition;
-    if ($request->chart_account_id>0) {
+    if ($request->chart_account_id > 0)
+    {
       $Transaction->chart_account_id = $request->chart_account_id;
     }
     $Transaction->date = $request->date;

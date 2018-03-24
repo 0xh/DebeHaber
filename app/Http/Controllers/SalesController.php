@@ -26,7 +26,6 @@ class SalesController extends Controller
         //friends column is used to display the button in data like dit ,delete
         $Transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)
-        ->where('transactions.type', 4)
         ->with('details')
         ->select(DB::raw('0 as friends,
         transactions.id,
@@ -50,9 +49,8 @@ class SalesController extends Controller
 
     public function getLastPurchase($taxPayerID)
     {
-        $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        $Transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)
-        ->where('transactions.type', 4)
         ->with('details')
         ->orderBy('date', 'desc')
         ->select(DB::raw('false as friends, transactions.id,taxpayers.name as Supplier
@@ -65,34 +63,35 @@ class SalesController extends Controller
 
     public function get_salesByID($taxPayerID,Cycle $cycle,$id)
     {
-        $Transaction = Transaction::
-        Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
-
+        $Transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)
         ->where('transactions.id', $id)
         ->with('details')
         ->select(DB::raw('false as selected,transactions.id,taxpayers.name as customer
-        ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-        ,number,transactions.code,code_expiry'))
+        , customer_id,
+        document_id,
+        currency_id,
+        rate,
+        payment_condition,
+        chart_account_id,
+        date,
+        number,
+        transactions.code,code_expiry'))
         ->get();
         return response()->json($Transaction);
     }
 
     public function get_lastDate($taxPayerID,Cycle $cycle)
     {
-        $Transaction = Transaction::
-        where('supplier_id', $taxPayerID)
+        $Transaction = Transaction::MySales()
+        ->where('supplier_id', $taxPayerID)
         ->orderBy('created_at', 'desc')
         ->first();
 
         if (isset($Transaction))
-        {
-            return response()->json($Transaction->date);
-        }
+        { return response()->json($Transaction->date); }
         else
-        {
-            return response()->json($cycle->start_date);
-        }
+        { return response()->json($cycle->start_date); }
     }
 
 

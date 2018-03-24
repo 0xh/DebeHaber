@@ -20,11 +20,11 @@ class CreditNoteController extends Controller
     {
         return view('/commercial/creditnote');
     }
+
     public function get_credit_note($taxPayerID)
     {
-        $Transaction = Transaction::Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        $Transaction = Transaction::MyCreditNotes()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)
-->where('type', 4)
         ->with('details')
         ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Customer
         ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
@@ -35,15 +35,15 @@ class CreditNoteController extends Controller
 
     public function get_credit_noteByID($taxPayerID,Cycle $cycle,$id)
     {
-        $Transaction = Transaction::
-        Join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        $Transaction = Transaction::MyCreditNotes()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)
         ->where('transactions.id', $id)
         ->with('details')
         ->select(DB::raw('false as selected,transactions.id,taxpayers.name as customer
         ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
         ,number,transactions.code,code_expiry'))
-        ->get();
+        ->first();
         return response()->json($Transaction);
     }
     /**
@@ -75,15 +75,19 @@ class CreditNoteController extends Controller
 
         $Transaction->customer_id = $request->customer_id;
         $Transaction->supplier_id = $taxPayer->id;
-        if ($request->document_id>0) {
+        if ($request->document_id > 0)
+        {
             $Transaction->document_id = $request->document_id;
         }
+
         $Transaction->currency_id = $request->currency_id;
         $Transaction->rate = $request->rate;
         $Transaction->payment_condition = $request->payment_condition;
-        if ($request->chart_account_id>0) {
+        if ($request->chart_account_id > 0)
+        {
             $Transaction->chart_account_id = $request->chart_account_id;
         }
+        
         $Transaction->date = $request->date;
         $Transaction->number = $request->number;
         $Transaction->code = $request->code;
