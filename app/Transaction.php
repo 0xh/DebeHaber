@@ -4,11 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ModelStatus\HasStatuses;
+use RyanWeber\Mutators\Timezoned;
 
 class Transaction extends Model
 {
-    use HasStatuses;
+    use HasStatuses, Timezoned;
 
+    protected $timezoned = ['date', 'created_at', 'updated_at', 'deleted_at'];
+    
     protected $fillable = [
         'type',
         'customer_id',

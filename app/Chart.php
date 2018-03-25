@@ -39,7 +39,8 @@ class Chart extends Model
             $x
             ->where('sub_type', 1)
             ->orWhere('sub_type', 3);
-        });
+        })
+        ->where('is_accountable', true);
     }
 
     public function scopeMy($query, Taxpayer $taxPayer, Cycle $cycle)
@@ -59,11 +60,12 @@ class Chart extends Model
     }
 
     //Brings all Fixed Asset Type accounts into list.
-    public function scopeFixedAssets($query)
+    public function scopeFixedAssetGroups($query)
     {
         return $query
         ->where('type', 1)
-        ->where('sub_type', 9);
+        ->where('sub_type', 9)
+        ->where('is_accountable', true);;
     }
 
     //Brings all Fixed Asset Type accounts into list.
@@ -71,9 +73,25 @@ class Chart extends Model
     {
         return $query
         ->where('type', 5)
-        ->where('sub_type', 9);
+        ->where('is_accountable', true);
     }
 
+    //Brings all Fixed Asset Type accounts into list.
+    public function scopeInventories($query)
+    {
+        return $query
+        ->where('type', 1)
+        ->where('sub_type', 8)
+        ->where('is_accountable', true);
+    }
+
+    //Brings all Fixed Asset Type accounts into list.
+    public function scopeIncomes($query)
+    {
+        return $query
+        ->where('type', 4)
+        ->where('is_accountable', true);
+    }
 
     //Brings all Item accounts (formally known as Cost Centers) into Sales Detail
     public function scopeSalesAccounts($query)
@@ -113,6 +131,12 @@ class Chart extends Model
                 $z->orWhere('sub_type', 9);
                 $z->orWhere('sub_type', 10);
             });
+        })
+        ->orWhere(function ($y)
+        {
+            $y
+            ->where('type', 1)
+            ->where('sub_type', 8);
         })
         ->orWhere(function ($y)
         {

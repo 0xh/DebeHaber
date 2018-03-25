@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "418c232c4a5f6a84d8c11ed0265c7b12",
+    "content-hash": "1e14bfd79da92eab98f2985515c1445b",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -1899,16 +1899,16 @@
         },
         {
             "name": "laravel/cashier",
-            "version": "v7.0.13",
+            "version": "v7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/cashier.git",
-                "reference": "df8b12de451e2ad1b2285e67518e9fb97ebd7cb2"
+                "reference": "24064155f6f9d97e83669455ad305c3dfec908b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/cashier/zipball/df8b12de451e2ad1b2285e67518e9fb97ebd7cb2",
-                "reference": "df8b12de451e2ad1b2285e67518e9fb97ebd7cb2",
+                "url": "https://api.github.com/repos/laravel/cashier/zipball/24064155f6f9d97e83669455ad305c3dfec908b7",
+                "reference": "24064155f6f9d97e83669455ad305c3dfec908b7",
                 "shasum": ""
             },
             "require": {
@@ -1960,20 +1960,20 @@
                 "laravel",
                 "stripe"
             ],
-            "time": "2017-12-29T15:23:28+00:00"
+            "time": "2018-03-14T12:22:43+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.11",
+            "version": "v5.6.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "195ba6a67bdad2a23105c7ab410cd43e0f20bb73"
+                "reference": "82d8165d1ea86bdd81ddfa1db9343fa19e7d1450"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/195ba6a67bdad2a23105c7ab410cd43e0f20bb73",
-                "reference": "195ba6a67bdad2a23105c7ab410cd43e0f20bb73",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/82d8165d1ea86bdd81ddfa1db9343fa19e7d1450",
+                "reference": "82d8165d1ea86bdd81ddfa1db9343fa19e7d1450",
                 "shasum": ""
             },
             "require": {
@@ -1982,7 +1982,7 @@
                 "erusev/parsedown": "~1.7",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "league/flysystem": "~1.0",
+                "league/flysystem": "^1.0.8",
                 "monolog/monolog": "~1.12",
                 "nesbot/carbon": "^1.24.1",
                 "php": "^7.1.3",
@@ -2098,20 +2098,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-03-09T16:53:27+00:00"
+            "time": "2018-03-14T17:29:38+00:00"
         },
         {
             "name": "laravel/passport",
-            "version": "v5.0.1",
+            "version": "v5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "7239e8cdbca9d7f24be40461fe2abc26583adaa2"
+                "reference": "9dbcc3d6f8f20f1a83cbef73bbb563ce59e43ded"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/7239e8cdbca9d7f24be40461fe2abc26583adaa2",
-                "reference": "7239e8cdbca9d7f24be40461fe2abc26583adaa2",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/9dbcc3d6f8f20f1a83cbef73bbb563ce59e43ded",
+                "reference": "9dbcc3d6f8f20f1a83cbef73bbb563ce59e43ded",
                 "shasum": ""
             },
             "require": {
@@ -2167,7 +2167,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2018-03-06T14:21:38+00:00"
+            "time": "2018-03-15T12:39:02+00:00"
         },
         {
             "name": "laravel/spark-aurelius",
@@ -2598,16 +2598,16 @@
         },
         {
             "name": "mcamara/laravel-localization",
-            "version": "v1.3.5",
+            "version": "v1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcamara/laravel-localization.git",
-                "reference": "5fb98b9687613cfccc01469aee6f4a725be98ede"
+                "reference": "68a06bcb5406083f2dbe8ac6f2344aa85381b655"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/5fb98b9687613cfccc01469aee6f4a725be98ede",
-                "reference": "5fb98b9687613cfccc01469aee6f4a725be98ede",
+                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/68a06bcb5406083f2dbe8ac6f2344aa85381b655",
+                "reference": "68a06bcb5406083f2dbe8ac6f2344aa85381b655",
                 "shasum": ""
             },
             "require": {
@@ -2656,7 +2656,7 @@
                 "localization",
                 "php"
             ],
-            "time": "2018-02-19T09:28:24+00:00"
+            "time": "2018-03-15T17:23:53+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2840,16 +2840,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.24.1",
+            "version": "1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "ef12cbd8ba5ce624f0a6a95e0850c4cc13e71e41"
+                "reference": "cbcf13da0b531767e39eb86e9687f5deba9857b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/ef12cbd8ba5ce624f0a6a95e0850c4cc13e71e41",
-                "reference": "ef12cbd8ba5ce624f0a6a95e0850c4cc13e71e41",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/cbcf13da0b531767e39eb86e9687f5deba9857b4",
+                "reference": "cbcf13da0b531767e39eb86e9687f5deba9857b4",
                 "shasum": ""
             },
             "require": {
@@ -2889,20 +2889,20 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-03-09T15:49:34+00:00"
+            "time": "2018-03-19T15:50:49+00:00"
         },
         {
             "name": "nette/caching",
-            "version": "v2.5.6",
+            "version": "v2.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/caching.git",
-                "reference": "1231735b5135ca02bd381b70482c052d2a90bdc9"
+                "reference": "7fba7c7ab2585fafb7b31152f2595e1551120555"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/caching/zipball/1231735b5135ca02bd381b70482c052d2a90bdc9",
-                "reference": "1231735b5135ca02bd381b70482c052d2a90bdc9",
+                "url": "https://api.github.com/repos/nette/caching/zipball/7fba7c7ab2585fafb7b31152f2595e1551120555",
+                "reference": "7fba7c7ab2585fafb7b31152f2595e1551120555",
                 "shasum": ""
             },
             "require": {
@@ -2958,7 +2958,7 @@
                 "nette",
                 "sqlite"
             ],
-            "time": "2017-08-30T12:12:25+00:00"
+            "time": "2018-03-21T11:04:32+00:00"
         },
         {
             "name": "nette/finder",
@@ -3201,21 +3201,21 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v3.6.2",
+            "version": "v3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "24ea3330f448815ac3bea53611e944f6eee0c308"
+                "reference": "feaad428c39318cdaef2caced6d49eda125dcb3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/24ea3330f448815ac3bea53611e944f6eee0c308",
-                "reference": "24ea3330f448815ac3bea53611e944f6eee0c308",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/feaad428c39318cdaef2caced6d49eda125dcb3e",
+                "reference": "feaad428c39318cdaef2caced6d49eda125dcb3e",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "~5.6.4",
-                "orchestra/testbench-core": "~3.6.3",
+                "laravel/framework": "~5.6.5",
+                "orchestra/testbench-core": "~3.6.4",
                 "php": ">=7.1",
                 "phpunit/phpunit": "~7.0"
             },
@@ -3249,20 +3249,20 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2018-02-20T05:32:04+00:00"
+            "time": "2018-03-15T04:12:27+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v3.6.3",
+            "version": "v3.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "e07a2dd5b9399d56f487379ac3af515a4635bd6a"
+                "reference": "65c97dbefd2c68aa7d5dfcfdaa5a15184cb7b7e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/e07a2dd5b9399d56f487379ac3af515a4635bd6a",
-                "reference": "e07a2dd5b9399d56f487379ac3af515a4635bd6a",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/65c97dbefd2c68aa7d5dfcfdaa5a15184cb7b7e2",
+                "reference": "65c97dbefd2c68aa7d5dfcfdaa5a15184cb7b7e2",
                 "shasum": ""
             },
             "require": {
@@ -3313,7 +3313,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2018-02-20T04:08:58+00:00"
+            "time": "2018-03-13T02:45:12+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -4300,26 +4300,27 @@
         },
         {
             "name": "pragmarx/countries",
-            "version": "v0.5.6",
+            "version": "v0.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/countries.git",
-                "reference": "474415413a357a512998bb61940e31276f4709e9"
+                "reference": "028b295dbd8b09384956e1c9fdb3e5eccdbae1da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/countries/zipball/474415413a357a512998bb61940e31276f4709e9",
-                "reference": "474415413a357a512998bb61940e31276f4709e9",
+                "url": "https://api.github.com/repos/antonioribeiro/countries/zipball/028b295dbd8b09384956e1c9fdb3e5eccdbae1da",
+                "reference": "028b295dbd8b09384956e1c9fdb3e5eccdbae1da",
                 "shasum": ""
             },
             "require": {
                 "colinodell/json5": "^1.0",
                 "nette/caching": "^2.5",
                 "php": ">=7.0",
-                "pragmarx/coollection": "~0.5",
+                "pragmarx/coollection": "^0.5",
                 "psr/simple-cache": "^1.0"
             },
             "require-dev": {
+                "gasparesganga/php-shapefile": "^2.4",
                 "phpunit/phpunit": "~6.0|~7.0",
                 "squizlabs/php_codesniffer": "^2.3"
             },
@@ -4357,20 +4358,20 @@
                 "timezones",
                 "topology"
             ],
-            "time": "2018-02-17T16:54:12+00:00"
+            "time": "2018-03-13T16:14:30+00:00"
         },
         {
             "name": "pragmarx/ia-arr",
-            "version": "v5.6.10",
+            "version": "v5.6.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/ia-arr.git",
-                "reference": "78beec6a27112b0949bd006ff3fa5225579a494f"
+                "reference": "de495d1dbd5c1331314e130f4c58f837a6978838"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/ia-arr/zipball/78beec6a27112b0949bd006ff3fa5225579a494f",
-                "reference": "78beec6a27112b0949bd006ff3fa5225579a494f",
+                "url": "https://api.github.com/repos/antonioribeiro/ia-arr/zipball/de495d1dbd5c1331314e130f4c58f837a6978838",
+                "reference": "de495d1dbd5c1331314e130f4c58f837a6978838",
                 "shasum": ""
             },
             "require": {
@@ -4423,20 +4424,20 @@
                 "laravel",
                 "pragmarx"
             ],
-            "time": "2018-03-09T15:37:38+00:00"
+            "time": "2018-03-15T21:30:18+00:00"
         },
         {
             "name": "pragmarx/ia-collection",
-            "version": "v5.6.10",
+            "version": "v5.6.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/ia-collection.git",
-                "reference": "2629254663540ec31514b2a3a9a84a0e7369de0d"
+                "reference": "0dfca0b93ea8cd55c067b474f9ab1e0272490e90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/ia-collection/zipball/2629254663540ec31514b2a3a9a84a0e7369de0d",
-                "reference": "2629254663540ec31514b2a3a9a84a0e7369de0d",
+                "url": "https://api.github.com/repos/antonioribeiro/ia-collection/zipball/0dfca0b93ea8cd55c067b474f9ab1e0272490e90",
+                "reference": "0dfca0b93ea8cd55c067b474f9ab1e0272490e90",
                 "shasum": ""
             },
             "require": {
@@ -4487,33 +4488,40 @@
                 "laravel",
                 "pragmarx"
             ],
-            "time": "2018-03-09T15:36:39+00:00"
+            "time": "2018-03-15T21:29:24+00:00"
         },
         {
             "name": "pragmarx/ia-str",
-            "version": "v5.6.10",
+            "version": "v5.6.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/ia-str.git",
-                "reference": "a51ab2192fc67cf5007473a2f87b18425047f990"
+                "reference": "61eea1881a011202f6cff8370fdf12ea4a42249d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/ia-str/zipball/a51ab2192fc67cf5007473a2f87b18425047f990",
-                "reference": "a51ab2192fc67cf5007473a2f87b18425047f990",
+                "url": "https://api.github.com/repos/antonioribeiro/ia-str/zipball/61eea1881a011202f6cff8370fdf12ea4a42249d",
+                "reference": "61eea1881a011202f6cff8370fdf12ea4a42249d",
                 "shasum": ""
             },
             "require": {
-                "doctrine/inflector": "^1.2",
-                "php": ">=7.0",
-                "ramsey/uuid": "^3.7",
-                "symfony/var-dumper": "~3.3|~4.0"
+                "php": ">=7.0"
             },
             "require-dev": {
+                "doctrine/inflector": "^1.2",
                 "mockery/mockery": "~1.0",
                 "moontoast/math": "^1.1",
+                "nesbot/carbon": "~1.22",
                 "phpunit/phpunit": ">=6.0",
-                "squizlabs/php_codesniffer": "^2.3"
+                "ramsey/uuid": "^3.7",
+                "squizlabs/php_codesniffer": "^2.3",
+                "symfony/var-dumper": "~3.3|~4.0"
+            },
+            "suggest": {
+                "doctrine/inflector": "",
+                "nesbot/carbon": "",
+                "ramsey/uuid": "",
+                "symfony/var-dumper": ""
             },
             "type": "library",
             "extra": {
@@ -4552,7 +4560,7 @@
                 "str",
                 "string"
             ],
-            "time": "2018-03-09T15:06:12+00:00"
+            "time": "2018-03-15T22:33:25+00:00"
         },
         {
             "name": "predis/predis",
@@ -4995,6 +5003,57 @@
                 "promises"
             ],
             "time": "2017-03-25T12:08:31+00:00"
+        },
+        {
+            "name": "rweber7912/timezoned",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rweber7912/timezoned.git",
+                "reference": "3a34a7cf91ae8102147d1f1123e4761be9710320"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rweber7912/timezoned/zipball/3a34a7cf91ae8102147d1f1123e4761be9710320",
+                "reference": "3a34a7cf91ae8102147d1f1123e4761be9710320",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.0",
+                "nesbot/carbon": "^1.20",
+                "php": ">=7.0"
+            },
+            "type": "project",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "RyanWeber\\Mutators\\TimezonedServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "RyanWeber\\Mutators\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan Weber",
+                    "email": "ryan@picoprime.com"
+                }
+            ],
+            "description": "Laravel trait for converting Eloquent model timestamps according to timezones",
+            "keywords": [
+                "eloquent",
+                "laravel",
+                "model",
+                "timezone"
+            ],
+            "time": "2018-02-09T22:25:09+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -7306,16 +7365,16 @@
         },
         {
             "name": "symfony/thanks",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/thanks.git",
-                "reference": "9474ce305253c2f0bc20322ff8e9973cf25c9a94"
+                "reference": "bade4992c46ed722162694b4af8d72f84402819a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/thanks/zipball/9474ce305253c2f0bc20322ff8e9973cf25c9a94",
-                "reference": "9474ce305253c2f0bc20322ff8e9973cf25c9a94",
+                "url": "https://api.github.com/repos/symfony/thanks/zipball/bade4992c46ed722162694b4af8d72f84402819a",
+                "reference": "bade4992c46ed722162694b4af8d72f84402819a",
                 "shasum": ""
             },
             "require": {
@@ -7345,13 +7404,14 @@
                 }
             ],
             "description": "Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers (not limited to Symfony components)!",
-            "time": "2018-02-02T13:47:40+00:00"
+            "time": "2018-03-14T21:51:39+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "laravel/spark-aurelius": 20,
+        "rweber7912/timezoned": 20,
         "sleimanx2/plastic": 20
     },
     "prefer-stable": true,

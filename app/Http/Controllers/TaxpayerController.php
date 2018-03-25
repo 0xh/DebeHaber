@@ -208,13 +208,18 @@ class TaxpayerController extends Controller
 
     public function showDashboard(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $chartFixedAssets = Chart::FixedAssets()->count();
+        $chartFixedAssets = Chart::FixedAssetGroups()->count();
         $chartMoneyAccounts = Chart::MoneyAccounts()->count();
-        //$chartFixedAssets = Chart::FixedAssets()->get();
-        //$chartFixedAssets = Chart::FixedAssets()->get();
+        $chartExpenses = Chart::Expenses()->count();
+        $chartInventories = Chart::Inventories()->count();
+        $chartIncomes = Chart::Incomes()->count();
+
         return view('taxpayer/dashboard')
         ->with('chartFixedAssets', $chartFixedAssets)
-        ->with('chartMoneyAccounts', $chartMoneyAccounts);
+        ->with('chartMoneyAccounts', $chartMoneyAccounts)
+        ->with('chartExpenses', $chartExpenses)
+        ->with('chartInventories', $chartInventories)
+        ->with('chartIncomes', $chartIncomes);
     }
 
     public function selectTaxpayer(Taxpayer $taxPayer)

@@ -10,7 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+Route::get('fx', 'RESTful\CurrencyRatesController@getRates');
 Route::get('/', 'WelcomeController@show');
 
 //No Team, maybe Team. No taxpayer selected

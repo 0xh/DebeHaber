@@ -251,10 +251,10 @@
                 <img src="/img/icons/account.svg" width="60">
                 <div class="m-widget4__info">
                     <span class="m-widget4__title">
-                        <a href="{{ route('accounts.index', request()->route('company')) }}">
+                        {{-- <a href="{{ route('accounts.index', request()->route('company')) }}"> --}}
                             Cuentas de Dinero <i class="la la-chevron-circle-right"></i>
-                        </a>
-                    <small class="text-info"><i>Cant. de Registros: {{ $chartMoneyAccounts->count() }}</i></small>
+                        {{-- </a> --}}
+                    <small class="text-info"><i>Cant. de Registros: {{ $chartMoneyAccounts }}</i></small>
                 </span><br>
                 <span class="m-widget4__sub">
                     Cuenta de Banco o tipo Caja, que pueden almacenar fondos. Integrado con Compras, Ventas, y Pagos.
@@ -269,7 +269,7 @@
                     {{-- <a href="{{ route('expense.index', request()->route('company')) }}"> --}}
                     Cuentas de Gastos <i class="la la-chevron-circle-right"></i>
                 </a>
-                {{-- <small class="text-info"><i>Cant. de Registros: {{ $totalExpense }}</i></small> --}}
+                <small class="text-info"><i>Cant. de Registros: {{ $chartExpenses }}</i></small>
             </span>
             <br>
             <span class="m-widget4__sub">
@@ -285,7 +285,7 @@
                 {{-- <a href="{{ route('income.index', request()->route('company')) }}"> --}}
                 Cuentas de Ingresos <i class="la la-chevron-circle-right"></i>
             </a>
-            {{-- <small class="text-{{ $totalIncome == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $totalIncome }}</i></small> --}}
+            <small class="text-{{ $chartIncomes == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartIncomes }}</i></small>
         </span>
         <br>
         <span class="m-widget4__sub">
@@ -301,7 +301,7 @@
             {{-- <a href="{{ route('inventory.index', request()->route('company')) }}"> --}}
             Cuentas de Inventario <i class="la la-chevron-circle-right"></i>
         </a>
-        {{-- <small class="text-{{ $totalInventory == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $totalInventory }}</i></small> --}}
+        <small class="text-{{ $chartInventories == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartInventories }}</i></small>
     </span>
     <br>
     <span class="m-widget4__sub">
@@ -317,7 +317,7 @@
             {{-- <a href="{{ route('asset-group.index', request()->route('company')) }}"> --}}
             Cuentas de Activos Fijos <i class="la la-chevron-circle-right"></i>
         </a>
-        <small class="text-{{ $chartFixedAssets == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartFixedAssets->count() }}</i></small>
+        <small class="text-{{ $chartFixedAssets == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartFixedAssets }}</i></small>
     </span>
     <br>
     <span class="m-widget4__sub">
