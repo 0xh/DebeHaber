@@ -159,6 +159,7 @@ class ReportController extends Controller
         )
         )
         ->orderBy('transactions.date', 'asc')
+        ->orderBy('transactions.number', 'desc')
         ->get();
     }
 
@@ -192,6 +193,7 @@ class ReportController extends Controller
         )
         )
         ->orderBy('transactions.date', 'asc')
+        ->orderBy('transactions.number', 'desc')
         ->get();
     }
 
