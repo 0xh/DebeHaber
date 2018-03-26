@@ -11,108 +11,119 @@ use DB;
 
 class CurrencyRateController extends Controller
 {
-  /**
-  * Display a listing of the resource.
-  *
-  * @return \Illuminate\Http\Response
-  */
-  public function index(Taxpayer $taxPayer, Cycle $cycle)
-  {
-    return view('/configs/currencies/list');
-
-  }
-  public function get_rateByCurrency($taxPayer,$id,$date)
-  {
-
-    $currencyRate=CurrencyRate::where('currency_id',$id)
-    ->where('created_at',Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))->first();
-    if (isset($currencyRate)) {
-      return response()->json($currencyRate->rate);
+    /**
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        return view('/configs/currencies/list');
     }
-    return response()->json(1);
 
-  }
-  public function get_Allrate()
-  {
+    public function get_buyRateByCurrency($taxPayer,$id,$date)
+    {
+        $currencyRate = CurrencyRate::where('currency_id', $id)
+        ->whereDate('date', Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))
+        ->first();
 
-    $currencyRate=CurrencyRate::Join('currencies', 'currencies.id', 'currency_rates.currency_id')
-    ->select(DB::raw('currencies.name,rate'))->get();
+        if (isset($currencyRate))
+        { return response()->json($currencyRate->buy_rate); }
 
-    return response()->json($currencyRate);
+        return response()->json(1);
+    }
 
+    public function get_sellRateByCurrency($taxPayer,$id,$date)
+    {
+        $currencyRate = CurrencyRate::where('currency_id', $id)
+        ->whereDate('date', Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))
+        ->first();
 
-  }
+        if (isset($currencyRate))
+        { return response()->json($currencyRate->sell_rate); }
 
-  /**
-  * Show the form for creating a new resource.
-  *
-  * @return \Illuminate\Http\Response
-  */
-  public function create()
-  {
-    //
-  }
+        return response()->json(1);
+    }
 
-  /**
-  * Store a newly created resource in storage.
-  *
-  * @param  \Illuminate\Http\Request  $request
-  * @return \Illuminate\Http\Response
-  */
-  public function store(Request $request)
-  {
-    $currencyrate = $request->id == 0 ? $currencyrate = new CurrencyRate() : CurrencyRate::where('id', $request->id)->first();
+    public function get_Allrate()
+    {
+        $currencyRate = CurrencyRate::Join('currencies', 'currencies.id', 'currency_rates.currency_id')
+        ->select(DB::raw('currencies.name, rate'))
+        ->get();
 
-    $currencyrate->currency_id = $request->currency_id;
-    $currencyrate->rate = $request->rate;
+        return response()->json($currencyRate);
+    }
 
-    $currencyrate->save();
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function create()
+    {
+        //
+    }
 
-    return response()->json('ok');
-  }
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function store(Request $request)
+    {
+        $currencyrate = $request->id == 0 ? $currencyrate = new CurrencyRate() : CurrencyRate::where('id', $request->id)->first();
 
-  /**
-  * Display the specified resource.
-  *
-  * @param  \App\CurrencyRate  $currencyRate
-  * @return \Illuminate\Http\Response
-  */
-  public function show(CurrencyRate $currencyRate)
-  {
-    //
-  }
+        $currencyrate->currency_id = $request->currency_id;
+        $currencyrate->rate = $request->rate;
 
-  /**
-  * Show the form for editing the specified resource.
-  *
-  * @param  \App\CurrencyRate  $currencyRate
-  * @return \Illuminate\Http\Response
-  */
-  public function edit(CurrencyRate $currencyRate)
-  {
-    //
-  }
+        $currencyrate->save();
 
-  /**
-  * Update the specified resource in storage.
-  *
-  * @param  \Illuminate\Http\Request  $request
-  * @param  \App\CurrencyRate  $currencyRate
-  * @return \Illuminate\Http\Response
-  */
-  public function update(Request $request, CurrencyRate $currencyRate)
-  {
-    //
-  }
+        return response()->json('ok');
+    }
 
-  /**
-  * Remove the specified resource from storage.
-  *
-  * @param  \App\CurrencyRate  $currencyRate
-  * @return \Illuminate\Http\Response
-  */
-  public function destroy(CurrencyRate $currencyRate)
-  {
-    //
-  }
+    /**
+    * Display the specified resource.
+    *
+    * @param  \App\CurrencyRate  $currencyRate
+    * @return \Illuminate\Http\Response
+    */
+    public function show(CurrencyRate $currencyRate)
+    {
+        //
+    }
+
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  \App\CurrencyRate  $currencyRate
+    * @return \Illuminate\Http\Response
+    */
+    public function edit(CurrencyRate $currencyRate)
+    {
+        //
+    }
+
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \App\CurrencyRate  $currencyRate
+    * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request, CurrencyRate $currencyRate)
+    {
+        //
+    }
+
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  \App\CurrencyRate  $currencyRate
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy(CurrencyRate $currencyRate)
+    {
+        //
+    }
 }

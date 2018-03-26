@@ -155,14 +155,21 @@ class ChartController extends Controller
     // Debit VAT, used in Sales. Also Normal Sales Tax (Not VAT).
     public function getVATDebit(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::VATDebitAccounts()->get();
+        $charts = Chart::
+        withoutGlobalScopes()
+        ->My($taxPayer, $cycle)
+        ->VATDebitAccounts()
+        ->get();
         return response()->json($charts);
     }
 
     // Credit VAT, used in Purchases
     public function getVATCredit(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::VATCreditAccounts()->get();
+        $charts = Chart::withoutGlobalScopes()
+        ->My($taxPayer, $cycle)
+        ->VATCreditAccounts()
+        ->get();
         return response()->json($charts);
     }
 

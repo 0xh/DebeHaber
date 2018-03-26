@@ -25,9 +25,8 @@
                         </a>
                     </div>
                 </div>
+
                 <div class="m-portlet__body">
-
-
                     <!--begin::Widget5-->
                     <div class="m-widget4 m-widget4--chart-bottom">
                         @if(isset($taxPayerIntegrations))

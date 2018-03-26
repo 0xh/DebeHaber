@@ -167,7 +167,7 @@
                                     </a>
                                 </li>
 
-                                @if (request()->route('taxPayer')->is_company)
+                                @if (request()->route('taxPayer')->is_company == 1)
                                     {{-- If Taxpayer is not Company, do not show Inventory, Production, and Fixed Assets--}}
 
                                     <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
