@@ -41,13 +41,12 @@ Vue.component('sales-list',
                     {
                         app.list.push(data[i]);
                     }
-                    
+
                     app.skip += app.pageSize;
                     $state.loaded();
                 }
                 else
                 {
-                    alert('no more')
                     $state.complete();
                 }
             });
