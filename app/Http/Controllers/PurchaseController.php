@@ -40,7 +40,7 @@ class PurchaseController extends Controller
         code_expiry'))
         ->orderBy('transactions.date', 'DESC')
         ->orderBy('number', 'desc')
-        ->take(100)
+        ->take(1000)
         ->get();
 
         return response()->json($transactions);

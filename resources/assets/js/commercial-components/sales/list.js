@@ -1,42 +1,15 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+import InfiniteLoading from 'vue-infinite-loading';
+
 Vue.component('sales-list',{
 
     props: ['taxpayer','cycle'],
     data(){
         return {
-            columns: [
-
-                {
-                    title: 'SelectAll',
-                    sortable: false,
-                },
-                {
-                    title: 'Code',
-                    field: 'code',
-                    filterable: true,
-                },
-                {
-                    title: 'Number',
-                    field: 'number',
-                    filterable: true,
-                },
-                {
-                    title: 'Date',
-                    field: 'date',
-                    type: 'date',
-                    inputFormat: 'YYYY-MM-DD',
-                    outputFormat: 'MMM Do YY',
-                },
-                {
-                    title: 'Action',
-                },
-
-            ],
             data: [
 
             ],
-            total: 0,
-            query: {}
+            total: 0
         };
     },
 

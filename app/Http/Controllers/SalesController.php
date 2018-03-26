@@ -42,7 +42,7 @@ class SalesController extends Controller
         code_expiry'))
         ->orderBy('date', 'desc')
         ->orderBy('number', 'desc')
-        ->take(100)
+        ->take(1000)
         ->get();
         return response()->json($Transaction);
 
