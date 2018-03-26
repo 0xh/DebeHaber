@@ -1,64 +1,54 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-Vue.component('sales-list',{
 
+import InfiniteLoading from 'vue-infinite-loading';
+import axios from 'axios';
+
+Vue.component('sales-list',
+{
     props: ['taxpayer','cycle'],
-    data(){
+    data()
+    {
         return {
-            columns: [
-
-                {
-                    title: 'SelectAll',
-                    sortable: false,
-                },
-                {
-                    title: 'Code',
-                    field: 'code',
-                    filterable: true,
-                },
-                {
-                    title: 'Number',
-                    field: 'number',
-                    filterable: true,
-                },
-                {
-                    title: 'Date',
-                    field: 'date',
-                    type: 'date',
-                    inputFormat: 'YYYY-MM-DD',
-                    outputFormat: 'MMM Do YY',
-                },
-                {
-                    title: 'Action',
-                },
-
-            ],
-            data: [
-
-            ],
+            list: [],
             total: 0,
-            query: {}
+            skip: 0,
+            pageSize: 100,
         };
+    },
+
+    components:
+    {
+        InfiniteLoading,
     },
 
     methods:
     {
-        init()
+        infiniteHandler($state)
         {
             var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_sales' ,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
+            axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_sales/' + app.skip + '',
+            {
+                params:
                 {
-                    app.$children[1].data = [];
-                    app.$children[1].data = data;
+                    page: app.list.length / 100 + 1,
                 },
-                error: function(xhr, status, error)
+            })
+            .then(({ data }) =>
+            {
+                if (data.length > 0)
                 {
-                    console.log(status);
+                    for (let i = 0; i < data.length; i++)
+                    {
+                        app.list.push(data[i]);
+                    }
+                    
+                    app.skip += app.pageSize;
+                    $state.loaded();
+                }
+                else
+                {
+                    alert('no more')
+                    $state.complete();
                 }
             });
         },

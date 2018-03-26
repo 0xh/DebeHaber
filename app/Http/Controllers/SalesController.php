@@ -21,28 +21,26 @@ class SalesController extends Controller
         return view('/commercial/sales');
     }
 
-    public function get_sales($taxPayerID, Cycle $cycle)
+    public function get_sales($taxPayerID, Cycle $cycle, $skip)
     {
-        //friends column is used to display the button in data like dit ,delete
-        $Transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        $Transaction = Transaction::MySales()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->join('currencies', 'transactions.currency_id','currencies.id')
+        ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('supplier_id', $taxPayerID)
-        ->with('details')
-        ->select(DB::raw('0 as friends,
-        transactions.id,
-        taxpayers.name as Customer,
-        customer_id,
-        document_id,
-        currency_id,
-        rate,
-        payment_condition,
-        chart_account_id,
-        date,
-        number,
-        transactions.code,
-        code_expiry'))
+        ->groupBy('transactions.id')
+        ->select('transactions.id as ID',
+        'taxpayers.name as Customer',
+        'currencies.code as Currency',
+        'rate as Rate',
+        'payment_condition as PaymentCondition',
+        'date as Date',
+        'number as Number',
+        DB::raw('sum(td.value) as Value'))
         ->orderBy('date', 'desc')
         ->orderBy('number', 'desc')
-        ->take(1000)
+        ->skip($skip)
+        ->take(100)
         ->get();
         return response()->json($Transaction);
 
