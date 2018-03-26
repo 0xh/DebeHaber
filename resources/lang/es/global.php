@@ -39,4 +39,5 @@ return [
     'Dashboard' => 'Tablero :team',
     'Search' => 'Buscar',
     'Total' => 'Total',
+    'Actions' => 'Acciones'
 ];

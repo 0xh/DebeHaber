@@ -31,8 +31,8 @@ class SalesController extends Controller
         ->groupBy('transactions.id')
         ->select('transactions.id as ID',
         'taxpayers.name as Customer',
+        'taxpayers.taxid as CustomerTaxID',
         'currencies.code as Currency',
-        'rate as Rate',
         'payment_condition as PaymentCondition',
         'date as Date',
         'number as Number',

@@ -39,4 +39,5 @@ return [
     'Search' => 'Search',
     'ProfileAndSettings' => 'Profile and Settings',
     'Total' => 'Total',
+    'Actions' => 'Actions'
 ];
