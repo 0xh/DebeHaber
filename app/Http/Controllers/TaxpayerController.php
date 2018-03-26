@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Transaction;
 use App\Taxpayer;
 use App\TaxpayerIntegration;
 use App\ChartVersion;
@@ -214,12 +215,24 @@ class TaxpayerController extends Controller
         $chartInventories = Chart::Inventories()->count();
         $chartIncomes = Chart::Incomes()->count();
 
+        $totalSales = Transaction::MySales()
+        ->whereBetween('date', [new Carbon('first day of last month'), new Carbon('last day of last month')])
+        ->where('supplier_id', $taxPayer->id)
+        ->count();
+        
+        $totalPurchases = Transaction::MyPurchases()
+        ->whereBetween('date', [new Carbon('first day of last month'), new Carbon('last day of last month')])
+        ->where('customer_id', $taxPayer->id)
+        ->count();
+
         return view('taxpayer/dashboard')
         ->with('chartFixedAssets', $chartFixedAssets)
         ->with('chartMoneyAccounts', $chartMoneyAccounts)
         ->with('chartExpenses', $chartExpenses)
         ->with('chartInventories', $chartInventories)
-        ->with('chartIncomes', $chartIncomes);
+        ->with('chartIncomes', $chartIncomes)
+        ->with('totalSales', $totalSales)
+        ->with('totalPurchases', $totalPurchases);
     }
 
     public function selectTaxpayer(Taxpayer $taxPayer)

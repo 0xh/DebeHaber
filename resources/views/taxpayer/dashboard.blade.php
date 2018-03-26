@@ -8,168 +8,150 @@
         <div class="m-portlet__body  m-portlet__body--no-padding">
             <div class="row m-row--no-padding m-row--col-separator-xl">
 
-                {{-- @php
+                <div class="col-md-12 col-lg-6 col-xl-3">
+                    <div class="m-nav-grid m-nav-grid--skin-light">
+                        <div class="m-nav-grid__row">
+                            {{-- <a href="{{ route('generateJournalMissing', [request()->route('company'), $startDate, $endDate ]) }}" class="m-nav-grid__item padding-40-5"> --}}
+                            <img src="/img/icons/generate.svg" alt="" width="64">
+                            <span class="m-nav-grid__text">
+                                Generar Asientos
+                                <br>
+                                <small>Click Aqui</small>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-3">
+                <div class="m-widget24">
+                    <div class="m-widget24__item">
+                        @if ($totalSales > 0)
+                            <h4 class="m-widget24__title">
+                                <img src="/img/icons/ventas.svg" alt="" width="32"> @lang('commercial.SalesBook')
+                            </h4>
 
-                $salesPercentJournaled = 0;
+                            <br>
 
-                if ($totalSalesJournaled > 0 && $totalSales > 0)
-                {
-                $salesPercentJournaled = ($totalSalesJournaled / $totalSales) * 100;
-            }
+                            <span class="m-widget24__desc">
+                                {{-- <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}"> --}}
 
-            $purchasePercentJournaled = 0;
+                                {{-- {{ $startDate->format('F') }} / {{ $startDate->year }} --}}
+                            </a>
+                        </span>
 
-            if ($totalPurchaseJournaled > 0 && $totalPurchase > 0)
-            {
-            $purchasePercentJournaled = ($totalPurchaseJournaled / $totalPurchase) * 100;
-        }
+                        <span class="m-widget24__stats m--font-success">
+                            {{ number_format($totalSales, 0, '.', ',') }}
+                        </span>
 
-    @endphp --}}
+                        <div class="m--space-10"></div>
 
-    <div class="col-md-12 col-lg-6 col-xl-3">
-        <div class="m-nav-grid m-nav-grid--skin-light">
-            <div class="m-nav-grid__row">
-                {{-- <a href="{{ route('generateJournalMissing', [request()->route('company'), $startDate, $endDate ]) }}" class="m-nav-grid__item padding-40-5"> --}}
-                <img src="/img/icons/generate.svg" alt="" width="64">
-                <span class="m-nav-grid__text">
-                    Generar Asientos
+                        <div class="progress m-progress--sm">
+                            {{-- <div class="progress-bar m--bg-success" role="progressbar" style="width: {{ $salesPercentJournaled }}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div> --}}
+                        </div>
+                        <span class="m-widget24__change">
+                            {{-- <small>{{ number_format($totalSalesJournaled, 0, '.', ',') }} Ventas Asentadas</small> --}}
+                        </span>
+                        <span class="m-widget24__number">
+                            {{-- {{ number_format($salesPercentJournaled, 1, '.', ',') }} % --}}
+                        </span>
+                    @else
+                        <div class="m-nav-grid m-nav-grid--skin-light">
+                            <div class="m-nav-grid__row background-sales">
+                                <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
+                                    <img src="/img/icons/ventas.svg" alt="" width="64">
+                                    <span class="m-nav-grid__text">
+                                        <p class="lead">
+                                            Faltan cargar Ventas
+                                        </p>
+                                        Empiece Aqui
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <!--begin::New Feedbacks-->
+            <div class="m-widget24">
+                <div class="m-widget24__item">
+                    @if ($totalPurchases > 0)
+                    <h4 class="m-widget24__title">
+                        <img src="/img/icons/compras.svg" alt="" width="32"> @lang('commercial.PurchaseBook')
+                    </h4>
                     <br>
-                    <small>Click Aqui</small>
+                    <span class="m-widget24__desc">
+                        {{-- <a href="{{route('purchases.index', request()->route('company'))}}"> --}}
+                        {{-- {{ $startDate->format('F') }} / {{ $startDate->year }} --}}
+                    </a>
                 </span>
-            </a>
-        </div>
-    </div>
-</div>
-<div class="col-md-12 col-lg-6 col-xl-3">
-    <div class="m-widget24">
-        <div class="m-widget24__item">
-            {{-- @if ($totalSales > 0) --}}
-            <h4 class="m-widget24__title">
-                <img src="/img/icons/ventas.svg" alt="" width="16"> @lang('commercial.SalesBook')
-            </h4>
-
-            <br>
-
-            <span class="m-widget24__desc">
-                {{-- <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}"> --}}
-
-                {{-- {{ $startDate->format('F') }} / {{ $startDate->year }} --}}
-            </a>
-        </span>
-
-        <span class="m-widget24__stats m--font-success">
-            {{-- {{ number_format($totalSales, 0, '.', ',') }} --}}
-        </span>
-
-        <div class="m--space-10"></div>
-
-        <div class="progress m-progress--sm">
-            {{-- <div class="progress-bar m--bg-success" role="progressbar" style="width: {{ $salesPercentJournaled }}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div> --}}
-        </div>
-        <span class="m-widget24__change">
-            {{-- <small>{{ number_format($totalSalesJournaled, 0, '.', ',') }} Ventas Asentadas</small> --}}
-        </span>
-        <span class="m-widget24__number">
-            {{-- {{ number_format($salesPercentJournaled, 1, '.', ',') }} % --}}
-        </span>
-        {{-- @else --}}
-        <div class="m-nav-grid m-nav-grid--skin-light">
-            <div class="m-nav-grid__row background-sales">
-                <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
-                    <img src="/img/icons/ventas.svg" alt="" width="64">
-                    <span class="m-nav-grid__text">
-                        <p class="lead">
-                            Faltan cargar Ventas
-                        </p>
-                        Empiece Aqui
-                    </span>
-                </a>
+                <span class="m-widget24__stats m--font-info">
+                    {{ number_format($totalPurchases, 0, '.', ',') }}
+                </span>
+                <div class="m--space-10"></div>
+                <div class="progress m-progress--sm">
+                    {{-- <div class="progress-bar m--bg-info" role="progressbar" style="width: {{ $purchasePercentJournaled }}%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div> --}}
+                </div>
+                <span class="m-widget24__change">
+                    {{-- <small>{{ number_format($totalPurchaseJournaled, 0, '.', ',') }} Compras Asentadas</small> --}}
+                </span>
+                <span class="m-widget24__number">
+                    {{-- {{ number_format($purchasePercentJournaled, 1, '.', ',') }} % --}}
+                </span>
+                @else
+                <div class="m-nav-grid m-nav-grid--skin-light">
+                    <div class="m-nav-grid__row background-sales">
+                        <a href="{{route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
+                            <img src="/img/icons/compras.svg" alt="" width="64">
+                            <span class="m-nav-grid__text">
+                                <p class="lead">
+                                    Faltan cargar Compras
+                                </p>
+                                Empiece Aqui
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
-        {{-- @endif --}}
+        <!--end::New Feedbacks-->
     </div>
-</div>
-</div>
-<div class="col-md-12 col-lg-6 col-xl-3">
-    <!--begin::New Feedbacks-->
-    <div class="m-widget24">
-        <div class="m-widget24__item">
-            {{-- @if ($totalPurchase > 0) --}}
-            <h4 class="m-widget24__title">
-                <img src="/img/icons/compras.svg" alt="" width="16"> @lang('commercial.PurchaseBook')
-            </h4>
-            <br>
-            <span class="m-widget24__desc">
-                {{-- <a href="{{route('purchases.index', request()->route('company'))}}"> --}}
-                {{-- {{ $startDate->format('F') }} / {{ $startDate->year }} --}}
-            </a>
-        </span>
-        <span class="m-widget24__stats m--font-info">
-            {{-- {{ number_format($totalPurchase, 0, '.', ',') }} --}}
-        </span>
-        <div class="m--space-10"></div>
-        <div class="progress m-progress--sm">
-            {{-- <div class="progress-bar m--bg-info" role="progressbar" style="width: {{ $purchasePercentJournaled }}%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div> --}}
-        </div>
-        <span class="m-widget24__change">
-            {{-- <small>{{ number_format($totalPurchaseJournaled, 0, '.', ',') }} Compras Asentadas</small> --}}
-        </span>
-        <span class="m-widget24__number">
-            {{-- {{ number_format($purchasePercentJournaled, 1, '.', ',') }} % --}}
-        </span>
-        {{-- @else --}}
-        <div class="m-nav-grid m-nav-grid--skin-light">
-            <div class="m-nav-grid__row background-sales">
-                <a href="{{route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
-                    <img src="/img/icons/compras.svg" alt="" width="64">
-                    <span class="m-nav-grid__text">
-                        <p class="lead">
-                            Faltan cargar Compras
-                        </p>
-                        Empiece Aqui
+    <div class="col-md-12 col-lg-6 col-xl-3">
+        <div class="container">
+            <ul class="m-nav">
+                <li class="m-nav__section">
+                    <span class="m-nav__section-text">
+                        {{-- Informes para {{ $startDate->format('F') }} --}}
                     </span>
+                </li>
+                <li class="m-nav__item">
+                    {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
+                    <i class="m-nav__link-icon la la-paper-plane-o"></i>
+                    <span class="m-nav__link-text">@lang('commercial.PurchaseBook')</span>
+                    {{-- </a> --}}
+                </li>
+                <li class="m-nav__item">
+                    {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
+                    <i class="m-nav__link-icon la la-shopping-cart"></i>
+                    <span class="m-nav__link-text">Libro IVA Compras</span>
+                    {{-- </a> --}}
+                </li>
+                <li class="m-nav__item">
+                    {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/journal-ByChart/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
+                    <i class="m-nav__link-icon la la-book"></i>
+                    <span class="m-nav__link-text">Libro Mayor</span>
+                    {{-- </a> --}}
+                </li>
+                <li class="m-nav__item">
+                    {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/hechauka/generate_files/{{ $startDate }}/{{ $endDate }}" class="m-nav__link"> --}}
+                    <i class="m-nav__link-icon la la-cloud-download"></i>
+                    {{-- <span class="m-nav__link-text">Hechauka {{ $startDate->format('F') }}</span> --}}
                 </a>
-            </div>
-        </div>
-        {{-- @endif --}}
+            </li>
+        </ul>
     </div>
-</div>
-<!--end::New Feedbacks-->
-</div>
-<div class="col-md-12 col-lg-6 col-xl-3">
-    <div class="container">
-        <ul class="m-nav">
-            <li class="m-nav__section">
-                <span class="m-nav__section-text">
-                    {{-- Informes para {{ $startDate->format('F') }} --}}
-                </span>
-            </li>
-            <li class="m-nav__item">
-                {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
-                <i class="m-nav__link-icon la la-paper-plane-o"></i>
-                <span class="m-nav__link-text">@lang('commercial.PurchaseBook')</span>
-                {{-- </a> --}}
-            </li>
-            <li class="m-nav__item">
-                {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
-                <i class="m-nav__link-icon la la-shopping-cart"></i>
-                <span class="m-nav__link-text">Libro IVA Compras</span>
-                {{-- </a> --}}
-            </li>
-            <li class="m-nav__item">
-                {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/journal-ByChart/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
-                <i class="m-nav__link-icon la la-book"></i>
-                <span class="m-nav__link-text">Libro Mayor</span>
-                {{-- </a> --}}
-            </li>
-            <li class="m-nav__item">
-                {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/hechauka/generate_files/{{ $startDate }}/{{ $endDate }}" class="m-nav__link"> --}}
-                <i class="m-nav__link-icon la la-cloud-download"></i>
-                {{-- <span class="m-nav__link-text">Hechauka {{ $startDate->format('F') }}</span> --}}
-            </a>
-        </li>
-    </ul>
-</div>
 </div>
 </div>
 </div>
@@ -252,62 +234,62 @@
                 <div class="m-widget4__info">
                     <span class="m-widget4__title">
                         {{-- <a href="{{ route('accounts.index', request()->route('company')) }}"> --}}
-                            Cuentas de Dinero <i class="la la-chevron-circle-right"></i>
+                        Cuentas de Dinero <i class="la la-chevron-circle-right"></i>
                         {{-- </a> --}}
-                    <small class="text-info"><i>Cant. de Registros: {{ $chartMoneyAccounts }}</i></small>
-                </span><br>
+                        <small class="text-info"><i>Cant. de Registros: {{ $chartMoneyAccounts }}</i></small>
+                    </span><br>
+                    <span class="m-widget4__sub">
+                        Cuenta de Banco o tipo Caja, que pueden almacenar fondos. Integrado con Compras, Ventas, y Pagos.
+                    </span>
+                </div>
+            </div>
+            <div class="m-widget4__item">
+                <img src="/img/icons/compras.svg" width="60">
+
+                <div class="m-widget4__info">
+                    <span class="m-widget4__title">
+                        {{-- <a href="{{ route('expense.index', request()->route('company')) }}"> --}}
+                        Cuentas de Gastos <i class="la la-chevron-circle-right"></i>
+                    </a>
+                    <small class="text-info"><i>Cant. de Registros: {{ $chartExpenses }}</i></small>
+                </span>
+                <br>
                 <span class="m-widget4__sub">
-                    Cuenta de Banco o tipo Caja, que pueden almacenar fondos. Integrado con Compras, Ventas, y Pagos.
+                    Gastos en general tipo Fijos o Administrativos. Integrado con Facturas de Compras.
                 </span>
             </div>
         </div>
         <div class="m-widget4__item">
-            <img src="/img/icons/compras.svg" width="60">
+            <img src="/img/icons/income.svg" width="60">
 
             <div class="m-widget4__info">
                 <span class="m-widget4__title">
-                    {{-- <a href="{{ route('expense.index', request()->route('company')) }}"> --}}
-                    Cuentas de Gastos <i class="la la-chevron-circle-right"></i>
+                    {{-- <a href="{{ route('income.index', request()->route('company')) }}"> --}}
+                    Cuentas de Ingresos <i class="la la-chevron-circle-right"></i>
                 </a>
-                <small class="text-info"><i>Cant. de Registros: {{ $chartExpenses }}</i></small>
+                <small class="text-{{ $chartIncomes == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartIncomes }}</i></small>
             </span>
             <br>
             <span class="m-widget4__sub">
-                Gastos en general tipo Fijos o Administrativos. Integrado con Facturas de Compras.
+                Cuentas que generan Ingresos como Servicios o Ganancias. Integrado con Facturas de Ventas.
             </span>
         </div>
     </div>
     <div class="m-widget4__item">
-        <img src="/img/icons/income.svg" width="60">
+        <img src="/img/icons/inventory.svg" width="60">
 
         <div class="m-widget4__info">
             <span class="m-widget4__title">
-                {{-- <a href="{{ route('income.index', request()->route('company')) }}"> --}}
-                Cuentas de Ingresos <i class="la la-chevron-circle-right"></i>
+                {{-- <a href="{{ route('inventory.index', request()->route('company')) }}"> --}}
+                Cuentas de Inventario <i class="la la-chevron-circle-right"></i>
             </a>
-            <small class="text-{{ $chartIncomes == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartIncomes }}</i></small>
+            <small class="text-{{ $chartInventories == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartInventories }}</i></small>
         </span>
         <br>
         <span class="m-widget4__sub">
-            Cuentas que generan Ingresos como Servicios o Ganancias. Integrado con Facturas de Ventas.
+            Cuentas que suman el valor del inventario. Principalmente utilizado en Compras y descontado manualmente.
         </span>
     </div>
-</div>
-<div class="m-widget4__item">
-    <img src="/img/icons/inventory.svg" width="60">
-
-    <div class="m-widget4__info">
-        <span class="m-widget4__title">
-            {{-- <a href="{{ route('inventory.index', request()->route('company')) }}"> --}}
-            Cuentas de Inventario <i class="la la-chevron-circle-right"></i>
-        </a>
-        <small class="text-{{ $chartInventories == 0 ? 'danger' : 'info' }}"><i>Cant. de Registros: {{ $chartInventories }}</i></small>
-    </span>
-    <br>
-    <span class="m-widget4__sub">
-        Cuentas que suman el valor del inventario. Principalmente utilizado en Compras y descontado manualmente.
-    </span>
-</div>
 </div>
 <div class="m-widget4__item">
     <img src="/img/icons/fixed-asset.svg" width="60">

@@ -5,9 +5,10 @@
     <title>
         @yield('reportName')
     </title>
+
     <link href="{{url('/')}}/css/normalize.css" rel="stylesheet" type="text/css" />
     <link href="{{url('/')}}/css/skeleton.css" rel="stylesheet" type="text/css" />
-    {{-- <link href="{{url('/')}}/auxiliar/DataTables/datatables.min.css" rel="stylesheet" type="text/css" /> --}}
+
     <style>
 
     @import url('https://fonts.googleapis.com/css?family=OpenSans');
@@ -108,49 +109,9 @@
     }
 
     </style>
-
-    {{-- <script src="/auxiliar/axios/axios.min.js"></script>
-    <script src="/assets/front-end/js/jquery.min.js"></script>
-    <script src="/auxiliar/DataTables/datatables.min.js"></script>
-    <script type="text/javascript">
-    var jsonData = {!! json_encode(array('data'=>$data,'reportName'=>'LibroIvaVEntas')) !!};
-
-    function exportToExcel(){
-    axios({
-    method: 'post',
-    url: '{{ URL::to('exportToExcel') }}',
-    responseType: 'blob',
-    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}',
-    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'},
-    data: {
-    'jsonData' : jsonData
-},
-}).then(response => {
-var blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-var downloadUrl = URL.createObjectURL(blob);
-var a = document.createElement("a");
-a.href = downloadUrl;
-a.download = "data.xls";
-document.body.appendChild(a);
-a.click();
-}).catch(response => {
-console.log(response);
-});}
-
-$(document).ready(function(){
-$('#data').DataTable( {
-"searching": true,
-"paging": false,
-"info":     false,
-"ordering": false
-} );
-});
-
-</script> --}}
 </head>
 
 <body>
-
     <div class="row">
         <div class="four columns">
             <h5><b>@yield('reportName')</b></h5>
@@ -196,20 +157,18 @@ $('#data').DataTable( {
 
     @yield('data')
 
-    <div class="container">
-        <div class="row">
-            <div class="three columns">
-                <p>Fecha y Hora de Impressión <b>{{ Carbon\Carbon::now() }}</b></p>
-            </div>
-
-            <div class="five columns">
-                <img src="/img/logos/debehaber.svg" height="64" alt="">
-            </div>
-
-            <div class="three columns">
-                <p>Emitido Por: <b>{{ Auth::user()->name }}</b> | {{ Auth::user()->email }}</p>
-            </div>
-        </div>
+    <div class="row">
+        <table class="u-full-width">
+            <tr>
+                <td style="text-align:left">
+                    Fecha y Hora de Impressión <b>{{ Carbon\Carbon::now() }}</b>
+                </td>
+                <td style="text-align:center">
+                    <img src="/img/logos/debehaber.svg" height="48" alt="">
+                </td>
+                <td style="text-align:right">Emitido Por: <b>{{ Auth::user()->name }}</b> | {{ Auth::user()->email }}</td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

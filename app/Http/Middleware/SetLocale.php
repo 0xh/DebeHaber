@@ -6,6 +6,7 @@ use Closure;
 use Session;
 use App;
 use Config;
+use Auth;
 
 class SetLocale
 {
@@ -18,14 +19,21 @@ class SetLocale
     */
     public function handle($request, Closure $next)
     {
-        if (Session::has('locale'))
+        if (Auth::user() != null)
+        {
+            $locale = Auth::user()->language;
+        }
+        else if (Session::has('locale'))
         {
             $locale = Session::get('locale', Config::get('app.locale'));
-        } else {
+        }
+        else
+        {
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
         }
 
         App::setLocale($locale);
+
         return $next($request);
     }
 }
