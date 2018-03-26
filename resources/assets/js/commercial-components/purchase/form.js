@@ -318,7 +318,7 @@ Vue.component('purchases-form',{
                     }
                 });
             },
-            getTaxs: function(data)
+            getTaxes: function(data)
             {
                 var app = this;
                 $.ajax({
@@ -404,7 +404,7 @@ Vue.component('purchases-form',{
                 this.getDocuments();
                 this.getCurrencies();
                 this.getCharts();
-                this.getTaxs();
+                this.getTaxes();
                 this.getAccounts();
             }
         });

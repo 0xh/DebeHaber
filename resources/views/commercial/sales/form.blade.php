@@ -168,20 +168,20 @@
                         </div>
                         <div class="col-2">
                             <select required  v-model="detail.chart_vat_id" @change="onPriceChange(detail)" class="custom-select">
-                                <option v-for="iva in ivas" :value="iva.id">@{{ iva.name }}</option>
+                                <option v-for="vat in vats" :value="vat.id">@{{ vat.name }}</option>
                             </select>
                         </div>
                         <div class="col-2">
                             <input type="text" class="form-control" v-model="detail.value" @change="onPriceChange(detail)"/>
                         </div>
                         <div class="col-2">
-                            @{{ detail.exenta }}
+                            @{{ detail.taxExempt }}
                         </div>
                         <div class="col-2">
-                            @{{ detail.gravada }}
+                            @{{ detail.taxable }}
                         </div>
                         <div class="col-1">
-                            @{{ detail.iva }}
+                            @{{ detail.vat }}
                         </div>
                         <div class="col-1">
                             <input type="hidden" :value="grandTotal"/>
@@ -205,13 +205,13 @@
                             <span class="m--font-boldest">@{{ grandTotal }}</span>
                         </div>
                         <div class="col-2">
-                            <span class="m--font-boldest">@{{ grandExenta }}</span>
+                            <span class="m--font-boldest">@{{ grandTaxExempt }}</span>
                         </div>
                         <div class="col-2">
-                            <span class="m--font-boldest">@{{ grandGravada }}</span>
+                            <span class="m--font-boldest">@{{ grandTaxable }}</span>
                         </div>
                         <div class="col-1">
-                            <span class="m--font-boldest">@{{ grandIva }}</span>
+                            <span class="m--font-boldest">@{{ grandVAT }}</span>
                         </div>
                         <div class="col-1">
 
