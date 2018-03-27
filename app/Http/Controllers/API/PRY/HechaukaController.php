@@ -7,22 +7,19 @@ use App\TransactionDetail;
 use App\Taxpayer;
 use App\Cycle;
 use App\TaxpayerIntegration;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Auth;
 use DB;
-use File;
-use Storage;
 use ZipArchive;
 
 class HechaukaController extends Controller
 {
-    public function generateFiles(Taxpayer $taxPayer,Cycle $cycle, $startDate, $endDate)
+    public function generateFiles(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
-        $directory = Storage::disk('local');
-        $path = $directory->getDriver()->getAdapter()->getPathPrefix();
-
         //Get the Integration Once. No need to bring it into the Query.
         $integration = TaxpayerIntegration::where('taxpayer_id', $taxPayer->id)
         ->where('team_id', Auth::user()->current_team_id)
@@ -31,25 +28,24 @@ class HechaukaController extends Controller
         $this->generateSales($startDate, $endDate, $taxPayer, $integration);
         $this->generatePurchases($startDate, $endDate, $taxPayer, $integration);
 
+        $directory = Storage::disk('local');
+        $path = $directory->getDriver()->getAdapter()->getPathPrefix();
+        //TODO: This function is wrong. It will take all files from a path.
         $files = File::allFiles($path);
 
-        $zipname = 'Hechauka ' . Carbon::now()->toDateTimeString() . '.zip';
+        $zipname = 'Hechauka |' . $taxPayer->name . ' | ' . Carbon::now()->toDateTimeString() . '.zip';
         $zip = new ZipArchive;
         $zip->open($zipname, ZipArchive::CREATE);
 
         if ($files != [])
         {
             foreach ($files as $file)
-            {
-                $zip->addFile($path . $file->getFilename(), $file->getFilename());
-            }
+            { $zip->addFile($path . $file->getFilename(), $file->getFilename()); }
 
             $zip->close();
 
             if ($directory->exists("ventas-" . $taxPayer->taxid . '.txt'))
-            {
-                $directory->delete("ventas-" . $taxPayer->taxid . '.txt');
-            }
+            { $directory->delete("ventas-" . $taxPayer->taxid . '.txt'); }
 
             return response()->download($zipname)->deleteFileAfterSend(true);
         }
@@ -95,7 +91,6 @@ class HechaukaController extends Controller
         group by t.id');
 
         $raw = collect($raw);
-
         $i = 1;
 
         foreach ($raw->chunk(5) as $data)
