@@ -79,11 +79,11 @@ return [
     */
 
     'hsts' => [
-        'enable' => false,
+        'enable' => true,
 
         'max-age' => 15552000,
 
-        'include-sub-domains' => false,
+        'include-sub-domains' => true,
     ],
 
     /*

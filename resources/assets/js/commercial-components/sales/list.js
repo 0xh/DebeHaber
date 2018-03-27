@@ -58,7 +58,8 @@ Vue.component('sales-list',
                 {
                     $state.complete();
                 }
-            });
+            })
+            .catch(alert('Error'));
         },
 
         onEdit: function(data)
