@@ -21,29 +21,32 @@ class PurchaseController extends Controller
         return view('/commercial/purchases');
     }
 
-    public function get_purchases($taxPayerID)
+    public function get_purchases($taxPayerID, Cycle $cycle, $skip)
     {
-        $transactions = Transaction::MyPurchases()->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
-        ->where('customer_id', $taxPayerID)
-        ->with('details')
-        ->select(DB::raw('false as friends,
-        transactions.id,
-        taxpayers.name as Supplier,
-        supplier_id,
-        document_id,
-        currency_id,
-        rate,
-        payment_condition,
-        chart_account_id,date,
-        number,
-        transactions.code,
-        code_expiry'))
-        ->orderBy('transactions.date', 'DESC')
-        ->orderBy('number', 'desc')
+
+        $Transaction = Transaction::MySales()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+        ->join('currencies', 'transactions.currency_id','currencies.id')
+        ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
+        ->where('transactions.customer_id', $taxPayerID)
+        ->whereIn('transactions.type', [1, 2])
+        ->groupBy('transactions.id')
+        ->select(DB::raw('max(transactions.id) as ID'),
+        DB::raw('max(taxpayers.name) as Supplier'),
+        DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
+        DB::raw('max(currencies.code) as Currency'),
+        DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+        DB::raw('max(transactions.date) as Date'),
+        DB::raw('max(transactions.number) as Number'),
+        DB::raw('sum(td.value) as Value'))
+        ->orderBy('transactions.date', 'desc')
+        ->orderBy('transactions.number', 'desc')
+        ->skip($skip)
         ->take(100)
         ->get();
 
-        return response()->json($transactions);
+        return response()->json($Transaction);
+
     }
 
     public function getLastPurchase($taxPayerID)

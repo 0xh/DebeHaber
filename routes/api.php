@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::get('get_salesByID/{id}', 'SalesController@get_salesByID');
                 Route::get('get_lastDate', 'SalesController@get_lastDate');
 
-                Route::get('get_purchases', 'PurchaseController@get_purchases');
+                Route::get('get_purchases/{skip}', 'PurchaseController@get_purchases');
                 Route::get('get_last_purchase', 'PurchaseController@getLastPurchase');
                 Route::get('get_purchasesByID/{id}', 'PurchaseController@get_purchasesByID');
 

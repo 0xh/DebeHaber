@@ -23,10 +23,12 @@ class SalesController extends Controller
 
     public function get_sales($taxPayerID, Cycle $cycle, $skip)
     {
+
         $Transaction = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
+        ->where('transactions.type', 4)
         ->where('supplier_id', $taxPayerID)
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as ID'),
@@ -36,12 +38,13 @@ class SalesController extends Controller
         DB::raw('max(payment_condition) as PaymentCondition'),
         DB::raw('max(date) as Date'),
         DB::raw('max(number) as Number'),
-        DB::raw('max(td.value) as Value'))
+        DB::raw('sum(td.value) as Value'))
         ->orderBy('date', 'desc')
         ->orderBy('number', 'desc')
         ->skip($skip)
         ->take(100)
         ->get();
+
         return response()->json($Transaction);
 
     }

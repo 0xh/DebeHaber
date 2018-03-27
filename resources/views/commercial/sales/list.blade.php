@@ -81,7 +81,5 @@
                 No more data
             </span>
         </infinite-loading>
-
     </div>
-</div>
 </sales-list>
