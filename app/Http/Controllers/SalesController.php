@@ -29,14 +29,14 @@ class SalesController extends Controller
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('supplier_id', $taxPayerID)
         ->groupBy('transactions.id')
-        ->select('transactions.id as ID',
-        'taxpayers.name as Customer',
-        'taxpayers.taxid as CustomerTaxID',
-        'currencies.code as Currency',
-        'payment_condition as PaymentCondition',
-        'date as Date',
-        'number as Number',
-        DB::raw('sum(td.value) as Value'))
+        ->select(DB::raw('max(transactions.id) as ID'),
+        DB::raw('max(taxpayers.name) as Customer'),
+        DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
+        DB::raw('max(currencies.code) as Currency'),
+        DB::raw('max(payment_condition) as PaymentCondition'),
+        DB::raw('max(date) as Date'),
+        DB::raw('max(number) as Number'),
+        DB::raw('max(td.value) as Value'))
         ->orderBy('date', 'desc')
         ->orderBy('number', 'desc')
         ->skip($skip)
