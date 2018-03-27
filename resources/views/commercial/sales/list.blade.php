@@ -8,7 +8,7 @@
                     <div class="form-group m-form__group row align-items-center">
                         <div class="col-md-4">
                             <div class="m-input-icon m-input-icon--left">
-                                <input type="text" class="form-control m-input" placeholder="Search..." id="generalSearch">
+                                <input type="text" class="form-control m-input" placeholder="Search..." v-model="search">
                                 <span class="m-input-icon__icon m-input-icon__icon--left">
                                     <span><i class="la la-search"></i></span>
                                 </span>
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="row m--margin-bottom-5" v-for="invoice in list">
+        <div class="row m--margin-bottom-5" v-for="invoice in filteredList">
             <div class="col-1">
                 <p> @{{ invoice.Date }} </p>
             </div>
@@ -69,9 +69,9 @@
             </div>
             <div class="col-1">
                 <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
-                    <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
-                    <a  class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
-                    <a  class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>
+                    <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
+                    <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
+                    <a class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>
                 </div>
             </div>
         </div>

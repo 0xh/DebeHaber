@@ -13,7 +13,16 @@ Vue.component('sales-list',
             total: 0,
             skip: 0,
             pageSize: 100,
+            search: '',
         };
+    },
+
+    computed: {
+        filteredList() {
+            return this.list.filter(x => {
+                return x.Number.toLowerCase().includes(this.search.toLowerCase())
+            })
+        }
     },
 
     components:
