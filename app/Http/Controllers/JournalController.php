@@ -156,9 +156,15 @@ class JournalController extends Controller
         //Affect all Cash Sales and uses Cash Accounts
         foreach ($transactions->where('payment_condition' == 0) as $groupedTransactions)
         {
+            //calculate value by currency. fx
+            foreach ($groupedTransactions->groupBy('rate') as $GroupedRate)
+            {
+                $value += ($GroupedRate->details->sum('value') / $GroupedRate->rate);
+            }
+
             $detail = new JournalDetail();
             $detail->debit = 0;
-            $detail->credit = 0;
+            $detail->credit = $value;
             $detail->chart_id = 0;
             $detail->save();
         }
@@ -169,7 +175,7 @@ class JournalController extends Controller
             //calculate value by currency. fx
             foreach ($groupedTransactions->groupBy('rate') as $GroupedRate)
             {
-                $value += ($GroupedRate->detail->sum('value') / $GroupedRate->rate);
+                $value += ($GroupedRate->details->sum('value') / $GroupedRate->rate);
             }
 
             $detail = new JournalDetail();
@@ -182,8 +188,11 @@ class JournalController extends Controller
         //Affects all Credit Sales and uses Customer Account for distribution
         foreach ($transactions->details->groupBy('chart_vat_id') as $groupedDetails)
         {
-            //calculate value by currency. fx
-            $value = 0;
+            // Doubtful code. Check if it will loop properly.
+            foreach ($groupedDetails->transaction->groupBy('rate') as $GroupedRate)
+            {
+                $value += ($GroupedRate->sum('value') / $GroupedRate->rate);
+            }
 
             $detail = new JournalDetail();
             $detail->debit = $value;
@@ -195,8 +204,11 @@ class JournalController extends Controller
         //Affects all Credit Sales and uses Customer Account for distribution
         foreach ($transactions->details->groupBy('chart_id') as $groupedDetails)
         {
-            //calculate value by currency. fx
-            $value = 0;
+            // Doubtful code. Check if it will loop properly.
+            foreach ($groupedDetails->transaction->groupBy('rate') as $GroupedRate)
+            {
+                $value += ($GroupedRate->sum('value') / $GroupedRate->rate);
+            }
 
             $detail = new JournalDetail();
             $detail->debit = $value;

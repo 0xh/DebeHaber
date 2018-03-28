@@ -135,7 +135,7 @@ class HechaukaController extends Controller
                 $detail = $detail .
                 /* 1 */ '2' .
                 /* 2 */ " \t " . $row->PartnerTaxID .
-                /* 3 */ " \t " . ($row->PartnerTaxCode) .
+                /* 3 */ " \t " . ($this->calculateTaxCode($row->PartnerTaxID)) .
                 /* 4 */ " \t " . ($row->Partner) .
                 /* 5 */ " \t " . ($row->DocumentType) .
                 /* 6 */ " \t " . ($row->Number) .
@@ -261,7 +261,7 @@ class HechaukaController extends Controller
                 $detail = $detail .
                 /* 1 */ '2' .
                 /* 2 */ " \t " . ($row->PartnerTaxID) .
-                /* 3 */ " \t " . ($row->PartnerTaxCode) .
+                /* 3 */ " \t " . ($this->calculateTaxCode($row->PartnerTaxID)) .
                 /* 4 */ " \t " . ($row->Partner) .
                 /* 5 */ " \t " . ($row->Code) .
                 /* 6 */ " \t " . ($row->DocumentType) .
