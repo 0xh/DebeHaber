@@ -73,7 +73,6 @@ class HechaukaController extends Controller
         round(if(max(c.coefficient) = 0.1, sum(value), 0)) as ValueInTen
         from transaction_details
         join charts as c on transaction_details.chart_vat_id = c.id
-        where sum(value) > 0
         group by transaction_id, transaction_details.chart_vat_id
         ) as td on td.transaction_id = t.id
         join taxpayers as customer on t.customer_id = customer.id
