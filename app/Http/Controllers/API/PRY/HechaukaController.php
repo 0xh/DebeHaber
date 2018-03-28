@@ -42,7 +42,7 @@ class HechaukaController extends Controller
 
         if ($files != [])
         {
-            
+
             foreach ($files as $file)
             { $zip->addFile($path . $file->getFilename(), $file->getFilename()); }
 
@@ -128,7 +128,7 @@ class HechaukaController extends Controller
             /* 10 */ " \t " . $agentTaxCode .
             /* 11 */ " \t " . $agentName .
             /* 12 */ " \t " . ($data->count() ?? 0) .
-            /* 13 */ " \t " . (($data->sum('ValueInTen')?? 0) + ($data->sum('ValueInFive')??0 )+ ($data->sum('ValueInZero')??0) ).
+            /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0) + ($data->sum('ValueInFive') ?? 0 ) + ($data->sum('ValueInZero') ?? 0)).
             /* 14 */ " \t " . "2";
 
 
@@ -163,7 +163,7 @@ class HechaukaController extends Controller
             }
 
             //Maybe save to string variable frist, and then append at the end.
-            Storage::disk('local')->append( 'Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt', $detail);
+            Storage::disk('local')->append('Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt', $detail);
             $i += 1;
         }
     }
@@ -242,14 +242,13 @@ class HechaukaController extends Controller
             /* 10 */ " \t " . $agentTaxCode .
             /* 11 */ " \t " . $agentName .
             /* 12 */ " \t " . ($data->count() ?? 0) .
-            /* 13 */ " \t " . (($data->sum($ValueInTen) ?? 0 )+ ($data->sum($ValueInFive) ?? 0) + ($data->sum($ValueInZero) ?? 0) ).
+            /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0 )+ ($data->sum('ValueInFive') ?? 0) + ($data->sum('ValueInZero') ?? 0) ).
             /* 14 */ " \t " . $taxPayer->regime_type == 1 ? 'Si' : 'No' .
             /* 15 */ " \t " . "2";
 
 
-
             //Improve Naming convention, also add Taxpayer Folder.
-            Storage::disk('local')->append('Hechauka ' . $dateCode  . '.txt', $header);
+            Storage::disk('local')->append('Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt', $header);
 
             $detail = '';
 
@@ -279,7 +278,7 @@ class HechaukaController extends Controller
             }
 
             //Maybe save to string variable frist, and then append at the end.
-            Storage::disk('local')->append( 'Hechauka Compras #' . $i . '|' . $date->format('M-Y') . '.txt', $detail);
+            Storage::disk('local')->append('Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt', $detail);
             $i += 1;
         }
     }

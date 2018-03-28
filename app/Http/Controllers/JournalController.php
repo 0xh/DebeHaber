@@ -21,30 +21,41 @@ class JournalController extends Controller
         return view('/accounting/journals');
     }
 
-    public function getJournals($taxPayerID,Cycle $cycle)
+    public function getJournals($taxPayerID, Cycle $cycle, $skip)
     {
-        //friends column is used to display the button in data like dit ,delete
-        $Transaction = Journal::Join('cycles', 'cycles.id', 'journals.cycle_id')
-        ->Join('journal_details', 'journals.id', 'journal_details.journal_id')
-        ->where('cycle_id', $cycle->id)->with('details')
+        $journals = Journal::join('journal_details', 'journals.id', 'journal_details.journal_id')
+        ->where('journals.cycle_id', $cycle->id)
         ->groupBy('journals.id')
-        ->select(DB::raw('0 as friends,journals.id,max(journals.number) as number
-        ,journals.comment,date,sum(debit) as debit,sum(credit) as credit'))
+        ->select(DB::raw('max(journals.id) as ID'),
+        DB::raw('max(journals.number) as Number'),
+        DB::raw('max(journals.comment) as Comment'),
+        DB::raw('max(journals.date) as Date'),
+        DB::raw('sum(journal_details.credit) as Credit'),
+        DB::raw('sum(journal_details.debit) as Debit')
+        )->skip($skip)
+        ->take(100)
         ->get();
-        return response()->json($Transaction);
+
+        return response()->json($journals);
     }
-    public function getJournalsByID($taxPayerID,Cycle $cycle,$id)
+
+    public function getJournalsByID($taxPayerID, Cycle $cycle, $id)
     {
-        //friends column is used to display the button in data like dit ,delete
-        $Transaction = Journal::Join('cycles', 'cycles.id', 'journals.cycle_id')
-        ->Join('journal_details', 'journals.id', 'journal_details.journal_id')
-        ->where('journals.id', $id)->with('details')
+        $journal = Journal::join('journal_details', 'journals.id', 'journal_details.journal_id')
+        ->where('journals.id', $id)
         ->groupBy('journals.id')
-        ->select(DB::raw('0 as friends,journals.id,journals.number
-        ,journals.comment,date,sum(debit) as debit,sum(credit) as credit'))
-        ->get();
-        return response()->json($Transaction);
+        ->select(DB::raw('max(journals.id) as ID'),
+        DB::raw('max(journals.number) as Number'),
+        DB::raw('max(journals.number) as Number'),
+        DB::raw('max(journals.comment) as Comment'),
+        DB::raw('max(journals.date) as Date'),
+        DB::raw('sum(journal_details.credit) as Credit'),
+        DB::raw('sum(journal_details.debit) as Debit')
+        )->first();
+
+        return response()->json($journal);
     }
+
     /**
     * Show the form for creating a new resource.
     *
@@ -63,39 +74,24 @@ class JournalController extends Controller
     */
     public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
-        if ($request->id == 0)
-        {
-            $journal = new Journal();
-        }
-        else
-        {
-            $journal = Journal::where('id', $request->id)->first();
-        }
+        $journal = $request->id == 0 ? new Journal() : Journal::where('id', $request->id)->first();
 
         $journal->date = $request->date;
         $journal->number =$request->number ;
         $journal->comment = $request->comment;
         $journal->cycle_id = $cycle->id;
-
         $journal->save();
 
         foreach ($request->details as $detail)
         {
-            if ($detail['id'] == 0)
-            {
-                $journalDetail = new JournalDetail();
-            }
-            else
-            {
-                $journalDetail = JournalDetail::where('id',$detail['id'])->first();
-            }
-
+            $journalDetail = $detail['id'] == 0 ? new JournalDetail() : JournalDetail::where('id', $detail['id'])->first();
             $journalDetail->journal_id = $journal->id;
             $journalDetail->chart_id = $detail['chart_id'];
             $journalDetail->debit = $detail['debit'];
             $journalDetail->credit = $detail['credit'];
             $journalDetail->save();
         }
+
         return response()->json('ok');
     }
 
