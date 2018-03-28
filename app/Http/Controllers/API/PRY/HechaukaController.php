@@ -285,7 +285,7 @@ class HechaukaController extends Controller
 
             $zip->addFile($path . $fileName, $fileName);
 
-            $file->delete($fileName);
+            //$file->delete($fileName);
 
             $i += 1;
         }
