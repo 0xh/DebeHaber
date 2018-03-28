@@ -90,8 +90,6 @@ class HechaukaController extends Controller
             $taxPayerTaxID = $taxPayer->taxid;
             $taxPayerTaxCode = $taxPayer->code;
 
-            $fileName = 'Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt';
-
             if (isset($integration))
             {
                 $agentName = $integration->agent_name;
@@ -104,6 +102,8 @@ class HechaukaController extends Controller
 
             $date = Carbon::parse($data->first()->Date);
             $dateCode = $date->format('Y') . $date->format('m');
+
+            $fileName = 'Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt';
 
             $header =
             /* 1 */ '1' .
@@ -170,7 +170,6 @@ class HechaukaController extends Controller
 
     public function generatePurchases($startDate, $endDate, $taxPayer, $integration, $zip)
     {
-
         $raw = DB::select('select
         max(t.id) as ID,
         max(supplier.name) as Partner,
@@ -216,8 +215,6 @@ class HechaukaController extends Controller
             $taxPayerTaxID = $taxPayer->taxid;
             $taxPayerTaxCode = $taxPayer->code;
 
-            $fileName = 'Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt';
-
             if (isset($integration))
             {
                 $agentName = $integration->agent_name;
@@ -230,6 +227,8 @@ class HechaukaController extends Controller
 
             $date = Carbon::parse($data->first()->Date);
             $dateCode = $date->format('Y') . $date->format('m');
+
+            $fileName = 'Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt';
 
             $header =
             /* 1 */ '1' .
