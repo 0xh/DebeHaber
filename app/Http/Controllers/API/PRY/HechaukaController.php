@@ -90,6 +90,8 @@ class HechaukaController extends Controller
             $taxPayerTaxID = $taxPayer->taxid;
             $taxPayerTaxCode = $taxPayer->code;
 
+            $fileName = 'Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt';
+
             if (isset($integration))
             {
                 $agentName = $integration->agent_name;
@@ -121,7 +123,7 @@ class HechaukaController extends Controller
 
 
             //Improve Naming convention, also add Taxpayer Folder.
-            Storage::disk('local')->append('Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt', $header);
+            Storage::disk('local')->append($fileName, $header);
 
             $detail = '';
 
@@ -138,9 +140,9 @@ class HechaukaController extends Controller
                 /* 5 */ " \t " . ($row->DocumentType) .
                 /* 6 */ " \t " . ($row->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
-                /* 8 */ " \t " .( $row->ValueInTen ) .
+                /* 8 */ " \t " .( $row->ValueInTen - $row->VATInTen) .
                 /* 9 */ " \t " . ($row->VATInTen ).
-                /* 10 */ " \t " . ($row->ValueInFive ).
+                /* 10 */ " \t " . ($row->ValueInFive - $row->VATInFive).
                 /* 11 */ " \t " .($row->VATInFive) .
                 /* 12 */ " \t " . ($row->ValueInZero) .
                 /* 13 */ " \t " . ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
@@ -151,7 +153,6 @@ class HechaukaController extends Controller
             }
 
             //Maybe save to string variable frist, and then append at the end.
-            $fileName = 'Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt';
             Storage::disk('local')->append($fileName, $detail);
 
             $file = Storage::disk('local');
@@ -215,6 +216,8 @@ class HechaukaController extends Controller
             $taxPayerTaxID = $taxPayer->taxid;
             $taxPayerTaxCode = $taxPayer->code;
 
+            $fileName = 'Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt';
+
             if (isset($integration))
             {
                 $agentName = $integration->agent_name;
@@ -247,7 +250,7 @@ class HechaukaController extends Controller
 
 
             //Improve Naming convention, also add Taxpayer Folder.
-            Storage::disk('local')->append('Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt', $header);
+            Storage::disk('local')->append($fileName, $header);
 
             $detail = '';
 
@@ -265,9 +268,9 @@ class HechaukaController extends Controller
                 /* 6 */ " \t " . ($row->DocumentType) .
                 /* 7 */ " \t " . ($row->Number) .
                 /* 8 */ " \t " . (date_format($date, 'd/m/Y')) .
-                /* 9 */ " \t " . ($row->ValueInTen) .
+                /* 9 */ " \t " . ($row->ValueInTen - $row->VATInTen) .
                 /* 10 */ " \t " . ($row->VATInTen) .
-                /* 11 */ " \t " . ($row->ValueInFive) .
+                /* 11 */ " \t " . ($row->ValueInFive - $row->VATInFive) .
                 /* 12 */ " \t " . ($row->VATInFive) .
                 /* 13 */ " \t " . ($row->ValueInZero) .
                 /* 14 */ //" \t " . $row->OperationType ?? 0 .
@@ -277,7 +280,6 @@ class HechaukaController extends Controller
             }
 
             //Maybe save to string variable frist, and then append at the end.
-            $fileName = 'Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt';
             Storage::disk('local')->append($fileName, $detail);
 
             $file = Storage::disk('local');
