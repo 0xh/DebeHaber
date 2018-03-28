@@ -59,11 +59,11 @@ class HechaukaController extends Controller
         max(t.payment_condition) as PaymentCondition,
         max(t.code_expiry) as CodeExpiry,
         max(t.document_type) as DocumentType,
-        ROUND(sum(td.ValueInZero) / max(t.rate)) as ValueInZero,
-        ROUND(sum(td.ValueInFive) / max(t.rate)) as ValueInFive,
-        ROUND((sum(td.ValueInFive) / max(t.rate)) / 21) as VATInFive,
-        ROUND(sum(td.ValueInTen) / max(t.rate)) as ValueInTen,
-        ROUND((sum(td.ValueInTen) / max(t.rate)) / 11) as VATInTen
+        ROUND(sum(td.ValueInZero / t.rate)) as ValueInZero,
+        ROUND(sum(td.ValueInFive / t.rate)) as ValueInFive,
+        ROUND((sum(td.ValueInFive / t.rate)) / 21) as VATInFive,
+        ROUND(sum(td.ValueInTen / t.rate)) as ValueInTen,
+        ROUND((sum(td.ValueInTen / t.rate)) / 11) as VATInTen
         from transactions as t
         join
         ( select
@@ -123,10 +123,10 @@ class HechaukaController extends Controller
                 /* 5 */ " \t " . '0' . //($data->first()->DocumentType) .
                 /* 6 */ " \t " . '0' . //($data->first()->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
-                /* 8 */ " \t " .( $data->where('PartnerTaxID', '44444401')->sum('ValueInTen') - $data->where('PartnerTaxID', '44444401')->sum('VATInTen')) .
-                /* 9 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('VATInTen')).
+                /* 8 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInTen') - $data->where('PartnerTaxID', '44444401')->sum('VATInTen')) .
+                /* 9 */ " \t " . (round($data->where('PartnerTaxID', '44444401')->sum('ValueInTen') / 11)) .// ($data->where('PartnerTaxID', '44444401')->sum('VATInTen')).
                 /* 10 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInFive') - $data->where('PartnerTaxID', '44444401')->sum('VATInFive')).
-                /* 11 */ " \t " .($data->where('PartnerTaxID', '44444401')->sum('VATInFive')) .
+                /* 11 */ " \t " . (round($data->where('PartnerTaxID', '44444401')->sum('ValueInFive') / 11)) .
                 /* 12 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInZero')) .
                 /* 13 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInTen') + $data->where('PartnerTaxID', '44444401')->sum('ValueInFive') + $data->where('PartnerTaxID', '44444401')->sum('ValueInZero')) .
                 /* 14 */ " \t " . ($data->first()->PaymentCondition == 0 ? 1 : 2) .
@@ -148,10 +148,10 @@ class HechaukaController extends Controller
                 /* 5 */ " \t " . ($row->DocumentType) .
                 /* 6 */ " \t " . ($row->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
-                /* 8 */ " \t " .( $row->ValueInTen - $row->VATInTen) .
-                /* 9 */ " \t " . ($row->VATInTen ).
+                /* 8 */ " \t " . ($row->ValueInTen - $row->VATInTen) .
+                /* 9 */ " \t " . (round($row->ValueInTen / 11)).
                 /* 10 */ " \t " . ($row->ValueInFive - $row->VATInFive).
-                /* 11 */ " \t " .($row->VATInFive) .
+                /* 11 */ " \t " .(round($row->ValueInFive / 11)) .
                 /* 12 */ " \t " . ($row->ValueInZero) .
                 /* 13 */ " \t " . ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
                 /* 14 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
@@ -294,9 +294,9 @@ class HechaukaController extends Controller
                 /* 7 */ " \t " . ($row->Number) .
                 /* 8 */ " \t " . (date_format($date, 'd/m/Y')) .
                 /* 9 */ " \t " . ($row->ValueInTen - $row->VATInTen) .
-                /* 10 */ " \t " . ($row->VATInTen) .
+                /* 10 */ " \t " . (round($row->ValueInTen / 11)) .
                 /* 11 */ " \t " . ($row->ValueInFive - $row->VATInFive) .
-                /* 12 */ " \t " . ($row->VATInFive) .
+                /* 12 */ " \t " . (round($row->ValueInFive / 11)) .
                 /* 13 */ " \t " . ($row->ValueInZero) .
                 /* 14 */ //" \t " . $row->OperationType ?? 0 .
                 /* 14 */ " \t " . 0 .
