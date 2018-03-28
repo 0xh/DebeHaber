@@ -244,7 +244,7 @@ class HechaukaController extends Controller
             /* 11 */ " \t " . $agentName .
             /* 12 */ " \t " . ($data->count() ?? 0) .
             /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0 )+ ($data->sum('ValueInFive') ?? 0) + ($data->sum('ValueInZero') ?? 0) ).
-            /* 14 */ " \t " . $taxPayer->regime_type == 1 ? 'Si' : 'No' .
+            /* 14 */ " \t " . ($taxPayer->regime_type == 1 ? 'Si' : 'No' ) .
             /* 15 */ " \t " . "2";
 
 
