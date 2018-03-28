@@ -103,7 +103,7 @@ class HechaukaController extends Controller
             $date = Carbon::parse($data->first()->Date);
             $dateCode = $date->format('Y') . $date->format('m');
 
-            $fileName = 'Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt';
+            $fileName = 'Hechauka Ventas #' . $i . ' | ' . $date->format('M-Y') . '.txt';
 
             $header =
             /* 1 */ '1' .
@@ -228,7 +228,7 @@ class HechaukaController extends Controller
             $date = Carbon::parse($data->first()->Date);
             $dateCode = $date->format('Y') . $date->format('m');
 
-            $fileName = 'Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt';
+            $fileName = 'Hechauka Compras #' . $i . ' | ' . $date->format('M-Y') . '.txt';
 
             $header =
             /* 1 */ '1' .
