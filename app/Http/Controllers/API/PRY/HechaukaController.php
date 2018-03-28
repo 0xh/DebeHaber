@@ -59,11 +59,11 @@ class HechaukaController extends Controller
         max(t.payment_condition) as PaymentCondition,
         max(t.code_expiry) as CodeExpiry,
         max(t.document_type) as DocumentType,
-        ROUND(sum(td.ValueInZero) / t.rate) as ValueInZero,
-        ROUND(sum(td.ValueInFive) / t.rate) as ValueInFive,
-        ROUND((sum(td.ValueInFive) / t.rate) / 21) as VATInFive,
-        ROUND(sum(td.ValueInTen) / t.rate) as ValueInTen,
-        ROUND((sum(td.ValueInTen) / t.rate) / 11) as VATInTen
+        ROUND(sum(td.ValueInZero) / max(t.rate)) as ValueInZero,
+        ROUND(sum(td.ValueInFive) / max(t.rate)) as ValueInFive,
+        ROUND((sum(td.ValueInFive) / max(t.rate)) / 21) as VATInFive,
+        ROUND(sum(td.ValueInTen) / max(t.rate)) as ValueInTen,
+        ROUND((sum(td.ValueInTen) / max(t.rate)) / 11) as VATInTen
         from transactions as t
         join
         ( select
@@ -182,11 +182,11 @@ class HechaukaController extends Controller
         max(t.code_expiry) as CodeExpiry,
         max(t.document_type) as DocumentType,
         -- max(t.operation_type) as OperationType,
-        ROUND(sum(td.ValueInZero) / t.rate) as ValueInZero,
-        ROUND(sum(td.ValueInFive) / t.rate) as ValueInFive,
-        ROUND((sum(td.ValueInFive) / t.rate) / 21) as VATInFive,
-        ROUND(sum(td.ValueInTen) / t.rate) as ValueInTen,
-        ROUND((sum(td.ValueInTen) / t.rate) / 11) as VATInTen
+        ROUND(sum(td.ValueInZero) / max(t.rate)) as ValueInZero,
+        ROUND(sum(td.ValueInFive) / max(t.rate)) as ValueInFive,
+        ROUND((sum(td.ValueInFive) / max(t.rate)) / 21) as VATInFive,
+        ROUND(sum(td.ValueInTen) / max(t.rate)) as ValueInTen,
+        ROUND((sum(td.ValueInTen) / max(t.rate)) / 11) as VATInTen
         from transactions as t
         join
         ( select
