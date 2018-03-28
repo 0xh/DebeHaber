@@ -7,14 +7,16 @@ use App\TransactionDetail;
 use App\Taxpayer;
 use App\Cycle;
 use App\TaxpayerIntegration;
-use Illuminate\Http\File;
+//use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Auth;
 use DB;
+use File;
 use ZipArchive;
+
 
 class HechaukaController extends Controller
 {
@@ -33,12 +35,14 @@ class HechaukaController extends Controller
         //TODO: This function is wrong. It will take all files from a path.
         $files = File::allFiles($path);
 
-        $zipname = 'Hechauka |' . $taxPayer->name . ' | ' . Carbon::now()->toDateTimeString() . '.zip';
+        $zipname = 'Hechauka -' . $taxPayer->name . ' - ' . Carbon::now()->toDateString() . '.zip';
+
         $zip = new ZipArchive;
         $zip->open($zipname, ZipArchive::CREATE);
 
         if ($files != [])
         {
+            
             foreach ($files as $file)
             { $zip->addFile($path . $file->getFilename(), $file->getFilename()); }
 
@@ -123,14 +127,13 @@ class HechaukaController extends Controller
             /* 9 */ " \t " . $agentTaxID .
             /* 10 */ " \t " . $agentTaxCode .
             /* 11 */ " \t " . $agentName .
-            /* 12 */ " \t " . $data->count() ?? 0 .
-            /* 13 */ " \t " . $data->sum($ValueInTen) + $data->sum($ValueInFive) + $data->sum($ValueInZero) .
+            /* 12 */ " \t " . ($data->count() ?? 0) .
+            /* 13 */ " \t " . (($data->sum('ValueInTen')?? 0) + ($data->sum('ValueInFive')??0 )+ ($data->sum('ValueInZero')??0) ).
             /* 14 */ " \t " . "2";
 
-            //dd($header);
 
             //Improve Naming convention, also add Taxpayer Folder.
-            Storage::disk('local')->append('Hechauka ' . $dateCode  . '.txt', $header);
+            Storage::disk('local')->append('Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt', $header);
 
             $detail = '';
 
@@ -142,30 +145,32 @@ class HechaukaController extends Controller
                 $detail = $detail .
                 /* 1 */ '2' .
                 /* 2 */ " \t " . $row->PartnerTaxID .
-                /* 3 */ " \t " . $row->PartnerTaxCode .
-                /* 4 */ " \t " . $row->Partner .
-                /* 5 */ " \t " . $row->DocumentType .
-                /* 6 */ " \t " . $row->Number .
-                /* 7 */ " \t " . date_format($date, 'd/m/Y') .
-                /* 8 */ " \t " . $row->ValueInTen .
-                /* 9 */ " \t " . $row->VATInTen .
-                /* 10 */ " \t " . $row->ValueInFive .
-                /* 11 */ " \t " . $row->VATInFive .
-                /* 12 */ " \t " . $row->ValueInZero .
-                /* 13 */ " \t " . (int) ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
-                /* 14 */ " \t " . $row->PaymentCondition == 0 ? 1 : 2 .
-                /* 15 */ " \t " . $row->PaymentCondition .
-                /* 16 */ " \t " . $row->Code;
+                 /* 3 */ " \t " . ($row->PartnerTaxCode) .
+                 /* 4 */ " \t " . ($row->Partner) .
+                 /* 5 */ " \t " . ($row->DocumentType) .
+                /* 6 */ " \t " . ($row->Number) .
+                /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
+                /* 8 */ " \t " .( $row->ValueInTen ) .
+                /* 9 */ " \t " . ($row->VATInTen ).
+                /* 10 */ " \t " . ($row->ValueInFive ).
+                /* 11 */ " \t " .($row->VATInFive) .
+                /* 12 */ " \t " . ($row->ValueInZero) .
+                /* 13 */ " \t " . ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
+                /* 14 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
+                /* 15 */ " \t " . ($row->PaymentCondition ).
+                /* 16 */ " \t " . ($row->Code) . " \n";
+
             }
 
             //Maybe save to string variable frist, and then append at the end.
-            Storage::disk('local')->append( 'Hechauka Ventas #' . $i . '|' . $date->format('M-Y') . '.txt', $detail);
+            Storage::disk('local')->append( 'Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt', $detail);
             $i += 1;
         }
     }
 
     public function generatePurchases($startDate, $endDate, $taxPayer, $integration)
     {
+
         $raw = DB::select('select
         max(t.id) as ID,
         max(supplier.name) as Partner,
@@ -205,6 +210,7 @@ class HechaukaController extends Controller
 
         $raw = collect($raw);
         $i = 1;
+
         foreach ($raw->chunk(5) as $data)
         {
             $taxPayerTaxID = $taxPayer->taxid;
@@ -235,10 +241,12 @@ class HechaukaController extends Controller
             /* 9 */ " \t " . $agentTaxID .
             /* 10 */ " \t " . $agentTaxCode .
             /* 11 */ " \t " . $agentName .
-            /* 12 */ " \t " . $data->count() ?? 0 .
-            /* 13 */ " \t " . $data->sum($ValueInTen) + $data->sum($ValueInFive) + $data->sum($ValueInZero) .
+            /* 12 */ " \t " . ($data->count() ?? 0) .
+            /* 13 */ " \t " . (($data->sum($ValueInTen) ?? 0 )+ ($data->sum($ValueInFive) ?? 0) + ($data->sum($ValueInZero) ?? 0) ).
             /* 14 */ " \t " . $taxPayer->regime_type == 1 ? 'Si' : 'No' .
             /* 15 */ " \t " . "2";
+
+
 
             //Improve Naming convention, also add Taxpayer Folder.
             Storage::disk('local')->append('Hechauka ' . $dateCode  . '.txt', $header);
@@ -252,22 +260,22 @@ class HechaukaController extends Controller
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
                 /* 1 */ '2' .
-                /* 2 */ " \t " . $row->PartnerTaxID .
-                /* 3 */ " \t " . $row->PartnerTaxCode .
-                /* 4 */ " \t " . $row->Partner .
-                /* 5 */ " \t " . $row->Code .
-                /* 6 */ " \t " . $row->DocumentType .
-                /* 7 */ " \t " . $row->Number .
-                /* 8 */ " \t " . date_format($date, 'd/m/Y') .
-                /* 9 */ " \t " . $row->ValueInTen .
-                /* 10 */ " \t " . $row->VATInTen .
-                /* 11 */ " \t " . $row->ValueInFive .
-                /* 12 */ " \t " . $row->VATInFive .
-                /* 13 */ " \t " . $row->ValueInZero .
+                /* 2 */ " \t " . ($row->PartnerTaxID) .
+                /* 3 */ " \t " . ($row->PartnerTaxCode) .
+                /* 4 */ " \t " . ($row->Partner) .
+                /* 5 */ " \t " . ($row->Code) .
+                /* 6 */ " \t " . ($row->DocumentType) .
+                /* 7 */ " \t " . ($row->Number) .
+                /* 8 */ " \t " . (date_format($date, 'd/m/Y')) .
+                /* 9 */ " \t " . ($row->ValueInTen) .
+                /* 10 */ " \t " . ($row->VATInTen) .
+                /* 11 */ " \t " . ($row->ValueInFive) .
+                /* 12 */ " \t " . ($row->VATInFive) .
+                /* 13 */ " \t " . ($row->ValueInZero) .
                 /* 14 */ //" \t " . $row->OperationType ?? 0 .
                 /* 14 */ " \t " . 0 .
-                /* 15 */ " \t " . $row->PaymentCondition == 0 ? 1 : 2 .
-                /* 16 */ " \t " . $row->PaymentCondition;
+                /* 15 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
+                /* 16 */ " \t " . ($row->PaymentCondition);
             }
 
             //Maybe save to string variable frist, and then append at the end.
