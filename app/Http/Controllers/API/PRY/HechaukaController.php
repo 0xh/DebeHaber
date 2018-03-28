@@ -61,18 +61,16 @@ class HechaukaController extends Controller
         max(t.document_type) as DocumentType,
         ROUND(sum(td.ValueInZero / t.rate)) as ValueInZero,
         ROUND(sum(td.ValueInFive / t.rate)) as ValueInFive,
-        ROUND((sum(td.ValueInFive / t.rate)) / 21) as VATInFive,
-        ROUND(sum(td.ValueInTen / t.rate)) as ValueInTen,
-        ROUND((sum(td.ValueInTen / t.rate)) / 11) as VATInTen
+        ROUND(sum(td.ValueInTen / t.rate)) as ValueInTen
         from transactions as t
         join
         ( select
         max(transaction_id) as transaction_id,
         sum(value) as value,
         max(c.coefficient) as coefficient,
-        if(max(c.coefficient) = 0, sum(value), 0) as ValueInZero,
-        if(max(c.coefficient) = 0.5, sum(value), 0) as ValueInFive,
-        if(max(c.coefficient) = 0.1, sum(value), 0) as ValueInTen
+        round(if(max(c.coefficient) = 0, sum(value), 0)) as ValueInZero,
+        round(if(max(c.coefficient) = 0.5, sum(value), 0)) as ValueInFive,
+        round(if(max(c.coefficient) = 0.1, sum(value), 0)) as ValueInTen
         from transaction_details
         join charts as c on transaction_details.chart_vat_id = c.id
         group by transaction_id, transaction_details.chart_vat_id
@@ -114,6 +112,15 @@ class HechaukaController extends Controller
             {
                 $count += 1;
                 $date = Carbon::parse($data->first()->Date);
+
+                $Total10 = $data->where('PartnerTaxID', '44444401')->sum('ValueInTen');
+                $VAT10 = round($Total10 / 11);
+                $Taxable10 = $Total10 - $VAT10;
+
+                $Total5 = $data->where('PartnerTaxID', '44444401')->sum('ValueInFive');
+                $VAT5 = round($Total5 / 21);
+                $Taxable5 = $Total5 - $VAT5;
+
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
                 /* 1 */ ' 2 ' .
@@ -123,10 +130,10 @@ class HechaukaController extends Controller
                 /* 5 */ " \t " . '0' . //($data->first()->DocumentType) .
                 /* 6 */ " \t " . '0' . //($data->first()->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
-                /* 8 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInTen') - $data->where('PartnerTaxID', '44444401')->sum('VATInTen')) .
-                /* 9 */ " \t " . (round($data->where('PartnerTaxID', '44444401')->sum('ValueInTen') / 11)) .// ($data->where('PartnerTaxID', '44444401')->sum('VATInTen')).
-                /* 10 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInFive') - $data->where('PartnerTaxID', '44444401')->sum('VATInFive')).
-                /* 11 */ " \t " . (round($data->where('PartnerTaxID', '44444401')->sum('ValueInFive') / 11)) .
+                /* 8 */ " \t " . ($Taxable10) .
+                /* 9 */ " \t " . ($VAT10) .// ($data->where('PartnerTaxID', '44444401')->sum('VATInTen')).
+                /* 10 */ " \t " . ($Taxable5).
+                /* 11 */ " \t " . ($VAT5) .
                 /* 12 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInZero')) .
                 /* 13 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInTen') + $data->where('PartnerTaxID', '44444401')->sum('ValueInFive') + $data->where('PartnerTaxID', '44444401')->sum('ValueInZero')) .
                 /* 14 */ " \t " . ($data->first()->PaymentCondition == 0 ? 1 : 2) .
@@ -138,6 +145,15 @@ class HechaukaController extends Controller
             foreach ($data->where('PartnerTaxID', '!=', '44444401') as  $row)
             {
                 $count += 1;
+
+                $Total10 = $row->ValueInTen;
+                $VAT10 = round($Total10 / 11);
+                $Taxable10 = $Total10 - $VAT10;
+
+                $Total5 = $row->ValueInFive;
+                $VAT5 = round($Total5 / 21);
+                $Taxable5 = $Total5 - $VAT5;
+
                 $date = Carbon::parse($row->Date);
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
@@ -147,17 +163,16 @@ class HechaukaController extends Controller
                 /* 4 */ " \t " . ($row->Partner) .
                 /* 5 */ " \t " . ($row->DocumentType) .
                 /* 6 */ " \t " . ($row->Number) .
-                /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
-                /* 8 */ " \t " . ($row->ValueInTen - $row->VATInTen) .
-                /* 9 */ " \t " . (round($row->ValueInTen / 11)).
-                /* 10 */ " \t " . ($row->ValueInFive - $row->VATInFive).
-                /* 11 */ " \t " .(round($row->ValueInFive / 11)) .
+                /* 7 */ " \t " . (date_format($date, 'd/m/Y')) .
+                /* 8 */ " \t " . ($Taxable10) .
+                /* 9 */ " \t " . ($VAT10) .
+                /* 10 */ " \t " . ($Taxable5).
+                /* 11 */ " \t " . ($VAT5) .
                 /* 12 */ " \t " . ($row->ValueInZero) .
                 /* 13 */ " \t " . ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
                 /* 14 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
                 /* 15 */ " \t " . ($row->PaymentCondition ).
                 /* 16 */ " \t " . ($row->Code) . " \r\n ";
-
             }
 
             $header =
@@ -210,9 +225,7 @@ class HechaukaController extends Controller
         max(t.document_type) as DocumentType,
         ROUND(sum(td.ValueInZero / t.rate)) as ValueInZero,
         ROUND(sum(td.ValueInFive / t.rate)) as ValueInFive,
-        ROUND((sum(td.ValueInFive / t.rate)) / 21) as VATInFive,
-        ROUND(sum(td.ValueInTen / t.rate)) as ValueInTen,
-        ROUND((sum(td.ValueInTen / t.rate)) / 11) as VATInTen
+        ROUND(sum(td.ValueInTen / t.rate)) as ValueInTen
         from transactions as t
         join
         ( select
