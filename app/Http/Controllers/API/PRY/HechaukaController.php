@@ -123,12 +123,12 @@ class HechaukaController extends Controller
                 /* 5 */ " \t " . ($data->first()->DocumentType) .
                 /* 6 */ " \t " . ($data->first()->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
-                /* 8 */ " \t " .( $data->sum('ValueInTen') - $data->sum('VATInTen')) .
-                /* 9 */ " \t " . ($data->sum('VATInTen')).
-                /* 10 */ " \t " . ($data->sum('ValueInFive') - $data->sum('VATInFive')).
-                /* 11 */ " \t " .($data->sum('VATInFive')) .
-                /* 12 */ " \t " . ($data->sum('ValueInZero')) .
-                /* 13 */ " \t " . ($data->sum('ValueInTen') + $data->sum('ValueInFive') + $data->sum('ValueInZero')) .
+                /* 8 */ " \t " .( $data->where('PartnerTaxID', '44444401')->sum('ValueInTen') - $data->where('PartnerTaxID', '44444401')->sum('VATInTen')) .
+                /* 9 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('VATInTen')).
+                /* 10 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInFive') - $data->where('PartnerTaxID', '44444401')->sum('VATInFive')).
+                /* 11 */ " \t " .($data->where('PartnerTaxID', '44444401')->sum('VATInFive')) .
+                /* 12 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInZero')) .
+                /* 13 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInTen') + $data->where('PartnerTaxID', '44444401')->sum('ValueInFive') + $data->where('PartnerTaxID', '44444401')->sum('ValueInZero')) .
                 /* 14 */ " \t " . ($data->first()->PaymentCondition == 0 ? 1 : 2) .
                 /* 15 */ " \t " . ($data->first()->PaymentCondition ).
                 /* 16 */ " \t " . ($data->first()->Code) . " \r\n ";
@@ -145,8 +145,8 @@ class HechaukaController extends Controller
                 /* 2 */ " \t " . ($row->PartnerTaxID) .
                 /* 3 */ " \t " . ($this->calculateTaxCode($row->PartnerTaxID)) .
                 /* 4 */ " \t " . ($row->Partner) .
-                /* 5 */ " \t " . ($row->DocumentType) .
-                /* 6 */ " \t " . ($row->Number) .
+                /* 5 */ " \t " . '0' . //($row->DocumentType) .
+                /* 6 */ " \t " . '0' . //. ($row->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
                 /* 8 */ " \t " .( $row->ValueInTen - $row->VATInTen) .
                 /* 9 */ " \t " . ($row->VATInTen ).
@@ -156,7 +156,7 @@ class HechaukaController extends Controller
                 /* 13 */ " \t " . ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
                 /* 14 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
                 /* 15 */ " \t " . ($row->PaymentCondition ).
-                /* 16 */ " \t " . ($row->Code) . " \r\n ";
+                /* 16 */ " \t " . '0'/*($row->Code)*/ . " \r\n ";
 
             }
 
