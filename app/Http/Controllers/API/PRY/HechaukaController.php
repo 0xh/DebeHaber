@@ -128,7 +128,32 @@ class HechaukaController extends Controller
             $detail = '';
 
             //todo this is wrong. Your foreachs hould be smaller
-            foreach ($data as  $row)
+            if ($data->where('PartnerTaxID', '44444401')->count() > 0)
+            {
+                $date = Carbon::parse($row->Date);
+                //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
+                $detail = $detail .
+                /* 1 */ ' 2 ' .
+                /* 2 */ " \t " . '44444401' .
+                /* 3 */ " \t " . '7' .
+                /* 4 */ " \t " . 'Consumidor Final' .
+                /* 5 */ " \t " . ($data->first()->Code) .
+                /* 6 */ " \t " . ($data->first()->DocumentType) .
+                /* 7 */ " \t " . ($data->first()->Number) .
+                /* 8 */ " \t " . (date_format($date, 'd/m/Y')) .
+                /* 9 */ " \t " . ($data->sum('ValueInTen') - $data->sum('VATInTen')) .
+                /* 10 */ " \t " . ($data->sum('VATInTen')) .
+                /* 11 */ " \t " . ($data->sum('ValueInFive') - $data->sum('VATInFive')) .
+                /* 12 */ " \t " . ($data->sum('VATInFive')) .
+                /* 13 */ " \t " . ($data->sum('ValueInZero')) .
+                /* 14 */ //" \t " . $data->first()->OperationType ?? 0 .
+                /* 14 */ " \t " . 0 .
+                /* 15 */ " \t " . ($data->first()->PaymentCondition == 0 ? 1 : 2) .
+                /* 16 */ " \t " . ($data->first()->PaymentCondition) . " \r\n ";
+            }
+
+            //todo this is wrong. Your foreachs hould be smaller
+            foreach ($data->where('PartnerTaxID', '!=', '44444401') as  $row)
             {
                 $date = Carbon::parse($row->Date);
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
