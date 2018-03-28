@@ -233,16 +233,16 @@ class HechaukaController extends Controller
 
             $header =
             /* 1 */ '1' .
-            /* 2 */ " \t " . $dateCode .
+            /* 2 */ " \t " . ($dateCode) .
             /* 3 */ " \t " . '1' .
-            /* 4 */ " \t " . $obligationCode .
-            /* 5 */ " \t " . $formCode .
-            /* 6 */ " \t " . $taxPayerTaxID .
-            /* 7 */ " \t " . $taxPayerTaxCode .
-            /* 8 */ " \t " . $taxPayer->name .
-            /* 9 */ " \t " . $agentTaxID .
-            /* 10 */ " \t " . $agentTaxCode .
-            /* 11 */ " \t " . $agentName .
+            /* 4 */ " \t " . ($obligationCode) .
+            /* 5 */ " \t " . ($formCode) .
+            /* 6 */ " \t " . ($taxPayerTaxID) .
+            /* 7 */ " \t " . ($taxPayerTaxCode) .
+            /* 8 */ " \t " . ($taxPayer->name) .
+            /* 9 */ " \t " . ($agentTaxID) .
+            /* 10 */ " \t " . ($agentTaxCode) .
+            /* 11 */ " \t " . ($agentName) .
             /* 12 */ " \t " . ($data->count() ?? 0) .
             /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0 )+ ($data->sum('ValueInFive') ?? 0) + ($data->sum('ValueInZero') ?? 0) ).
             /* 14 */ " \t " . ($taxPayer->regime_type == 1 ? 'Si' : 'No' ) .
