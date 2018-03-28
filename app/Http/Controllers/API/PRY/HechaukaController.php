@@ -295,6 +295,14 @@ class HechaukaController extends Controller
             //todo this is wrong. Your foreachs hould be smaller
             foreach ($data as  $row)
             {
+                $Total10 = $row->ValueInTen;
+                $VAT10 = round($Total10 / 11);
+                $Taxable10 = $Total10 - $VAT10;
+
+                $Total5 = $row->ValueInFive;
+                $VAT5 = round($Total5 / 21);
+                $Taxable5 = $Total5 - $VAT5;
+
                 $date = Carbon::parse($row->Date);
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
@@ -306,10 +314,10 @@ class HechaukaController extends Controller
                 /* 6 */ " \t " . ($row->DocumentType) .
                 /* 7 */ " \t " . ($row->Number) .
                 /* 8 */ " \t " . (date_format($date, 'd/m/Y')) .
-                /* 9 */ " \t " . ($row->ValueInTen - $row->VATInTen) .
-                /* 10 */ " \t " . (round($row->ValueInTen / 11)) .
-                /* 11 */ " \t " . ($row->ValueInFive - $row->VATInFive) .
-                /* 12 */ " \t " . (round($row->ValueInFive / 11)) .
+                /* 9 */ " \t " . ($Taxable10) .
+                /* 10 */ " \t " . ($VAT10) .
+                /* 11 */ " \t " . ($Taxable5) .
+                /* 12 */ " \t " . ($VAT5) .
                 /* 13 */ " \t " . ($row->ValueInZero) .
                 /* 14 */ //" \t " . $row->OperationType ?? 0 .
                 /* 14 */ " \t " . 0 .
