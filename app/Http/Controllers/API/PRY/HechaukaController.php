@@ -105,31 +105,14 @@ class HechaukaController extends Controller
 
             $fileName = 'Hechauka Ventas #' . $i . ' | ' . Carbon::now()->toDateTimeString() . '.txt';
 
-            $header =
-            /* 1 */ ' 1 ' .
-            /* 2 */ " \t " . $dateCode .
-            /* 3 */ " \t " . '1' .
-            /* 4 */ " \t " . $obligationCode .
-            /* 5 */ " \t " . $formCode .
-            /* 6 */ " \t " . $taxPayerTaxID .
-            /* 7 */ " \t " . $taxPayerTaxCode .
-            /* 8 */ " \t " . $taxPayer->name .
-            /* 9 */ " \t " . $agentTaxID .
-            /* 10 */ " \t " . $agentTaxCode .
-            /* 11 */ " \t " . $agentName .
-            /* 12 */ " \t " . ($data->count() ?? 0) .
-            /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0) + ($data->sum('ValueInFive') ?? 0 ) + ($data->sum('ValueInZero') ?? 0)).
-            /* 14 */ " \t " . "2 \r\n ";
-
-
-            //Improve Naming convention, also add Taxpayer Folder.
-            Storage::disk('local')->append($fileName, $header);
-
             $detail = '';
+
+            $count = 0;
 
             //todo this is wrong. Your foreachs hould be smaller
             if ($data->where('PartnerTaxID', '44444401')->count() > 0)
             {
+                $count += 1;
                 $date = Carbon::parse($data->first()->Date);
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
@@ -154,6 +137,7 @@ class HechaukaController extends Controller
             //todo this is wrong. Your foreachs hould be smaller
             foreach ($data->where('PartnerTaxID', '!=', '44444401') as  $row)
             {
+                $count += 1;
                 $date = Carbon::parse($row->Date);
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
@@ -175,6 +159,26 @@ class HechaukaController extends Controller
                 /* 16 */ " \t " . ($row->Code) . " \r\n ";
 
             }
+
+            $header =
+            /* 1 */ ' 1 ' .
+            /* 2 */ " \t " . $dateCode .
+            /* 3 */ " \t " . '1' .
+            /* 4 */ " \t " . $obligationCode .
+            /* 5 */ " \t " . $formCode .
+            /* 6 */ " \t " . $taxPayerTaxID .
+            /* 7 */ " \t " . $taxPayerTaxCode .
+            /* 8 */ " \t " . $taxPayer->name .
+            /* 9 */ " \t " . $agentTaxID .
+            /* 10 */ " \t " . $agentTaxCode .
+            /* 11 */ " \t " . $agentName .
+            /* 12 */ " \t " . ($count) .
+            /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0) + ($data->sum('ValueInFive') ?? 0 ) + ($data->sum('ValueInZero') ?? 0)).
+            /* 14 */ " \t " . "2 \r\n ";
+
+
+            //Improve Naming convention, also add Taxpayer Folder.
+            Storage::disk('local')->append($fileName, $header);
 
             //Maybe save to string variable frist, and then append at the end.
             Storage::disk('local')->append($fileName, $detail);
