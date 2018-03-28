@@ -3,13 +3,15 @@
 .table {
   thead {
     th {
-      background-color: hsl($brand-hue, 25%, 92%);
+      background-color: #e5ecee;
+      color: #424c55;
       font-size: 15px;
       font-weight: 600;
     }
   }
   tbody {
     td {
+      color: #4d5e6e;
     }
   }
 }
@@ -28,14 +30,14 @@
 
 .table-plan-price {
   font-weight: 600;
-  color: $gray-800;
+  color: #4d5e6e;
 }
 
 .table-plan-text {
-  color: $gray-600;
+  color: #8e9dab;
 }
 
-.card {
+.card{
   .table th, .table td{
     padding: 0.75rem 1.25rem;
   }

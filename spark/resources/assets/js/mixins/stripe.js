@@ -4,7 +4,7 @@ module.exports = {
      */
     data() {
         return {
-            stripe: Spark.stripeKey ? Stripe(Spark.stripeKey) : null
+            stripe: Stripe(Spark.stripeKey)
         }
     },
 
@@ -14,10 +14,6 @@ module.exports = {
          * Create a Stripe Card Element.
          */
         createCardElement(container){
-            if (!this.stripe) {
-                throw "Invalid Stripe Key/Secret";
-            }
-
             var card = this.stripe.elements().create('card', {
                 hideIcon: true,
                 hidePostalCode: true,
@@ -28,7 +24,7 @@ module.exports = {
                         },
                         fontFamily: 'Whitney, Lato, -apple-system, BlinkMacSystemFont,"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol"',
                         color: '#495057',
-                        fontSize: '15px'
+                        fontSize: '1.07rem'
                     }
                 }
             });

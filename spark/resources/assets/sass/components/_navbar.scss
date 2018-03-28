@@ -4,7 +4,7 @@
   background-color: $white;
   box-shadow: 0 2px 4px rgba($black, 0.04);
 
-  i {
+  i{
     opacity: 0.6;
   }
 }
@@ -20,28 +20,28 @@
   padding-left: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: $nav-link-color;
+  color: #3d454b;
 
   svg {
     fill: currentColor;
     margin-right: 15px;
-    color: $gray-500;
+    color: #95a2ae;
     flex-shrink: 0;
   }
 
   &:hover {
     font-weight: 600;
-    color: $primary;
+    color: #4aa2e2;
     svg {
-      fill: $primary;
+      fill: #4aa2e2;
     }
   }
 
   &.active {
     font-weight: 600;
-    color: $primary;
+    color: #4aa2e2;
     svg {
-      fill: $primary;
+      fill: #4aa2e2;
     }
   }
 }
@@ -51,14 +51,14 @@
 }
 
 .navbar-light .navbar-nav .nav-link {
-  color: $nav-link-color;
+  color: #3d454b;
 }
 
 .nav-heading {
   background-color: transparent;
   text-transform: uppercase;
   font-size: 14px;
-  color: $gray-500;
+  color: #8e9dab;
   letter-spacing: 1px;
   padding-top: 0;
   padding-right: 0;

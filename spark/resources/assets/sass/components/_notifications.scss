@@ -20,7 +20,7 @@
   }
 
   .modal-content {
-    background: $gray-100;
+    background: #f5f8fa;
     border: none;
     overflow-y: scroll;
     height: 100vh;
@@ -58,7 +58,7 @@
   .notification {
     position: relative;
     padding: 20px 15px 0px 15px;
-    border-top: 1px dashed $gray-300;
+    border-top: 1px dashed rgba(0, 0, 0, .1);
   }
 
   figure {
@@ -81,7 +81,7 @@
     }
 
     .date {
-      color: $gray-400;
+      color: #aaa;
     }
 
     .notification-body {

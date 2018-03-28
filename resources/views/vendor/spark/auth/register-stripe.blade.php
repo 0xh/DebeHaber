@@ -1,4 +1,4 @@
-@extends('spark::layouts.app')
+@extends('spark::layouts.blade.appSpark')
 
 @section('scripts')
     <script src="https://js.stripe.com/v3/"></script>
@@ -13,7 +13,7 @@
 
             <!-- Billing Information -->
             <div class="row justify-content-center" v-if="selectedPlan && selectedPlan.price > 0">
-                <div class="col-lg-8">
+                <div class="col-md-8">
                     <div class="card card-default">
                         <div class="card-header">{{__('Billing Information')}}</div>
 
@@ -24,6 +24,11 @@
                             </div>
 
                             <form role="form">
+                                <!-- Billing Address Fields -->
+                                @if (Spark::collectsBillingAddress())
+                                    @include('spark::auth.register-address')
+                                @endif
+
                                 <!-- Cardholder's Name -->
                                 <div class="form-group row">
                                     <label for="name" class="col-md-4 col-form-label text-md-right">{{__('Cardholder\'s Name')}}</label>
@@ -44,11 +49,6 @@
                                         </span>
                                     </div>
                                 </div>
-
-                                <!-- Billing Address Fields -->
-                                @if (Spark::collectsBillingAddress())
-                                    @include('spark::auth.register-address')
-                                @endif
 
                                 <!-- ZIP Code -->
                                 <div class="form-group row" v-if=" ! spark.collectsBillingAddress">
