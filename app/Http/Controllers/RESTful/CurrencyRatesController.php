@@ -9,11 +9,16 @@ use Carbon\Carbon;
 
 class CurrencyRatesController extends Controller
 {
+    protected static function boot()
+    {
+        parent::boot();
+        $this->getRates();
+    }
+
     public function getRates()
     {
         //Create functions to run in sequence. This code will run twice a day.
-        pryUSD();
-
+        $this->pryUSD();
     }
 
     public function pryUSD()

@@ -30,7 +30,7 @@ class HechaukaController extends Controller
         //TODO: This function is wrong. It will take all files from a path.
         //$files = File::allFiles($path);
 
-        $zipname = 'Hechauka -' . $taxPayer->name . ' - ' . Carbon::now()->toDateString() . '.zip';
+        $zipname = 'Hechauka -' . $taxPayer->name . ' - ' . Carbon::now()->toDateTimeString() . '.zip';
 
         $zip = new ZipArchive;
         $zip->open($zipname, ZipArchive::CREATE);
@@ -103,10 +103,10 @@ class HechaukaController extends Controller
             $date = Carbon::parse($data->first()->Date);
             $dateCode = $date->format('Y') . $date->format('m');
 
-            $fileName = 'Hechauka Ventas #' . $i . ' | ' . $date->format('M-Y') . '.txt';
+            $fileName = 'Hechauka Ventas #' . $i . ' | ' . $date->toDateTimeString() . '.txt';
 
             $header =
-            /* 1 */ '1' .
+            /* 1 */ ' 1 ' .
             /* 2 */ " \t " . $dateCode .
             /* 3 */ " \t " . '1' .
             /* 4 */ " \t " . $obligationCode .
@@ -119,7 +119,7 @@ class HechaukaController extends Controller
             /* 11 */ " \t " . $agentName .
             /* 12 */ " \t " . ($data->count() ?? 0) .
             /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0) + ($data->sum('ValueInFive') ?? 0 ) + ($data->sum('ValueInZero') ?? 0)).
-            /* 14 */ " \t " . "2 \n ";
+            /* 14 */ " \t " . "2 \r\n ";
 
 
             //Improve Naming convention, also add Taxpayer Folder.
@@ -133,7 +133,7 @@ class HechaukaController extends Controller
                 $date = Carbon::parse($row->Date);
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
-                /* 1 */ '2' .
+                /* 1 */ ' 2 ' .
                 /* 2 */ " \t " . $row->PartnerTaxID .
                 /* 3 */ " \t " . ($this->calculateTaxCode($row->PartnerTaxID)) .
                 /* 4 */ " \t " . ($row->Partner) .
@@ -148,7 +148,7 @@ class HechaukaController extends Controller
                 /* 13 */ " \t " . ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
                 /* 14 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
                 /* 15 */ " \t " . ($row->PaymentCondition ).
-                /* 16 */ " \t " . ($row->Code) . " \n ";
+                /* 16 */ " \t " . ($row->Code) . " \r\n ";
 
             }
 
@@ -156,7 +156,6 @@ class HechaukaController extends Controller
             Storage::disk('local')->append($fileName, $detail);
 
             $file = Storage::disk('local');
-
 
             $path = $file->getDriver()->getAdapter()->getPathPrefix();
 
@@ -181,7 +180,6 @@ class HechaukaController extends Controller
         max(t.payment_condition) as PaymentCondition,
         max(t.code_expiry) as CodeExpiry,
         max(t.document_type) as DocumentType,
-        -- max(t.operation_type) as OperationType,
         ROUND(sum(td.ValueInZero) / max(t.rate)) as ValueInZero,
         ROUND(sum(td.ValueInFive) / max(t.rate)) as ValueInFive,
         ROUND((sum(td.ValueInFive) / max(t.rate)) / 21) as VATInFive,
@@ -228,10 +226,10 @@ class HechaukaController extends Controller
             $date = Carbon::parse($data->first()->Date);
             $dateCode = $date->format('Y') . $date->format('m');
 
-            $fileName = 'Hechauka Compras #' . $i . ' | ' . $date->format('M-Y') . '.txt';
+            $fileName = 'Hechauka Compras #' . $i . ' | ' . $date->toDateTimeString() . '.txt';
 
             $header =
-            /* 1 */ '1' .
+            /* 1 */ ' 1 ' .
             /* 2 */ " \t " . ($dateCode) .
             /* 3 */ " \t " . '1' .
             /* 4 */ " \t " . ($obligationCode) .
@@ -245,7 +243,7 @@ class HechaukaController extends Controller
             /* 12 */ " \t " . ($data->count() ?? 0) .
             /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0 )+ ($data->sum('ValueInFive') ?? 0) + ($data->sum('ValueInZero') ?? 0) ).
             /* 14 */ " \t " . ($taxPayer->regime_type == 1 ? 'Si' : 'No' ) .
-            /* 15 */ " \t " . "2 \n";
+            /* 15 */ " \t " . "2 \r\n ";
 
 
             //Improve Naming convention, also add Taxpayer Folder.
@@ -259,7 +257,7 @@ class HechaukaController extends Controller
                 $date = Carbon::parse($row->Date);
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
-                /* 1 */ '2' .
+                /* 1 */ ' 2 ' .
                 /* 2 */ " \t " . ($row->PartnerTaxID) .
                 /* 3 */ " \t " . ($this->calculateTaxCode($row->PartnerTaxID)) .
                 /* 4 */ " \t " . ($row->Partner) .
@@ -275,7 +273,7 @@ class HechaukaController extends Controller
                 /* 14 */ //" \t " . $row->OperationType ?? 0 .
                 /* 14 */ " \t " . 0 .
                 /* 15 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
-                /* 16 */ " \t " . ($row->PaymentCondition) . " \n ";
+                /* 16 */ " \t " . ($row->PaymentCondition) . " \r\n ";
             }
 
             //Maybe save to string variable frist, and then append at the end.
