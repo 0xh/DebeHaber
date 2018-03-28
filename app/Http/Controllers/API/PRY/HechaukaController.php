@@ -27,37 +27,25 @@ class HechaukaController extends Controller
         ->where('team_id', Auth::user()->current_team_id)
         ->first();
 
-        $this->generateSales($startDate, $endDate, $taxPayer, $integration);
-        $this->generatePurchases($startDate, $endDate, $taxPayer, $integration);
-
-        $directory = Storage::disk('local');
-        $path = $directory->getDriver()->getAdapter()->getPathPrefix();
         //TODO: This function is wrong. It will take all files from a path.
-        $files = File::allFiles($path);
+        //$files = File::allFiles($path);
 
         $zipname = 'Hechauka -' . $taxPayer->name . ' - ' . Carbon::now()->toDateString() . '.zip';
 
         $zip = new ZipArchive;
         $zip->open($zipname, ZipArchive::CREATE);
 
-        if ($files != [])
-        {
+        $this->generateSales($startDate, $endDate, $taxPayer, $integration, $zip);
+        $this->generatePurchases($startDate, $endDate, $taxPayer, $integration, $zip);
 
-            foreach ($files as $file)
-            { $zip->addFile($path . $file->getFilename(), $file->getFilename()); }
+        $zip->close();
 
-            $zip->close();
-
-            if ($directory->exists("ventas-" . $taxPayer->taxid . '.txt'))
-            { $directory->delete("ventas-" . $taxPayer->taxid . '.txt'); }
-
-            return response()->download($zipname)->deleteFileAfterSend(true);
-        }
+        return response()->download($zipname)->deleteFileAfterSend(true);
 
         return redirect()->back();
     }
 
-    public function generateSales($startDate, $endDate, $taxPayer, $integration)
+    public function generateSales($startDate, $endDate, $taxPayer, $integration, $zip)
     {
         $raw = DB::select('
         select
@@ -97,7 +85,7 @@ class HechaukaController extends Controller
         $raw = collect($raw);
         $i = 1;
 
-        foreach ($raw->chunk(5) as $data)
+        foreach ($raw->chunk(1500) as $data)
         {
             $taxPayerTaxID = $taxPayer->taxid;
             $taxPayerTaxCode = $taxPayer->code;
@@ -145,9 +133,9 @@ class HechaukaController extends Controller
                 $detail = $detail .
                 /* 1 */ '2' .
                 /* 2 */ " \t " . $row->PartnerTaxID .
-                 /* 3 */ " \t " . ($row->PartnerTaxCode) .
-                 /* 4 */ " \t " . ($row->Partner) .
-                 /* 5 */ " \t " . ($row->DocumentType) .
+                /* 3 */ " \t " . ($row->PartnerTaxCode) .
+                /* 4 */ " \t " . ($row->Partner) .
+                /* 5 */ " \t " . ($row->DocumentType) .
                 /* 6 */ " \t " . ($row->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
                 /* 8 */ " \t " .( $row->ValueInTen ) .
@@ -163,12 +151,21 @@ class HechaukaController extends Controller
             }
 
             //Maybe save to string variable frist, and then append at the end.
-            Storage::disk('local')->append('Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt', $detail);
+            $fileName = 'Hechauka Ventas #' . $i . '-' . $date->format('M-Y') . '.txt';
+            Storage::disk('local')->append($fileName, $detail);
+
+            $file = Storage::disk('local');
+            $path = $file->getDriver()->getAdapter()->getPathPrefix();
+
+            $zip->addFile($path . $fileName, $fileName);
+
+            $file->delete($fileName);
+
             $i += 1;
         }
     }
 
-    public function generatePurchases($startDate, $endDate, $taxPayer, $integration)
+    public function generatePurchases($startDate, $endDate, $taxPayer, $integration, $zip)
     {
 
         $raw = DB::select('select
@@ -211,7 +208,7 @@ class HechaukaController extends Controller
         $raw = collect($raw);
         $i = 1;
 
-        foreach ($raw->chunk(5) as $data)
+        foreach ($raw->chunk(15000) as $data)
         {
             $taxPayerTaxID = $taxPayer->taxid;
             $taxPayerTaxCode = $taxPayer->code;
@@ -278,7 +275,16 @@ class HechaukaController extends Controller
             }
 
             //Maybe save to string variable frist, and then append at the end.
-            Storage::disk('local')->append('Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt', $detail);
+            $fileName = 'Hechauka Compras #' . $i . '-' . $date->format('M-Y') . '.txt';
+            Storage::disk('local')->append($fileName, $detail);
+
+            $file = Storage::disk('local');
+            $path = $file->getDriver()->getAdapter()->getPathPrefix();
+
+            $zip->addFile($path . $fileName, $fileName);
+
+            $file->delete($fileName);
+
             $i += 1;
         }
     }
