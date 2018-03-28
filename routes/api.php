@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         // This creates taxpayers to be used only in Sales and Purchases. Not Taxpayers that will be used for accounting.
         Route::post('store-taxpayer', 'TaxpayerController@createTaxPayer');
-        Route::get('hechuka/{startDate}/{endDate}', 'API\Paraguay\HechukaController@getHechaukaSales');
+        Route::get('hechuka/{startDate}/{endDate}', 'API\PRY\HechaukaController@generateFiles');
 
         Route::get('get_cycle', 'CycleController@get_cycle');
         Route::get('get_chartversion', 'ChartVersionController@get_chartversion');

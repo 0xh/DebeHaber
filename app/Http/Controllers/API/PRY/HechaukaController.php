@@ -37,7 +37,7 @@ class HechaukaController extends Controller
 
         $this->generateSales($startDate, $endDate, $taxPayer, $integration, $zip);
         $this->generatePurchases($startDate, $endDate, $taxPayer, $integration, $zip);
-
+        //dd($zip);
         $zip->close();
 
         return response()->download($zipname)->deleteFileAfterSend(true);
@@ -155,11 +155,13 @@ class HechaukaController extends Controller
             Storage::disk('local')->append($fileName, $detail);
 
             $file = Storage::disk('local');
+
+
             $path = $file->getDriver()->getAdapter()->getPathPrefix();
 
             $zip->addFile($path . $fileName, $fileName);
 
-            $file->delete($fileName);
+            //$file->delete($fileName);
 
             $i += 1;
         }
