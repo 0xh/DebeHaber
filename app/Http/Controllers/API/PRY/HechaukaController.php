@@ -119,7 +119,7 @@ class HechaukaController extends Controller
             /* 11 */ " \t " . $agentName .
             /* 12 */ " \t " . ($data->count() ?? 0) .
             /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0) + ($data->sum('ValueInFive') ?? 0 ) + ($data->sum('ValueInZero') ?? 0)).
-            /* 14 */ " \t " . "2";
+            /* 14 */ " \t " . "2 \n ";
 
 
             //Improve Naming convention, also add Taxpayer Folder.
@@ -148,7 +148,7 @@ class HechaukaController extends Controller
                 /* 13 */ " \t " . ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
                 /* 14 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
                 /* 15 */ " \t " . ($row->PaymentCondition ).
-                /* 16 */ " \t " . ($row->Code) . " \n";
+                /* 16 */ " \t " . ($row->Code) . " \n ";
 
             }
 
@@ -245,7 +245,7 @@ class HechaukaController extends Controller
             /* 12 */ " \t " . ($data->count() ?? 0) .
             /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0 )+ ($data->sum('ValueInFive') ?? 0) + ($data->sum('ValueInZero') ?? 0) ).
             /* 14 */ " \t " . ($taxPayer->regime_type == 1 ? 'Si' : 'No' ) .
-            /* 15 */ " \t " . "2";
+            /* 15 */ " \t " . "2 \n";
 
 
             //Improve Naming convention, also add Taxpayer Folder.
@@ -275,7 +275,7 @@ class HechaukaController extends Controller
                 /* 14 */ //" \t " . $row->OperationType ?? 0 .
                 /* 14 */ " \t " . 0 .
                 /* 15 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
-                /* 16 */ " \t " . ($row->PaymentCondition);
+                /* 16 */ " \t " . ($row->PaymentCondition) . " \n ";
             }
 
             //Maybe save to string variable frist, and then append at the end.
