@@ -137,19 +137,18 @@ class HechaukaController extends Controller
                 /* 2 */ " \t " . '44444401' .
                 /* 3 */ " \t " . '7' .
                 /* 4 */ " \t " . 'Consumidor Final' .
-                /* 5 */ " \t " . ($data->first()->Code) .
-                /* 6 */ " \t " . ($data->first()->DocumentType) .
-                /* 7 */ " \t " . ($data->first()->Number) .
-                /* 8 */ " \t " . (date_format($date, 'd/m/Y')) .
-                /* 9 */ " \t " . ($data->sum('ValueInTen') - $data->sum('VATInTen')) .
-                /* 10 */ " \t " . ($data->sum('VATInTen')) .
-                /* 11 */ " \t " . ($data->sum('ValueInFive') - $data->sum('VATInFive')) .
-                /* 12 */ " \t " . ($data->sum('VATInFive')) .
-                /* 13 */ " \t " . ($data->sum('ValueInZero')) .
-                /* 14 */ //" \t " . $data->first()->OperationType ?? 0 .
-                /* 14 */ " \t " . 0 .
-                /* 15 */ " \t " . ($data->first()->PaymentCondition == 0 ? 1 : 2) .
-                /* 16 */ " \t " . ($data->first()->PaymentCondition) . " \r\n ";
+                /* 5 */ " \t " . ($data->first()->DocumentType) .
+                /* 6 */ " \t " . ($data->first()->Number) .
+                /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
+                /* 8 */ " \t " .( $data->sum('ValueInTen') - $data->sum('VATInTen')) .
+                /* 9 */ " \t " . ($data->sum('VATInTen')).
+                /* 10 */ " \t " . ($data->sum('ValueInFive') - $data->sum('VATInFive')).
+                /* 11 */ " \t " .($data->sum('VATInFive')) .
+                /* 12 */ " \t " . ($data->sum('ValueInZero')) .
+                /* 13 */ " \t " . ($data->sum('ValueInTen') + $data->sum('ValueInFive') + $data->sum('ValueInZero')) .
+                /* 14 */ " \t " . ($data->first()->PaymentCondition == 0 ? 1 : 2) .
+                /* 15 */ " \t " . ($data->first()->PaymentCondition ).
+                /* 16 */ " \t " . ($data->first()->Code) . " \r\n ";
             }
 
             //todo this is wrong. Your foreachs hould be smaller
