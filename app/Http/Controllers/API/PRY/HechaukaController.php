@@ -94,7 +94,7 @@ class HechaukaController extends Controller
             {
                 $agentName = $integration->agent_name;
                 $agentTaxID = $integration->agent_taxid;
-                $agentTaxCode = 0;
+                $agentTaxCode = $this->calculateTaxCode($integration->agent_taxid);
             }
 
             $obligationCode = 921;
@@ -120,8 +120,8 @@ class HechaukaController extends Controller
                 /* 2 */ " \t " . '44444401' .
                 /* 3 */ " \t " . '7' .
                 /* 4 */ " \t " . 'Consumidor Final' .
-                /* 5 */ " \t " . ($data->first()->DocumentType) .
-                /* 6 */ " \t " . ($data->first()->Number) .
+                /* 5 */ " \t " . '0' . //($data->first()->DocumentType) .
+                /* 6 */ " \t " . '0' . //($data->first()->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
                 /* 8 */ " \t " .( $data->where('PartnerTaxID', '44444401')->sum('ValueInTen') - $data->where('PartnerTaxID', '44444401')->sum('VATInTen')) .
                 /* 9 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('VATInTen')).
@@ -131,7 +131,7 @@ class HechaukaController extends Controller
                 /* 13 */ " \t " . ($data->where('PartnerTaxID', '44444401')->sum('ValueInTen') + $data->where('PartnerTaxID', '44444401')->sum('ValueInFive') + $data->where('PartnerTaxID', '44444401')->sum('ValueInZero')) .
                 /* 14 */ " \t " . ($data->first()->PaymentCondition == 0 ? 1 : 2) .
                 /* 15 */ " \t " . ($data->first()->PaymentCondition ).
-                /* 16 */ " \t " . ($data->first()->Code) . " \r\n ";
+                /* 16 */ " \t " . '0' /*($data->first()->Code)*/ . " \r\n ";
             }
 
             //todo this is wrong. Your foreachs hould be smaller
@@ -145,8 +145,8 @@ class HechaukaController extends Controller
                 /* 2 */ " \t " . ($row->PartnerTaxID) .
                 /* 3 */ " \t " . ($this->calculateTaxCode($row->PartnerTaxID)) .
                 /* 4 */ " \t " . ($row->Partner) .
-                /* 5 */ " \t " . '0' . //($row->DocumentType) .
-                /* 6 */ " \t " . '0' . //. ($row->Number) .
+                /* 5 */ " \t " . ($row->DocumentType) .
+                /* 6 */ " \t " . ($row->Number) .
                 /* 7 */ " \t " . (date_format($date, 'd/m/Y') ).
                 /* 8 */ " \t " .( $row->ValueInTen - $row->VATInTen) .
                 /* 9 */ " \t " . ($row->VATInTen ).
@@ -156,7 +156,7 @@ class HechaukaController extends Controller
                 /* 13 */ " \t " . ($row->ValueInTen + $row->ValueInFive + $row->ValueInZero) .
                 /* 14 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
                 /* 15 */ " \t " . ($row->PaymentCondition ).
-                /* 16 */ " \t " . '0'/*($row->Code)*/ . " \r\n ";
+                /* 16 */ " \t " . ($row->Code) . " \r\n ";
 
             }
 
@@ -245,7 +245,7 @@ class HechaukaController extends Controller
             {
                 $agentName = $integration->agent_name;
                 $agentTaxID = $integration->agent_taxid;
-                $agentTaxCode = 0;
+                $agentTaxCode = $this->calculateTaxCode($integration->agent_taxid);;
             }
 
             $obligationCode = 911;
