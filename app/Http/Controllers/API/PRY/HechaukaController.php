@@ -7,7 +7,6 @@ use App\TransactionDetail;
 use App\Taxpayer;
 use App\Cycle;
 use App\TaxpayerIntegration;
-//use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
