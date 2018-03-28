@@ -130,7 +130,7 @@ class HechaukaController extends Controller
             //todo this is wrong. Your foreachs hould be smaller
             if ($data->where('PartnerTaxID', '44444401')->count() > 0)
             {
-                $date = Carbon::parse($row->Date);
+                $date = Carbon::parse($data->first()->Date);
                 //Check if Partner has TaxID and TaxCode properly coded, or else substitute for generic user.
                 $detail = $detail .
                 /* 1 */ ' 2 ' .
