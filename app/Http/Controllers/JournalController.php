@@ -139,4 +139,95 @@ class JournalController extends Controller
     {
         //
     }
+
+
+
+    public function generate_fromSales($transactions)
+    {
+        $transactions = collect($transactions);
+
+        //get sum of all transactions divided by exchange rate.
+
+        $journal = new Journal();
+        $journal->taxpayer_id = $transactions->first('supplier_id');
+        $journal->date = $transactions->last('date');
+        $journal->comment = 'Sales Invoices from ' . $transactions->first('date')->toDateString() . ' to ' . $transactions->last('date')->toDateString();
+
+        //Affect all Cash Sales and uses Cash Accounts
+        foreach ($transactions->where('payment_condition' == 0) as $groupedTransactions)
+        {
+            $detail = new JournalDetail();
+            $detail->debit = 0;
+            $detail->credit = 0;
+            $detail->chart_id = 0;
+            $detail->save();
+        }
+
+        //Affects all Credit Sales and uses Customer Account for distribution
+        foreach ($transactions->where('payment_condition' > 0)->groupBy('customer_ID') as $groupedTransactions)
+        {
+            //calculate value by currency. fx
+            foreach ($groupedTransactions->groupBy('rate') as $GroupedRate)
+            {
+                $value += ($GroupedRate->detail->sum('value') / $GroupedRate->rate);
+            }
+
+            $detail = new JournalDetail();
+            $detail->debit = 0;
+            $detail->credit = $value;
+            $detail->chart_id = $groupedTransactions->first()->chart_vat_id;
+            $detail->save();
+        }
+
+        //Affects all Credit Sales and uses Customer Account for distribution
+        foreach ($transactions->details->groupBy('chart_vat_id') as $groupedDetails)
+        {
+            //calculate value by currency. fx
+            $value = 0;
+
+            $detail = new JournalDetail();
+            $detail->debit = $value;
+            $detail->credit = 0;
+            $detail->chart_id = $groupedDetails->first()->chart_vat_id;
+            $detail->save();
+        }
+
+        //Affects all Credit Sales and uses Customer Account for distribution
+        foreach ($transactions->details->groupBy('chart_id') as $groupedDetails)
+        {
+            //calculate value by currency. fx
+            $value = 0;
+
+            $detail = new JournalDetail();
+            $detail->debit = $value;
+            $detail->credit = 0;
+            $detail->chart_id = $groupedDetails->first()->chart_vat_id;
+            $detail->save();
+        }
+    }
+
+    public function generate_fromPurchases()
+    {
+
+    }
+
+    public function generate_fromCreditNotes()
+    {
+
+    }
+
+    public function generate_fromDebitNotes()
+    {
+
+    }
+
+    public function generate_fromMoneyTransfers()
+    {
+
+    }
+
+    public function generate_fromProductions()
+    {
+
+    }
 }
