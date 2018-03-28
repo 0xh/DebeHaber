@@ -37,6 +37,7 @@ return [
     * Available Value: 'deny', 'sameorigin', 'allow-from <uri>'
     */
 
+    // 'x-frame-options' => 'allow-from <js.stripe.com>',
     'x-frame-options' => 'sameorigin',
 
     /*
@@ -142,7 +143,9 @@ return [
         ],
 
         'child-src' => [
-            //
+            'allow' => [
+                $protocol.'js.stripe.com/',
+            ],
         ],
 
         'script-src' => [
@@ -150,7 +153,7 @@ return [
                 $protocol.'cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
                 $protocol.'www.google-analytics.com/',
                 $protocol.'www.googletagmanager.com/',
-                $protocol.'js.stripe.com/v3/',
+                $protocol.'js.stripe.com/',
                 $protocol.'fonts.googleapis.com/',
                 $protocol.'www.gravatar.com/avatar/',
                 $protocol.'ajax.googleapis.com/ajax/libs/webfont/',
@@ -208,6 +211,7 @@ return [
 
         'font-src' => [
             'allow' => [
+                $protocol.'cdnjs.cloudflare.com/',
                 $protocol.'fonts.gstatic.com/s/',
             ],
 
