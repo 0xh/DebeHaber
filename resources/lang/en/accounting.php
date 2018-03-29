@@ -29,4 +29,8 @@ return [
     'BalanceSheet(Comparative)' => 'Balance Sheet (Comparative)',
     'IncomeStatement' => 'Income Statement',
     'StatementofCashflows' => 'Statement of Cashflows',
+    'SalesBookComment' => 'Sales Book from :startDate til :endDate',
+    'PurchaseBookComment' => 'Purchase Book from :startDate til :endDate',
+    'CreditNoteComment' => 'Credit Notes from :startDate til :endDate',
+    'DebitNoteComment' => 'Debit Notes from :startDate til :endDate',
 ];

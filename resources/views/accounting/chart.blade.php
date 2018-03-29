@@ -162,11 +162,8 @@
 
                 <hr>
 
-                <div class="row" v-for="data in list">
-                    <div class="col-1">
-
-                    </div>
-                    <div class="col-1">
+                <div class="row m--margin-5" v-for="data in list">
+                    <div class="col-2 m--align-right">
                         <span v-if="data.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
                             <b>@{{ data.code }}</b>
                         </span>
@@ -183,42 +180,32 @@
                             <b>@{{ data.code }}</b>
                         </span>
                     </div>
-                    <div class="col-6">
-                        <span v-if="data.is_accountable">
+
+                    <div class="col-5">
+                        <span v-if="data.is_accountable" class="m--font-bolder">
                             @{{ data.name }}
                         </span>
-                        <span v-else>
-                            <b>@{{ data.name }}</b>
+                        <span v-else class="m--font-boldest m--font-info m--font-transform-u">
+                            @{{ data.name }}
                         </span>
                     </div>
-                    <div class="col-4">
-                        <div class="m-btn-group m-btn-group--pill btn-group m--margin-5" role="group" aria-label="First group">
-
-                            <button v-if="data.taxpayer_id == null" type="button" class="m-btn btn btn-metal">
-                                @lang('accounting.Generic')
-                            </button>
-
-                            <div v-else>
-                                <button type="button" class="m-btn btn btn-warning">
-                                    <i class="la la-pencil"></i>
-                                </button>
-                                <button type="button" class="m-btn btn btn-info">
-                                    <i class="la la-trash-o"></i>
-                                </button>
-                            </div>
-
-                            <button v-if="data.is_accountable" type="button" class="m-btn btn btn-primary">
+                    <div class="col-2">
+                        <p>
+                            <span v-if="data.is_accountable" class="m--font-primary">
                                 @lang('accounting.IsAccountable')
-                            </button>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col-3">
+                        <div v-if="data.taxpayer_id != null" class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
+                            <button @click="onView(data)" class="m-btn btn btn-success"><i class="la la-eye"></i></button>
+                            <button @click="onEdit(data)" class="m-btn btn btn-primary"><i class="la la-pencil"></i></button>
+                            <button @click="onDelete(data)" class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></button>
+                            {{-- <a @click="onMigrate(data)" class="m-btn btn btn-secondary"><i class="la la-forward m--font-warning"></i></a> --}}
                         </div>
-                        {{-- <div v-if="data.taxpayer_id != null">
-                        <button v-on:click="onEdit(data)" class="btn btn-outline-primary m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
-                        <i class="la la-pencil"></i>
-                    </button>
-                </div> --}}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-</chart>
+    </chart>
 @endsection

@@ -187,4 +187,117 @@ class ChartController extends Controller
 
         return response()->json($charts);
     }
+
+    public function createIfNotExists_CashAccounts(Taxpayer $taxPayer, Cycle $cycle, $chart_id)
+    {
+        //Check if CustomerID exists in Chart.
+        $chart = Chart::My($taxPayer, $cycle)
+        ->where('id', $chart_id)
+        ->first();
+
+        if ($chart == null)
+        {
+            //if not, then look for generic.
+            $chart = Chart::My($taxPayer, $cycle)
+            ->where('type', 1)
+            ->where('sub_type', 1)
+            ->first();
+
+            if ($chart == null)
+            {
+                //if not, create generic.
+                $chart = new Chart();
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->version_id = $cycle->version_id;
+                $chart->type = 1;
+                $chart->sub_type = 1;
+                $chart->is_accountable = true;
+                $chart->code = 'N/A';
+                $chart->name = __('enum.PettyCash');
+            }
+        }
+
+        return $chart;
+    }
+
+    public function createIfNotExists_AccountsReceivables(Taxpayer $taxPayer, Cycle $cycle, $partnerID)
+    {
+        //Check if CustomerID exists in Chart.
+        $chart = Chart::My($taxPayer, $cycle)
+        ->where('partner_id', $partnerID)
+        ->first();
+
+        if ($chart == null)
+        {
+            //if not, then look for generic.
+            $chart = Chart::My($taxPayer, $cycle)
+            ->where('type', 1)
+            ->where('sub_type', 5)
+            ->first();
+
+            if ($chart == null)
+            {
+                //if not, create generic.
+                $chart = new Chart();
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->version_id = $cycle->version_id;
+                $chart->type = 1;
+                $chart->sub_type = 5;
+                $chart->is_accountable = true;
+                $chart->code = 'N/A';
+                $chart->name = __('commercial.AccountsReceivable');
+            }
+        }
+
+        return $chart;
+    }
+
+    public function createIfNotExists_AccountsPayable(Taxpayer $taxPayer, Cycle $cycle, $partnerID)
+    {
+        //Check if CustomerID exists in Chart.
+        $chart = Chart::My($taxPayer, $cycle)
+        ->where('partner_id', $partnerID)
+        ->first();
+
+        if ($chart == null)
+        {
+            //if not, then look for generic.
+            $chart = Chart::My($taxPayer, $cycle)
+            ->where('type', 2)
+            ->where('sub_type', 1)
+            ->first();
+
+            if ($chart == null)
+            {
+                //if not, create generic.
+                $chart = new Chart();
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->version_id = $cycle->version_id;
+                $chart->type = 2;
+                $chart->sub_type = 1;
+                $chart->is_accountable = true;
+                $chart->code = 'N/A';
+                $chart->name = __('commercial.AccountsPayable');
+            }
+        }
+
+        return $chart;
+    }
+
+    public function mergeCharts($fromChart, $toChart)
+    {
+        //update all transactions
+
+        //update all transaction details
+
+        //update all account movements
+
+        //update all journal details
+
+        //update all journal templates
+
+        //update all journal simulation details
+
+        //delete $fromCharts
+    }
 }

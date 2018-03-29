@@ -43,4 +43,5 @@ return [
     'Currency' => 'Currency',
     'Total' => 'Total',
     'Detail' => 'Detail',
+    'General' => 'General',
 ];
