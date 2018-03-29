@@ -87,7 +87,7 @@
                 </p>
             </div>
             <div class="col-2">
-                <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
+                <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                     <a class="m-btn btn btn-secondary">
                         <i class="la la-check m--font-success"></i>
                     </a>

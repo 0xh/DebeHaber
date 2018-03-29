@@ -42,4 +42,5 @@ return [
     'Total' => 'Total',
     'Actions' => 'Acciones',
     'Generic' => 'Generico',
+    'Comment' => 'Commentario'
 ];

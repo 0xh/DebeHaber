@@ -68,7 +68,7 @@
                 </p>
             </div>
             <div class="col-1">
-                <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
+                <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                     <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
                     <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
                     <a class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>

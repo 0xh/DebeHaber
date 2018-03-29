@@ -25,6 +25,7 @@ require('./../commercial-components/sales/bootstrap');
 require('./../commercial-components/formlist/bootstrap');
 require('./../commercial-components/account-payable/bootstrap');
 require('./../commercial-components/account-receivable/bootstrap');
+require('./../commercial-components/money-transfer/bootstrap');
 
 //Configuration
 require('./../configuration-components/taxpayer/bootstrap');

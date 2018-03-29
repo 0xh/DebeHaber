@@ -12,8 +12,8 @@
             </a>
 
             @php
-                $startDate = new Carbon\Carbon('first day of last month');
-                $endDate = new Carbon\Carbon('last day of last month');
+            $startDate = new Carbon\Carbon('first day of last month');
+            $endDate = new Carbon\Carbon('last day of last month');
             @endphp
 
             <div class="m-menu__submenu m-menu__submenu--fixed m-menu__submenu--left" style="width:900px">

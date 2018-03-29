@@ -33,4 +33,6 @@ return [
     'PurchaseBookComment' => 'Libro Compras desde :startDate hasta :endDate',
     'CreditNoteComment' => 'Notas de Credito desde :startDate hasta :endDate',
     'DebitNoteComment' => 'Notas de Debito desde :startDate hasta :endDate',
+    'Credit' => 'Debe',
+    'Debit' => 'Haber'
 ];

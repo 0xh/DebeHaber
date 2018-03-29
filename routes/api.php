@@ -79,6 +79,9 @@ Route::group(['middleware' => 'auth:api'], function ()
 
                 Route::get('get_account_payables/{skip}', 'AccountPayableController@get_account_payable');
                 Route::get('get_account_payableByID/{id}', 'AccountPayableController@get_account_payableByID');
+
+                Route::get('get_money_transfers/{skip}', 'MoneyTransferController@get_money_transfers');
+                Route::get('get_money_transferByID/{id}', 'MoneyTransferController@get_money_transferByID');
             });
         });
 
