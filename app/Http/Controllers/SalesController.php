@@ -40,8 +40,7 @@ class SalesController extends Controller
         DB::raw('max(payment_condition) as PaymentCondition'),
         DB::raw('max(date) as Date'),
         DB::raw('max(number) as Number'),
-        DB::raw('sum(td.value) as Value'),
-        DB::raw('max(transactions.supplier_id) as Supplier_id'))
+        DB::raw('sum(td.value) as Value'))
         ->orderBy('date', 'desc')
         ->orderBy('number', 'desc')
         ->skip($skip)

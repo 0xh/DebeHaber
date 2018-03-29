@@ -20,6 +20,9 @@ Vue.component('account-payable-list',{
             return this.list.filter(x => {
                 return x.Number.toLowerCase().includes(this.search.toLowerCase())
             })
+        },
+        Today(){
+            return new Date();
         }
     },
 

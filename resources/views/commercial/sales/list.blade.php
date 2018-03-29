@@ -17,13 +17,6 @@
                     </div>
                 </div>
                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                    <button v-on:click="onselectedList(list)" class="btn btn-primary">
-              @lang('global.generate')
-          </button>
-                </div>
-
-
-                <div class="col-xl-4 order-1 order-xl-2 m--align-right">
                     <a href="#" class="btn btn-brand m-btn m-btn--custom m-btn--icon m-btn--air">
                         <span>
                             <i class="la la-cart-plus"></i>
@@ -56,9 +49,6 @@
         </div>
 
         <div class="row m--margin-bottom-5" v-for="invoice in filteredList">
-          <div class="col-1">
-              <input type="checkbox" class="form-control" v-model="invoice.IsSelected" />
-          </div>
             <div class="col-1">
                 <p> @{{ invoice.Date }} </p>
             </div>

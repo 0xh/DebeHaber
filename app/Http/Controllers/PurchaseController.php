@@ -44,7 +44,6 @@ class PurchaseController extends Controller
         ->get();
 
         return response()->json($transactions);
-
     }
 
     public function getLastPurchase($taxPayerID)

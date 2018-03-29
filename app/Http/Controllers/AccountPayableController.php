@@ -40,8 +40,8 @@ class AccountPayableController extends Controller
         DB::raw('max(transactions.date) as Date'),
         DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
         DB::raw('max(transactions.number) as Number'),
-        DB::raw('ifnull(sum(account_movements.debit), 0) as Paid'),
-        DB::raw('sum(td.value) as Value'))
+        DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
+        DB::raw('sum(td.value/transactions.rate) as Value'))
         ->orderBy('transactions.date', 'desc')
         ->orderBy('transactions.number', 'desc')
         ->skip($skip)

@@ -35,16 +35,16 @@
 
         <div class="row">
             <div class="col-3">
-                <p class="m--font-boldest m--font-transform-u">@lang('commercial.Customer')</p>
+                <p class="m--font-boldest m--font-transform-u">@lang('commercial.Supplier')</p>
             </div>
             <div class="col-2">
                 <p class="m--font-boldest m--font-transform-u">@lang('commercial.InvoiceNumber')</p>
             </div>
-            <div class="col-2">
-                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Total')</p>
-            </div>
             <div class="col-1 m--font-boldest">
                 <p class="m--font-boldest m--font-transform-u">@lang('global.Deadline')</p>
+            </div>
+            <div class="col-2">
+                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Total')</p>
             </div>
             <div class="col-2 m--font-boldest">
                 <p class="m--align-right m--font-boldest m--font-transform-u">@lang('commercial.Paid')</p>
@@ -66,16 +66,21 @@
                 </p>
             </div>
 
+            <div class="col-1">
+                <p v-if="invoice.Expiry < Today" class="m--font-bold m--font-danger">
+                    @{{ invoice.Expiry }}
+                </p>
+                <p v-else class="m--font-bold">
+                    @{{ invoice.Expiry }}
+                </p>
+            </div>
+
             <div class="col-2">
                 <p class="m--font-bold m--align-right">
                     @{{ invoice.Value }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
                 </p>
             </div>
-            <div class="col-1">
-                <p class="m--font-bold m--align-right">
-                    @{{ invoice.Expiry }}
-                </p>
-            </div>
+
             <div class="col-2">
                 <p class="m--font-bold m--align-right">
                     @{{ invoice.Paid }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
@@ -83,9 +88,10 @@
             </div>
             <div class="col-2">
                 <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
-                    <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
-                    <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
-                    <a class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>
+                    <a class="m-btn btn btn-secondary">
+                        <i class="la la-check m--font-success"></i>
+                    </a>
+                    <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-money m--font-brand"></i> @lang('commercial.Pay')</a>
                 </div>
             </div>
         </div>

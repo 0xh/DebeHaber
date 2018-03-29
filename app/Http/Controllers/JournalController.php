@@ -27,6 +27,7 @@ class JournalController extends Controller
     public function getJournals($taxPayerID, Cycle $cycle, $skip)
     {
         $journals = Journal::join('journal_details', 'journals.id', 'journal_details.journal_id')
+        ->join('journal_transactions as int')
         ->where('journals.cycle_id', $cycle->id)
         ->groupBy('journals.id')
         ->select(DB::raw('max(journals.id) as ID'),
@@ -143,16 +144,20 @@ class JournalController extends Controller
         //
     }
 
-    public function generateJournals(Taxpayer $taxPayer, Cycle $cycle, Request $request)
+    public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
-        $arrID =[];
-        for ($i=0; $i <= count($request); $i++)
-        {
-            array_push($arrID, $request[$i]['ID']);
-        }
+        // $arrID =[];
+        // for ($i=0; $i <= count($request); $i++)
+        // {
+        //     array_push($arrID, $request[$i]['ID']);
+        // }
 
         $transactions = Transaction::whereIn('transactions.id', $arrID)->with('details')->get();
-        $this->generate_fromSales($taxPayer, $cycle, $transactions);
+        foreach ($transactions->groupBy('') as $groupedTransactions)
+        {
+            $this->generate_fromSales($taxPayer, $cycle, $groupedTransactions->where('type', 4));
+            $this->generate_fromPurchases($taxPayer, $cycle, $groupedTransactions->whereIn('type', [1,2]));
+        }
 
         //Check if JournalTransaction exists.
         if (JournalTransaction::whereIn('transaction_id', $transactions->pluck('id'))->count() > 0)
@@ -260,7 +265,6 @@ class JournalController extends Controller
                 foreach ($groupedByVATs as $detail)
                 {
                     $value += ((($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
-
                 }
 
                 $detail = new JournalDetail();
@@ -283,7 +287,6 @@ class JournalController extends Controller
                 foreach ($groupedByVAT as $detail)
                 {
                     $value += (($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1));
-                    
                 }
             }
 
