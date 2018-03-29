@@ -76,13 +76,13 @@ Vue.component('sales-list',
       axios({
         method: 'post',
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        url: '/taxpayer/'+ this.taxpayer + '/' + this.cycle + '/GenerateFromSales/',
+        url: '/taxpayer/'+ this.taxpayer + '/' + this.cycle + '/generateJournals/',
         responseType: 'text',
         data:this.selectedList
 
       }).then(function (response)
       {
-
+        console.log(response.data);
 
       })
       .catch(function (error)

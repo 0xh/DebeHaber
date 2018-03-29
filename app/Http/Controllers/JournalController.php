@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Transaction;
 use App\Taxpayer;
 use App\Cycle;
 use App\Journal;
@@ -9,6 +10,7 @@ use App\JournalDetail;
 use App\JournalTransaction;
 use DB;
 use Illuminate\Http\Request;
+
 
 class JournalController extends Controller
 {
@@ -141,17 +143,25 @@ class JournalController extends Controller
         //
     }
 
-    public function generateJournals(Request $request)
+    public function generateJournals(Taxpayer $taxPayer, Cycle $cycle,Request $request)
     {
+
+        $id =[];
+        for ($i=0; $i <=count($request) ; $i++)
+        {
+
+            array_push($id,$request[$i]['ID']);
+        }
+
+        $transactions = Transaction::with('details')->whereIn('transactions.id',$id)->get();
+        $this->generate_fromSales($taxPayer,$cycle,$transactions);
         //Check if JournalTransaction exists.
         if (JournalTransaction::whereIn('transaction_id', $transactions->pluck('id'))->count() > 0)
         {
             //Delete All JournalTransactions and Journals associated.
         }
 
-        foreach ($request as $item) {
-            $transaction
-        }
+
     }
 
 
@@ -161,8 +171,8 @@ class JournalController extends Controller
     public function generate_fromSales(Taxpayer $taxPayer, Cycle $cycle,$transactions)
     {
 
-        $transactions = collect($transactions);
-
+        //$transactions = collect($transactions);
+        //dd($transactions);
         //Check if JournalTransaction exists.
         if (JournalTransaction::whereIn('transaction_id', $transactions->pluck('id'))->count() > 0)
         {
@@ -175,10 +185,10 @@ class JournalController extends Controller
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
         $journal->cycle_id= $cycle->id;
-        $journal->taxpayer_id = $transactions->first()['Supplier_id'];
-        $journal->date = $transactions->last()['Date'];
-        $firstdate=$transactions->first()['Date'];
-        $lastdate=$transactions->last()['Date'];
+        $journal->taxpayer_id = $transactions->first()->supplier_id;
+        $journal->date = $transactions->last()->date;
+        $firstdate=$transactions->first()->date;
+        $lastdate=$transactions->last()->date;
         $journal->comment = __('SalesBookComment', [$firstdate,$lastdate]);
         $journal->save();
 
@@ -186,9 +196,9 @@ class JournalController extends Controller
         {
             $journalTransaction = new JournalTransaction();
             $journalTransaction->journal_id = $journal->id;
-            $journalTransaction->transaction_id = $transaction['ID'];
+            $journalTransaction->transaction_id = $transaction->id;
         }
-        dd($transactions);
+
 
         //Affect all Cash Sales and uses Cash Accounts
         foreach ($transactions->where('payment_condition','=',0)->groupBy('chart_account_id') as $groupedTransactions)

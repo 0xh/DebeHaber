@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth'], function ()
     //These Pages require Cycle in Session to perform searches and show relevant data.
     Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
     Route::get('cycles', 'CycleController@index')->name('cycles.index');
-    Route::post('GenerateFromSales', 'JournalController@generate_fromSales');
+    Route::post('generateJournals', 'JournalController@generateJournals');
 
     Route::prefix('commercial')->group(function ()
     {
