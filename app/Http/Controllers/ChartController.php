@@ -208,12 +208,13 @@ class ChartController extends Controller
                 //if not, create generic.
                 $chart = new Chart();
                 $chart->taxpayer_id = $taxPayer->id;
-                $chart->version_id = $cycle->version_id;
+                $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->type = 1;
                 $chart->sub_type = 1;
                 $chart->is_accountable = true;
                 $chart->code = 'N/A';
                 $chart->name = __('enum.PettyCash');
+                $chart->save();
             }
         }
 
@@ -240,12 +241,13 @@ class ChartController extends Controller
                 //if not, create generic.
                 $chart = new Chart();
                 $chart->taxpayer_id = $taxPayer->id;
-                $chart->version_id = $cycle->version_id;
+                $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->type = 1;
                 $chart->sub_type = 5;
                 $chart->is_accountable = true;
                 $chart->code = 'N/A';
                 $chart->name = __('commercial.AccountsReceivable');
+                $chart->save();
             }
         }
 
@@ -272,12 +274,13 @@ class ChartController extends Controller
                 //if not, create generic.
                 $chart = new Chart();
                 $chart->taxpayer_id = $taxPayer->id;
-                $chart->version_id = $cycle->version_id;
+                $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->type = 2;
                 $chart->sub_type = 1;
                 $chart->is_accountable = true;
                 $chart->code = 'N/A';
                 $chart->name = __('commercial.AccountsPayable');
+                $chart->save();
             }
         }
 
