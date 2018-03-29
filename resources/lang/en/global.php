@@ -40,5 +40,4 @@ return [
     'ProfileAndSettings' => 'Profile and Settings',
     'Total' => 'Total',
     'Actions' => 'Actions',
-    'Generic' => 'Generic'
 ];

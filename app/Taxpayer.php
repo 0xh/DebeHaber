@@ -3,12 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Sleimanx2\Plastic\Searchable;
+use Addons\Elasticsearch\Scout\Searchable;
 
 class Taxpayer extends Model
 {
+
     //
-    // use Searchable;
+    use Searchable;
     // public $searchable = ['id', 'taxid', 'name', 'alias'];
     /**
     * Get the integrations for the model.

@@ -41,5 +41,4 @@ return [
     'Total' => 'Total',
     'Actions' => 'Acciones',
     'Generic' => 'Generico',
-    'General' => 'General',
 ];

@@ -23,8 +23,7 @@ class PurchaseController extends Controller
 
     public function get_purchases($taxPayerID, Cycle $cycle, $skip)
     {
-
-        $Transaction = Transaction::MySales()
+        $Transaction = Transaction::MyPurchases()
         ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
