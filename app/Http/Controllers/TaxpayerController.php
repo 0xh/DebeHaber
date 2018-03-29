@@ -27,9 +27,10 @@ class TaxpayerController extends Controller
     public function get_taxpayer($teamID, $frase)
     {
         $taxPayers = Taxpayer::
-        where('name', 'LIKE', "%$frase%")
-        ->orwhere('taxid', 'LIKE', "$frase%")
-        ->take(50)
+        search($frase)
+        //where('name', 'LIKE', "%$frase%")
+        //->orwhere('taxid', 'LIKE', "$frase%")
+        //->take(50)
         ->get();
 
         return response()->json($taxPayers);
@@ -219,7 +220,7 @@ class TaxpayerController extends Controller
         ->whereBetween('date', [new Carbon('first day of last month'), new Carbon('last day of last month')])
         ->where('supplier_id', $taxPayer->id)
         ->count();
-        
+
         $totalPurchases = Transaction::MyPurchases()
         ->whereBetween('date', [new Carbon('first day of last month'), new Carbon('last day of last month')])
         ->where('customer_id', $taxPayer->id)

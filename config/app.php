@@ -167,6 +167,9 @@ return [
         Sleimanx2\Plastic\PlasticServiceProvider::class,
         Hootlex\Friendships\FriendshipsServiceProvider::class,
         MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
+
+        Laravel\Scout\ScoutServiceProvider::class,
+        Addons\Elasticsearch\ServiceProvider::class,
     ],
 
     /*
@@ -215,6 +218,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Elasticsearch' => Addons\Elasticsearch\Facade::class,
 
     ],
 
