@@ -208,6 +208,7 @@ class JournalController extends Controller
             }
 
             //Check for Cash Account used.
+
             $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
 
             $detail = new JournalDetail();
@@ -219,7 +220,7 @@ class JournalController extends Controller
         }
 
         //Affects all Credit Sales and uses Customer Account for distribution
-        foreach ($transactions->where('payment_condition' > 0)->groupBy('customer_id') as $groupedTransactions)
+        foreach ($transactions->where('payment_condition', '>', 0)->groupBy('customer_id') as $groupedTransactions)
         {
             $value = 0;
             //calculate value by currency. fx
@@ -243,14 +244,26 @@ class JournalController extends Controller
             $detail->save();
         }
 
+        $details =[];
+
+        foreach ($transactions as $transaction)
+        {
+            foreach ($transaction->details as $detail) {
+            array_push($details,$detail);
+            }
+
+        }
+        $details=collect($details);
+
         //Loop through each type of VAT. It will group by similar VATs to reduce number of rows.
-        foreach ($transactions->details->groupBy('chart_vat_id') as $groupedDetails)
+        foreach ($details->groupBy('chart_vat_id') as $groupedDetails)
         {
             if ($groupedDetails->first()->chart_vat_id == null)
             {
                 $vatChart = $groupedDetails->first()->vat;
 
                 $value = 0;
+
                 // Doubtful code. Check if it will loop properly.
                 foreach ($groupedDetails->transaction->groupBy('rate') as $GroupedByRate)
                 {
@@ -267,7 +280,7 @@ class JournalController extends Controller
         }
 
         //Loop through each type of expense. It will group by similar expenses to reduce number of rows.
-        foreach ($transactions->details->groupBy('chart_id') as $groupedDetails)
+        foreach ($details->groupBy('chart_id') as $groupedDetails)
         {
             $value = 0;
 
@@ -275,8 +288,20 @@ class JournalController extends Controller
             //Also this code should bring value without vat. figure out how to take that into account.
             foreach ($groupedDetails->groupBy('chart_vat_id') as $groupedByVAT)
             {
-                foreach ($groupedByVAT->transaction->groupBy('rate') as $GroupedByRate)
+                $transactions =[];
+
+                foreach ($groupedByVAT as $transaction)
                 {
+
+                    array_push($transactions,$transaction->transaction);
+
+
+                }
+                $transactions=collect($transactions);
+                //dd($transactions);
+                foreach ($transactions->groupBy('rate') as $GroupedByRate)
+                {
+                
                     $value += ($GroupedByRate->sum('value') / $GroupedByRate->rate) / ($groupedByVAT->coefficient + 1);
                 }
             }
