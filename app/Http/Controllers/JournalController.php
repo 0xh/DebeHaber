@@ -141,19 +141,26 @@ class JournalController extends Controller
         //
     }
 
-    public function stub()
+    public function generateJournals(Request $request)
     {
         //Check if JournalTransaction exists.
         if (JournalTransaction::whereIn('transaction_id', $transactions->pluck('id'))->count() > 0)
         {
             //Delete All JournalTransactions and Journals associated.
         }
+
+        foreach ($request as $item) {
+            $transaction
+        }
     }
+
+
 
     //Generates Journals for a given range of Transactions. If one is passed, it will create one journal.
     //If multiple is passed, it will create one journal that takes into account all the details for each account.
-    public function generate_fromSales(Taxpayer $taxPayer, Cycle $cycle, $transactions)
+    public function generate_fromSales(Taxpayer $taxPayer, Cycle $cycle,$transactions)
     {
+
         $transactions = collect($transactions);
 
         //Check if JournalTransaction exists.
@@ -167,26 +174,33 @@ class JournalController extends Controller
 
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
-        $journal->taxpayer_id = $transactions->first('supplier_id');
-        $journal->date = $transactions->last('date');
-        $journal->comment = __('SalesBookComment', [$transactions->first('date')->toDateString(), $transactions->last('date')->toDateString()]);
+        $journal->cycle_id= $cycle->id;
+        $journal->taxpayer_id = $transactions->first()['Supplier_id'];
+        $journal->date = $transactions->last()['Date'];
+        $firstdate=$transactions->first()['Date'];
+        $lastdate=$transactions->last()['Date'];
+        $journal->comment = __('SalesBookComment', [$firstdate,$lastdate]);
         $journal->save();
 
         foreach ($transactions as $transaction)
         {
             $journalTransaction = new JournalTransaction();
             $journalTransaction->journal_id = $journal->id;
-            $journalTransaction->transaction_id = $transaction->id;
+            $journalTransaction->transaction_id = $transaction['ID'];
         }
+        dd($transactions);
 
         //Affect all Cash Sales and uses Cash Accounts
-        foreach ($transactions->where('payment_condition' == 0)->groupBy('chart_account_id') as $groupedTransactions)
+        foreach ($transactions->where('payment_condition','=',0)->groupBy('chart_account_id') as $groupedTransactions)
         {
+
             $value = 0;
+
             //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
             foreach ($groupedTransactions->groupBy('rate') as $GroupedByRate)
             {
-                $value += ($GroupedByRate->details->sum('value') / $GroupedByRate->rate);
+
+                $value += ($GroupedByRate->details->sum('value') / $GroupedByRate['rate']);
             }
 
             //Check for Cash Account used.
