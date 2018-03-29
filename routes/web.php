@@ -17,8 +17,6 @@ Route::get('/get_taxpayers/{searchable}', function ($text)
     return App\Taxpayer::search($text)->get();
 });
 
-
-
 Route::get('/', 'WelcomeController@show');
 
 //No Team, maybe Team. No taxpayer selected

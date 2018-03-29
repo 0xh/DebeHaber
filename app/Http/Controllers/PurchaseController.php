@@ -21,14 +21,13 @@ class PurchaseController extends Controller
         return view('/commercial/purchases');
     }
 
-    public function get_purchases($taxPayerID, Cycle $cycle, $skip)
+    public function get_purchases(Taxpayer $taxpayer, Cycle $cycle, $skip)
     {
-        $Transaction = Transaction::MyPurchases()
+        $transactions = Transaction::MyPurchases()
         ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
-        ->where('transactions.customer_id', $taxPayerID)
-        ->whereIn('transactions.type', [1, 2])
+        ->where('transactions.customer_id', $taxpayer->id)
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Supplier'),
@@ -44,7 +43,7 @@ class PurchaseController extends Controller
         ->take(100)
         ->get();
 
-        return response()->json($Transaction);
+        return response()->json($transactions);
 
     }
 

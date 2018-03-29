@@ -22,6 +22,7 @@ return [
     'DateRange' => 'Date Range',
     'StartDate' => 'Start Date',
     'EndDate' => 'End Date',
+    'Deadline' => 'Deadline',
     'Taxid' => 'Tax Identification Number',
     'Code' => 'Code',
     'Alias' => 'Alias',

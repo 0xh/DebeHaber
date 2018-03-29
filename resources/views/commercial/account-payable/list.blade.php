@@ -34,10 +34,7 @@
         </div>
 
         <div class="row">
-            <div class="col-1 m--font-boldest">
-                <p class="m--font-boldest m--font-transform-u">@lang('global.Date')</p>
-            </div>
-            <div class="col-5">
+            <div class="col-3">
                 <p class="m--font-boldest m--font-transform-u">@lang('commercial.Customer')</p>
             </div>
             <div class="col-2">
@@ -46,31 +43,45 @@
             <div class="col-2">
                 <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Total')</p>
             </div>
-            <div class="col-1">
+            <div class="col-1 m--font-boldest">
+                <p class="m--font-boldest m--font-transform-u">@lang('global.Deadline')</p>
+            </div>
+            <div class="col-2 m--font-boldest">
+                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('commercial.Paid')</p>
+            </div>
+            <div class="col-2">
                 <p class="m--align-center m--font-boldest m--font-transform-u">@lang('global.Actions')</p>
             </div>
         </div>
 
         <div class="row m--margin-bottom-5" v-for="invoice in filteredList">
-            <div class="col-1">
-                <p> @{{ invoice.Date }} </p>
+            <div class="col-3">
+                <p> <span class="m--font-bold">@{{ invoice.Supplier }}</span> |  <em>@{{ invoice.SupplierTaxID }}</em> </p>
             </div>
-            <div class="col-5">
-                <p> <span class="m--font-bold">@{{ invoice.Customer }}</span> |  <em>@{{ invoice.CustomerTaxID }}</em> </p>
-            </div>
+
             <div class="col-2">
                 <p>
-                    @{{ invoice.Number }} |
-                    <span v-if="invoice.PaymentCondition > 0" class="m--font-bold m--font-info"> Credit </span>
-                    <span v-else class="m--font-bold m--font-success"> Cash</span>
+                    @{{ invoice.Number }}
+                    {{-- | <small v-if="invoice.PaymentCondition > 0" class="m--font-bold m--font-brand"> @{{ invoice.Date }} </small> --}}
                 </p>
             </div>
+
             <div class="col-2">
                 <p class="m--font-bold m--align-right">
                     @{{ invoice.Value }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
                 </p>
             </div>
             <div class="col-1">
+                <p class="m--font-bold m--align-right">
+                    @{{ invoice.Expiry }}
+                </p>
+            </div>
+            <div class="col-2">
+                <p class="m--font-bold m--align-right">
+                    @{{ invoice.Paid }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
+                </p>
+            </div>
+            <div class="col-2">
                 <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
                     <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
                     <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>

@@ -22,6 +22,7 @@ return [
     'DateRange' => 'Rango de Fecha',
     'StartDate' => 'Fecha de Inicio',
     'EndDate' => 'Fecha Final',
+    'Deadline' => 'Vencimiento',
     'Taxid' => 'Cedula de Identidad',
     'Code' => 'Codigo',
     'Alias' => 'Alias',
