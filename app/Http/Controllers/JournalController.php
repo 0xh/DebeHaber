@@ -199,11 +199,11 @@ class JournalController extends Controller
             $value = 0;
 
             //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
-            foreach ($groupedTransactions->groupBy('rate') as $GroupedByRate)
+            foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
             {
-                foreach ($GroupedByRate as $transaction)
+                foreach ($groupedByRate as $transaction)
                 {
-                    $value += ($transaction->details->sum('value') / $GroupedByRate->first()->rate);
+                    $value += ($transaction->details->sum('value') / $groupedByRate->first()->rate);
                 }
             }
 
@@ -224,11 +224,11 @@ class JournalController extends Controller
         {
             $value = 0;
             //calculate value by currency. fx
-            foreach ($groupedTransactions->groupBy('rate') as $GroupedByRate)
+            foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
             {
-                foreach ($GroupedByRate as $transaction)
+                foreach ($groupedByRate as $transaction)
                 {
-                    $value += ($transaction->details->sum('value') / $GroupedByRate->first()->rate);
+                    $value += ($transaction->details->sum('value') / $groupedByRate->first()->rate);
                 }
             }
 
@@ -249,7 +249,7 @@ class JournalController extends Controller
         foreach ($transactions as $transaction)
         {
             foreach ($transaction->details as $detail) {
-            array_push($details,$detail);
+                array_push($details,$detail);
             }
 
         }
@@ -265,9 +265,9 @@ class JournalController extends Controller
                 $value = 0;
 
                 // Doubtful code. Check if it will loop properly.
-                foreach ($groupedDetails->transaction->groupBy('rate') as $GroupedByRate)
+                foreach ($groupedDetails->transaction->groupBy('rate') as $groupedByRate)
                 {
-                    $value += ((($GroupedByRate->sum('value') / $GroupedByRate->rate) / $vatChart->coefficient + 1) * $vatChart->coefficient);
+                    $value += ((($groupedByRate->sum('value') / $groupedByRate->rate) / $vatChart->coefficient + 1) * $vatChart->coefficient);
                 }
 
                 $detail = new JournalDetail();
@@ -296,13 +296,14 @@ class JournalController extends Controller
                     array_push($transactions,$transaction->transaction);
 
 
+
                 }
                 $transactions=collect($transactions);
-                //dd($transactions);
-                foreach ($transactions->groupBy('rate') as $GroupedByRate)
+
+                foreach ($transactions->groupBy('rate') as $groupedByRate)
                 {
-                
-                    $value += ($GroupedByRate->sum('value') / $GroupedByRate->rate) / ($groupedByVAT->coefficient + 1);
+
+                    $value += ($groupedByRate->sum('value') / $groupedByRate->first()->rate) / ($groupedByVAT->first()->coefficient + 1);
                 }
             }
 
@@ -341,9 +342,9 @@ class JournalController extends Controller
         {
             $value = 0;
             //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
-            foreach ($groupedTransactions->groupBy('rate') as $GroupedByRate)
+            foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
             {
-                $value += ($GroupedByRate->details->sum('value') / $GroupedByRate->rate);
+                $value += ($groupedByRate->details->sum('value') / $groupedByRate->rate);
             }
 
             //Check for Cash Account used.
@@ -362,9 +363,9 @@ class JournalController extends Controller
         {
             $value = 0;
             //calculate value by currency. fx
-            foreach ($groupedTransactions->groupBy('rate') as $GroupedByRate)
+            foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
             {
-                $value += ($GroupedByRate->details->sum('value') / $GroupedByRate->rate);
+                $value += ($groupedByRate->details->sum('value') / $groupedByRate->rate);
             }
 
             $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedTransactions->first()->customer_id);
@@ -386,9 +387,9 @@ class JournalController extends Controller
 
                 $value = 0;
                 // Doubtful code. Check if it will loop properly.
-                foreach ($groupedDetails->transaction->groupBy('rate') as $GroupedByRate)
+                foreach ($groupedDetails->transaction->groupBy('rate') as $groupedByRate)
                 {
-                    $value += ((($GroupedByRate->sum('value') / $GroupedByRate->rate) / $vatChart->coefficient + 1) * $vatChart->coefficient);
+                    $value += ((($groupedByRate->sum('value') / $groupedByRate->rate) / $vatChart->coefficient + 1) * $vatChart->coefficient);
                 }
 
                 $detail = new JournalDetail();
@@ -409,9 +410,9 @@ class JournalController extends Controller
             //Also this code should bring value without vat. figure out how to take that into account.
             foreach ($groupedDetails->groupBy('chart_vat_id') as $groupedByVAT)
             {
-                foreach ($groupedByVAT->transaction->groupBy('rate') as $GroupedByRate)
+                foreach ($groupedByVAT->transaction->groupBy('rate') as $groupedByRate)
                 {
-                    $value += ($GroupedByRate->sum('value') / $GroupedByRate->rate) / ($groupedByVAT->coefficient + 1);
+                    $value += ($groupedByRate->sum('value') / $groupedByRate->rate) / ($groupedByVAT->coefficient + 1);
                 }
             }
 
