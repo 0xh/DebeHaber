@@ -30,6 +30,8 @@ return [
     'Productions' => 'Productions',
     'FixedAssets' => 'Fixed Assets',
 
+    'Paid' => 'Paid',
+
     'Exempt' => 'Exempt',
     'Value' => 'Value',
     'SalesTax' => 'Sales Tax',

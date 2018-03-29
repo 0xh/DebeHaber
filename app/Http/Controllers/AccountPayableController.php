@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Transaction;
 use App\Taxpayer;
 use App\Cycle;
 use App\AccountMovement;
@@ -20,16 +21,16 @@ class AccountPayableController extends Controller
         return view('/commercial/accounts-payable');
     }
 
-    public function get_account_payable($taxPayerID, $cycle, $skip)
+    public function get_account_payable(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
         $transactions = Transaction::MyPurchases()
         ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
-        ->where('transactions.customer_id', $taxPayerID)
+        ->where('transactions.customer_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
-        ->whereIn('transactions.type', [1, 2])
+        //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Supplier'),
@@ -37,6 +38,7 @@ class AccountPayableController extends Controller
         DB::raw('max(currencies.code) as Currency'),
         DB::raw('max(transactions.payment_condition) as PaymentCondition'),
         DB::raw('max(transactions.date) as Date'),
+        DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
         DB::raw('max(transactions.number) as Number'),
         DB::raw('ifnull(sum(account_movements.debit), 0) as Paid'),
         DB::raw('sum(td.value) as Value'))

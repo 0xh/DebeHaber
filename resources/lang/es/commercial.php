@@ -30,6 +30,8 @@ return [
     'Productions' => 'Producciones',
     'FixedAssets' => 'Activos Fijos',
 
+    'Paid' => 'Pagado',
+
     'Exempt' => 'Exenta',
     'Value' => 'Valor',
     'SalesTax' => 'IVA',
