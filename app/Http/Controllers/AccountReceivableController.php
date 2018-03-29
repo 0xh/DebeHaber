@@ -19,19 +19,35 @@ class AccountReceivableController extends Controller
           return view('/commercial/accounts-receivable');
     }
 
-    public function get_account_receivable($taxPayerID)
+    public function get_account_receivable($taxPayerID, $skip)
     {
-        $accountMovement = AccountMovement::
-        Join('charts', 'charts.id', 'account_movements.chart_id')
-        ->leftJoin('currencies', 'currencies.id', 'account_movements.currency_id')
-        ->where('account_movements.taxpayer_id', $taxPayerID)
-          ->where('credit','>',0)
-        ->select(DB::raw('false as selected,account_movements.id,charts.name as chart
-        ,transaction_id,currencies.name as currency,currency_id,rate,debit,credit,date
-        '))
+        $transactions = Transaction::MySales()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->join('currencies', 'transactions.currency_id','currencies.id')
+        ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
+        ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
+        ->where('transactions.payment_condition', '>', 0)
+        ->where('transactions.type', 4)
+        ->where('supplier_id', $taxPayerID)
+        ->groupBy('transactions.id')
+        ->select(DB::raw('max(transactions.id) as ID'),
+        DB::raw('max(taxpayers.name) as Customer'),
+        DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
+        DB::raw('max(currencies.code) as Currency'),
+        DB::raw('max(payment_condition) as PaymentCondition'),
+        DB::raw('max(date) as Date'),
+        DB::raw('max(number) as Number'),
+        DB::raw('ifnull(sum(account_movements.credit), 0) as Paid'),
+        DB::raw('sum(td.value) as Value'))
+        ->orderBy('transactions.date', 'desc')
+        ->orderBy('transactions.number', 'desc')
+        ->skip($skip)
+        ->take(100)
         ->get();
-        return response()->json($accountMovement);
+
+        return response()->json($transactions);
     }
+
     public function get_account_receivableByID($taxPayerID,$id)
     {
         $accountMovement = AccountMovement::

@@ -1,102 +1,74 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-Vue.component('account-payable-list',{
 
+import InfiniteLoading from 'vue-infinite-loading';
+import axios from 'axios';
+
+Vue.component('account-payable-list',{
     props: ['taxpayer','cycle'],
     data(){
         return {
-            columns: [
-              {
-                  label: 'SelectAll',
-                  sortable: false,
-              },
-              {
-                  label: ' Chart',
-                  field: 'chart',
-                  filterable: true,
-              },
-              {
-                  label: 'Amount',
-                  field: 'debit',
-                  filterable: true,
-              },
-              {
-                  label: 'Date',
-                  field: 'date',
-                  type: 'date',
-                  inputFormat: 'YYYY-MM-DD',
-                  outputFormat: 'MMM Do YY',
-              },
-              {
-                  label: 'Action',
-              },
-
-
-            ],
-            rows: [
-
-            ],
+            list: [],
+            total: 0,
+            skip: 0,
+            pageSize: 100,
+            search: '',
         };
     },
 
-    methods: {
-        add()
+    computed: {
+        filteredList() {
+            return this.list.filter(x => {
+                return x.Number.toLowerCase().includes(this.search.toLowerCase())
+            })
+        }
+    },
+
+    components:
+    {
+        InfiniteLoading,
+    },
+
+    methods:
+    {
+        infiniteHandler($state)
         {
-            var app=this;
-            app.$parent.status=1;
-
-            //app.$parent.$children[0].onReset();
-
-
-
-        },
-
-        init(){
             var app = this;
-            $.ajax({
-                url: '/api/'+ this.taxpayer + '/' + this.cycle + '/commercial/get_account_payable/' ,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
+            axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_account_payable/' + app.skip + '',
+            {
+                params:
                 {
-
-                    app.rows = [];
-                    app.rows=data;
-                    // for(let i = 0; i < data.length; i++)
-                    // {
-                    //     app.rows.push({
-                    //         selected: false,
-                    //         id : data[i]['id'],
-                    //         type : data[i]['type'],
-                    //         customer_id : data[i]['customer_id'],
-                    //         supplier_id : data[i]['supplier_id'],
-                    //         document_id : data[i]['document_id'],
-                    //         currency_id : data[i]['currency_id'],
-                    //         rate : data[i]['rate'],
-                    //         payment_condition : data[i]['payment_condition'],
-                    //         chart_account_id : data[i]['chart_account_id'],
-                    //         date : data[i]['date'],
-                    //         number : data[i]['number'],
-                    //         code : data[i]['code'],
-                    //         code_expiry :data[i]['code_expiry'],
-                    //         comment :data[i]['comment'],
-                    //         ref_id :data[i]['ref_id'],
-                    //         details : data[i]['details']
-                    //     });
-                    // }
+                    page: app.list.length / 100 + 1,
                 },
-                error: function(xhr, status, error)
+            })
+            .then(({ data }) =>
+            {
+                if (data.length > 0)
                 {
-                    console.log(status);
+                    for (let i = 0; i < data.length; i++)
+                    {
+                        app.list.push(data[i]);
+                    }
+
+                    app.skip += app.pageSize;
+                    $state.loaded();
+                }
+                else
+                {
+                    $state.complete();
                 }
             });
         },
+
+        add()
+        {
+            var app = this;
+            app.$parent.status = 1;
+        },
+
         onEdit: function(data)
         {
-
             var app = this;
-            app.$parent.status=1;
+            app.$parent.status = 1;
             $.ajax({
                 url: '/api/'+ this.taxpayer + '/' + this.cycle + '/commercial/get_account_payableByID/' + data.id,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -105,35 +77,25 @@ Vue.component('account-payable-list',{
                 async: true,
                 success: function(data)
                 {
-
-
                     app.$parent.$children[0].onEdit(data[0]);
-
-
                 },
                 error: function(xhr, status, error)
                 {
                     console.log(status);
                 }
             });
-
         },
-        toggleSelectAll() {
+
+        toggleSelectAll()
+        {
             this.allSelected = !this.allSelected;
             this.rows.forEach(row => {
                 if(this.allSelected){
                     row.selected = true;
-                }else{
+                } else {
                     row.selected = false;
                 }
             })
         }
-    },
-
-    mounted: function mounted()
-    {
-        var app=this;
-        this.init();
-
     }
 });
