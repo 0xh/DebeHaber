@@ -145,13 +145,13 @@ class JournalController extends Controller
 
     public function generateJournals(Taxpayer $taxPayer, Cycle $cycle, Request $request)
     {
-        $id =[];
-        for ($i=0; $i <=count($request) ; $i++)
+        $arrID =[];
+        for ($i=0; $i <= count($request); $i++)
         {
-            array_push($id,$request[$i]['ID']);
+            array_push($arrID, $request[$i]['ID']);
         }
 
-        $transactions = Transaction::whereIn('transactions.id', $id)->with('details')->get();
+        $transactions = Transaction::whereIn('transactions.id', $arrID)->with('details')->get();
         $this->generate_fromSales($taxPayer, $cycle, $transactions);
 
         //Check if JournalTransaction exists.
@@ -167,13 +167,6 @@ class JournalController extends Controller
     //If multiple is passed, it will create one journal that takes into account all the details for each account.
     public function generate_fromSales(Taxpayer $taxPayer, Cycle $cycle, $transactions)
     {
-
-        //Check if JournalTransaction exists.
-        if (JournalTransaction::whereIn('transaction_id', $transactions->pluck('id'))->count() > 0)
-        {
-            //Delete All JournalTransactions and Journals associated.
-        }
-
         //Create chart controller we might need it further in the code to lookup charts.
         $ChartController = new ChartController();
 
@@ -248,26 +241,25 @@ class JournalController extends Controller
 
         foreach ($transactions as $transaction)
         {
-            foreach ($transaction->details as $detail) {
-                array_push($details,$detail);
+            foreach ($transaction->details as $detail)
+            {
+                array_push($details, $detail);
             }
-
         }
-        $details=collect($details);
+
+        $details = collect($details);
 
         //Loop through each type of VAT. It will group by similar VATs to reduce number of rows.
-        foreach ($details->groupBy('chart_vat_id') as $groupedDetails)
+        foreach ($details->groupBy('chart_vat_id') as $groupedByVATs)
         {
-            if ($groupedDetails->first()->chart_vat_id == null)
+            if ($groupedByVATs->first()->chart_vat_id != null)
             {
-                $vatChart = $groupedDetails->first()->vat;
+                $vatChart = $groupedByVATs->first()->vat;
 
-                $value = 0;
-
-                // Doubtful code. Check if it will loop properly.
-                foreach ($groupedDetails->transaction->groupBy('rate') as $groupedByRate)
+                $value = 0;                
+                foreach ($groupedByVAT as $detail)
                 {
-                    $value += ((($groupedByRate->sum('value') / $groupedByRate->rate) / $vatChart->coefficient + 1) * $vatChart->coefficient);
+                    $value += ((($detail->value / $detail->transaction->rate) / $vatChart->coefficient + 1) * $vatChart->coefficient);
                 }
 
                 $detail = new JournalDetail();
@@ -280,37 +272,22 @@ class JournalController extends Controller
         }
 
         //Loop through each type of expense. It will group by similar expenses to reduce number of rows.
-        foreach ($details->groupBy('chart_id') as $groupedDetails)
+        foreach ($details->groupBy('chart_id') as $groupedByCharts)
         {
             $value = 0;
 
-            //Doubtful code. Check if it will loop properly.
-            //Also this code should bring value without vat. figure out how to take that into account.
-            foreach ($groupedDetails->groupBy('chart_vat_id') as $groupedByVAT)
+            foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
             {
-                $transactions =[];
-
-                foreach ($groupedByVAT as $transaction)
+                foreach ($groupedByVAT as $detail)
                 {
-
-                    array_push($transactions,$transaction->transaction);
-
-
-
-                }
-                $transactions=collect($transactions);
-
-                foreach ($transactions->groupBy('rate') as $groupedByRate)
-                {
-
-                    $value += ($groupedByRate->sum('value') / $groupedByRate->first()->rate) / ($groupedByVAT->first()->coefficient + 1);
+                    $value += ($detail->value / $detail->transaction->rate) / ($groupedByVAT->first()->coefficient + 1);
                 }
             }
 
             $detail = new JournalDetail();
             $detail->debit = $value;
             $detail->credit = 0;
-            $detail->chart_id = $groupedDetails->first()->chart_id;
+            $detail->chart_id = $groupedByCharts->first()->chart_id;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
