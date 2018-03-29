@@ -256,10 +256,11 @@ class JournalController extends Controller
             {
                 $vatChart = $groupedByVATs->first()->vat;
 
-                $value = 0;                
-                foreach ($groupedByVAT as $detail)
+                $value = 0;
+                foreach ($groupedByVATs as $detail)
                 {
-                    $value += ((($detail->value / $detail->transaction->rate) / $vatChart->coefficient + 1) * $vatChart->coefficient);
+                    $value += ((($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
+
                 }
 
                 $detail = new JournalDetail();
@@ -278,9 +279,11 @@ class JournalController extends Controller
 
             foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
             {
+                $vatChart = $groupedByVAT->first()->vat;
                 foreach ($groupedByVAT as $detail)
                 {
-                    $value += ($detail->value / $detail->transaction->rate) / ($groupedByVAT->first()->coefficient + 1);
+                    $value += (($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1));
+                    
                 }
             }
 
