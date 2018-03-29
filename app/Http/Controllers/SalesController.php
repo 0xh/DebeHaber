@@ -21,42 +21,38 @@ class SalesController extends Controller
         return view('/commercial/sales');
     }
 
-    public function get_sales($taxPayerID, Cycle $cycle, $skip)
+    public function get_sales(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
-
         $Transaction = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
-        ->where('transactions.type', 4)
-        ->where('supplier_id', $taxPayerID)
+        ->where('supplier_id', $taxPayer->id)
         ->groupBy('transactions.id')
-        ->select(DB::raw('0 as IsSelected'),
-        DB::raw('max(transactions.id) as ID'),
+        ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Customer'),
         DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
         DB::raw('max(currencies.code) as Currency'),
-        DB::raw('max(rate) as rate'),
-        DB::raw('max(payment_condition) as PaymentCondition'),
-        DB::raw('max(date) as Date'),
-        DB::raw('max(number) as Number'),
+        DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+        DB::raw('max(transactions.date) as Date'),
+        DB::raw('max(transactions.number) as Number'),
         DB::raw('sum(td.value) as Value'))
-        ->orderBy('date', 'desc')
-        ->orderBy('number', 'desc')
+        ->orderBy('transactions.date', 'desc')
+        ->orderBy('transactions.number', 'desc')
         ->skip($skip)
         ->take(100)
         ->get();
         return response()->json($Transaction);
-
     }
 
-    public function getLastPurchase($taxPayerID)
+    public function getLastSales($partnerID)
     {
-        $Transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
-        ->where('supplier_id', $taxPayerID)
+        $Transaction = Transaction::MySales()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->where('customer_id', $partnerID)
         ->with('details')
         ->orderBy('date', 'desc')
-        ->select(DB::raw('false as friends, transactions.id,taxpayers.name as Supplier
+        ->select(DB::raw('transactions.id,taxpayers.name as Supplier
         ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
         ,number,transactions.code,code_expiry'))
         ->first();

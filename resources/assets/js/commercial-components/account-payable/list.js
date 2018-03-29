@@ -36,7 +36,7 @@ Vue.component('account-payable-list',{
         infiniteHandler($state)
         {
             var app = this;
-            axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_account_payable/' + app.skip + '',
+            axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_account_payables/' + app.skip + '',
             {
                 params:
                 {

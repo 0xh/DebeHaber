@@ -21,18 +21,29 @@ class CreditNoteController extends Controller
         return view('/commercial/creditnote');
     }
 
-    public function get_credit_note($taxPayerID)
+    public function get_credit_note(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
-        $Transaction = Transaction::MyCreditNotes()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
-        ->where('supplier_id', $taxPayerID)
-        ->with('details')
-        ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Customer
-        ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-        ,number,transactions.code,code_expiry'))
-        ->orderBy('date', 'desc')
-        ->orderBy('number', 'desc')
+        $transactions = Transaction::MyCreditNotes()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->join('currencies', 'currencies.id', 'transactions.currency_id')
+        ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
+        ->where('supplier_id', $taxPayer->id)
+        ->groupBy('transactions.id')
+        ->select(DB::raw('max(transactions.id) as ID'),
+        DB::raw('max(taxpayers.name) as Customer'),
+        DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
+        DB::raw('max(currencies.code) as Currency'),
+        DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+        DB::raw('max(transactions.date) as Date'),
+        DB::raw('max(transactions.number) as Number'),
+        DB::raw('sum(td.value) as Value'))
+        ->orderBy('transactions.date', 'desc')
+        ->orderBy('transactions.number', 'desc')
+        ->skip($skip)
+        ->take(100)
         ->get();
-        return response()->json($Transaction);
+
+        return response()->json($transactions);
     }
 
     public function get_credit_noteByID($taxPayerID,Cycle $cycle,$id)

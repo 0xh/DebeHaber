@@ -24,22 +24,24 @@ class AccountReceivableController extends Controller
     public function get_account_receivable(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
         $transactions = Transaction::MySales()
-        ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+        ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
         ->where('transactions.supplier_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
+        //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as ID'),
-        DB::raw('max(taxpayers.name) as Supplier'),
-        DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
+        DB::raw('max(taxpayers.name) as Customer'),
+        DB::raw('max(taxpayers.taxid) as CutomerTaxID'),
         DB::raw('max(currencies.code) as Currency'),
         DB::raw('max(transactions.payment_condition) as PaymentCondition'),
         DB::raw('max(transactions.date) as Date'),
+        DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
         DB::raw('max(transactions.number) as Number'),
-        DB::raw('0 as Paid'),
-        DB::raw('sum(td.value) as Value'))
+        DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
+        DB::raw('sum(td.value/transactions.rate) as Value'))
         ->orderBy('transactions.date', 'desc')
         ->orderBy('transactions.number', 'desc')
         ->skip($skip)

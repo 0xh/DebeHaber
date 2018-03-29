@@ -21,13 +21,13 @@ class PurchaseController extends Controller
         return view('/commercial/purchases');
     }
 
-    public function get_purchases(Taxpayer $taxpayer, Cycle $cycle, $skip)
+    public function get_purchases(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
         $transactions = Transaction::MyPurchases()
         ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
-        ->where('transactions.customer_id', $taxpayer->id)
+        ->where('transactions.customer_id', $taxPayer->id)
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Supplier'),
@@ -48,145 +48,137 @@ class PurchaseController extends Controller
 
     public function getLastPurchase($taxPayerID)
     {
-        $Transaction = Transaction::MyPurchases()->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
-        ->where('customer_id', $taxPayerID)
-        ->with('details')
-        ->orderBy('date', 'desc')
-        ->select(DB::raw('false as friends,transactions.id,taxpayers.name as Supplier
-        ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-        ,number,transactions.code,code_expiry'))
-        ->first();
-        return response()->json($Transaction);
-    }
-
-    public function get_purchasesByID($taxPayerID,Cycle $cycle,$id)
-    {
         $Transaction = Transaction::MyPurchases()
         ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
         ->where('customer_id', $taxPayerID)
-        ->where('transactions.id', $id)
         ->with('details')
-        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as supplier
-        ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-        ,number,transactions.code,code_expiry'))
-        ->get();
+        ->orderBy('date', 'desc')
+        ->select(DB::raw(
+            'taxpayers.name as Supplier,
+            supplier_id,
+            document_id,
+            currency_id,
+            rate,
+            payment_condition,
+            chart_account_id,
+            date,
+            number,
+            transactions.code,
+            code_expiry'))
+            ->first();
+            return response()->json($Transaction);
+        }
 
-        return response()->json($Transaction);
-    }
-
-    /**
-    * Show the form for creating a new resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function create()
-    {
-        //
-    }
-
-    /**
-    * Store a newly created resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
-    public function store(Request $request,Taxpayer $taxPayer)
-    {
-        if ($request->id == 0)
+        public function get_purchasesByID(Taxpayer $taxPayer, Cycle $cycle, $id)
         {
-            $Transaction = new Transaction();
+            $Transaction = Transaction::MyPurchases()
+            ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+            ->where('customer_id', $taxPayer->id)
+            ->where('transactions.id', $id)
+            ->with('details')
+            ->select(DB::raw('false as selected,transactions.id,taxpayers.name as supplier
+            ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
+            ,number,transactions.code,code_expiry'))
+            ->get();
+
+            return response()->json($Transaction);
         }
-        else
+
+        /**
+        * Show the form for creating a new resource.
+        *
+        * @return \Illuminate\Http\Response
+        */
+        public function create()
         {
-            $Transaction = Transaction::where('id', $request->id)->first();
+            //
         }
 
-        $Transaction->customer_id = $taxPayer->id;
-        $Transaction->supplier_id = $request->supplier_id;
-
-        if ($request->document_id>0) {
-            $Transaction->document_id = $request->document_id;
-        }
-        if ($request->currency_id>0) {
-            $Transaction->currency_id = $request->currency_id;
-        }
-
-        $Transaction->rate = $request->rate;
-        $Transaction->payment_condition = $request->payment_condition;
-        if ($request->chart_account_id>0) {
-            $Transaction->chart_account_id = $request->chart_account_id;
-        }
-
-        $Transaction->date = $request->date;
-        $Transaction->number = $request->number;
-        $Transaction->code = $request->code;
-        $Transaction->code_expiry = $request->code_expiry;
-        $Transaction->comment = $request->comment;
-        $Transaction->type = $request->type;
-        $Transaction->save();
-
-        foreach ($request->details as $detail)
+        /**
+        * Store a newly created resource in storage.
+        *
+        * @param  \Illuminate\Http\Request  $request
+        * @return \Illuminate\Http\Response
+        */
+        public function store(Request $request,Taxpayer $taxPayer)
         {
-            if ($detail['id'] == 0)
+            $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
+            $transaction->customer_id = $taxPayer->id;
+            $transaction->supplier_id = $request->supplier_id;
+            $transaction->document_id = $request->document_id > 0 ? $request->document_id : null;
+            $transaction->currency_id = $request->currency_id;
+
+            $transaction->rate = $request->rate;
+            $transaction->payment_condition = $request->payment_condition;
+
+            if ($request->chart_account_id > 0)
             {
-                $TransactionDetail = new TransactionDetail();
-            }
-            else
-            {
-                $TransactionDetail = TransactionDetail::where('id',$detail['id'])->first();
+                $transaction->chart_account_id = $request->chart_account_id;
             }
 
-            $TransactionDetail->transaction_id = $Transaction->id;
-            $TransactionDetail->chart_id = $detail['chart_id'];
-            $TransactionDetail->chart_vat_id = $detail['chart_vat_id'];
-            $TransactionDetail->value = $detail['value'];
-            $TransactionDetail->save();
+            $transaction->date = $request->date;
+            $transaction->number = $request->number;
+            $transaction->code = $request->code;
+            $transaction->code_expiry = $request->code_expiry;
+            $transaction->comment = $request->comment;
+            $transaction->type = $request->type;
+            $transaction->save();
+
+            foreach ($request->details as $detail)
+            {
+                $transactionDetail = $detail['id'] == 0 ? new TransactionDetail() : TransactionDetail::where('id', $detail['id'])->first();
+                $transactionDetail->transaction_id = $transaction->id;
+                $transactionDetail->chart_id = $detail['chart_id'];
+                $transactionDetail->chart_vat_id = $detail['chart_vat_id'];
+                $transactionDetail->value = $detail['value'];
+                $transactionDetail->save();
+            }
+
+            return response()->json('ok');
         }
-        return response()->json('ok');
-    }
 
-    /**
-    * Display the specified resource.
-    *
-    * @param  \App\Transaction  $transaction
-    * @return \Illuminate\Http\Response
-    */
-    public function show(Transaction $transaction)
-    {
-        //
-    }
+        /**
+        * Display the specified resource.
+        *
+        * @param  \App\Transaction  $transaction
+        * @return \Illuminate\Http\Response
+        */
+        public function show(Transaction $transaction)
+        {
+            //
+        }
 
-    /**
-    * Show the form for editing the specified resource.
-    *
-    * @param  \App\Transaction  $transaction
-    * @return \Illuminate\Http\Response
-    */
-    public function edit(Transaction $transaction)
-    {
-        //
-    }
+        /**
+        * Show the form for editing the specified resource.
+        *
+        * @param  \App\Transaction  $transaction
+        * @return \Illuminate\Http\Response
+        */
+        public function edit(Transaction $transaction)
+        {
+            //
+        }
 
-    /**
-    * Update the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  \App\Transaction  $transaction
-    * @return \Illuminate\Http\Response
-    */
-    public function update(Request $request, Transaction $transaction)
-    {
-        //
-    }
+        /**
+        * Update the specified resource in storage.
+        *
+        * @param  \Illuminate\Http\Request  $request
+        * @param  \App\Transaction  $transaction
+        * @return \Illuminate\Http\Response
+        */
+        public function update(Request $request, Transaction $transaction)
+        {
+            //
+        }
 
-    /**
-    * Remove the specified resource from storage.
-    *
-    * @param  \App\Transaction  $transaction
-    * @return \Illuminate\Http\Response
-    */
-    public function destroy(Transaction $transaction)
-    {
-        //
+        /**
+        * Remove the specified resource from storage.
+        *
+        * @param  \App\Transaction  $transaction
+        * @return \Illuminate\Http\Response
+        */
+        public function destroy(Transaction $transaction)
+        {
+            //
+        }
     }
-}

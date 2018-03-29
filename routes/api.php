@@ -68,16 +68,16 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::get('get_last_purchase', 'PurchaseController@getLastPurchase');
                 Route::get('get_purchasesByID/{id}', 'PurchaseController@get_purchasesByID');
 
-                Route::get('get_credit_note/{skip}', 'CreditNoteController@get_credit_note');
+                Route::get('get_credit_notes/{skip}', 'CreditNoteController@get_credit_note');
                 Route::get('get_credit_noteByID/{id}', 'CreditNoteController@get_credit_noteByID');
 
-                Route::get('get_debit_note/{skip}', 'DebitNoteController@get_debit_note');
+                Route::get('get_debit_notes/{skip}', 'DebitNoteController@get_debit_note');
                 Route::get('get_debit_noteByID/{id}', 'DebitNoteController@get_debit_noteByID');
 
-                Route::get('get_account_receivable/{skip}', 'AccountReceivableController@get_account_receivable');
+                Route::get('get_account_receivables/{skip}', 'AccountReceivableController@get_account_receivable');
                 Route::get('get_account_receivableByID/{id}', 'AccountReceivableController@get_account_receivableByID');
 
-                Route::get('get_account_payable/{skip}', 'AccountPayableController@get_account_payable');
+                Route::get('get_account_payables/{skip}', 'AccountPayableController@get_account_payable');
                 Route::get('get_account_payableByID/{id}', 'AccountPayableController@get_account_payableByID');
             });
         });
