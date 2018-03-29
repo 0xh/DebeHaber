@@ -31,20 +31,22 @@ class SalesController extends Controller
         ->where('transactions.type', 4)
         ->where('supplier_id', $taxPayerID)
         ->groupBy('transactions.id')
-        ->select(DB::raw('max(transactions.id) as ID'),
+        ->select(DB::raw('0 as IsSelected'),
+        DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Customer'),
         DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
         DB::raw('max(currencies.code) as Currency'),
+        DB::raw('max(rate) as rate'),
         DB::raw('max(payment_condition) as PaymentCondition'),
         DB::raw('max(date) as Date'),
         DB::raw('max(number) as Number'),
-        DB::raw('sum(td.value) as Value'))
+        DB::raw('sum(td.value) as Value'),
+        DB::raw('max(transactions.supplier_id) as Supplier_id'))
         ->orderBy('date', 'desc')
         ->orderBy('number', 'desc')
         ->skip($skip)
         ->take(100)
         ->get();
-
         return response()->json($Transaction);
 
     }
