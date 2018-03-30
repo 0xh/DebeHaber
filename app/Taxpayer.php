@@ -7,8 +7,6 @@ use Addons\Elasticsearch\Scout\Searchable;
 
 class Taxpayer extends Model
 {
-
-    //
     use Searchable;
 
     protected $fillable = [
@@ -19,6 +17,17 @@ class Taxpayer extends Model
         'email',
         'telephone'
     ];
+    
+    public function toSearchableArray()
+    {
+        return [
+            'id'   => $this->id,
+            'name'   => $this->name,
+            'taxid' => $this->taxid,
+            'alias'   => $this->alias,
+            'email' => $this->email
+        ];
+    }
 
     // public $searchable = ['id', 'taxid', 'name', 'alias'];
     /**

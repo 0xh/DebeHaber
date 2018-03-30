@@ -31,9 +31,9 @@ Vue.component('sales-form',{
                 //     chart_id:'',
                 //     chart_vat_id:0,
                 //     value:0,
-                //     iva:0,
-                //     exenta:0,
-                //     gravada:0,
+                //     vat:0,
+                //     taxExempt:0,
+                //     taxable:0,
                 //
                 // }
             ],
@@ -65,37 +65,36 @@ Vue.component('sales-form',{
             return parseFloat(total).toFixed(2);
         },
 
-        grandExenta: function()
+        grandTaxExempt: function()
         {
             var total = 0.0;
             for(let i = 0; i < this.details.length; i++)
             {
-                total += parseFloat(this.details[i].exenta).toFixed(2);
+                total += parseFloat(this.details[i].taxExempt).toFixed(2);
             }
 
             return parseFloat(total).toFixed(2);
         },
 
-        grandGravada: function()
+        grandTaxable: function()
         {
             var app = this;
             var total = 0.0;
 
             for (let i = 0; i < app.details.length; i++)
             {
-
-                total += parseFloat(app.details[i].gravada).toFixed(2);
+                total += parseFloat(app.details[i].taxable).toFixed(2);
             }
 
             return parseFloat(total).toFixed(2);
         },
 
-        grandIva: function()
+        grandVAT: function()
         {
             var total = 0.0;
             for (let i = 0; i < this.details.length; i++)
             {
-                total += parseFloat(this.details[i].iva).toFixed(2);
+                total += parseFloat(this.details[i].vat).toFixed(2);
             }
 
             return parseFloat(total).toFixed(2);
@@ -105,7 +104,7 @@ Vue.component('sales-form',{
     methods: {
         addDetail: function()
         {
-            this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0,iva:0,exenta:0,gravada:0 })
+            this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0,vat:0,taxExempt:0,taxable:0 })
         },
 
         //Removes Detail. Make sure it removes the correct detail, and not in randome.
@@ -236,9 +235,9 @@ Vue.component('sales-form',{
                 success: function(data)
                 {
 
-                    app.number=data.current_range + 1;
-                    app.code=data.code;
-                    app.code_expiry=data.code_expiry;
+                    app.number = data.current_range + 1;
+                    app.code = data.code;
+                    app.code_expiry = data.code_expiry;
                 },
                 error: function(xhr, status, error)
                 {
@@ -250,7 +249,7 @@ Vue.component('sales-form',{
         cancel()
         {
             var app = this;
-            app.$parent.status=0;
+            app.$parent.status = 0;
         },
 
         getCurrencies: function(data)
@@ -264,12 +263,11 @@ Vue.component('sales-form',{
                 async: true,
                 success: function(data)
                 {
-                    app.currencies=[];
+                    app.currencies = [];
                     for(let i = 0; i < data.length; i++)
                     {
                         app.currencies.push({name:data[i]['name'],id:data[i]['id']});
                     }
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -289,10 +287,7 @@ Vue.component('sales-form',{
                 async: true,
                 success: function(data)
                 {
-                    //if (app.rate == '' || app.rate == null)
-                    //{
                     app.rate = data;
-                    //}
                 },
                 error: function(xhr, status, error)
                 {
@@ -367,14 +362,14 @@ Vue.component('sales-form',{
                     {
                         if (app.vats[i].coefficient == '0.00')
                         {
-                            detail.exenta = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.vats[i].coefficient))).toFixed(2);
+                            detail.taxExempt = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.vats[i].coefficient))).toFixed(2);
                         }
                         else
                         {
-                            detail.gravada = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.vats[i].coefficient))).toFixed(2);
+                            detail.taxable = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.vats[i].coefficient))).toFixed(2);
                         }
                     }
-                    detail.iva = parseFloat(parseFloat(detail.value).toFixed(2) - (  detail.gravada == 0 ?   detail.exenta :   detail.gravada)).toFixed(2);
+                    detail.vat = parseFloat(parseFloat(detail.value).toFixed(2) - (  detail.taxable == 0 ?   detail.taxExempt :   detail.taxable)).toFixed(2);
                 }
             }
         },
