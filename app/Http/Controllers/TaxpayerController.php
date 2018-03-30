@@ -24,10 +24,9 @@ class TaxpayerController extends Controller
 
     }
 
-    public function get_taxpayer($teamID, $frase)
+    public function get_taxpayer($teamID, $query)
     {
-        $taxPayers = Taxpayer::search($frase)->get();
-
+        $taxPayers = Taxpayer::search($query)->take(10)->get();
         return response()->json($taxPayers);
     }
 

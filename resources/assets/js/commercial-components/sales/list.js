@@ -20,12 +20,9 @@ Vue.component('sales-list',
 
     computed: {
         filteredList() {
-            if (this.list.count > 0)
-            {
-                return this.list.filter(x => {
-                    return x.Number.toLowerCase().includes(this.search.toLowerCase())
-                })
-            }
+            return this.list; //.filter(x => {
+                //return x.Number.toLowerCase().includes(this.search.toLowerCase())
+            //})
         }
     },
 

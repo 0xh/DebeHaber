@@ -13,6 +13,4 @@
             </div>
         </div>
     </form-list>
-
-
 @endsection
