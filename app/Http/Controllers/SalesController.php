@@ -42,12 +42,13 @@ class SalesController extends Controller
         ->skip($skip)
         ->take(100)
         ->get();
+
         return response()->json($Transaction);
     }
 
     public function getLastSales($partnerID)
     {
-        $Transaction = Transaction::MySales()
+        $transaction = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('customer_id', $partnerID)
         ->with('details')
@@ -56,18 +57,19 @@ class SalesController extends Controller
         ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
         ,number,transactions.code,code_expiry'))
         ->first();
-        return response()->json($Transaction);
+        return response()->json($transaction);
     }
 
 
-    public function get_salesByID($taxPayerID,Cycle $cycle,$id)
+    public function get_salesByID($taxPayerID, Cycle $cycle, $id)
     {
         $Transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)
         ->where('transactions.id', $id)
         ->with('details')
-        ->select(DB::raw('false as selected,transactions.id,taxpayers.name as customer
-        , customer_id,
+        ->select(DB::raw('false as selected,transactions.id,
+        taxpayers.name as customer,
+        customer_id,
         document_id,
         currency_id,
         rate,
@@ -176,6 +178,7 @@ class SalesController extends Controller
             $TransactionDetail->value = $detail['value'];
             $TransactionDetail->save();
         }
+
         return response()->json('ok');
     }
 
