@@ -37,8 +37,8 @@ class DebitNoteController extends Controller
         DB::raw('max(transactions.date) as Date'),
         DB::raw('max(transactions.number) as Number'),
         DB::raw('sum(td.value) as Value'))
-        ->orderBy('transactions.date', 'desc')
-        ->orderBy('transactions.number', 'desc')
+        ->orderByRaw('max(transactions.date)', 'desc')
+        ->orderByRaw('max(transactions.number)', 'desc')
         ->skip($skip)
         ->take(100)
         ->get();

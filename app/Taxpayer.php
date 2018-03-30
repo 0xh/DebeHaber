@@ -21,10 +21,10 @@ class Taxpayer extends Model
     public function toSearchableArray()
     {
         return [
-            'id'   => $this->id,
-            'name'   => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'taxid' => $this->taxid,
-            'alias'   => $this->alias,
+            'alias' => $this->alias,
             'email' => $this->email
         ];
     }

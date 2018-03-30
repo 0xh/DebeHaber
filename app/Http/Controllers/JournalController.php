@@ -146,11 +146,6 @@ class JournalController extends Controller
 
     public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
-        // $arrID =[];
-        // for ($i=0; $i <= count($request); $i++)
-        // {
-        //     array_push($arrID, $request[$i]['ID']);
-        // }
 
         $transactions = Transaction::whereIn('transactions.id', $arrID)->with('details')->get();
         foreach ($transactions->groupBy('') as $groupedTransactions)
@@ -299,18 +294,16 @@ class JournalController extends Controller
         }
     }
 
-    public function generate_fromPurchases()
+    public function generate_fromPurchases(Taxpayer $taxPayer, Cycle $cycle, $transactions)
     {
-        $transactions = collect($transactions);
-
         //Create chart controller we might need it further in the code to lookup charts.
         $ChartController = new ChartController();
 
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
-        $journal->taxpayer_id = $transactions->first('supplier_id');
-        $journal->date = $transactions->last('date');
-        $journal->comment = __('PurchaseBookComment', [$transactions->first('date')->toDateString(), $transactions->last('date')->toDateString()]);
+        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->date = $transactions->last()->date;
+        $journal->comment = __('PurchaseBookComment', [$transactions->first()->date, $transactions->last()->date]);
         $journal->save();
 
         foreach ($transactions as $transaction)
@@ -321,63 +314,84 @@ class JournalController extends Controller
         }
 
         //Affect all Cash Sales and uses Cash Accounts
-        foreach ($transactions->where('payment_condition' == 0)->groupBy('chart_account_id') as $groupedTransactions)
+        foreach ($transactions->where('payment_condition','=',0)->groupBy('chart_account_id') as $groupedTransactions)
         {
             $value = 0;
+
             //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
             foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
             {
-                $value += ($groupedByRate->details->sum('value') / $groupedByRate->rate);
+                foreach ($groupedByRate as $transaction)
+                {
+                    $value += ($transaction->details->sum('value') / $groupedByRate->first()->rate);
+                }
             }
 
             //Check for Cash Account used.
+
             $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
 
             $detail = new JournalDetail();
-            $detail->debit = $value;
-            $detail->credit = 0;
+            $detail->debit = 0;
+            $detail->credit = $value;
             $detail->chart_id = $chart->id;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
 
         //Affects all Credit Sales and uses Customer Account for distribution
-        foreach ($transactions->where('payment_condition' > 0)->groupBy('customer_id') as $groupedTransactions)
+        foreach ($transactions->where('payment_condition', '>', 0)->groupBy('customer_id') as $groupedTransactions)
         {
             $value = 0;
             //calculate value by currency. fx
             foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
             {
-                $value += ($groupedByRate->details->sum('value') / $groupedByRate->rate);
+                foreach ($groupedByRate as $transaction)
+                {
+                    $value += ($transaction->details->sum('value') / $groupedByRate->first()->rate);
+                }
             }
 
             $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedTransactions->first()->customer_id);
 
+            //Create Generic if not
+
             $detail = new JournalDetail();
-            $detail->debit = $value;
-            $detail->credit = 0;
+            $detail->debit = 0;
+            $detail->credit = $value;
             $detail->chart_id = $chart->id;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
 
-        //Loop through each type of VAT. It will group by similar VATs to reduce number of rows.
-        foreach ($transactions->details->groupBy('chart_vat_id') as $groupedDetails)
+        $details =[];
+
+        foreach ($transactions as $transaction)
         {
-            if ($groupedDetails->first()->chart_vat_id == null)
+            foreach ($transaction->details as $detail)
             {
-                $vatChart = $groupedDetails->first()->vat;
+                array_push($details, $detail);
+            }
+        }
+
+        $details = collect($details);
+
+        //Loop through each type of VAT. It will group by similar VATs to reduce number of rows.
+        foreach ($details->groupBy('chart_vat_id') as $groupedByVATs)
+        {
+            if ($groupedByVATs->first()->chart_vat_id != null)
+            {
+                $vatChart = $groupedByVATs->first()->vat;
 
                 $value = 0;
-                // Doubtful code. Check if it will loop properly.
-                foreach ($groupedDetails->transaction->groupBy('rate') as $groupedByRate)
+                foreach ($groupedByVATs as $detail)
                 {
-                    $value += ((($groupedByRate->sum('value') / $groupedByRate->rate) / $vatChart->coefficient + 1) * $vatChart->coefficient);
+                    $value += ((($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
                 }
 
                 $detail = new JournalDetail();
-                $detail->debit = 0;
-                $detail->credit = $value;
+                $detail->debit = $value;
+                $detail->credit = 0;
                 $detail->chart_id = $vatChart->id;
                 $detail->journal_id = $journal->id;
                 $detail->save();
@@ -385,24 +399,23 @@ class JournalController extends Controller
         }
 
         //Loop through each type of expense. It will group by similar expenses to reduce number of rows.
-        foreach ($transactions->details->groupBy('chart_id') as $groupedDetails)
+        foreach ($details->groupBy('chart_id') as $groupedByCharts)
         {
             $value = 0;
 
-            //Doubtful code. Check if it will loop properly.
-            //Also this code should bring value without vat. figure out how to take that into account.
-            foreach ($groupedDetails->groupBy('chart_vat_id') as $groupedByVAT)
+            foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
             {
-                foreach ($groupedByVAT->transaction->groupBy('rate') as $groupedByRate)
+                $vatChart = $groupedByVAT->first()->vat;
+                foreach ($groupedByVAT as $detail)
                 {
-                    $value += ($groupedByRate->sum('value') / $groupedByRate->rate) / ($groupedByVAT->coefficient + 1);
+                    $value += (($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1));
                 }
             }
 
             $detail = new JournalDetail();
-            $detail->debit = 0;
-            $detail->credit = $value;
-            $detail->chart_id = $groupedDetails->first()->chart_id;
+            $detail->debit = $value;
+            $detail->credit = 0;
+            $detail->chart_id = $groupedByCharts->first()->chart_id;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
