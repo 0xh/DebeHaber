@@ -102,4 +102,4 @@
             </span>
         </infinite-loading>
     </div>
-</sales-list>
+</account-receivable-list>

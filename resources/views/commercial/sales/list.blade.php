@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <infinite-loading @infinite="infiniteHandler">
+        <infinite-loading force-use-infinite-wrapper="true" @infinite="infiniteHandler">
             <span slot="no-more">
                 No more data
             </span>

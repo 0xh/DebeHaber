@@ -18,7 +18,7 @@ Vue.component('money-transfer-list',{
     computed: {
         filteredList() {
             return this.list.filter(x => {
-                return x.Number.toLowerCase().includes(this.search.toLowerCase())
+                return x.Account.toLowerCase().includes(this.search.toLowerCase())
             })
         },
         Today(){

@@ -205,11 +205,12 @@ class TaxpayerController extends Controller
 
     public function showDashboard(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $chartFixedAssets = Chart::FixedAssetGroups()->count();
-        $chartMoneyAccounts = Chart::MoneyAccounts()->count();
-        $chartExpenses = Chart::Expenses()->count();
-        $chartInventories = Chart::Inventories()->count();
-        $chartIncomes = Chart::Incomes()->count();
+        $chartsAccountable = Chart::where('is_accountable', true)->pluck('type', 'sub_type')->get();
+        $chartFixedAssets = $chartsAccountable->where('type', 1)->where('sub_type', 9)->count();
+        $chartMoneyAccounts = $chartsAccountable->where('type', 1)->where('sub_type', 1)->count();
+        $chartExpenses = $chartsAccountable->where('type', 5)->count();
+        $chartInventories = $chartsAccountable->where('type', 1)->where('sub_type', 8)->count();
+        $chartIncomes = $chartsAccountable->where('type', 4)->count();
 
         $totalSales = Transaction::MySales()
         ->whereBetween('date', [new Carbon('first day of last month'), new Carbon('last day of last month')])
