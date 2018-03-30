@@ -15,8 +15,8 @@ class SparkServiceProvider extends ServiceProvider
     * @var array
     */
     protected $details = [
-        'vendor' => 'Your Company',
-        'product' => 'Your Product',
+        'vendor' => 'Cognitivo',
+        'product' => 'DebeHaber',
         'street' => 'PO Box 111',
         'location' => 'Your Town, NY 12345',
         'phone' => '555-555-5555',
@@ -36,8 +36,10 @@ class SparkServiceProvider extends ServiceProvider
     */
     protected $developers = [
         'abhi@cognitivo.in',
+        'ashah@indopar.com.py',
         'pankeel@cognitivo.in',
-        'ricardo@cognitivo.in'
+        'ricardo@cognitivo.in',
+        'heti.shah@gmail.com'
     ];
 
     /**
@@ -88,8 +90,10 @@ class SparkServiceProvider extends ServiceProvider
 
         // Spark::promotion('coupon');
 
-        Spark::checkPlanEligibilityUsing(function ($user, $plan) {
-            if ($plan->name == 'Pro' && $user->todos->count() > 20) {
+        Spark::checkPlanEligibilityUsing(function ($user, $plan)
+        {
+            if ($plan->name == 'Pro' && $user->todos->count() > 20)
+            {
                 throw IneligibleForPlan::because('You have too many to-dos.');
             }
 

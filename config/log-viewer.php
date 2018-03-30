@@ -5,16 +5,16 @@ use Arcanedev\LogViewer\Contracts\Utilities\Filesystem;
 return [
 
     /* -----------------------------------------------------------------
-     |  Log files storage path
-     | -----------------------------------------------------------------
-     */
+    |  Log files storage path
+    | -----------------------------------------------------------------
+    */
 
     'storage-path'  => storage_path('logs'),
 
     /* -----------------------------------------------------------------
-     |  Log files pattern
-     | -----------------------------------------------------------------
-     */
+    |  Log files pattern
+    | -----------------------------------------------------------------
+    */
 
     'pattern'       => [
         'prefix'    => Filesystem::PATTERN_PREFIX,    // 'laravel-'
@@ -23,126 +23,122 @@ return [
     ],
 
     /* -----------------------------------------------------------------
-     |  Locale
-     | -----------------------------------------------------------------
-     |  Supported locales :
-     |    'auto', 'ar', 'bg', 'de', 'en', 'es', 'et', 'fa', 'fr', 'hu', 'hy', 'id', 'it', 'ja', 'ko', 'nl',
-     |    'pl', 'pt-BR', 'ro', 'ru', 'sv', 'th', 'tr', 'zh-TW', 'zh'
-     */
+    |  Locale
+    | -----------------------------------------------------------------
+    |  Supported locales :
+    |    'auto', 'ar', 'bg', 'de', 'en', 'es', 'et', 'fa', 'fr', 'hu', 'hy', 'id', 'it', 'ja', 'ko', 'nl',
+    |    'pl', 'pt-BR', 'ro', 'ru', 'sv', 'th', 'tr', 'zh-TW', 'zh'
+    */
 
     'locale'        => 'auto',
 
     /* -----------------------------------------------------------------
-     |  Theme
-     | -----------------------------------------------------------------
-     |  Supported themes :
-     |    'bootstrap-3', 'bootstrap-4'
-     |  Make your own theme by adding a folder to the views directory and specifying it here.
-     */
+    |  Theme
+    | -----------------------------------------------------------------
+    |  Supported themes :
+    |    'bootstrap-3', 'bootstrap-4'
+    |  Make your own theme by adding a folder to the views directory and specifying it here.
+    */
 
     'theme'         => 'bootstrap-4',
 
     /* -----------------------------------------------------------------
-     |  Route settings
-     | -----------------------------------------------------------------
-     */
+    |  Route settings
+    | -----------------------------------------------------------------
+    */
 
     'route'         => [
         'enabled'    => true,
 
         'attributes' => [
-            'prefix'     => 'log-viewer',
-
+            'prefix'     => 'dev/log-viewer',
             'middleware' => env('ARCANEDEV_LOGVIEWER_MIDDLEWARE') ? explode(',', env('ARCANEDEV_LOGVIEWER_MIDDLEWARE')) : null,
         ],
     ],
 
     /* -----------------------------------------------------------------
-     |  Log entries per page
-     | -----------------------------------------------------------------
-     |  This defines how many logs & entries are displayed per page.
-     */
+    |  Log entries per page
+    | -----------------------------------------------------------------
+    |  This defines how many logs & entries are displayed per page.
+    */
 
     'per-page'      => 30,
 
     /* -----------------------------------------------------------------
-     |  LogViewer's Facade
-     | -----------------------------------------------------------------
-     */
+    |  LogViewer's Facade
+    | -----------------------------------------------------------------
+    */
 
     'facade'        => 'LogViewer',
 
     /* -----------------------------------------------------------------
-     |  Download settings
-     | -----------------------------------------------------------------
-     */
+    |  Download settings
+    | -----------------------------------------------------------------
+    */
 
     'download'      => [
         'prefix'    => 'laravel-',
-
         'extension' => 'log',
     ],
 
     /* -----------------------------------------------------------------
-     |  Menu settings
-     | -----------------------------------------------------------------
-     */
+    |  Menu settings
+    | -----------------------------------------------------------------
+    */
 
     'menu'  => [
         'filter-route'  => 'log-viewer::logs.filter',
-
         'icons-enabled' => true,
     ],
 
     /* -----------------------------------------------------------------
-     |  Icons
-     | -----------------------------------------------------------------
-     */
+    |  Icons
+    | -----------------------------------------------------------------
+    */
 
     'icons' =>  [
         /**
-         * Font awesome >= 4.3
-         * http://fontawesome.io/icons/
-         */
-        'all'       => 'fa fa-fw fa-list',                 // http://fontawesome.io/icon/list/
-        'emergency' => 'fa fa-fw fa-bug',                  // http://fontawesome.io/icon/bug/
-        'alert'     => 'fa fa-fw fa-bullhorn',             // http://fontawesome.io/icon/bullhorn/
-        'critical'  => 'fa fa-fw fa-heartbeat',            // http://fontawesome.io/icon/heartbeat/
-        'error'     => 'fa fa-fw fa-times-circle',         // http://fontawesome.io/icon/times-circle/
-        'warning'   => 'fa fa-fw fa-exclamation-triangle', // http://fontawesome.io/icon/exclamation-triangle/
-        'notice'    => 'fa fa-fw fa-exclamation-circle',   // http://fontawesome.io/icon/exclamation-circle/
-        'info'      => 'fa fa-fw fa-info-circle',          // http://fontawesome.io/icon/info-circle/
-        'debug'     => 'fa fa-fw fa-life-ring',            // http://fontawesome.io/icon/life-ring/
-    ],
-
-    /* -----------------------------------------------------------------
-     |  Colors
-     | -----------------------------------------------------------------
-     */
-
-    'colors' =>  [
-        'levels'    => [
-            'empty'     => '#D1D1D1',
-            'all'       => '#8A8A8A',
-            'emergency' => '#B71C1C',
-            'alert'     => '#D32F2F',
-            'critical'  => '#F44336',
-            'error'     => '#FF5722',
-            'warning'   => '#FF9100',
-            'notice'    => '#4CAF50',
-            'info'      => '#1976D2',
-            'debug'     => '#90CAF9',
+        * Font awesome >= 4.3
+        * http://fontawesome.io/icons/
+        */
+        'all'       => 'la la-fw la-list',                 // http://fontawesome.io/icon/list/
+        'emergency' => 'la la-fw la-bug',                  // http://fontawesome.io/icon/bug/
+        'alert'     => 'la la-fw la-bullhorn',             // http://fontawesome.io/icon/bullhorn/
+        'critical'  => 'la la-fw la-heartbeat',            // http://fontawesome.io/icon/heartbeat/
+        'error'     => 'la la-fw la-times-circle',         // http://fontawesome.io/icon/times-circle/
+        'warning'   => 'la la-fw la-exclamation-triangle', // http://fontawesome.io/icon/exclamation-triangle/
+        'notice'    => 'la la-fw la-exclamation-circle',   // http://fontawesome.io/icon/exclamation-circle/
+        'info'      => 'la la-fw la-info-circle',          // http://fontawesome.io/icon/info-circle/
+        'debug'     => 'la la-fw la-life-ring',            // http://fontawesome.io/icon/life-ring/
         ],
-    ],
 
-    /* -----------------------------------------------------------------
-     |  Strings to highlight in stack trace
-     | -----------------------------------------------------------------
-     */
+        /* -----------------------------------------------------------------
+        |  Colors
+        | -----------------------------------------------------------------
+        */
 
-    'highlight' => [
-        '^#\d+',
-        '^Stack trace:',
-    ],
+        'colors' =>  [
+            'levels'    => [
+                'empty'     => '#D1D1D1',
+                'all'       => '#8A8A8A',
+                'emergency' => '#B71C1C',
+                'alert'     => '#D32F2F',
+                'critical'  => '#F44336',
+                'error'     => '#FF5722',
+                'warning'   => '#FF9100',
+                'notice'    => '#4CAF50',
+                'info'      => '#1976D2',
+                'debug'     => '#90CAF9',
+            ],
+        ],
 
-];
+        /* -----------------------------------------------------------------
+        |  Strings to highlight in stack trace
+        | -----------------------------------------------------------------
+        */
+
+        'highlight' => [
+            '^#\d+',
+            '^Stack trace:',
+        ],
+    ];

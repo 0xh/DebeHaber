@@ -150,7 +150,7 @@ return [
 
         'script-src' => [
             'allow' => [
-                $protocol.'cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
+                $protocol.'cdnjs.cloudflare.com/ajax/',
                 $protocol.'www.google-analytics.com/',
                 $protocol.'www.googletagmanager.com/',
                 $protocol.'js.stripe.com/',
@@ -158,6 +158,7 @@ return [
                 $protocol.'www.gravatar.com/avatar/',
                 $protocol.'ajax.googleapis.com/ajax/libs/webfont/',
                 $protocol.'code.jquery.com/jquery-3.2.1.min.js',
+                $protocol.'maxcdn.bootstrapcdn.com/',
             ],
 
             'hashes' => [
@@ -179,11 +180,10 @@ return [
             'allow' => [
                 $protocol.'fonts.googleapis.com/',
                 $protocol.'maxcdn.bootstrapcdn.com/',
-                $protocol.'cdnjs.cloudflare.com',
+                $protocol.'cdnjs.cloudflare.com/',
             ],
 
             'self' => true,
-            //TODO Change to false;
             'unsafe-inline' => true,
         ],
 

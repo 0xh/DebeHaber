@@ -204,7 +204,7 @@ inline-template>
                                                 </li>
                                                 <li class="m-nav__item">
                                                     <a href="/settings" class="m-nav__link">
-                                                        <i class="m-nav__link-icon flaticon-profile-1"></i>
+                                                        <i class="m-nav__link-icon la la-gear"></i>
                                                         <span class="m-nav__link-title">
                                                             <span class="m-nav__link-wrap">
                                                                 <span class="m-nav__link-text">
@@ -214,7 +214,18 @@ inline-template>
                                                         </span>
                                                     </a>
                                                 </li>
-                                                <li class="m-nav__item">
+
+                                                @if (Spark::usesTeams() && (Spark::createsAdditionalTeams() || Spark::showsTeamSwitcher()))
+                                                    @include('spark::nav.teams')
+                                                @endif
+
+                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+
+                                                @if (Spark::developer(Auth::user()->email))
+                                                    @include('spark::nav.developer')
+                                                @endif
+
+                                                {{-- <li class="m-nav__item">
                                                     <a href="profile.html" class="m-nav__link">
                                                         <i class="m-nav__link-icon flaticon-share"></i>
                                                         <span class="m-nav__link-text">
@@ -229,19 +240,19 @@ inline-template>
                                                             Messages
                                                         </span>
                                                     </a>
-                                                </li>
+                                                </li> --}}
                                                 <li class="m-nav__separator m-nav__separator--fit"></li>
                                                 <li class="m-nav__item">
-                                                    <a href="profile.html" class="m-nav__link">
-                                                        <i class="m-nav__link-icon flaticon-info"></i>
+                                                    <a href="https://soporte.debehaber.com/tickets" class="m-nav__link">
+                                                        <i class="m-nav__link-icon la la-envelope"></i>
                                                         <span class="m-nav__link-text">
-                                                            FAQ
+                                                            Tickets
                                                         </span>
                                                     </a>
                                                 </li>
                                                 <li class="m-nav__item">
                                                     <a href="https://soporte.debehaber.com" class="m-nav__link">
-                                                        <i class="m-nav__link-icon flaticon-lifebuoy"></i>
+                                                        <i class="m-nav__link-icon la la-support"></i>
                                                         <span class="m-nav__link-text">
                                                             Support
                                                         </span>
