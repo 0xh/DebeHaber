@@ -30,7 +30,7 @@
                     <!--begin::Widget5-->
                     <div class="m-widget4 m-widget4--chart-bottom">
                         @if(isset($taxPayerIntegrations))
-                            @foreach($taxPayerIntegrations as $integration)
+                            @foreach($taxPayerIntegrations->sortBy('taxpayer.name') as $integration)
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--logo">
                                         {{-- {{ $integration->taxPayer->image }} --}}
