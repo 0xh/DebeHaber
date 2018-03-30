@@ -11,6 +11,15 @@ class Taxpayer extends Model
     //
     use Searchable;
 
+    protected $fillable = [
+        'name',
+        'alias',
+        'taxid',
+        'address',
+        'email',
+        'telephone'
+    ];
+
     // public $searchable = ['id', 'taxid', 'name', 'alias'];
     /**
     * Get the integrations for the model.
