@@ -26,12 +26,7 @@ class TaxpayerController extends Controller
 
     public function get_taxpayer($teamID, $frase)
     {
-        $taxPayers = Taxpayer::
-        search($frase)
-        //where('name', 'LIKE', "%$frase%")
-        //->orwhere('taxid', 'LIKE', "$frase%")
-        //->take(50)
-        ->get();
+        $taxPayers = Taxpayer::search($frase)->get();
 
         return response()->json($taxPayers);
     }

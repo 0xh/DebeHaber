@@ -11,10 +11,6 @@ class Taxpayer extends Model
     //
     use Searchable;
 
-    public function search($text)
-    {
-        return $this->search($text)->get();
-    }
     // public $searchable = ['id', 'taxid', 'name', 'alias'];
     /**
     * Get the integrations for the model.
