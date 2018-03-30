@@ -7,6 +7,7 @@ use App\Cycle;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use DB;
 
 class SalesController extends Controller
@@ -46,7 +47,7 @@ class SalesController extends Controller
         return response()->json($Transaction);
     }
 
-    public function getLastSales($partnerID)
+    public function getLastSale($partnerID)
     {
         $transaction = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
@@ -82,17 +83,18 @@ class SalesController extends Controller
         return response()->json($Transaction);
     }
 
-    public function get_lastDate($taxPayerID,Cycle $cycle)
+    public function get_lastDate($taxPayerID, Cycle $cycle)
     {
-        $Transaction = Transaction::MySales()
+        $lastDate = Transaction::MySales()
         ->where('supplier_id', $taxPayerID)
         ->orderBy('created_at', 'desc')
+        ->select('date')
         ->first();
 
-        if (isset($Transaction))
-        { return response()->json($Transaction->date); }
+        if (isset($lastDate))
+        { return response()->json($lastDate); }
         else
-        { return response()->json($cycle->start_date); }
+        { return response()->json(Carbon::now()); }
     }
 
 

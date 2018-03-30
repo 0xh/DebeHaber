@@ -1,11 +1,12 @@
-
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
 import MaskedInput from 'vue-masked-input';
 
-Vue.component('sales-form',{
+Vue.component('sales-form', {
     components: {
         MaskedInput
     },
+
     props: ['taxpayer','trantype','cycle'],
     data() {
         return {
@@ -44,6 +45,7 @@ Vue.component('sales-form',{
             vats:[]
         }
     },
+
     computed: {
         condition: function()
         {
@@ -118,11 +120,9 @@ Vue.component('sales-form',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json,isnew)
         {
-
             var app = this;
             var api = null;
             app.type = app.trantype;
-
 
             this.customer_id = this.$children[0].id;
 
@@ -168,9 +168,9 @@ Vue.component('sales-form',{
             app.code_expiry = data.code_expiry;
             app.comment = data.comment;
             app.ref_id = data.ref_id;
-            app.details=data.details;
-            app.$children[0].selectText=data.customer;
-            app.$children[0].id=data.customer_id;
+            app.details = data.details;
+            app.$children[0].selectText = data.customer;
+            app.$children[0].id = data.customer_id;
         },
         onReset: function(isnew)
         {
@@ -191,7 +191,7 @@ Vue.component('sales-form',{
             app.ref_id = null;
             app.details = [];
             if (isnew==false) {
-                app.$parent.status=0;
+                app.$parent.status = 0;
             }
 
         },
@@ -200,14 +200,14 @@ Vue.component('sales-form',{
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/get_documents/1/'   ,
+                url: '/api/' + this.taxpayer + '/get_documents/1/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
                 success: function(data)
                 {
-                    app.documents=[];
+                    app.documents = [];
                     for(let i = 0; i < data.length; i++)
                     {
                         app.documents.push({name:data[i]['code'],id:data[i]['id']});
@@ -223,7 +223,6 @@ Vue.component('sales-form',{
 
         changeDocument: function()
         {
-
             var app = this;
 
             $.ajax({
@@ -234,7 +233,6 @@ Vue.component('sales-form',{
                 async: true,
                 success: function(data)
                 {
-
                     app.number = data.current_range + 1;
                     app.code = data.code;
                     app.code_expiry = data.code_expiry;
@@ -254,7 +252,7 @@ Vue.component('sales-form',{
 
         getCurrencies: function(data)
         {
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency' ,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -321,6 +319,7 @@ Vue.component('sales-form',{
                 }
             });
         },
+
         //VAT
         getTaxes: function(data)
         {
@@ -350,6 +349,7 @@ Vue.component('sales-form',{
                 }
             });
         },
+
         onPriceChange: function(detail)
         {
             var app = this;
@@ -369,6 +369,7 @@ Vue.component('sales-form',{
                             detail.taxable = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.vats[i].coefficient))).toFixed(2);
                         }
                     }
+
                     detail.vat = parseFloat(parseFloat(detail.value).toFixed(2) - (  detail.taxable == 0 ?   detail.taxExempt :   detail.taxable)).toFixed(2);
                 }
             }
@@ -396,12 +397,31 @@ Vue.component('sales-form',{
                     console.log(xhr.responseText);
                 }
             });
+        },
+
+        init: function (data){
+            var app = this;
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_lastDate' ,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
+                    app.date = data['lastDate'];
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
         }
     },
 
     mounted: function mounted()
     {
-        //this.init()
+        this.init();
         this.getDocuments();
         this.getCurrencies();
         this.getCharts();
