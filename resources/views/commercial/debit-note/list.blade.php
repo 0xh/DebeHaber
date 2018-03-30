@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="row m--margin-bottom-5" v-for="invoice in filteredList">
+        <div class="row m--margin-bottom-5" v-for="invoice in list">
             <div class="col-1">
                 <p> @{{ invoice.Date }} </p>
             </div>

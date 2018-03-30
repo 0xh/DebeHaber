@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div class="row m--margin-bottom-5" v-for="movement in filteredList">
+        <div class="row m--margin-bottom-5" v-for="movement in list">
             <div class="col-1">
                 <p> @{{ movement.Date }} </p>
             </div>

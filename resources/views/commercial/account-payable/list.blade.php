@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div class="row m--margin-bottom-5" v-for="invoice in filteredList">
+        <div class="row m--margin-bottom-5" v-for="invoice in list">
             <div class="col-3">
                 <p> <span class="m--font-bold">@{{ invoice.Supplier }}</span> |  <em>@{{ invoice.SupplierTaxID }}</em> </p>
             </div>
