@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Addons\Elasticsearch\Scout\Searchable;
+use Laravel\Scout\Searchable;
 
 class Taxpayer extends Model
 {
@@ -17,7 +17,7 @@ class Taxpayer extends Model
         'email',
         'telephone'
     ];
-    
+
     public function toSearchableArray()
     {
         return [
