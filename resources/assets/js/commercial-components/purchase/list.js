@@ -18,9 +18,12 @@ Vue.component('purchases-list',{
 
     computed: {
         filteredList() {
-            return this.list.filter(x => {
-                return x.Number.toLowerCase().includes(this.search.toLowerCase())
-            })
+            if (this.list.count > 0)
+            {
+                return this.list.filter(x => {
+                    return x.Number.toLowerCase().includes(this.search.toLowerCase())
+                })
+            }
         }
     },
 
