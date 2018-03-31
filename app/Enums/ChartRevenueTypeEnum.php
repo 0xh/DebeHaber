@@ -8,6 +8,7 @@ class ChartRevenueTypeEnum extends Enum
 {
     const Revenue = 1;
     const SalesReturns = 2; //Contra Account
+    const DiffInExchangeRate = 3;
 
     public static function labels()
     {
