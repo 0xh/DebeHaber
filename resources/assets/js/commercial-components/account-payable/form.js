@@ -22,6 +22,7 @@ Vue.component('account-payable-form',{
             chart_id:'',
             payment_value:'',
             comment:'',
+            trans_date :'';
             currencies:[],
             charts:[]
         }
@@ -86,6 +87,7 @@ Vue.component('account-payable-form',{
             app.payment_value = null;
             app.comment = null;
             app.rate = 0;
+            app.trans_date = null;
             if (isnew==false) {
                 app.$parent.status=0;
             }
@@ -164,6 +166,7 @@ Vue.component('account-payable-form',{
             app.Paid = data.Paid;
             app.Value = data.Value;
             app.payment_value = data.Value;
+
 
         },
 
