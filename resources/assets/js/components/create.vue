@@ -20,9 +20,9 @@ props: ['taxpayer','cycle'],
       methods: {
           add()
           {
-              var app=this;
+              var app = this;
 
-              app.$parent.$parent.status=1;
+              app.$parent.$parent.status = 1;
 
               $.ajax({
               url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_lastDate' ,
@@ -32,26 +32,14 @@ props: ['taxpayer','cycle'],
               async: true,
               success: function(data)
               {
-
-                  app.$parent.$parent.$children[0].date=data;
-
-
+                  app.$parent.$parent.$children[0].date = data;
               },
               error: function(xhr, status, error)
               {
                   console.log(status);
               }
               });
-
-
-
           }
-
-
-
-
       }
-
-
 }
 </script>
