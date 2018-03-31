@@ -179,6 +179,17 @@ class PurchaseController extends Controller
     */
     public function destroy(Transaction $transaction)
     {
-      //
+        try
+        {
+            AccountMovement::where('transaction_id', $transaction->id)->delete();
+            JournalTransaction::where('transaction_id', $transaction->id)->delete();
+            $transaction->delete();
+
+            return response()->json('ok', 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json($e, 500);
+        }
     }
   }

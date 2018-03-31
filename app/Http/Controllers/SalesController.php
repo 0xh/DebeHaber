@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\AccountMovement;
 use App\Taxpayer;
 use App\Cycle;
+use App\JournalTransaction;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
@@ -24,7 +26,7 @@ class SalesController extends Controller
 
     public function get_sales(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
-        $Transaction = Transaction::MySales()
+        $transaction = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
@@ -45,7 +47,7 @@ class SalesController extends Controller
         ->take(100)
         ->get();
 
-        return response()->json($Transaction);
+        return response()->json($transaction, 200);
     }
 
     public function getLastSale($partnerID)
@@ -59,13 +61,14 @@ class SalesController extends Controller
         ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
         ,number,transactions.code,code_expiry'))
         ->first();
-        return response()->json($transaction);
+
+        return response()->json($transaction, 200);
     }
 
 
-    public function get_salesByID($taxPayerID, Cycle $cycle, $id)
+    public function get_salesByID(Taxpayer $taxPayer, Cycle $cycle, $id)
     {
-        $Transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        $transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayerID)
         ->where('transactions.id', $id)
         ->with('details')
@@ -81,7 +84,8 @@ class SalesController extends Controller
         number,
         transactions.code,code_expiry'))
         ->get();
-        return response()->json($Transaction);
+
+        return response()->json($transaction, 200);
     }
 
     public function get_lastDate($taxPayerID, Cycle $cycle)
@@ -97,7 +101,6 @@ class SalesController extends Controller
         else
         { return response()->json(Carbon::now()); }
     }
-
 
     /**
     * Show the form for creating a new resource.
@@ -115,85 +118,78 @@ class SalesController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request,Taxpayer $taxPayer)
+    public function store(Request $request, Taxpayer $taxPayer)
     {
+        $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
 
-        if ($request->id == 0)
-        {
-            $Transaction = new Transaction();
-        }
-        else
-        {
-            $Transaction = Transaction::where('id', $request->id)->first();
-        }
         if ($request->customer_id > 0)
         {
-            $Transaction->customer_id = $request->customer_id;
+            $transaction->customer_id = $request->customer_id;
         }
 
-        $Transaction->supplier_id = $taxPayer->id;
+        $transaction->supplier_id = $taxPayer->id;
 
         if ($request->document_id > 0)
         {
-            $Transaction->document_id = $request->document_id;
+            $transaction->document_id = $request->document_id;
         }
 
-        $Transaction->currency_id = $request->currency_id;
-        $Transaction->rate = $request->rate;
-        $Transaction->payment_condition = $request->payment_condition;
+        $transaction->currency_id = $request->currency_id;
+        $transaction->rate = $request->rate;
+        $transaction->payment_condition = $request->payment_condition;
 
         if ($request->chart_account_id > 0)
         {
-            $Transaction->chart_account_id = $request->chart_account_id;
+            $transaction->chart_account_id = $request->chart_account_id;
         }
 
-        $Transaction->date = $request->date;
-        $Transaction->number = $request->number;
+        $transaction->date = $request->date;
+        $transaction->number = $request->number;
 
-        if ($Transaction->code!='')
+        if ($transaction->code != '')
         {
-            $Transaction->code = $request->code;
+            $transaction->code = $request->code;
         }
 
-        if ($Transaction->code_expiry!='')
+        if ($transaction->code_expiry != '')
         {
-            $Transaction->code_expiry = $request->code_expiry;
+            $transaction->code_expiry = $request->code_expiry;
         }
 
-        $Transaction->comment = $request->comment;
-        $Transaction->type = $request->type;
-        $Transaction->save();
+        $transaction->comment = $request->comment;
+        $transaction->type = $request->type;
+        $transaction->save();
 
         foreach ($request->details as $detail)
         {
             if ($detail['id'] == 0)
             {
-                $TransactionDetail = new TransactionDetail();
+                $transactionDetail = new TransactionDetail();
             }
             else
             {
-                $TransactionDetail = TransactionDetail::where('id',$detail['id'])->first();
+                $transactionDetail = TransactionDetail::where('id',$detail['id'])->first();
             }
 
-            $TransactionDetail->transaction_id = $Transaction->id;
-            $TransactionDetail->chart_id = $detail['chart_id'];
-            $TransactionDetail->chart_vat_id = $detail['chart_vat_id'];
-            $TransactionDetail->value = $detail['value'];
-            $TransactionDetail->save();
+            $transactionDetail->transaction_id = $transaction->id;
+            $transactionDetail->chart_id = $detail['chart_id'];
+            $transactionDetail->chart_vat_id = $detail['chart_vat_id'];
+            $transactionDetail->value = $detail['value'];
+            $transactionDetail->save();
         }
 
-        return response()->json('ok');
+        return response()->json('ok', 400);
     }
 
     /**
-    * Display the specified resource.
+    * Display the specified resource, in non-edit mode to prevent unauthorized changes.
     *
     * @param  \App\Transaction  $transaction
     * @return \Illuminate\Http\Response
     */
-    public function show(Transaction $transaction)
+    public function show(Transaction $transaction, Taxpayer $taxPayer, Cycle $cycle)
     {
-        //
+        return view('/commercial/sales/show')->with('transaction', $transaction);
     }
 
     /**
@@ -227,6 +223,18 @@ class SalesController extends Controller
     */
     public function destroy(Transaction $transaction)
     {
-        //
+        try
+        {
+            //TODO: Run Tests to make sure it deletes all journals related to transaction
+            AccountMovement::where('transaction_id', $transaction->id)->delete();
+            JournalTransaction::where('transaction_id', $transaction->id)->delete();
+            $transaction->delete();
+
+            return response()->json('ok', 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json($e, 500);
+        }
     }
 }
