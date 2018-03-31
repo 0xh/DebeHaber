@@ -4,7 +4,7 @@
 <account-receivable-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
     <div>
         <div class="">
-            <h4>@lang('commercial.Sales')</h4>
+            <p class="lead m--font-boldest m--font-transform-u">@lang('commercial.Purchases')</p>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group m-form__group row">
