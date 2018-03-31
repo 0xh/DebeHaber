@@ -190,10 +190,9 @@ Vue.component('sales-form', {
             app.comment = null;
             app.ref_id = null;
             app.details = [];
-            if (isnew==false) {
+            if (isnew == false) {
                 app.$parent.status = 0;
             }
-
         },
 
         getDocuments: function(data)
@@ -297,6 +296,37 @@ Vue.component('sales-form', {
         //Get Cost Centers
         getCharts: function(data)
         {
+            swal({
+                title: 'Delete "' + data.name + '"',
+                text: 'Please select another chart to merge all transactions from the current chart.',
+                html: '<input id="swal-input1" class="swal2-input">',
+                input: 'text',
+                showCancelButton: true,
+                confirmButtonText: 'Merge',
+                showLoaderOnConfirm: true,
+                preConfirm: (email) => {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            if (email === 'taken@example.com') {
+                                swal.showValidationError(
+                                    'This email is already taken.'
+                                )
+                            }
+                            resolve()
+                        }, 2000)
+                    })
+                },
+                allowOutsideClick: () => !swal.isLoading()
+            }).then((result) => {
+                if (result.value) {
+                    swal({
+                        type: 'success',
+                        title: 'Ajax request finished!',
+                        html: 'Submitted email: ' + result.value
+                    })
+                }
+            })
+            
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
