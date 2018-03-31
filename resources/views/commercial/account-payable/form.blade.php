@@ -89,7 +89,22 @@
                 </label>
             </div>
             <div class="col-8">
-            <input type="text" name="" value="" v-model="payment_value">
+                <input type="text" name="" value="" v-model="payment_value">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group m-form__group row">
+                <label for="example-text-input" class="col-4 col-form-label">
+                    @lang('commercial.Currency')
+                </label>
+                <div class="col-8">
+                    <div class="input-group">
+                        <select required v-model="CurrencyID" class="custom-select" v-on:change="getRate()">
+                            <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }}</option>
+                        </select>
+                        <input type="text" class="form-control" v-model="rate" />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -100,7 +115,7 @@
                 </label>
             </div>
             <div class="col-8">
-                                <input type="text" name="" value="" v-model="comment">
+                <input type="text" name="" value="" v-model="comment">
             </div>
         </div>
 

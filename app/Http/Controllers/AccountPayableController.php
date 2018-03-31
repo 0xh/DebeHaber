@@ -112,7 +112,7 @@ class AccountPayableController extends Controller
 
     $accountMovement->transaction_id = $request->ID!=''?$request->ID:null;
     $accountMovement->currency_id = $request->CurrencyID;
-    //    $accountMovement->rate = $request->Rate;
+    $accountMovement->rate = $request->rate;
     $accountMovement->credit = $request->payment_value!=''?$request->payment_value:0;
     $accountMovement->comment = $request->comment;
 

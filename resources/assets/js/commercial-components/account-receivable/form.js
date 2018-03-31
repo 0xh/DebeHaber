@@ -12,6 +12,7 @@ Vue.component('account-receivable-form',{
             CutomerTaxID:'',
             Currency:'',
             CurrencyID:'',
+            rate : '',
             PaymentCondition:'',
             Date:'',
             Expiry:'',
@@ -105,6 +106,7 @@ Vue.component('account-receivable-form',{
             app.chart_id = null;
             app.payment_value = null;
             app.comment = null;
+            app.rate = 0;
             if (isnew==false) {
                 app.$parent.status=0;
             }
