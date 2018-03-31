@@ -38,8 +38,9 @@ class SalesController extends Controller
         DB::raw('max(transactions.date) as Date'),
         DB::raw('max(transactions.number) as Number'),
         DB::raw('sum(td.value) as Value'))
-        ->orderByRaw('max(transactions.date)', 'desc')
-        ->orderByRaw('max(transactions.number)', 'desc')
+        ->orderBy('transactions.date', 'desc')
+        ->orderBy('transactions.number', 'desc')
+
         ->skip($skip)
         ->take(100)
         ->get();
