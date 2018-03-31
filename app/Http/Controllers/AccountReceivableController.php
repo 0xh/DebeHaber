@@ -30,7 +30,6 @@ class AccountReceivableController extends Controller
         ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
         ->where('transactions.supplier_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
-        //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Customer'),
@@ -42,7 +41,7 @@ class AccountReceivableController extends Controller
         DB::raw('max(transactions.number) as Number'),
         DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
         DB::raw('sum(td.value/transactions.rate) as Value'))
-        ->orderBy('DATE_ADD(transactions.date, INTERVAL transactions.payment_condition DAY)', 'desc')
+        ->orderByRaw('DATE_ADD(transactions.date, INTERVAL transactions.payment_condition DAY)', 'desc')
         ->orderBy('transactions.number', 'desc')
         ->skip($skip)
         ->take(100)

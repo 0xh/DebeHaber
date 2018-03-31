@@ -31,6 +31,8 @@ return [
     'FixedAssets' => 'Activos Fijos',
 
     'Paid' => 'Pagado',
+    'MakePayment' => 'Realizar un pago',
+    'ReceivePayment' => 'Recibir Pago',
 
     'Exempt' => 'Exenta',
     'Value' => 'Valor',

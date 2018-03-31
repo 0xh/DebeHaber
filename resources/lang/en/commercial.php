@@ -31,6 +31,8 @@ return [
     'FixedAssets' => 'Fixed Assets',
 
     'Paid' => 'Paid',
+    'MakePayment' => 'Make a Payment',
+    'ReceivePayment' => 'Receive Payment',
 
     'Exempt' => 'Exempt',
     'Value' => 'Value',
