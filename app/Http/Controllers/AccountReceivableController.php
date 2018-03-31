@@ -93,28 +93,24 @@ class AccountReceivableController extends Controller
   */
   public function store(Request $request)
   {
-    if ($request->id == 0)
+    if ($request->payment_value > 0)
     {
       $accountMovement = new AccountMovement();
+      $accountMovement->taxpayer_id = $request->taxpayer_id;
+      $accountMovement->chart_id =$request->chart_id ;
+      $accountMovement->date = $request->Date;
+
+      $accountMovement->transaction_id = $request->ID != '' ? $request->ID : null;
+      $accountMovement->currency_id = $request->CurrencyID;
+      $accountMovement->rate = $request->rate;
+      $accountMovement->debit = $request->payment_value != '' ? $request->payment_value : 0;
+      $accountMovement->comment = $request->comment;
+
+      $accountMovement->save();
+
+      return response()->json('ok', 200);
     }
-    else
-    {
-      $accountMovement = AccountMovement::where('id', $request->id)->first();
-    }
-
-    $accountMovement->taxpayer_id = $request->taxpayer_id;
-    $accountMovement->chart_id =$request->chart_id ;
-    $accountMovement->date = $request->Date;
-
-    $accountMovement->transaction_id = $request->ID!=''?$request->ID:null;
-    $accountMovement->currency_id = $request->CurrencyID;
-    $accountMovement->rate = $request->rate;
-    $accountMovement->debit = $request->payment_value!=''?$request->payment_value:0;
-    $accountMovement->comment = $request->comment;
-
-    $accountMovement->save();
-
-    return response()->json('ok');
+    return response()->json('no value', 403);
   }
 
   /**

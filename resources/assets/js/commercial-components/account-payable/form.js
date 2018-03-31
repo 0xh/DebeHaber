@@ -81,6 +81,7 @@ Vue.component('account-payable-form',{
             app.Number = null;
             app.Paid = null;
             app.Value = null;
+            app.payment_value = null;
             app.chart_id = null;
             app.payment_value = null;
             app.comment = null;
@@ -162,6 +163,7 @@ Vue.component('account-payable-form',{
             app.Number = data.Number;
             app.Paid = data.Paid;
             app.Value = data.Value;
+            app.payment_value = data.Value;
 
         },
 
