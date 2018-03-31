@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<account-receivable-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
+<account-payable-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
     <div>
         <div class="">
             <p class="lead m--font-boldest m--font-transform-u">@lang('commercial.Purchases')</p>
@@ -12,6 +12,7 @@
                             @lang('commercial.Supplier')
                         </label>
                         <div class="col-8">
+                            @{{Supplier}}
                             {{-- <input type="date" class="form-control" v-model="date" /> --}}
                         </div>
                     </div>
@@ -22,7 +23,7 @@
                             @lang('global.InvoiceDate')
                         </label>
                         <div class="col-8">
-                            {{-- <p>@{{ invoice.Date }}</p> --}}
+                            @{{Date}}
                         </div>
                     </div>
                 </div>
@@ -34,7 +35,7 @@
                             @lang('commercial.InvoiceNumber')
                         </label>
                         <div class="col-8">
-                            {{-- @{{ invoice.Value }} --}}
+                            @{{Number}}
                         </div>
                     </div>
                 </div>
@@ -44,7 +45,7 @@
                             @lang('global.Deadline')
                         </label>
                         <div class="col-8">
-                            {{-- <p>@{{ invoice.ExpiryDate }}</p> --}}
+                            <p>@{{ Expiry}}</p>
                         </div>
                     </div>
                 </div>
@@ -56,7 +57,7 @@
                             @lang('commercial.Value')
                         </label>
                         <div class="col-8">
-                            {{-- @{{ invoice.Value }} --}}
+                            @{{ Value }}
                         </div>
                     </div>
                 </div>
@@ -75,7 +76,9 @@
                 </label>
             </div>
             <div class="col-8">
-                <input type="text" name="" value="">
+                <select required  v-model="chart_id" class="custom-select">
+                    <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
+                </select>
             </div>
         </div>
 
@@ -86,7 +89,7 @@
                 </label>
             </div>
             <div class="col-8">
-                <input type="text" name="" value="">
+            <input type="text" name="" value="" v-model="payment_value">
             </div>
         </div>
 
@@ -97,7 +100,7 @@
                 </label>
             </div>
             <div class="col-8">
-                <input type="text" name="" value="">
+                                <input type="text" name="" value="" v-model="comment">
             </div>
         </div>
 
@@ -108,4 +111,4 @@
             @lang('Cancel')
         </button>
     </div>
-</account-receivable-form>
+</account-payable-form>

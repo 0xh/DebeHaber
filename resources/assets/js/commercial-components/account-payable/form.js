@@ -6,14 +6,21 @@ Vue.component('account-payable-form',{
     data() {
         return {
             id:0,
+            ID:'',
             taxpayer_id:'',
+            Supplier:'',
+            SupplierTaxID:'',
+            Currency:'',
+            CurrencyID:'',
+            PaymentCondition:'',
+            Date:'',
+            Expiry:'',
+            Number:'',
+            Paid:'',
+            Value:'',
             chart_id:'',
-            date:'',
-            transaction_id:'',
-            currency_id:'',
-            rate:'',
-            debit:'',
-            credit:'',
+            payment_value:'',
+            comment:'',
             currencies:[],
             charts:[]
         }
@@ -62,18 +69,20 @@ Vue.component('account-payable-form',{
         onReset: function(isnew)
         {
             var app=this;
-
-
-
-            app.id=0;
-            app.taxpayer_id= null;
-            app.chart_id= null;
-            app.date= null;
-            app.transaction_id= null;
-            app.currency_id= null;
-            app.rate= null;
-            app.debit= null;
-            app.credit= null;
+            app.ID=0;
+            app.Supplier = null;
+            app.SupplierTaxID = null;
+            app.Currency = null;
+            app.CurrencyID = null;
+            app.PaymentCondition = null;
+            app.Date = null;
+            app.Expiry = null;
+            app.Number = null;
+            app.Paid = null;
+            app.Value = null;
+            app.chart_id = null;
+            app.payment_value = null;
+            app.comment = null;
             if (isnew==false) {
                 app.$parent.status=0;
             }
@@ -91,7 +100,7 @@ Vue.component('account-payable-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency' ,
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -112,42 +121,45 @@ Vue.component('account-payable-form',{
         },
 
         getRate: function()
-          {
+        {
 
-              var app=this;
-              $.ajax({
-                  url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
-                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                  type: 'get',
-                  dataType: 'json',
-                  async: true,
-                  success: function(data)
-                  {
+            var app=this;
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(data)
+                {
 
-                      if (app.rate=='' || app.rate==null) {
-                          app.rate=data;
-                      }
+                    if (app.rate=='' || app.rate==null) {
+                        app.rate=data;
+                    }
 
 
-                  },
-                  error: function(xhr, status, error)
-                  {
-                      console.log(xhr.responseText);
-                  }
-              });
-          },
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
         onEdit: function(data)
         {
+            console.log(data);
             var app = this;
-            app.id = data.id;
-            app.taxpayer_id = data.taxpayer_id;
-            app.chart_id = data.chart_id;
-            app.date = data.date;
-            app.transaction_id = data.transaction_id;
-            app.currency_id = data.currency_id;
-            app.rate = data.rate;
-            app.debit = data.debit;
-            app.credit = data.credit;
+            app.ID=data.ID;
+            app.Supplier = data.Supplier;
+            app.SupplierTaxID = data.SupplierTaxID;
+            app.Currency = data.Currency;
+            app.CurrencyID = data.CurrencyID;
+            app.PaymentCondition = data.PaymentCondition;
+            app.Date = data.Date;
+            app.Expiry = data.Expiry;
+            app.Number = data.Number;
+            app.Paid = data.Paid;
+            app.Value = data.Value;
 
         },
 
@@ -156,7 +168,7 @@ Vue.component('account-payable-form',{
             var app=this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts',
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,

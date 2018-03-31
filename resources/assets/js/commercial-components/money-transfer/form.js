@@ -1,7 +1,7 @@
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-Vue.component('account-payable-form',{
+Vue.component('money-transfer-form',{
     props: ['taxpayer', 'cycle'],
     data() {
         return {
