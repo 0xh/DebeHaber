@@ -12,6 +12,7 @@ Vue.component('account-payable-form',{
             SupplierTaxID:'',
             Currency:'',
             CurrencyID:'',
+            rate:'',
             PaymentCondition:'',
             Date:'',
             Expiry:'',
@@ -80,9 +81,11 @@ Vue.component('account-payable-form',{
             app.Number = null;
             app.Paid = null;
             app.Value = null;
+            app.payment_value = null;
             app.chart_id = null;
             app.payment_value = null;
             app.comment = null;
+            app.rate = 0;
             if (isnew==false) {
                 app.$parent.status=0;
             }
@@ -160,6 +163,7 @@ Vue.component('account-payable-form',{
             app.Number = data.Number;
             app.Paid = data.Paid;
             app.Value = data.Value;
+            app.payment_value = data.Value;
 
         },
 
