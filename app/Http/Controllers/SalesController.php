@@ -93,13 +93,13 @@ class SalesController extends Controller
         $lastDate = Transaction::MySales()
         ->where('supplier_id', $taxPayerID)
         ->orderBy('created_at', 'desc')
-        ->select('date')
+        ->select(DB::raw('date'))
         ->first();
 
         if (isset($lastDate))
-        { return response()->json($lastDate); }
+        { return response()->json($lastDate->date->format('Y-m-d')); }
         else
-        { return response()->json(Carbon::now()); }
+        { return response()->json(Carbon::now()->format('Y-m-d')); }
     }
 
     /**

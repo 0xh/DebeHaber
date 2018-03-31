@@ -12,6 +12,7 @@
                             @lang('commercial.Customer')
                         </label>
                         <div class="col-8">
+                            @{{Customer}}
                             {{-- <input type="date" class="form-control" v-model="date" /> --}}
                         </div>
                     </div>
@@ -22,7 +23,7 @@
                             @lang('global.InvoiceDate')
                         </label>
                         <div class="col-8">
-                            {{-- <p>@{{ invoice.Date }}</p> --}}
+                            @{{Date}}
                         </div>
                     </div>
                 </div>
@@ -34,7 +35,7 @@
                             @lang('commercial.InvoiceNumber')
                         </label>
                         <div class="col-8">
-                            {{-- @{{ invoice.Value }} --}}
+                            @{{Number}}
                         </div>
                     </div>
                 </div>
@@ -44,7 +45,7 @@
                             @lang('global.Deadline')
                         </label>
                         <div class="col-8">
-                            {{-- <p>@{{ invoice.ExpiryDate }}</p> --}}
+                            <p>@{{ Expiry}}</p>
                         </div>
                     </div>
                 </div>
@@ -56,7 +57,7 @@
                             @lang('commercial.Value')
                         </label>
                         <div class="col-8">
-                            {{-- @{{ invoice.Value }} --}}
+                            @{{ Value }}
                         </div>
                     </div>
                 </div>
@@ -75,7 +76,9 @@
                 </label>
             </div>
             <div class="col-8">
-                <input type="text" name="" value="">
+                <select required  v-model="chart_id" class="custom-select">
+                    <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
+                </select>
             </div>
         </div>
 
@@ -86,7 +89,7 @@
                 </label>
             </div>
             <div class="col-8">
-                <input type="text" name="" value="">
+                <input type="text" name="" value="" v-model="payment_value">
             </div>
         </div>
 
@@ -97,7 +100,7 @@
                 </label>
             </div>
             <div class="col-8">
-                <input type="text" name="" value="">
+                    <input type="text" name="" value="" v-model="comment">
             </div>
         </div>
 

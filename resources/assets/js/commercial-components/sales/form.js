@@ -58,9 +58,9 @@ Vue.component('sales-form', {
         {
             var app = this;
             var total = 0.0;
-
             for (let i = 0; i < app.details.length; i++)
             {
+
                 total += parseFloat(app.details[i].value).toFixed(2) ;
             }
 
@@ -409,7 +409,13 @@ Vue.component('sales-form', {
                 async: true,
                 success: function(data)
                 {
-                    app.date = data['lastDate'];
+
+                    if (app.date==null) {
+
+                        app.date = data;
+
+                    }
+
                 },
                 error: function(xhr, status, error)
                 {

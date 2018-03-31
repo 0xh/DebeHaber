@@ -50,16 +50,28 @@ class AccountReceivableController extends Controller
         return response()->json($transactions);
     }
 
-    public function get_account_receivableByID($taxPayerID,$id)
+    public function get_account_receivableByID(Taxpayer $taxPayer, Cycle $cycle,$id)
     {
-        $accountMovement = AccountMovement::
-        Join('charts', 'charts.id', 'account_movements.chart_id')
-        ->leftJoin('currencies', 'currencies.id', 'account_movements.currency_id')
-        ->where('account_movements.taxpayer_id', $taxPayerID)
-        ->where('account_movements.id',$id)
-        ->select(DB::raw('false as selected,account_movements.id,charts.name as chart,chart_id
-        ,transaction_id,currencies.name as currency,currency_id,rate,debit,credit,date
-        '))
+        $accountMovement =   $transactions = Transaction::MySales()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->join('currencies', 'transactions.currency_id','currencies.id')
+        ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
+        ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
+        ->where('transactions.supplier_id', $taxPayer->id)
+        ->where('transactions.payment_condition', '>', 0)
+        ->where('transactions.id',$id)
+        ->groupBy('transactions.id')
+        ->select(DB::raw('max(transactions.id) as ID'),
+        DB::raw('max(taxpayers.name) as Customer'),
+        DB::raw('max(taxpayers.taxid) as CutomerTaxID'),
+        DB::raw('max(currencies.code) as Currency'),
+        DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+        DB::raw('max(transactions.date) as Date'),
+        DB::raw('max(currencies.id) as CurrencyID'),
+        DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
+        DB::raw('max(transactions.number) as Number'),
+        DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
+        DB::raw('sum(td.value/transactions.rate) as Value'))
         ->get();
         return response()->json($accountMovement);
     }
@@ -92,13 +104,12 @@ class AccountReceivableController extends Controller
 
         $accountMovement->taxpayer_id = $request->taxpayer_id;
         $accountMovement->chart_id =$request->chart_id ;
-        $accountMovement->date = $request->date;
+        $accountMovement->date = $request->Date;
 
-        $accountMovement->transaction_id = $request->transaction_id!=''?$request->transaction_id:null;
-        $accountMovement->currency_id = $request->currency_id;
-        $accountMovement->rate = $request->rate;
-        $accountMovement->debit = $request->debit!=''?$request->debit:0;
-        $accountMovement->credit = $request->credit!=''?$request->credit:0;
+        $accountMovement->transaction_id = $request->ID!=''?$request->ID:null;
+        $accountMovement->currency_id = $request->CurrencyID;
+        //    $accountMovement->rate = $request->Rate;
+        $accountMovement->debit = $request->payment_value!=''?$request->payment_value:0;
         $accountMovement->comment = $request->comment;
 
         $accountMovement->save();
