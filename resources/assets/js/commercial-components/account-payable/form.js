@@ -22,7 +22,7 @@ Vue.component('account-payable-form',{
             chart_id:'',
             payment_value:'',
             comment:'',
-            trans_date :'';
+            trans_date :'',
             currencies:[],
             charts:[]
         }
