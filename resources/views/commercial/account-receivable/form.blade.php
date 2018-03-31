@@ -95,6 +95,7 @@
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
                         <b>@lang('commercial.Currency')</b>
+
                     </label>
                     <div class="col-8">
                         <div class="input-group">
