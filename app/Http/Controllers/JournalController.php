@@ -401,6 +401,8 @@ class JournalController extends Controller
         //Loop through each type of expense. It will group by similar expenses to reduce number of rows.
         foreach ($details->groupBy('chart_id') as $groupedByCharts)
         {
+            //Check if Journal contains chart_id as detail.
+            $detail = Journal::where('chart_id', $groupedByCharts->first()->chart_id)->where('journal_id', $journal->id)->first() ?? new JournalDetail();
             $value = 0;
 
             foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
@@ -412,8 +414,8 @@ class JournalController extends Controller
                 }
             }
 
-            $detail = new JournalDetail();
-            $detail->debit = $value;
+            //$detail = new JournalDetail();
+            $detail->debit += $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedByCharts->first()->chart_id;
             $detail->journal_id = $journal->id;
@@ -433,7 +435,14 @@ class JournalController extends Controller
 
     public function generate_fromMoneyTransfers()
     {
+        //Make Journal
+        $journal = new Journal();
+        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->date = $transactions->last()->date;
+        $journal->comment = __('PurchaseBookComment', [$transactions->first()->date, $transactions->last()->date]);
+        $journal->save();
 
+        //Find
     }
 
     public function generate_fromProductions()

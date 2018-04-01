@@ -31,19 +31,19 @@
             <div class="m-portlet__head-tools">
                 <ul class="nav nav-tabs m-tabs-line m-tabs-line--right" role="tablist">
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_portlet_base_demo_1_tab_content" role="tab" aria-selected="false">
+                        <a class="nav-link m-tabs__link active show m--font-success" data-toggle="tab" href="#m_portlet_base_demo_1_tab_content" role="tab" aria-selected="false">
                             <i class="la la-briefcase"></i>
                             @lang('global.Commercial')
                         </a>
                     </li>
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_1_tab_content" role="tab" aria-selected="false">
+                        <a class="nav-link m-tabs__link m--font-info" data-toggle="tab" href="#m_portlet_base_demo_1_tab_content" role="tab" aria-selected="false">
                             <i class="la la-calculator"></i>
                             @lang('accounting.Accounting')
                         </a>
                     </li>
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_1_tab_content" role="tab" aria-selected="true">
+                        <a class="nav-link m-tabs__link m--font-danger" data-toggle="tab" href="#m_portlet_base_demo_1_tab_content" role="tab" aria-selected="true">
                             <i class="la la-search"></i>
                             @lang('global.Audits')
                         </a>
