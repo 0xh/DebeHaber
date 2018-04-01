@@ -1,7 +1,7 @@
 
 
 @extends('reports.master')
-@section('reportName', 'Libro IVA Compras')
+@section('reportName', __('commercial.PurchaseBook'))
 
 @section('data')
     <table class="u-full-width">

@@ -1,7 +1,7 @@
 
 
 @extends('reports.master')
-@section('reportName', 'Libro IVA Ventas por Concepto')
+@section('reportName', __('commercial.SalesByChart'))
 
 @section('data')
     <table class="u-full-width">

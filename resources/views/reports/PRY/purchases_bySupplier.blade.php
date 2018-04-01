@@ -1,7 +1,7 @@
 
 
 @extends('reports.master')
-@section('reportName', 'Libro IVA Compras por Proveedor')
+@section('reportName', __('commercial.PurchaseBySuppliers'))
 
 @section('data')
     <table class="u-full-width">
