@@ -48,4 +48,12 @@ return [
     'Total' => 'Total',
     'Detail' => 'Detail',
     'General' => 'General',
+
+    'SalesByVAT' => 'Sales by VAT',
+    'SalesByCustomer' => 'Sales by Customer',
+    'SalesByChart' => 'Sales by Type of Income',
+
+    'PurchaseByVAT ' => 'Purchase by VAT',
+    'PurchaseBySuppliers ' => 'Purchase by Supplier',
+    'PurchaseByChart' => 'Purchase by Type of Expense',
 ];

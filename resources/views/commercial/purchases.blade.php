@@ -3,8 +3,10 @@
 @section('title', __('commercial.PurchaseBook'))
 
 @section('form')
-
-    <form-list  inline-template>
+    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+        :cycle="{{ request()->route('cycle')->id }}"
+        :url="commercial/purchases"
+        inline-template>
         <div>
             <div v-if="status===1">
                 @include('commercial/purchase/form')
@@ -13,6 +15,5 @@
                 @include('commercial/purchase/list')
             </div>
         </div>
-    </form-list>
-
+    </model>
 @endsection

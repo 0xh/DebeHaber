@@ -3,14 +3,17 @@
 @section('title', __('commercial.AccountsReceivable'))
 
 @section('form')
-    <form-list  inline-template>
+    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+        :cycle="{{ request()->route('cycle')->id }}"
+        :url="commercial/account-receivables"
+        inline-template>
         <div>
-            <div v-if="status===1">
+            <div v-if="status === 1">
                 @include('commercial/account-receivable/form')
             </div>
-            <div v-if="status===0">
+            <div v-if="status === 0">
                 @include('commercial/account-receivable/list')
             </div>
         </div>
-    </form-list>
+    </model>
 @endsection

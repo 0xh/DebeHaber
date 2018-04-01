@@ -28,10 +28,7 @@ Vue.component('account-payable-form',{
         }
     },
 
-
     methods: {
-
-
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json,isnew)
@@ -39,7 +36,7 @@ Vue.component('account-payable-form',{
 
             var app = this;
             var api = null;
-            this.taxpayer_id=this.taxpayer;
+            this.taxpayer_id = this.taxpayer;
             $.ajax({
                 url: '',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -52,14 +49,11 @@ Vue.component('account-payable-form',{
                     if (data=='ok')
                     {
                         app.onReset(isnew);
-
                     }
                     else
                     {
                         alert('Something Went Wrong...')
                     }
-
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -70,8 +64,8 @@ Vue.component('account-payable-form',{
 
         onReset: function(isnew)
         {
-            var app=this;
-            app.ID=0;
+            var app = this;
+            app.ID = 0;
             app.Supplier = null;
             app.SupplierTaxID = null;
             app.Currency = null;
@@ -88,21 +82,20 @@ Vue.component('account-payable-form',{
             app.comment = null;
             app.rate = 0;
             app.trans_date = null;
-            if (isnew==false) {
-                app.$parent.status=0;
+            if (isnew == false)
+            {
+                app.$parent.status = 0;
             }
-
-
         },
 
         cancel()
         {
-            var app=this;
-            app.$parent.status=0;
+            var app = this;
+            app.$parent.status = 0;
         },
         getCurrencies: function(data)
         {
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency' ,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -111,12 +104,11 @@ Vue.component('account-payable-form',{
                 async: true,
                 success: function(data)
                 {
-                    app.currencies=[];
+                    app.currencies = [];
                     for(let i = 0; i < data.length; i++)
                     {
                         app.currencies.push({name:data[i]['name'],id:data[i]['id']});
                     }
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -127,8 +119,7 @@ Vue.component('account-payable-form',{
 
         getRate: function()
         {
-
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -137,12 +128,9 @@ Vue.component('account-payable-form',{
                 async: true,
                 success: function(data)
                 {
-
-                    if (app.rate=='' || app.rate==null) {
-                        app.rate=data;
+                    if (app.rate == '' || app.rate == null) {
+                        app.rate = data;
                     }
-
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -154,7 +142,7 @@ Vue.component('account-payable-form',{
         {
             console.log(data);
             var app = this;
-            app.ID=data.ID;
+            app.ID = data.ID;
             app.Supplier = data.Supplier;
             app.SupplierTaxID = data.SupplierTaxID;
             app.Currency = data.Currency;
@@ -186,7 +174,6 @@ Vue.component('account-payable-form',{
                     {
                         app.charts.push({name:data[i]['name'],id:data[i]['id']});
                     }
-
                 },
                 error: function(xhr, status, error)
                 {

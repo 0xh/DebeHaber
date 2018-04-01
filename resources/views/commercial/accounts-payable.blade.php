@@ -3,7 +3,10 @@
 @section('title', __('commercial.AccountsPayable'))
 
 @section('form')
-    <form-list inline-template>
+    <model :taxpayer="{{ request()->route('taxPayer')->id}}" 
+        :cycle="{{ request()->route('cycle')->id }}"
+        :url="commercial/account-payables"
+        inline-template >
         <div>
             <div v-if="status===1">
                 @include('commercial/account-payable/form')
@@ -12,7 +15,5 @@
                 @include('commercial/account-payable/list')
             </div>
         </div>
-    </form-list>
-
-
+    </model>
 @endsection

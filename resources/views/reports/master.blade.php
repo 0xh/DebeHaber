@@ -51,6 +51,12 @@
         white-space: nowrap;
     }
 
+    h6
+    {
+        margin-bottom: 0px;
+        font-weight: bolder;
+    }
+
     .danger
     {
         color: crimson;
@@ -127,20 +133,20 @@
         <div class="row">
             <table class="u-full-width">
                 <tr>
-                    <td style="text-align:right">@lang('Taxpayer')</td>
+                    <td style="text-align:right">@lang('global.Taxpayer')</td>
                     <td style="text-align:left"><b>{{ $header->name }}</b></td>
-                    <td style="text-align:right">Representante Legal</td>
+                    <td style="text-align:right">@lang('global.LegalRepresentative')</td>
                     {{-- <td style="text-align:left"><b>{{ $header->companySubscription->name_agent }}</b></td> --}}
                 </tr>
                 <tr>
-                    <td style="text-align:right">@lang('TaxID')</td>
+                    <td style="text-align:right">@lang('global.Taxid')</td>
                     <td style="text-align:left"><b>{{ $header->taxid }}-{{ $header->code }}</b></td>
-                    <td style="text-align:right">Cedula de Identidad del Representante</td>
+                    <td style="text-align:right">@lang('global.LegalRepresentative') @lang('global.Taxid')</td>
                     {{-- <td style="text-align:left"><b>{{ $header->companySubscription->gov_code_agent }}</b></td> --}}
                 </tr>
                 <tr>
-                    <td style="text-align:right">@lang('DateRange')</td>
-                    <td style="text-align:left"><small>DESDE</small> <b>{{ $strDate }}</b> | <small>HASTA</small> <b>{{ $endDate }}</b></td>
+                    <td style="text-align:right">@lang('global.DateRange')</td>
+                    <td style="text-align:left"><small>@lang('global.StartDate')</small> <b>{{ $strDate }}</b> | <small>@lang('global.EndDate')</small> <b>{{ $endDate }}</b></td>
                     <td style="text-align:right">Fecha de Impressión</td>
                     <td style="text-align:left"><b>{{ Carbon\Carbon::now() }}</b> |
                         <small>

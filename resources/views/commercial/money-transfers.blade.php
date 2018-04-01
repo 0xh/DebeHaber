@@ -3,7 +3,10 @@
 @section('title', __('commercial.MoneyTransfers'))
 
 @section('form')
-    <form-list inline-template>
+    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+        :cycle="{{ request()->route('cycle')->id }}" 
+        :url="commercial/money-transfers"
+        inline-template>
         <div>
             <div v-if="status===1">
                 @include('commercial/money-transfer/form')
@@ -12,5 +15,5 @@
                 @include('commercial/money-transfer/list')
             </div>
         </div>
-    </form-list>
+    </model>
 @endsection

@@ -120,7 +120,7 @@ class ReportController extends Controller
         {
             $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/sales_byVat')
+            return view('reports/PRY/sales_byCustomer')
             ->with('header', $taxPayer)
             ->with('data', $data)
             ->with('strDate', $startDate)
@@ -189,8 +189,7 @@ class ReportController extends Controller
             'vats.name as vat',
             'vats.coefficient',
             DB::raw('transactions.rate * if(transactions.type = 5, -transaction_details.value, transaction_details.value) as localCurrencyValue,
-            (transactions.rate * if(transactions.type = 5, -transaction_details.value, transaction_details.value)) / (vats.coefficient + 1) as vatValue'
-            )
+            (transactions.rate * if(transactions.type = 5, -transaction_details.value, transaction_details.value)) / (vats.coefficient + 1) as vatValue')
             )
             ->orderBy('transactions.date', 'asc')
             ->orderBy('transactions.number', 'asc')

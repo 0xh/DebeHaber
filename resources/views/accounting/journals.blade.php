@@ -7,7 +7,7 @@
 @endsection
 
 @section('form')
-  <form-list inline-template>
+  <view inline-template>
       <div>
           <div v-if="status===1">
               @include('accounting/journal/form')
@@ -16,6 +16,6 @@
               @include('accounting/journal/list')
           </div>
       </div>
-  </form-list>
+  </view>
 
 @endsection

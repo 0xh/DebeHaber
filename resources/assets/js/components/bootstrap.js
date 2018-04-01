@@ -22,7 +22,7 @@ require('./../commercial-components/credit-note/bootstrap');
 require('./../commercial-components/debit-note/bootstrap');
 require('./../commercial-components/purchase/bootstrap');
 require('./../commercial-components/sales/bootstrap');
-require('./../commercial-components/formlist/bootstrap');
+require('./../commercial-components/model/bootstrap');
 require('./../commercial-components/account-payable/bootstrap');
 require('./../commercial-components/account-receivable/bootstrap');
 require('./../commercial-components/money-transfer/bootstrap');

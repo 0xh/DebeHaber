@@ -3,18 +3,17 @@
 @section('title', __('commercial.Inventory'))
 
 @section('form')
-
-  <form-list  inline-template>
-    <div>
-      <div v-if="status===1">
-      @include('commercial/inventory/form')
-      </div>
-      <div v-if="status===0">
-      @include('commercial/inventory/list')
-      </div>
-    </div>
-  </form-list>
-
-
-
+    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+        :cycle="{{ request()->route('cycle')->id }}" 
+        :url="commercial/inventories"
+        inline-template>
+        <div>
+            <div v-if="status===1">
+                @include('commercial/inventory/form')
+            </div>
+            <div v-if="status===0">
+                @include('commercial/inventory/list')
+            </div>
+        </div>
+    </model>
 @endsection

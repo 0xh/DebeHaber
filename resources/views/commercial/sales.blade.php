@@ -7,14 +7,17 @@
 @endsection
 
 @section('form')
-    <form-list inline-template>
+    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+        :cycle="{{ request()->route('cycle')->id }}"
+        :url="commercial/sales"
+        inline-template>
         <div>
-            <div v-if="status===1">
+            <div v-if="status === 1">
                 @include('commercial/sales/form')
             </div>
             <div v-else>
                 @include('commercial/sales/list')
             </div>
         </div>
-    </form-list>
+    </model>
 @endsection

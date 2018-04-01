@@ -12,6 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+
     'Sales' => 'Ventas',
     'Purchases' => 'Compras',
     'SalesBook' => 'Libro Ventas',
@@ -47,5 +48,13 @@ return [
     'Currency' => 'Moneda',
     'Total' => 'Total',
     'Detail' => 'Detalle',
-    'General' => 'General'
+    'General' => 'General',
+
+    'SalesByVAT' => 'Ventas por IVA',
+    'SalesByCustomer' => 'Ventas por Cliente',
+    'SalesByChart' => 'Ventas por Tipo de Ingreso',
+
+    'PurchaseByVAT ' => 'Compras por IVA',
+    'PurchaseBySuppliers ' => 'Compras por Proveedor',
+    'PurchaseByChart' => 'Compras por Tipo de Gasto',
 ];

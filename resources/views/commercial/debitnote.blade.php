@@ -3,7 +3,10 @@
 @section('title', __('commercial.DebitNotes'))
 
 @section('form')
-    <form-list inline-template>
+    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+        :cycle="{{ request()->route('cycle')->id }}" 
+        :url="commercial/debit-notes"
+        inline-template>
         <div>
             <div v-if="status === 0">
                 @include('commercial/debit-note/list')
@@ -12,5 +15,5 @@
                 @include('commercial/debit-note/form')
             </div>
         </div>
-    </form-list>
+    </model>
 @endsection

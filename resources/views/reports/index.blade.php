@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/sales/'+dateRange[0]+'/'+dateRange[1]">
+                                            <a target="_blank" :href="'reports/sales/'+dateRange[0]+'/'+dateRange[1]">
                                                 @lang('commercial.SalesBook')
                                             </a>
                                             <br>
@@ -75,7 +75,7 @@
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
@@ -86,15 +86,15 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/sales-byVAT/'+dateRange[0]+'/'+dateRange[1]">
-                                                @lang('report.SalesByVAT')
+                                            <a target="_blank" :href="'reports/sales-byVATs/'+dateRange[0]+'/'+dateRange[1]">
+                                                @lang('commercial.SalesByVAT')
                                             </a>
                                             <br>
                                             <small>List of invoices grouped by sales tax</small>
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
@@ -105,15 +105,15 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
-                                                @lang('report.SalesVATByCustomer')
+                                            <a target="_blank" :href="'reports/sales-byCustomers/'+dateRange[0]+'/'+dateRange[1]">
+                                                @lang('commercial.SalesByCustomer')
                                             </a>
                                             <br>
                                             <small>List of invoices grouped by customers</small>
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
@@ -124,7 +124,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
+                                            <a target="_blank" :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
                                                 @lang('commercial.CreditNotes')
                                             </a>
                                             <br>
@@ -132,7 +132,7 @@
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
@@ -143,7 +143,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
+                                            <a target="_blank" :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
                                                 @lang('commercial.AccountsReceivable')
                                             </a>
                                             <br>
@@ -151,7 +151,7 @@
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
@@ -162,13 +162,13 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a href="#">@lang('report.VATDebit')</a>
+                                            <a target="_blank" href="#">@lang('commercial.VATDebit')</a>
                                             <br>
                                             <small>List of VAT Debit (sales invoice plus debit notes)</small>
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
@@ -187,13 +187,15 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/purchases/'+dateRange[0]+'/'+dateRange[1]">@lang('commercial.PurchaseBook')</a>
+                                            <a target="_blank" :href="'reports/purchases/'+dateRange[0]+'/'+dateRange[1]">
+                                                @lang('commercial.PurchaseBook')
+                                            </a>
                                             <br>
                                             <small>Simple list of purchase invoices</small>
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
@@ -204,13 +206,15 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a :href="'reports/purchases-byVAT/'+dateRange[0]+'/'+dateRange[1]">@lang('report.PurchaseByVAT')</a>
+                                            <a target="_blank" :href="'reports/purchases-byVAT/'+dateRange[0]+'/'+dateRange[1]">
+                                                @lang('commercial.PurchaseByVAT')
+                                            </a>
                                             <br>
                                             <small>List of purchase invoices grouped by sales tax</small>
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
@@ -221,17 +225,36 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a href="#">@lang('report.SalesBySuppliers')</a>
+                                            <a target="_blank" href="#">@lang('commercial.PurchaseBySuppliers')</a>
                                             <br>
                                             <small>List of purchase invoices grouped by suppliers</small>
                                         </span>
                                     </div>
                                     <div class="m-widget4__ext">
-                                        <a href="#" class="m-widget4__icon">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
                                             <i class="la la-download"></i>
                                         </a>
                                     </div>
                                 </div>
+
+                                <div class="m-widget4__item">
+                                    <div class="m-widget4__img m-widget4__img--icon">
+                                        <img src="/img/icons/compras.svg" alt="">
+                                    </div>
+                                    <div class="m-widget4__info">
+                                        <span class="m-widget4__text">
+                                            <a target="_blank" href="#">@lang('commercial.PurchaseByChart')</a>
+                                            <br>
+                                            <small>List of purchase invoices grouped by suppliers</small>
+                                        </span>
+                                    </div>
+                                    <div class="m-widget4__ext">
+                                        <a target="_blank" href="#" class="m-widget4__icon">
+                                            <i class="la la-download"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
                                         <img src="/img/icons/credit-note.svg" alt="">
@@ -272,7 +295,7 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a href="#">@lang('report.SalesVAT')</a>
+                                            <a href="#">@lang('commercial.SalesVAT')</a>
                                             <br>
                                             <small>List of VAT Debit (purchase invoice plus credit notes)</small>
                                         </span>
