@@ -225,7 +225,9 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a target="_blank" href="#">@lang('commercial.PurchaseBySuppliers')</a>
+                                            <a target="_blank" :href="'reports/purchases-bySupplier/'+dateRange[0]+'/'+dateRange[1]">
+                                                @lang('commercial.PurchaseBySuppliers')
+                                            </a>
                                             <br>
                                             <small>List of purchase invoices grouped by suppliers</small>
                                         </span>
@@ -243,7 +245,9 @@
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
-                                            <a target="_blank" href="#">@lang('commercial.PurchaseByChart')</a>
+                                            <a target="_blank" :href="'reports/purchases-byChart/'+dateRange[0]+'/'+dateRange[1]">
+                                                @lang('commercial.PurchaseByChart')
+                                            </a>
                                             <br>
                                             <small>List of purchase invoices grouped by suppliers</small>
                                         </span>
