@@ -10,17 +10,17 @@
 
                 <thead>
                     <tr>
-                        <th>Fecha</th>
+                        <th>@lang('global.Date')</th>
                         <th class="number">Timbrado</th>
-                        <th>Factura</th>
-                        <th>Cond.</th>
+                        <th>@lang('commercial.InvoiceNumber')</th>
+                        <th>@lang('commercial.Condition')</th>
                         <th>Concepto</th>
-                        <th class="number">Grav. 10%</th>
-                        <th class="number">IVA 10%</th>
-                        <th class="number">Grav. 5%</th>
-                        <th class="number">IVA 5%</th>
-                        <th class="number">Exenta</th>
-                        <th class="number">Total</th>
+                        <th class="number">@lang('commercial.Taxable') 10%</th>
+                        <th class="number">@lang('commercial.SalesTax') 10%</th>
+                        <th class="number">@lang('commercial.Taxable') 5%</th>
+                        <th class="number">@lang('commercial.SalesTax') 5%</th>
+                        <th class="number">@lang('commercial.Exempt')</th>
+                        <th class="number">@lang('global.Total')</th>
                     </tr>
                 </thead>
                 <tr class="group">
@@ -47,7 +47,7 @@
                             </a>
                         </td>
 
-                        <td>{{ $row->first()->payment_condition > 0 ? 'Credito' : 'Contado' }}</td>
+                        <td>{{ $row->first()->payment_condition > 0 ? __('commercial.Credit') : __('commercial.Cash') }}</td>
 
                         <td class="text">
                             @foreach ($row->groupBy('costCenter') as $detail)
@@ -105,7 +105,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Gran Total</td>
+                <td>@lang('global.GrandTotal')</td>
                 <td class="number"><b>{{ number_format($data->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                 <td class="number">
                     <b>

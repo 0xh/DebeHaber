@@ -7,7 +7,7 @@
             @foreach ($data->groupBy('code') as $groupedRows)
                 <thead>
                     <tr>
-                        <th>Fecha</th>
+                        <th>@lang('global.Date')</th>
                         <th colspan="2">Cuenta</th>
                         <th>Concepto</th>
                         <th class="number">Debito</th>
@@ -36,7 +36,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Gran Total</td>
+                <td>@lang('global.GrandTotal')</td>
                 <td class="number"><b>{{ number_format($data->sum('debit'), 0, ',', '.') }}</b></td>
                 <td class="number"><b>{{ number_format($data->sum('credit'), 0, ',', '.') }}</b></td>
             </tr>

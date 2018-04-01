@@ -5,19 +5,19 @@
     <table class="u-full-width">
         <thead>
             <tr>
-                <th>Fecha</th>
-                <th>RUC</th>
-                <th>Rázon Social</th>
+                <th>@lang('global.Date')</th>
+                <th>@lang('global.Taxid')</th>
+                <th>@lang('global.Taxpayer')</th>
                 <th class="number">Timbrado</th>
-                <th>Factura</th>
-                <th class="number">Gravada 10%</th>
-                <th class="number">IVA 10%</th>
-                <th class="number">Gravada 5%</th>
-                <th class="number">IVA 5%</th>
-                <th class="number">Exenta</th>
-                <th class="number">Total</th>
+                <th>@lang('commercial.InvoiceNumber')</th>
+                <th class="number">@lang('commercial.Taxable') 10%</th>
+                <th class="number">@lang('commercial.SalesTax') 10%</th>
+                <th class="number">@lang('commercial.Taxable') 5%</th>
+                <th class="number">@lang('commercial.SalesTax') 5%</th>
+                <th class="number">@lang('commercial.Exempt')</th>
+                <th class="number">@lang('global.Total')</th>
                 <th>Concepto</th>
-                <th>Condición</th>
+                <th>@lang('commercial.Condition')</th>
             </tr>
         </thead>
         <tbody>
@@ -88,7 +88,7 @@
                     </td>
 
                     @if ($group->first()->status != 3)
-                        <td>{{ $group->first()->payment_condition > 0 ? 'Credito' : 'Contado' }}</td>
+                        <td>{{ $group->first()->payment_condition > 0 ? __('commercial.Credit') : __('commercial.Cash') }}</td>
                     @else
                         <td>Anulado</td>
                     @endif
@@ -100,7 +100,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Gran Total</td>
+                <td>@lang('global.GrandTotal')</td>
                 <td class="number">
                     <b>{{ number_format($data->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                     <td class="number">

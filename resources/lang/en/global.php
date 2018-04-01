@@ -34,6 +34,11 @@ return [
     'Save-and-New' => 'Save and create new',
     'Cancel' => 'Cancel',
     'Action' => 'Action',
+
+    'Timestamp' => 'Time Stamp',
+    'NumberOfRecords' => 'Number of Records',
+    'IssuedBy' => 'Issued by',
+
     'BelongsTo' => 'Belongs To',
     'Type' => 'Type',
     'SubType' => 'Sub Type',

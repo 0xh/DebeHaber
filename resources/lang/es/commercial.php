@@ -26,6 +26,9 @@ return [
     'SalesVAT' => 'Libro IVA Ventas',
     'PurchaseVAT' => 'Libro IVA Compras',
 
+    'Cash' => 'Contado',
+    'Credit' => 'Crédito',
+
     'Inventory' => 'Inventario',
     'MoneyTransfers' => 'Transferencia de Dinero',
     'Productions' => 'Producciones',

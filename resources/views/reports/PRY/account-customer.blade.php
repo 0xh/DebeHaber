@@ -12,18 +12,18 @@
             @foreach ($data->groupBy('journal_details.chart_id') as $groupedRows)
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>RUC</th>
-                        <th>Rázon Social</th>
+                        <th>@lang('global.Date')</th>
+                        <th>@lang('global.Taxid')</th>
+                        <th>@lang('global.Taxpayer')</th>
                         <th class="number">Timbrado</th>
-                        <th>Factura</th>
-                        <th>Condición</th>
-                        <th class="number">Gravada 10%</th>
-                        <th class="number">IVA 10%</th>
-                        <th class="number">Gravada 5%</th>
-                        <th class="number">IVA 5%</th>
-                        <th class="number">Exenta</th>
-                        <th class="number">Total</th>
+                        <th>@lang('commercial.InvoiceNumber')</th>
+                        <th>@lang('commercial.Condition')</th>
+                        <th class="number">@lang('commercial.Taxable') 10%</th>
+                        <th class="number">@lang('commercial.SalesTax') 10%</th>
+                        <th class="number">@lang('commercial.Taxable') 5%</th>
+                        <th class="number">@lang('commercial.SalesTax') 5%</th>
+                        <th class="number">@lang('commercial.Exempt')</th>
+                        <th class="number">@lang('global.Total')</th>
                     </tr>
                 </thead>
                 <tr class="group">
@@ -54,7 +54,7 @@
                             </a>
                         </td>
 
-                        <td>{{ $row->payment_condition > 0 ? 'Credito' : 'Contado' }}</td>
+                        <td>{{ $row->payment_condition > 0 ? __('commercial.Credit') : __('commercial.Cash') }}</td>
 
                         <td class="number important">
                             {{ $row->coeficient == 0.1 ? number_format($row->vatValue, 0, ',', '.') : 0 }}
@@ -85,7 +85,7 @@
                 <td></td><td></td><td></td>
                 <td></td>
                 <td></td>
-                <td>Gran Total</td>
+                <td>@lang('global.GrandTotal')</td>
                 <td class="number"><b>{{ number_format($data->where('coeficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                 <td class="number"><b>{{ number_format(($data->where('coeficient', '=', 0.1)->sum('localCurrencyValue') - $data->where('coeficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
                 <td class="number"><b>{{ number_format($data->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>

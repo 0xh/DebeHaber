@@ -35,6 +35,10 @@ return [
     'Cancel' => 'Cancelar',
     'Action' => 'Acciones',
 
+    'Timestamp' => 'Marca de Tiempo',
+    'NumberOfRecords' => 'Cantidad de Registros',
+    'IssuedBy' => 'Emitido por',
+
     'BelongsTo' => 'Pertenece a',
     'Type' => 'Tipo',
     'SubType' => 'Sub Tipo',

@@ -8,7 +8,7 @@
     <table class="u-full-width">
         <thead>
             <tr>
-                <th>Fecha</th>
+                <th>@lang('global.Date')</th>
                 <th class="number">Compra</th>
                 <th></th>
                 <th class="number">Venta</th>

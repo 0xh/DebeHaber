@@ -10,8 +10,8 @@
                 <thead>
                     <tr>
                         <th>@lang('global.Date')</th>
-                        <th>RUC</th>
-                        <th>Rázon Social</th>
+                        <th>@lang('global.Taxid')</th>
+                        <th>@lang('global.Taxpayer')</th>
                         <th class="number">Timbrado</th>
                         <th>@lang('commercial.Invoice')</th>
                         <th>@lang('commercial.Condition')</th>
@@ -29,7 +29,7 @@
                     </td>
                     <td></td>
                     <td></td>
-                    <td><h6>Sub Total</h6></td>
+                    <td><h6>@lang('global.SubTotal')</h6></td>
                     <td class="number"><h6>{{ number_format($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</h6></td>
                     <td class="number"><h6>{{ number_format(($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</h6></td>
                     <td class="number"><h6>{{ number_format($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</h6></td>
@@ -53,7 +53,7 @@
                             </a>
                         </td>
 
-                        <td>{{ $row->first()->payment_condition > 0 ? 'Credito' : 'Contado' }}</td>
+                        <td>{{ $row->first()->payment_condition > 0 ? __('commercial.Credit') : __('commercial.Cash') }}</td>
 
                         <td class="number important">
                             {{ number_format($row->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}
@@ -83,7 +83,7 @@
                 <td></td><td></td><td></td>
                 <td></td>
                 <td></td>
-                <td>Gran Total</td>
+                <td>@lang('global.GrandTotal')</td>
                 <td class="number"><b>{{ number_format($data->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                 <td class="number"><b>{{ number_format(($data->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('localCurrencyValue') - $data->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
                 <td class="number"><b>{{ number_format($data->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>

@@ -9,17 +9,17 @@
             @foreach ($data->groupBy('supplier') as $groupedRows)
                 <thead>
                     <tr>
-                        <th>Fecha</th>
+                        <th>@lang('global.Date')</th>
                         <th class="number">Timbrado</th>
-                        <th>Factura</th>
+                        <th>@lang('commercial.InvoiceNumber')</th>
                         <th>Cond.</th>
                         <th>Concepto</th>
                         <th class="number">Grav. 10%</th>
-                        <th class="number">IVA 10%</th>
+                        <th class="number">@lang('commercial.SalesTax') 10%</th>
                         <th class="number">Grav. 5%</th>
-                        <th class="number">IVA 5%</th>
-                        <th class="number">Exenta</th>
-                        <th class="number">Total</th>
+                        <th class="number">@lang('commercial.SalesTax') 5%</th>
+                        <th class="number">@lang('commercial.Exempt')</th>
+                        <th class="number">@lang('global.Total')</th>
                     </tr>
                 </thead>
                 <tr class="group">
@@ -46,7 +46,7 @@
                             </a>
                         </td>
 
-                        <td>{{ $row->first()->payment_condition > 0 ? 'Credito' : 'Contado' }}</td>
+                        <td>{{ $row->first()->payment_condition > 0 ? __('commercial.Credit') : __('commercial.Cash') }}</td>
 
                         <td class="text">{{ $row->first()->costCenter }}</td>
 
@@ -79,7 +79,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Gran Total</td>
+                <td>@lang('global.GrandTotal')</td>
                 <td class="number"><b>{{ number_format($data->where('coeficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                 <td class="number"><b>{{ number_format(($data->where('coeficient', '=', 0.1)->sum('localCurrencyValue') - $data->where('coeficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
                 <td class="number"><b>{{ number_format($data->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>

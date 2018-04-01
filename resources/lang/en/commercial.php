@@ -25,6 +25,9 @@ return [
     'SalesVAT' => 'Sales VAT',
     'PurchaseVAT' => 'Purchase VAT',
 
+    'Cash' => 'Cash',
+    'Credit' => 'Credit',
+
     'Inventory' => 'Inventory',
     'MoneyTransfers' => 'Money Transfers',
     'Productions' => 'Productions',

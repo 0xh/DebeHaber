@@ -147,10 +147,10 @@
                 <tr>
                     <td style="text-align:right">@lang('global.DateRange')</td>
                     <td style="text-align:left"><small>@lang('global.StartDate')</small> <b>{{ $strDate }}</b> | <small>@lang('global.EndDate')</small> <b>{{ $endDate }}</b></td>
-                    <td style="text-align:right">Fecha de Impressión</td>
+                    <td style="text-align:right">@lang('global.Timestamp')</td>
                     <td style="text-align:left"><b>{{ Carbon\Carbon::now() }}</b> |
                         <small>
-                            # de Registros
+                            @lang('global.NumberOfRecords')
                         </small>
                         @isset($data)
                             <b>{{ $data->count() }}</b>
@@ -167,12 +167,12 @@
         <table class="u-full-width">
             <tr>
                 <td style="text-align:left">
-                    Fecha y Hora de Impressión <b>{{ Carbon\Carbon::now() }}</b>
+                    @lang('global.Timestamp') <b>{{ Carbon\Carbon::now() }}</b>
                 </td>
                 <td style="text-align:center">
-                    <img src="/img/logos/debehaber.svg" height="48" alt="">
+                    <img src="/img/logos/debehaber.svg" height="26" alt="">
                 </td>
-                <td style="text-align:right">Emitido Por: <b>{{ Auth::user()->name }}</b> | {{ Auth::user()->email }}</td>
+                <td style="text-align:right">@lang('global.IssuedBy') <b>{{ Auth::user()->name }}</b> | {{ Auth::user()->email }}</td>
             </tr>
         </table>
     </div>
