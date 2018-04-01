@@ -135,12 +135,14 @@
                 <tr>
                     <td style="text-align:right">@lang('global.Taxpayer')</td>
                     <td style="text-align:left"><b>{{ $header->name }}</b></td>
+                    
                     <td style="text-align:right">@lang('global.LegalRepresentative')</td>
                     {{-- <td style="text-align:left"><b>{{ $header->companySubscription->name_agent }}</b></td> --}}
                 </tr>
                 <tr>
                     <td style="text-align:right">@lang('global.Taxid')</td>
                     <td style="text-align:left"><b>{{ $header->taxid }}-{{ $header->code }}</b></td>
+
                     <td style="text-align:right">@lang('global.LegalRepresentative') @lang('global.Taxid')</td>
                     {{-- <td style="text-align:left"><b>{{ $header->companySubscription->gov_code_agent }}</b></td> --}}
                 </tr>
@@ -148,7 +150,7 @@
                     <td style="text-align:right">@lang('global.DateRange')</td>
                     <td style="text-align:left"><small>@lang('global.StartDate')</small> <b>{{ $strDate }}</b> | <small>@lang('global.EndDate')</small> <b>{{ $endDate }}</b></td>
                     <td style="text-align:right">@lang('global.Timestamp')</td>
-                    <td style="text-align:left"><b>{{ Carbon\Carbon::now() }}</b> |
+                    <td style="text-align:left"><b>{{ Carbon\Carbon::now(Auth::user()->timezone) }}</b> |
                         <small>
                             @lang('global.NumberOfRecords')
                         </small>
@@ -167,12 +169,12 @@
         <table class="u-full-width">
             <tr>
                 <td style="text-align:left">
-                    @lang('global.Timestamp') <b>{{ Carbon\Carbon::now() }}</b>
+                    @lang('global.Timestamp') <b>{{ Carbon\Carbon::now(Auth::user()->timezone) }}</b>
                 </td>
                 <td style="text-align:center">
-                    <img src="/img/logos/debehaber.svg" height="26" alt="">
+                    <img src="/img/logos/debehaber.svg" width="100" alt="">
                 </td>
-                <td style="text-align:right">@lang('global.IssuedBy') <b>{{ Auth::user()->name }}</b> | {{ Auth::user()->email }}</td>
+                <td style="text-align:right">@lang('global.IssuedBy') <b>{{ Auth::user()->name }}</b> | <a href="mailto:{{ Auth::user()->email }}">{{ Auth::user()->email }}</a></td>
             </tr>
         </table>
     </div>
