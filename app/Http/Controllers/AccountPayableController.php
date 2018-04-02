@@ -31,6 +31,7 @@ class AccountPayableController extends Controller
     ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
     ->where('transactions.customer_id', $taxPayer->id)
     ->where('transactions.payment_condition', '>', 0)
+    ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
     //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
     ->groupBy('transactions.id')
     ->select(DB::raw('max(transactions.id) as ID'),

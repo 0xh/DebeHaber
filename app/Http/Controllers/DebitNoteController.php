@@ -28,6 +28,7 @@ class DebitNoteController extends Controller
         ->join('currencies', 'currencies.id', 'transactions.currency_id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('customer_id', $taxPayer->id)
+        ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Supplier'),

@@ -31,6 +31,7 @@ class AccountReceivableController extends Controller
         ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
         ->where('transactions.supplier_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
+        ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Customer'),
