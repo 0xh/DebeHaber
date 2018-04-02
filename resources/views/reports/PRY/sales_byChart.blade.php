@@ -37,17 +37,17 @@
                 </tr>
                 @foreach ($groupedRows->groupBy('salesID') as $row)
                     <tr>
-                        <td>{{ \Carbon\Carbon::parse($row->first()->invoice_date)->format('d/m/Y')}}</td>
+                        <td>{{ \Carbon\Carbon::parse($row->first()->date)->format('d/m/Y')}}</td>
 
                         <td class="important">{{ $row->first()->customer_code }}</td>
 
                         <td class="text">{{ $row->first()->customer }}</td>
 
-                        <td class="number">{{ $row->first()->invoice_code }}</td>
+                        <td class="number">{{ $row->first()->code }}</td>
 
                         <td class="important">
                             <a href="{{route('sales.edit', [request()->route('taxPayer')->id, request()->route('cycle')->id, $row->first()->salesID])}}" target="_blank">
-                                {{ $row->first()->invoice_number }}
+                                {{ $row->first()->number }}
                             </a>
                         </td>
 
