@@ -160,7 +160,7 @@ Vue.component('chart',{
     init(){
         var app = this;
         $.ajax({
-            url: 'https://www.debehaber.com/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get_charts/' ,
+            url: '/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get_charts/' ,
             headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
             type: 'get',
             dataType: 'json',
