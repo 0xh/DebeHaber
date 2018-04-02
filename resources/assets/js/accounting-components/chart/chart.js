@@ -68,7 +68,7 @@ Vue.component('chart',{
             app.$swal('Please Select Type...');
             return;
         }
-        if (app.sub_type == 0)
+        if (app.is_accountable && app.sub_type == 0)
         {
             app.$swal('Please Select Sub Type...');
             return;
@@ -160,7 +160,7 @@ Vue.component('chart',{
     init(){
         var app = this;
         $.ajax({
-            url: '/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get_charts/' ,
+            url: 'https://www.debehaber.com/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get_charts/' ,
             headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
             type: 'get',
             dataType: 'json',
@@ -170,19 +170,23 @@ Vue.component('chart',{
                 app.list = [];
                 for (let i = 0; i < data.length; i++)
                 {
-                    app.list.push({id : data[i]['id'],
-                    parent_id : data[i]['parent_id'],
-                    taxpayer_id : data[i]['taxpayer_id'],
-                    chart_version_id : data[i]['chart_version_id'],
-                    chart_version_name : data[i]['chart_version_name'],
-                    country : data[i]['country'],
-                    is_accountable : data[i]['is_accountable'],
-                    code : data[i]['code'],
-                    name : data[i]['name'],
-                    level : data[i]['level'],
-                    type : data[i]['type'],
-                    sub_type : data[i]['sub_type'],
-                    coefficient : data[i]['coefficient']});
+                    app.list.push(
+                        {
+                            id : data[i]['id'],
+                            parent_id : data[i]['parent_id'],
+                            taxpayer_id : data[i]['taxpayer_id'],
+                            chart_version_id : data[i]['chart_version_id'],
+                            chart_version_name : data[i]['chart_version_name'],
+                            country : data[i]['country'],
+                            is_accountable : data[i]['is_accountable'],
+                            code : data[i]['code'],
+                            name : data[i]['name'],
+                            level : data[i]['level'],
+                            type : data[i]['type'],
+                            sub_type : data[i]['sub_type'],
+                            coefficient : data[i]['coefficient']
+                        }
+                    );
                 }
             },
             error: function(xhr, status, error)
