@@ -11,59 +11,104 @@
                 <div class="col-md-12 col-lg-6 col-xl-3">
                     <div class="m-nav-grid m-nav-grid--skin-light">
                         <div class="m-nav-grid__row">
-                            <journal-generate>
+                            {{-- <journal-generate> --}}
                             <a href="onSave()" class="m-nav-grid__item padding-40-5">
-                            <img src="/img/icons/generate.svg" alt="" width="64">
-                            <span class="m-nav-grid__text">
-                                Generar Asientos
+                                <img src="/img/icons/generate.svg" alt="" width="64">
+                                <span class="m-nav-grid__text">
+                                    Generar Asientos
+                                    <br>
+                                    <small>Click Aqui</small>
+                                </span>
+                            </a>
+                            {{-- </journal-generate> --}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 col-xl-3">
+                    <div class="m-widget24">
+                        <div class="m-widget24__item">
+                            @if ($totalSales > 0)
+                                <h4 class="m-widget24__title">
+                                    <img src="/img/icons/ventas.svg" alt="" width="32"> @lang('commercial.SalesBook')
+                                </h4>
+
                                 <br>
-                                <small>Click Aqui</small>
+
+                                <span class="m-widget24__desc">
+                                    {{-- <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}"> --}}
+
+                                    {{-- {{ $startDate->format('F') }} / {{ $startDate->year }} --}}
+                                </a>
                             </span>
-                        </journal-generate>
-                        </a>
+
+                            <span class="m-widget24__stats m--font-success">
+                                {{ number_format($totalSales, 0, '.', ',') }}
+                            </span>
+
+                            <div class="m--space-10"></div>
+
+                            <div class="progress m-progress--sm">
+                                {{-- <div class="progress-bar m--bg-success" role="progressbar" style="width: {{ $salesPercentJournaled }}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div> --}}
+                            </div>
+                            <span class="m-widget24__change">
+                                {{-- <small>{{ number_format($totalSalesJournaled, 0, '.', ',') }} Ventas Asentadas</small> --}}
+                            </span>
+                            <span class="m-widget24__number">
+                                {{-- {{ number_format($salesPercentJournaled, 1, '.', ',') }} % --}}
+                            </span>
+                        @else
+                            <div class="m-nav-grid m-nav-grid--skin-light">
+                                <div class="m-nav-grid__row background-sales">
+                                    <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
+                                        <img src="/img/icons/ventas.svg" alt="" width="64">
+                                        <span class="m-nav-grid__text">
+                                            <p class="lead">
+                                                Faltan cargar Ventas
+                                            </p>
+                                            Empiece Aqui
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
             <div class="col-md-12 col-lg-6 col-xl-3">
+                <!--begin::New Feedbacks-->
                 <div class="m-widget24">
                     <div class="m-widget24__item">
-                        @if ($totalSales > 0)
+                        @if ($totalPurchases > 0)
                             <h4 class="m-widget24__title">
-                                <img src="/img/icons/ventas.svg" alt="" width="32"> @lang('commercial.SalesBook')
+                                <img src="/img/icons/compras.svg" alt="" width="32"> @lang('commercial.PurchaseBook')
                             </h4>
-
                             <br>
-
                             <span class="m-widget24__desc">
-                                {{-- <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}"> --}}
-
+                                {{-- <a href="{{route('purchases.index', request()->route('company'))}}"> --}}
                                 {{-- {{ $startDate->format('F') }} / {{ $startDate->year }} --}}
                             </a>
                         </span>
-
-                        <span class="m-widget24__stats m--font-success">
-                            {{ number_format($totalSales, 0, '.', ',') }}
+                        <span class="m-widget24__stats m--font-info">
+                            {{ number_format($totalPurchases, 0, '.', ',') }}
                         </span>
-
                         <div class="m--space-10"></div>
-
                         <div class="progress m-progress--sm">
-                            {{-- <div class="progress-bar m--bg-success" role="progressbar" style="width: {{ $salesPercentJournaled }}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div> --}}
+                            {{-- <div class="progress-bar m--bg-info" role="progressbar" style="width: {{ $purchasePercentJournaled }}%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div> --}}
                         </div>
                         <span class="m-widget24__change">
-                            {{-- <small>{{ number_format($totalSalesJournaled, 0, '.', ',') }} Ventas Asentadas</small> --}}
+                            {{-- <small>{{ number_format($totalPurchaseJournaled, 0, '.', ',') }} Compras Asentadas</small> --}}
                         </span>
                         <span class="m-widget24__number">
-                            {{-- {{ number_format($salesPercentJournaled, 1, '.', ',') }} % --}}
+                            {{-- {{ number_format($purchasePercentJournaled, 1, '.', ',') }} % --}}
                         </span>
                     @else
                         <div class="m-nav-grid m-nav-grid--skin-light">
                             <div class="m-nav-grid__row background-sales">
-                                <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
-                                    <img src="/img/icons/ventas.svg" alt="" width="64">
+                                <a href="{{route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
+                                    <img src="/img/icons/compras.svg" alt="" width="64">
                                     <span class="m-nav-grid__text">
                                         <p class="lead">
-                                            Faltan cargar Ventas
+                                            Faltan cargar Compras
                                         </p>
                                         Empiece Aqui
                                     </span>
@@ -73,88 +118,43 @@
                     @endif
                 </div>
             </div>
+            <!--end::New Feedbacks-->
         </div>
         <div class="col-md-12 col-lg-6 col-xl-3">
-            <!--begin::New Feedbacks-->
-            <div class="m-widget24">
-                <div class="m-widget24__item">
-                    @if ($totalPurchases > 0)
-                    <h4 class="m-widget24__title">
-                        <img src="/img/icons/compras.svg" alt="" width="32"> @lang('commercial.PurchaseBook')
-                    </h4>
-                    <br>
-                    <span class="m-widget24__desc">
-                        {{-- <a href="{{route('purchases.index', request()->route('company'))}}"> --}}
-                        {{-- {{ $startDate->format('F') }} / {{ $startDate->year }} --}}
+            <div class="container">
+                <ul class="m-nav">
+                    <li class="m-nav__section">
+                        <span class="m-nav__section-text">
+                            {{-- Informes para {{ $startDate->format('F') }} --}}
+                        </span>
+                    </li>
+                    <li class="m-nav__item">
+                        {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
+                        <i class="m-nav__link-icon la la-paper-plane-o"></i>
+                        <span class="m-nav__link-text">@lang('commercial.PurchaseBook')</span>
+                        {{-- </a> --}}
+                    </li>
+                    <li class="m-nav__item">
+                        {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
+                        <i class="m-nav__link-icon la la-shopping-cart"></i>
+                        <span class="m-nav__link-text">Libro IVA Compras</span>
+                        {{-- </a> --}}
+                    </li>
+                    <li class="m-nav__item">
+                        {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/journal-ByChart/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
+                        <i class="m-nav__link-icon la la-book"></i>
+                        <span class="m-nav__link-text">Libro Mayor</span>
+                        {{-- </a> --}}
+                    </li>
+                    <li class="m-nav__item">
+                        {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/hechauka/generate_files/{{ $startDate }}/{{ $endDate }}" class="m-nav__link"> --}}
+                        <i class="m-nav__link-icon la la-cloud-download"></i>
+                        {{-- <span class="m-nav__link-text">Hechauka {{ $startDate->format('F') }}</span> --}}
                     </a>
-                </span>
-                <span class="m-widget24__stats m--font-info">
-                    {{ number_format($totalPurchases, 0, '.', ',') }}
-                </span>
-                <div class="m--space-10"></div>
-                <div class="progress m-progress--sm">
-                    {{-- <div class="progress-bar m--bg-info" role="progressbar" style="width: {{ $purchasePercentJournaled }}%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div> --}}
-                </div>
-                <span class="m-widget24__change">
-                    {{-- <small>{{ number_format($totalPurchaseJournaled, 0, '.', ',') }} Compras Asentadas</small> --}}
-                </span>
-                <span class="m-widget24__number">
-                    {{-- {{ number_format($purchasePercentJournaled, 1, '.', ',') }} % --}}
-                </span>
-                @else
-                <div class="m-nav-grid m-nav-grid--skin-light">
-                    <div class="m-nav-grid__row background-sales">
-                        <a href="{{route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
-                            <img src="/img/icons/compras.svg" alt="" width="64">
-                            <span class="m-nav-grid__text">
-                                <p class="lead">
-                                    Faltan cargar Compras
-                                </p>
-                                Empiece Aqui
-                            </span>
-                        </a>
-                    </div>
-                </div>
-                @endif
-            </div>
+                </li>
+            </ul>
         </div>
-        <!--end::New Feedbacks-->
     </div>
-    <div class="col-md-12 col-lg-6 col-xl-3">
-        <div class="container">
-            <ul class="m-nav">
-                <li class="m-nav__section">
-                    <span class="m-nav__section-text">
-                        {{-- Informes para {{ $startDate->format('F') }} --}}
-                    </span>
-                </li>
-                <li class="m-nav__item">
-                    {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
-                    <i class="m-nav__link-icon la la-paper-plane-o"></i>
-                    <span class="m-nav__link-text">@lang('commercial.PurchaseBook')</span>
-                    {{-- </a> --}}
-                </li>
-                <li class="m-nav__item">
-                    {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/purchase-vat/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
-                    <i class="m-nav__link-icon la la-shopping-cart"></i>
-                    <span class="m-nav__link-text">Libro IVA Compras</span>
-                    {{-- </a> --}}
-                </li>
-                <li class="m-nav__item">
-                    {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/journal-ByChart/{{ $startDate }}/{{ $endDate }}" class="m-nav__link" target="_blank"> --}}
-                    <i class="m-nav__link-icon la la-book"></i>
-                    <span class="m-nav__link-text">Libro Mayor</span>
-                    {{-- </a> --}}
-                </li>
-                <li class="m-nav__item">
-                    {{-- <a href="/reports/{{ request()->route('taxPayer')->id }}/paraguay/hechauka/generate_files/{{ $startDate }}/{{ $endDate }}" class="m-nav__link"> --}}
-                    <i class="m-nav__link-icon la la-cloud-download"></i>
-                    {{-- <span class="m-nav__link-text">Hechauka {{ $startDate->format('F') }}</span> --}}
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
 </div>
 </div>
 </div>
@@ -178,36 +178,36 @@
                     <div class="m-widget20__chart" style="height:160px;"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
                     </div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
                         <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-                    <canvas id="m_chart_bandwidth" width="772" height="320" class="chartjs-render-monitor" style="display: block; height: 160px; width: 386px;"></canvas>
+                        <canvas id="m_chart_bandwidth" width="772" height="320" class="chartjs-render-monitor" style="display: block; height: 160px; width: 386px;"></canvas>
+                    </div>
+                </div>
+                <!--end::Widget 5-->
+            </div>
+        </div>
+
+        <div class="m--space-30"></div>
+
+        <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 300px">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                            Outbound Bandwidth
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <!--begin::Widget5-->
+                <div class="m-widget20">
+                    <div class="m-widget20__number m--font-warning">340</div>
+                    <div class="m-widget20__chart" style="height:160px;"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                    <canvas id="m_chart_bandwidth2" width="772" height="320" class="chartjs-render-monitor" style="display: block; height: 160px; width: 386px;"></canvas>
                 </div>
             </div>
             <!--end::Widget 5-->
         </div>
     </div>
-
-    <div class="m--space-30"></div>
-
-    <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 300px">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-                        Outbound Bandwidth
-                    </h3>
-                </div>
-            </div>
-        </div>
-        <div class="m-portlet__body">
-            <!--begin::Widget5-->
-            <div class="m-widget20">
-                <div class="m-widget20__number m--font-warning">340</div>
-                <div class="m-widget20__chart" style="height:160px;"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-                <canvas id="m_chart_bandwidth2" width="772" height="320" class="chartjs-render-monitor" style="display: block; height: 160px; width: 386px;"></canvas>
-            </div>
-        </div>
-        <!--end::Widget 5-->
-    </div>
-</div>
 </div>
 
 <div class="col-xl-6">

@@ -219,8 +219,8 @@ class HechaukaController extends Controller
         max(t.date) as Date,
         max(t.number) as Number,
         max(t.code) as Code,
-        max(t.payment_condition) as PaymentCondition,
         max(t.code_expiry) as CodeExpiry,
+        max(t.payment_condition) as PaymentCondition,
         max(t.document_type) as DocumentType,
         ROUND(sum(td.ValueInZero / t.rate)) as ValueInZero,
         ROUND(sum(td.ValueInFive / t.rate)) as ValueInFive,
@@ -322,7 +322,7 @@ class HechaukaController extends Controller
                 /* 14 */ //" \t " . $row->OperationType ?? 0 .
                 /* 14 */ " \t " . 0 .
                 /* 15 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
-                /* 16 */ " \t 1 \r\n ";
+                /* 16 */ " \t " . ($row->PaymentCondition < 0 ? 1 : 0) . " \r\n ";
             }
 
             //Maybe save to string variable frist, and then append at the end.
