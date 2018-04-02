@@ -75,17 +75,14 @@ class HechaukaController extends Controller
     group by transaction_id, transaction_details.chart_vat_id
     ) as td on td.transaction_id = t.id
     join taxpayers as customer on t.customer_id = customer.id
-    left join statuses on t.id = statuses.model_id
     where (t.supplier_id = ' . $taxPayer->id . '
-    and date between "' . $startDate . '" and "' . $endDate . '"   and t.type in (3, 4))
-    or statuses.name is null
-
+    and t.date between "' . $startDate . '" and "' . $endDate . '" and t.type in (3, 4))
     group by t.id');
 
     $raw = collect($raw);
     $i = 1;
 
-    foreach ($raw->chunk(1500) as $data)
+    foreach ($raw->chunk(15000) as $data)
     {
       $taxPayerTaxID = $taxPayer->taxid;
       $taxPayerTaxCode = $taxPayer->code;
@@ -243,9 +240,9 @@ class HechaukaController extends Controller
     ) as td on td.transaction_id = t.id
     join taxpayers as supplier on t.supplier_id = supplier.id
     where
-    t.customer_id = ' . $taxPayer->id . ' and
-    date between "' . $startDate . '" and "' . $endDate . '" and
-    t.type in (1, 2, 5)
+    ( t.customer_id = ' . $taxPayer->id . ' and
+    t.date between "' . $startDate . '" and "' . $endDate . '" and
+    t.type in (1, 2, 5) )
     group by t.id');
 
     $raw = collect($raw);
