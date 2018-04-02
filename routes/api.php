@@ -59,6 +59,8 @@ Route::group(['middleware' => 'auth:api'], function ()
 
             Route::prefix('commercial')->group(function ()
             {
+
+
                 Route::get('get_sales/{skip}', 'SalesController@get_sales');
                 Route::get('get_last_sale/{partnerID}', 'SalesController@getLastSale');
                 Route::get('get_salesByID/{id}', 'SalesController@get_salesByID');

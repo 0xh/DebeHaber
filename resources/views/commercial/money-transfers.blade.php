@@ -4,8 +4,8 @@
 
 @section('form')
     <model :taxpayer="{{ request()->route('taxPayer')->id}}"
-        :cycle="{{ request()->route('cycle')->id }}" 
-        :url="commercial/money-transfers"
+        :cycle="{{ request()->route('cycle')->id }}"
+        url="commercial/get_money_transfers"  editurl="/commercial/get_money_transferByID/"
         inline-template>
         <div>
             <div v-if="status===1">

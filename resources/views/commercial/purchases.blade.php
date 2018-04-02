@@ -5,7 +5,7 @@
 @section('form')
     <model :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}"
-        :url="commercial/purchases"
+        url="commercial/get_purchases" editurl="/commercial/get_purchasesByID/" deleteurl="commercial/purchases"
         inline-template>
         <div>
             <div v-if="status===1">

@@ -1,7 +1,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 {{-- <router-view name="Datatable"  :taxpayer="{{ request()->route('taxPayer')}}"  /> --}}
 
-<debit-note-list :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}"  inline-template>
+
     <div>
         <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
             <div class="row align-items-center">
@@ -72,7 +72,7 @@
                 <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                     <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
                     <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
-                    <a class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>
+                    <a @click="onDelete(invoice)" class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>
                 </div>
             </div>
         </div>
@@ -83,4 +83,3 @@
             </span>
         </infinite-loading>
     </div>
-</debit-note-list>

@@ -7,7 +7,7 @@ import axios from 'axios';
 
 Vue.component('model',
 {
-    props: ['taxpayer', 'cycle', 'url'],
+    props: ['taxpayer', 'cycle', 'url','editurl','deleteurl'],
     data() {
         return {
             list: [],
@@ -21,7 +21,9 @@ Vue.component('model',
     },
 
     computed: {
+
         filteredList() {
+
             return this.list;
         }
     },
@@ -35,6 +37,7 @@ Vue.component('model',
     {
         infiniteHandler($state)
         {
+
             var app = this;
             axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.url + '/' + app.skip + '',
             {
@@ -65,19 +68,50 @@ Vue.component('model',
         created() {
 
         },
-
-        onDelete: function(data)
+        onEdit: function(data)
         {
-            //SweetAlert message and confirmation.
+
+            var app = this;
+            app.status = 1;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/' + this.url + '/delete/' + data.ID,
+                url: '/api/' + this.taxpayer + '/' + this.cycle +  this.editurl + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'delete',
+                type: 'get',
                 dataType: 'json',
                 async: true,
                 success: function(data)
                 {
-                    app.onReset(isnew);
+                    // console.log(data);
+                    //console.log(app.$children[0].$parent);
+                    app.$children[0].onEdit(data[0]);
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(status);
+                }
+            });
+        },
+
+        onDelete: function(data)
+        {
+            //SweetAlert message and confirmation.
+            var app=this;
+            $.ajax({
+                url: '/taxpayer/' + this.taxpayer + '/' + this.cycle + '/' + this.deleteurl + '/' + data.ID,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                type: 'delete',
+                dataType: 'json',
+                async: true,
+                success: function(responsedata)
+                {
+                  for (var i = 0; i < app.list.length; i++) {
+                      if (data.ID==app.list[i].ID)
+                      {
+                          app.list.splice(i,1);
+                      }
+
+                  }
+                    //console.log(data);
                 },
                 error: function(xhr, status, error)
                 {

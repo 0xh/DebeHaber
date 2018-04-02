@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\AccountMovement;
+use App\JournalTransaction;
 use App\Taxpayer;
 use App\Cycle;
 use App\Transaction;
@@ -177,13 +179,15 @@ class PurchaseController extends Controller
     * @param  \App\Transaction  $transaction
     * @return \Illuminate\Http\Response
     */
-    public function destroy(Transaction $transaction)
+    public function destroy(Taxpayer $taxPayer, Cycle $cycle,$transactionID)
     {
         try
         {
-            AccountMovement::where('transaction_id', $transaction->id)->delete();
-            JournalTransaction::where('transaction_id', $transaction->id)->delete();
-            $transaction->delete();
+
+            //TODO: Run Tests to make sure it deletes all journals related to transaction
+            AccountMovement::where('transaction_id', $transactionID)->delete();
+            JournalTransaction::where('transaction_id',$transactionID)->delete();
+            Transaction::where('id',$transactionID)->delete();
 
             return response()->json('ok', 200);
         }

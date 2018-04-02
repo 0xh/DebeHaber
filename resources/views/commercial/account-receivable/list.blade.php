@@ -1,7 +1,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 {{-- <router-view name="Datatable"  :taxpayer="{{ request()->route('taxPayer')}}"  /> --}}
 
-<account-receivable-list :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
+
     <div>
         <button @click="add()">@lang('global.Add')</button>
 
@@ -102,4 +102,3 @@
             </span>
         </infinite-loading>
     </div>
-</account-receivable-list>

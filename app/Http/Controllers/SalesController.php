@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\AccountMovement;
+use App\JournalTransaction;
 use App\Taxpayer;
 use App\Cycle;
-use App\JournalTransaction;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
@@ -69,7 +69,7 @@ class SalesController extends Controller
     public function get_salesByID(Taxpayer $taxPayer, Cycle $cycle, $id)
     {
         $transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
-        ->where('supplier_id', $taxPayerID)
+        ->where('supplier_id', $taxPayer->id)
         ->where('transactions.id', $id)
         ->with('details')
         ->select(DB::raw('false as selected,transactions.id,
@@ -178,7 +178,7 @@ class SalesController extends Controller
             $transactionDetail->save();
         }
 
-        return response()->json('ok', 400);
+        return response()->json('ok', 200);
     }
 
     /**
@@ -221,14 +221,15 @@ class SalesController extends Controller
     * @param  \App\Transaction  $transaction
     * @return \Illuminate\Http\Response
     */
-    public function destroy(Transaction $transaction)
+    public function destroy(Taxpayer $taxPayer, Cycle $cycle,$transactionID)
     {
         try
         {
+
             //TODO: Run Tests to make sure it deletes all journals related to transaction
-            AccountMovement::where('transaction_id', $transaction->id)->delete();
-            JournalTransaction::where('transaction_id', $transaction->id)->delete();
-            $transaction->delete();
+            AccountMovement::where('transaction_id', $transactionID)->delete();
+            JournalTransaction::where('transaction_id',$transactionID)->delete();
+            Transaction::where('id',$transactionID)->delete();
 
             return response()->json('ok', 200);
         }

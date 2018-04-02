@@ -1,2 +1,2 @@
-require('./list');
+
 require('./form');

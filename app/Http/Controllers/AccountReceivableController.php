@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\AccountMovement;
+use App\JournalTransaction;
 use App\Transaction;
 use App\Taxpayer;
 use App\Cycle;
-use App\AccountMovement;
 use Illuminate\Http\Request;
 use DB;
 
@@ -153,8 +154,21 @@ class AccountReceivableController extends Controller
     * @param  \App\AccountMovement  $accountMovement
     * @return \Illuminate\Http\Response
     */
-    public function destroy(AccountMovement $accountMovement)
+    public function destroy(Taxpayer $taxPayer, Cycle $cycle,$transactionID)
     {
-        //
+        try
+        {
+
+            //TODO: Run Tests to make sure it deletes all journals related to transaction
+            AccountMovement::where('transaction_id', $transactionID)->delete();
+            JournalTransaction::where('transaction_id',$transactionID)->delete();
+            Transaction::where('id',$transactionID)->delete();
+
+            return response()->json('ok', 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json($e, 500);
+        }
     }
 }

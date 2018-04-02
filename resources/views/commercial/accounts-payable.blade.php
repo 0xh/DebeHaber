@@ -3,9 +3,9 @@
 @section('title', __('commercial.AccountsPayable'))
 
 @section('form')
-    <model :taxpayer="{{ request()->route('taxPayer')->id}}" 
+    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}"
-        :url="commercial/account-payables"
+        :url="commercial/get_account_payables" editurl="/commercial/get_account_payableByID/"
         inline-template >
         <div>
             <div v-if="status===1">

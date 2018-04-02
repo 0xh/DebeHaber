@@ -57,7 +57,7 @@
                         @lang('commercial.InvoiceNumber')
                     </label>
                     <div class="col-8">
-                      <masked-input mask="{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-mask') }}"  @input="rawVal = arguments[1]" v-model="number" />
+                      <masked-input mask="{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-mask') }}"   v-model="number" />
                     </div>
                 </div>
             </div>
@@ -66,6 +66,7 @@
         <hr>
 
         <div class="row">
+
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
