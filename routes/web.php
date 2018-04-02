@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function ()
         //These Pages require Cycle in Session to perform searches and show relevant data.
         Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
         Route::get('cycles', 'CycleController@index')->name('cycles.index');
-        Route::post('generateJournals', 'JournalController@generateJournals');
+        Route::post('generateJournals/{startDate}/{endDate}', 'JournalController@generateJournalsByRange');
 
         Route::prefix('commercial')->group(function ()
         {
@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth'], function ()
                 'fixed-assets' => 'FixedAssetController',
                 'documents' => 'DocumentController'
             ]);
+              Route::get('sales/anull/{transactionID}', 'SalesController@anull');
         });
 
         Route::prefix('/accounting')->group(function ()

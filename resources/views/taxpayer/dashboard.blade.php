@@ -11,13 +11,15 @@
                 <div class="col-md-12 col-lg-6 col-xl-3">
                     <div class="m-nav-grid m-nav-grid--skin-light">
                         <div class="m-nav-grid__row">
-                            {{-- <a href="{{ route('generateJournalMissing', [request()->route('company'), $startDate, $endDate ]) }}" class="m-nav-grid__item padding-40-5"> --}}
+                            <journal-generate>
+                            <a href="onSave()" class="m-nav-grid__item padding-40-5">
                             <img src="/img/icons/generate.svg" alt="" width="64">
                             <span class="m-nav-grid__text">
                                 Generar Asientos
                                 <br>
                                 <small>Click Aqui</small>
                             </span>
+                        </journal-generate>
                         </a>
                     </div>
                 </div>

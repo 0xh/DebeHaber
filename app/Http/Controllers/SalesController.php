@@ -29,9 +29,11 @@ class SalesController extends Controller
         $transaction = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
+        ->leftjoin('statuses', 'transactions.id','statuses.model_id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('supplier_id', $taxPayer->id)
         ->groupBy('transactions.id')
+
         ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Customer'),
         DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
@@ -39,7 +41,7 @@ class SalesController extends Controller
         DB::raw('max(transactions.payment_condition) as PaymentCondition'),
         DB::raw('max(transactions.date) as Date'),
         DB::raw('max(transactions.number) as Number'),
-        DB::raw('sum(td.value) as Value'))
+        DB::raw('if(max(statuses.name)="Annul",0,sum(td.value)) as Value'))
         ->orderBy('transactions.date', 'desc')
         ->orderBy('transactions.number', 'desc')
 
@@ -230,6 +232,25 @@ class SalesController extends Controller
             AccountMovement::where('transaction_id', $transactionID)->delete();
             JournalTransaction::where('transaction_id',$transactionID)->delete();
             Transaction::where('id',$transactionID)->delete();
+
+            return response()->json('ok', 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json($e, 500);
+        }
+    }
+    public function anull(Taxpayer $taxPayer, Cycle $cycle,$transactionID)
+    {
+        try
+        {
+
+            $transaction = Transaction::find($transactionID);
+
+            if (isset($transaction))
+            {
+                $transaction->setStatus('Annul');
+            }
 
             return response()->json('ok', 200);
         }

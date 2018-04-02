@@ -119,5 +119,26 @@ Vue.component('model',
                 }
             });
         },
+        onAnull: function(data)
+        {
+            //SweetAlert message and confirmation.
+            var app=this;
+            console.log('/taxpayer/' + this.taxpayer + '/' + this.cycle + '/commercial/sales/anull/' + data.ID)
+            $.ajax({
+                url: '/taxpayer/' + this.taxpayer + '/' + this.cycle + '/commercial/sales/anull/' + data.ID,
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                type: 'get',
+                dataType: 'json',
+                async: true,
+                success: function(responsedata)
+                {
+                    data.Value=0;
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
     }
 });

@@ -15,7 +15,7 @@ use Laravel\Passport;
 Route::post('/syncData', 'API\TransactionController@start');
 
 Route::group(['middleware' => 'auth:api'], function ()
-{
+{});
     Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
     Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
 
@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth:api'], function ()
                 });
                 Route::prefix('journal')->group(function ()
                 {
+                    Route::get('generate-journals', 'JournalController@generate-journals');
                     Route::get('get', 'JournalController@getJournals');
                     Route::get('getJournalsByID/{id}', 'JournalController@getJournalsByID');
                 });
@@ -97,11 +98,11 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         return['username' => 'tao'];
     });
-});
 
-Route::get('create-test-token', function() {
-    $user = \App\User::find(1);
-    // Creating a token without scopes...
-    $token = $user->createToken('Test Token Name')->accessToken;
-    return ['token' => $token];
-});
+
+    Route::get('create-test-token', function() {
+        $user = \App\User::find(1);
+        // Creating a token without scopes...
+        $token = $user->createToken('Test Token Name')->accessToken;
+        return ['token' => $token];
+    });

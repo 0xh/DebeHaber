@@ -144,10 +144,15 @@ class JournalController extends Controller
         //
     }
 
+    public function generateJournals(Taxpayer $taxPayer, Cycle $cycle)
+    {
+            return view('/accounting/generate-journals');
+    }
+
     public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
 
-        $transactions = Transaction::whereIn('transactions.id', $arrID)->with('details')->get();
+        $transactions = Transaction::whereBetween('transactions.date', [$startDate,$endDate])->with('details')->get();
         foreach ($transactions->groupBy('') as $groupedTransactions)
         {
             $this->generate_fromSales($taxPayer, $cycle, $groupedTransactions->where('type', 4));
