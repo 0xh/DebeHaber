@@ -34,13 +34,13 @@
             <p class="m--font-boldest m--font-transform-u">@lang('global.Date')</p>
         </div>
         <div class="col-5">
-            <p class="m--font-boldest m--font-transform-u">@lang('commercial.Customer')</p>
+            <p class="m--font-boldest m--font-transform-u">@lang('accounting.ChartofAccounts')</p>
         </div>
         <div class="col-2">
-            <p class="m--font-boldest m--font-transform-u">@lang('commercial.InvoiceNumber')</p>
+            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('accounting.Debit')</p>
         </div>
         <div class="col-2">
-            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Total')</p>
+            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('accounting.Credit')</p>
         </div>
         <div class="col-1">
             <p class="m--align-center m--font-boldest m--font-transform-u">@lang('global.Actions')</p>
@@ -54,7 +54,7 @@
         <div class="col-5">
             <p> <span class="m--font-bold">@{{ journal.ChartCode }}</span> |  <em>@{{ journal.Chart }}</em> </p>
         </div>
-        <div class="col-2">
+        <div class="col-2 m--align-right">
             <p>
                 @{{ journal.Debit }} |
             </p>
@@ -69,7 +69,6 @@
                 <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
                 <a @click="onEdit(journal.ID)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
                 <a @click="onDelete(journal)" class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>
-                <a @click="onAnull(journal)" class="m-btn btn btn-secondary"><i class="la la-close m--font-danger"></i></a>
             </div>
         </div>
     </div>

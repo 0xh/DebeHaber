@@ -69,11 +69,11 @@ Vue.component('model',
         },
 
         onEdit: function(data)
-        {    
+        {
             var app = this;
             app.status = 1;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle +  this.editurl + data,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.editurl + '/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',

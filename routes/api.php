@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         {
             Route::prefix('accounting')->group(function ()
             {
-                Route::get('get_journals', 'JournalController@getJournals');
+                Route::get('get_journals/{skip}', 'JournalController@getJournals');
                 Route::get('get_journalByID/{id}', 'JournalController@getJournalsByID');
                 Route::get('delete_journalByID/{id}', 'JournalController@getJournalsByID');
 

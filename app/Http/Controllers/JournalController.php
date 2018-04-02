@@ -39,6 +39,7 @@ class JournalController extends Controller
         'journal_details.credit as Credit',
         'journal_details.debit as Debit'
         )
+        ->orderBy('journals.date', 'desc')
         ->skip($skip)
         ->take(100)
         ->get();
