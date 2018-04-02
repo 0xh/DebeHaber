@@ -26,8 +26,7 @@
                 <tr class="group">
                     <td colspan="3"><b>{{ $groupedRows->first()->costCenter }}</b></td>
                     <td></td>
-                    <td></td>
-                    <td>Sub Total</td>
+                    <td colspan="2">Sub Total</td>
                     <td class="number"><b>{{ number_format($groupedRows->where('coeficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format(($groupedRows->where('coeficient', '=', 0.1)->sum('localCurrencyValue') - $groupedRows->where('coeficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format($groupedRows->where('coeficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
@@ -37,17 +36,17 @@
                 </tr>
                 @foreach ($groupedRows as $row)
                     <tr>
-                        <td>{{ \Carbon\Carbon::parse($row->invoice_date)->format('d/m/Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($row->date)->format('d/m/Y') }}</td>
 
                         <td class="important">{{ $row->supplier_code }}</td>
 
                         <td class="text">{{ $row->supplier }}</td>
 
-                        <td class="number">{{ $row->invoice_code }}</td>
+                        <td class="number">{{ $row->code }}</td>
 
                         <td class="important">
                             <a href="{{route('purchases.edit', [request()->route('taxPayer')->id, request()->route('cycle')->id, $row->first()->purchaseID])}}" target="_blank">
-                                {{ $row->invoice_number }}
+                                {{ $row->number }}
                             </a>
                         </td>
 

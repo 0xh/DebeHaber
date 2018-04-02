@@ -36,13 +36,13 @@
                 </tr>
                 @foreach ($groupedRows->groupBy('purchaseID') as $row)
                     <tr>
-                        <td>{{ \Carbon\Carbon::parse($row->first()->invoice_date)->format('d/m/Y')}}</td>
+                        <td>{{ \Carbon\Carbon::parse($row->first()->date)->format('d/m/Y')}}</td>
 
-                        <td class="number">{{ $row->first()->invoice_code }}</td>
+                        <td class="number">{{ $row->first()->code }}</td>
 
                         <td class="important">
                             <a href="{{route('purchases.edit', [request()->route('taxPayer')->id, request()->route('cycle')->id, $row->first()->purchaseID])}}" target="_blank">
-                                {{ $row->first()->invoice_number }}
+                                {{ $row->first()->number }}
                             </a>
                         </td>
 
