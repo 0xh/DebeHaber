@@ -42,7 +42,7 @@ class AccountReceivableController extends Controller
         DB::raw('max(transactions.number) as Number'),
         DB::raw('ifnull(sum(account_movements.credit / account_movements.rate), 0) as Paid'),
         DB::raw('sum(td.value/transactions.rate) as Value'))
-        ->orderByRaw('DATE_ADD(transactions.date, INTERVAL max(transactions.payment_condition) DAY)', 'desc')
+        ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
         ->orderByRaw('max(transactions.number)', 'desc')
         ->skip($skip)
         ->take(100)
