@@ -234,6 +234,7 @@ class ChartController extends Controller
             $chart = Chart::My($taxPayer, $cycle)
             ->where('type', 1)
             ->where('sub_type', 5)
+            ->where('is_accountable', true)
             ->first();
 
             if ($chart == null)

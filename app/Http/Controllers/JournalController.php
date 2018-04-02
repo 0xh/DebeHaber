@@ -94,7 +94,7 @@ class JournalController extends Controller
         $journal = $request->id == 0 ? new Journal() : Journal::where('id', $request->id)->first();
 
         $journal->date = $request->date;
-        $journal->number =$request->number ;
+        $journal->number = $request->number ;
         $journal->comment = $request->comment;
         $journal->cycle_id = $cycle->id;
         $journal->save();
@@ -217,7 +217,7 @@ class JournalController extends Controller
         $journal->date = $transactions->last()->date;
         $firstdate = $transactions->first()->date;
         $lastdate = $transactions->last()->date;
-        $journal->comment = __('SalesBookComment', [$firstdate,$lastdate]);
+        $journal->comment = __('SalesBookComment', [$firstdate, $lastdate]);
         $journal->save();
 
         foreach ($transactions as $transaction)
@@ -229,7 +229,7 @@ class JournalController extends Controller
         }
 
         //Affect all Cash Sales and uses Cash Accounts
-        foreach ($transactions->where('payment_condition','=',0)->groupBy('chart_account_id') as $groupedTransactions)
+        foreach ($transactions->where('payment_condition','=', 0)->groupBy('chart_account_id') as $groupedTransactions)
         {
             $value = 0;
 
@@ -370,12 +370,11 @@ class JournalController extends Controller
             }
 
             //Check for Cash Account used.
-
             $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
 
             $detail = new JournalDetail();
-            $detail->debit = 0;
-            $detail->credit = $value;
+            $detail->debit = $value;
+            $detail->credit = 0;
             $detail->chart_id = $chart->id;
             $detail->journal_id = $journal->id;
             $detail->save();
@@ -399,8 +398,8 @@ class JournalController extends Controller
             //Create Generic if not
 
             $detail = new JournalDetail();
-            $detail->debit = 0;
-            $detail->credit = $value;
+            $detail->debit = $value;
+            $detail->credit = 0;
             $detail->chart_id = $chart->id;
             $detail->journal_id = $journal->id;
             $detail->save();
@@ -432,8 +431,8 @@ class JournalController extends Controller
                 }
 
                 $detail = new JournalDetail();
-                $detail->debit = $value;
-                $detail->credit = 0;
+                $detail->debit = 0;
+                $detail->credit = $value;
                 $detail->chart_id = $vatChart->id;
                 $detail->journal_id = $journal->id;
                 $detail->save();
@@ -457,8 +456,8 @@ class JournalController extends Controller
             }
 
             $detail = new JournalDetail();
-            $detail->debit += $value;
-            $detail->credit = 0;
+            $detail->debit = 0;
+            $detail->credit = $value;
             $detail->chart_id = $groupedByCharts->first()->chart_id;
             $detail->journal_id = $journal->id;
             $detail->save();
