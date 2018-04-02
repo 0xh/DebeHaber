@@ -1,6 +1,4 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
-
     <div>
         <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
             <div class="row align-items-center">

@@ -16,6 +16,7 @@ require('./../accounting-components/chart/bootstrap');
 require('./../accounting-components/chart-version/bootstrap');
 require('./../accounting-components/cycle/bootstrap');
 require('./../accounting-components/journal/bootstrap');
+require('./../accounting-components/model/bootstrap');
 
 //Commercial
 require('./../commercial-components/credit-note/bootstrap');

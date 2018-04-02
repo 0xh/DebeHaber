@@ -9,6 +9,7 @@ use App\Journal;
 use App\JournalDetail;
 use App\JournalTransaction;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
@@ -24,23 +25,34 @@ class JournalController extends Controller
         return view('/accounting/journals');
     }
 
-    public function getJournals($taxPayerID, Cycle $cycle, $skip)
+    public function getJournals(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
         $journals = Journal::join('journal_details', 'journals.id', 'journal_details.journal_id')
-        ->join('journal_transactions as int')
+        ->join('charts', 'journal_details.chart_id', 'charts.id')
         ->where('journals.cycle_id', $cycle->id)
-        ->groupBy('journals.id')
-        ->select(DB::raw('max(journals.id) as ID'),
-        DB::raw('max(journals.number) as Number'),
-        DB::raw('max(journals.comment) as Comment'),
-        DB::raw('max(journals.date) as Date'),
-        DB::raw('sum(journal_details.credit) as Credit'),
-        DB::raw('sum(journal_details.debit) as Debit')
-        )->skip($skip)
+        ->select('journals.id as ID',
+        'journals.number as Number',
+        'journals.comment as Comment',
+        'journals.date as Date',
+        'charts.code as ChartCode',
+        'charts.name as Chart',
+        'journal_details.credit as Credit',
+        'journal_details.debit as Debit'
+        )
+        ->skip($skip)
         ->take(100)
         ->get();
 
         return response()->json($journals);
+
+        //->groupBy('journals.id')
+        // ->select(DB::raw('max(journals.id) as ID',
+        // DB::raw('max(journals.number) as Number'),
+        // DB::raw('max(journals.comment) as Comment'),
+        // DB::raw('max(journals.date) as Date'),
+        // DB::raw('sum(journal_details.credit) as Credit'),
+        // DB::raw('sum(journal_details.debit) as Debit')
+        // )
     }
 
     public function getJournalsByID($taxPayerID, Cycle $cycle, $id)
@@ -144,19 +156,44 @@ class JournalController extends Controller
         //
     }
 
-    public function generateJournals(Taxpayer $taxPayer, Cycle $cycle)
-    {
-            return view('/accounting/generate-journals');
-    }
+    // public function generateJournals(Taxpayer $taxPayer, Cycle $cycle)
+    // {
+    //         return view('/accounting/generate-journals');
+    // }
 
     public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
+        //Get startOf and endOf to cover entire week of range.
+        $currentDate = Carbon::parse($startDate)->startOfWeek();
+        $endDate = Carbon::parse($endDate)->endOfWeek();
 
-        $transactions = Transaction::whereBetween('transactions.date', [$startDate,$endDate])->with('details')->get();
-        foreach ($transactions->groupBy('') as $groupedTransactions)
+        //Number of weeks helps with the for loop
+        $numberOfWeeks = $currentDate->diffInWeeks($endDate);
+
+        for ($x = 0; $x <= $numberOfWeeks; $x++)
         {
-            $this->generate_fromSales($taxPayer, $cycle, $groupedTransactions->where('type', 4));
-            $this->generate_fromPurchases($taxPayer, $cycle, $groupedTransactions->whereIn('type', [1,2]));
+            //Get current date start of and end of week to run the query.
+            $weekStartDate = Carbon::parse($currentDate->startOfWeek());
+            $weekEndDate = Carbon::parse($currentDate->endOfWeek());
+
+            //Do not get items that already have current status "Accounted" or "Finalized"
+            $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
+            ->with('details')
+            ->get();
+
+            foreach ($transactions->groupBy('') as $groupedTransactions)
+            {
+                $this->generate_fromSales($taxPayer, $cycle, $groupedTransactions->where('type', 4));
+                $this->generate_fromPurchases($taxPayer, $cycle, $groupedTransactions->whereIn('type', [1, 2]));
+
+                //Add other types of transactions here to include into accounting.
+                $this->generate_fromCreditNotes();
+                $this->generate_fromDebitNotes();
+                $this->generate_fromMoneyTransfers();
+                $this->generate_fromProductions();
+            }
+
+            $currentDate = $currentDate->addWeeks(1);
         }
 
         //Check if JournalTransaction exists.
@@ -165,8 +202,6 @@ class JournalController extends Controller
             //Delete All JournalTransactions and Journals associated.
         }
     }
-
-
 
     //Generates Journals for a given range of Transactions. If one is passed, it will create one journal.
     //If multiple is passed, it will create one journal that takes into account all the details for each account.
@@ -407,7 +442,7 @@ class JournalController extends Controller
         foreach ($details->groupBy('chart_id') as $groupedByCharts)
         {
             //Check if Journal contains chart_id as detail.
-            $detail = Journal::where('chart_id', $groupedByCharts->first()->chart_id)->where('journal_id', $journal->id)->first() ?? new JournalDetail();
+            //$detail = JournalDetail::where('chart_id', $groupedByCharts->first()->chart_id)->where('journal_id', $journal->id)->first() ?? new JournalDetail();
             $value = 0;
 
             foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
@@ -419,7 +454,7 @@ class JournalController extends Controller
                 }
             }
 
-            //$detail = new JournalDetail();
+            $detail = new JournalDetail();
             $detail->debit += $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedByCharts->first()->chart_id;
@@ -440,14 +475,14 @@ class JournalController extends Controller
 
     public function generate_fromMoneyTransfers()
     {
-        //Make Journal
-        $journal = new Journal();
-        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        $journal->date = $transactions->last()->date;
-        $journal->comment = __('PurchaseBookComment', [$transactions->first()->date, $transactions->last()->date]);
-        $journal->save();
-
-        //Find
+        // //Make Journal
+        // $journal = new Journal();
+        // $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        // $journal->date = $transactions->last()->date;
+        // $journal->comment = __('PurchaseBookComment', [$transactions->first()->date, $transactions->last()->date]);
+        // $journal->save();
+        //
+        // //Find
     }
 
     public function generate_fromProductions()

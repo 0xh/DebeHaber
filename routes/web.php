@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function ()
         //These Pages require Cycle in Session to perform searches and show relevant data.
         Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
         Route::get('cycles', 'CycleController@index')->name('cycles.index');
-        Route::post('generateJournals/{startDate}/{endDate}', 'JournalController@generateJournalsByRange');
+        Route::get('generate-journals/{startDate}/{endDate}/', 'JournalController@generateJournalsByRange')->name('journals.generate');
 
         Route::prefix('commercial')->group(function ()
         {
@@ -64,16 +64,14 @@ Route::group(['middleware' => 'auth'], function ()
                 'journal-templates' => 'JournalTemplateController',
                 'journal-simulations' => 'JournalSimulationController'
             ]);
-
+            // Route::get('generate-journals/{$startDate}/{$endDate}', 'JournalController@generateJournalsByRange')->name('journals.generate');
             Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
         });
 
         Route::prefix('reports')->group(function ()
         {
             Route::get('/', 'ReportController@index')->name('reports.index');
-
             Route::get('hechauka/generate_files/{start_date}/{end_date}', 'API\PRY\HechaukaController@generateFiles');
-
             Route::get('purchases/{strDate}/{endDate}', 'ReportController@purchases')->name('reports.purchases');
             Route::get('purchases-byVAT/{strDate}/{endDate}', 'ReportController@purchasesByVAT')->name('reports.purchaseByVAT');
             Route::get('purchases-bySupplier/{strDate}/{endDate}/', 'ReportController@purchasesBySupplier')->name('reports.salesByCustomer');

@@ -63,7 +63,7 @@ Vue.component('journals-list',{
                 async: true,
                 success: function(data)
                 {
-                    
+
                     app.$children[1].data = [];
                     app.$children[1].data=data;
 
@@ -103,7 +103,7 @@ Vue.component('journals-list',{
             var app = this;
             app.$parent.status=1;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/journal/getJournalsByID/' + data,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/journals/id/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',

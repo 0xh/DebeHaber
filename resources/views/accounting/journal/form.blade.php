@@ -21,7 +21,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <hr>
@@ -34,9 +33,7 @@
                     <input class="form-control m-input" type="text"  v-model="comment">
                 </div>
             </div>
-
         </div>
-
 
         {{-- Invoice Detail --}}
         <div class="m-portlet m-portlet--metal m-portlet--head-solid m-portlet--bordered">

@@ -12,7 +12,7 @@
                     <div class="m-nav-grid m-nav-grid--skin-light">
                         <div class="m-nav-grid__row">
                             {{-- <journal-generate> --}}
-                            <a href="onSave()" class="m-nav-grid__item padding-40-5">
+                            <a href="{{ route('journals.generate', [request()->route('taxPayer'), request()->route('cycle'), \Carbon\Carbon::now()->subMonth(3)->startOfDay(), \Carbon\Carbon::now()->endOfDay()]) }}" class="m-nav-grid__item padding-40-5">
                                 <img src="/img/icons/generate.svg" alt="" width="64">
                                 <span class="m-nav-grid__text">
                                     Generar Asientos
@@ -59,7 +59,7 @@
                         @else
                             <div class="m-nav-grid m-nav-grid--skin-light">
                                 <div class="m-nav-grid__row background-sales">
-                                    <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
+                                    <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
                                         <img src="/img/icons/ventas.svg" alt="" width="64">
                                         <span class="m-nav-grid__text">
                                             <p class="lead">

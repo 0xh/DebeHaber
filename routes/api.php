@@ -40,6 +40,10 @@ Route::group(['middleware' => 'auth:api'], function ()
         {
             Route::prefix('accounting')->group(function ()
             {
+                Route::get('get_journals', 'JournalController@getJournals');
+                Route::get('get_journalByID/{id}', 'JournalController@getJournalsByID');
+                Route::get('delete_journalByID/{id}', 'JournalController@getJournalsByID');
+
                 Route::prefix('chart')->group(function ()
                 {
                     Route::get('get_charts', 'ChartController@getCharts');
@@ -50,18 +54,15 @@ Route::group(['middleware' => 'auth:api'], function ()
                     Route::get('get_vat-debit', 'ChartController@getVATDebit');
                     Route::get('get_vat-credit', 'ChartController@getVATCredit');
                 });
-                Route::prefix('journal')->group(function ()
+                Route::prefix('journals')->group(function ()
                 {
-                    Route::get('generate-journals', 'JournalController@generate-journals');
-                    Route::get('get', 'JournalController@getJournals');
-                    Route::get('getJournalsByID/{id}', 'JournalController@getJournalsByID');
+                    Route::get('list', 'JournalController@getJournals');
+                    Route::get('id/{id}', 'JournalController@getJournalsByID');
                 });
             });
 
             Route::prefix('commercial')->group(function ()
             {
-
-
                 Route::get('get_sales/{skip}', 'SalesController@get_sales');
                 Route::get('get_last_sale/{partnerID}', 'SalesController@getLastSale');
                 Route::get('get_salesByID/{id}', 'SalesController@get_salesByID');
