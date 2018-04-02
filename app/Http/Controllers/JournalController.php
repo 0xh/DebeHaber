@@ -224,6 +224,7 @@ class JournalController extends Controller
             $journalTransaction = new JournalTransaction();
             $journalTransaction->journal_id = $journal->id;
             $journalTransaction->transaction_id = $transaction->id;
+            $journalTransaction->save();
         }
 
         //Affect all Cash Sales and uses Cash Accounts
