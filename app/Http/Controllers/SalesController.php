@@ -33,7 +33,6 @@ class SalesController extends Controller
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('supplier_id', $taxPayer->id)
         ->groupBy('transactions.id')
-
         ->select(DB::raw('max(transactions.id) as ID'),
         DB::raw('max(taxpayers.name) as Customer'),
         DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
@@ -42,7 +41,7 @@ class SalesController extends Controller
         DB::raw('max(transactions.date) as Date'),
         DB::raw('max(transactions.number) as Number'),
         DB::raw('if(max(statuses.name)="Annul",0,sum(td.value)) as Value'))
-        ->orderBy('transactions.date', 'desc')
+        ->orderByRaw('max(transactions.date)', 'desc')
         ->orderByRaw('max(transactions.number)', 'desc')
         ->skip($skip)
         ->take(100)
