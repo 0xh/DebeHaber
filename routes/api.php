@@ -15,7 +15,7 @@ use Laravel\Passport;
 Route::post('/syncData', 'API\TransactionController@start');
 
 Route::group(['middleware' => 'auth:api'], function ()
-{});
+{
     Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
     Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
 
@@ -97,7 +97,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         return['username' => 'tao'];
     });
-
+});
 
 Route::get('create-test-token', function() {
     $user = \App\User::find(1);
