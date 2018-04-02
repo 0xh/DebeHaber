@@ -219,7 +219,7 @@ return [
         ],
 
         'connect-src' => [
-            'self' => true,
+            'self' => false,
         ],
 
         'form-action' => [
