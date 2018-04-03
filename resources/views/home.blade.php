@@ -1,7 +1,7 @@
 
 @extends('spark::layouts.dashboard')
 
-@section('title', '@{{ teams[0].name }} Dashboard')
+@section('title', __('global.Dashboard',['team' => Auth::user()->currentTeam->name]))
 
 @section('content')
 

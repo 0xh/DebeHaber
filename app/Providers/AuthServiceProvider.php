@@ -13,7 +13,6 @@ use App\Policies\InventoryPoliciy;
 use App\Policies\JournalPoliciy;
 use App\Policies\ProductionPoliciy;
 use App\Policies\TransactionPoliciy;
-
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
@@ -48,6 +47,13 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
         Passport::routes();
+
+        Passport::enableImplicitGrant();
+
+        Passport::tokensCan([
+            'create-transactions' => 'Create Transactions',
+        ]);
     }
 }

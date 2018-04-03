@@ -11,7 +11,7 @@ use App\JournalTransaction;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\JournalResource;
 
 class JournalController extends Controller
 {
@@ -47,7 +47,7 @@ class JournalController extends Controller
         ->take(100)
         ->get();
 
-        return JournalResource::collection($journals);
+        return new JournalCollection($journals);
 
         //return response()->json($journals);
 
