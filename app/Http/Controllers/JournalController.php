@@ -47,9 +47,9 @@ class JournalController extends Controller
         ->take(100)
         ->get();
 
-        return new JournalCollection($journals);
+        // return new JournalCollection($journals);
 
-        //return response()->json($journals);
+        return response()->json($journals);
 
         //->groupBy('journals.id')
         // ->select(DB::raw('max(journals.id) as ID',
