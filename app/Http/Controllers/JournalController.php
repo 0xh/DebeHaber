@@ -181,7 +181,7 @@ class JournalController extends Controller
             $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
             ->with('details')
             ->get();
-
+            
             foreach ($transactions->groupBy('') as $groupedTransactions)
             {
                 $this->generate_fromSales($taxPayer, $cycle, $groupedTransactions->where('type', 4));

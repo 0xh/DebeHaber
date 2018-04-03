@@ -133,13 +133,13 @@ class TransactionController extends Controller
     $transaction->save();
 
     $this->processDetail(
-      collect($data['CommercialInvoice_Detail']), $transaction->id, $taxPayer, $cycle
+      collect($data['CommercialInvoice_Detail']), $transaction->id, $taxPayer, $cycle,$data['Type']
     );
 
     return $transaction;
   }
 
-  public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle)
+  public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle,$type)
   {
 
     //TODO to reduce data stored, group by VAT and Chart Type.
@@ -153,8 +153,16 @@ class TransactionController extends Controller
         $detail = new TransactionDetail();
         $detail->transaction_id = $transaction_id;
 
-        $detail->chart_id = $this->checkChart($groupedRows->first()['CostCenter'], $taxPayer, $cycle);
+        $detail->chart_id = $this->checkChart($groupedRows->first()['CostCenter'], $taxPayer, $cycle,$type);
+        if ($type == 1 || $type == 3)
+        {
         $detail->chart_vat_id = $this->checkDebitVAT($groupedRows->first()['coefficient'], $taxPayer, $cycle);
+        }
+        else if($type == 2 || $type == 4)
+        {
+          $detail->chart_vat_id = $this->checkCreditVAT($groupedRows->first()['coefficient'], $taxPayer, $cycle);
+        }
+
         $detail->value = $groupedRows->sum('value'); //$detail['value'];
 
         $detail->save();
