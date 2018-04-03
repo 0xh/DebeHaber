@@ -11,7 +11,7 @@ use App\JournalTransaction;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\UserResource;
 
 class JournalController extends Controller
 {
@@ -39,14 +39,17 @@ class JournalController extends Controller
         // 'journal_details.credit as Credit',
         // 'journal_details.debit as Debit'
         // )
-        $journals = Journal::with('details')->with('details.chart')
+
+        $journals = Journal::with(['details', 'details.chart'])
         ->where('cycle_id', $cycle->id)
         ->orderBy('date', 'desc')
         ->skip($skip)
         ->take(100)
         ->get();
 
-        return response()->json($journals);
+        return JournalResource::collection($journals);
+
+        //return response()->json($journals);
 
         //->groupBy('journals.id')
         // ->select(DB::raw('max(journals.id) as ID',
@@ -183,7 +186,7 @@ class JournalController extends Controller
             $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
             ->with('details')
             ->get();
-            
+
             foreach ($transactions->groupBy('') as $groupedTransactions)
             {
                 $this->generate_fromSales($taxPayer, $cycle, $groupedTransactions->where('type', 4));

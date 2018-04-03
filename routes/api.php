@@ -12,10 +12,11 @@ use Laravel\Passport;
 | loaded automatically by this application's RouteServiceProvider.
 |
 */
-Route::post('/syncData', 'API\TransactionController@start');
 
 Route::group(['middleware' => 'auth:api'], function ()
-{});
+{
+    Route::post('/syncData', 'API\TransactionController@start');
+
     Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
     Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
 
@@ -94,16 +95,17 @@ Route::group(['middleware' => 'auth:api'], function ()
             Route::get('/hechauka/{startDate}/{endDate}', 'API\PRY\HechukaController@getHechauka');
         });
     });
+});
 
-    Route::get('users', function()
-    {
-        return['username' => 'tao'];
-    });
+Route::get('users', function()
+{
+    return['username' => 'tao'];
+});
 
 
-    Route::get('create-test-token', function() {
-        $user = \App\User::find(1);
-        // Creating a token without scopes...
-        $token = $user->createToken('Test Token Name')->accessToken;
-        return ['token' => $token];
-    });
+Route::get('create-test-token', function() {
+    $user = \App\User::find(1);
+    // Creating a token without scopes...
+    $token = $user->createToken('Test Token Name')->accessToken;
+    return ['token' => $token];
+});

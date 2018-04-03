@@ -16,11 +16,11 @@ class Journal extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'details' => PostResource::collection($this->posts),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'date' => $this->name,
+            'number' => $this->number,
+            'comment' => $this->comment,
+            'is_presented' => $this->is_presented,
+            'details' => JournalDetail::collection($this->whenLoaded('details')),
         ];
     }
 }
