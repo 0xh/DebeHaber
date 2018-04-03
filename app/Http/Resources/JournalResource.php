@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Journal extends JsonResource
+class JournalResource extends JsonResource
 {
     /**
     * Transform the resource into an array.
@@ -20,7 +20,7 @@ class Journal extends JsonResource
             'number' => $this->number,
             'comment' => $this->comment,
             'is_presented' => $this->is_presented,
-            'details' => JournalDetail::collection($this->whenLoaded('details')),
+            'details' => JournalDetailResource::collection($this->whenLoaded('details')),
         ];
     }
 }
