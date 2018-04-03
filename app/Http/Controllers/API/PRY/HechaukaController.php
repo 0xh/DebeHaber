@@ -33,8 +33,8 @@ class HechaukaController extends Controller
         $zip = new ZipArchive;
         $zip->open($zipname, ZipArchive::CREATE);
 
-        $this->generateSales($startDate, $endDate, $taxPayer, $integration, $zip);
-        $this->generatePurchases($startDate, $endDate, $taxPayer, $integration, $zip);
+        $this->generateSales($startDate->startOfDay(), $endDate->endOfDay(), $taxPayer, $integration, $zip);
+        $this->generatePurchases($startDate->startOfDay(), $endDate->endOfDay(), $taxPayer, $integration, $zip);
         //dd($zip);
         $zip->close();
 

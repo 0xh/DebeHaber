@@ -55,14 +55,12 @@
             <p> <span class="m--font-bold">@{{ journal.ChartCode }}</span> |  <em>@{{ journal.Chart }}</em> </p>
         </div>
         <div class="col-2 m--align-right">
-            <p>
-                @{{ journal.Debit }} |
-            </p>
+            <p v-if="journal.Credit > 0" class="m--font-bolder "> @{{ journal.Credit }} </p>
+            <p v-else > 0 </p>
         </div>
-        <div class="col-2">
-            <p class="m--font-bold m--align-right">
-                @{{ journal.Credit }}
-            </p>
+        <div class="col-2 m--align-right">
+            <p v-if="journal.Debit > 0" class="m--font-bolder "> @{{ journal.Debit }} </p>
+            <p v-else > 0 </p>
         </div>
         <div class="col-1">
             <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">

@@ -27,19 +27,21 @@ class JournalController extends Controller
 
     public function getJournals(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
-        $journals = Journal::join('journal_details', 'journals.id', 'journal_details.journal_id')
-        ->join('charts', 'journal_details.chart_id', 'charts.id')
-        ->where('journals.cycle_id', $cycle->id)
-        ->select('journals.id as ID',
-        'journals.number as Number',
-        'journals.comment as Comment',
-        'journals.date as Date',
-        'charts.code as ChartCode',
-        'charts.name as Chart',
-        'journal_details.credit as Credit',
-        'journal_details.debit as Debit'
-        )
-        ->orderBy('journals.date', 'desc')
+        // $journals = Journal::join('journal_details', 'journals.id', 'journal_details.journal_id')
+        // ->join('charts', 'journal_details.chart_id', 'charts.id')
+        // ->where('journals.cycle_id', $cycle->id)
+        // ->select('journals.id as ID',
+        // 'journals.number as Number',
+        // 'journals.comment as Comment',
+        // 'journals.date as Date',
+        // 'charts.code as ChartCode',
+        // 'charts.name as Chart',
+        // 'journal_details.credit as Credit',
+        // 'journal_details.debit as Debit'
+        // )
+        $journals = Journal::with('details')->with('details.chart')
+        ->where('cycle_id', $cycle->id)
+        ->orderBy('date', 'desc')
         ->skip($skip)
         ->take(100)
         ->get();

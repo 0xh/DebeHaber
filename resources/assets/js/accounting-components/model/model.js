@@ -11,6 +11,7 @@ Vue.component('model',
     data() {
         return {
             list: [],
+            //organizedList: [],
             selectedList :[],
             total: 0,
             skip: 0,
@@ -25,7 +26,7 @@ Vue.component('model',
         filteredList()
         {
             return this.list;
-        }
+        },
     },
 
     components:
@@ -54,6 +55,8 @@ Vue.component('model',
                         app.list.push(data[i]);
                     }
 
+                    //app.organizedList.push(organize(app.list, 'ID'));
+
                     app.skip += app.pageSize;
                     $state.loaded();
                 }
@@ -62,6 +65,15 @@ Vue.component('model',
                     $state.complete();
                 }
             });
+        },
+
+        organize(rows, groupBy) {
+            var last = groupBy.length - 1;
+            return rows.reduce ( (res, obj) => {
+                groupBy.reduce( (res, grp, i) =>
+                res[obj[grp]] || (res[obj[grp]] = i == last ? [] : {}), res).push(obj);
+                return res;
+            }, {});
         },
 
         created() {
@@ -94,7 +106,7 @@ Vue.component('model',
         onDelete: function(data)
         {
             //SweetAlert message and confirmation.
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/taxpayer/' + this.taxpayer + '/' + this.cycle + '/' + this.deleteurl + '/' + data.ID,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
