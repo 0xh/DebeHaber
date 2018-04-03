@@ -270,7 +270,6 @@ class JournalController extends Controller
             $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedTransactions->first()->customer_id);
 
             //Create Generic if not
-
             $detail = new JournalDetail();
             $detail->debit = 0;
             $detail->credit = $value;

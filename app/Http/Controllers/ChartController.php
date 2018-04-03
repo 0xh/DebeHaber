@@ -243,11 +243,12 @@ class ChartController extends Controller
                 $chart = new Chart();
                 $chart->taxpayer_id = $taxPayer->id;
                 $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->partner_id = $partnerID;
                 $chart->type = 1;
                 $chart->sub_type = 5;
                 $chart->is_accountable = true;
                 $chart->code = 'N/A';
-                $chart->name = __('commercial.AccountsReceivable');
+                $chart->name = __('commercial.AccountsReceivable') + ' ' + Taxpayer::find($partnerID)->name;
                 $chart->save();
             }
         }
@@ -276,11 +277,12 @@ class ChartController extends Controller
                 $chart = new Chart();
                 $chart->taxpayer_id = $taxPayer->id;
                 $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->partner_id = $partnerID;
                 $chart->type = 2;
                 $chart->sub_type = 1;
                 $chart->is_accountable = true;
                 $chart->code = 'N/A';
-                $chart->name = __('commercial.AccountsPayable');
+                $chart->name = __('commercial.AccountsReceivable') + ' ' + Taxpayer::find($partnerID)->name;
                 $chart->save();
             }
         }
