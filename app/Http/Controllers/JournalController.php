@@ -11,7 +11,7 @@ use App\JournalTransaction;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Resources\JournalResource;
+use App\Http\Resources\JournalCollection;
 
 class JournalController extends Controller
 {
