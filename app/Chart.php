@@ -45,7 +45,7 @@ class Chart extends Model
 
     public function scopeMy($query, Taxpayer $taxPayer, Cycle $cycle)
     {
-        $query->where(function($query) use ($taxPayer)
+        $query->withoutGlobalScopes()->where(function($query) use ($taxPayer)
         {
             $query
             ->where('charts.taxpayer_id', $taxPayer->id)
@@ -111,6 +111,13 @@ class Chart extends Model
                 ->where('sub_type', 9);
             });
         });
+    }
+    public function scopeRevenuFromInventory($query)
+    {
+        return $query
+        ->where('type', 4)
+        ->where('sub_type', 4)
+        ->where('is_accountable', true);
     }
 
     //Brings all Item Accounts (formally known as Cost Centers) into Purchase Detail

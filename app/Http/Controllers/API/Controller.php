@@ -105,6 +105,12 @@ class Controller extends BaseController
                 ->Expenses()
                 ->where('name', $costcenter[0]['Name'])
                 ->first();
+                if ($chart == null)
+                {
+                    $chart = new Chart();
+                    $chart->type = 5;
+                    $chart->sub_type = 1;
+                }
             }
             //Type 2 = Products
             elseif ($costcenter[0]['Type'] == 2)
@@ -114,9 +120,15 @@ class Controller extends BaseController
                 {
                     $chart = Chart::withoutGlobalScopes()
                     ->My($taxPayer, $cycle)
-                    ->SalesAccounts()
+                    ->RevenuFromInventory()
                     ->where('name', $costcenter[0]['Name'])
                     ->first();
+                    if ($chart == null)
+                    {
+                        $chart = new Chart();
+                        $chart->type = 4;
+                        $chart->sub_type = 4;
+                    }
                 }
                 else if($type == 2 || $type == 4)
                 {
@@ -125,6 +137,12 @@ class Controller extends BaseController
                     ->PurchaseAccounts()
                     ->where('name', $costcenter[0]['Name'])
                     ->first();
+                    if ($chart == null)
+                    {
+                        $chart = new Chart();
+                        $chart->type = 5;
+                        $chart->sub_type = 2;
+                    }
                 }
             }
             //Type 3 = FixedAsset
@@ -135,6 +153,12 @@ class Controller extends BaseController
                 ->fixedAssets()
                 ->where('name', $costcenter[0]['Name'])
                 ->first();
+                if ($chart == null)
+                {
+                    $chart = new Chart();
+                    $chart->type = 1;
+                    $chart->sub_type = 9;
+                }
             }
             //Type 4 == Income
             elseif ($costcenter[0]['Type'] == 4)
@@ -144,6 +168,12 @@ class Controller extends BaseController
                 ->Incomes()
                 ->where('name', $costcenter[0]['Name'])
                 ->first();
+                if ($chart == null)
+                {
+                    $chart = new Chart();
+                    $chart->type = 4;
+                    $chart->sub_type = 1;
+                }
             }
 
             // $chart = Chart::withoutGlobalScopes()
@@ -152,32 +182,18 @@ class Controller extends BaseController
             // ->where('name', $costcenter[0]['Name'])
             // ->first();
 
-            if ($chart == null)
-            {
-                $chart = new Chart();
-                $chart->chart_version_id = $cycle->chart_version_id;
-                $chart->country = $taxPayer->country;
-                $chart->taxpayer_id = $taxPayer->id;
-                $chart->is_accountable = true;
 
-                if ($type == 1 || $type == 3)
-                {
-                    $chart->sub_type = 1;
-                    $chart->type = 4;
-                }
-                else if($type == 2 || $type == 4)
-                {
-                    $chart->sub_type = 1;
-                    $chart->type = 5;
-                }
-
-                $chart->code = 'N/A';
-                $chart->name = $costcenter[0]['Name'];
-                $chart->save();
-            }
-
-            return $chart->id;
+            $chart->chart_version_id = $cycle->chart_version_id;
+            $chart->country = $taxPayer->country;
+            $chart->taxpayer_id = $taxPayer->id;
+            $chart->is_accountable = true;
+            $chart->code = 'N/A';
+            $chart->name = $costcenter[0]['Name'];
+            $chart->save();
         }
+
+        return $chart->id;
+
 
         return null;
     }
@@ -294,10 +310,11 @@ class Controller extends BaseController
     }
 
     public function convert_date($date)
-    {
-        $trans_date = $date;
+    {  $trans_date = $date;
+
         preg_match('/(\d{10})(\d{3})/', $date, $matches);
-        $trans_date = Carbon::createFromTimestamp($matches[1]);
+
+        $trans_date = Carbon::now();
         return $trans_date;
     }
 }

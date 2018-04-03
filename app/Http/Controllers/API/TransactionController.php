@@ -47,7 +47,7 @@ class TransactionController extends Controller
 
       if (!isset($cycle))
       {
-        //$current_date = Carbon::now();
+        $current_date = Carbon::now();
         $version = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
 
         if (!isset($version))
@@ -133,13 +133,13 @@ class TransactionController extends Controller
     $transaction->save();
 
     $this->processDetail(
-      collect($data['CommercialInvoice_Detail']), $transaction->id, $taxPayer, $cycle,$data['Type']
+      collect($data['CommercialInvoice_Detail']), $transaction->id, $taxPayer, $cycle, $data['Type']
     );
 
     return $transaction;
   }
 
-  public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle,$type)
+  public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle, $type)
   {
 
     //TODO to reduce data stored, group by VAT and Chart Type.
