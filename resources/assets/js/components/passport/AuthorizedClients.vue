@@ -10,7 +10,7 @@
             <div class="card card-default">
                 <div class="card-header">Authorized Applications</div>
 
-                <div class="card-body">
+                <!-- <div class="card-body"> -->
                     <!-- Authorized Tokens -->
                     <table class="table table-borderless mb-0">
                         <thead>
@@ -44,7 +44,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>

@@ -65,6 +65,15 @@
                                         {{__('API')}}
                                     </a>
                                 </li>
+
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="#dev" aria-controls="dev" role="tab" data-toggle="tab">
+                                        <svg class="icon-20 " xmlns="http://www.w3.org/2000/svg " viewBox="0 0 20 20 ">
+                                            <path d="M21.5,2h-19C1.1,2,0,3.1,0,4.5v15C0,20.9,1.1,22,2.5,22h19c1.4,0,2.5-1.1,2.5-2.5v-15C24,3.1,22.9,2,21.5,2z M5.3,9.7  c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l3,3c0.4,0.4,0.4,1,0,1.4l-3,3C6.5,15.9,6.3,16,6,16s-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4  L7.6,12L5.3,9.7z M15,17h-4c-0.6,0-1-0.4-1-1s0.4-1,1-1h4c0.6,0,1,0.4,1,1S15.6,17,15,17z"/>
+                                        </svg>
+                                        {{__('Developer')}}
+                                    </a>
+                                </li>
                             @endif
                         </ul>
                     </aside>
@@ -83,7 +92,7 @@
                                                 <path d="M7 3v2c-2.8 0-5 2.2-5 5 0 1.4.6 2.6 1.5 3.5L2 15c-1.2-1.3-2-3-2-5 0-4 3-7 7-7zm5 2c1.2 1.3 2 3
                                                 2 5 0 4-3 7-7 7v-2c2.8 0 5-2.2 5-5 0-1.4-.6-2.6-1.5-3.5L12 5zM7 20l-4-4 4-4v8zM7 8V0l4 4-4 4z " />
                                             </svg>
-                                            {{__('Subscription')}}
+                                            {{ __('Subscription') }}
                                         </a>
                                     </li>
                                 @endif
@@ -94,7 +103,7 @@
                                             <path d="M18 4V2H2v2h16zm0 4H2v6h16V8zM0 2c0-1 1-2 2-2h16c1 0 2 1 2 2v12c0 1-1 2-2 2H2c-1 0-2-1-2-2V2zm4
                                             8h4v2H4v-2z " />
                                         </svg>
-                                        {{__('Payment Method')}}
+                                        {{ __('Payment Method') }}
                                     </a>
                                 </li>
 
@@ -104,7 +113,7 @@
                                             <path d="M4 2h16l-3 9H4c-.6 0-1 .4-1 1s.5 1 1 1h13v2H4c-1.7 0-3-1.3-3-3s1.3-3 3-3h.3L3 5 2 2H0V0h3c.5 0
                                             1 .5 1 1v1zm1 18c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2zm10 0c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z " />
                                         </svg>
-                                        {{__('Invoices')}}
+                                        {{ __('Invoices') }}
                                     </a>
                                 </li>
                             </ul>
@@ -136,6 +145,10 @@
                         @if (Spark::usesApi())
                             <div role="tabcard" class="tab-pane" id="api">
                                 @include('spark::settings.api')
+                            </div>
+                            
+                            <div role="tabcard" class="tab-pane" id="dev">
+                                @include('vendor/spark/settings/dev/dev')
                             </div>
                         @endif
 

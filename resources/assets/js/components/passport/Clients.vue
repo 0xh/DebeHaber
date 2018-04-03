@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="card-body">
+            <!-- <div class="card-body"> -->
                 <!-- Current Clients -->
                 <p class="mb-0" v-if="clients.length === 0">
                     You have not created any OAuth clients.
@@ -69,7 +69,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            <!-- </div> -->
         </div>
 
         <!-- Create Client Modal -->

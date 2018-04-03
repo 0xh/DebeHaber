@@ -1,4 +1,4 @@
-<spark-tokens :tokens="tokens" :available-abilities="availableAbilities" inline-template>
+{{-- <spark-tokens :tokens="tokens" :available-abilities="availableAbilities" inline-template>
     <div>
         <div>
             <div class="card card-default" v-if="tokens.length > 0">
@@ -150,4 +150,4 @@
             </div>
         </div>
     </div>
-</spark-tokens>
+</spark-tokens> --}}
