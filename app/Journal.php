@@ -14,7 +14,6 @@ use App\JournalSim;
 class Journal extends Model
 {
 
-
     /**
      * Get the details for the model.
      *

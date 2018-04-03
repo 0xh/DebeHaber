@@ -1,3 +1,10 @@
+{{-- <passport-clients></passport-clients> --}}
+
+<passport-authorized-clients></passport-authorized-clients>
+
+<passport-personal-access-tokens></passport-personal-access-tokens>
+
+{{--
 <spark-create-token :available-abilities="availableAbilities" inline-template>
     <div>
         <div class="card card-default">
@@ -39,11 +46,11 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox"
-                                            @click="toggleAbility(ability.value)"
-                                            :class="{'is-invalid': form.errors.has('abilities')}"
-                                            :checked="abilityIsAssigned(ability.value)">
+                                        @click="toggleAbility(ability.value)"
+                                        :class="{'is-invalid': form.errors.has('abilities')}"
+                                        :checked="abilityIsAssigned(ability.value)">
 
-                                            @{{ ability.name }}
+                                        @{{ ability.name }}
                                     </label>
                                 </div>
                             </div>
@@ -58,49 +65,50 @@
                     <div class="form-group row mb-0">
                         <div class="offset-md-4 col-md-6">
                             <button type="submit" class="btn btn-primary"
-                                    @click.prevent="create"
-                                    :disabled="form.busy">
+                            @click.prevent="create"
+                            :disabled="form.busy">
 
-                                {{__('Create')}}
-                            </button>
-                        </div>
+                            {{__('Create')}}
+                        </button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <!-- Show Token Modal -->
-        <div class="modal" id="modal-show-token" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-lg" v-if="showingToken">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            {{__('API Token')}}
-                        </h5>
+    <!-- Show Token Modal -->
+    <div class="modal" id="modal-show-token" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" v-if="showingToken">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{__('API Token')}}
+                    </h5>
+                </div>
+
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        {{__('Here is your new API token.')}}
+                        <strong>{{__('This is the only time the token will ever be displayed, so be sure not to lose it!')}}</strong>
+                        {{__('You may revoke the token at any time from your API settings.')}}
                     </div>
 
-                    <div class="modal-body">
-                        <div class="alert alert-warning">
-                            {{__('Here is your new API token.')}}
-                             <strong>{{__('This is the only time the token will ever be displayed, so be sure not to lose it!')}}</strong>
-                            {{__('You may revoke the token at any time from your API settings.')}}
-                        </div>
+                    <textarea id="api-token" class="form-control"
+                    @click="selectToken"
+                    rows="5">@{{ showingToken }}</textarea>
+                </div>
 
-                        <textarea id="api-token" class="form-control"
-                                  @click="selectToken"
-                                  rows="5">@{{ showingToken }}</textarea>
-                    </div>
-
-                    <!-- Modal Actions -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="selectToken">
+                <!-- Modal Actions -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="selectToken">
                         <span v-if="copyCommandSupported">{{__('Copy To Clipboard')}}</span>
                         <span v-else>{{__('Select All')}}</span>
-                        </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{__('Close')}}</button>
-                    </div>
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </spark-create-token>
+--}}
