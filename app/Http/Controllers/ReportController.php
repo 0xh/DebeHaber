@@ -36,7 +36,7 @@ class ReportController extends Controller
         {
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/purchases_ByVAT')
+            return view('reports/PRY/purchases_byVAT')
             ->with('header', $taxPayer)
             ->with('data', $data)
             ->with('strDate', $startDate)
@@ -64,7 +64,7 @@ class ReportController extends Controller
         {
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/purchases_BySupplier')
+            return view('reports/PRY/purchases_bySupplier')
             ->with('header', $taxPayer)
             ->with('data', $data)
             ->with('strDate', $startDate)

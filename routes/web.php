@@ -74,7 +74,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('hechauka/generate_files/{start_date}/{end_date}', 'API\PRY\HechaukaController@generateFiles');
             Route::get('purchases/{strDate}/{endDate}', 'ReportController@purchases')->name('reports.purchases');
             Route::get('purchases-byVAT/{strDate}/{endDate}', 'ReportController@purchasesByVAT')->name('reports.purchaseByVAT');
-            Route::get('purchases-bySupplier/{strDate}/{endDate}/', 'ReportController@purchasesBySupplier')->name('reports.salesByCustomer');
+            Route::get('purchases-bySupplier/{strDate}/{endDate}/', 'ReportController@purchasesBySupplier')->name('reports.purchaseBySupplier');
             Route::get('purchases-byChart/{strDate}/{endDate}/', 'ReportController@purchasesByChart')->name('reports.salesByChart');
 
             Route::get('sales/{strDate}/{endDate}', 'ReportController@sales')->name('reports.sales');
