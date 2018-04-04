@@ -132,7 +132,7 @@ class ChartController extends Controller
 
     public function getAccountableCharts(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::where('is_accountable')->orderBy('code')->get();
+        $charts = Chart::where('is_accountable', true)->orderBy('code')->get();
         return response()->json($charts);
     }
 
