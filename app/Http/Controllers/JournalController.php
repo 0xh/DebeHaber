@@ -178,6 +178,7 @@ class JournalController extends Controller
             ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
             ->get() ?? null;
 
+            // foreach ($transactions->groupBy('type') as $groupedTransactions)
             foreach ($transactions->groupBy('type') as $groupedTransactions)
             {
                 $sales = collect($groupedTransactions->where('type', 4)) ?? null;
