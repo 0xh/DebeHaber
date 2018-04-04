@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Cycle;
+use App\Scopes\JournalScope;
 use App\JournalDetail;
 use App\Taxpayer;
 use App\JournalProduction;
@@ -14,6 +15,11 @@ use App\JournalSim;
 class Journal extends Model
 {
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new JournalScope);
+    }
     /**
      * Get the details for the model.
      *
