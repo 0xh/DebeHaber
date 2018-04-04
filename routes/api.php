@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::prefix('chart')->group(function ()
                 {
                     Route::get('get_charts', 'ChartController@getCharts');
+                    Route::get('get_accountable-charts', 'ChartController@getAccountableCharts');
                     Route::get('get_item-sales', 'ChartController@getSalesAccounts');
                     Route::get('get_item-purchases', 'ChartController@getPurchaseAccounts');
                     Route::get('get_money-accounts', 'ChartController@getMoneyAccounts');

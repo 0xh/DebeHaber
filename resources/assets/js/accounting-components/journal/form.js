@@ -131,7 +131,7 @@ Vue.component('journal-form',{
     {
       var app = this;
       $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_accountable-charts' ,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',
