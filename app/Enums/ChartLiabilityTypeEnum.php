@@ -13,15 +13,14 @@ class ChartLiabilityTypeEnum extends Enum
     const WagesPayable       = 5;
     const NotesPayable       = 6;
 
-
-        public static function labels()
-        {
-            return static::constants()
-                ->flip()
-                ->map(function ($key) {
-                    // Place your translation strings in `resources/lang/en/enum.php`
-                    return trans(sprintf('enum.%s', $key));
-                })
-                ->all();
-        }
+    public static function labels()
+    {
+        return static::constants()
+        ->flip()
+        ->map(function ($key) {
+            // Place your translation strings in `resources/lang/en/enum.php`
+            return trans(sprintf('enum.%s', $key));
+        })
+        ->all();
+    }
 }

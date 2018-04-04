@@ -65,7 +65,7 @@
         </div>
         <div class="row" v-for="detail in journal.details">
             <div class="col-8">
-                {{-- <p> <span class="m--font-bold">@{{ detail.chart.code }}</span> |  </p> --}}
+                <p> @{{ detail.id }} | <span class="m--font-bold">@{{ detail.chart }}</span> </p>
                 {{-- /* <em>@{{ detail }}</em> */ --}}
             </div>
             <div class="col-2 m--align-right">

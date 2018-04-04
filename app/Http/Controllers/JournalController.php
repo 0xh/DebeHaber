@@ -29,37 +29,26 @@ class JournalController extends Controller
 
     public function getJournals(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
-        // $journals = Journal::join('journal_details', 'journals.id', 'journal_details.journal_id')
-        // ->join('charts', 'journal_details.chart_id', 'charts.id')
-        // ->where('journals.cycle_id', $cycle->id)
-        // ->select('journals.id as ID',
-        // 'journals.number as Number',
-        // 'journals.comment as Comment',
-        // 'journals.date as Date',
-        // 'charts.code as ChartCode',
-        // 'charts.name as Chart',
-        // 'journal_details.credit as Credit',
-        // 'journal_details.debit as Debit'
-        // )
-
-        $journals = Journal::with(['details', 'details.chart'])
+        // $journals = Journal::with([
+        //     'details' => function($query)
+        //     {
+        //         $query->select(['journal_id', 'chart_id', 'debit', 'credit'])
+        //         ->orderBy('debit', 'desc');
+        //     }
+        //     , 'details.chart'
+        //     => function($query)
+        //     {
+        //         $query->select(['id', 'name', 'code']);
+        //     }
+        // ])
+        $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
+        ->with('details.chart:id,name,code')
         ->orderBy('date', 'desc')
-        ->skip($skip)
         ->take(100)
         ->get();
 
         // return new JournalCollection($journals);
-
         return response()->json($journals);
-
-        //->groupBy('journals.id')
-        // ->select(DB::raw('max(journals.id) as ID',
-        // DB::raw('max(journals.number) as Number'),
-        // DB::raw('max(journals.comment) as Comment'),
-        // DB::raw('max(journals.date) as Date'),
-        // DB::raw('sum(journal_details.credit) as Credit'),
-        // DB::raw('sum(journal_details.debit) as Debit')
-        // )
     }
 
     public function getJournalsByID($taxPayerID, Cycle $cycle, $id)
@@ -187,18 +176,18 @@ class JournalController extends Controller
             $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
             ->with('details')
             ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
-            ->get();
+            ->get() ?? null;
 
             foreach ($transactions->groupBy('type') as $groupedTransactions)
             {
-                $sales = collect($groupedTransactions->where('type', 4));
+                $sales = collect($groupedTransactions->where('type', 4)) ?? null;
                 if ($sales->count() > 0)
                 {
                     $comment = __('accounting.SalesBookComment', ['startDate' => $weekStartDate->toDateString(), 'endDate' => $weekEndDate->toDateString()]);
                     $this->generate_fromSales($taxPayer, $cycle, $sales, $comment);
                 }
 
-                $purchases = collect($groupedTransactions->whereIn('type', [1, 2]));
+                $purchases = collect($groupedTransactions->whereIn('type', [1, 2])) ?? null;
                 if ($purchases->count() > 0)
                 {
                     $comment = __('accounting.PurchaseBookComment', ['startDate' => $weekStartDate->toDateString(), 'endDate' => $weekEndDate->toDateString()]);
@@ -351,18 +340,18 @@ class JournalController extends Controller
 
         // if ($sumDebit == $sumCredit)
         // {
-            //If everything is fine then save at the same time.
-            //$journal->save();
+        //If everything is fine then save at the same time.
+        //$journal->save();
 
-            foreach ($transactions as $transaction)
-            {
-                $transaction->setStatus('Accounted');
+        foreach ($transactions as $transaction)
+        {
+            $transaction->setStatus('Accounted');
 
-                $journalTransaction = new JournalTransaction();
-                $journalTransaction->journal_id = $journal->id;
-                $journalTransaction->transaction_id = $transaction->id;
-                $journalTransaction->save();
-            }
+            $journalTransaction = new JournalTransaction();
+            $journalTransaction->journal_id = $journal->id;
+            $journalTransaction->transaction_id = $transaction->id;
+            $journalTransaction->save();
+        }
         // }
         // else
         // {
@@ -474,7 +463,7 @@ class JournalController extends Controller
         }
 
         //Affects all Credit Sales and uses Customer Account for distribution
-        foreach ($transactions->where('payment_condition', '>', 0)->groupBy('customer_id') as $groupedTransactions)
+        foreach ($transactions->where('payment_condition', '>', 0)->groupBy('supplier_id') as $groupedTransactions)
         {
             $value = 0;
             //calculate value by currency. fx
@@ -505,15 +494,15 @@ class JournalController extends Controller
 
         // if ($sumDebit == $sumCredit)
         // {
-            foreach ($transactions as $transaction)
-            {
-                $transaction->setStatus('Accounted');
+        foreach ($transactions as $transaction)
+        {
+            $transaction->setStatus('Accounted');
 
-                $journalTransaction = new JournalTransaction();
-                $journalTransaction->journal_id = $journal->id;
-                $journalTransaction->transaction_id = $transaction->id;
-                $journalTransaction->save();
-            }
+            $journalTransaction = new JournalTransaction();
+            $journalTransaction->journal_id = $journal->id;
+            $journalTransaction->transaction_id = $transaction->id;
+            $journalTransaction->save();
+        }
         // }
         // else
         // {

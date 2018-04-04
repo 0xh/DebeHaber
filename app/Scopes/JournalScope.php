@@ -10,10 +10,7 @@ class JournalScope implements Scope
 {
     /**
     * Global Scope that works as follows:
-    * Bring all Charts from Taxpayer, or where Taxpayer is null and country is same as taxpayer.
-    * This will allow to bring charts that are generic but only form same country.
-    *
-    * Problem: This will not bring from current Cycle Version. Include that into Logic.
+    * Bring all Journal from Taxpayer.
     *
     * @param  \Illuminate\Database\Eloquent\Builder  $builder
     * @param  \Illuminate\Database\Eloquent\Model  $model

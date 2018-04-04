@@ -282,7 +282,7 @@ class ChartController extends Controller
                 $chart->sub_type = 1;
                 $chart->is_accountable = true;
                 $chart->code = 'N/A';
-                $chart->name = __('commercial.AccountsReceivable') . ' ' . Taxpayer::find($partnerID)->name;
+                $chart->name = __('commercial.AccountsPayable') . ' ' . Taxpayer::find($partnerID)->name;
                 $chart->save();
             }
         }
