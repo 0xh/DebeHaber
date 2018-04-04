@@ -14,6 +14,7 @@ use App\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Auth;
 
 use Illuminate\Support\Collection;
 
@@ -22,6 +23,7 @@ class TransactionController extends Controller
 
     public function start(Request $request)
     {
+
         $transactionData = array();
 
         $startDate = '';
