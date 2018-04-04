@@ -20,7 +20,7 @@
         "lodash": "^4.17.4",
         "mockjs": "^1.0.1-beta3",
         "moment": "^2.22.0",
-        "popper.js": "^1.14.1",
+        "popper.js": "^1.14.2",
         "promise": "^7.1.1",
         "rtlcss": "^2.2",
         "sweetalert": "^1.1.3",
