@@ -45,6 +45,7 @@ class JournalController extends Controller
         ->with('details.chart:id,name,code')
         ->orderBy('date', 'desc')
         ->take(100)
+        ->skip($skip)
         ->get();
 
         // return new JournalCollection($journals);
@@ -244,7 +245,7 @@ class JournalController extends Controller
             {
                 foreach ($groupedByRate as $transaction)
                 {
-                    $value += ($transaction->details->sum('value') / $groupedByRate->first()->rate);
+                    $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
                 }
             }
 
@@ -270,7 +271,7 @@ class JournalController extends Controller
             {
                 foreach ($groupedByRate as $transaction)
                 {
-                    $value += ($transaction->details->sum('value') / $groupedByRate->first()->rate);
+                    $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
                 }
             }
 
@@ -307,7 +308,7 @@ class JournalController extends Controller
                 $value = 0;
                 foreach ($groupedByVATs as $detail)
                 {
-                    $value += ((($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
+                    $value += ((($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
                 }
 
                 if ($value > 0)
@@ -333,7 +334,7 @@ class JournalController extends Controller
                 $vatChart = $groupedByVAT->first()->vat;
                 foreach ($groupedByVAT as $detail)
                 {
-                    $value += (($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1));
+                    $value += (($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1));
                 }
             }
 
@@ -407,7 +408,7 @@ class JournalController extends Controller
                 $value = 0;
                 foreach ($groupedByVATs as $detail)
                 {
-                    $value += ((($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
+                    $value += ((($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
                 }
 
                 if ($value > 0)
@@ -434,7 +435,7 @@ class JournalController extends Controller
                 $vatChart = $groupedByVAT->first()->vat;
                 foreach ($groupedByVAT as $detail)
                 {
-                    $value += (($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1));
+                    $value += (($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1));
                 }
             }
 
@@ -459,7 +460,7 @@ class JournalController extends Controller
             {
                 foreach ($groupedByRate as $transaction)
                 {
-                    $value += ($transaction->details->sum('value') / $groupedByRate->first()->rate);
+                    $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
                 }
             }
 
@@ -484,7 +485,7 @@ class JournalController extends Controller
             {
                 foreach ($groupedByRate as $transaction)
                 {
-                    $value += ($transaction->details->sum('value') / $groupedByRate->first()->rate);
+                    $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
                 }
             }
 
