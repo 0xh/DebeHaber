@@ -78,15 +78,15 @@ inline-template>
 
                         <div class="dropdown-divider"></div>
 
-                        @if (Spark::usesTeams() && (Spark::createsAdditionalTeams() || Spark::showsTeamSwitcher()))
+                        @if (Spark::usesTeams() || Spark::showsTeamSwitcher()))
                             <!-- Team Settings -->
                             @include('spark::nav.teams')
                         @endif
 
-                        @if (Spark::hasSupportAddress())
+                        {{-- @if (Spark::hasSupportAddress()) --}}
                             <!-- Support -->
                             @include('spark::nav.support')
-                        @endif
+                        {{-- @endif --}}
 
                         <!-- Logout -->
                         <a class="dropdown-item" href="/logout">

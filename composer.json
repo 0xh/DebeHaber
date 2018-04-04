@@ -32,7 +32,8 @@
         "rweber7912/timezoned": "dev-master",
         "spatie/laravel-model-status": "^1.5",
         "spatie/laravel-robots-middleware": "^1.0",
-        "tamayo/laravel-scout-elastic": "^3.0"
+        "tamayo/laravel-scout-elastic": "^3.0",
+        "watson/rememberable": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

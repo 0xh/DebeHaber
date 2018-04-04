@@ -186,7 +186,7 @@ class JournalController extends Controller
             //Do not get items that already have current status "Accounted" or "Finalized"
             $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
             ->with('details')
-            ->otherCurrentStatus(['Accounted', 'Finalized'])
+            ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
             ->get();
 
             foreach ($transactions->groupBy('type') as $groupedTransactions)
@@ -230,7 +230,7 @@ class JournalController extends Controller
         $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $transactions->last()->date;
         $journal->comment = $comment;
-        //$journal->save();
+        $journal->save();
 
         //Affect all Cash Sales and uses Cash Accounts
         foreach ($transactions->where('payment_condition','=', 0)->groupBy('chart_account_id') as $groupedTransactions)
@@ -254,9 +254,9 @@ class JournalController extends Controller
             $detail->debit = 0;
             $detail->credit = $value;
             $detail->chart_id = $chart->id;
-            $detail->journal()->associate($journal);
-            // $detail->journal_id = $journal->id;
-            // $detail->save();
+            // $detail->journal()->associate($journal);
+            $detail->journal_id = $journal->id;
+            $detail->save();
         }
 
         //Affects all Credit Sales and uses Customer Account for distribution
@@ -279,9 +279,9 @@ class JournalController extends Controller
             $detail->debit = 0;
             $detail->credit = $value;
             $detail->chart_id = $chart->id;
-            $detail->journal()->associate($journal);
-            // $detail->journal_id = $journal->id;
-            // $detail->save();
+            // $detail->journal()->associate($journal);
+            $detail->journal_id = $journal->id;
+            $detail->save();
         }
 
         $details =[];
@@ -308,13 +308,16 @@ class JournalController extends Controller
                     $value += ((($detail->value / $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
                 }
 
-                $detail = new JournalDetail();
-                $detail->debit = $value;
-                $detail->credit = 0;
-                $detail->chart_id = $vatChart->id;
-                $detail->journal()->associate($journal);
-                // $detail->journal_id = $journal->id;
-                // $detail->save();
+                if ($value > 0)
+                {
+                    $detail = new JournalDetail();
+                    $detail->debit = $value;
+                    $detail->credit = 0;
+                    $detail->chart_id = $vatChart->id;
+                    // $detail->journal()->associate($journal);
+                    $detail->journal_id = $journal->id;
+                    $detail->save();
+                }
             }
         }
 
@@ -336,9 +339,9 @@ class JournalController extends Controller
             $detail->debit = $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedByCharts->first()->chart_id;
-            $detail->journal()->associate($journal);
-            // $detail->journal_id = $journal->id;
-            // $detail->save();
+            // $detail->journal()->associate($journal);
+            $detail->journal_id = $journal->id;
+            $detail->save();
         }
 
         //TODO: Run validation to check if journal is balanced before saving
@@ -346,10 +349,10 @@ class JournalController extends Controller
         $sumDebit = $journal->details->sum('debit') ?? 0;
         $sumCredit = $journal->details->sum('credit') ?? 0;
 
-        if ($sumDebit == $sumCredit)
-        {
+        // if ($sumDebit == $sumCredit)
+        // {
             //If everything is fine then save at the same time.
-            $journal->save();
+            //$journal->save();
 
             foreach ($transactions as $transaction)
             {
@@ -360,12 +363,12 @@ class JournalController extends Controller
                 $journalTransaction->transaction_id = $transaction->id;
                 $journalTransaction->save();
             }
-        }
-        else
-        {
-            $journal->delete();
-            Log::info($journal);
-        }
+        // }
+        // else
+        // {
+        //     $journal->delete();
+        //     Log::info($journal);
+        // }
     }
 
     public function generate_fromPurchases(Taxpayer $taxPayer, Cycle $cycle, $transactions, $comment)
@@ -500,8 +503,8 @@ class JournalController extends Controller
         $sumDebit = $journal->details->sum('debit') ?? 0;
         $sumCredit = $journal->details->sum('credit') ?? 0;
 
-        if ($sumDebit == $sumCredit)
-        {
+        // if ($sumDebit == $sumCredit)
+        // {
             foreach ($transactions as $transaction)
             {
                 $transaction->setStatus('Accounted');
@@ -511,12 +514,12 @@ class JournalController extends Controller
                 $journalTransaction->transaction_id = $transaction->id;
                 $journalTransaction->save();
             }
-        }
-        else
-        {
-            $journal->delete();
-            Log::info($journal);
-        }
+        // }
+        // else
+        // {
+        //     $journal->delete();
+        //     Log::info($journal);
+        // }
     }
 
     public function generate_fromCreditNotes()

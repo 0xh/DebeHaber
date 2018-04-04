@@ -49,7 +49,6 @@
                                     </div>
 
                                     <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="...">
-
                                         <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
                                             <i class="la la-info text-info"></i>
                                         </a>

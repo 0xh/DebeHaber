@@ -34,10 +34,10 @@
             <p class="m--font-boldest m--font-transform-u">@lang('accounting.ChartofAccounts')</p>
         </div>
         <div class="col-2">
-            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('accounting.Debit')</p>
+            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('accounting.Credit')</p>
         </div>
         <div class="col-2">
-            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('accounting.Credit')</p>
+            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('accounting.Debit')</p>
         </div>
     </div>
 
@@ -65,7 +65,7 @@
         </div>
         <div class="row" v-for="detail in journal.details">
             <div class="col-8">
-                <p> <span class="m--font-bold">@{{ detail.chart }}</span> |  </p>
+                {{-- <p> <span class="m--font-bold">@{{ detail.chart.code }}</span> |  </p> --}}
                 {{-- /* <em>@{{ detail }}</em> */ --}}
             </div>
             <div class="col-2 m--align-right">

@@ -55,8 +55,6 @@ Vue.component('model',
                         app.list.push(data[i]);
                     }
 
-                    //app.organizedList.push(organize(app.list, 'ID'));
-
                     app.skip += app.pageSize;
                     $state.loaded();
                 }
