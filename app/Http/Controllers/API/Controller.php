@@ -314,7 +314,7 @@ class Controller extends BaseController
 
         preg_match('/(\d{10})(\d{3})/', $date, $matches);
 
-        $trans_date = Carbon::now();
+        $trans_date = Carbon::createFromTimestamp($matches[1]);
         return $trans_date;
     }
 }
