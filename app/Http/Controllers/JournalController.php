@@ -175,10 +175,11 @@ class JournalController extends Controller
             //Do not get items that already have current status "Accounted" or "Finalized"
             $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
             ->with('details')
+            ->where('supplier_id', $taxPayer->id)
+            ->whereIn('type', [4, 5])
             ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
             ->get() ?? null;
 
-            // foreach ($transactions->groupBy('type') as $groupedTransactions)
             foreach ($transactions->groupBy('type') as $groupedTransactions)
             {
                 $sales = collect($groupedTransactions->where('type', 4)) ?? null;
@@ -188,6 +189,20 @@ class JournalController extends Controller
                     $this->generate_fromSales($taxPayer, $cycle, $sales, $comment);
                 }
 
+                //Add other types of transactions here to include into accounting.
+                $this->generate_fromCreditNotes();
+            }
+
+
+            $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
+            ->with('details')
+            ->where('customer_id', $taxPayer->id)
+            ->whereIn('type', [1, 2, 3])
+            ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
+            ->get() ?? null;
+
+            foreach ($transactions->groupBy('type') as $groupedTransactions)
+            {
                 $purchases = collect($groupedTransactions->whereIn('type', [1, 2])) ?? null;
                 if ($purchases->count() > 0)
                 {
@@ -196,10 +211,7 @@ class JournalController extends Controller
                 }
 
                 //Add other types of transactions here to include into accounting.
-                $this->generate_fromCreditNotes();
                 $this->generate_fromDebitNotes();
-                $this->generate_fromMoneyTransfers();
-                $this->generate_fromProductions();
             }
 
             $currentDate = $currentDate->addWeeks(1);
@@ -218,7 +230,7 @@ class JournalController extends Controller
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
         $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        $journal->date = $transactions->last()->date;
+        $journal->date = $transactions->last()->date; //
         $journal->comment = $comment;
         $journal->save();
 
@@ -369,7 +381,7 @@ class JournalController extends Controller
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
         $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        $journal->date = $transactions->last()->date;
+        $journal->date = $transactions->last()->date; //
         $journal->comment = $comment;
         $journal->save();
 
