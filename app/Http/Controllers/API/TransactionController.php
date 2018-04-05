@@ -148,7 +148,7 @@ class TransactionController extends Controller
     {
         //TODO to reduce data stored, group by VAT and Chart Type.
         //If 5 rows can be converted into 1 row it is better for our system's health and reduce server load.
-
+        dd($details);
         foreach ($details->groupBy('vat') as $detailByVAT)
         {
             foreach ($detailByVAT->groupBy('chart') as $groupedRows)
