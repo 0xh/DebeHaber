@@ -49,7 +49,7 @@ class TransactionController extends Controller
 
             if (!isset($cycle))
             {
-                //$current_date = Carbon::now();
+                $current_date = Carbon::now();
                 $version = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
 
                 if (!isset($version))
@@ -77,6 +77,7 @@ class TransactionController extends Controller
             try
             {
                 $transaction = $this->processTransaction($chunkedData, $taxPayer, $cycle);
+
                 $transactionData[$i] = $transaction;
             }
             catch (\Exception $e)
@@ -105,10 +106,12 @@ class TransactionController extends Controller
         }
         else if($data['Type'] == 2 || $data['Type'] == 4)
         {
+
             $customer = $taxPayer;
+
             $supplier = $this->checkTaxPayer($data['supplierTaxID'], $data['supplierName']);
 
-            $transaction->type = $datab['Type'] == 2 ? 1 : 3;
+            $transaction->type = $data['Type'] == 2 ? 1 : 3;
         }
 
 
