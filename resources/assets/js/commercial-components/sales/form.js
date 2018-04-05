@@ -265,7 +265,7 @@ Vue.component('sales-form', {
                     app.currencies = [];
                     for(let i = 0; i < data.length; i++)
                     {
-                        app.currencies.push({name:data[i]['name'],id:data[i]['id']});
+                        app.currencies.push({name:data[i]['name'], id:data[i]['id'], code:data[i]['code']});
                     }
                 },
                 error: function(xhr, status, error)

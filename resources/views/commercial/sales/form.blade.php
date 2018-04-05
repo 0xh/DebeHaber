@@ -42,6 +42,7 @@
                 <div class="form-group m-form__group row">
                     @php
                         $documentCode = Config::get('countries.' . request()->route('taxPayer')->country . '.document-code');
+                        $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
                     @endphp
                     <label for="example-text-input" class="col-4 col-form-label">
                         <b>{{ $documentCode }}  &amp; @lang('global.Deadline')</b>
@@ -103,9 +104,9 @@
                         <div class="col-8">
                             <div class="input-group">
                                 <select required v-model="currency_id" class="custom-select" v-on:change="getRate()">
-                                    <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }}</option>
+                                    <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }} | <b>@{{ currency.code }}</b></option>
                                 </select>
-                                <input type="text" class="form-control" v-model="rate" />
+                                <input type="text" class="form-control" v-model="rate" placeholder="@lang('commercial.Rate')"/>
                             </div>
                         </div>
                     </div>

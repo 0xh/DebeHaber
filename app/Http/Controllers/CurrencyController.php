@@ -18,13 +18,14 @@ class CurrencyController extends Controller
     {
         //
     }
+
     public function get_currency()
     {
-        $Currency=Currency::get();
-
-        return response()->json($Currency);
+        //where('country', $taxPayer->country)->
+        $currency = Currency::get();
+        return response()->json($currency);
     }
-  
+
     /**
     * Show the form for creating a new resource.
     *
