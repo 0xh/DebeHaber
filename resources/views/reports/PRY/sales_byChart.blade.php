@@ -12,7 +12,7 @@
                         <th>@lang('global.Date')</th>
                         <th>@lang('global.Taxid')</th>
                         <th>@lang('global.Taxpayer')</th>
-                        <th class="number">Timbrado</th>
+                        <th class="number">{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-code') }}</th>
                         <th>@lang('commercial.InvoiceNumber')</th>
                         <th>@lang('commercial.Condition')</th>
                         <th class="number">@lang('commercial.Taxable') 10%</th>

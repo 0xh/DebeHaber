@@ -129,21 +129,25 @@
         </div>
     </div>
 
+    @php
+        $taxIDName = Config::get('countries.' . request()->route('taxPayer')->country . '.taxpayer-id')
+    @endphp
+
     <div class="container">
         <div class="row">
             <table class="u-full-width">
                 <tr>
                     <td style="text-align:right">@lang('global.Taxpayer')</td>
                     <td style="text-align:left"><b>{{ $header->name }}</b></td>
-                    
+
                     <td style="text-align:right">@lang('global.LegalRepresentative')</td>
                     {{-- <td style="text-align:left"><b>{{ $header->companySubscription->name_agent }}</b></td> --}}
                 </tr>
                 <tr>
-                    <td style="text-align:right">@lang('global.Taxid')</td>
+                    <td style="text-align:right">{{ $taxIDName }}</td>
                     <td style="text-align:left"><b>{{ $header->taxid }}-{{ $header->code }}</b></td>
 
-                    <td style="text-align:right">@lang('global.LegalRepresentative') @lang('global.Taxid')</td>
+                    <td style="text-align:right">@lang('global.LegalRepresentative') {{ $taxIDName }}</td>
                     {{-- <td style="text-align:left"><b>{{ $header->companySubscription->gov_code_agent }}</b></td> --}}
                 </tr>
                 <tr>

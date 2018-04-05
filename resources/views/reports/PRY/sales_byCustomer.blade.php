@@ -11,10 +11,10 @@
                 <thead>
                     <tr>
                         <th>@lang('global.Date')</th>
-                        <th class="number">Timbrado</th>
+                        <th class="number">{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-code') }}</th>
                         <th>@lang('commercial.InvoiceNumber')</th>
                         <th>@lang('commercial.Condition')</th>
-                        <th>Concepto</th>
+                        <th>@lang('accounting.ChartofAccounts')</th>
                         <th class="number">@lang('commercial.Taxable') 10%</th>
                         <th class="number">@lang('commercial.SalesTax') 10%</th>
                         <th class="number">@lang('commercial.Taxable') 5%</th>
