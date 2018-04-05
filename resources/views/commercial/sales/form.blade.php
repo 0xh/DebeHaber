@@ -40,13 +40,16 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
+                    @php
+                        $documentCode = Config::get('countries.' . request()->route('taxPayer')->country . '.document-code');
+                    @endphp
                     <label for="example-text-input" class="col-4 col-form-label">
-                        <b>Timbrado &amp; Venci.</b>
+                        <b>{{ $documentCode }}  &amp; @lang('global.Deadline')</b>
                     </label>
                     <div class="col-8">
                         <div class="row">
                             <div class="col-5">
-                                <input class="form-control m-input" type="text" placeholder="Timbrado"  v-model="code">
+                                <input class="form-control m-input" type="text" placeholder="{{ $documentCode }}" v-model="code">
                             </div>
                             <div class="col-7">
                                 <input type="date" class="form-control m-input" v-model="code_expiry"/>
