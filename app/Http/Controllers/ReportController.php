@@ -92,7 +92,7 @@ class ReportController extends Controller
         {
             $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/sales_byVat')
+            return view('reports/PRY/sales_byVAT')
             ->with('header', $taxPayer)
             ->with('data', $data)
             ->with('strDate', $startDate)
