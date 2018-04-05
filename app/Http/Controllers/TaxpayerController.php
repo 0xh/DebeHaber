@@ -54,27 +54,20 @@ class TaxpayerController extends Controller
         //$taxPayer = $request->id == 0 ? new Taxpayer() : Taxpayer::find($request->id)->first();
 
         //Check Taxpayer by TaxID. If exists, use it, or else create it.
-        $taxPayer = Taxpayer::where('taxid', $request->taxid)->where('country', 'PRY')->first();
+        $taxPayer = Taxpayer::where('taxid', $request->taxid)->where('country', Auth::user()->country)->first();
 
         if (!isset($taxPayer))
         {
             $taxPayer= new Taxpayer();
             $taxPayer->name = $request->name;
+            $taxPayer->taxid = $taxPayer->taxid > 0 ? $request->taxid : 0 ;
+            $taxPayer->code = $request->code;
         }
-
-        //TODO Country from Selection Box
-        if ($taxPayer->taxid >0 )
-        {
-            $taxPayer->taxid = $request->taxid;
-        }
-
-        $taxPayer->code = $request->code;
 
         $taxPayer->alias = $request->alias;
         $taxPayer->address = $request->address;
         $taxPayer->telephone = $request->telephone;
         $taxPayer->email = $request->email;
-
         $taxPayer->save();
 
         $current_date = Carbon::now();
@@ -99,9 +92,7 @@ class TaxpayerController extends Controller
         ->first();
 
         if (!isset($cycle))
-        {
-            $cycle = new Cycle();
-        }
+        { $cycle = new Cycle(); }
 
         $cycle->chart_version_id = $chartVersion->id;
         $cycle->year = $current_date->year;
@@ -111,26 +102,17 @@ class TaxpayerController extends Controller
         $cycle->save();
 
         $existingtaxpayerIntegration = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)->first();
+
         $taxpayerIntegration = new TaxpayerIntegration();
-
-        if (!isset($existingtaxpayerIntegration))
-        {
-            $taxpayerIntegration->is_owner = 1;
-        }
-        else
-        {
-            $taxpayerIntegration->is_owner = 0;
-        }
-
+        $taxpayerIntegration->is_owner = !isset($existingtaxpayerIntegration) ? 1 : 0 ;
         $taxpayerIntegration->taxpayer_id = $taxPayer->id;
         $taxpayerIntegration->team_id = Auth::user()->current_team_id;
         $taxpayerIntegration->type = 1;
-
         $taxpayerIntegration->is_company = 1;
         $taxpayerIntegration->save();
 
         //TODO Check if Default Version is available for Country.
-        return response()->json('ok');
+        return response()->json('ok', 200);
     }
 
     //This is for Customers or Suppliers that are also Taxpayers.
@@ -154,7 +136,7 @@ class TaxpayerController extends Controller
         $customerOrSupplier->email = $request->email;
 
         $customerOrSupplier->save();
-        return response()->json('ok');
+        return response()->json('ok', 200);
     }
 
     /**

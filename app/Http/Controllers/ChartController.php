@@ -136,7 +136,6 @@ class ChartController extends Controller
         return response()->json($charts);
     }
 
-    //
     public function getSalesAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = Chart::SalesAccounts()->orderBy('name')->get();
