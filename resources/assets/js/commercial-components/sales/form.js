@@ -135,7 +135,7 @@ Vue.component('sales-form', {
                 async: false,
                 success: function(data)
                 {
-                  console.log(data);
+                    console.log(data);
                     if (data == 'ok')
                     {
                         app.onReset(isnew);
@@ -153,7 +153,7 @@ Vue.component('sales-form', {
         },
         onEdit: function(data)
         {
-          console.log(data)
+            console.log(data)
             var app = this;
             app.id = data.id;
             app.type = data.type;
@@ -265,7 +265,7 @@ Vue.component('sales-form', {
                     app.currencies = [];
                     for(let i = 0; i < data.length; i++)
                     {
-                        app.currencies.push({name:data[i]['name'], id:data[i]['id'], code:data[i]['code']});
+                        app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
                     }
                 },
                 error: function(xhr, status, error)
@@ -279,7 +279,7 @@ Vue.component('sales-form', {
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date  ,
+                url: '/api/' + this.taxpayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',

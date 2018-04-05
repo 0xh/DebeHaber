@@ -19,10 +19,12 @@ class CurrencyController extends Controller
         //
     }
 
-    public function get_currency()
+    public function get_currency(Taxpayer $taxPayer)
     {
-        //where('country', $taxPayer->country)->
-        $currency = Currency::get();
+        $currency = Currency::select('id', 'name', 'code')
+        ->where('country', $taxPayer->country)
+        ->get();
+        
         return response()->json($currency);
     }
 
