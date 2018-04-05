@@ -58,7 +58,7 @@ return [
     'SalesByCustomer' => 'Ventas por Cliente',
     'SalesByChart' => 'Ventas por Tipo de Ingreso',
 
-    'PurchaseByVAT ' => 'Compras por IVA',
-    'PurchaseBySuppliers ' => 'Compras por Proveedor',
+    'PurchaseByVAT' => 'Compras por IVA',
+    'PurchaseBySuppliers' => 'Compras por Proveedor',
     'PurchaseByChart' => 'Compras por Tipo de Gasto',
 ];

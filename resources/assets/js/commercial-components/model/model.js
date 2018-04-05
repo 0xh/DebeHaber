@@ -7,7 +7,7 @@ import axios from 'axios';
 
 Vue.component('model',
 {
-    props: ['taxpayer', 'cycle', 'url','editurl','deleteurl'],
+    props: ['taxpayer', 'cycle', 'url', 'editurl', 'deleteurl'],
     data() {
         return {
             list: [],

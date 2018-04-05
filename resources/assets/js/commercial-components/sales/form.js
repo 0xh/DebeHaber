@@ -7,7 +7,7 @@ Vue.component('sales-form', {
         MaskedInput
     },
 
-    props: ['taxpayer','trantype','cycle'],
+    props: ['taxpayer', 'trantype', 'cycle', 'taxpayerCurrency'],
     data() {
         return {
             id:0,
@@ -26,17 +26,14 @@ Vue.component('sales-form', {
             comment:'',
             ref_id:'',
             details: [
-                //     {
-                //     id:0,
-                //     transaction_id:0,
-                //     chart_id:'',
-                //     chart_vat_id:0,
-                //     value:0,
-                //     vat:0,
-                //     taxExempt:0,
-                //     taxable:0,
-                //
-                // }
+                //     id
+                //     transaction_id
+                //     chart_id
+                //     chart_vat_id
+                //     value
+                //     vat
+                //     taxExempt
+                //     taxable
             ],
             documents:[],
             accounts:[],
@@ -176,7 +173,7 @@ Vue.component('sales-form', {
         },
         onReset: function(isnew)
         {
-            var app=this;
+            var app = this;
             app.id = 0;
             app.type = null;
             app.customer_id = null;
@@ -213,7 +210,6 @@ Vue.component('sales-form', {
                     {
                         app.documents.push({name:data[i]['code'],id:data[i]['id']});
                     }
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -266,6 +262,10 @@ Vue.component('sales-form', {
                     for(let i = 0; i < data.length; i++)
                     {
                         app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
+                        if (data[i]['code'] == this.taxpayerCurrency)
+                        {
+                            app.currency_id = data[i]['id'];
+                        }
                     }
                 },
                 error: function(xhr, status, error)
@@ -298,37 +298,6 @@ Vue.component('sales-form', {
         //Get Cost Centers
         getCharts: function(data)
         {
-            // swal({
-            //     title: 'Delete "' + data.name + '"',
-            //     text: 'Please select another chart to merge all transactions from the current chart.',
-            //     html: '<input id="swal-input1" class="swal2-input">',
-            //     input: 'text',
-            //     showCancelButton: true,
-            //     confirmButtonText: 'Merge',
-            //     showLoaderOnConfirm: true,
-            //     preConfirm: (email) => {
-            //         return new Promise((resolve) => {
-            //             setTimeout(() => {
-            //                 if (email === 'taken@example.com') {
-            //                     swal.showValidationError(
-            //                         'This email is already taken.'
-            //                     )
-            //                 }
-            //                 resolve()
-            //             }, 2000)
-            //         })
-            //     },
-            //     allowOutsideClick: () => !swal.isLoading()
-            // }).then((result) => {
-            //     if (result.value) {
-            //         swal({
-            //             type: 'success',
-            //             title: 'Ajax request finished!',
-            //             html: 'Submitted email: ' + result.value
-            //         })
-            //     }
-            // })
-
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
@@ -431,7 +400,8 @@ Vue.component('sales-form', {
             });
         },
 
-        init: function (data){
+        init: function (data)
+        {
             var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_lastDate' ,
@@ -441,13 +411,10 @@ Vue.component('sales-form', {
                 async: true,
                 success: function(data)
                 {
-
-                    if (app.date==null) {
-
+                    if (app.date == null)
+                    {
                         app.date = data;
-
                     }
-
                 },
                 error: function(xhr, status, error)
                 {

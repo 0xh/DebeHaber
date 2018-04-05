@@ -57,7 +57,7 @@ return [
     'SalesByCustomer' => 'Sales by Customer',
     'SalesByChart' => 'Sales by Type of Income',
 
-    'PurchaseByVAT ' => 'Purchase by VAT',
-    'PurchaseBySuppliers ' => 'Purchase by Supplier',
-    'PurchaseByChart' => 'Purchase by Type of Expense',
+    'PurchaseByVAT' =>'Purchases by VAT',
+    'PurchaseBySuppliers' => 'Purchases by Supplier',
+    'PurchaseByChart' => 'Purchases by Type of Expense',
 ];
