@@ -96,19 +96,19 @@
                     </div>
                     <!-- END: Subheader -->
 
-                    <model inline-template>
-                        <div>
-                            @hasSection('stats')
-                                <div class="m-portlet">
-                                    <div class="m-portlet__body  m-portlet__body--no-padding">
-                                        @yield('stats')
-                                    </div>
+                    {{-- <model inline-template> --}}
+                    <div>
+                        @hasSection('stats')
+                            <div class="m-portlet">
+                                <div class="m-portlet__body  m-portlet__body--no-padding">
+                                    @yield('stats')
                                 </div>
-                            @endif
+                            </div>
+                        @endif
 
-                            @yield('layout')
-                        </div>
-                    </model>
+                        @yield('layout')
+                    </div>
+                    {{-- </model> --}}
 
                     @if (Auth::check())
                         @include('spark::modals.notifications')
@@ -126,7 +126,7 @@
                 <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
                     <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
                         <span class="m-footer__copyright">
-                            {{ date("Y") }} &copy; DebeHaber by
+                            {{ date("Y") }} &copy; @lang('global.DebeHaberBy')
                             <a href="https://www.cognitivo.in" class="m-link">
                                 Cognitivo Paraguay SA
                             </a>
@@ -135,30 +135,37 @@
                     <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
                         <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
                             <li class="m-nav__item">
-                                <a href="#"  class="m-nav__link">
+                                <a href="#" target="_blank" class="m-nav__link">
                                     <span class="m-nav__link-text">
-                                        Politicas de Privacidad
+                                        @lang('global.PrivacyPolicy')
                                     </span>
                                 </a>
                             </li>
                             <li class="m-nav__item">
-                                <a href="#" class="m-nav__link">
+                                <a href="#" target="_blank" class="m-nav__link">
                                     <span class="m-nav__link-text">
-                                        Terminos &amp; Condiciones
+                                        @lang('global.TermsConditions')
                                     </span>
                                 </a>
                             </li>
                             <li class="m-nav__item">
-                                <a href="https://blog.debehaber.com" class="m-nav__link">
+                                <a href="https://developer.debehaber.com" target="_blank" class="m-nav__link">
                                     <span class="m-nav__link-text">
+                                        @lang('global.DeveloperPlatform')
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="https://blog.debehaber.com" target="_blank" class="m-nav__link">
+                                    <span class="m-nav__link-text m--font-info">
                                         Blog
                                     </span>
                                 </a>
                             </li>
                             <li class="m-nav__item">
-                                <a href="https://soporte.debehaber.com" class="m-nav__link">
-                                    <span class="m-nav__link-text">
-                                        Soporte
+                                <a href="https://support.debehaber.com" target="_blank" class="m-nav__link">
+                                    <span class="m-nav__link-text m--font-danger">
+                                        @lang('global.Support')
                                     </span>
                                 </a>
                             </li>
@@ -179,31 +186,38 @@
     <ul class="m-nav-sticky">
 
         @if (request()->route('taxPayer'))
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Showcase" data-placement="left">
-                <a href="{{ request()->route('') }}">
-                    <i class="la la-eye"></i>
+            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.SalesBook')" data-placement="left">
+                <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                    <i class="la la-paper-plane"></i>
                 </a>
             </li>
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Pre-sale Chat" data-placement="left">
-                <a href="{{ request()->route('') }}">
-                    <i class="la la-comments-o"></i>
+            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.PurchaseBook')" data-placement="left">
+                <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                    <i class="la la-shopping-cart"></i>
                 </a>
             </li>
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Purchase" data-placement="left">
-                <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" target="_blank">
+
+            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('accounting.Journal')" data-placement="left">
+                <a href="{{ route('journals.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                    <i class="la la-list"></i>
+                </a>
+            </li>
+
+            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Reports')" data-placement="left">
+                <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
                     <i class="la la-pie-chart"></i>
                 </a>
             </li>
         @endif
-
+        <hr>
         <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Tickets" data-placement="left">
-            <a href="https://soporte.debehaber.com/ticket/" target="_blank">
-                <i class="la la-envelope"></i>
+            <a href="https://support.debehaber.com/ticket/" target="_blank">
+                <i class="la la-envelope m--font-primary"></i>
             </a>
         </li>
-        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Support" data-placement="left">
-            <a href="https://soporte.debehaber.com" target="_blank">
-                <i class="la la-life-ring"></i>
+        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Support')" data-placement="left">
+            <a href="https://support.debehaber.com" target="_blank">
+                <i class="la la-life-ring m--font-primary"></i>
             </a>
         </li>
     </ul>

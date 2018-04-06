@@ -23,8 +23,6 @@ import SearchBoxAccount from './components/searchboxaccount.vue';
 import create from './components/create.vue';
 import List from './components/table.vue';
 import Vue from 'vue';
-import VueGoodTable from 'vue-good-table';
-import Datatable from 'vue2-datatable-component';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/es';
@@ -41,6 +39,8 @@ Vue.use(Bars)
 Vue.use(Trend);
 Vue.use(ElementUI, {locale});
 
+//Vue.config.productionTip = true
+
 Vue.i18n.add('en', Locales.en);
 Vue.i18n.add('de', Locales.de);
 
@@ -56,8 +56,6 @@ require('./components/bootstrap');
 window.Vue = require('vue');
 window.Vue.use(VueRouter);
 window.Vue.use(require('vue-shortkey'));
-Vue.use(VueGoodTable);
-Vue.use(Datatable);
 Vue.use(require('vue-shortkey'))
 
 // Passport Components
@@ -79,11 +77,8 @@ const routes = [
         path: '/',
         components: {
             SearchBox : SearchBox,
-            SearchBoxAccount:SearchBoxAccount,
-            Datatable:Datatable,
-            create:create,
-            List:List
-
+            SearchBoxAccount : SearchBoxAccount,
+            List : List
         }
     },
 ]

@@ -48,5 +48,13 @@ return [
     'ProfileAndSettings' => 'Profile and Settings',
     'Total' => 'Total',
     'Actions' => 'Actions',
-    'Comment' => 'Comment'
+    'Comment' => 'Comment',
+    'NoResults' => 'No :model found. How about creating one?',
+    'NoData' => 'You have reached the bottom of the barrel! This is all we have.',
+
+    'Support' => 'Support',
+    'PrivacyPolicy' => 'Privacy Policy',
+    'TermsConditions' => 'Terms and Conditions',
+    'DebeHaberBy' => 'DebeHaber by',
+    'DeveloperPlatform' => 'Developer Platform',
 ];

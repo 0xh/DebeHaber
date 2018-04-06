@@ -3,7 +3,7 @@
 @section('title', __('commercial.SalesBook'))
 
 @section('stats')
-    <div v-if="isList" class="row m-row--no-padding m-row--col-separator-xl">
+    <div v-if="showList" class="row m-row--no-padding m-row--col-separator-xl">
         <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="m-nav-grid m-nav-grid--skin-light">
                 <div class="m-nav-grid__row">
@@ -72,7 +72,7 @@
         baseurl="commercial/sales"
         inline-template>
         <div>
-            <div v-if="$parent.$parent.isList">
+            <div v-if="$parent.$parent.showList">
                 @include('commercial/sales/list')
             </div>
             <div v-else>

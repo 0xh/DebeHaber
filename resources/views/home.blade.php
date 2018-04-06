@@ -1,7 +1,11 @@
 
+@php
+    $currentTeam = Auth::user()->currentTeam->name;
+@endphp
+
 @extends('spark::layouts.dashboard')
 
-@section('title', __('global.Dashboard',['team' => Auth::user()->currentTeam->name]))
+@section('title', __('global.Dashboard',['team' => $currentTeam]))
 
 @section('content')
 
@@ -13,7 +17,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Contribuyentes del equipo, @{{ teams[0].name }}
+                                Contribuyentes del equipo, {{ $currentTeam }}
                             </h3>
                         </div>
                     </div>
@@ -119,7 +123,7 @@
                 </div>
                 <div class="m-portlet__body">
                     <div class="m-widget4">
-                        <spark-team-settings :user="user" :team-id="user.current_team_id" inline-template>
+                        {{-- <spark-team-settings :user="user" :team-id="user.current_team_id" inline-template>
                             <spark-team-members :user="user" :team="team" inline-template>
                                 <div>
                                     <div class="m-widget4__item" v-for="member in team.users">
@@ -139,7 +143,7 @@
                                     </div>
                                 </div>
                             </spark-team-members>
-                        </spark-team-settings>
+                        </spark-team-settings> --}}
                     </div>
                 </div>
             </div>

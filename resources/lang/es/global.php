@@ -48,5 +48,13 @@ return [
     'Total' => 'Total',
     'Actions' => 'Acciones',
     'Generic' => 'Generico',
-    'Comment' => 'Commentario'
+    'Comment' => 'Commentario',
+    'NoResults' => 'No se encontraron :model. ¿Qué tal crear uno?',
+    'NoData' => '¡Has llegado al fondo del barril! Esto es todo lo que tenemos.',
+
+    'Support' => 'Soporte',
+    'PrivacyPolicy' => 'Politicas de Privacidad',
+    'TermsConditions' => 'Terminos & Condiciones',
+    'DebeHaberBy' => 'DebeHaber por',
+    'DeveloperPlatform' => 'Plataforma de Desarrollo',
 ];
