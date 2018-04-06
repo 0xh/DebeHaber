@@ -72,11 +72,11 @@
         baseurl="commercial/sales"
         inline-template>
         <div>
-            <div v-if="status === 1">
-                @include('commercial/sales/form')
+            <div v-if="isList">
+                @include('commercial/sales/list')
             </div>
             <div v-else>
-                @include('commercial/sales/list')
+                @include('commercial/sales/form')
             </div>
         </div>
     </model>
