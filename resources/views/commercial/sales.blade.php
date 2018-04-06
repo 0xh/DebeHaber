@@ -3,7 +3,7 @@
 @section('title', __('commercial.SalesBook'))
 
 @section('stats')
-    <div class="row m-row--no-padding m-row--col-separator-xl">
+    <div v-if="isList" class="row m-row--no-padding m-row--col-separator-xl">
         <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="m-nav-grid m-nav-grid--skin-light">
                 <div class="m-nav-grid__row">
@@ -67,7 +67,6 @@
     @php
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
-
     <model :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}"
         baseurl="commercial/sales"
