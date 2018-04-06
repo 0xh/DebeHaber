@@ -9,7 +9,7 @@
 @section('form')
 
     <model :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}"
-        url="accounting/get_journals" editurl="accounting/get_journalByID" deleteurl="accounting/delete_journalByID" inline-template>
+        baseurl="accounting/journals"  inline-template>
         <div>
             <div v-if="status === 1">
                 @include('accounting/journal/form')
