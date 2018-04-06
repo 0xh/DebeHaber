@@ -85,7 +85,7 @@
 <div class="col-3">
   <div v-if="data.taxpayer_id != null" class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
       <button @click="onView(data)" class="m-btn btn btn-success"><i class="la la-eye"></i></button>
-      <button @click="onEdit(data)" class="m-btn btn btn-primary"><i class="la la-pencil"></i></button>
+      <button @click="onEdit(data.id)" class="m-btn btn btn-primary"><i class="la la-pencil"></i></button>
       <button @click="onDelete(data)" class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></button>
       {{-- <a @click="onMigrate(data)" class="m-btn btn btn-secondary"><i class="la la-forward m--font-warning"></i></a> --}}
   </div>

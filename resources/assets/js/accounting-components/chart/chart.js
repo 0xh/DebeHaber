@@ -82,6 +82,7 @@ Vue.component('chart',{
             async : false,
             success: function(data)
             {
+                console.log(data);
                 if (data == 200)
                 {
                     app.id = 0;
@@ -95,7 +96,8 @@ Vue.component('chart',{
                     app.type = null;
                     app.sub_type = null;
                     app.coefficient = null;
-                    app.init();
+                    app.$parent.status = 0;
+                    //app.init();
                 }
                 else
                 {
@@ -109,8 +111,14 @@ Vue.component('chart',{
             }
         });
     },
+    cancel()
+    {
+        var app = this;
+        app.$parent.status = 0;
+    },
     onEdit: function(data)
     {
+
         var app = this;
         app.id = data.id;
         app.parent_id = data.parent_id;
@@ -192,6 +200,7 @@ Vue.component('chart',{
             error: function(xhr, status, error)
             {
                 app.$swal(status)
+
             }
         });
     }
@@ -199,6 +208,6 @@ Vue.component('chart',{
 
 mounted: function mounted()
 {
-    this.init();
+    //    this.init();
 }
 });
