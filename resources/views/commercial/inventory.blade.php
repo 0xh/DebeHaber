@@ -3,7 +3,7 @@
 @section('title', __('commercial.Inventory'))
 
 @section('form')
-    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}" 
         :url="commercial/inventories"
         inline-template>

@@ -8,7 +8,7 @@
 
 @section('form')
 
-    <model :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}"
+    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}"
         baseurl="accounting/journals"  inline-template>
         <div>
             <div v-if="status === 1">
