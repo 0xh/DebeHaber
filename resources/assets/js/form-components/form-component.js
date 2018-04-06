@@ -16,7 +16,7 @@ Vue.component('form-view',
       skip: 0,
       pageSize: 100,
       search: '',
-      status : 0,
+
 
       documents:[],
       accounts:[],
@@ -282,7 +282,7 @@ Vue.component('form-view',
   mounted: function mounted()
   {
 
-
+    console.log(this.$parent);
     this.getDocuments();
     this.getCurrencies();
     this.getCharts();

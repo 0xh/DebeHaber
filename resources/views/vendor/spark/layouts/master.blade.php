@@ -97,15 +97,17 @@
                     <!-- END: Subheader -->
 
                     <model inline-template>
-                        @hasSection('stats')
-                            <div class="m-portlet">
-                                <div class="m-portlet__body  m-portlet__body--no-padding">
-                                    @yield('stats')
+                        <div>
+                            @hasSection('stats')
+                                <div class="m-portlet">
+                                    <div class="m-portlet__body  m-portlet__body--no-padding">
+                                        @yield('stats')
+                                    </div>
                                 </div>
-                            </div>
-                        @endif
+                            @endif
 
-                        @yield('layout')
+                            @yield('layout')
+                        </div>
                     </model>
 
                     @if (Auth::check())

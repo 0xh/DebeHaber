@@ -72,7 +72,7 @@
         baseurl="commercial/sales"
         inline-template>
         <div>
-            <div v-if="isList">
+            <div v-if="$parent.$parent.isList">
                 @include('commercial/sales/list')
             </div>
             <div v-else>
