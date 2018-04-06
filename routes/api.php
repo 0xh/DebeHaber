@@ -15,6 +15,7 @@ use Laravel\Passport;
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
+  });
   Route::post('/syncData', 'API\TransactionController@start');
 
   Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
@@ -97,7 +98,7 @@ Route::group(['middleware' => 'auth:api'], function ()
       Route::get('/hechauka/{startDate}/{endDate}', 'API\PRY\HechukaController@getHechauka');
     });
   });
-});
+
 
 Route::get('users', function()
 {

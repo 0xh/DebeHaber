@@ -15,9 +15,9 @@
 
 @section('form')
 
-    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}"
       :cycle="{{ request()->route('cycle')->id }}"
-      baseurl="accounting/chart/charts" 
+      baseurl="accounting/chart/charts"
       inline-template>
       <div>
           <div v-if="status === 1">

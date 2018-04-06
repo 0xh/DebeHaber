@@ -96,12 +96,16 @@
                     </div>
                     <!-- END: Subheader -->
 
+
                     @hasSection('stats')
-                        <div class="m-portlet">
-                            <div class="m-portlet__body  m-portlet__body--no-padding">
-                                @yield('stats')
+                        <model inline-template>
+
+                            <div class="m-portlet">
+                                <div class="m-portlet__body  m-portlet__body--no-padding">
+                                    @yield('stats')
+                                </div>
                             </div>
-                        </div>
+                        </model>
                     @endif
 
                     @yield('layout')
@@ -111,99 +115,101 @@
                         @include('spark::modals.support')
                         @include('spark::modals.session-expired')
                     @endif
+
+                </model>
+            </div>
+        </div>
+    </div>
+    <!-- end:: Body -->
+
+    <!-- begin::Footer -->
+    <footer class="m-grid__item  m-footer ">
+        <div class="m-container m-container--responsive m-container--xxl m-container--full-height">
+            <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+                <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
+                    <span class="m-footer__copyright">
+                        {{ date("Y") }} &copy; DebeHaber by
+                        <a href="https://www.cognitivo.in" class="m-link">
+                            Cognitivo Paraguay SA
+                        </a>
+                    </span>
+                </div>
+                <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                    <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
+                        <li class="m-nav__item">
+                            <a href="#"  class="m-nav__link">
+                                <span class="m-nav__link-text">
+                                    Politicas de Privacidad
+                                </span>
+                            </a>
+                        </li>
+                        <li class="m-nav__item">
+                            <a href="#" class="m-nav__link">
+                                <span class="m-nav__link-text">
+                                    Terminos &amp; Condiciones
+                                </span>
+                            </a>
+                        </li>
+                        <li class="m-nav__item">
+                            <a href="https://blog.debehaber.com" class="m-nav__link">
+                                <span class="m-nav__link-text">
+                                    Blog
+                                </span>
+                            </a>
+                        </li>
+                        <li class="m-nav__item">
+                            <a href="https://soporte.debehaber.com" class="m-nav__link">
+                                <span class="m-nav__link-text">
+                                    Soporte
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <!-- end:: Body -->
+    </footer>
+    <!-- end::Footer -->
+</div>
+<!-- end:: Page -->
 
-        <!-- begin::Footer -->
-        <footer class="m-grid__item  m-footer ">
-            <div class="m-container m-container--responsive m-container--xxl m-container--full-height">
-                <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
-                    <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
-                        <span class="m-footer__copyright">
-                            {{ date("Y") }} &copy; DebeHaber by
-                            <a href="https://www.cognitivo.in" class="m-link">
-                                Cognitivo Paraguay SA
-                            </a>
-                        </span>
-                    </div>
-                    <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
-                        <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
-                            <li class="m-nav__item">
-                                <a href="#"  class="m-nav__link">
-                                    <span class="m-nav__link-text">
-                                        Politicas de Privacidad
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="#" class="m-nav__link">
-                                    <span class="m-nav__link-text">
-                                        Terminos &amp; Condiciones
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="https://blog.debehaber.com" class="m-nav__link">
-                                    <span class="m-nav__link-text">
-                                        Blog
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="https://soporte.debehaber.com" class="m-nav__link">
-                                    <span class="m-nav__link-text">
-                                        Soporte
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end::Footer -->
-    </div>
-    <!-- end:: Page -->
+<!-- begin::Scroll Top -->
+<div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
+    <i class="la la-arrow-up"></i>
+</div>
+<!-- end::Scroll Top -->
+<ul class="m-nav-sticky">
 
-    <!-- begin::Scroll Top -->
-    <div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
-        <i class="la la-arrow-up"></i>
-    </div>
-    <!-- end::Scroll Top -->
-    <ul class="m-nav-sticky">
-
-        @if (request()->route('taxPayer'))
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Showcase" data-placement="left">
-                <a href="#">
-                    <i class="la la-eye"></i>
-                </a>
-            </li>
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Pre-sale Chat" data-placement="left">
-                <a href="#">
-                    <i class="la la-comments-o"></i>
-                </a>
-            </li>
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Purchase" data-placement="left">
-                <a href="#" target="_blank">
-                    <i class="la la-cart"></i>
-                </a>
-            </li>
-        @endif
-
-        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Tickets" data-placement="left">
-            <a href="https://soporte.debehaber.com/ticket/" target="_blank">
-                <i class="la la-envelope"></i>
+    @if (request()->route('taxPayer'))
+        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Showcase" data-placement="left">
+            <a href="#">
+                <i class="la la-eye"></i>
             </a>
         </li>
-        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Support" data-placement="left">
-            <a href="https://soporte.debehaber.com" target="_blank">
-                <i class="la la-life-ring"></i>
+        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Pre-sale Chat" data-placement="left">
+            <a href="#">
+                <i class="la la-comments-o"></i>
             </a>
         </li>
-    </ul>
-    <!-- begin::Quick Nav -->
+        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Purchase" data-placement="left">
+            <a href="#" target="_blank">
+                <i class="la la-cart"></i>
+            </a>
+        </li>
+    @endif
+
+    <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Tickets" data-placement="left">
+        <a href="https://soporte.debehaber.com/ticket/" target="_blank">
+            <i class="la la-envelope"></i>
+        </a>
+    </li>
+    <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Support" data-placement="left">
+        <a href="https://soporte.debehaber.com" target="_blank">
+            <i class="la la-life-ring"></i>
+        </a>
+    </li>
+</ul>
+<!-- begin::Quick Nav -->
 </div>
 
 <script src="/vendors/base/vendors.bundle.min.js"></script>

@@ -44,7 +44,6 @@ class JournalController extends Controller
         $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
         ->with('details.chart:id,name,code')
         ->orderBy('date', 'desc')
-        
         ->take(100)
         ->skip($skip)
         ->get();

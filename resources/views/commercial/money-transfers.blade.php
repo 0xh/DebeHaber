@@ -3,7 +3,7 @@
 @section('title', __('commercial.MoneyTransfers'))
 
 @section('form')
-    <model :taxpayer="{{ request()->route('taxPayer')->id}}"
+    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}"
         url="commercial/get_money_transfers"  editurl="/commercial/get_money_transferByID/"
         inline-template>
