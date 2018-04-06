@@ -176,18 +176,18 @@
 
         @if (request()->route('taxPayer'))
             <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Showcase" data-placement="left">
-                <a href="#">
+                <a href="{{ request()->route('') }}">
                     <i class="la la-eye"></i>
                 </a>
             </li>
             <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Pre-sale Chat" data-placement="left">
-                <a href="#">
+                <a href="{{ request()->route('') }}">
                     <i class="la la-comments-o"></i>
                 </a>
             </li>
             <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Purchase" data-placement="left">
-                <a href="#" target="_blank">
-                    <i class="la la-cart"></i>
+                <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" target="_blank">
+                    <i class="la la-pie-chart"></i>
                 </a>
             </li>
         @endif

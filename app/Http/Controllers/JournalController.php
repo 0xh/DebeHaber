@@ -29,22 +29,10 @@ class JournalController extends Controller
 
     public function getJournals(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
-        // $journals = Journal::with([
-        //     'details' => function($query)
-        //     {
-        //         $query->select(['journal_id', 'chart_id', 'debit', 'credit'])
-        //         ->orderBy('debit', 'desc');
-        //     }
-        //     , 'details.chart'
-        //     => function($query)
-        //     {
-        //         $query->select(['id', 'name', 'code']);
-        //     }
-        // ])
         $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
         ->with('details.chart:id,name,code')
         ->orderBy('date', 'desc')
-        
+
         ->take(100)
         ->skip($skip)
         ->get();
