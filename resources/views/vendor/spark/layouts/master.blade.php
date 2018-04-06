@@ -99,9 +99,7 @@
                     @hasSection('stats')
                         <div class="m-portlet">
                             <div class="m-portlet__body  m-portlet__body--no-padding">
-                                <div class="row m-row--no-padding m-row--col-separator-xl">
-                                    @yield('stats')
-                                </div>
+                                @yield('stats')
                             </div>
                         </div>
                     @endif
