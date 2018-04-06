@@ -178,7 +178,7 @@ Vue.component('sales-form', {
                     console.log(data);
                     if (data == 'ok')
                     {
-                        app.$parent.onReset(isnew);
+                        app.onReset(isnew);
                     }
                     else
                     {

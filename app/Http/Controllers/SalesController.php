@@ -119,7 +119,7 @@ class SalesController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request, Taxpayer $taxPayer)
+    public function store(Request $request, Taxpayer $taxPayer,Cycle $cycle)
     {
         $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
 
