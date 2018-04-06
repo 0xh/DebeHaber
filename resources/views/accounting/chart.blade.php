@@ -17,7 +17,7 @@
 
     <model :taxpayer="{{ request()->route('taxPayer')->id}}"
       :cycle="{{ request()->route('cycle')->id }}"
-      url="accounting/chart/get_charts" editurl="/accounting/chart/getChartsByID/" deleteurl="commercial/sales"
+      baseurl="accounting/chart/charts" 
       inline-template>
       <div>
           <div v-if="status === 1">

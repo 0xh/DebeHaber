@@ -124,9 +124,10 @@ class ChartController extends Controller
 
 
   // All API related Queries.
-  public function getCharts(Taxpayer $taxPayer, Cycle $cycle)
+  public function getCharts(Taxpayer $taxPayer, Cycle $cycle,$skip)
   {
-    $charts = Chart::orderBy('code')->get();
+    $charts = Chart::orderBy('code')->skip($skip)
+    ->take(100)->get();
     return response()->json($charts);
   }
 

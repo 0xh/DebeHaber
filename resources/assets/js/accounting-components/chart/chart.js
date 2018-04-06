@@ -111,11 +111,7 @@ Vue.component('chart',{
             }
         });
     },
-    cancel()
-    {
-        var app = this;
-        app.$parent.status = 0;
-    },
+
     onEdit: function(data)
     {
 
@@ -164,46 +160,8 @@ Vue.component('chart',{
                 })
             }
         })
-    },
-    init(){
-        var app = this;
-        $.ajax({
-            url: '/api/'  + this.taxpayer + '/' + this.cycle +'/accounting/chart/get_charts/' ,
-            headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-            type: 'get',
-            dataType: 'json',
-            async: true,
-            success: function(data)
-            {
-                app.list = [];
-                for (let i = 0; i < data.length; i++)
-                {
-                    app.list.push(
-                        {
-                            id : data[i]['id'],
-                            parent_id : data[i]['parent_id'],
-                            taxpayer_id : data[i]['taxpayer_id'],
-                            chart_version_id : data[i]['chart_version_id'],
-                            chart_version_name : data[i]['chart_version_name'],
-                            country : data[i]['country'],
-                            is_accountable : data[i]['is_accountable'],
-                            code : data[i]['code'],
-                            name : data[i]['name'],
-                            level : data[i]['level'],
-                            type : data[i]['type'],
-                            sub_type : data[i]['sub_type'],
-                            coefficient : data[i]['coefficient']
-                        }
-                    );
-                }
-            },
-            error: function(xhr, status, error)
-            {
-                app.$swal(status)
-
-            }
-        });
     }
+
 },
 
 mounted: function mounted()
