@@ -111,11 +111,7 @@ Vue.component('chart',{
             }
         });
     },
-    cancel()
-    {
-        var app = this;
-        app.$parent.status = 0;
-    },
+
     onEdit: function(data)
     {
 
