@@ -1,7 +1,6 @@
-@extends('spark::layouts.dashboard')
+@extends('spark::layouts.master')
 
-@section('content')
-
+@section('layout')
     <home :user="user" inline-template>
         <div class="card card-default">
             <div class="card-body">
@@ -9,5 +8,4 @@
             </div>
         </div>
     </home>
-
 @endsection

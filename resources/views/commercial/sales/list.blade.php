@@ -1,6 +1,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
     <div>
-        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+        {{-- <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
             <div class="row align-items-center">
                 <div class="col-xl-8 order-2 order-xl-1">
                     <div class="form-group m-form__group row align-items-center">
@@ -26,7 +26,7 @@
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row">
             <div class="col-1 m--font-boldest">

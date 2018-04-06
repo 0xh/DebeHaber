@@ -53,6 +53,59 @@
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor-desktop m-grid--desktop m-body">
             <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-container m-container--responsive m-container--xxl m-container--full-height">
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">
+
+                    <!-- BEGIN: Subheader -->
+                    <div class="m-subheader">
+                        <div class="d-flex align-items-center">
+                            <div class="mr-auto">
+                                <h3 class="m-subheader__title m-subheader__title--separator">
+                                    @yield('title')
+                                </h3>
+                                @if(request()->route('cycle') != null)
+                                    <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                                        <li class="m-nav__item m-nav__item--home">
+                                            <a href="{{ route('hello') }}" class="m-nav__link m-nav__link--icon m--font-primary">
+                                                <i class="la la-home"></i>
+                                                @lang('global.Dashboard',['team' => Auth::user()->currentTeam->name])
+                                            </a>
+                                        </li>
+                                        <li class="m-nav__separator">
+                                            /
+                                        </li>
+                                        <li class="m-nav__item">
+                                            <a href="{{ route('taxpayer.dashboard', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-nav__link">
+                                                <span class="m-nav__link-text m--font-brand">
+                                                    {{ request()->route('taxPayer')->name }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="m-nav__separator">
+                                            /
+                                        </li>
+                                        <li class="m-nav__item">
+                                            <a href="#" class="m-nav__link">
+                                                <span class="m-nav__link-text m--font-focus">
+                                                    {{ request()->route('cycle')->year }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END: Subheader -->
+
+                    @hasSection('stats')
+                        <div class="m-portlet">
+                            <div class="m-portlet__body  m-portlet__body--no-padding">
+                                <div class="row m-row--no-padding m-row--col-separator-xl">
+                                    @yield('stats')
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     @yield('layout')
 
                     @if (Auth::check())
@@ -158,7 +211,7 @@
 <script src="/vendors/base/vendors.bundle.min.js"></script>
 <script src="/js/scripts.bundle.min.js"></script>
 <script src="{{ mix('js/app.js') }}"></script>
-  @yield('script')
+@yield('script')
 </body>
 <!-- end::Body -->
 </html>
