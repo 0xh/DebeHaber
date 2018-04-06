@@ -3,9 +3,13 @@
 @section('title', __('commercial.DebitNotes'))
 
 @section('form')
+  @php
+    $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
+
+    @endphp
     <model :taxpayer="{{ request()->route('taxPayer')->id}}"
-        :cycle="{{ request()->route('cycle')->id }}"
-        url="commercial/get_debit_notes"  editurl="/commercial/get_debit_noteByID/" deleteurl="commercial/debit-notes"
+        :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}"
+        baseurl="commercial/debit_notes"
         inline-template>
         <div>
             <div v-if="status === 0">

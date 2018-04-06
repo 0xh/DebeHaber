@@ -3,9 +3,13 @@
 @section('title', __('commercial.CreditNotes'))
 
 @section('form')
+    @php
+    $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
+
+    @endphp
     <model :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}"
-        url="commercial/get_credit-notes" editurl="/commercial/get_credit_noteByID/" deleteurl="commercial/credit-notes"
+        baseurl="commercial/credit_notes" taxpayercurrency="{{$defaultCurrency}}"
         inline-template>
         <div>
             <div v-if="status === 1">
