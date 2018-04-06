@@ -35,12 +35,7 @@ Vue.component('credit-note-form',{
         //     withoutvat:0,
 
         // }
-      ],
-      documents:[],
-      accounts:[],
-      currencies:[],
-      charts:[],
-      ivas:[]
+      ]
     }
   },
   computed: {
@@ -135,7 +130,7 @@ Vue.component('credit-note-form',{
         {
           if (data=='ok')
           {
-            app.onReset(isnew);
+            app.$parent.onReset(isnew);
 
           }
           else
@@ -153,6 +148,7 @@ Vue.component('credit-note-form',{
     },
     onEdit: function(data)
     {
+
       var app = this;
       app.id = data.id;
       app.type = data.type;
@@ -169,13 +165,15 @@ Vue.component('credit-note-form',{
       app.code_expiry = data.code_expiry;
       app.comment = data.comment;
       app.ref_id = data.ref_id;
-      app.details=data.details;
-      app.$children[0].selectText=data.customer;
-      app.$children[0].id=data.customer_id;
+      app.details = data.details;
+      app.selectText = data.customer;
+      app.id = data.customer_id;
+      app.status = 1;
     },
+
     onReset: function(isnew)
     {
-      var app=this;
+      var app = this;
       app.id = 0;
       app.type = null;
       app.customer_id = null;
@@ -185,42 +183,15 @@ Vue.component('credit-note-form',{
       app.rate = null;
       app.payment_condition = null;
       app.chart_account_id = null;
-      app.date = null;
       app.number = null;
       app.code = null;
       app.code_expiry = null;
       app.comment = null;
       app.ref_id = null;
       app.details = [];
-      if (isnew==false) {
-          app.$parent.status=0;
+      if (isnew == false) {
+        app.$parent.status = 0;
       }
-
-
-    },
-    getDocuments: function(data)
-    {
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/get_documents/2/' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.documents=[];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.documents.push({name:data[i]['code'],id:data[i]['id']});
-          }
-
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
     },
     changeDocument: function()
     {
@@ -239,35 +210,6 @@ Vue.component('credit-note-form',{
           app.number=data.current_range + 1;
           app.code=data.code;
           app.code_expiry=data.code_expiry;
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    cancel()
-    {
-      var app=this;
-      app.$parent.status=0;
-    },
-    getCurrencies: function(data)
-    {
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/get_currency' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.currencies=[];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.currencies.push({name:data[i]['name'],id:data[i]['id']});
-          }
-
         },
         error: function(xhr, status, error)
         {
@@ -330,85 +272,24 @@ Vue.component('credit-note-form',{
         }
       }
     },
-    getCharts: function(data)
+    init: function (data)
     {
-      var app=this;
-      $.ajax({
-        url:  '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.charts = [];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.charts.push({name:data[i]['name'],id:data[i]['id']});
-          }
+      var app = this;
+      for (var i = 0; i < app.$parent.currencies.length; i++) {
 
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
+        if (app.$parent.currencies[i].isoCode === app.$parent.taxpayercurrency) {
+          app.currency_id=this.$parent.currencies[i].id;
         }
-      });
-    },
-    getTaxs: function(data)
-    {
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-credit' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.ivas = [];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.ivas.push({name:data[i]['name'],id:data[i]['id']});
-          }
+      }
 
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getAccounts: function(data)
-    {
-      // var app = this;
-      // $.ajax({
-      //     url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
-      //     type: 'get',
-      //     dataType: 'json',
-      //     async: true,
-      //     success: function(data)
-      //     {
-      //         app.accounts = [];
-      //         for(let i = 0; i < data.length; i++)
-      //         {
-      //             app.accounts.push({name:data[i]['name'],id:data[i]['id']});
-      //         }
-      //     },
-      //     error: function(xhr, status, error)
-      //     {
-      //         console.log(xhr.responseText);
-      //     }
-      // });
+
     }
+
   },
 
   mounted: function mounted()
   {
-    //this.init()
-    this.getDocuments();
-    this.getCurrencies();
-    this.getCharts();
-    this.getTaxs();
-    //this.getAccounts();
+    this.init()
+
   }
 });

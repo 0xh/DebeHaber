@@ -32,7 +32,7 @@
                     <div class="col-8">
                         <div class="input-group">
                             <select v-model="document_id" required class="custom-select" v-on:change="changeDocument()">
-                                <option v-for="document in documents" :value="document.id">@{{ document.name }}</option>
+                                <option v-for="document in $parent.documents" :value="document.id">@{{ document.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                     <div class="col-8">
                         <div>
                             <select v-model="chart_account_id" required class="custom-select" id="account_id">
-                                <option v-for="account in accounts" :value="account.id">@{{ account.name }}</option>
+                                <option v-for="account in $parent.accounts" :value="account.id">@{{ account.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                     <div class="col-8">
                         <div class="input-group">
                             <select required v-model="currency_id" class="custom-select" v-on:change="getRate()">
-                                <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }}</option>
+                                <option v-for="currency in $parent.currencies" :value="currency.id">@{{ currency.name }}</option>
                             </select>
                             <input type="text" class="form-control" v-model="rate" />
                         </div>
@@ -167,12 +167,12 @@
                 <div class="row" v-for="detail in details">
                     <div class="col-2">
                         <select required  v-model="detail.chart_id" class="custom-select">
-                            <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
+                            <option v-for="item in $parent.charts" :value="item.id">@{{ item.name }}</option>
                         </select>
                     </div>
                     <div class="col-2">
                         <select required  v-model="detail.chart_vat_id" @change="onPriceChange(detail)" class="custom-select">
-                            <option v-for="iva in ivas" :value="iva.id">@{{ iva.name }}</option>
+                            <option v-for="iva in $parent.vats" :value="iva.id">@{{ iva.name }}</option>
                         </select>
                     </div>
                     <div class="col-2">

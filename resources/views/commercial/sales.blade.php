@@ -7,9 +7,14 @@
 @endsection
 
 @section('form')
+  @php
+  $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
+
+  @endphp
+
     <model :taxpayer="{{ request()->route('taxPayer')->id}}"
-        :cycle="{{ request()->route('cycle')->id }}"
-        url="commercial/get_sales" editurl="/commercial/get_salesByID/" deleteurl="commercial/sales"
+        :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}"
+        baseurl="commercial/sales" 
         inline-template>
         <div>
             <div v-if="status === 1">

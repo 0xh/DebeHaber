@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<purchases-form :trantype ="1" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
+<purchases-form :trantype ="1"  inline-template>
     <div>
         <div class="row">
             <div class="col-6">
@@ -32,7 +32,7 @@
                     <div class="col-8">
                         <div class="input-group">
                             <select v-model="document_id" required class="custom-select" v-on:change="changeDocument()">
-                                <option v-for="document in documents" :value="document.id">@{{ document.name }}</option>
+                                <option v-for="document in $parent.documents" :value="document.id">@{{ document.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                     <div class="col-8">
                         <div>
                             <select v-model="chart_account_id" required class="custom-select" id="account_id">
-                                <option v-for="account in accounts" :value="account.id">@{{ account.name }}</option>
+                                <option v-for="account in $parent.accounts" :value="account.id">@{{ account.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                     <div class="col-8">
                         <div class="input-group">
                             <select required v-model="currency_id" class="custom-select" v-on:change="getRate()">
-                                <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }}</option>
+                                <option v-for="currency in $parent.currencies" :value="currency.id">@{{ currency.name }}</option>
                             </select>
                             <input type="text" class="form-control" v-model="rate" />
                         </div>
@@ -168,12 +168,12 @@
                 <div class="row" v-for="detail in details">
                     <div class="col-2">
                         <select required  v-model="detail.chart_id" class="custom-select">
-                            <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
+                            <option v-for="item in $parent.charts" :value="item.id">@{{ item.name }}</option>
                         </select>
                     </div>
                     <div class="col-2">
                         <select required  v-model="detail.chart_vat_id" @change="onPriceChange(detail)" class="custom-select">
-                            <option v-for="vat in vats" :value="vat.id">@{{ vat.name }}</option>
+                            <option v-for="vat in $parent.vats" :value="vat.id">@{{ vat.name }}</option>
                         </select>
                     </div>
                     <div class="col-2">
@@ -231,7 +231,7 @@
         <button v-on:click="onSave($data,true,'')" class="btn btn-primary">
             @lang('global.Save-and-New')
         </button>
-        <button v-on:click="cancel()" class="btn btn-default">
+        <button v-on:click="$parent.cancel()" class="btn btn-default">
             @lang('global.Cancel')
         </button>
     </div>

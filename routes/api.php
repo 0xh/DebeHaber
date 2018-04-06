@@ -66,20 +66,20 @@ Route::group(['middleware' => 'auth:api'], function ()
 
       Route::prefix('commercial')->group(function ()
       {
-        Route::get('get_sales/{skip}', 'SalesController@get_sales');
+        Route::get('sales/{skip}', 'SalesController@get_sales');
         Route::get('get_last_sale/{partnerID}', 'SalesController@getLastSale');
-        Route::get('get_salesByID/{id}', 'SalesController@get_salesByID');
+        Route::get('sales/ByID/{id}', 'SalesController@get_salesByID');
         Route::get('get_lastDate', 'SalesController@get_lastDate');
 
-        Route::get('get_purchases/{skip}', 'PurchaseController@get_purchases');
+        Route::get('purchases/{skip}', 'PurchaseController@get_purchases');
         Route::get('get_last_purchase', 'PurchaseController@getLastPurchase');
-        Route::get('get_purchasesByID/{id}', 'PurchaseController@get_purchasesByID');
+        Route::get('purchases/ByID/{id}', 'PurchaseController@get_purchasesByID');
 
-        Route::get('get_credit_notes/{skip}', 'CreditNoteController@get_credit_note');
-        Route::get('get_credit_noteByID/{id}', 'CreditNoteController@get_credit_noteByID');
+        Route::get('credit_notes/{skip}', 'CreditNoteController@get_credit_note');
+        Route::get('credit_notes/ByID/{id}', 'CreditNoteController@get_credit_noteByID');
 
-        Route::get('get_debit_notes/{skip}', 'DebitNoteController@get_debit_note');
-        Route::get('get_debit_noteByID/{id}', 'DebitNoteController@get_debit_noteByID');
+        Route::get('debit_notes/{skip}', 'DebitNoteController@get_debit_note');
+        Route::get('debit_notes/ByID/{id}', 'DebitNoteController@get_debit_noteByID');
 
         Route::get('get_account_receivables/{skip}', 'AccountReceivableController@get_account_receivable');
         Route::get('get_account_receivableByID/{id}', 'AccountReceivableController@get_account_receivableByID');

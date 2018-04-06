@@ -7,7 +7,7 @@ Vue.component('sales-form', {
         MaskedInput
     },
 
-    props: ['taxpayer', 'trantype', 'cycle', 'taxpayerCurrency'],
+    props: [ 'trantype'],
     data() {
         return {
             id:0,
@@ -34,12 +34,8 @@ Vue.component('sales-form', {
                 //     vat
                 //     taxExempt
                 //     taxable
-            ],
-            documents:[],
-            accounts:[],
-            currencies:[],
-            charts:[],
-            vats:[]
+            ]
+
         }
     },
 
@@ -112,6 +108,53 @@ Vue.component('sales-form', {
             let index = this.details.indexOf(detail)
             this.details.splice(index, 1)
         },
+        onEdit: function(data)
+        {
+
+          var app = this;
+          app.id = data.id;
+          app.type = data.type;
+          app.customer_id = data.customer_id;
+          app.supplier_id = data.supplier_id;
+          app.document_id = data.document_id;
+          app.currency_id = data.currency_id;
+          app.rate = data.rate;
+          app.payment_condition = data.payment_condition;
+          app.chart_account_id = data.chart_account_id;
+          app.date = data.date;
+          app.number = data.number;
+          app.code = data.code;
+          app.code_expiry = data.code_expiry;
+          app.comment = data.comment;
+          app.ref_id = data.ref_id;
+          app.details = data.details;
+          app.selectText = data.customer;
+          app.id = data.customer_id;
+          app.status = 1;
+        },
+
+        onReset: function(isnew)
+        {
+          var app = this;
+          app.id = 0;
+          app.type = null;
+          app.customer_id = null;
+          app.supplier_id = null;
+          app.document_id = null;
+          app.currency_id = null;
+          app.rate = null;
+          app.payment_condition = null;
+          app.chart_account_id = null;
+          app.number = null;
+          app.code = null;
+          app.code_expiry = null;
+          app.comment = null;
+          app.ref_id = null;
+          app.details = [];
+          if (isnew == false) {
+            app.$parent.status = 0;
+          }
+        },
 
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
@@ -135,7 +178,7 @@ Vue.component('sales-form', {
                     console.log(data);
                     if (data == 'ok')
                     {
-                        app.onReset(isnew);
+                        app.$parent.onReset(isnew);
                     }
                     else
                     {
@@ -148,82 +191,16 @@ Vue.component('sales-form', {
                 }
             });
         },
-        onEdit: function(data)
-        {
-            console.log(data)
-            var app = this;
-            app.id = data.id;
-            app.type = data.type;
-            app.customer_id = data.customer_id;
-            app.supplier_id = data.supplier_id;
-            app.document_id = data.document_id;
-            app.currency_id = data.currency_id;
-            app.rate = data.rate;
-            app.payment_condition = data.payment_condition;
-            app.chart_account_id = data.chart_account_id;
-            app.date = data.date;
-            app.number = data.number;
-            app.code = data.code;
-            app.code_expiry = data.code_expiry;
-            app.comment = data.comment;
-            app.ref_id = data.ref_id;
-            app.details = data.details;
-            app.$children[0].selectText = data.customer;
-            app.$children[0].id = data.customer_id;
-        },
-        onReset: function(isnew)
-        {
-            var app = this;
-            app.id = 0;
-            app.type = null;
-            app.customer_id = null;
-            app.supplier_id = null;
-            app.document_id = null;
-            app.currency_id = null;
-            app.rate = null;
-            app.payment_condition = null;
-            app.chart_account_id = null;
-            app.number = null;
-            app.code = null;
-            app.code_expiry = null;
-            app.comment = null;
-            app.ref_id = null;
-            app.details = [];
-            if (isnew == false) {
-                app.$parent.status = 0;
-            }
-        },
 
-        getDocuments: function(data)
-        {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/get_documents/1/',
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.documents = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.documents.push({name:data[i]['code'],id:data[i]['id']});
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
-        },
+
+
 
         changeDocument: function()
         {
             var app = this;
 
             $.ajax({
-                url: '/api/' + this.taxpayer + '/get_documentByID/' + app.document_id   ,
+                url: '/api/' + this.$parent.taxpayer + '/get_documentByID/' + app.document_id   ,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
@@ -241,45 +218,14 @@ Vue.component('sales-form', {
             });
         },
 
-        cancel()
-        {
-            var app = this;
-            app.$parent.status = 0;
-        },
 
-        getCurrencies: function(data)
-        {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/get_currency' ,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.currencies = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
-                        if (data[i]['code'] == this.taxpayerCurrency)
-                        {
-                            app.currency_id = data[i]['id'];
-                        }
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
-        },
+
 
         getRate: function()
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date,
+                url: '/api/' + this.$parent.taxpayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
@@ -295,61 +241,7 @@ Vue.component('sales-form', {
             });
         },
 
-        //Get Cost Centers
-        getCharts: function(data)
-        {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.charts = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.charts.push({ name : data[i]['name'], id : data[i]['id'] });
-                    }
 
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
-        },
-
-        //VAT
-        getTaxes: function(data)
-        {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit' ,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.vats = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.vats.push({
-                            name:data[i]['name'],
-                            id:data[i]['id'],
-                            coefficient:data[i]['coefficient']
-                        });
-                    }
-
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
-        },
 
         onPriceChange: function(detail)
         {
@@ -376,61 +268,26 @@ Vue.component('sales-form', {
             }
         },
         //Get Money Accounts
-        getAccounts: function(data)
-        {
-            var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts' ,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.accounts = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.accounts.push({name:data[i]['name'],id:data[i]['id']});
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
-        },
+
 
         init: function (data)
         {
             var app = this;
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/get_lastDate' ,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    if (app.date == null)
-                    {
-                        app.date = data;
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
+            for (var i = 0; i < app.$parent.currencies.length; i++) {
+
+                if (app.$parent.currencies[i].isoCode === app.$parent.taxpayercurrency) {
+                    app.currency_id=this.$parent.currencies[i].id;
                 }
-            });
+            }
+
+
         }
     },
 
     mounted: function mounted()
     {
+
         this.init();
-        this.getDocuments();
-        this.getCurrencies();
-        this.getCharts();
-        this.getTaxes();
-        this.getAccounts();
+
     }
 });
