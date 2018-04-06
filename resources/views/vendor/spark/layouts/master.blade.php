@@ -97,11 +97,13 @@
                     <!-- END: Subheader -->
 
                     @hasSection('stats')
-                        <div class="m-portlet">
-                            <div class="m-portlet__body  m-portlet__body--no-padding">
-                                @yield('stats')
+                        <model inline-template>
+                            <div class="m-portlet">
+                                <div class="m-portlet__body  m-portlet__body--no-padding">
+                                    @yield('stats')
+                                </div>
                             </div>
-                        </div>
+                        </model>
                     @endif
 
                     @yield('layout')
