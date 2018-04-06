@@ -110,7 +110,7 @@ Vue.component('sales-form', {
         },
         onEdit: function(data)
         {
-
+            console.log(data);
           var app = this;
           app.id = data.id;
           app.type = data.type;
@@ -130,7 +130,7 @@ Vue.component('sales-form', {
           app.details = data.details;
           app.selectText = data.customer;
           app.id = data.customer_id;
-          app.status = 1;
+          app.$parent.$parent.isList = false;
         },
 
         onReset: function(isnew)
@@ -152,7 +152,7 @@ Vue.component('sales-form', {
           app.ref_id = null;
           app.details = [];
           if (isnew == false) {
-            app.$parent.status = 0;
+            app.$parent.$parent.isList = false;
           }
         },
 

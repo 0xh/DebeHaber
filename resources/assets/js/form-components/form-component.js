@@ -88,7 +88,7 @@ Vue.component('form-view',
         success: function(data)
         {
           // console.log(data);
-          //console.log(app.$children[0].$parent);
+        //  console.log(app.$children[0]);
           app.$children[0].onEdit(data[0]);
         },
         error: function(xhr, status, error)
@@ -282,7 +282,7 @@ Vue.component('form-view',
   mounted: function mounted()
   {
 
-    console.log(this.$parent);
+
     this.getDocuments();
     this.getCurrencies();
     this.getCharts();
