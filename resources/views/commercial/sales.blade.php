@@ -7,13 +7,20 @@
         <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="m-nav-grid m-nav-grid--skin-light">
                 <div class="m-nav-grid__row">
-                    <a @click="onCreate()" href="#" class="m-nav-grid__item padding-40-5">
+                    <div class="m-nav-grid__item">
                         <img src="/img/icons/sales.svg" alt="" width="64">
-                        <h3>@lang('global.Create', ['model' => __('commercial.Sales')])</h3>
+                        {{-- <h3>@lang('commercial.SalesBook')</h3> --}}
                         <span class="m-nav-grid__text">
-                            <small>Click Aqui</small>
+                            <button @click="onCreate()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">
+                                <span>
+                                    <i class="la la-plus"></i>
+                                    <span>
+                                        @lang('global.Create', ['model' => __('commercial.Sales')])
+                                    </span>
+                                </span>
+                            </button>
                         </span>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>

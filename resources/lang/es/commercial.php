@@ -13,8 +13,9 @@ return [
     |
     */
 
-    'Sales' => 'Ventas',
+    'Sales' => 'Venta | Ventas',
     'Purchases' => 'Compras',
+    'Purchase' => 'Compra',
     'SalesBook' => 'Libro Ventas',
     'AccountsRecievable' => 'Cuentas por Cobrar',
     'CreditNotes' => 'Notas de Créditos',

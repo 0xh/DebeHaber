@@ -14,6 +14,7 @@ return [
     */
     'Sales' => 'Sales',
     'Purchases' => 'Purchases',
+    'Purchase' => 'Purchase',
     'SalesBook' => 'Sales Book',
     'AccountsReceivable' => 'Accounts Receivable',
     'CreditNotes' => 'Credit Notes',

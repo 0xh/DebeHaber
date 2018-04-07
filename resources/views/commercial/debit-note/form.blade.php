@@ -44,7 +44,7 @@
                     <div class="col-8">
                         <div class="row">
                             <div class="col-5">
-                            <masked-input mask="111-1111111" placeholder="Number"  v-model="number" />
+                                <masked-input mask="111-1111111" placeholder="Number"  v-model="number" />
                             </div>
                             <div class="col-7">
                                 <input type="date" class="form-control m-input" v-model="code_expiry"/>

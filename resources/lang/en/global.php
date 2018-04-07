@@ -29,7 +29,7 @@ return [
     'Code' => 'Code',
     'Alias' => 'Alias',
     'New' => 'New',
-    'Create' => 'Create :model',
+    'Create' => 'Create a :model',
     'Save' => 'Save',
     'Save-and-New' => 'Save and create new',
     'Cancel' => 'Cancel',
@@ -49,7 +49,7 @@ return [
     'Total' => 'Total',
     'Actions' => 'Actions',
     'Comment' => 'Comment',
-    'NoResults' => 'No :model found. How about creating one?',
+    'NoResults' => 'No records found. How about creating one?',
     'NoData' => 'You have reached the bottom of the barrel! This is all we have.',
 
     'Support' => 'Support',

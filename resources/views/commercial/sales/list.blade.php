@@ -46,8 +46,5 @@
                 </div>
             </div>
         </div>
-        <infinite-loading force-use-infinite-wrapper="true" @infinite="infiniteHandler">
-            <span slot="no-more">@lang('global.NoMore', ['model' => __('commercial.Sales')])</span>
-            <span slot="no-results">@lang('global.NoResults', ['model' => __('commercial.Sales')])</span>
-        </infinite-loading>
+        @include('layouts/infinity-loading')
     </div>
