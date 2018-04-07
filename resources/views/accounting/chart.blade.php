@@ -76,11 +76,11 @@
 
     <form-view :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}" baseurl="accounting/chart/charts" inline-template>
         <div>
-            <div v-if="status === 1">
-                @include('accounting/chart/form')
+            <div v-if="$parent.showList">
+                @include('accounting/chart/list')
             </div>
             <div v-else>
-                @include('accounting/chart/list')
+                @include('accounting/chart/form')
             </div>
         </div>
     </model>

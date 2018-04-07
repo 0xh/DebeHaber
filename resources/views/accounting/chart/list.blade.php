@@ -21,7 +21,7 @@
     </div>
 
     <div class="row m--margin-5" v-for="data in list">
-        <div class="col-2 m--align-right">
+        <div class="col-2 m--align-left">
             <span v-if="data.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
                 <b>@{{ data.code }}</b>
             </span>

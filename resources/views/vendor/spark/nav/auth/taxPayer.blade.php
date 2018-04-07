@@ -1,6 +1,6 @@
 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
     <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
-        <li class="m-menu__item  m-menu__item--active  m-menu__item--submenu m-menu__item--rel"  data-menu-submenu-toggle="click" aria-haspopup="true">
+        <li class="m-menu__item @if (\Request::is('*/commercial/*')) m-menu__item--active @endif m-menu__item--submenu m-menu__item--rel"  data-menu-submenu-toggle="click" aria-haspopup="true">
             <a href="#" class="m-menu__link m-menu__toggle">
                 <span class="m-menu__item-here"></span>
                 <i class="m-menu__link-icon la la-briefcase"></i>
@@ -109,7 +109,7 @@
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a href="{{ route('debit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-mail-reply"></i>
+                                        <i class="m-menu__link-icon la la-mail-forward"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.DebitNotes')
                                         </span>
@@ -218,7 +218,7 @@
                 </div>
             </div>
         </li>
-        <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel" data-menu-submenu-toggle="click" data-redirect="true" aria-haspopup="true">
+        <li class="m-menu__item @if (\Request::is('*/accounting/*')) m-menu__item--active @endif m-menu__item--submenu m-menu__item--rel" data-menu-submenu-toggle="click" aria-haspopup="true">
             <a  href="#" class="m-menu__link m-menu__toggle">
                 <span class="m-menu__item-here"></span>
                 <i class="m-menu__link-icon la la-calculator"></i>
@@ -242,7 +242,7 @@
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a  href="{{ route('journals.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-list"></i>
+                                        <i class="m-menu__link-icon la la-book"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.Journal')
                                         </span>
@@ -360,7 +360,7 @@
                 </div>
             </div>
         </li>
-        <li class="m-menu__item"  data-redirect="true" aria-haspopup="true">
+        <li class="m-menu__item @if (\Request::is('*/reports/')) m-menu__item--active @endif"  data-redirect="true" aria-haspopup="true">
             <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                 <i class="m-menu__link-icon la la-pie-chart"></i>
                 <span class="m-menu__link-text">

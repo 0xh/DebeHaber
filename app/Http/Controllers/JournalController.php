@@ -150,20 +150,20 @@ class JournalController extends Controller
     public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         //Get startOf and endOf to cover entire week of range.
-        $currentDate = Carbon::parse($startDate)->startOfWeek();
-        $endDate = Carbon::parse($endDate)->endOfWeek();
+        $currentDate = Carbon::parse($startDate)->startOfMonth();
+        $endDate = Carbon::parse($endDate)->endOfMonth();
 
         //Number of weeks helps with the for loop
-        $numberOfWeeks = $currentDate->diffInWeeks($endDate);
+        $numberOfWeeks = $currentDate->diffInMonths($endDate);
 
         for ($x = 0; $x <= $numberOfWeeks; $x++)
         {
             //Get current date start of and end of week to run the query.
-            $weekStartDate = Carbon::parse($currentDate->startOfWeek());
-            $weekEndDate = Carbon::parse($currentDate->endOfWeek());
+            $monthStartDate = Carbon::parse($currentDate->startOfMonth());
+            $monthEndDate = Carbon::parse($currentDate->endOfMonth());
 
             //Do not get items that already have current status "Accounted" or "Finalized"
-            $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
+            $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
             ->with('details')
             ->where('supplier_id', $taxPayer->id)
             ->whereIn('type', [4, 5])
@@ -175,7 +175,7 @@ class JournalController extends Controller
                 $sales = collect($groupedTransactions->where('type', 4)) ?? null;
                 if ($sales->count() > 0)
                 {
-                    $comment = __('accounting.SalesBookComment', ['startDate' => $weekStartDate->toDateString(), 'endDate' => $weekEndDate->toDateString()]);
+                    $comment = __('accounting.SalesBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
                     $this->generate_fromSales($taxPayer, $cycle, $sales, $comment);
                 }
 
@@ -184,7 +184,7 @@ class JournalController extends Controller
             }
 
 
-            $transactions = Transaction::whereBetween('date', [$weekStartDate, $weekEndDate])
+            $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
             ->with('details')
             ->where('customer_id', $taxPayer->id)
             ->whereIn('type', [1, 2, 3])
@@ -196,7 +196,7 @@ class JournalController extends Controller
                 $purchases = collect($groupedTransactions->whereIn('type', [1, 2])) ?? null;
                 if ($purchases->count() > 0)
                 {
-                    $comment = __('accounting.PurchaseBookComment', ['startDate' => $weekStartDate->toDateString(), 'endDate' => $weekEndDate->toDateString()]);
+                    $comment = __('accounting.PurchaseBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
                     $this->generate_fromPurchases($taxPayer, $cycle, $purchases, $comment);
                 }
 
@@ -204,7 +204,7 @@ class JournalController extends Controller
                 $this->generate_fromDebitNotes();
             }
 
-            $currentDate = $currentDate->addWeeks(1);
+            $currentDate = $currentDate->addMonths(1);
         }
 
         return back();
