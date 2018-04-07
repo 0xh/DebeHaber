@@ -1,31 +1,87 @@
-{{-- <div class="col-10">
-<div class="form-group m-form__group row">
-<label for="example-text-input" class="col-4 col-form-label">
-@lang('accounting.ChartVersion')
-</label>
-<div class="col-8">
-{{ request()->route('taxPayer')->country . ' ' . request()->route('cycle')->chartVersion->name }}
-</div>
-</div>
-</div> --}}
 
 @extends('spark::layouts.form')
 
 @section('title',  __('accounting.ChartofAccounts'))
 
-@section('form')
+@section('stats')
+    <div v-if="showList" class="row m-row--no-padding m-row--col-separator-xl">
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <div class="m-nav-grid m-nav-grid--skin-light">
+                <div class="m-nav-grid__row">
+                    <div class="m-nav-grid__item">
+                        <img src="/img/icons/chart-of-accounts.svg" alt="" width="64">
+                        {{-- <h3>@lang('commercial.SalesBook')</h3> --}}
+                        <span class="m-nav-grid__text">
+                            <button @click="onCreate()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">
+                                <span>
+                                    <i class="la la-plus"></i>
+                                    <span>
+                                        @lang('global.Create', ['model' => __('commercial.Account')])
+                                    </span>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <div class="m-widget24">
+                <div class="m-widget24__item">
 
-    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}"
-      :cycle="{{ request()->route('cycle')->id }}"
-      baseurl="accounting/chart/charts"
-      inline-template>
-      <div>
-          <div v-if="status === 1">
-              @include('accounting/chart/form')
-          </div>
-          <div v-else>
-             @include('accounting/chart/list')
-          </div>
-      </div>
-  </model>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <!--begin::New Feedbacks-->
+            <div class="m-widget24">
+                <div class="m-widget24__item">
+
+                </div>
+            </div>
+            <!--end::New Feedbacks-->
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <div class="container">
+                <ul class="m-nav">
+                    <li class="m-nav__section">
+                        <span class="m-nav__section-text">
+                        </span>
+                    </li>
+                    <li class="m-nav__item">
+                        <i class="m-nav__link-icon la la-paper-plane-o"></i>
+                        <span class="m-nav__link-text">@lang('commercial.SalesBook')</span>
+                    </li>
+                    <li class="m-nav__item">
+                        <i class="m-nav__link-icon la la-shopping-cart"></i>
+                        <span class="m-nav__link-text">Libro IVA Compras</span>
+                    </li>
+                    <li class="m-nav__item">
+                        <i class="m-nav__link-icon la la-book"></i>
+                        <span class="m-nav__link-text">Libro Mayor</span>
+                    </li>
+                    <li class="m-nav__item">
+                        <i class="m-nav__link-icon la la-cloud-download"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('form')
+    @php
+    $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
+    @endphp
+
+    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}" baseurl="accounting/chart/charts" inline-template>
+        <div>
+            <div v-if="status === 1">
+                @include('accounting/chart/form')
+            </div>
+            <div v-else>
+                @include('accounting/chart/list')
+            </div>
+        </div>
+    </model>
 @endsection

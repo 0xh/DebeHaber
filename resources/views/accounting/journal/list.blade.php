@@ -1,34 +1,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div>
-    <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
-        <div class="row align-items-center">
-            <div class="col-xl-8 order-2 order-xl-1">
-                <div class="form-group m-form__group row align-items-center">
-                    <div class="col-md-4">
-                        <div class="m-input-icon m-input-icon--left">
-                            <input type="text" class="form-control m-input" placeholder="Search..." v-model="search">
-                            <span class="m-input-icon__icon m-input-icon__icon--left">
-                                <span><i class="la la-search"></i></span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                <a href="#" class="btn btn-brand m-btn m-btn--custom m-btn--icon m-btn--air">
-                    <span>
-                        <i class="la la-cart-plus"></i>
-                        <span>
-                            <router-view name="create" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" ></router-view>
-                        </span>
-                    </span>
-                </a>
-                <div class="m-separator m-separator--dashed d-xl-none"></div>
-            </div>
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-8">
             <p class="m--font-boldest m--font-transform-u">@lang('accounting.ChartofAccounts')</p>
@@ -47,12 +19,12 @@
                 <p> @{{ journal.id }} | @{{ journal.date }} </p>
             </div>
 
-            <div class="col-2">
+            <div class="col-1">
                 <p> @{{ journal.number }} </p>
             </div>
 
-            <div class="col-6">
-                <p> @{{ journal.comment }} </p>
+            <div class="col-7">
+                <p class="m--font-bolder"> @{{ journal.comment }} </p>
             </div>
 
             <div class="col-2">
@@ -69,11 +41,11 @@
                 {{-- /* <em>@{{ detail }}</em> */ --}}
             </div>
             <div class="col-2 m--align-right">
-                <p v-if="detail.credit > 0" class="m--font-bolder "> @{{ detail.credit }} </p>
+                <p v-if="detail.credit > 0" class="m--font-bold "> @{{ detail.credit }} </p>
                 <p v-else > 0 </p>
             </div>
             <div class="col-2 m--align-right">
-                <p v-if="detail.debit > 0" class="m--font-bolder "> @{{ detail.debit }} </p>
+                <p v-if="detail.debit > 0" class="m--font-bold "> @{{ detail.debit }} </p>
                 <p v-else > 0 </p>
             </div>
         </div>
