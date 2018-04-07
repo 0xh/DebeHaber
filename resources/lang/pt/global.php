@@ -29,7 +29,7 @@ return [
     'Code' => 'Código',
     'Alias' => 'Alias',
     'New' => 'Novo',
-    'Create' => 'Criar',
+    'Create' => 'Criar :model',
     'Save' => 'Salvar',
     'Save-and-New' => 'Salvar e carregar outro',
     'Cancel' => 'Cancelar',

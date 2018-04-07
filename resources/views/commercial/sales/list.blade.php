@@ -23,7 +23,7 @@
                 <p> @{{ invoice.Date }} </p>
             </div>
             <div class="col-5">
-                <p> <span class="m--font-bold">@{{ invoice.Customer }}</span> |  <em>@{{ invoice.CustomerTaxID }}</em> </p>
+                <p> <span class="m--font-bold">@{{ invoice.Customer }}</span> | <em>@{{ invoice.CustomerTaxID }}</em> </p>
             </div>
             <div class="col-2">
                 <p>

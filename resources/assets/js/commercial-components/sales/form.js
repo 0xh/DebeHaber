@@ -7,7 +7,7 @@ Vue.component('sales-form', {
         MaskedInput
     },
 
-    props: [ 'trantype'],
+    props: ['trantype'],
     data() {
         return {
             id:0,

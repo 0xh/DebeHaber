@@ -63,7 +63,7 @@
                             <div class="m-widget4">
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/ventas.svg" alt="">
+                                        <img src="/img/icons/sales.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/ventas.svg" alt="">
+                                        <img src="/img/icons/sales.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/ventas.svg" alt="">
+                                        <img src="/img/icons/sales.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -158,7 +158,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/ventas.svg" alt="">
+                                        <img src="/img/icons/sales.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">

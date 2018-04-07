@@ -11,7 +11,7 @@
 
     <style>
 
-    @import url('https://fonts.googleapis.com/css?family=OpenSans');
+    /* @import url('https://fonts.googleapis.com/css?family=OpenSans'); */
 
     body
     {

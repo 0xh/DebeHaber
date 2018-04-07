@@ -96,19 +96,21 @@
                     </div>
                     <!-- END: Subheader -->
 
-                    {{-- <model inline-template> --}}
-                    <div>
-                        @hasSection('stats')
-                            <div class="m-portlet">
-                                <div class="m-portlet__body  m-portlet__body--no-padding">
-                                    @yield('stats')
-                                </div>
-                            </div>
-                        @endif
+                    {{-- <home :user="user" inline-template> --}}
+                        <model :user="user" inline-template>
+                            <div>
+                                @hasSection('stats')
+                                    <div class="m-portlet">
+                                        <div class="m-portlet__body  m-portlet__body--no-padding">
+                                            @yield('stats')
+                                        </div>
+                                    </div>
+                                @endif
 
-                        @yield('layout')
-                    </div>
-                    {{-- </model> --}}
+                                @yield('layout')
+                            </div>
+                        </model>
+                    {{-- </home> --}}
 
                     @if (Auth::check())
                         @include('spark::modals.notifications')

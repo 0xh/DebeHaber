@@ -23,7 +23,7 @@
                 <div class="m-widget24__item">
                     @if ($totalSales > 0)
                         <h4 class="m-widget24__title">
-                            <img src="/img/icons/ventas.svg" alt="" width="32"> @lang('commercial.SalesBook')
+                            <img src="/img/icons/sales.svg" alt="" width="32"> @lang('commercial.SalesBook')
                         </h4>
 
                         <br>
@@ -47,7 +47,7 @@
                         <div class="m-nav-grid m-nav-grid--skin-light">
                             <div class="m-nav-grid__row background-sales">
                                 <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
-                                    <img src="/img/icons/ventas.svg" alt="" width="64">
+                                    <img src="/img/icons/sales.svg" alt="" width="64">
                                     <span class="m-nav-grid__text">
                                         <p class="lead">
                                             Faltan cargar Ventas

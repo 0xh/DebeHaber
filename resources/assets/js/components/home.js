@@ -1,7 +1,7 @@
-Vue.component('home', {
-    props: ['user'],
-
-    mounted() {
-        //
-    }
-});
+// Vue.component('home', {
+//     props: ['user'],
+//
+//     mounted() {
+//         //
+//     }
+// });

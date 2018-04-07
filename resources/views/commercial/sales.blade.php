@@ -7,11 +7,10 @@
         <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="m-nav-grid m-nav-grid--skin-light">
                 <div class="m-nav-grid__row">
-                    <a @click="" class="m-nav-grid__item padding-40-5">
-                        <img src="/img/icons/generate.svg" alt="" width="64">
+                    <a @click="onCreate()" href="#" class="m-nav-grid__item padding-40-5">
+                        <img src="/img/icons/sales.svg" alt="" width="64">
+                        <h3>@lang('global.Create', ['model' => __('commercial.Sales')])</h3>
                         <span class="m-nav-grid__text">
-                            @lang('global.Create')
-                            <br>
                             <small>Click Aqui</small>
                         </span>
                     </a>
@@ -43,7 +42,7 @@
                     </li>
                     <li class="m-nav__item">
                         <i class="m-nav__link-icon la la-paper-plane-o"></i>
-                        <span class="m-nav__link-text">@lang('commercial.PurchaseBook')</span>
+                        <span class="m-nav__link-text">@lang('commercial.SalesBook')</span>
                     </li>
                     <li class="m-nav__item">
                         <i class="m-nav__link-icon la la-shopping-cart"></i>
@@ -67,17 +66,14 @@
     @php
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
-    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}"
-        :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}"
-        baseurl="commercial/sales"
-        inline-template>
+    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}" baseurl="commercial/sales" inline-template>
         <div>
-            <div v-if="$parent.$parent.showList">
+            <div v-if="$parent.showList">
                 @include('commercial/sales/list')
             </div>
             <div v-else>
                 @include('commercial/sales/form')
             </div>
         </div>
-    </model>
+    </form-view>
 @endsection

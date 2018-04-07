@@ -69,14 +69,10 @@ Vue.component('form-view',
             });
         },
 
-        created() {
-
-        },
-
         onEdit: function(data)
         {
             var app = this;
-            app.status = 1;
+            app.$parent.showList = false;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/ByID/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -269,7 +265,7 @@ Vue.component('form-view',
         cancel()
         {
             var app = this;
-            app.status = 0;
+            app.$parent.showList = true;
         }
     },
     mounted: function mounted()
