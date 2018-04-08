@@ -20,15 +20,16 @@ require('./components/bootstrap');
 import VueRouter from 'vue-router';
 import SearchBox from './components/searchbox.vue';
 import SearchBoxAccount from './components/searchboxaccount.vue';
-import create from './components/create.vue';
-import List from './components/table.vue';
 import Vue from 'vue';
+
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/es';
+
 import Vuex from 'vuex';
 import vuexI18n from 'vuex-i18n';
 import Locales from './vue-i18n-locales.generated.js';
+
 import Bars from 'vuebars'
 import Trend from 'vuetrend';
 
@@ -41,17 +42,11 @@ Vue.use(ElementUI, {locale});
 
 //Vue.config.productionTip = true
 
-Vue.i18n.add('en', Locales.en);
-Vue.i18n.add('de', Locales.de);
+// Vue.i18n.add('en', Locales.en);
+// Vue.i18n.add('de', Locales.de);
 
 // set the start locale to use
 Vue.i18n.set(Spark.locale);
-
-// Vue.config.devtools = false
-// Vue.config.debug = false
-// Vue.config.silent = true
-
-require('./components/bootstrap');
 
 window.Vue = require('vue');
 window.Vue.use(VueRouter);
@@ -78,7 +73,6 @@ const routes = [
         components: {
             SearchBox : SearchBox,
             SearchBoxAccount : SearchBoxAccount,
-            List : List
         }
     },
 ]

@@ -146,7 +146,7 @@
                             <div role="tabcard" class="tab-pane" id="api">
                                 @include('spark::settings.api')
                             </div>
-                            
+
                             <div role="tabcard" class="tab-pane" id="dev">
                                 @include('vendor/spark/settings/dev/dev')
                             </div>
