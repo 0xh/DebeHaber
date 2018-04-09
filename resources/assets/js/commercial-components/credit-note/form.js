@@ -5,7 +5,7 @@ Vue.component('credit-note-form',{
   components: {
     MaskedInput
   },
-  props: ['taxpayer','trantype','cycle'],
+  props: ['taxpayer', 'trantype', 'cycle'],
   data() {
     return {
       id:0,
