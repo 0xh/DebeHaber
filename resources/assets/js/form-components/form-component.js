@@ -82,6 +82,12 @@ Vue.component('form-view',
                 success: function(data)
                 {
                     app.$children[0].onEdit(data[0]);
+                    
+                    this.getDocuments();
+                    this.getCurrencies();
+                    this.getCharts();
+                    this.getTaxes();
+                    this.getAccounts();
                 },
                 error: function(xhr, status, error)
                 {
@@ -267,13 +273,5 @@ Vue.component('form-view',
             var app = this;
             app.$parent.showList = true;
         }
-    },
-    mounted: function mounted()
-    {
-        this.getDocuments();
-        this.getCurrencies();
-        this.getCharts();
-        this.getTaxes();
-        this.getAccounts();
     }
 });
