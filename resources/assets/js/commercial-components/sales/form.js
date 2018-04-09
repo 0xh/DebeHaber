@@ -99,7 +99,7 @@ Vue.component('sales-form', {
     methods: {
         addDetail: function()
         {
-            this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0,vat:0,taxExempt:0,taxable:0 })
+            this.details.push({ id:0, value:0, chart_vat_id:1, chart_id:0, vat:0, taxExempt:0, taxable:0 })
         },
 
         //Removes Detail. Make sure it removes the correct detail, and not in randome.
@@ -110,50 +110,49 @@ Vue.component('sales-form', {
         },
         onEdit: function(data)
         {
-            console.log(data);
-          var app = this;
-          app.id = data.id;
-          app.type = data.type;
-          app.customer_id = data.customer_id;
-          app.supplier_id = data.supplier_id;
-          app.document_id = data.document_id;
-          app.currency_id = data.currency_id;
-          app.rate = data.rate;
-          app.payment_condition = data.payment_condition;
-          app.chart_account_id = data.chart_account_id;
-          app.date = data.date;
-          app.number = data.number;
-          app.code = data.code;
-          app.code_expiry = data.code_expiry;
-          app.comment = data.comment;
-          app.ref_id = data.ref_id;
-          app.details = data.details;
-          app.selectText = data.customer;
-          app.id = data.customer_id;
-          app.$parent.$parent.isList = false;
+            var app = this;
+            app.id = data.id;
+            app.type = data.type;
+            app.customer_id = data.customer_id;
+            app.supplier_id = data.supplier_id;
+            app.document_id = data.document_id;
+            app.currency_id = data.currency_id;
+            app.rate = data.rate;
+            app.payment_condition = data.payment_condition;
+            app.chart_account_id = data.chart_account_id;
+            app.date = data.date;
+            app.number = data.number;
+            app.code = data.code;
+            app.code_expiry = data.code_expiry;
+            app.comment = data.comment;
+            app.ref_id = data.ref_id;
+            app.details = data.details;
+            app.selectText = data.customer;
+            app.id = data.customer_id;
+            app.$parent.$parent.isList = false;
         },
 
         onReset: function(isnew)
         {
-          var app = this;
-          app.id = 0;
-          app.type = null;
-          app.customer_id = null;
-          app.supplier_id = null;
-          app.document_id = null;
-          app.currency_id = null;
-          app.rate = null;
-          app.payment_condition = null;
-          app.chart_account_id = null;
-          app.number = null;
-          app.code = null;
-          app.code_expiry = null;
-          app.comment = null;
-          app.ref_id = null;
-          app.details = [];
-          if (isnew == false) {
-            app.$parent.$parent.isList = false;
-          }
+            var app = this;
+            app.id = 0;
+            app.type = null;
+            app.customer_id = null;
+            app.supplier_id = null;
+            app.document_id = null;
+            app.currency_id = null;
+            app.rate = null;
+            app.payment_condition = null;
+            app.chart_account_id = null;
+            app.number = null;
+            app.code = null;
+            app.code_expiry = null;
+            app.comment = null;
+            app.ref_id = null;
+            app.details = [];
+            if (isnew == false) {
+                app.$parent.$parent.isList = false;
+            }
         },
 
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
@@ -192,9 +191,6 @@ Vue.component('sales-form', {
             });
         },
 
-
-
-
         changeDocument: function()
         {
             var app = this;
@@ -218,9 +214,6 @@ Vue.component('sales-form', {
             });
         },
 
-
-
-
         getRate: function()
         {
             var app = this;
@@ -240,8 +233,6 @@ Vue.component('sales-form', {
                 }
             });
         },
-
-
 
         onPriceChange: function(detail)
         {
@@ -269,25 +260,21 @@ Vue.component('sales-form', {
         },
         //Get Money Accounts
 
-
         init: function (data)
         {
             var app = this;
-            for (var i = 0; i < app.$parent.currencies.length; i++) {
-
-                if (app.$parent.currencies[i].isoCode === app.$parent.taxpayercurrency) {
+            for (var i = 0; i < app.$parent.currencies.length; i++)
+            {
+                if (app.$parent.currencies[i].isoCode === app.$parent.taxpayercurrency)
+                {
                     app.currency_id=this.$parent.currencies[i].id;
                 }
             }
-
-
         }
     },
 
     mounted: function mounted()
     {
-
         this.init();
-
     }
 });

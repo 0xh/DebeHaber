@@ -10,8 +10,11 @@
  */
 
 require('./../spark-components/bootstrap');
+require('./../model-components/bootstrap');
 
 //Accounting
+require('./../accounting-components/form-components/bootstrap');
+
 require('./../accounting-components/chart/bootstrap');
 require('./../accounting-components/chart-version/bootstrap');
 require('./../accounting-components/cycle/bootstrap');
@@ -19,12 +22,12 @@ require('./../accounting-components/journal/bootstrap');
 require('./../accounting-components/model/bootstrap');
 
 //Commercial
+require('./../commercial-components/form-components/bootstrap');
+
 require('./../commercial-components/credit-note/bootstrap');
 require('./../commercial-components/debit-note/bootstrap');
 require('./../commercial-components/purchase/bootstrap');
 require('./../commercial-components/sales/bootstrap');
-require('./../model-components/bootstrap');
-require('./../form-components/bootstrap');
 require('./../commercial-components/account-payable/bootstrap');
 require('./../commercial-components/account-receivable/bootstrap');
 require('./../commercial-components/money-transfer/bootstrap');

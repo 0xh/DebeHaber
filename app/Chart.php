@@ -100,6 +100,7 @@ class Chart extends Model
         ->where(function ($x)
         {
             $x
+            ->where('is_accountable', true)
             //Bring all Income Types.
             //Without worring about sub_types because we need to bring all.
             ->where('type', 4)
@@ -124,6 +125,7 @@ class Chart extends Model
     public function scopePurchaseAccounts($query)
     {
         return $query
+        ->where('is_accountable', true)
         ->where(function ($y)
         {
             $y
@@ -157,6 +159,7 @@ class Chart extends Model
     public function scopeVATDebitAccounts($query)
     {
         return $query
+        ->where('is_accountable', true)
         ->where('type', 2)
         ->where('sub_type', 3);
     }
@@ -165,6 +168,7 @@ class Chart extends Model
     public function scopeVATCreditAccounts($query)
     {
         return $query
+        ->where('is_accountable', true)
         ->where('type', 1)
         ->where('sub_type', 12);
     }
