@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Taxpayer;
+
 use App\Chart;
 use App\ChartVersion;
 use App\Currency;
@@ -46,9 +47,9 @@ class TransactionController extends Controller
       $chunkedData = $request[$i];
 
       if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 3)
-      { $taxPayer = $this->checkTaxPayer($chunkedData['supplierTaxID'], $chunkedData['supplierName']); }
+      { $taxPayer = $this->checkTaxPayer($chunkedData['SupplierTaxID'], $chunkedData['SupplierName']); }
       else if($chunkedData['Type'] == 2 || $chunkedData['Type'] == 4)
-      { $taxPayer = $this->checkTaxPayer($chunkedData['customerTaxID'], $chunkedData['customerName']); }
+      { $taxPayer = $this->checkTaxPayer($chunkedData['CustomerTaxID'], $chunkedData['CustomerName']); }
 
       //No need to run this query for each invoice, just check if the date is in between.
       $cycle = Cycle::where('start_date', '<=', $this->convert_date($chunkedData['Date']))
@@ -106,21 +107,21 @@ class TransactionController extends Controller
     //Im not too happy with this code since it will call db every time there is a new invoice. Maybe there is a better way, or simply remove this part and insert it again.
     $transaction = new Transaction();
 
-    if ($data['Type'] == 1 || $data['Type'] == 3)
+    if ($data['Type'] == 4 || $data['Type'] == 5)
     {
-      $customer = $this->checkTaxPayer($data['customerTaxID'], $data['customerName']);
+      $customer = $this->checkTaxPayer($data['CustomerTaxID'], $data['CustomerName']);
       $supplier = $taxPayer;
 
-      $transaction->type = $data['Type'] == 1 ? 4 : 5;
+      $transaction->type = $data['Type'];
     }
-    else if($data['Type'] == 2 || $data['Type'] == 4)
+    else if($data['Type'] == 1 || $data['Type'] == 3)
     {
 
       $customer = $taxPayer;
 
-      $supplier = $this->checkTaxPayer($data['supplierTaxID'], $data['supplierName']);
+      $supplier = $this->checkTaxPayer($data['SupplierTaxID'], $data['SupplierName']);
 
-      $transaction->type = $data['Type'] == 2 ? 1 : 3;
+      $transaction->type = $data['Type'];
     }
 
 
@@ -147,7 +148,7 @@ class TransactionController extends Controller
     $transaction->save();
 
     $this->processDetail(
-      collect($data['CommercialInvoice_Detail']), $transaction->id, $taxPayer, $cycle,$data['Type']
+      collect($data['Details']), $transaction->id, $taxPayer, $cycle,$data['Type']
     );
 
     return $transaction;
@@ -155,19 +156,22 @@ class TransactionController extends Controller
 
   public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle,$Type)
   {
+
     //TODO to reduce data stored, group by VAT and Chart Type.
     //If 5 rows can be converted into 1 row it is better for our system's health and reduce server load.
-
+dd($details);
     foreach ($details->groupBy('VATPercentage') as $detailByVAT)
     {
+      dd($detailByVAT);
       foreach ($detailByVAT->groupBy('Type') as $groupedRows)
       {
+        dd($groupedRows);
         $detail = new TransactionDetail();
         $detail->transaction_id = $transaction_id;
 
 
-        $detail->chart_id = $this->checkChart($groupedRows->first()['CostCenter'], $taxPayer, $cycle,$Type);
-        $detail->chart_vat_id = $this->checkDebitVAT($groupedRows->first()['VATPercentage'], $taxPayer, $cycle);
+        $detail->chart_id = $this->checkChart($groupedRows['Type'], $taxPayer, $cycle,$Type);
+        $detail->chart_vat_id = $this->checkDebitVAT($groupedRows['VATPercentage'], $taxPayer, $cycle);
         $detail->value = $groupedRows->sum('Value'); //$detail['value'];
 
         $detail->save();

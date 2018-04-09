@@ -105,12 +105,13 @@ class Controller extends BaseController
 
   public function checkChart($costcenter, Taxpayer $taxPayer, Cycle $cycle, $type)
   {
+    dd($costcenter);
 
     //Check if Chart Exists
     if (isset($costcenter))
     {
       //Type 1 = Expense
-      if ($costcenter[0]['Type'] == 1) {
+      if ($costcenter == 1) {
         $chart = Chart::withoutGlobalScopes()
         ->My($taxPayer, $cycle)
         ->Expenses()
@@ -124,7 +125,7 @@ class Controller extends BaseController
         }
       }
       //Type 2 = Products
-      elseif ($costcenter[0]['Type'] == 2)
+      elseif ($costcenter == 2)
       {
 
         if ($type == 1 || $type == 3)
@@ -157,7 +158,7 @@ class Controller extends BaseController
         }
       }
       //Type 3 = FixedAsset
-      elseif ($costcenter[0]['Type'] == 3)
+      elseif ($costcenter == 3)
       {
         $chart = Chart::withoutGlobalScopes()
         ->My($taxPayer, $cycle)
@@ -172,7 +173,7 @@ class Controller extends BaseController
         }
       }
       //Type 4 == Income
-      elseif ($costcenter[0]['Type'] == 4)
+      elseif ($costcenter == 4)
       {
         $chart = Chart::withoutGlobalScopes()
         ->My($taxPayer, $cycle)
