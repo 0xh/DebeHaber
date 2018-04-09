@@ -23,24 +23,24 @@ Vue.component('chart',{
             coefficient : '',
             canChange : true,
             list: [
-                //     id:0,
-                //     chart_version_id:'',
-                //     chart_version_name:'',
-                //     country:0,
-                //     is_accountable:'',
-                //     code:'',
-                //     name:'',
-                //     level:'',
-                //     type:'',
-                //     sub_type:''
+                // id:0
+                // chart_version_id
+                // chart_version_name
+                // country
+                // is_accountable
+                // code
+                // name
+                // level
+                // type
+                // sub_type
             ],
             chartversions : [],
             accounts : []
         }
     },
 
-    methods: {
-
+    methods:
+    {
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
@@ -161,7 +161,6 @@ Vue.component('chart',{
             }
         })
     }
-
 },
 
 mounted: function mounted()

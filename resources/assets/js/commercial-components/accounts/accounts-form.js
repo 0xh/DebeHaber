@@ -29,7 +29,7 @@ Vue.component('money-transfer-form',
         {
             var app = this;
             var api = null;
-            this.taxpayer_id=this.taxpayer;
+            this.taxpayer_id = this.taxpayer;
             $.ajax({
                 url: '',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -97,7 +97,6 @@ Vue.component('money-transfer-form',
                     {
                         app.currencies.push({name:data[i]['name'],id:data[i]['id']});
                     }
-
                 },
                 error: function(xhr, status, error)
                 {

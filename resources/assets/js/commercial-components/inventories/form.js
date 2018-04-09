@@ -58,7 +58,7 @@ Vue.component('inventory-form',{
         onReset: function()
         {
             var app = this;
-            app.id: 0;
+            app.id = 0;
             app.taxpayer_id = null;
             app.chart_id = null;
             app.date = null;

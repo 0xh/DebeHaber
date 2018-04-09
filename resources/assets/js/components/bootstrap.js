@@ -31,7 +31,7 @@ require('./../commercial-components/inventories/bootstrap');
 require('./../configuration-components/taxpayer/bootstrap');
 require('./../configuration-components/documents/bootstrap');
 require('./../configuration-components/currency/bootstrap');
-require('./../dashboard-components/team/bootstrap');
+// require('./../dashboard-components/team/bootstrap');
 
 //Reports
 require('./../report-components/bootstrap');

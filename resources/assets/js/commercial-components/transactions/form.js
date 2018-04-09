@@ -5,7 +5,7 @@ import VueSweetAlert from 'vue-sweetalert';
 import InfiniteLoading from 'vue-infinite-loading';
 import axios from 'axios';
 
-Vue.component('form-view',
+Vue.component('transaction-form',
 {
     props: ['taxpayer', 'cycle', 'baseurl', 'taxpayercurrency'],
     data() {
