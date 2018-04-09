@@ -7,7 +7,7 @@ import axios from 'axios';
 
 Vue.component('form-view',
 {
-    props: ['taxpayer', 'cycle', 'baseurl','taxpayercurrency'],
+    props: ['taxpayer', 'cycle', 'baseurl', 'taxpayercurrency'],
     data() {
         return {
             list: [],
@@ -74,7 +74,7 @@ Vue.component('form-view',
             var app = this;
             app.$parent.showList = false;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/ByID/' + data,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/by-id/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
@@ -163,7 +163,7 @@ Vue.component('form-view',
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/get_documents/1/',
+                url: '/api/' + this.taxpayer + '/get_documents/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
@@ -214,7 +214,7 @@ Vue.component('form-view',
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_item-sales' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-charts/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
@@ -238,7 +238,7 @@ Vue.component('form-view',
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_vat-debit' ,
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-vats/',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
