@@ -83,16 +83,16 @@ Vue.component('money-transfer-form',
 
         getCurrencies: function(data)
         {
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_currency' ,
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
                 success: function(data)
                 {
-                    app.currencies=[];
+                    app.currencies = [];
                     for(let i = 0; i < data.length; i++)
                     {
                         app.currencies.push({name:data[i]['name'],id:data[i]['id']});
@@ -107,8 +107,7 @@ Vue.component('money-transfer-form',
 
         getRate: function()
           {
-
-              var app=this;
+              var app = this;
               $.ajax({
                   url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
                     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -117,12 +116,10 @@ Vue.component('money-transfer-form',
                   async: true,
                   success: function(data)
                   {
-
-                      if (app.rate=='' || app.rate==null) {
-                          app.rate=data;
+                      if (app.rate == '' || app.rate == null)
+                      {
+                          app.rate = data;
                       }
-
-
                   },
                   error: function(xhr, status, error)
                   {
@@ -142,15 +139,14 @@ Vue.component('money-transfer-form',
             app.rate = data.rate;
             app.debit = data.debit;
             app.credit = data.credit;
-
         },
 
         getCharts: function(data)
         {
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts',
-                  headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
@@ -161,7 +157,6 @@ Vue.component('money-transfer-form',
                     {
                         app.charts.push({name:data[i]['name'],id:data[i]['id']});
                     }
-
                 },
                 error: function(xhr, status, error)
                 {
