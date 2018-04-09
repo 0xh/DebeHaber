@@ -38,7 +38,7 @@ const store = new Vuex.Store();
 Vue.use(vuexI18n.plugin, store);
 Vue.use(Bars)
 Vue.use(Trend);
-Vue.use(ElementUI, {locale});
+// Vue.use(ElementUI, {locale});
 
 //Vue.config.productionTip = true
 

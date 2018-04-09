@@ -213,6 +213,7 @@ return [
             'allow' => [
                 $protocol.'cdnjs.cloudflare.com/',
                 $protocol.'fonts.gstatic.com/s/',
+                $protocol.'data:'
             ],
 
             'self' => true,
