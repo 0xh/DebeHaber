@@ -19,19 +19,13 @@ require('./../accounting-components/chart/bootstrap');
 require('./../accounting-components/chart-version/bootstrap');
 require('./../accounting-components/cycle/bootstrap');
 require('./../accounting-components/journal/bootstrap');
+
 require('./../accounting-components/model/bootstrap');
 
 //Commercial
-require('./../commercial-components/form-components/bootstrap');
-require('./../commercial-components/list-components/bootstrap');
-
-// require('./../commercial-components/credit-note/bootstrap');
-// require('./../commercial-components/debit-note/bootstrap');
-// require('./../commercial-components/purchase/bootstrap');
-// require('./../commercial-components/sales/bootstrap');
-require('./../commercial-components/account-payable/bootstrap');
-require('./../commercial-components/account-receivable/bootstrap');
-require('./../commercial-components/money-transfer/bootstrap');
+require('./../commercial-components/transactions/bootstrap');
+require('./../commercial-components/accounts/bootstrap');
+require('./../commercial-components/inventories/bootstrap');
 
 //Configuration
 require('./../configuration-components/taxpayer/bootstrap');
@@ -39,8 +33,5 @@ require('./../configuration-components/documents/bootstrap');
 require('./../configuration-components/currency/bootstrap');
 require('./../dashboard-components/team/bootstrap');
 
-//reports
+//Reports
 require('./../report-components/bootstrap');
-
-
-require('./home');

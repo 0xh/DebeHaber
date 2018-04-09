@@ -85,7 +85,6 @@ var Dashboard = function () {
                     label: "",
                     borderColor: color,
                     borderWidth: border,
-
                     pointHoverRadius: 4,
                     pointHoverBorderWidth: 12,
                     pointBackgroundColor: Chart.helpers.color('#000000').alpha(0).rgbString(),

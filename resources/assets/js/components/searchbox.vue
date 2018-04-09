@@ -32,7 +32,7 @@
                                 RUC
                             </label>
                             <div class="col-lg-7">
-                                <input type="text" v-model="gov_code"/>
+                                <input type="text" v-model="taxid"/>
                             </div>
                         </div>
 
@@ -128,24 +128,26 @@
 </template>
 
 <script>
+
 import VueTypeahead from 'vue-typeahead'
 import Vue from 'vue'
 import Axios from 'axios'
+
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.prototype.$http = Axios
 
 export default {
     extends: VueTypeahead,
-    props: ['url','current_company','cycle'],
+    props: ['url', 'cycle'],
     data () {
         return {
             name:'',
-            gov_code:'',
+            taxid:'',
             address:'',
             email:'',
             code:'',
             telephone:'',
-            src: '/api/' + this.current_company  + '/get_taxpayers/',
+            src: '/api/get_taxpayers/',
             limit: 5,
             minChars: 3,
             queryParamName: '',
@@ -160,136 +162,135 @@ export default {
         {
             var app = this;
 
-            app.selectText = item.name + ' | ' + item.code;
+            app.selectText = item.name + ' | ' + item.taxid;
             app.id = item.id;
 
-            $.ajax({
-
-                url: '/api/' + this.current_company + '/' + this.cycle + '/commercial'  + this.url,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: false,
-                success: function(data)
+            $.ajax(
                 {
-                    app.$parent.code=data.code;
-                    app.$parent.code_expiry=data.code_expiry;
-                    app.$parent.currency_id=data.currency_id;
-                    app.$parent.payment_condition=data.payment_condition;
-                    app.$parent.chart_account_id=data.chart_account_id;
-                    if (data.details!=null) {
-                        if (data.details[0]!=null) {
-                            app.$parent.details.push({ id:0, value:0, chart_vat_id:data.details[0].chart_vat_id, chart_id:data.details[0].chart_id,vat:0,totalvat:0,withoutvat:0 })
+                    url: '/api/' + this.current_company + '/' + this.cycle + '/commercial'  + this.url,
+                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                    type: 'get',
+                    dataType: 'json',
+                    async: false,
+                    success: function(data)
+                    {
+                        app.$parent.code = data.code;
+                        app.$parent.code_expiry = data.code_expiry;
+                        app.$parent.currency_id = data.currency_id;
+                        app.$parent.payment_condition = data.payment_condition;
+                        app.$parent.chart_account_id = data.chart_account_id;
+                        if (data.details != null) {
+                            if (data.details[0] != null) {
+                                app.$parent.details.push({ id:0, value:0, chart_vat_id:data.details[0].chart_vat_id, chart_id:data.details[0].chart_id, vat:0, totalvat:0, withoutvat:0 })
+                            }
                         }
+                    },
+                    error: function(xhr, status, error)
+                    {
+                        console.log(xhr.responseText);
                     }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
+                });
+            },
 
-        },
-
-        onSave()
-        {
-            $.ajax({
-                url: '/api/' + this.current_company + '/store-taxpayer',
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'post',
-                data:{
-                    name : this.name,
-                    code : this.code,
-                    taxid : this.gov_code,
-                    address : this.address,
-                    email : this.email,
-                    telephone : this.telephone,
-                },
-                dataType: 'json',
-                async: false,
-                success: function(data)
-                {
-                    //console.log(data);
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
+            onSave()
+            {
+                $.ajax({
+                    url: '/api/' + this.current_company + '/store-taxpayer',
+                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                    type: 'post',
+                    data:{
+                        name : this.name,
+                        code : this.code,
+                        taxid : this.taxid,
+                        address : this.address,
+                        email : this.email,
+                        telephone : this.telephone,
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function(data)
+                    {
+                        //console.log(data);
+                    },
+                    error: function(xhr, status, error)
+                    {
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
         }
     }
-}
-</script>
+    </script>
 
-<style scoped>
+    <style scoped>
 
-.fa-times
-{
-    cursor: pointer;
-}
+    .fa-times
+    {
+        cursor: pointer;
+    }
 
-i
-{
-    float: right;
-    position: relative;
-    opacity: 0.4;
-}
+    i
+    {
+        float: right;
+        position: relative;
+        opacity: 0.4;
+    }
 
-ul
-{
-    position: absolute;
-    padding: 0;
-    min-width: 100%;
-    background-color: #fff;
-    list-style: none;
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0,0,0, 0.25);
-    z-index: 1000;
-}
+    ul
+    {
+        position: absolute;
+        padding: 0;
+        min-width: 100%;
+        background-color: #fff;
+        list-style: none;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(0,0,0, 0.25);
+        z-index: 1000;
+    }
 
-li
-{
-    padding: 5px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-}
+    li
+    {
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+    }
 
-li:first-child
-{
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
+    li:first-child
+    {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
 
-li:last-child
-{
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom: 0;
-}
+    li:last-child
+    {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-bottom: 0;
+    }
 
-span
-{
-    color: #2c3e50;
-}
+    span
+    {
+        color: #2c3e50;
+    }
 
-.active
-{
-    background-color: #3aa373;
-}
+    .active
+    {
+        background-color: #3aa373;
+    }
 
-.active span
-{
-    color: white;
-}
+    .active span
+    {
+        color: white;
+    }
 
-.name
-{
-    font-weight: 500;
-    font-size: 14px;
-}
+    .name
+    {
+        font-weight: 500;
+        font-size: 14px;
+    }
 
-.screen-name
-{
-    font-style: italic;
-}
-</style>
+    .screen-name
+    {
+        font-style: italic;
+    }
+    </style>

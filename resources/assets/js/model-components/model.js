@@ -2,7 +2,7 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('model',
 {
-    props: ['trantype'],
+    // props: ['trantype'],
     data() {
         return {
             showList : true,
