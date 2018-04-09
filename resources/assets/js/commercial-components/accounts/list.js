@@ -5,7 +5,7 @@ import VueSweetAlert from 'vue-sweetalert';
 import InfiniteLoading from 'vue-infinite-loading';
 import axios from 'axios';
 
-Vue.component('list-view',
+Vue.component('account-list',
 {
     props: ['taxpayer', 'cycle', 'baseurl', 'taxpayercurrency'],
     data() {

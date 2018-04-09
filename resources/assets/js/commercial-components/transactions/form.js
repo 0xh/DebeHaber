@@ -261,6 +261,7 @@ Vue.component('transaction-form',
                 }
             });
         },
+
         cancel()
         {
             var app = this;
