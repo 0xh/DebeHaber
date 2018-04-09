@@ -4,7 +4,7 @@
     <link href="{{ mix(Spark::usesRightToLeftTheme() ? 'css/app-rtl.css' : 'css/app.css') }}" rel="stylesheet">
 @endsection
 
-@section('layout')
+@section('settings')
     <div class="m-content m--margin-top-30">
         @yield('content')
     </div>

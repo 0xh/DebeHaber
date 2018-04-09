@@ -52,73 +52,77 @@
             <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-container m-container--responsive m-container--xxl m-container--full-height">
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
-                    <model inline-template>
-                        <div>
-                            <!-- BEGIN: Subheader -->
-                            <div class="m-subheader row">
-                                <div class="d-flex align-items-center col-9">
-                                    <div class="mr-auto">
-                                        <h2 class="m-subheader__title m-subheader__title--separator m--font-boldest">
-                                            @yield('title')
-                                        </h2>
-                                        @if(request()->route('cycle') != null)
-                                            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                                                <li class="m-nav__item m-nav__item--home">
-                                                    <a href="{{ route('hello') }}" class="m-nav__link m-nav__link--icon m--font-primary">
-                                                        <i class="la la-home"></i>
-                                                        @lang('global.Dashboard',['team' => Auth::user()->currentTeam->name])
-                                                    </a>
-                                                </li>
-                                                <li class="m-nav__separator">
-                                                    /
-                                                </li>
-                                                <li class="m-nav__item">
-                                                    <a href="{{ route('taxpayer.dashboard', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-nav__link">
-                                                        <span class="m-nav__link-text m--font-brand">
-                                                            {{ request()->route('taxPayer')->name }}
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li class="m-nav__separator">
-                                                    /
-                                                </li>
-                                                <li class="m-nav__item">
-                                                    <a href="#" class="m-nav__link">
-                                                        <span class="m-nav__link-text m--font-focus">
-                                                            {{ request()->route('cycle')->year }}
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        @endif
+                    @hasSection('settings')
+                        @yield('settings')
+                    @else
+                        <model inline-template>
+                            <div>
+                                <!-- BEGIN: Subheader -->
+                                <div class="m-subheader row">
+                                    <div class="d-flex align-items-center col-9">
+                                        <div class="mr-auto">
+                                            <h2 class="m-subheader__title m-subheader__title--separator m--font-boldest">
+                                                @yield('title')
+                                            </h2>
+                                            @if(request()->route('cycle') != null)
+                                                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                                                    <li class="m-nav__item m-nav__item--home">
+                                                        <a href="{{ route('hello') }}" class="m-nav__link m-nav__link--icon m--font-primary">
+                                                            <i class="la la-home"></i>
+                                                            @lang('global.Dashboard',['team' => Auth::user()->currentTeam->name])
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-nav__separator">
+                                                        /
+                                                    </li>
+                                                    <li class="m-nav__item">
+                                                        <a href="{{ route('taxpayer.dashboard', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-nav__link">
+                                                            <span class="m-nav__link-text m--font-brand">
+                                                                {{ request()->route('taxPayer')->name }}
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-nav__separator">
+                                                        /
+                                                    </li>
+                                                    <li class="m-nav__item">
+                                                        <a href="#" class="m-nav__link">
+                                                            <span class="m-nav__link-text m--font-focus">
+                                                                {{ request()->route('cycle')->year }}
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div v-if="showList" class="m-input-icon m-input-icon--left m-input-icon--right m--pull-right col-3">
+                                        <input type="text" class="form-control m-input m-input--pill m-input--air" placeholder="@lang('global.Search')">
+                                        <span class="m-input-icon__icon m-input-icon__icon--left">
+                                            <span>
+                                                <i class="la la-search"></i>
+                                            </span>
+                                        </span>
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-info-circle"></i>
+                                            </span>
+                                        </span>
                                     </div>
                                 </div>
-                                <div v-if="showList" class="m-input-icon m-input-icon--left m-input-icon--right m--pull-right col-3">
-                                    <input type="text" class="form-control m-input m-input--pill m-input--air" placeholder="@lang('global.Search')">
-                                    <span class="m-input-icon__icon m-input-icon__icon--left">
-                                        <span>
-                                            <i class="la la-search"></i>
-                                        </span>
-                                    </span>
-                                    <span class="m-input-icon__icon m-input-icon__icon--right">
-                                        <span>
-                                            <i class="la la-info-circle"></i>
-                                        </span>
-                                    </span>
-                                </div>
+
+                                @hasSection('stats')
+                                    <div class="m-portlet">
+                                        <div class="m-portlet__body  m-portlet__body--no-padding">
+                                            @yield('stats')
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @yield('layout')
                             </div>
-
-                            @hasSection('stats')
-                                <div class="m-portlet">
-                                    <div class="m-portlet__body  m-portlet__body--no-padding">
-                                        @yield('stats')
-                                    </div>
-                                </div>
-                            @endif
-
-                            @yield('layout')
-                        </div>
-                    </model>
+                        </model>
+                    @endif
 
                     @if (Auth::check())
                         @include('spark::modals.notifications')

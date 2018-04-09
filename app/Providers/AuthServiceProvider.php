@@ -53,7 +53,8 @@ class AuthServiceProvider extends ServiceProvider
         Passport::enableImplicitGrant();
 
         Passport::tokensCan([
-            'create-transactions' => 'Create Transactions',
+            'Create' => 'Create Transactions',
+            'Read' => 'Create Transactions',
         ]);
     }
 }
