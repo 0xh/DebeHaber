@@ -322,13 +322,13 @@ class Controller extends BaseController
 
   public function convert_date($date)
   {
-    // $trans_date = $date;
-    //
-    //  preg_match('/(\d{10})(\d{3})/', $date, $matches);
-    //
-    //  $trans_date = Carbon::createFromTimestamp($matches[1]);
-    $trans_date = new DateTime($date);
-    $trans_date=$trans_date->format('Y-m-d H:i:s');
+    $trans_date = $date;
+
+     preg_match('/(\d{10})(\d{3})/', $date, $matches);
+
+     $trans_date = Carbon::createFromTimestamp($matches[1]);
+    // $trans_date = new DateTime($date);
+    // $trans_date=$trans_date->format('Y-m-d H:i:s');
 
 
     return $trans_date;
