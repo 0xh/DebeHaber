@@ -8,6 +8,7 @@ use App\Taxpayer;
 use App\Chart;
 use App\Cycle;
 use DateTime;
+use Auth;
 
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -15,6 +16,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class Controller extends BaseController
 {
@@ -27,9 +29,9 @@ class Controller extends BaseController
 
   public function checkAPI(Request $request)
   {
-      if (Auth::User() != null)
+      if (Auth::user() != null)
       {
-          return Auth::User()->pluck('name');
+          return response()->json(Auth::user()->name);
       }
 
       return response()->json('Error');

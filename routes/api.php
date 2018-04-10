@@ -17,8 +17,9 @@ Route::post('status', 'API\Controller@checkServer');
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
-  Route::post('/syncData', 'API\TransactionController@start');
+  Route::post('transactions', 'API\TransactionController@start');
   Route::post('check-key', 'API\Controller@checkAPI');
+  Route::post('check-server', 'API\Controller@checkServer');
 
   Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
   Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
