@@ -5,9 +5,9 @@ import VueSweetAlert from 'vue-sweetalert';
 import InfiniteLoading from 'vue-infinite-loading';
 import axios from 'axios';
 
-Vue.component('list',
+Vue.component('infinity',
 {
-    props: ['taxpayer', 'cycle', 'baseurl', 'taxpayercurrency'],
+    props: ['taxpayer', 'cycle', 'baseurl'],
     data() {
         return {
             list: [],
@@ -139,6 +139,6 @@ Vue.component('list',
     },
     mounted: function mounted()
     {
-      
+
     }
 });

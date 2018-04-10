@@ -3,7 +3,6 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 import Vue from 'vue';
 import VueSweetAlert from 'vue-sweetalert';
 import axios from 'axios';
-import list from 'list';
 
 Vue.component('transaction-list',
 {
@@ -22,7 +21,6 @@ Vue.component('transaction-list',
 
     methods:
     {
-
         getAccounts: function(data)
         {
             var app = this;
