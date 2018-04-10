@@ -3,7 +3,7 @@
 
 
 
-<sales-form :trantype ="4" inline-template>
+<transaction-form :trantype ="4" inline-template>
 <div>
     <div class="row">
         <div class="col-6">

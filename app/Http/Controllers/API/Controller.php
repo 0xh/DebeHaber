@@ -103,9 +103,9 @@ class Controller extends BaseController
   //These Charts will not work as they use the global scope for Taxpayer and Cycle.
   //you will have to call no global scopes for these methods and then manually assign the same query.
 
-  public function checkChart($costcenter, Taxpayer $taxPayer, Cycle $cycle, $type)
+  public function checkChart($costcenter,$name, Taxpayer $taxPayer, Cycle $cycle, $type)
   {
-    dd($costcenter);
+
 
     //Check if Chart Exists
     if (isset($costcenter))
@@ -115,7 +115,7 @@ class Controller extends BaseController
         $chart = Chart::withoutGlobalScopes()
         ->My($taxPayer, $cycle)
         ->Expenses()
-        ->where('name', $costcenter[0]['Name'])
+        ->where('name', $name)
         ->first();
         if ($chart == null)
         {
@@ -133,7 +133,7 @@ class Controller extends BaseController
           $chart = Chart::withoutGlobalScopes()
           ->My($taxPayer, $cycle)
           ->RevenuFromInventory()
-          ->where('name', $costcenter[0]['Name'])
+          ->where('name', $name)
           ->first();
           if ($chart == null)
           {
@@ -147,7 +147,7 @@ class Controller extends BaseController
           $chart = Chart::withoutGlobalScopes()
           ->My($taxPayer, $cycle)
           ->PurchaseAccounts()
-          ->where('name', $costcenter[0]['Name'])
+          ->where('name', $name)
           ->first();
           if ($chart == null)
           {
@@ -163,7 +163,7 @@ class Controller extends BaseController
         $chart = Chart::withoutGlobalScopes()
         ->My($taxPayer, $cycle)
         ->fixedAssets()
-        ->where('name', $costcenter[0]['Name'])
+        ->where('name', $name)
         ->first();
         if ($chart == null)
         {
@@ -178,7 +178,7 @@ class Controller extends BaseController
         $chart = Chart::withoutGlobalScopes()
         ->My($taxPayer, $cycle)
         ->Incomes()
-        ->where('name', $costcenter[0]['Name'])
+        ->where('name', $name)
         ->first();
         if ($chart == null)
         {
@@ -200,14 +200,15 @@ class Controller extends BaseController
       $chart->taxpayer_id = $taxPayer->id;
       $chart->is_accountable = true;
       $chart->code = 'N/A';
-      $chart->name = $costcenter[0]['Name'];
+      $chart->name = $name;
       $chart->save();
+    
+      return $chart->id;
     }
-
-    return $chart->id;
 
 
     return null;
+
   }
 
   public function checkDebitVAT($coefficient, Taxpayer $taxPayer, Cycle $cycle)
@@ -219,7 +220,7 @@ class Controller extends BaseController
       $chart = Chart::withoutGlobalScopes()
       ->My($taxPayer, $cycle)
       ->VATDebitAccounts()
-      ->where('coefficient', 0.1)
+      ->where('coefficient',$coefficient/100)
       ->first();
 
       if ($chart == null)
@@ -257,7 +258,7 @@ class Controller extends BaseController
       $chart = Chart::withoutGlobalScopes()
       ->My($taxPayer, $cycle)
       ->VATCreditAccounts()
-      ->where('coefficient', 0.1)
+      ->where('coefficient', $coefficient/100)
       ->first();
 
       if ($chart == null)
@@ -325,9 +326,9 @@ class Controller extends BaseController
   {
     $trans_date = $date;
 
-     preg_match('/(\d{10})(\d{3})/', $date, $matches);
+    preg_match('/(\d{10})(\d{3})/', $date, $matches);
 
-     $trans_date = Carbon::createFromTimestamp($matches[1]);
+    $trans_date = Carbon::createFromTimestamp($matches[1]);
     // $trans_date = new DateTime($date);
     // $trans_date=$trans_date->format('Y-m-d H:i:s');
 

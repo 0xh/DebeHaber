@@ -73,14 +73,14 @@
     @php
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
-    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}" baseurl="commercial/sales" inline-template>
+    <model  inline-template>
         <div>
-            <div v-if="$parent.showList">
+            <div v-if="showList">
                 @include('commercial/sales/list')
             </div>
             <div v-else>
                 @include('commercial/sales/form')
             </div>
         </div>
-    </form-view>
+    </model>
 @endsection

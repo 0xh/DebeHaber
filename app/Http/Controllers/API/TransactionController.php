@@ -15,6 +15,7 @@ use App\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use DB;
 use Auth;
 
 use Illuminate\Support\Collection;
@@ -41,9 +42,10 @@ class TransactionController extends Controller
     $cycle = null;
 
     //Process Transaction by 100 to speed up but not overload.
-  //  dd($request[0]);
+    //  dd($request[0]);
     for ($i = 0; $i < 100 ; $i++)
     {
+
       $chunkedData = $request[$i];
 
       if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 3)
@@ -92,6 +94,7 @@ class TransactionController extends Controller
       }
       catch (\Exception $e)
       {
+        dd($e);
         //Write items that don't insert into a variable and send back to ERP.
       }
 
@@ -142,10 +145,11 @@ class TransactionController extends Controller
     $transaction->date = $this->convert_date($data['Date']);
     $transaction->number = $data['Number'];
     $transaction->code = $data['Code'] != '' ? $data['Code'] : null;
-    $transaction->code_expiry = $data['CodeExpiry'] != '' ? $data['CodeExpiry'] : null;
+    $transaction->code_expiry = $data['CodeExpiry'] != '' ? $this->convert_date($data['CodeExpiry'])  : null;
     $transaction->comment = $data['Comment'];
     //$transaction->ref_id = $data['id'];
     $transaction->save();
+
 
     $this->processDetail(
       collect($data['Details']), $transaction->id, $taxPayer, $cycle,$data['Type']
@@ -159,19 +163,19 @@ class TransactionController extends Controller
 
     //TODO to reduce data stored, group by VAT and Chart Type.
     //If 5 rows can be converted into 1 row it is better for our system's health and reduce server load.
-dd($details);
+
     foreach ($details->groupBy('VATPercentage') as $detailByVAT)
     {
-      dd($detailByVAT);
+
       foreach ($detailByVAT->groupBy('Type') as $groupedRows)
       {
-        dd($groupedRows);
+
         $detail = new TransactionDetail();
         $detail->transaction_id = $transaction_id;
 
 
-        $detail->chart_id = $this->checkChart($groupedRows['Type'], $taxPayer, $cycle,$Type);
-        $detail->chart_vat_id = $this->checkDebitVAT($groupedRows['VATPercentage'], $taxPayer, $cycle);
+        $detail->chart_id = $this->checkChart($groupedRows[0]['Type'],$groupedRows[0]['Name'], $taxPayer, $cycle,$Type);
+        $detail->chart_vat_id = $this->checkDebitVAT($groupedRows[0]['VATPercentage'], $taxPayer, $cycle);
         $detail->value = $groupedRows->sum('Value'); //$detail['value'];
 
         $detail->save();
