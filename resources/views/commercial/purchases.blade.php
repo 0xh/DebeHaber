@@ -74,8 +74,8 @@
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
 
-    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}"
-        :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}"
+    <infinity :taxpayer="{{ request()->route('taxPayer')->id}}"
+        :cycle="{{ request()->route('cycle')->id }}"
         baseurl="commercial/purchases"
         inline-template>
         <div>
@@ -86,5 +86,5 @@
                 @include('commercial/purchase/form')
             </div>
         </div>
-    </form-view>
+    </infinity>
 @endsection
