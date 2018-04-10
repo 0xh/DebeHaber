@@ -20,6 +20,21 @@ class Controller extends BaseController
 {
   use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+  public function checkServer(Request $request)
+  {
+      return response()->json('Server OK', 200);
+  }
+
+  public function checkAPI(Request $request)
+  {
+      if (Auth::User() != null)
+      {
+          return Auth::User()->pluck('name');
+      }
+
+      return response()->json('Error');
+  }
+
   public function checkTaxPayer($taxID, $name)
   {
     $cleanTaxID = strtok($taxID , '-');
@@ -202,7 +217,7 @@ class Controller extends BaseController
       $chart->code = 'N/A';
       $chart->name = $name;
       $chart->save();
-    
+
       return $chart->id;
     }
 

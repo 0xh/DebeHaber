@@ -13,11 +13,12 @@ use Laravel\Passport;
 |
 */
 
+Route::post('status', 'API\Controller@checkServer');
+
 Route::group(['middleware' => 'auth:api'], function ()
 {
-
   Route::post('/syncData', 'API\TransactionController@start');
-  Route::post('checkapi', 'API\TransactionController@checkapi');
+  Route::post('check-key', 'API\Controller@checkAPI');
 
   Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
   Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
