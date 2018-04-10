@@ -370,7 +370,7 @@
                             <div class="m-widget4">
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/sales.svg" alt="">
+                                        <img src="/img/icons/journals.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -483,8 +483,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-
-                            <h3> @lang('commercial.Purchases') </h3>
+                            <h3> @lang('accounting.Accounting') </h3>
                             <p class="lead"> Basic reports giving you information regarding your purchases. </p>
 
                             <div class="m-widget4">
