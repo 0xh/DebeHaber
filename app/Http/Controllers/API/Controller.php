@@ -9,8 +9,6 @@ use App\Chart;
 use App\Cycle;
 use DateTime;
 use Auth;
-
-
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -20,336 +18,308 @@ use Illuminate\Http\Request;
 
 class Controller extends BaseController
 {
-  use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-  public function checkServer(Request $request)
-  {
-      return response()->json('Server OK', 200);
-  }
-
-  public function checkAPI(Request $request)
-  {
-      if (Auth::user() != null)
-      {
-          return response()->json(Auth::user()->name);
-      }
-
-      return response()->json('Error');
-  }
-
-  public function checkTaxPayer($taxID, $name)
-  {
-    $cleanTaxID = strtok($taxID , '-');
-    $cleanDV = substr($taxID , -1);
-
-    if (is_numeric($cleanTaxID))
-    { $customer = Taxpayer::where('taxid', $cleanTaxID)->first(); }
-    else
-    { $customer = Taxpayer::where('taxid', '88888801')->first(); }
-
-    if (!isset($customer))
+    public function checkServer(Request $request)
     {
-      $customer = new taxpayer();
-      $customer->name = $name ?? 'No Name';
-
-      if ($cleanTaxID == false)
-      {
-        $customer->taxid = 88888801;
-        $customer->code = null;
-      }
-      else
-      {
-        $customer->taxid = $cleanTaxID ?? 88888801;
-        $customer->code = is_numeric($cleanDV) ? $cleanDV : null;
-      }
-
-      $customer->alias = $name;
-      $customer->save();
-
-      $existingtaxpayerIntegration = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)->first();
-
-      $taxpayerIntegration = new TaxpayerIntegration();
-      $taxpayerIntegration->is_owner = !isset($existingtaxpayerIntegration) ? 1 : 0 ;
-      $taxpayerIntegration->taxpayer_id = $customer->id;
-      $taxpayerIntegration->team_id = Auth::user()->current_team_id;
-      $taxpayerIntegration->type = 1;
-      $taxpayerIntegration->is_company = 1;
-      $taxpayerIntegration->save();
+        return response()->json('Ready to rock, your accounting data', 200);
     }
 
-    return $customer;
-  }
-
-  public function checkCurrency($currencyCode, Taxpayer $taxPayer)
-  {
-    //Check if Chart Exists
-    if ($currencyCode != '')
+    public function checkAPI(Request $request)
     {
-      $currency = Currency::where('code', $currencyCode)
-      ->where('country', $taxPayer->country)
-      ->first();
-
-      if ($currency == null)
-      {
-        $currency = new Currency();
-
-        $currency->country = $taxPayer->country;
-        $currency->code = $currencyCode;
-        $currency->name = $currencyCode;
-        $currency->save();
-      }
-
-      return $currency->id;
+        if (Auth::user() != null)
+        { return response()->json(Auth::user()->name, 200); }
+        else
+        { return response()->json('Forbidden Access', 403); }
     }
 
-    return null;
-  }
-
-  public function checkCurrencyRate($id, Taxpayer $taxPayer, $date)
-  {
-    $currencyRate = CurrencyRate::where('currency_id',$id)
-    ->where('created_at', $this->convert_date($date))
-    ->first();
-
-    if (isset($currencyRate))
-    { return $currencyRate->rate; }
-
-    return null;
-  }
-
-  //These Charts will not work as they use the global scope for Taxpayer and Cycle.
-  //you will have to call no global scopes for these methods and then manually assign the same query.
-
-  public function checkChart($costcenter,$name, Taxpayer $taxPayer, Cycle $cycle, $type)
-  {
-
-
-    //Check if Chart Exists
-    if (isset($costcenter))
+    public function checkTaxPayer($taxID, $name)
     {
-      //Type 1 = Expense
-      if ($costcenter == 1) {
-        $chart = Chart::withoutGlobalScopes()
-        ->My($taxPayer, $cycle)
-        ->Expenses()
-        ->where('name', $name)
+        $cleanTaxID = strtok($taxID , '-');
+        $cleanDV = substr($taxID , -1);
+
+        if (is_numeric($cleanTaxID))
+        { $taxPayer = Taxpayer::where('taxid', $cleanTaxID)->first(); }
+        else
+        { $taxPayer = Taxpayer::where('taxid', '88888801')->first(); }
+
+        if (!isset($taxPayer))
+        {
+            $taxPayer = new taxpayer();
+            $taxPayer->name = $name ?? 'No Name';
+
+            if ($cleanTaxID == false)
+            {
+                $taxPayer->taxid = 88888801;
+                $taxPayer->code = null;
+            }
+            else
+            {
+                $taxPayer->taxid = $cleanTaxID ?? 88888801;
+                $taxPayer->code = is_numeric($cleanDV) ? $cleanDV : null;
+            }
+
+            $taxPayer->alias = $name;
+            $taxPayer->save();
+        }
+
+        return $taxPayer;
+    }
+
+    public function checkCurrency($currencyCode, Taxpayer $taxPayer)
+    {
+        //Check if Chart Exists
+        if ($currencyCode != '')
+        {
+            $currency = Currency::where('code', $currencyCode)
+            ->where('country', $taxPayer->country)
+            ->first();
+
+            if ($currency == null)
+            {
+                $currency = new Currency();
+                $currency->country = $taxPayer->country;
+                $currency->code = $currencyCode;
+                $currency->name = $currencyCode;
+                $currency->save();
+            }
+
+            return $currency->id;
+        }
+
+        return null;
+    }
+
+    public function checkCurrencyRate($id, Taxpayer $taxPayer, $date)
+    {
+        $currencyRate = CurrencyRate::where('currency_id',$id)
+        ->where('created_at', $this->convert_date($date))
         ->first();
-        if ($chart == null)
-        {
-          $chart = new Chart();
-          $chart->type = 5;
-          $chart->sub_type = 1;
-        }
-      }
-      //Type 2 = Products
-      elseif ($costcenter == 2)
-      {
 
-        if ($type == 1 || $type == 3)
-        {
-          $chart = Chart::withoutGlobalScopes()
-          ->My($taxPayer, $cycle)
-          ->RevenuFromInventory()
-          ->where('name', $name)
-          ->first();
-          if ($chart == null)
-          {
-            $chart = new Chart();
-            $chart->type = 4;
-            $chart->sub_type = 4;
-          }
-        }
-        else if($type == 2 || $type == 4)
-        {
-          $chart = Chart::withoutGlobalScopes()
-          ->My($taxPayer, $cycle)
-          ->PurchaseAccounts()
-          ->where('name', $name)
-          ->first();
-          if ($chart == null)
-          {
-            $chart = new Chart();
-            $chart->type = 5;
-            $chart->sub_type = 2;
-          }
-        }
-      }
-      //Type 3 = FixedAsset
-      elseif ($costcenter == 3)
-      {
-        $chart = Chart::withoutGlobalScopes()
-        ->My($taxPayer, $cycle)
-        ->fixedAssets()
-        ->where('name', $name)
-        ->first();
-        if ($chart == null)
-        {
-          $chart = new Chart();
-          $chart->type = 1;
-          $chart->sub_type = 9;
-        }
-      }
-      //Type 4 == Income
-      elseif ($costcenter == 4)
-      {
-        $chart = Chart::withoutGlobalScopes()
-        ->My($taxPayer, $cycle)
-        ->Incomes()
-        ->where('name', $name)
-        ->first();
-        if ($chart == null)
-        {
-          $chart = new Chart();
-          $chart->type = 4;
-          $chart->sub_type = 1;
-        }
-      }
+        if (isset($currencyRate))
+        { return $currencyRate->rate; }
 
-      // $chart = Chart::withoutGlobalScopes()
-      // ->My($taxPayer, $cycle)
-      // ->SalesAccounts()
-      // ->where('name', $costcenter[0]['Name'])
-      // ->first();
-
-
-      $chart->chart_version_id = $cycle->chart_version_id;
-      $chart->country = $taxPayer->country;
-      $chart->taxpayer_id = $taxPayer->id;
-      $chart->is_accountable = true;
-      $chart->code = 'N/A';
-      $chart->name = $name;
-      $chart->save();
-
-      return $chart->id;
+        return null;
     }
 
-
-    return null;
-
-  }
-
-  public function checkDebitVAT($coefficient, Taxpayer $taxPayer, Cycle $cycle)
-  {
-
-    //Check if Chart Exists
-    if ($coefficient != '')
+    //These Charts will not work as they use the global scope for Taxpayer and Cycle.
+    //you will have to call no global scopes for these methods and then manually assign the same query.
+    public function checkChart($costcenter, $name, Taxpayer $taxPayer, Cycle $cycle, $type)
     {
-      $chart = Chart::withoutGlobalScopes()
-      ->My($taxPayer, $cycle)
-      ->VATDebitAccounts()
-      ->where('coefficient',$coefficient/100)
-      ->first();
+        //Check if Chart Exists
+        if (isset($costcenter))
+        {
+            //Type 1 = Expense
+            if ($costcenter == 1)
+            {
+                $chart = Chart::withoutGlobalScopes()
+                ->My($taxPayer, $cycle)
+                ->Expenses()
+                ->where('name', $name)
+                ->first();
 
-      if ($chart == null)
-      {
-        $chart = new Chart();
-        $chart->chart_version_id = $cycle->chart_version_id;
-        $chart->country = $taxPayer->country;
-        $chart->taxpayer_id = $taxPayer->id;
-        $chart->is_accountable = true;
-        $chart->type = 2;
-        $chart->sub_type = 3;
-        $chart->coefficient = 0.1;
+                if ($chart == null)
+                {
+                    $chart = new Chart();
+                    $chart->type = 5;
+                    $chart->sub_type = 1;
+                }
+            }
+            //Type 2 = Products
+            elseif ($costcenter == 2)
+            {
 
-        $chart->code = 'N/A';
+                if ($type == 1 || $type == 3)
+                {
+                    $chart = Chart::withoutGlobalScopes()
+                    ->My($taxPayer, $cycle)
+                    ->RevenuFromInventory()
+                    ->where('name', $name)
+                    ->first();
 
-        $chart->name = 'Vat Debit';
-        $chart->level = 1;
+                    if ($chart == null)
+                    {
+                        $chart = new Chart();
+                        $chart->type = 4;
+                        $chart->sub_type = 4;
+                    }
+                }
+                else if($type == 2 || $type == 4)
+                {
+                    $chart = Chart::withoutGlobalScopes()
+                    ->My($taxPayer, $cycle)
+                    ->PurchaseAccounts()
+                    ->where('name', $name)
+                    ->first();
 
-        $chart->save();
+                    if ($chart == null)
+                    {
+                        $chart = new Chart();
+                        $chart->type = 5;
+                        $chart->sub_type = 2;
+                    }
+                }
+            }
+            //Type 3 = FixedAsset
+            elseif ($costcenter == 3)
+            {
+                $chart = Chart::withoutGlobalScopes()
+                ->My($taxPayer, $cycle)
+                ->fixedAssets()
+                ->where('name', $name)
+                ->first();
 
-      }
+                if ($chart == null)
+                {
+                    $chart = new Chart();
+                    $chart->type = 1;
+                    $chart->sub_type = 9;
+                }
+            }
+            //Type 4 == Income
+            elseif ($costcenter == 4)
+            {
+                $chart = Chart::withoutGlobalScopes()
+                ->My($taxPayer, $cycle)
+                ->Incomes()
+                ->where('name', $name)
+                ->first();
 
-      return $chart->id;
+                if ($chart == null)
+                {
+                    $chart = new Chart();
+                    $chart->type = 4;
+                    $chart->sub_type = 1;
+                }
+            }
+
+            $chart->chart_version_id = $cycle->chart_version_id;
+            $chart->country = $taxPayer->country;
+            $chart->taxpayer_id = $taxPayer->id;
+            $chart->is_accountable = true;
+            $chart->code = 'N/A';
+            $chart->name = $name;
+            $chart->save();
+
+            return $chart->id;
+        }
+
+        return null;
     }
 
-    return null;
-  }
-
-  public function checkCreditVAT($coefficient, Taxpayer $taxPayer, Cycle $cycle)
-  {
-
-    //Check if Chart Exists
-    if ($coefficient != '')
+    public function checkDebitVAT($coefficient, Taxpayer $taxPayer, Cycle $cycle)
     {
-      $chart = Chart::withoutGlobalScopes()
-      ->My($taxPayer, $cycle)
-      ->VATCreditAccounts()
-      ->where('coefficient', $coefficient/100)
-      ->first();
+        //Check if Chart Exists
+        if ($coefficient != '')
+        {
+            $chart = Chart::withoutGlobalScopes()
+            ->My($taxPayer, $cycle)
+            ->VATDebitAccounts()
+            ->where('coefficient',$coefficient/100)
+            ->first();
 
-      if ($chart == null)
-      {
-        $chart = new Chart();
-        $chart->chart_version_id = $cycle->chart_version_id;
-        $chart->country = $taxPayer->country;
-        $chart->taxpayer_id = $taxPayer->id;
-        $chart->is_accountable = true;
-        $chart->type = 2;
-        $chart->sub_type = 3;
-        $chart->coefficient = 0.1;
+            if ($chart == null)
+            {
+                $chart = new Chart();
+                $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->country = $taxPayer->country;
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->is_accountable = true;
+                $chart->type = 2;
+                $chart->sub_type = 3;
+                $chart->coefficient = 0.1;
 
-        $chart->code = 'N/A';
+                $chart->code = 'N/A';
 
-        $chart->name = 'Vat Credit';
-        $chart->level = 1;
+                $chart->name = 'Vat Debit';
+                $chart->level = 1;
 
-        $chart->save();
+                $chart->save();
+            }
 
-      }
+            return $chart->id;
+        }
 
-      return $chart->id;
+        return null;
     }
 
-    return null;
-  }
-  public function checkChartAccount($name, Taxpayer $taxPayer, Cycle $cycle)
-  {
-
-    //Check if Chart Exists
-    if ($name != '')
+    public function checkCreditVAT($coefficient, Taxpayer $taxPayer, Cycle $cycle)
     {
-      //TODO Wrong, you need to specify taxpayerID or else you risk bringing other accounts not belonging to taxpayer.
-      //I have done this already.
-      $chart = Chart::withoutGlobalScopes()
-      ->My($taxPayer, $cycle)
-      ->MoneyAccounts()
-      ->where('name', $costcenter['name'])
-      ->first();
+        //Check if Chart Exists
+        if ($coefficient != '')
+        {
+            $chart = Chart::withoutGlobalScopes()
+            ->My($taxPayer, $cycle)
+            ->VATCreditAccounts()
+            ->where('coefficient', $coefficient/100)
+            ->first();
 
+            if ($chart == null)
+            {
+                $chart = new Chart();
+                $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->country = $taxPayer->country;
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->is_accountable = true;
+                $chart->type = 2;
+                $chart->sub_type = 3;
+                $chart->coefficient = 0.1;
 
-      if ($chart == null)
-      {
-        $chart = new Chart();
-        $chart->chart_version_id = $cycle->chart_version_id;
-        $chart->country = $taxPayer->country;
-        $chart->taxpayer_id = $taxPayer->id;
-        $chart->is_accountable = true;
-        $chart->type = 1;
-        $chart->sub_type = 3;
+                $chart->code = 'N/A';
 
-        $chart->code = 'N/A';
-        $chart->name = $name;
-        $chart->save();
-      }
+                $chart->name = 'Vat Credit';
+                $chart->level = 1;
 
-      return $chart->id;
+                $chart->save();
+            }
+
+            return $chart->id;
+        }
+
+        return null;
     }
 
-    return null;
-  }
+    public function checkChartAccount($name, Taxpayer $taxPayer, Cycle $cycle)
+    {
+        //Check if Chart Exists
+        if ($name != '')
+        {
+            //TODO Wrong, you need to specify taxpayerID or else you risk bringing other accounts not belonging to taxpayer.
+            //I have done this already.
+            $chart = Chart::withoutGlobalScopes()
+            ->My($taxPayer, $cycle)
+            ->MoneyAccounts()
+            ->where('name', $costcenter['name'])
+            ->first();
 
-  public function convert_date($date)
-  {
-    $trans_date = $date;
+            if ($chart == null)
+            {
+                $chart = new Chart();
+                $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->country = $taxPayer->country;
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->is_accountable = true;
+                $chart->type = 1;
+                $chart->sub_type = 3;
 
-    preg_match('/(\d{10})(\d{3})/', $date, $matches);
+                $chart->code = 'N/A';
+                $chart->name = $name;
+                $chart->save();
+            }
 
-    $trans_date = Carbon::createFromTimestamp($matches[1]);
-    // $trans_date = new DateTime($date);
-    // $trans_date=$trans_date->format('Y-m-d H:i:s');
+            return $chart->id;
+        }
 
+        return null;
+    }
 
-    return $trans_date;
-  }
+    public function convert_date($date)
+    {
+        $trans_date = $date;
+
+        preg_match('/(\d{10})(\d{3})/', $date, $matches);
+        $trans_date = Carbon::createFromTimestamp($matches[1]);
+
+        return $trans_date;
+    }
 }

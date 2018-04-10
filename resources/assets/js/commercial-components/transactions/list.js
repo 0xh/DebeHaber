@@ -154,9 +154,9 @@ Vue.component('transaction-list',
     },
     mounted: function mounted()
     {
-        this.taxpayer=$parent.taxpayer;
-        this.cycle=$parent.cycle;
-        this.baseurl=$parent.baseurl;
+        this.taxpayer = $parent.taxpayer;
+        this.cycle = $parent.cycle;
+        this.baseurl = $parent.baseurl;
         this.getDocuments();
         this.getCurrencies();
         this.getCharts();

@@ -6,7 +6,7 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Fecha de Fact.
+                    @lang('global.Date')
                     </label>
                     <div class="col-8">
                         <input type="date" class="form-control" v-model="date" />
@@ -27,7 +27,7 @@
         <div class="col-6">
             <div class="form-group m-form__group row">
                 <label for="example-text-input" class="col-4 col-form-label">
-                    Comment
+                    @lang('global.Comment')
                 </label>
                 <div class="col-8">
                     <input class="form-control m-input" type="text"  v-model="comment">
@@ -61,12 +61,15 @@
             </div>
             <div class="m-portlet__body">
                 <div class="row">
+
                     <div class="col-2">
                         <span class="m--font-boldest">@lang('commercial.Account')</span>
                     </div>
+
                     <div class="col-2">
                         <span class="m--font-boldest">@lang('commercial.Debit')</span>
                     </div>
+
                     <div class="col-2">
                         <span class="m--font-boldest">@lang('commercial.Credit')</span>
                     </div>
@@ -74,25 +77,30 @@
                     <div class="col-1">
                         <span class="m--font-boldest"></span>
                     </div>
+
                 </div>
 
                 <hr>
 
                 <div class="row" v-for="detail in details">
+
                     <div class="col-2">
                         <select required  v-model="detail.chart_id" class="custom-select">
-                            <option v-for="item in accounts" :value="item.id">@{{ item.name }}</option>
+                            <option v-for="item in accounts" :value="item.id">
+                                @{{ item.name }}
+                            </option>
                         </select>
                     </div>
+
                     <div class="col-2">
                         <input type="text" class="form-control" v-model="detail.debit" />
                     </div>
+
                     <div class="col-2">
                         <input type="text" class="form-control" v-model="detail.credit" />
                     </div>
 
                     <div class="col-1">
-
                         <button v-on:click="deleteDetail(detail)" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
                             <i class="la la-remove"></i>
                         </button>
@@ -110,9 +118,7 @@
                     </div>
                     <div class="col-2">
                         <span class="m--font-boldest">@{{ grandCreditTotal }}</span>
-
                     </div>
-
                 </div>
             </div>
         </div>

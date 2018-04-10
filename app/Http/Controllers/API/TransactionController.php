@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Taxpayer;
-
 use App\Chart;
 use App\ChartVersion;
 use App\Currency;
@@ -14,18 +13,15 @@ use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use DB;
 use Auth;
 
-use Illuminate\Support\Collection;
-
 class TransactionController extends Controller
 {
-
     public function start(Request $request)
     {
-
         $transactionData = array();
 
         $startDate = '';
@@ -86,11 +82,10 @@ class TransactionController extends Controller
             }
             catch (\Exception $e)
             {
-                dd($e);
+                //dd($e);
                 //Write items that don't insert into a variable and send back to ERP.
+                //Do Nothing
             }
-
-
         }
 
         return response()->json($transactionData);
@@ -111,14 +106,11 @@ class TransactionController extends Controller
         }
         else if($data['Type'] == 1 || $data['Type'] == 3)
         {
-
             $customer = $taxPayer;
-
             $supplier = $this->checkTaxPayer($data['SupplierTaxID'], $data['SupplierName']);
 
             $transaction->type = $data['Type'];
         }
-
 
         $transaction->customer_id = $customer->id;
         $transaction->supplier_id = $supplier->id;
@@ -131,7 +123,9 @@ class TransactionController extends Controller
 
         //TODO, do not ask if chart account id is null.
         if ($transaction->account != null && $transaction->payment_condition == 0)
-        { $transaction->chart_account_id = $this->checkChartAccount($transaction->account, $taxPayer, $cycle); }
+        {
+            $transaction->chart_account_id = $this->checkChartAccount($transaction->account, $taxPayer, $cycle);
+        }
 
         //You may need to update the code to a Carbon nuetral. Check this, I may be wrong.
         $transaction->date = $this->convert_date($data['Date']);
@@ -139,12 +133,10 @@ class TransactionController extends Controller
         $transaction->code = $data['Code'] != '' ? $data['Code'] : null;
         $transaction->code_expiry = $data['CodeExpiry'] != '' ? $this->convert_date($data['CodeExpiry'])  : null;
         $transaction->comment = $data['Comment'];
-        //$transaction->ref_id = $data['id'];
         $transaction->save();
 
-
         $this->processDetail(
-            collect($data['Details']), $transaction->id, $taxPayer, $cycle,$data['Type']
+            collect($data['Details']), $transaction->id, $taxPayer, $cycle, $data['Type']
         );
 
         return $transaction;
@@ -152,10 +144,8 @@ class TransactionController extends Controller
 
     public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle,$Type)
     {
-
         //TODO to reduce data stored, group by VAT and Chart Type.
         //If 5 rows can be converted into 1 row it is better for our system's health and reduce server load.
-
         foreach ($details->groupBy('VATPercentage') as $detailByVAT)
         {
 

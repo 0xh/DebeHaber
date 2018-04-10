@@ -212,8 +212,7 @@ return [
         'font-src' => [
             'allow' => [
                 $protocol.'cdnjs.cloudflare.com/',
-                $protocol.'fonts.gstatic.com/s/',
-                $protocol.'data:'
+                $protocol.'fonts.gstatic.com/',
             ],
 
             'self' => true,
