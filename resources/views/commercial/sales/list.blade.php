@@ -1,5 +1,5 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<transaction-list :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}" baseurl="commercial/sales" inline-template>
+
   <div>
     <div class="row">
       <div class="col-1 m--font-boldest">
@@ -49,4 +49,3 @@
     </div>
     @include('layouts/infinity-loading')
   </div>
-</transaction-list>
