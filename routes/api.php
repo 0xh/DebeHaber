@@ -52,7 +52,6 @@ Route::group(['middleware' => 'auth:api'], function ()
           Route::get('charts/{skip}', 'ChartController@getCharts');
           Route::get('charts/ByID/{id}', 'ChartController@getChartsByID');
           Route::get('get_accountable-charts', 'ChartController@getAccountableCharts');
-          Route::get('get_item-sales', 'ChartController@getSalesAccounts');
           Route::get('get_item-purchases', 'ChartController@getPurchaseAccounts');
           Route::get('get_money-accounts', 'ChartController@getMoneyAccounts');
           Route::get('get_parent-accounts/{frase}', 'ChartController@getParentAccount');
@@ -69,28 +68,34 @@ Route::group(['middleware' => 'auth:api'], function ()
       Route::prefix('commercial')->group(function ()
       {
         Route::get('sales/{skip}', 'SalesController@get_sales');
-        Route::get('get_last_sale/{partnerID}', 'SalesController@getLastSale');
-        Route::get('sales/ByID/{id}', 'SalesController@get_salesByID');
-        Route::get('get_lastDate', 'SalesController@get_lastDate');
+        Route::get('sales/default/{partnerID}', 'SalesController@getLastSale');
+        Route::get('sales/by-id/{id}', 'SalesController@get_salesByID');
+        Route::get('sales/last', 'SalesController@get_lastDate');
+        Route::get('sales/get-charts', 'ChartController@getSalesAccounts');
+        Route::get('sales/get-vat', 'ChartController@getVATDebit');
 
         Route::get('purchases/{skip}', 'PurchaseController@get_purchases');
-        Route::get('get_last_purchase', 'PurchaseController@getLastPurchase');
-        Route::get('purchases/ByID/{id}', 'PurchaseController@get_purchasesByID');
+        Route::get('purchases/get-charts', 'ChartController@getPurchaseAccounts');
+        Route::get('purchases/last', 'PurchaseController@getLastPurchase');
+        Route::get('purchases/by-id/{id}', 'PurchaseController@get_purchasesByID');
+        Route::get('purchases/get-vat', 'ChartController@getVATCredit');
 
         Route::get('credit_notes/{skip}', 'CreditNoteController@get_credit_note');
-        Route::get('credit_notes/ByID/{id}', 'CreditNoteController@get_credit_noteByID');
+        Route::get('credit_notes/by-id/{id}', 'CreditNoteController@get_credit_noteByID');
+        Route::get('credit_notes/get-vat', 'ChartController@getVATCredit');
 
         Route::get('debit_notes/{skip}', 'DebitNoteController@get_debit_note');
-        Route::get('debit_notes/ByID/{id}', 'DebitNoteController@get_debit_noteByID');
+        Route::get('debit_notes/by-id/{id}', 'DebitNoteController@get_debit_noteByID');
+        Route::get('debit_notes/get-vat', 'ChartController@getVATDebit');
 
         Route::get('account_receivables/{skip}', 'AccountReceivableController@get_account_receivable');
-        Route::get('account_receivable/ByID/{id}', 'AccountReceivableController@get_account_receivableByID');
+        Route::get('account_receivable/by-id/{id}', 'AccountReceivableController@get_account_receivableByID');
 
         Route::get('account_payables/{skip}', 'AccountPayableController@get_account_payable');
-        Route::get('account_payable/ByID/{id}', 'AccountPayableController@get_account_payableByID');
+        Route::get('account_payable/by-id/{id}', 'AccountPayableController@get_account_payableByID');
 
         Route::get('money_transfers/{skip}', 'MoneyTransferController@get_money_transfers');
-        Route::get('money_transfer/ByID/{id}', 'MoneyTransferController@get_money_transferByID');
+        Route::get('money_transfer/by-id/{id}', 'MoneyTransferController@get_money_transferByID');
       });
     });
 

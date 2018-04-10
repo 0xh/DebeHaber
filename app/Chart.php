@@ -97,10 +97,10 @@ class Chart extends Model
     public function scopeSalesAccounts($query)
     {
         return $query
+        ->where('is_accountable', true)
         ->where(function ($x)
         {
             $x
-            ->where('is_accountable', true)
             //Bring all Income Types.
             //Without worring about sub_types because we need to bring all.
             ->where('type', 4)

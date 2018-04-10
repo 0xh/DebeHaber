@@ -6,10 +6,9 @@ import axios from 'axios';
 
 Vue.component('transaction-list',
 {
-    props: ['taxpayer', 'cycle', 'baseurl', 'taxpayercurrency'],
+    props: ['taxpayer', 'cycle', 'baseurl','transType'],
     data() {
         return {
-
             documents:[],
             accounts:[],
             currencies:[],
@@ -48,7 +47,7 @@ Vue.component('transaction-list',
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/get_documents/',
+                url: '/api/' + this.taxpayer + '/get_documents/' + app.transType,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
@@ -155,6 +154,9 @@ Vue.component('transaction-list',
     },
     mounted: function mounted()
     {
+        this.taxpayer=$parent.taxpayer;
+        this.cycle=$parent.cycle;
+        this.baseurl=$parent.baseurl;
         this.getDocuments();
         this.getCurrencies();
         this.getCharts();
