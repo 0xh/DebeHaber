@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<account-payable-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
+<transaction-form :trantype ="2" inline-template>
     <div>
         <div class="">
             <p class="lead m--font-boldest m--font-transform-u">@lang('commercial.Purchases')</p>
@@ -126,4 +126,4 @@
             @lang('Cancel')
         </button>
     </div>
-</account-payable-form>
+</transaction-form>

@@ -71,11 +71,11 @@
     @php
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
+    <infinity :taxpayer="{{ request()->route('taxPayer')->id}}"
+              :cycle="{{ request()->route('cycle')->id }}"
+              baseurl="commercial/account_receivables"
+              inline-template>
 
-    <form-view :taxpayer="{{ request()->route('taxPayer')->id }}"
-        :cycle="{{ request()->route('cycle')->id }}"
-        baseurl="commercial/account_receivables" taxpayercurrency="{{ $defaultCurrency }}"
-        inline-template>
         <div>
             <div v-if="$parent.showList">
                 @include('commercial/account-receivable/list')
@@ -84,5 +84,5 @@
                 @include('commercial/account-receivable/form')
             </div>
         </div>
-    </model>
+    </infinity>
 @endsection
