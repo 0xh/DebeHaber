@@ -35,35 +35,61 @@ Vue.component('cycle',
             var app=this;
             var api=null;
 
-            $.ajax({
-                url: '',
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'post',
-                data:json,
-                dataType: 'json',
-                async: false,
-                success: function(data)
-                {
+                    axios({
+                      method: 'post',
+                      url: '',
+                      responseType: 'json',
+                            data: json
 
-                    if (data == 'ok') {
-                        app.id = 0;
-                        app.chart_version_id = null;
-                        app.year = null ;
-                        app.start_date = null;
-                        app.end_date = null;
-                        app.init();
-                    }
-                    else {
-                        alert('Something Went Wrong...')
-                    }
+                    }).then(function (response)
+                    {
 
 
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
+                                          if (data == 'ok') {
+                                              app.id = 0;
+                                              app.chart_version_id = null;
+                                              app.year = null ;
+                                              app.start_date = null;
+                                              app.end_date = null;
+                                              app.init();
+                                          }
+                                          else {
+                                              alert('Something Went Wrong...')
+                                          }
+                    })
+                    .catch(function (error)
+                    {
+                      console.log(error);
+                    });
+            // $.ajax({
+            //     url: '',
+            //     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+            //     type: 'post',
+            //     data:json,
+            //     dataType: 'json',
+            //     async: false,
+            //     success: function(data)
+            //     {
+            //
+            //         if (data == 'ok') {
+            //             app.id = 0;
+            //             app.chart_version_id = null;
+            //             app.year = null ;
+            //             app.start_date = null;
+            //             app.end_date = null;
+            //             app.init();
+            //         }
+            //         else {
+            //             alert('Something Went Wrong...')
+            //         }
+            //
+            //
+            //     },
+            //     error: function(xhr, status, error)
+            //     {
+            //         console.log(xhr.responseText);
+            //     }
+            // });
         },
         onEdit: function(data)
         {

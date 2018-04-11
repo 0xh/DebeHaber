@@ -1,6 +1,6 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<transaction-form :trantype ="1" inline-template>
+<transaction-form :trantype ="4" inline-template>
     <div>
         <div class="row">
             <div class="col-6">
@@ -234,4 +234,4 @@
             @lang('global.Cancel')
         </button>
     </div>
-</purchases-form>
+</transaction-form>

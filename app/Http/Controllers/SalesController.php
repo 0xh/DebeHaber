@@ -26,6 +26,7 @@ class SalesController extends Controller
 
     public function get_sales(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
+
         $transaction = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
@@ -121,6 +122,7 @@ class SalesController extends Controller
     */
     public function store(Request $request, Taxpayer $taxPayer,Cycle $cycle)
     {
+        
         $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
 
         if ($request->customer_id > 0)

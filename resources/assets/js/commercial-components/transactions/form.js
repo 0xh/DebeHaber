@@ -9,7 +9,7 @@ Vue.component('transaction-form',
         MaskedInput
     },
 
-    props: ['taxPayer', 'cycle', 'baseURL', 'transType'],
+    props: ['trantype'],
     data() {
         return {
             id: 0,
@@ -117,6 +117,7 @@ Vue.component('transaction-form',
         },
         onEdit: function(data)
         {
+            console.log(data);
             var app = this;
             app.id = data.id;
             app.type = data.type;
@@ -135,7 +136,6 @@ Vue.component('transaction-form',
             app.ref_id = data.ref_id;
             app.details = data.details;
             app.selectText = data.customer;
-            app.id = data.customer_id;
             app.$parent.$parent.showList = false;
         },
 
@@ -171,39 +171,55 @@ Vue.component('transaction-form',
         {
             var app = this;
             var api = null;
-            app.type = app.transType;
-            this.customer_id = this.$children[0].id;
-
-            $.ajax({
+            app.type =  app.trantype;
+            //this.customer_id = this.$children[0].id;
+            console.log(json);
+            axios({
+                method: 'post',
                 url: '',
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'post',
-                data:json,
-                dataType: 'json',
-                async: false,
-                success: function(data)
+                responseType: 'json',
+                data: json
+
+            }).then(function (response)
+            {
+
+                console.log(response);
+                if (response.status=200 )
                 {
-                    console.log(data);
-                    if (data == 'ok')
-                    {
-                        app.onReset(isnew);
-                    }
-                    else
-                    {
-                        alert('Something Went Wrong...')
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
+                    app.onReset(isnew);
                 }
+                else
+                {
+                    alert('Something Went Wrong...')
+                }
+            })
+            .catch(function (error)
+            {
+                console.log(error);
+                console.log(error.response);
             });
+            // $.ajax({
+            //     url: '',
+            //     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+            //     type: 'post',
+            //     data:json,
+            //     dataType: 'json',
+            //     async: false,
+            //     success: function(data)
+            //     {
+            //
+            //     },
+            //     error: function(xhr, status, error)
+            //     {
+            //         console.log(xhr.responseText);
+            //     }
+            // });
         },
 
         changeDocument: function()
         {
             var app = this;
-            axios.get('/api/' + app.taxPayer + '/get_documentByID/' + app.document_id + '')
+            axios.get('/api/' + app.$parent.taxpayer + '/get_documentByID/' + app.document_id + '')
             .then(({ data }) =>
             {
                 app.number = data.current_range + 1;
@@ -219,11 +235,11 @@ Vue.component('transaction-form',
 
             if (app.transType == 4 && app.transType == 5)
             {
-                url = '/api/' + app.taxPayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date;
+                url = '/api/' + app.$parent.taxpayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date;
             }
             else
             {
-                url = '/api/' + app.taxPayer + '/get_sellRateByCurrency/' + app.currency_id + '/' + app.date;
+                url = '/api/' + app.$parent.taxpayer + '/get_sellRateByCurrency/' + app.currency_id + '/' + app.date;
             }
 
             axios.get(url).then(({ data }) => { app.rate = data; });
@@ -258,10 +274,10 @@ Vue.component('transaction-form',
         {
             var app = this;
 
-            axios.get('/api/' + app.taxPayer + '/' + app.cycle + '/accounting/chart/get_money-accounts')
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get_money-accounts')
             .then(({ data }) =>
             {
-                alert(data);
+
                 app.accounts = [];
                 for (let i = 0; i < data.length; i++)
                 {
@@ -272,106 +288,74 @@ Vue.component('transaction-form',
         getDocuments: function(data)
         {
             var app = this;
-            $.ajax({
-                url: '/api/' + app.taxPayer + '/get_documents/' + app.transType,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
+
+            axios.get('/api/' + app.$parent.taxpayer + '/get_documents/' + app.trantype)
+            .then(({ data }) =>
+            {
+
+                app.documents = [];
+                for(let i = 0; i < data.length; i++)
                 {
-                    app.documents = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.documents.push({ name:data[i]['code'], id:data[i]['id'] });
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
+                    app.documents.push({ name:data[i]['code'], id:data[i]['id'] });
                 }
             });
+
         },
         getCurrencies: function(data)
         {
             var app = this;
-            $.ajax({
-                url: '/api/' + app.taxPayer + '/get_currency' ,
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
+
+            axios.get('/api/' + app.$parent.taxpayer + '/get_currency')
+            .then(({ data }) =>
+            {
+                app.currencies = [];
+                for(let i = 0; i < data.length; i++)
                 {
-                    app.currencies = [];
-                    for(let i = 0; i < data.length; i++)
+                    app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
+                    if (data[i]['code'] == app.taxPayerCurrency)
                     {
-                        app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
-                        if (data[i]['code'] == app.taxPayerCurrency)
-                        {
-                            app.currency_id = data[i]['id'];
-                        }
+                        app.currency_id = data[i]['id'];
                     }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
                 }
             });
+
         },
         //Get Cost Centers
         getCharts: function(data)
         {
             var app = this;
-            $.ajax({
-                url: '/api/' + app.taxPayer + '/' + app.cycle + '/' +  app.baseURL + '/get-charts/',
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
-                {
-                    app.charts = [];
 
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
-                    }
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/charts/')
+            .then(({ data }) =>
+            {
+                app.charts = [];
 
-                },
-                error: function(xhr, status, error)
+                for(let i = 0; i < data.length; i++)
                 {
-                    console.log(xhr.responseText);
+                    app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
                 }
             });
+
         },
         //VAT
         getTaxes: function(data)
         {
             var app = this;
-            $.ajax({
-                url: '/api/' + app.taxPayer + '/' + app.cycle + '/' +  app.baseURL + '/get-vats/',
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'get',
-                dataType: 'json',
-                async: true,
-                success: function(data)
+
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/vat/',)
+            .then(({ data }) =>
+            {
+                app.vats = [];
+                for(let i = 0; i < data.length; i++)
                 {
-                    app.vats = [];
-                    for(let i = 0; i < data.length; i++)
-                    {
-                        app.vats.push({
-                            name:data[i]['name'],
-                            id:data[i]['id'],
-                            coefficient:data[i]['coefficient']
-                        });
-                    }
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
+                    app.vats.push({
+                        name:data[i]['name'],
+                        id:data[i]['id'],
+                        coefficient:data[i]['coefficient']
+                    });
                 }
             });
+
         },
 
         init: function (data)

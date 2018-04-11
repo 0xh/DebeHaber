@@ -71,10 +71,11 @@
     @php
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
-    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}"
-        :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}"
+    <infinity :taxpayer="{{ request()->route('taxPayer')->id}}"
+        :cycle="{{ request()->route('cycle')->id }}"
         baseurl="commercial/debit_notes"
         inline-template>
+
         <div>
             <div v-if="$parent.showList">
                 @include('commercial/debit-note/list')
@@ -83,5 +84,5 @@
                 @include('commercial/debit-note/form')
             </div>
         </div>
-    </form-view>
+    </infinity>
 @endsection
