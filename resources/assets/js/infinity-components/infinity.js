@@ -25,7 +25,14 @@ Vue.component('infinity',
         filteredList()
         {
             return this.list;
+        },
+
+
+        Today: function Today() {
+            return new Date();
         }
+
+
     },
 
     components:
@@ -75,6 +82,7 @@ Vue.component('infinity',
                 async: true,
                 success: function(data)
                 {
+                
                     app.$children[0].onEdit(data[0]);
 
                 },

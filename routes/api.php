@@ -91,10 +91,12 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::get('debit_notes/get/vat', 'ChartController@getVATDebit');
 
                 Route::get('account_receivables/{skip}', 'AccountReceivableController@get_account_receivable');
-                Route::get('account_receivable/by-id/{id}', 'AccountReceivableController@get_account_receivableByID');
+                Route::get('account_receivables/by-id/{id}', 'AccountReceivableController@get_account_receivableByID');
+                Route::get('account_receivables/get/charts', 'ChartController@getMoneyAccounts');
 
                 Route::get('account_payables/{skip}', 'AccountPayableController@get_account_payable');
-                Route::get('account_payable/by-id/{id}', 'AccountPayableController@get_account_payableByID');
+                Route::get('account_payables/by-id/{id}', 'AccountPayableController@get_account_payableByID');
+                Route::get('account_payables/get/charts', 'ChartController@getMoneyAccounts');
 
                 Route::get('money_transfers/{skip}', 'MoneyTransferController@get_money_transfers');
                 Route::get('money_transfer/by-id/{id}', 'MoneyTransferController@get_money_transferByID');
@@ -111,15 +113,15 @@ Route::group(['middleware' => 'auth:api'], function ()
 
 
 
-Route::get('users', function()
-{
-    return['username' => 'tao'];
-});
+    Route::get('users', function()
+    {
+        return['username' => 'tao'];
+    });
 
 
-Route::get('create-test-token', function() {
-    $user = \App\User::find(1);
-    // Creating a token without scopes...
-    $token = $user->createToken('Test Token Name')->accessToken;
-    return ['token' => $token];
-});
+    Route::get('create-test-token', function() {
+        $user = \App\User::find(1);
+        // Creating a token without scopes...
+        $token = $user->createToken('Test Token Name')->accessToken;
+        return ['token' => $token];
+    });

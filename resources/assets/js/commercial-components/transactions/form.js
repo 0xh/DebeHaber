@@ -12,8 +12,17 @@ Vue.component('transaction-form',
     props: ['trantype'],
     data() {
         return {
+
             id: 0,
+            taxpayer_id:'',
+            payment_value:'',
+            Value:'',
             type: this.transType,
+            Supplier:'',
+            Customer:'',
+            Paid :'',
+            SupplierTaxID:'',
+            CustomerTaxID:'',
             customer_id: '',
             supplier_id: '',
             document_id: '',
@@ -121,10 +130,17 @@ Vue.component('transaction-form',
             var app = this;
             app.id = data.id;
             app.type = data.type;
+            app.Customer = data.Customer;
+            app.Supplier = data.Supplier;
+            app.Paid = data.Paid;
+            app.SupplierTaxID=data.SupplierTaxID;
+            app.CustomerTaxID=data.CustomerTaxID;
+            app.Value = data.Value;
             app.customer_id = data.customer_id;
             app.supplier_id = data.supplier_id;
             app.document_id = data.document_id;
             app.currency_id = data.currency_id;
+            app.currency_code = data.currency_code;
             app.rate = data.rate;
             app.payment_condition = data.payment_condition;
             app.chart_account_id = data.chart_account_id;
@@ -361,6 +377,7 @@ Vue.component('transaction-form',
         init: function (data)
         {
             var app = this;
+            app.taxpayer_id=app.$parent.taxpayer;
         }
     },
 

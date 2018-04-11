@@ -34,14 +34,14 @@ class AccountPayableController extends Controller
     ->whereBetween('transactions.date', [$cycle->start_date, $cycle->end_date])
     //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
     ->groupBy('transactions.id')
-    ->select(DB::raw('max(transactions.id) as ID'),
+    ->select(DB::raw('max(transactions.id) as id'),
     DB::raw('max(taxpayers.name) as Supplier'),
     DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
-    DB::raw('max(currencies.code) as Currency'),
-    DB::raw('max(transactions.payment_condition) as PaymentCondition'),
-    DB::raw('max(transactions.date) as Date'),
-    DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
-    DB::raw('max(transactions.number) as Number'),
+    DB::raw('max(currencies.code) as currency_code'),
+    DB::raw('max(transactions.payment_condition) as payment_condition'),
+    DB::raw('max(transactions.date) as date'),
+    DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as code_expiry'),
+    DB::raw('max(transactions.number) as number'),
     DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
     DB::raw('sum(td.value/transactions.rate) as Value'))
     ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
@@ -103,11 +103,11 @@ class AccountPayableController extends Controller
     {
       $accountMovement = new AccountMovement();
       $accountMovement->taxpayer_id = $request->taxpayer_id;
-      $accountMovement->chart_id =$request->chart_id ;
-      $accountMovement->date = $request->Date;
+      $accountMovement->chart_id =$request->chart_account_id ;
+      $accountMovement->date = $request->date;
 
-      $accountMovement->transaction_id = $request->ID != '' ? $request->ID : null;
-      $accountMovement->currency_id = $request->CurrencyID;
+      $accountMovement->transaction_id = $request->id != '' ? $request->id : null;
+      $accountMovement->currency_id = $request->currency_id;
       $accountMovement->rate = $request->rate;
       $accountMovement->debit = $request->payment_value != '' ? $request->payment_value : 0;
       $accountMovement->comment = $request->comment;
