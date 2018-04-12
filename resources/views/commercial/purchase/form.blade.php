@@ -167,12 +167,12 @@
                 <div class="row" v-for="detail in details">
                     <div class="col-2">
                         <select required  v-model="detail.chart_id" class="custom-select">
-                            <option v-for="item in $parent.charts" :value="item.id">@{{ item.name }}</option>
+                            <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
                         </select>
                     </div>
                     <div class="col-2">
                         <select required  v-model="detail.chart_vat_id" @change="onPriceChange(detail)" class="custom-select">
-                            <option v-for="vat in $parent.vats" :value="vat.id">@{{ vat.name }}</option>
+                            <option v-for="vat in vats" :value="vat.id">@{{ vat.name }}</option>
                         </select>
                     </div>
                     <div class="col-2">
