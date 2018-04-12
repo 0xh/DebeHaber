@@ -147,7 +147,7 @@ class ChartController extends Controller
 
     public function getSalesAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
-        
+
         $charts = Chart::SalesAccounts()->orderBy('name')->get();
 
         return response()->json($charts);
@@ -171,9 +171,9 @@ class ChartController extends Controller
     public function getVATDebit(Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = Chart::
-        withoutGlobalScopes()
-        ->My($taxPayer, $cycle)
-        ->VATDebitAccounts()
+        // withoutGlobalScopes()
+        // ->My($taxPayer, $cycle)
+        VATDebitAccounts()
         ->get();
         return response()->json($charts);
     }
@@ -181,9 +181,10 @@ class ChartController extends Controller
     // Credit VAT, used in Purchases
     public function getVATCredit(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::withoutGlobalScopes()
-        ->My($taxPayer, $cycle)
-        ->VATCreditAccounts()
+        $charts = Chart::
+        // withoutGlobalScopes()
+        // ->My($taxPayer, $cycle)
+        VATCreditAccounts()
         ->get();
         return response()->json($charts);
     }
