@@ -2,10 +2,10 @@
 
 $protocol = 'https://';
 
-if (! isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
-{
-    $protocol = 'http://';
-}
+// if (! isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
+// {
+//     $protocol = 'http://';
+// }
 
 return [
 
