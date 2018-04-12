@@ -138,7 +138,7 @@ Vue.prototype.$http = Axios
 
 export default {
     extends: VueTypeahead,
-    props: ['url', 'cycle'],
+    props: ['taxpayer','url', 'cycle'],
     data () {
         return {
             name:'',
@@ -147,7 +147,7 @@ export default {
             email:'',
             code:'',
             telephone:'',
-            src: '/api/get_taxpayers/',
+            src: '/api/' + this.current_company + '/get_taxpayers/',
             limit: 5,
             minChars: 3,
             queryParamName: '',

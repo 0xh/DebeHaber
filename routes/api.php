@@ -16,7 +16,7 @@ use Laravel\Passport;
 Route::post('status', 'API\Controller@checkServer');
 
 Route::group(['middleware' => 'auth:api'], function ()
-{});
+{
     Route::post('transactions', 'API\TransactionController@start');
     Route::post('check-key', 'API\Controller@checkAPI');
     Route::post('check-server', 'API\Controller@checkServer');
@@ -117,7 +117,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         return['username' => 'tao'];
     });
-
+});
 
     Route::get('create-test-token', function() {
         $user = \App\User::find(1);
