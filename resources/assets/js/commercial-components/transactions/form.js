@@ -297,105 +297,110 @@ Vue.component('transaction-form',
         getAccounts: function(data)
         {
             var app = this;
-
-            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get_money-accounts')
-            .then(({ data }) =>
-            {
-
-                app.accounts = [];
-                for (let i = 0; i < data.length; i++)
-                {
-                    app.accounts.push({ name:data[i]['name'], id:data[i]['id'] });
-                }
-            });
-        },
-        getDocuments: function(data)
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get_money-accounts' ,
+        )
+        .then(({ data }) =>
         {
-            var app = this;
-
-            axios.get('/api/' + app.$parent.taxpayer + '/get_documents/' + app.trantype)
-            .then(({ data }) =>
+            app.accounts = [];
+            for(let i = 0; i < data.length; i++)
             {
+                app.accounts.push({name:data[i]['name'],id:data[i]['id']});
+            }
+        });
 
-                app.documents = [];
-                for(let i = 0; i < data.length; i++)
-                {
-                    app.documents.push({ name:data[i]['code'], id:data[i]['id'] });
-                }
-            });
-
-        },
-        getCurrencies: function(data)
-        {
-            var app = this;
-
-            axios.get('/api/' + app.$parent.taxpayer + '/get_currency')
-            .then(({ data }) =>
-            {
-                app.currencies = [];
-                for(let i = 0; i < data.length; i++)
-                {
-                    app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
-                    if (data[i]['code'] == app.taxPayerCurrency)
-                    {
-                        app.currency_id = data[i]['id'];
-                    }
-                }
-            });
-
-        },
-        //Get Cost Centers
-        getCharts: function(data)
-        {
-            var app = this;
-
-            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/charts/')
-            .then(({ data }) =>
-            {
-                app.charts = [];
-
-                for(let i = 0; i < data.length; i++)
-                {
-                    app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
-                }
-            });
-
-        },
-        //VAT
-        getTaxes: function(data)
-        {
-            var app = this;
-
-            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/vat/')
-            .then(({ data }) =>
-            {
-                app.vats = [];
-                for(let i = 0; i < data.length; i++)
-                {
-                    app.vats.push({
-                        name:data[i]['name'],
-                        id:data[i]['id'],
-                        coefficient:data[i]['coefficient']
-                    });
-                }
-            });
-
-        },
-
-        init: function (data)
-        {
-            var app = this;
-            app.taxpayer_id=app.$parent.taxpayer;
-        }
     },
-
-    mounted: function mounted()
+    getDocuments: function(data)
     {
-        this.init();
-        this.getDocuments();
-        this.getCurrencies();
-        this.getCharts();
-        this.getTaxes();
-        this.getAccounts();
+        var app = this;
+
+        axios.get('/api/' + app.$parent.taxpayer + '/get_documents/' + app.transType ,
+    )
+    .then(({ data }) =>
+    {
+        app.documents = [];
+        for(let i = 0; i < data.length; i++)
+        {
+            app.documents.push({ name:data[i]['code'], id:data[i]['id'] });
+        }
+    });
+
+},
+getCurrencies: function(data)
+{
+    var app = this;
+    axios.get('/api/' + app.$parent.taxpayer + '/get_currency' ,
+)
+.then(({ data }) =>
+{
+    app.currencies = [];
+    for(let i = 0; i < data.length; i++)
+    {
+        app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
+        if (data[i]['code'] == this.taxpayerCurrency)
+        {
+            app.currency_id = data[i]['id'];
+        }
     }
+});
+
+},
+//Get Cost Centers
+getCharts: function(data)
+{
+    var app = this;
+    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/charts/',
+)
+.then(({ data }) =>
+{
+    app.charts = [];
+    for(let i = 0; i < data.length; i++)
+    {
+        app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
+    }
+
+});
+
+},
+//VAT
+getTaxes: function()
+{
+
+    var app = this;
+    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/vat/',
+)
+.then(({ data }) =>
+{
+    app.vats = [];
+
+    for(let i = 0; i < data.length; i++)
+    {
+
+        app.vats.push({
+            name:data[i]['name'],
+            id:data[i]['id'],
+            coefficient:data[i]['coefficient']
+        });
+
+    }
+
+});
+
+},
+
+init: function (data)
+{
+    var app = this;
+    app.taxpayer_id=app.$parent.taxpayer;
+}
+},
+
+mounted: function mounted()
+{
+    this.init();
+    this.getDocuments();
+    this.getCurrencies();
+    this.getCharts();
+    this.getTaxes();
+    this.getAccounts();
+}
 });

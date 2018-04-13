@@ -94,7 +94,7 @@ Vue.component('transaction-list',
     },
     //Get Cost Centers
     getCharts: function(data)
-    {
+    {  
       var app = this;
       axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-charts/',
       )
@@ -106,54 +106,31 @@ Vue.component('transaction-list',
           app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
         }
       });
-      // $.ajax({
-      //   url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-charts/',
-      //   headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-      //   type: 'get',
-      //   dataType: 'json',
-      //   async: true,
-      //   success: function(data)
-      //   {
-      //     app.charts = [];
-      //     for(let i = 0; i < data.length; i++)
-      //     {
-      //       app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
-      //     }
-      //   },
-      //   error: function(xhr, status, error)
-      //   {
-      //     console.log(xhr.responseText);
-      //   }
-      // });
+
     },
     //VAT
-    getTaxes: function(data)
+    getTaxes: function()
     {
+        console.log('/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-vats/');
       var app = this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-vats/',
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.vats = [];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.vats.push({
-              name:data[i]['name'],
-              id:data[i]['id'],
-              coefficient:data[i]['coefficient']
-            });
-          }
+      axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-vats/',
+      )
+      .then(({ data }) =>
+      {
+        app.vats = [];
 
-        },
-        error: function(xhr, status, error)
+        for(let i = 0; i < data.length; i++)
         {
-          console.log(xhr.responseText);
+
+          app.vats.push({
+            name:data[i]['name'],
+            id:data[i]['id'],
+            coefficient:data[i]['coefficient']
+          });
         }
+
       });
+
     },
     cancel()
     {
@@ -169,6 +146,7 @@ Vue.component('transaction-list',
     this.getDocuments();
     this.getCurrencies();
     this.getCharts();
+
     this.getTaxes();
     this.getAccounts();
   }
