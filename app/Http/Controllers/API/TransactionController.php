@@ -100,14 +100,16 @@ class TransactionController extends Controller
         //Im not too happy with this code since it will call db every time there is a new invoice. Maybe there is a better way, or simply remove this part and insert it again.
         $transaction = new Transaction();
 
-        if ($data['Type'] == 1 || $data['Type'] == 5)
+        // 4 & 5, then is Sales or Credit Note. So Customer is our client, and current Taxpayer is Supplier
+        if ($data['Type'] == 4 || $data['Type'] == 5)
         {
             $customer = $this->checkTaxPayer($data['CustomerTaxID'], $data['CustomerName']);
             $supplier = $taxPayer;
 
             $transaction->type = $data['Type'];
         }
-        else if($data['Type'] == 4 || $data['Type'] == 3)
+        //If type 1 & 3, then it is Purchase or Debit Note. So we should bring our supplier and current Taxpayer is Customer
+        else if($data['Type'] == 1 || $data['Type'] == 3)
         {
             $customer = $taxPayer;
             $supplier = $this->checkTaxPayer($data['SupplierTaxID'], $data['SupplierName']);
