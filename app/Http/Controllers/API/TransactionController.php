@@ -30,61 +30,64 @@ class TransactionController extends Controller
         $cycle = null;
 
         //Process Transaction by 100 to speed up but not overload.
-        //  dd($request[0]);
+
         for ($i = 0; $i < 100 ; $i++)
         {
 
             $chunkedData = $request[$i];
+            if (isset($chunkedData)) {
 
-            if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 5)
-            { $taxPayer = $this->checkTaxPayer($chunkedData['SupplierTaxID'], $chunkedData['SupplierName']); }
-            else if($chunkedData['Type'] == 2 || $chunkedData['Type'] == 4)
-            { $taxPayer = $this->checkTaxPayer($chunkedData['CustomerTaxID'], $chunkedData['CustomerName']); }
 
-            //No need to run this query for each invoice, just check if the date is in between.
-            $cycle = Cycle::where('start_date', '<=', $this->convert_date($chunkedData['Date']))
-            ->where('end_date', '>=', $this->convert_date($chunkedData['Date']))
-            ->where('taxpayer_id', $taxPayer->id)
-            ->first();
+                if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 5)
+                { $taxPayer = $this->checkTaxPayer($chunkedData['SupplierTaxID'], $chunkedData['SupplierName']); }
+                else if($chunkedData['Type'] == 2 || $chunkedData['Type'] == 4)
+                { $taxPayer = $this->checkTaxPayer($chunkedData['CustomerTaxID'], $chunkedData['CustomerName']); }
 
-            if (!isset($cycle))
-            {
-                $current_date = Carbon::now();
-                $version = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
+                //No need to run this query for each invoice, just check if the date is in between.
+                $cycle = Cycle::where('start_date', '<=', $this->convert_date($chunkedData['Date']))
+                ->where('end_date', '>=', $this->convert_date($chunkedData['Date']))
+                ->where('taxpayer_id', $taxPayer->id)
+                ->first();
 
-                if (!isset($version))
+                if (!isset($cycle))
                 {
-                    $version = new ChartVersion();
-                    $version->taxpayer_id = $taxPayer->id;
-                    $version->name = 'Version Automatica';
-                    $version->save();
+                    $current_date = Carbon::now();
+                    $version = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
+
+                    if (!isset($version))
+                    {
+                        $version = new ChartVersion();
+                        $version->taxpayer_id = $taxPayer->id;
+                        $version->name = 'Version Automatica';
+                        $version->save();
+                    }
+
+                    $cycle = new Cycle();
+                    $cycle->chart_version_id = $version->id;
+                    $cycle->year = $current_date->year;
+                    $cycle->start_date = new Carbon('first day of January');
+                    $cycle->end_date = new Carbon('last day of December');
+                    $cycle->taxpayer_id = $taxPayer->id;
+                    $cycle->save();
+                }
+                else
+                {
+                    $startDate = $cycle->start_date;
+                    $endDate = $cycle->end_date;
                 }
 
-                $cycle = new Cycle();
-                $cycle->chart_version_id = $version->id;
-                $cycle->year = $current_date->year;
-                $cycle->start_date = new Carbon('first day of January');
-                $cycle->end_date = new Carbon('last day of December');
-                $cycle->taxpayer_id = $taxPayer->id;
-                $cycle->save();
-            }
-            else
-            {
-                $startDate = $cycle->start_date;
-                $endDate = $cycle->end_date;
-            }
+                try
+                {
+                    $transaction = $this->processTransaction($chunkedData, $taxPayer, $cycle);
 
-            try
-            {
-                $transaction = $this->processTransaction($chunkedData, $taxPayer, $cycle);
-
-                $transactionData[$i] = $transaction;
-            }
-            catch (\Exception $e)
-            {
-                //dd($e);
-                //Write items that don't insert into a variable and send back to ERP.
-                //Do Nothing
+                    $transactionData[$i] = $transaction;
+                }
+                catch (\Exception $e)
+                {
+                    //dd($e);
+                    //Write items that don't insert into a variable and send back to ERP.
+                    //Do Nothing
+                }
             }
         }
 
