@@ -40,7 +40,7 @@ class TransactionController extends Controller
 
                 if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 5)
                 { $taxPayer = $this->checkTaxPayer($chunkedData['SupplierTaxID'], $chunkedData['SupplierName']); }
-                else if($chunkedData['Type'] == 2 || $chunkedData['Type'] == 4)
+                else if($chunkedData['Type'] == 3 || $chunkedData['Type'] == 4)
                 { $taxPayer = $this->checkTaxPayer($chunkedData['CustomerTaxID'], $chunkedData['CustomerName']); }
 
                 //No need to run this query for each invoice, just check if the date is in between.
