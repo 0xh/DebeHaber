@@ -175,7 +175,7 @@ class ChartController extends Controller
         // ->My($taxPayer, $cycle)
         VATDebitAccounts()
         ->get();
-        dd($charts);
+    
         return response()->json($charts);
     }
 
