@@ -141,7 +141,7 @@
                     <td style="text-align:left"><b>{{ $header->name }}</b></td>
 
                     <td style="text-align:right">@lang('global.LegalRepresentative')</td>
-                    <td style="text-align:left"><b>{{ $header->companySubscription->name_agent }}</b></td>
+                    {{-- <td style="text-align:left"><b>{{ $header->companySubscription->name_agent }}</b></td> --}}
                 </tr>
                 <tr>
                     <td style="text-align:right">{{ $taxIDName }}</td>

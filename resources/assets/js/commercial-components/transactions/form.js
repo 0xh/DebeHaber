@@ -257,7 +257,7 @@ Vue.component('transaction-form',
             var app = this;
             var url = '';
 
-            if (app.transType == 4 && app.transType == 5)
+            if (app.transType == 4 || app.transType == 5)
             {
                 url = '/api/' + app.$parent.taxpayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date;
             }
@@ -366,7 +366,7 @@ Vue.component('transaction-form',
         {
             var app = this;
 
-            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/vat/',)
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/vat/')
             .then(({ data }) =>
             {
                 app.vats = [];

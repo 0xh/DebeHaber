@@ -182,7 +182,7 @@
                             <div class="m-widget4">
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -201,7 +201,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -220,7 +220,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -240,7 +240,7 @@
 
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -294,7 +294,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -389,7 +389,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/book.svg" alt="">
+                                        <img src="/img/icons/journals.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -489,7 +489,7 @@
                             <div class="m-widget4">
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -508,7 +508,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -527,7 +527,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -547,7 +547,7 @@
 
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
@@ -601,7 +601,7 @@
                                 </div>
                                 <div class="m-widget4__item">
                                     <div class="m-widget4__img m-widget4__img--icon">
-                                        <img src="/img/icons/compras.svg" alt="">
+                                        <img src="/img/icons/purchase.svg" alt="">
                                     </div>
                                     <div class="m-widget4__info">
                                         <span class="m-widget4__text">
