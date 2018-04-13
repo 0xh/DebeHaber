@@ -36,7 +36,7 @@ class TransactionController extends Controller
 
             $chunkedData = $request[$i];
 
-            if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 3)
+            if ($chunkedData['Type'] == 1 || $chunkedData['Type'] == 5)
             { $taxPayer = $this->checkTaxPayer($chunkedData['SupplierTaxID'], $chunkedData['SupplierName']); }
             else if($chunkedData['Type'] == 2 || $chunkedData['Type'] == 4)
             { $taxPayer = $this->checkTaxPayer($chunkedData['CustomerTaxID'], $chunkedData['CustomerName']); }
@@ -97,14 +97,14 @@ class TransactionController extends Controller
         //Im not too happy with this code since it will call db every time there is a new invoice. Maybe there is a better way, or simply remove this part and insert it again.
         $transaction = new Transaction();
 
-        if ($data['Type'] == 4 || $data['Type'] == 5)
+        if ($data['Type'] == 1 || $data['Type'] == 5)
         {
             $customer = $this->checkTaxPayer($data['CustomerTaxID'], $data['CustomerName']);
             $supplier = $taxPayer;
 
             $transaction->type = $data['Type'];
         }
-        else if($data['Type'] == 1 || $data['Type'] == 3)
+        else if($data['Type'] == 4 || $data['Type'] == 3)
         {
             $customer = $taxPayer;
             $supplier = $this->checkTaxPayer($data['SupplierTaxID'], $data['SupplierName']);
