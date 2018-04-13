@@ -21,8 +21,10 @@ class CurrencyRateController extends Controller
         return view('/configs/currencies/list');
     }
 
-    public function get_buyRateByCurrency($taxPayer,$id,$date)
+    public function get_buyRateByCurrency($taxPayer, $id, $date)
     {
+        $date = $date ?? Carbon::now();
+
         $currencyRate = CurrencyRate::where('currency_id', $id)
         ->whereDate('date', Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))
         ->first();
@@ -30,11 +32,13 @@ class CurrencyRateController extends Controller
         if (isset($currencyRate))
         { return response()->json($currencyRate->buy_rate); }
 
-        return response()->json(1);
+        return response()->json('Error', 500);
     }
 
-    public function get_sellRateByCurrency($taxPayer,$id,$date)
+    public function get_sellRateByCurrency($taxPayer, $id, $date)
     {
+        $date = $date ?? Carbon::now();
+
         $currencyRate = CurrencyRate::where('currency_id', $id)
         ->whereDate('date', Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'))
         ->first();
@@ -42,7 +46,7 @@ class CurrencyRateController extends Controller
         if (isset($currencyRate))
         { return response()->json($currencyRate->sell_rate); }
 
-        return response()->json(1);
+        return response()->json('Error', 500);
     }
 
     public function get_Allrate()

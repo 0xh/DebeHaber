@@ -118,14 +118,14 @@ class Chart extends Model
         return $query
         ->where('type', 4)
         ->where('sub_type', 4)
-        ->where('is_accountable',' true');
+        ->where('is_accountable', 'true');
     }
 
     //Brings all Item Accounts (formally known as Cost Centers) into Purchase Detail
     public function scopePurchaseAccounts($query)
     {
         return $query
-        ->where('is_accountable',' true')
+        ->where('is_accountable', 'true')
         ->where(function ($y)
         {
             $y

@@ -24,7 +24,7 @@ class CurrencyController extends Controller
         $currency = Currency::select('id', 'name', 'code')
         ->where('country', $taxPayer->country)
         ->get();
-        
+
         return response()->json($currency);
     }
 

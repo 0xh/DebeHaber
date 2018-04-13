@@ -148,7 +148,10 @@ class ChartController extends Controller
     public function getSalesAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
 
-        $charts = Chart::SalesAccounts()->orderBy('name')->get();
+        $charts = Chart::SalesAccounts()
+        ->orderBy('name')
+        ->select('name', 'id', 'type')
+        ->get();
 
         return response()->json($charts);
     }
@@ -156,14 +159,19 @@ class ChartController extends Controller
     // Accounts used in Purchase. Expense + Fixed Assets
     public function getPurchaseAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::PurchaseAccounts()->orderBy('name')->get();
+        $charts = Chart::PurchaseAccounts()
+        ->orderBy('name')
+        ->select('name', 'id', 'type')
+        ->get();
         return response()->json($charts);
     }
 
     // Money Accounts
     public function getMoneyAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts = Chart::MoneyAccounts()->orderBy('name')->get();
+        $charts = Chart::MoneyAccounts()->orderBy('name')
+        ->select('name', 'id', 'sub_type')
+        ->get();
         return response()->json($charts);
     }
 
@@ -171,11 +179,10 @@ class ChartController extends Controller
     public function getVATDebit(Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = Chart::
-        // withoutGlobalScopes()
-        // ->My($taxPayer, $cycle)
         VATDebitAccounts()
+        ->select('name', 'code', 'id', 'coefficient')
         ->get();
-    
+
         return response()->json($charts);
     }
 
@@ -183,9 +190,8 @@ class ChartController extends Controller
     public function getVATCredit(Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = Chart::
-        // withoutGlobalScopes()
-        // ->My($taxPayer, $cycle)
         VATCreditAccounts()
+        ->select('name', 'code', 'id', 'coefficient')
         ->get();
         return response()->json($charts);
     }
@@ -199,7 +205,7 @@ class ChartController extends Controller
             $q->where('name', 'like', '%' . $query . '%')
             ->orWhere('code', 'like', '%' . $query . '%');
         })
-        ->with('children')
+        ->with('children:name')
         ->get();
 
         return response()->json($charts);

@@ -12,7 +12,7 @@
                           @lang('global.BelongsTo'):
                       </label>
                       <div class="col-lg-6">
-                          <router-view name="SearchBoxAccount" url="/accounting/chart/get_parent-accounts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
+                          <router-view name="SearchBoxAccount" url="/accounting/chart/get-parent_accounts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
 
                           </router-view>
                       </div>

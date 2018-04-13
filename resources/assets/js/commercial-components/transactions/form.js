@@ -297,7 +297,7 @@ Vue.component('transaction-form',
         getAccounts: function(data)
         {
             var app = this;
-            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get_money-accounts' ,
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get-money_accounts' ,
         )
         .then(({ data }) =>
         {
@@ -366,7 +366,7 @@ getTaxes: function()
 {
 
     var app = this;
-    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/vat/',
+    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/vats/',
 )
 .then(({ data }) =>
 {

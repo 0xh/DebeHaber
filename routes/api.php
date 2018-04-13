@@ -33,8 +33,8 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::get('get_cycle', 'CycleController@get_cycle');
         Route::get('get_chartversion', 'ChartVersionController@get_chartversion');
         Route::get('get_currency', 'CurrencyController@get_currency');
-        Route::get('get_buyRateByCurrency/{currencyID}/{date}', 'CurrencyRateController@get_buyRateByCurrency');
-        Route::get('get_sellRateByCurrency/{currencyID}/{date}', 'CurrencyRateController@get_sellRateByCurrency');
+        Route::get('get_buyRateByCurrency/{currencyID}/{date?}', 'CurrencyRateController@get_buyRateByCurrency');
+        Route::get('get_sellRateByCurrency/{currencyID}/{date?}', 'CurrencyRateController@get_sellRateByCurrency');
 
         Route::get('get_documents/{type}', 'DocumentController@get_document');
         Route::get('get_allDocuments', 'DocumentController@get_Alldocument');
@@ -53,10 +53,9 @@ Route::group(['middleware' => 'auth:api'], function ()
                 {
                     Route::get('charts/{skip}', 'ChartController@getCharts');
                     Route::get('charts/by-id/{id}', 'ChartController@get_chartsByID');
-                    Route::get('get_accountable-charts', 'ChartController@get_accountableCharts');
-                    Route::get('get_item-purchases', 'ChartController@getPurchaseAccounts');
-                    Route::get('get_money-accounts', 'ChartController@getMoneyAccounts');
-                    Route::get('get_parent-accounts/{frase}', 'ChartController@getParentAccount');
+                    Route::get('get-accountable_charts', 'ChartController@get_accountableCharts');
+                    Route::get('get-money_accounts', 'ChartController@getMoneyAccounts');
+                    Route::get('get-parent_accounts/{frase}', 'ChartController@getParentAccount');
                 });
                 Route::prefix('journals')->group(function ()
                 {
@@ -72,23 +71,23 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::get('sales/default/{partnerID}', 'SalesController@getLastSale');
                 Route::get('sales/last', 'SalesController@get_lastDate');
                 Route::get('sales/get/charts', 'ChartController@getSalesAccounts');
-                Route::get('sales/get/vat', 'ChartController@getVATDebit');
+                Route::get('sales/get/vats', 'ChartController@getVATDebit');
 
                 Route::get('purchases/{skip}', 'PurchaseController@get_purchases');
                 Route::get('purchases/by-id/{id}', 'PurchaseController@get_purchasesByID');
                 Route::get('purchases/default/{partnerID}', 'PurchaseController@getLastPurchase');
                 Route::get('purchases/get/charts', 'ChartController@getPurchaseAccounts');
-                Route::get('purchases/get/vat', 'ChartController@getVATCredit');
+                Route::get('purchases/get/vats', 'ChartController@getVATCredit');
 
                 Route::get('credit_notes/{skip}', 'CreditNoteController@get_credit_note');
                 Route::get('credit_notes/by-id/{id}', 'CreditNoteController@get_credit_noteByID');
                 Route::get('credit_notes/get/charts', 'ChartController@getSalesAccounts');
-                Route::get('credit_notes/get/vat', 'ChartController@getVATCredit');
+                Route::get('credit_notes/get/vats', 'ChartController@getVATCredit');
 
                 Route::get('debit_notes/{skip}', 'DebitNoteController@get_debit_note');
                 Route::get('debit_notes/by-id/{id}', 'DebitNoteController@get_debit_noteByID');
                 Route::get('debit_notes/get/charts', 'ChartController@getPurchaseAccounts');
-                Route::get('debit_notes/get/vat', 'ChartController@getVATDebit');
+                Route::get('debit_notes/get/vats', 'ChartController@getVATDebit');
 
                 Route::get('account_receivables/{skip}', 'AccountReceivableController@get_account_receivable');
                 Route::get('account_receivables/by-id/{id}', 'AccountReceivableController@get_account_receivableByID');
