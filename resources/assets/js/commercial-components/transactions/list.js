@@ -16,7 +16,7 @@ Vue.component('transaction-list',
       vats:[]
     }
   },
-  
+
   methods:
   {
     getAccounts: function(data)
@@ -96,25 +96,35 @@ Vue.component('transaction-list',
     getCharts: function(data)
     {
       var app = this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-charts/',
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
+      axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-charts/',
+      )
+      .then(({ data }) =>
+      {
+        app.charts = [];
+        for(let i = 0; i < data.length; i++)
         {
-          app.charts = [];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
-          }
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
+          app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
         }
       });
+      // $.ajax({
+      //   url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-charts/',
+      //   headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      //   type: 'get',
+      //   dataType: 'json',
+      //   async: true,
+      //   success: function(data)
+      //   {
+      //     app.charts = [];
+      //     for(let i = 0; i < data.length; i++)
+      //     {
+      //       app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
+      //     }
+      //   },
+      //   error: function(xhr, status, error)
+      //   {
+      //     console.log(xhr.responseText);
+      //   }
+      // });
     },
     //VAT
     getTaxes: function(data)
