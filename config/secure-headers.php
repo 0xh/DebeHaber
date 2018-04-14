@@ -219,8 +219,8 @@ return [
         ],
 
         'connect-src' => [
-
-        $protocol.'test.debehaber.com'
+            'self' => true,
+            'ws(s)' => $protocol.'test.debehaber.com'
 
 
 
