@@ -223,6 +223,11 @@ return [
         ],
 
         'form-action' => [
+          'allow' => [
+              $protocol.'www.test.debehaber.com',
+              $protocol.'www.google-analytics.com',
+              $protocol.'www.gravatar.com/avatar/',
+          ],
             'self' => true,
         ],
 
