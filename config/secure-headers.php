@@ -220,8 +220,8 @@ return [
 
         'connect-src' => [
             'allow' => [
-                $protocol.'www.test.debehaber.com',
-                
+                $protocol.'test.debehaber.com',
+
             ],
             'self' => true,
         ],
