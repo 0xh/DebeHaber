@@ -123,6 +123,7 @@ class TransactionController extends Controller
         //TODO, this is not enough. Remove Cycle, and exchange that for Invoice Date. Since this will tell you better the exchange rate for that day.
         $transaction->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
         //
+        
         // if ($data['CurrencyRate'] ==  '' ) {
             $transaction->rate = $this->checkCurrencyRate($transaction->currency_id, $taxPayer, $data['Date']) ?? 1;
         // }
