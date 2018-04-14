@@ -218,12 +218,6 @@ return [
             'self' => true,
         ],
 
-        'connect-src' => [
-            'self' => true,
-            'ws' => [
-                $protocol.'test.debehaber.com'
-            ],
-        ],
 
         'form-action' => [
 
