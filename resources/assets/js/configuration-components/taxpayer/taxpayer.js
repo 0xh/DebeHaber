@@ -53,6 +53,7 @@ Vue.component('taxpayer',{
         onEdit: function(data)
         {
             this.id = data.id;
+            this.taxid=data.taxid;
             this.country = data.type;
             this.code = data.customer_id;
             this.name = data.supplier_id;
@@ -68,6 +69,7 @@ Vue.component('taxpayer',{
                 success: function(data)
                 {
                     this.id = data.id;
+                    this.taxid = data.taxid;
                     this.country = data.type;
                     this.code = data.customer_id;
                     this.name = data.supplier_id;

@@ -58,9 +58,10 @@ class TaxpayerController extends Controller
 
         if (!isset($taxPayer))
         {
+
             $taxPayer= new Taxpayer();
             $taxPayer->name = $request->name;
-            $taxPayer->taxid = $taxPayer->taxid > 0 ? $request->taxid : 0 ;
+            $taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0 ;
             $taxPayer->code = $request->code;
         }
 
