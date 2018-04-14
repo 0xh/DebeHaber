@@ -96,7 +96,7 @@ Vue.component('chart',{
                     app.type = null;
                     app.sub_type = null;
                     app.coefficient = null;
-                    app.$parent.status = 0;
+                    app.$parent.$parent.showList = 1;
                     //app.init();
                 }
                 else
@@ -127,6 +127,7 @@ Vue.component('chart',{
         app.type = data.type;
         app.sub_type = data.sub_type;
         app.coefficient = data.coefficient;
+        app.$children[0].selectText=data.name;
     },
     onDelete: function(data)
     {

@@ -74,7 +74,8 @@
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
 
-    <form-view :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" taxpayercurrency="{{$defaultCurrency}}" baseurl="accounting/chart/charts" inline-template>
+    <infinity taxpayer="{{ request()->route('taxPayer')->id}}" cycle="{{ request()->route('cycle')->id }}"
+      baseurl="accounting/chart/charts" inline-template>
         <div>
             <div v-if="$parent.showList">
                 @include('accounting/chart/list')
@@ -83,5 +84,5 @@
                 @include('accounting/chart/form')
             </div>
         </div>
-    </model>
+    </infinity>
 @endsection

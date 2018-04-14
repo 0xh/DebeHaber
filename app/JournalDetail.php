@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class JournalDetail extends Model
 {
     //
-
+    protected $fillable = [
+        'type',
+        'journal_id',
+        'chart_id',
+        'debit',
+        'credit',
+    ];
     /**
      * Get the journal that owns the model.
      *

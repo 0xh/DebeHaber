@@ -28,22 +28,24 @@ Vue.component('journal-form',{
         grandCreditTotal: function()
         {
             var totalcredit = 0.0;
-
-            for(let i = 0; i < this.details.length; i++)
-            {
-                totalcredit +=  parseFloat(this.details[i].credit).toFixed(2) ;
+            if (this.details !=null ) {
+                for(let i = 0; i < this.details.length; i++)
+                {
+                    totalcredit +=  parseFloat(this.details[i].credit).toFixed(2) ;
+                }
             }
-
             return parseFloat(totalcredit).toFixed(2);
         },
         grandDebitTotal: function()
         {
             var totaldebit = 0.0000;
-
-            for(let i = 0; i < this.details.length; i++)
-            {
-                totaldebit +=  parseFloat(this.details[i].debit).toFixed(4) ;
+            if (this.details !=null ) {
+                for(let i = 0; i < this.details.length; i++)
+                {
+                    totaldebit +=  parseFloat(this.details[i].debit).toFixed(4) ;
+                }
             }
+
 
             return parseFloat(totaldebit).toFixed(4);
         }
@@ -97,6 +99,7 @@ Vue.component('journal-form',{
 
         onEdit: function(data)
         {
+            console.log(data)
             var app = this;
             app.id = data.id;
             app.number = data.number;

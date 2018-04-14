@@ -73,16 +73,17 @@ Vue.component('infinity',
         onEdit: function(data)
         {
             var app = this;
+
             app.$parent.showList = false;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/by-id/' + data,
+                url: '/api/' + app.taxpayer + '/' + app.cycle + '/' +  app.baseurl + '/by-id/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',
                 async: true,
                 success: function(data)
                 {
-                  
+                 
                     app.$children[0].onEdit(data[0]);
 
                 },

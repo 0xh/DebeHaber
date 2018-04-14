@@ -27,7 +27,7 @@ class Journal extends Model
      */
     public function details()
     {
-        return $this->hasMany(JournalDetail::class);
+        return $this->hasMany(JournalDetail::class,'journal_id');
     }
 
     /**

@@ -52,15 +52,15 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::prefix('chart')->group(function ()
                 {
                     Route::get('charts/{skip}', 'ChartController@getCharts');
-                    Route::get('charts/by-id/{id}', 'ChartController@get_chartsByID');
-                    Route::get('get-accountable_charts', 'ChartController@get_accountableCharts');
+                    Route::get('charts/by-id/{id}', 'ChartController@getChartsByID');
+                    Route::get('get-accountable_charts', 'ChartController@getAccountableCharts');
                     Route::get('get-money_accounts', 'ChartController@getMoneyAccounts');
                     Route::get('get-parent_accounts/{frase}', 'ChartController@getParentAccount');
                 });
                 Route::prefix('journals')->group(function ()
                 {
                     Route::get('list', 'JournalController@getJournals');
-                    Route::get('id/{id}', 'JournalController@getJournalsByID');
+                    Route::get('by-id/{id}', 'JournalController@getJournalsByID');
                 });
             });
 

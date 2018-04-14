@@ -15,10 +15,10 @@ require('./../infinity-components/bootstrap');
 
 //Accounting
 // require('./../accounting-components/list-components/bootstrap');
-// require('./../accounting-components/chart/bootstrap');
+ require('./../accounting-components/chart/bootstrap');
 // require('./../accounting-components/chart-version/bootstrap');
-// require('./../accounting-components/cycle/bootstrap');
-// require('./../accounting-components/journal/bootstrap');
+require('./../accounting-components/cycle/bootstrap');
+require('./../accounting-components/journal/bootstrap');
 //
 // require('./../accounting-components/model/bootstrap');
 
