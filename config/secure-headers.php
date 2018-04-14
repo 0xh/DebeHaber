@@ -219,11 +219,10 @@ return [
         ],
 
         'connect-src' => [
-            'allow' => [
-                $protocol.'test.debehaber.com',
-
-            ],
             'self' => true,
+            'ws' => [
+                $protocol.'test.debehaber.com'
+            ],
         ],
 
         'form-action' => [
