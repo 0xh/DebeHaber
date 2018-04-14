@@ -13,7 +13,7 @@ class Transaction extends Model
   use HasStatuses, Timezoned;
 
   protected $timezoned = ['date', 'created_at', 'updated_at', 'deleted_at'];
-
+  protected $dates = ['deleted_at'];
   protected $fillable = [
     'type',
     'customer_id',
