@@ -138,8 +138,8 @@ class ReportController extends Controller
         ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('customer.id', $taxPayer->id)
+        ->where('transactions.deleted_at', '=', null)
         ->whereIn('transactions.type', [1, 2, 3])
-        ->where('transactions.deleted_at', '==', null)
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('supplier.name as supplier',
         'supplier.taxid as supplier_code',
@@ -175,7 +175,7 @@ class ReportController extends Controller
             ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
             ->where('supplier.id', $taxPayer->id)
             ->whereIn('transactions.type', [4, 5])
-            ->where('transactions.deleted_at', '==', null)
+            ->where('transactions.deleted_at', '=', null)
             ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
             ->select('customer.name as customer',
             'customer.taxid as customer_code',
