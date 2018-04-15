@@ -215,7 +215,7 @@ class Controller extends BaseController
             $chart = Chart::withoutGlobalScopes()
             ->My($taxPayer, $cycle)
             ->VATDebitAccounts()
-            ->where('coefficient',$coefficient/100)
+            ->where('coefficient', $coefficient/100)
             ->first();
 
             if ($chart == null)
@@ -227,11 +227,11 @@ class Controller extends BaseController
                 $chart->is_accountable = true;
                 $chart->type = 2;
                 $chart->sub_type = 3;
-                $chart->coefficient = 0.1;
+                $chart->coefficient = $coefficient / 100;
 
                 $chart->code = 'N/A';
 
-                $chart->name = 'Vat Debit';
+                $chart->name = 'Vat Debit ' . $coefficient;
                 $chart->level = 1;
 
                 $chart->save();
@@ -263,11 +263,11 @@ class Controller extends BaseController
                 $chart->is_accountable = true;
                 $chart->type = 2;
                 $chart->sub_type = 3;
-                $chart->coefficient = 0.1;
+                $chart->coefficient = $coefficient / 100;
 
                 $chart->code = 'N/A';
 
-                $chart->name = 'Vat Credit';
+                $chart->name = 'Vat Credit ' . $coefficient;
                 $chart->level = 1;
 
                 $chart->save();

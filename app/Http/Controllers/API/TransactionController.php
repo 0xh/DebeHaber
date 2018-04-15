@@ -30,13 +30,12 @@ class TransactionController extends Controller
         $cycle = null;
 
         //Process Transaction by 100 to speed up but not overload.
-
         for ($i = 0; $i < 100 ; $i++)
         {
-
             $chunkedData = $request[$i];
-            if (isset($chunkedData)) {
 
+            if (isset($chunkedData))
+            {
 
                 if ($chunkedData['Type'] == 4 || $chunkedData['Type'] == 5)
                 { $taxPayer = $this->checkTaxPayer($chunkedData['SupplierTaxID'], $chunkedData['SupplierName']); }
@@ -79,12 +78,10 @@ class TransactionController extends Controller
                 try
                 {
                     $transaction = $this->processTransaction($chunkedData, $taxPayer, $cycle);
-
                     $transactionData[$i] = $transaction;
                 }
                 catch (\Exception $e)
                 {
-                    //dd($e);
                     //Write items that don't insert into a variable and send back to ERP.
                     //Do Nothing
                 }
@@ -147,6 +144,7 @@ class TransactionController extends Controller
         $transaction->comment = $data['Comment'];
         $transaction->save();
 
+        //Process details of the invoice.
         $this->processDetail(
             collect($data['Details']), $transaction->id, $taxPayer, $cycle, $data['Type']
         );
@@ -154,23 +152,25 @@ class TransactionController extends Controller
         return $transaction;
     }
 
-    public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle,$Type)
+    public function processDetail($details, $transaction_id, Taxpayer $taxPayer, Cycle $cycle, $type)
     {
         //TODO to reduce data stored, group by VAT and Chart Type.
         //If 5 rows can be converted into 1 row it is better for our system's health and reduce server load.
         foreach ($details->groupBy('VATPercentage') as $detailByVAT)
         {
-
             foreach ($detailByVAT->groupBy('Type') as $groupedRows)
             {
-
                 $detail = new TransactionDetail();
                 $detail->transaction_id = $transaction_id;
 
+                $detail->chart_id = $this->checkChart($groupedRows[0]['Type'], $groupedRows[0]['Name'], $taxPayer, $cycle, $type);
 
-                $detail->chart_id = $this->checkChart($groupedRows[0]['Type'],$groupedRows[0]['Name'], $taxPayer, $cycle,$Type);
-                $detail->chart_vat_id = $this->checkDebitVAT($groupedRows[0]['VATPercentage'], $taxPayer, $cycle);
-                $detail->value = $groupedRows->sum('Value'); //$detail['value'];
+                if ($type == 1 || $type == 5)
+                { $detail->chart_vat_id = $this->checkCreditVAT($groupedRows[0]['VATPercentage'], $taxPayer, $cycle); }
+                elseif ($type == 3 || $type == 4)
+                { $detail->chart_vat_id = $this->checkDebitVAT($groupedRows[0]['VATPercentage'], $taxPayer, $cycle); }
+
+                $detail->value = $groupedRows->sum('Value');
 
                 $detail->save();
             }
