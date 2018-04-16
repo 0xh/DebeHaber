@@ -348,7 +348,7 @@ getCurrencies: function(data)
 getCharts: function(data)
 {
     var app = this;
-    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/charts/',
+    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-charts/',
 )
 .then(({ data }) =>
 {
@@ -366,7 +366,7 @@ getTaxes: function()
 {
 
     var app = this;
-    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get/vats/',
+    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-vats/',
 )
 .then(({ data }) =>
 {
