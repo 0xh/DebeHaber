@@ -122,14 +122,14 @@ class Controller extends BaseController
                 {
                     $chart = new Chart();
                     $chart->type = 5;
-                    $chart->sub_type = 1;
+                    $chart->sub_type = 10;
                 }
             }
             //Type 2 = Products
             elseif ($costcenter == 2)
             {
-
-                if ($type == 1 || $type == 3)
+                //Sales
+                if ($type == 4 || $type == 5)
                 {
                     $chart = Chart::withoutGlobalScopes()
                     ->My($taxPayer, $cycle)
@@ -144,19 +144,19 @@ class Controller extends BaseController
                         $chart->sub_type = 4;
                     }
                 }
-                else if($type == 2 || $type == 4)
+                else //Purchase
                 {
                     $chart = Chart::withoutGlobalScopes()
                     ->My($taxPayer, $cycle)
-                    ->PurchaseAccounts()
+                    ->Inventories()
                     ->where('name', $name)
                     ->first();
 
                     if ($chart == null)
                     {
                         $chart = new Chart();
-                        $chart->type = 5;
-                        $chart->sub_type = 2;
+                        $chart->type = 1;
+                        $chart->sub_type = 8;
                     }
                 }
             }
@@ -193,13 +193,17 @@ class Controller extends BaseController
                 }
             }
 
-            $chart->chart_version_id = $cycle->chart_version_id;
-            $chart->country = $taxPayer->country;
-            $chart->taxpayer_id = $taxPayer->id;
-            $chart->is_accountable = true;
-            $chart->code = 'N/A';
-            $chart->name = $name;
-            $chart->save();
+            //If chart is saved, then ignore this code.
+            if ($chart->id > 0)
+            {
+                $chart->chart_version_id = $cycle->chart_version_id;
+                $chart->country = $taxPayer->country;
+                $chart->taxpayer_id = $taxPayer->id;
+                $chart->is_accountable = true;
+                $chart->code = 'N/A';
+                $chart->name = $name;
+                $chart->save();
+            }
 
             return $chart->id;
         }
