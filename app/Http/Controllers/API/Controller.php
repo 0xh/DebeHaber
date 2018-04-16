@@ -112,17 +112,36 @@ class Controller extends BaseController
             //Type 1 = Expense
             if ($costcenter == 1)
             {
-                $chart = Chart::withoutGlobalScopes()
-                ->My($taxPayer, $cycle)
-                ->Expenses()
-                ->where('name', $name)
-                ->first();
-
-                if ($chart == null)
+                //Sales
+                if ($type == 4 || $type == 5)
                 {
-                    $chart = new Chart();
-                    $chart->type = 5;
-                    $chart->sub_type = 10;
+                    $chart = Chart::withoutGlobalScopes()
+                    ->My($taxPayer, $cycle)
+                    ->Incomes()
+                    ->where('name', $name)
+                    ->first();
+
+                    if ($chart == null)
+                    {
+                        $chart = new Chart();
+                        $chart->type = 4;
+                        $chart->sub_type = 1;
+                    }
+                }
+                else //Purchase
+                {
+                    $chart = Chart::withoutGlobalScopes()
+                    ->My($taxPayer, $cycle)
+                    ->Expenses()
+                    ->where('name', $name)
+                    ->first();
+
+                    if ($chart == null)
+                    {
+                        $chart = new Chart();
+                        $chart->type = 5;
+                        $chart->sub_type = 10;
+                    }
                 }
             }
             //Type 2 = Products
@@ -174,22 +193,6 @@ class Controller extends BaseController
                     $chart = new Chart();
                     $chart->type = 1;
                     $chart->sub_type = 9;
-                }
-            }
-            //Type 4 == Income
-            elseif ($costcenter == 4)
-            {
-                $chart = Chart::withoutGlobalScopes()
-                ->My($taxPayer, $cycle)
-                ->Incomes()
-                ->where('name', $name)
-                ->first();
-
-                if ($chart == null)
-                {
-                    $chart = new Chart();
-                    $chart->type = 4;
-                    $chart->sub_type = 1;
                 }
             }
 
