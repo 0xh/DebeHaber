@@ -109,7 +109,7 @@ class Controller extends BaseController
         //Check if Chart Exists
         if (isset($costcenter))
         {
-            //Type 1 = Expense
+            //Type 1 = Service
             if ($costcenter == 1)
             {
                 //Sales
