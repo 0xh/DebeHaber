@@ -209,9 +209,11 @@ class Controller extends BaseController
 
     public function checkDebitVAT($coefficient, Taxpayer $taxPayer, Cycle $cycle)
     {
+
         //Check if Chart Exists
-        if ($coefficient != '')
+        if ($coefficient != '' || $coefficient == 0)
         {
+
             $chart = Chart::withoutGlobalScopes()
             ->My($taxPayer, $cycle)
             ->VATDebitAccounts()
@@ -219,7 +221,7 @@ class Controller extends BaseController
             ->first();
 
             if ($chart == null)
-            {
+            { 
                 $chart = new Chart();
                 $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->country = $taxPayer->country;
