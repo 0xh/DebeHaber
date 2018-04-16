@@ -3,7 +3,6 @@
 
 @section('data')
 
-
     <h6>
         Balance de <strong>Activos</strong>
         <br>
@@ -22,7 +21,11 @@
                 @foreach ($data->where('chart_type', 1) as $chart)
                     @if ($chart->is_automatic)
                         <tr>
-                            <td><a href="{{ route('journal_charts',[request()->route('company'), $chart->id]) }}">{{ $chart->code }} - {{ $chart->name }}</a></td>
+                            <td>
+                                <a href="{{ route('journal_charts',[request()->route('company'), $chart->id]) }}">
+                                    {{ $chart->code }} - {{ $chart->name }}
+                                </a>
+                            </td>
                             <td class="number">{{ number_format($chart->saldo, 0, ',', '.') }}</td>
                         </tr>
                     @else
