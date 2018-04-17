@@ -45,14 +45,13 @@
                         </span>
                     @else
                         <div class="m-nav-grid m-nav-grid--skin-light">
-                            <div class="m-nav-grid__row background-sales">
-                                <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
+                            <div class="m-nav-grid__row">
+                                <a href="{{route('sales.index', [request()->route('taxPayer'), request()->route('cycle')])}}" class="m-nav-grid__item padding-40-5">
                                     <img src="/img/icons/sales.svg" alt="" width="64">
                                     <span class="m-nav-grid__text">
-                                        <p class="lead">
-                                            Faltan cargar Ventas
-                                        </p>
-                                        Empiece Aqui
+                                        Faltan cargar Ventas
+                                        <br>
+                                        <small>Empiece Aqui</small>
                                     </span>
                                 </a>
                             </div>
@@ -67,7 +66,7 @@
                 <div class="m-widget24__item">
                     @if ($totalPurchases > 0)
                         <h4 class="m-widget24__title">
-                            <img src="/img/icons/compras.svg" alt="" width="32"> @lang('commercial.PurchaseBook')
+                            <img src="/img/icons/purchase.svg" alt="" width="32"> @lang('commercial.PurchaseBook')
                         </h4>
                         <br>
                         <span class="m-widget24__desc">
@@ -81,14 +80,13 @@
                         <span class="m-widget24__number"></span>
                     @else
                         <div class="m-nav-grid m-nav-grid--skin-light">
-                            <div class="m-nav-grid__row background-sales">
-                                <a href="{{route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')])}}">
-                                    <img src="/img/icons/compras.svg" alt="" width="64">
+                            <div class="m-nav-grid__row">
+                                <a href="{{route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')])}}" class="m-nav-grid__item padding-40-5">
+                                    <img src="/img/icons/purchase.svg" alt="" width="64">
                                     <span class="m-nav-grid__text">
-                                        <p class="lead">
-                                            Faltan cargar Compras
-                                        </p>
-                                        Empiece Aqui
+                                        Faltan cargar Compras
+                                        <br>
+                                        <small>Empiece Aqui</small>
                                     </span>
                                 </a>
                             </div>
@@ -217,7 +215,7 @@
                     </div>
                 </div>
                 <div class="m-widget4__item">
-                    <img src="/img/icons/compras.svg" width="60">
+                    <img src="/img/icons/purchase.svg" width="60">
 
                     <div class="m-widget4__info">
                         <span class="m-widget4__title">

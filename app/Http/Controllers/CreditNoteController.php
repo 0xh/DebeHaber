@@ -26,10 +26,12 @@ class CreditNoteController extends Controller
 
       $vats = Chart::
       VATCreditAccounts()
+      ->orderBy('name')
       ->select('name', 'code', 'id', 'coefficient')
       ->get();
 
-      $accounts = Chart::MoneyAccounts()->orderBy('name')
+      $accounts = Chart::MoneyAccounts()
+      ->orderBy('name')
       ->select('name', 'id', 'sub_type')
       ->get();
 
