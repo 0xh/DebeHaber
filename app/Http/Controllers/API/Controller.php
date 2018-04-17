@@ -329,8 +329,8 @@ class Controller extends BaseController
     {
         $trans_date = $date;
 
-        preg_match('/(\d{10})(\d{3})/', $date, $matches);
-        $trans_date = Carbon::createFromTimestamp($matches[1]);
+        //preg_match('/(\d{10})(\d{3})/', $date, $matches);
+        //$trans_date = Carbon::createFromTimestamp($matches[1]);
 
         return $trans_date;
     }

@@ -167,15 +167,15 @@ class SalesController extends Controller
     $transaction->date = $request->date;
     $transaction->number = $request->number;
 
-    if ($transaction->code != '')
-    {
+    // if ($transaction->code != '')
+    // {
       $transaction->code = $request->code;
-    }
+  //  }
 
-    if ($transaction->code_expiry != '')
-    {
+    // if ($transaction->code_expiry != '')
+    // {
       $transaction->code_expiry = $request->code_expiry;
-    }
+  //  }
 
     $transaction->comment = $request->comment;
     $transaction->type = $request->type;

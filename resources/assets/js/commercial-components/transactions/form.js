@@ -47,7 +47,7 @@ Vue.component('transaction-form',
                 // taxable
             ],
             documents:[],
-        //    accounts:[],
+            //    accounts:[],
             currencies:[],
             //  charts:[],
             //vats:[]
@@ -151,7 +151,18 @@ Vue.component('transaction-form',
             app.comment = data.comment;
             app.ref_id = data.ref_id;
             app.details = data.details;
-            app.selectText = data.customer;
+            app.$children[0].selectText = data.customer;
+            if (    app.type == 4 ||     app.type == 5) {
+
+                app.$children[0].id=data.customer_id ;
+            }
+            else {
+
+                app.$children[0].id=data.supplier_id ;
+
+
+            }
+
             app.$parent.$parent.showList = false;
 
         },
@@ -411,6 +422,6 @@ mounted: function mounted()
     this.getCurrencies();
     //this.getCharts();
     //    this.getTaxes();
-//    this.getAccounts();
+    //    this.getAccounts();
 }
 });
