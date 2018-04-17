@@ -24,18 +24,20 @@ class ChartScope implements Scope
         $taxPayer = request()->route('taxPayer');
         $cycle = request()->route('cycle');
 
-        $builder->where(function($query) use ($taxPayer, $cycle)
+        //Get Specific for current version.
+        $builder->where(function($subQuery) use ($taxPayer, $cycle)
         {
-            $query
+            $subQuery
             ->where('charts.taxpayer_id', $taxPayer->id)
-            ->where('charts.chart_version_id', $cycle->chart_version_id)
-            ->orWhere(function($subQuery) use ($taxPayer, $cycle)
-            {
-                $subQuery
-                ->whereNull('charts.taxpayer_id')
-                ->where('charts.country', $taxPayer->country);
-
-            });
+            ->where('charts.chart_version_id', $cycle->chart_version_id);
+        })
+        //Get Generic for Current Version
+        ->orWhere(function($subQuery) use ($taxPayer, $cycle)
+        {
+            $subQuery
+            ->whereNull('charts.taxpayer_id')
+            ->where('charts.country', $taxPayer->country)
+            ->where('charts.chart_version_id', $cycle->chart_version_id);
         });
     }
 }
