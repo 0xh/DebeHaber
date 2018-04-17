@@ -162,14 +162,14 @@ Vue.component('transaction-form',
 
             app.id = 0;
             app.type = null;
-            app.Customer = data.Customer;
-            app.Supplier = data.Supplier;
-            app.Paid = data.Paid;
-            app.SupplierTaxID=data.SupplierTaxID;
-            app.CustomerTaxID=data.CustomerTaxID;
-            app.Value = data.Value;
-            app.currency_code = data.currency_code;
-            app.date = data.date;
+            app.Customer = null;
+            app.Supplier = null;
+            app.Paid =null;
+            app.SupplierTaxID=null;
+            app.CustomerTaxID=null;
+            app.Value = null;
+            app.currency_code = null;
+            app.date = null;
             app.customer_id = null;
             app.supplier_id = null;
             app.document_id = null;
@@ -197,13 +197,14 @@ Vue.component('transaction-form',
             var app = this;
             var api = null;
             app.type =  app.trantype;
-    console.log(app.trantype);
+
             if (app.trantype == 4) {
                 app.customer_id = this.$children[0].id;
             }
             else {
 
                 app.supplier_id = this.$children[0].id;
+
             }
 
             console.log(json);
@@ -216,7 +217,7 @@ Vue.component('transaction-form',
             }).then(function (response)
             {
 
-                console.log(response);
+
                 if (response.status=200 )
                 {
                     app.onReset(isnew);
