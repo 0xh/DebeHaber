@@ -27,7 +27,7 @@ class PurchaseController extends Controller
     ->get();
 
     $vats = Chart::
-    VATDebitAccounts()
+    VATCreditAccounts()
     ->select('name', 'code', 'id', 'coefficient')
     ->get();
     return view('/commercial/purchases')->with('charts',$charts)

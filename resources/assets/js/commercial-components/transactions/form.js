@@ -153,7 +153,7 @@ Vue.component('transaction-form',
             app.details = data.details;
             app.selectText = data.customer;
             app.$parent.$parent.showList = false;
-            console.log(app.charts);
+        
         },
 
         onReset: function(isnew)
