@@ -170,7 +170,7 @@ class TransactionController extends Controller
                 { $detail->chart_vat_id = $this->checkCreditVAT($groupedRows[0]['VATPercentage'], $taxPayer, $cycle); }
                 elseif ($type == 3 || $type == 4)
                 { $detail->chart_vat_id = $this->checkDebitVAT($groupedRows[0]['VATPercentage'], $taxPayer, $cycle); }
-
+                
                 $detail->value = $groupedRows->sum('Value');
 
                 $detail->save();

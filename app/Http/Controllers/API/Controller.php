@@ -109,6 +109,7 @@ class Controller extends BaseController
         //Check if Chart Exists
         if (isset($costcenter))
         {
+            $chart=null;
             //Type 1 = Service
             if ($costcenter == 1)
             {
@@ -162,6 +163,7 @@ class Controller extends BaseController
                         $chart->type = 4;
                         $chart->sub_type = 4;
                     }
+
                 }
                 else //Purchase
                 {
@@ -197,8 +199,9 @@ class Controller extends BaseController
             }
 
             //If chart is saved, then ignore this code.
-            if ($chart->id > 0)
+            if ($chart->id == 0)
             {
+
                 $chart->chart_version_id = $cycle->chart_version_id;
                 $chart->country = $taxPayer->country;
                 $chart->taxpayer_id = $taxPayer->id;
