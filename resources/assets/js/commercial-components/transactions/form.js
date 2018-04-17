@@ -9,7 +9,7 @@ Vue.component('transaction-form',
         MaskedInput
     },
 
-    props: ['trantype'],
+    props: ['trantype','charts','vats'],
     data() {
         return {
 
@@ -49,8 +49,8 @@ Vue.component('transaction-form',
             documents:[],
             accounts:[],
             currencies:[],
-            charts:[],
-            vats:[]
+            //  charts:[],
+            //vats:[]
         }
     },
 
@@ -126,7 +126,7 @@ Vue.component('transaction-form',
         },
         onEdit: function(data)
         {
-            console.log(data);
+
             var app = this;
             app.id = data.id;
             app.type = data.type;
@@ -153,6 +153,7 @@ Vue.component('transaction-form',
             app.details = data.details;
             app.selectText = data.customer;
             app.$parent.$parent.showList = false;
+            console.log(app.charts);
         },
 
         onReset: function(isnew)
@@ -196,7 +197,15 @@ Vue.component('transaction-form',
             var app = this;
             var api = null;
             app.type =  app.trantype;
-            //this.customer_id = this.$children[0].id;
+    console.log(app.trantype);
+            if (app.trantype == 4) {
+                app.customer_id = this.$children[0].id;
+            }
+            else {
+
+                app.supplier_id = this.$children[0].id;
+            }
+
             console.log(json);
             axios({
                 method: 'post',
@@ -399,8 +408,8 @@ mounted: function mounted()
     this.init();
     this.getDocuments();
     this.getCurrencies();
-    this.getCharts();
-    this.getTaxes();
+    //this.getCharts();
+    //    this.getTaxes();
     this.getAccounts();
 }
 });

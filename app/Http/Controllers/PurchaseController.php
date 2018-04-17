@@ -6,6 +6,7 @@ use App\AccountMovement;
 use App\JournalTransaction;
 use App\Taxpayer;
 use App\Cycle;
+use App\Chart;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
@@ -20,7 +21,17 @@ class PurchaseController extends Controller
   */
   public function index(Taxpayer $taxPayer, Cycle $cycle)
   {
-    return view('/commercial/purchases');
+    $charts = Chart::SalesAccounts()
+    ->orderBy('name')
+    ->select('name', 'id', 'type')
+    ->get();
+
+    $vats = Chart::
+    VATDebitAccounts()
+    ->select('name', 'code', 'id', 'coefficient')
+    ->get();
+    return view('/commercial/purchases')->with('charts',$charts)
+    ->with('vats',$vats);;
   }
 
   public function get_purchases(Taxpayer $taxPayer, Cycle $cycle, $skip)
