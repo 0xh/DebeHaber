@@ -40,7 +40,7 @@ class Chart extends Model
             ->where('sub_type', 1)
             ->orWhere('sub_type', 3);
         })
-        ->where('is_accountable', 'true');
+        ->where('is_accountable', 1);
     }
 
     public function scopeMy($query, Taxpayer $taxPayer, Cycle $cycle)
