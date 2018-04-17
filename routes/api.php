@@ -109,18 +109,15 @@ Route::group(['middleware' => 'auth:api'], function ()
         });
     });
 
-
-
-
     Route::get('users', function()
     {
         return['username' => 'tao'];
     });
 });
 
-    Route::get('create-test-token', function() {
-        $user = \App\User::find(1);
-        // Creating a token without scopes...
-        $token = $user->createToken('Test Token Name')->accessToken;
-        return ['token' => $token];
-    });
+Route::get('create-test-token', function() {
+    $user = \App\User::find(1);
+    // Creating a token without scopes...
+    $token = $user->createToken('Test Token Name')->accessToken;
+    return ['token' => $token];
+});

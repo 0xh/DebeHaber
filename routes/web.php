@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'], function ()
         {
             Route::get('/', 'ReportController@index')->name('reports.index');
             Route::get('hechauka/generate_files/{start_date}/{end_date}', 'API\PRY\HechaukaController@generateFiles');
+
             Route::get('purchases/{strDate}/{endDate}', 'ReportController@purchases')->name('reports.purchases');
             Route::get('purchases-byVAT/{strDate}/{endDate}', 'ReportController@purchasesByVAT')->name('reports.purchaseByVAT');
             Route::get('purchases-bySupplier/{strDate}/{endDate}/', 'ReportController@purchasesBySupplier')->name('reports.purchaseBySupplier');
@@ -83,6 +84,8 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('sales-byChart/{strDate}/{endDate}/', 'ReportController@salesByChart')->name('reports.salesByChart');
 
             Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
+
+            Route::get('chart-ofAccounts/{strDate}/{endDate}/', 'ReportController@chartOfAccounts');
 
             Route::get('account-customer/{strDate}/{endDate}/', 'ReportController@accountCustomer');
             Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');

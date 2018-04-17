@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Taxpayer;
 use App\TransactionDetail;
 use App\Cycle;
+use App\Chart;
 use Carbon\Carbon;
 use DB;
 
@@ -14,6 +15,36 @@ class ReportController extends Controller
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
         return view('reports/index');
+    }
+
+    public function chartOfAccounts(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = Chart::orderBy('type')->orderBy('code')
+            ->select('code', 'name', 'type', 'sub_type', 'is_accountable')->get();
+
+            return view('reports/accounting/chart_of_accounts')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function chartOfAccounts123(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = Chart::orderBy('type')
+            ->select('code', 'name', 'type', 'sub_type', 'is_accountable')->get();
+
+            return view('reports/accounting/chart_of_accounts')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
     }
 
     public function purchases(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)

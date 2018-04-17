@@ -7,7 +7,7 @@
         <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="m-nav-grid m-nav-grid--skin-light">
                 <div class="m-nav-grid__row">
-                    <a href="{{ route('journals.generate', [request()->route('taxPayer'), request()->route('cycle'), \Carbon\Carbon::now()->subMonth(3)->startOfDay(), \Carbon\Carbon::now()->endOfDay()]) }}" class="m-nav-grid__item padding-40-5">
+                    <a href="{{ route('journals.generate', [request()->route('taxPayer'), request()->route('cycle'), \Carbon\Carbon::now()->subMonth(4)->startOfDay(), \Carbon\Carbon::now()->endOfDay()]) }}" class="m-nav-grid__item padding-40-5">
                         <img src="/img/icons/generate.svg" alt="" width="64">
                         <span class="m-nav-grid__text">
                             Generar Asientos

@@ -17,519 +17,520 @@ use Illuminate\Support\Facades\Log;
 
 class JournalController extends Controller
 {
-  /**
-  * Display a listing of the resource.
-  *
-  * @return \Illuminate\Http\Response
-  */
-  public function index(Taxpayer $taxPayer, Cycle $cycle)
-  {
-    return view('/accounting/journals');
-  }
-
-  public function getJournals(Taxpayer $taxPayer, Cycle $cycle, $skip)
-  {
-    $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
-    ->with('details.chart:id,name,code')
-    ->orderBy('date', 'desc')
-
-    ->take(100)
-    ->skip($skip)
-    ->get();
-
-    // return new JournalCollection($journals);
-    return response()->json($journals);
-  }
-
-  public function getJournalsByID($taxPayerID, Cycle $cycle, $id)
-  {
-    $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
-    ->where('journals.id', $id)
-    ->get();
-
-    return response()->json($journals);
-  }
-
-  /**
-  * Show the form for creating a new resource.
-  *
-  * @return \Illuminate\Http\Response
-  */
-  public function create()
-  {
-    //
-  }
-
-  /**
-  * Store a newly created resource in storage.
-  *
-  * @param  \Illuminate\Http\Request  $request
-  * @return \Illuminate\Http\Response
-  */
-  public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
-  {
-    $journal = $request->id == 0 ? new Journal() : Journal::where('id', $request->id)->first();
-
-    $journal->date = $request->date;
-    $journal->number = $request->number ;
-    $journal->comment = $request->comment;
-    $journal->cycle_id = $cycle->id;
-    $journal->save();
-
-    foreach ($request->details as $detail)
+    /**
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-      $journalDetail = $detail['id'] == 0 ? new JournalDetail() : JournalDetail::where('id', $detail['id'])->first();
-      $journalDetail->journal_id = $journal->id;
-      $journalDetail->chart_id = $detail['chart_id'];
-      $journalDetail->debit = $detail['debit'];
-      $journalDetail->credit = $detail['credit'];
-      $journalDetail->save();
+        return view('/accounting/journals');
     }
 
-    return response()->json('ok');
-  }
-
-  /**
-  * Display the specified resource.
-  *
-  * @param  \App\Journal  $journal
-  * @return \Illuminate\Http\Response
-  */
-  public function show(Journal $journal)
-  {
-    //
-  }
-
-  /**
-  * Show the form for editing the specified resource.
-  *
-  * @param  \App\Journal  $journal
-  * @return \Illuminate\Http\Response
-  */
-  public function edit(Journal $journal)
-  {
-    //
-  }
-
-  /**
-  * Update the specified resource in storage.
-  *
-  * @param  \Illuminate\Http\Request  $request
-  * @param  \App\Journal  $journal
-  * @return \Illuminate\Http\Response
-  */
-  public function update(Request $request, Journal $journal)
-  {
-    //
-  }
-
-  /**
-  * Remove the specified resource from storage.
-  *
-  * @param  \App\Journal  $journal
-  * @return \Illuminate\Http\Response
-  */
-  public function destroy(Journal $journal)
-  {
-    //
-  }
-
-  // public function generateJournals(Taxpayer $taxPayer, Cycle $cycle)
-  // {
-  //         return view('/accounting/generate-journals');
-  // }
-
-  public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
-  {
-    //Get startOf and endOf to cover entire week of range.
-    $currentDate = Carbon::parse($startDate)->startOfMonth();
-    $endDate = Carbon::parse($endDate)->endOfMonth();
-
-    //Number of weeks helps with the for loop
-    $numberOfWeeks = $currentDate->diffInMonths($endDate);
-
-    for ($x = 0; $x <= $numberOfWeeks; $x++)
+    public function getJournals(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
-      //Get current date start of and end of week to run the query.
-      $monthStartDate = Carbon::parse($currentDate->startOfMonth());
-      $monthEndDate = Carbon::parse($currentDate->endOfMonth());
+        $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
+        ->with('details.chart:id,name,code')
+        ->orderBy('date', 'desc')
 
-      //Do not get items that already have current status "Accounted" or "Finalized"
-      $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
-      ->with('details')
-      ->where('supplier_id', $taxPayer->id)
-      ->whereIn('type', [4, 5])
-      ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
-      ->get() ?? null;
+        ->take(100)
+        ->skip($skip)
+        ->get();
 
-      foreach ($transactions->groupBy('type') as $groupedTransactions)
-      {
-        $sales = collect($groupedTransactions->where('type', 4)) ?? null;
-        if ($sales->count() > 0)
-        {
-          $comment = __('accounting.SalesBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
-          $this->generate_fromSales($taxPayer, $cycle, $sales, $comment);
-        }
-
-        //Add other types of transactions here to include into accounting.
-        $this->generate_fromCreditNotes();
-      }
-
-
-      $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
-      ->with('details')
-      ->where('customer_id', $taxPayer->id)
-      ->whereIn('type', [1, 2, 3])
-      ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
-      ->get() ?? null;
-
-      foreach ($transactions->groupBy('type') as $groupedTransactions)
-      {
-        $purchases = collect($groupedTransactions->whereIn('type', [1, 2])) ?? null;
-        if ($purchases->count() > 0)
-        {
-          $comment = __('accounting.PurchaseBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
-          $this->generate_fromPurchases($taxPayer, $cycle, $purchases, $comment);
-        }
-
-        //Add other types of transactions here to include into accounting.
-        $this->generate_fromDebitNotes();
-      }
-
-      $currentDate = $currentDate->addMonths(1);
+        // return new JournalCollection($journals);
+        return response()->json($journals);
     }
 
-    return back();
-  }
-
-  //Generates Journals for a given range of Transactions. If one is passed, it will create one journal.
-  //If multiple is passed, it will create one journal that takes into account all the details for each account.
-  public function generate_fromSales(Taxpayer $taxPayer, Cycle $cycle, $transactions, $comment)
-  {
-    //Create chart controller we might need it further in the code to lookup charts.
-    $ChartController = new ChartController();
-
-    //get sum of all transactions divided by exchange rate.
-    $journal = new Journal();
-    $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-    $journal->date = $transactions->last()->date; //
-    $journal->comment = $comment;
-    $journal->save();
-
-    //Affect all Cash Sales and uses Cash Accounts
-    foreach ($transactions->where('payment_condition','=', 0)->groupBy('chart_account_id') as $groupedTransactions)
+    public function getJournalsByID($taxPayerID, Cycle $cycle, $id)
     {
-      $value = 0;
+        $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
+        ->where('journals.id', $id)
+        ->get();
 
-      //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
-      foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
-      {
-        foreach ($groupedByRate as $transaction)
-        {
-          $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
-        }
-      }
-
-      //Check for Cash Account used.
-
-      $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
-
-      $detail = new JournalDetail();
-      $detail->debit = 0;
-      $detail->credit = $value;
-      $detail->chart_id = $chart->id;
-      // $detail->journal()->associate($journal);
-      $detail->journal_id = $journal->id;
-      $detail->save();
+        return response()->json($journals);
     }
 
-    //Affects all Credit Sales and uses Customer Account for distribution
-    foreach ($transactions->where('payment_condition', '>', 0)->groupBy('customer_id') as $groupedTransactions)
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function create()
     {
-      $value = 0;
-      //calculate value by currency. fx
-      foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
-      {
-        foreach ($groupedByRate as $transaction)
-        {
-          $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
-        }
-      }
-
-      $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedTransactions->first()->customer_id);
-
-      //Create Generic if not
-      $detail = new JournalDetail();
-      $detail->debit = 0;
-      $detail->credit = $value;
-      $detail->chart_id = $chart->id;
-      // $detail->journal()->associate($journal);
-      $detail->journal_id = $journal->id;
-      $detail->save();
+        //
     }
 
-    $details =[];
-    foreach ($transactions as $transaction)
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
-      foreach ($transaction->details as $detail)
-      {
-        array_push($details, $detail);
-      }
-    }
+        $journal = $request->id == 0 ? new Journal() : Journal::where('id', $request->id)->first();
 
-    $details = collect($details);
+        $journal->date = $request->date;
+        $journal->number = $request->number ;
+        $journal->comment = $request->comment;
+        $journal->cycle_id = $cycle->id;
+        $journal->save();
 
-    //Loop through each type of VAT. It will group by similar VATs to reduce number of rows.
-    foreach ($details->groupBy('chart_vat_id') as $groupedByVATs)
-    {
-      if ($groupedByVATs->first()->chart_vat_id != null)
-      {
-        $vatChart = $groupedByVATs->first()->vat;
-
-        $value = 0;
-        foreach ($groupedByVATs as $detail)
+        foreach ($request->details as $detail)
         {
-          $value += ((($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
+            $journalDetail = $detail['id'] == 0 ? new JournalDetail() : JournalDetail::where('id', $detail['id'])->first();
+            $journalDetail->journal_id = $journal->id;
+            $journalDetail->chart_id = $detail['chart_id'];
+            $journalDetail->debit = $detail['debit'];
+            $journalDetail->credit = $detail['credit'];
+            $journalDetail->save();
         }
 
-        if ($value > 0)
-        {
-          $detail = new JournalDetail();
-          $detail->debit = $value;
-          $detail->credit = 0;
-          $detail->chart_id = $vatChart->id;
-          // $detail->journal()->associate($journal);
-          $detail->journal_id = $journal->id;
-          $detail->save();
-        }
-      }
+        return response()->json('ok');
     }
 
-    //Loop through each type of expense. It will group by similar expenses to reduce number of rows.
-    foreach ($details->groupBy('chart_id') as $groupedByCharts)
+    /**
+    * Display the specified resource.
+    *
+    * @param  \App\Journal  $journal
+    * @return \Illuminate\Http\Response
+    */
+    public function show(Journal $journal)
     {
-      $value = 0;
-
-      foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
-      {
-        $vatChart = $groupedByVAT->first()->vat;
-        foreach ($groupedByVAT as $detail)
-        {
-          $value += (($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1));
-        }
-      }
-
-      $detail = new JournalDetail();
-      $detail->debit = $value;
-      $detail->credit = 0;
-      $detail->chart_id = $groupedByCharts->first()->chart_id;
-      // $detail->journal()->associate($journal);
-      $detail->journal_id = $journal->id;
-      $detail->save();
+        //
     }
 
-    //TODO: Run validation to check if journal is balanced before saving
-    //if not delete the journal and all details
-    $sumDebit = $journal->details->sum('debit') ?? 0;
-    $sumCredit = $journal->details->sum('credit') ?? 0;
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  \App\Journal  $journal
+    * @return \Illuminate\Http\Response
+    */
+    public function edit(Journal $journal)
+    {
+        //
+    }
 
-    // if ($sumDebit == $sumCredit)
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \App\Journal  $journal
+    * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request, Journal $journal)
+    {
+        //
+    }
+
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  \App\Journal  $journal
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy(Journal $journal)
+    {
+        //
+    }
+
+    // public function generateJournals(Taxpayer $taxPayer, Cycle $cycle)
     // {
-    //If everything is fine then save at the same time.
-    //$journal->save();
-
-    foreach ($transactions as $transaction)
-    {
-      $transaction->setStatus('Accounted');
-
-      $journalTransaction = new JournalTransaction();
-      $journalTransaction->journal_id = $journal->id;
-      $journalTransaction->transaction_id = $transaction->id;
-      $journalTransaction->save();
-    }
+    //         return view('/accounting/generate-journals');
     // }
-    // else
-    // {
-    //     $journal->delete();
-    //     Log::info($journal);
-    // }
-  }
 
-  public function generate_fromPurchases(Taxpayer $taxPayer, Cycle $cycle, $transactions, $comment)
-  {
-    //Create chart controller we might need it further in the code to lookup charts.
-    $ChartController = new ChartController();
-
-    //get sum of all transactions divided by exchange rate.
-    $journal = new Journal();
-    $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-    $journal->date = $transactions->last()->date; //
-    $journal->comment = $comment;
-    $journal->save();
-
-    $details =[];
-
-    foreach ($transactions as $transaction)
+    public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
-      foreach ($transaction->details as $detail)
-      {
-        array_push($details, $detail);
-      }
-    }
+        //Get startOf and endOf to cover entire week of range.
+        $currentDate = Carbon::parse($startDate)->startOfMonth();
+        $endDate = Carbon::parse($endDate)->endOfMonth();
 
-    $details = collect($details);
+        //Number of weeks helps with the for loop
+        $numberOfWeeks = $currentDate->diffInMonths($endDate);
 
-    //Loop through each type of VAT. It will group by similar VATs to reduce number of rows.
-    foreach ($details->groupBy('chart_vat_id') as $groupedByVATs)
-    {
-      if ($groupedByVATs->first()->chart_vat_id != null)
-      {
-        $vatChart = $groupedByVATs->first()->vat;
-
-        $value = 0;
-        foreach ($groupedByVATs as $detail)
+        for ($x = 0; $x <= $numberOfWeeks; $x++)
         {
-          $value += ((($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
+            //Get current date start of and end of week to run the query.
+            $monthStartDate = Carbon::parse($currentDate->startOfMonth());
+            $monthEndDate = Carbon::parse($currentDate->endOfMonth());
+
+            // DB::connection()->disableQueryLog();
+            //Do not get items that already have current status "Accounted" or "Finalized"
+            $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
+            ->with('details')
+            ->where('supplier_id', $taxPayer->id)
+            ->whereIn('type', [4, 5])
+            ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
+            ->get() ?? null;
+
+            foreach ($transactions->groupBy('type') as $groupedTransactions)
+            {
+                $sales = collect($groupedTransactions->where('type', 4)) ?? null;
+                if ($sales->count() > 0)
+                {
+                    $comment = __('accounting.SalesBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
+                    $this->generate_fromSales($taxPayer, $cycle, $sales, $comment);
+                }
+
+                //Add other types of transactions here to include into accounting.
+                $this->generate_fromCreditNotes();
+            }
+
+
+            $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
+            ->with('details')
+            ->where('customer_id', $taxPayer->id)
+            ->whereIn('type', [1, 2, 3])
+            ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
+            ->get() ?? null;
+
+            foreach ($transactions->groupBy('type') as $groupedTransactions)
+            {
+                $purchases = collect($groupedTransactions->whereIn('type', [1, 2])) ?? null;
+                if ($purchases->count() > 0)
+                {
+                    $comment = __('accounting.PurchaseBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
+                    $this->generate_fromPurchases($taxPayer, $cycle, $purchases, $comment);
+                }
+
+                //Add other types of transactions here to include into accounting.
+                $this->generate_fromDebitNotes();
+            }
+
+            $currentDate = $currentDate->addMonths(1);
         }
 
-        if ($value > 0)
-        {
-          $detail = new JournalDetail();
-          $detail->debit = 0;
-          $detail->credit = $value;
-          $detail->chart_id = $vatChart->id;
-          $detail->journal_id = $journal->id;
-          $detail->save();
-        }
-      }
+        return back();
     }
 
-    //Loop through each type of expense. It will group by similar expenses to reduce number of rows.
-    foreach ($details->groupBy('chart_id') as $groupedByCharts)
+    //Generates Journals for a given range of Transactions. If one is passed, it will create one journal.
+    //If multiple is passed, it will create one journal that takes into account all the details for each account.
+    public function generate_fromSales(Taxpayer $taxPayer, Cycle $cycle, $transactions, $comment)
     {
-      //Check if Journal contains chart_id as detail.
-      //$detail = JournalDetail::where('chart_id', $groupedByCharts->first()->chart_id)->where('journal_id', $journal->id)->first() ?? new JournalDetail();
-      $value = 0;
+        //Create chart controller we might need it further in the code to lookup charts.
+        $ChartController = new ChartController();
 
-      foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
-      {
-        $vatChart = $groupedByVAT->first()->vat;
-        foreach ($groupedByVAT as $detail)
+        //get sum of all transactions divided by exchange rate.
+        $journal = new Journal();
+        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->date = $transactions->last()->date; //
+        $journal->comment = $comment;
+        $journal->save();
+
+        //Affect all Cash Sales and uses Cash Accounts
+        foreach ($transactions->where('payment_condition','=', 0)->groupBy('chart_account_id') as $groupedTransactions)
         {
-          $value += (($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1));
+            $value = 0;
+
+            //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
+            foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
+            {
+                foreach ($groupedByRate as $transaction)
+                {
+                    $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
+                }
+            }
+
+            //Check for Cash Account used.
+
+            $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
+
+            $detail = new JournalDetail();
+            $detail->debit = 0;
+            $detail->credit = $value;
+            $detail->chart_id = $chart->id;
+            // $detail->journal()->associate($journal);
+            $detail->journal_id = $journal->id;
+            $detail->save();
         }
-      }
 
-      if ($value > 0)
-      {
-        $detail = new JournalDetail();
-        $detail->debit = 0;
-        $detail->credit = $value;
-        $detail->chart_id = $groupedByCharts->first()->chart_id;
-        $detail->journal_id = $journal->id;
-        $detail->save();
-      }
-    }
-
-    //Affect all Cash Sales and uses Cash Accounts
-    foreach ($transactions->where('payment_condition', '=', 0)->groupBy('chart_account_id') as $groupedTransactions)
-    {
-      $value = 0;
-
-      //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
-      foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
-      {
-        foreach ($groupedByRate as $transaction)
+        //Affects all Credit Sales and uses Customer Account for distribution
+        foreach ($transactions->where('payment_condition', '>', 0)->groupBy('customer_id') as $groupedTransactions)
         {
-          $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
+            $value = 0;
+            //calculate value by currency. fx
+            foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
+            {
+                foreach ($groupedByRate as $transaction)
+                {
+                    $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
+                }
+            }
+
+            $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedTransactions->first()->customer_id);
+
+            //Create Generic if not
+            $detail = new JournalDetail();
+            $detail->debit = 0;
+            $detail->credit = $value;
+            $detail->chart_id = $chart->id;
+            // $detail->journal()->associate($journal);
+            $detail->journal_id = $journal->id;
+            $detail->save();
         }
-      }
 
-      //Check for Cash Account used.
-      $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
-
-      $detail = new JournalDetail();
-      $detail->debit = $value;
-      $detail->credit = 0;
-      $detail->chart_id = $chart->id;
-      //$detail->journal()->associate($journal);
-      $detail->journal_id = $journal->id;
-      $detail->save();
-    }
-
-    //Affects all Credit Sales and uses Customer Account for distribution
-    foreach ($transactions->where('payment_condition', '>', 0)->groupBy('supplier_id') as $groupedTransactions)
-    {
-      $value = 0;
-      //calculate value by currency. fx
-      foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
-      {
-        foreach ($groupedByRate as $transaction)
+        $details =[];
+        foreach ($transactions as $transaction)
         {
-          $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
+            foreach ($transaction->details as $detail)
+            {
+                array_push($details, $detail);
+            }
         }
-      }
 
-      $chart = $ChartController->createIfNotExists_AccountsPayable($taxPayer, $cycle, $groupedTransactions->first()->supplier_id);
+        $details = collect($details);
 
-      //Create Generic if not
-      $detail = new JournalDetail();
-      $detail->debit = $value;
-      $detail->credit = 0;
-      $detail->chart_id = $chart->id;
-      //$detail->journal()->associate($journal);
-      $detail->journal_id = $journal->id;
-      $detail->save();
+        //Loop through each type of VAT. It will group by similar VATs to reduce number of rows.
+        foreach ($details->groupBy('chart_vat_id') as $groupedByVATs)
+        {
+            if ($groupedByVATs->first()->chart_vat_id != null)
+            {
+                $vatChart = $groupedByVATs->first()->vat;
+
+                $value = 0;
+                foreach ($groupedByVATs as $detail)
+                {
+                    $value += ((($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
+                }
+
+                if ($value > 0)
+                {
+                    $detail = new JournalDetail();
+                    $detail->debit = $value;
+                    $detail->credit = 0;
+                    $detail->chart_id = $vatChart->id;
+                    // $detail->journal()->associate($journal);
+                    $detail->journal_id = $journal->id;
+                    $detail->save();
+                }
+            }
+        }
+
+        //Loop through each type of expense. It will group by similar expenses to reduce number of rows.
+        foreach ($details->groupBy('chart_id') as $groupedByCharts)
+        {
+            $value = 0;
+
+            foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
+            {
+                $vatChart = $groupedByVAT->first()->vat;
+                foreach ($groupedByVAT as $detail)
+                {
+                    $value += (($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1));
+                }
+            }
+
+            $detail = new JournalDetail();
+            $detail->debit = $value;
+            $detail->credit = 0;
+            $detail->chart_id = $groupedByCharts->first()->chart_id;
+            // $detail->journal()->associate($journal);
+            $detail->journal_id = $journal->id;
+            $detail->save();
+        }
+
+        //TODO: Run validation to check if journal is balanced before saving
+        //if not delete the journal and all details
+        $sumDebit = $journal->details->sum('debit') ?? 0;
+        $sumCredit = $journal->details->sum('credit') ?? 0;
+
+        // if ($sumDebit == $sumCredit)
+        // {
+        //If everything is fine then save at the same time.
+        //$journal->save();
+
+        foreach ($transactions as $transaction)
+        {
+            $transaction->setStatus('Accounted');
+
+            $journalTransaction = new JournalTransaction();
+            $journalTransaction->journal_id = $journal->id;
+            $journalTransaction->transaction_id = $transaction->id;
+            $journalTransaction->save();
+        }
+        // }
+        // else
+        // {
+        //     $journal->delete();
+        //     Log::info($journal);
+        // }
     }
 
-    //TODO: Run validation to check if journal is balanced before saving
-    //if not delete the journal and all details
-    $sumDebit = $journal->details->sum('debit') ?? 0;
-    $sumCredit = $journal->details->sum('credit') ?? 0;
-
-    // if ($sumDebit == $sumCredit)
-    // {
-    foreach ($transactions as $transaction)
+    public function generate_fromPurchases(Taxpayer $taxPayer, Cycle $cycle, $transactions, $comment)
     {
-      $transaction->setStatus('Accounted');
+        //Create chart controller we might need it further in the code to lookup charts.
+        $ChartController = new ChartController();
 
-      $journalTransaction = new JournalTransaction();
-      $journalTransaction->journal_id = $journal->id;
-      $journalTransaction->transaction_id = $transaction->id;
-      $journalTransaction->save();
+        //get sum of all transactions divided by exchange rate.
+        $journal = new Journal();
+        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->date = $transactions->last()->date; //
+        $journal->comment = $comment;
+        $journal->save();
+
+        $details =[];
+
+        foreach ($transactions as $transaction)
+        {
+            foreach ($transaction->details as $detail)
+            {
+                array_push($details, $detail);
+            }
+        }
+
+        $details = collect($details);
+
+        //Loop through each type of VAT. It will group by similar VATs to reduce number of rows.
+        foreach ($details->groupBy('chart_vat_id') as $groupedByVATs)
+        {
+            if ($groupedByVATs->first()->chart_vat_id != null)
+            {
+                $vatChart = $groupedByVATs->first()->vat;
+
+                $value = 0;
+                foreach ($groupedByVATs as $detail)
+                {
+                    $value += ((($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1)) * $vatChart->coefficient);
+                }
+
+                if ($value > 0)
+                {
+                    $detail = new JournalDetail();
+                    $detail->debit = 0;
+                    $detail->credit = $value;
+                    $detail->chart_id = $vatChart->id;
+                    $detail->journal_id = $journal->id;
+                    $detail->save();
+                }
+            }
+        }
+
+        //Loop through each type of expense. It will group by similar expenses to reduce number of rows.
+        foreach ($details->groupBy('chart_id') as $groupedByCharts)
+        {
+            //Check if Journal contains chart_id as detail.
+            //$detail = JournalDetail::where('chart_id', $groupedByCharts->first()->chart_id)->where('journal_id', $journal->id)->first() ?? new JournalDetail();
+            $value = 0;
+
+            foreach ($groupedByCharts->groupBy('chart_vat_id') as $groupedByVAT)
+            {
+                $vatChart = $groupedByVAT->first()->vat;
+                foreach ($groupedByVAT as $detail)
+                {
+                    $value += (($detail->value * $detail->transaction->rate) / ($vatChart->coefficient + 1));
+                }
+            }
+
+            if ($value > 0)
+            {
+                $detail = new JournalDetail();
+                $detail->debit = 0;
+                $detail->credit = $value;
+                $detail->chart_id = $groupedByCharts->first()->chart_id;
+                $detail->journal_id = $journal->id;
+                $detail->save();
+            }
+        }
+
+        //Affect all Cash Sales and uses Cash Accounts
+        foreach ($transactions->where('payment_condition', '=', 0)->groupBy('chart_account_id') as $groupedTransactions)
+        {
+            $value = 0;
+
+            //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
+            foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
+            {
+                foreach ($groupedByRate as $transaction)
+                {
+                    $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
+                }
+            }
+
+            //Check for Cash Account used.
+            $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
+
+            $detail = new JournalDetail();
+            $detail->debit = $value;
+            $detail->credit = 0;
+            $detail->chart_id = $chart->id;
+            //$detail->journal()->associate($journal);
+            $detail->journal_id = $journal->id;
+            $detail->save();
+        }
+
+        //Affects all Credit Sales and uses Customer Account for distribution
+        foreach ($transactions->where('payment_condition', '>', 0)->groupBy('supplier_id') as $groupedTransactions)
+        {
+            $value = 0;
+            //calculate value by currency. fx
+            foreach ($groupedTransactions->groupBy('rate') as $groupedByRate)
+            {
+                foreach ($groupedByRate as $transaction)
+                {
+                    $value += ($transaction->details->sum('value') * $groupedByRate->first()->rate);
+                }
+            }
+
+            $chart = $ChartController->createIfNotExists_AccountsPayable($taxPayer, $cycle, $groupedTransactions->first()->supplier_id);
+
+            //Create Generic if not
+            $detail = new JournalDetail();
+            $detail->debit = $value;
+            $detail->credit = 0;
+            $detail->chart_id = $chart->id;
+            //$detail->journal()->associate($journal);
+            $detail->journal_id = $journal->id;
+            $detail->save();
+        }
+
+        //TODO: Run validation to check if journal is balanced before saving
+        //if not delete the journal and all details
+        $sumDebit = $journal->details->sum('debit') ?? 0;
+        $sumCredit = $journal->details->sum('credit') ?? 0;
+
+        // if ($sumDebit == $sumCredit)
+        // {
+        foreach ($transactions as $transaction)
+        {
+            $transaction->setStatus('Accounted');
+
+            $journalTransaction = new JournalTransaction();
+            $journalTransaction->journal_id = $journal->id;
+            $journalTransaction->transaction_id = $transaction->id;
+            $journalTransaction->save();
+        }
+        // }
+        // else
+        // {
+        //     $journal->delete();
+        //     Log::info($journal);
+        // }
     }
-    // }
-    // else
-    // {
-    //     $journal->delete();
-    //     Log::info($journal);
-    // }
-  }
 
-  public function generate_fromCreditNotes()
-  {
+    public function generate_fromCreditNotes()
+    {
 
-  }
+    }
 
-  public function generate_fromDebitNotes()
-  {
+    public function generate_fromDebitNotes()
+    {
 
-  }
+    }
 
-  public function generate_fromMoneyTransfers()
-  {
-    // //Make Journal
-    // $journal = new Journal();
-    // $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-    // $journal->date = $transactions->last()->date;
-    // $journal->comment = __('PurchaseBookComment', [$transactions->first()->date, $transactions->last()->date]);
-    // $journal->save();
-    //
-    // //Find
-  }
+    public function generate_fromMoneyTransfers()
+    {
+        // //Make Journal
+        // $journal = new Journal();
+        // $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        // $journal->date = $transactions->last()->date;
+        // $journal->comment = __('PurchaseBookComment', [$transactions->first()->date, $transactions->last()->date]);
+        // $journal->save();
+        //
+        // //Find
+    }
 
-  public function generate_fromProductions()
-  {
+    public function generate_fromProductions()
+    {
 
-  }
+    }
 }

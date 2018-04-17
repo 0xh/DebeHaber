@@ -302,7 +302,7 @@
                                     <a href="inner.html" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('accounting.JournalEntires')
+                                            @lang('accounting.SubLedger')
                                         </span>
                                     </a>
                                 </li>
@@ -310,7 +310,7 @@
                                     <a href="inner.html" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('accounting.GroupJournalEntries')
+                                            @lang('accounting.Ledger')
                                         </span>
                                     </a>
                                 </li>
@@ -343,14 +343,6 @@
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.StatementofCashflows')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item"  data-redirect="true" aria-haspopup="true">
-                                    <a href="inner.html" class="m-menu__link ">
-                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('accounting.StatementofRetainedEarnings')
                                         </span>
                                     </a>
                                 </li>

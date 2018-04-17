@@ -57,4 +57,7 @@ return [
     'TermsConditions' => 'Terms and Conditions',
     'DebeHaberBy' => 'DebeHaber by',
     'DeveloperPlatform' => 'Developer Platform',
+
+    'Month' => 'Month',
+    'Year' => 'Year'
 ];
