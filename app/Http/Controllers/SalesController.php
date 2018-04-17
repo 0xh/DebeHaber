@@ -33,10 +33,10 @@ class SalesController extends Controller
     ->get();
 
     $accounts = Chart::MoneyAccounts()->orderBy('name')
-    ->select('name', 'id', 'sub_type')
+    ->select('name1', 'id', 'sub_type')
     ->get();
 
-  
+
     return view('/commercial/sales')->with('charts',$charts)
     ->with('vats',$vats)
     ->with('accounts',$accounts);

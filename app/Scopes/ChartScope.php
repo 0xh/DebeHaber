@@ -33,8 +33,8 @@ class ChartScope implements Scope
             {
                 $subQuery
                 ->whereNull('charts.taxpayer_id')
-                ->where('charts.country', $taxPayer->country)
-                ->where('charts.chart_version_id', $cycle->chart_version_id);
+                ->where('charts.country', $taxPayer->country);
+
             });
         });
     }
