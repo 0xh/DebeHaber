@@ -33,7 +33,7 @@ class SalesController extends Controller
     ->get();
 
     $accounts = Chart::MoneyAccounts()->orderBy('name')
-    ->select('name1', 'id', 'sub_type')
+    ->select('name', 'id', 'sub_type')
     ->get();
 
 
