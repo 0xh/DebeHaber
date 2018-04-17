@@ -9,7 +9,7 @@ Vue.component('transaction-form',
         MaskedInput
     },
 
-    props: ['trantype','charts','vats'],
+    props: ['trantype','charts','vats','accounts'],
     data() {
         return {
 
@@ -47,7 +47,7 @@ Vue.component('transaction-form',
                 // taxable
             ],
             documents:[],
-            accounts:[],
+        //    accounts:[],
             currencies:[],
             //  charts:[],
             //vats:[]
@@ -153,7 +153,7 @@ Vue.component('transaction-form',
             app.details = data.details;
             app.selectText = data.customer;
             app.$parent.$parent.showList = false;
-        
+
         },
 
         onReset: function(isnew)
@@ -411,6 +411,6 @@ mounted: function mounted()
     this.getCurrencies();
     //this.getCharts();
     //    this.getTaxes();
-    this.getAccounts();
+//    this.getAccounts();
 }
 });

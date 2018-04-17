@@ -32,8 +32,14 @@ class SalesController extends Controller
     ->select('name', 'code', 'id', 'coefficient')
     ->get();
 
+    $accounts = Chart::MoneyAccounts()->orderBy('name')
+    ->select('name', 'id', 'sub_type')
+    ->get();
+
+  
     return view('/commercial/sales')->with('charts',$charts)
-    ->with('vats',$vats);
+    ->with('vats',$vats)
+    ->with('accounts',$accounts);
   }
 
   public function get_sales(Taxpayer $taxPayer, Cycle $cycle, $skip)

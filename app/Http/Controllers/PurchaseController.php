@@ -30,8 +30,13 @@ class PurchaseController extends Controller
     VATCreditAccounts()
     ->select('name', 'code', 'id', 'coefficient')
     ->get();
+
+    $accounts = Chart::MoneyAccounts()->orderBy('name')
+    ->select('name', 'id', 'sub_type')
+    ->get();
+
     return view('/commercial/purchases')->with('charts',$charts)
-    ->with('vats',$vats);;
+    ->with('vats',$vats)->with('accounts',$accounts);
   }
 
   public function get_purchases(Taxpayer $taxPayer, Cycle $cycle, $skip)
