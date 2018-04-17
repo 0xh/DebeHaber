@@ -65,7 +65,7 @@ class Chart extends Model
         return $query
         ->where('type', 1)
         ->where('sub_type', 9)
-        ->where('is_accountable', 'true');;
+        ->where('is_accountable', 1);;
     }
 
     //Brings all Fixed Asset Type accounts into list.
@@ -73,7 +73,7 @@ class Chart extends Model
     {
         return $query
         ->where('type', 5)
-        ->where('is_accountable', 'true');
+        ->where('is_accountable', 1);
     }
 
     //Brings all Fixed Asset Type accounts into list.
@@ -82,7 +82,7 @@ class Chart extends Model
         return $query
         ->where('type', 1)
         ->where('sub_type', 8)
-        ->where('is_accountable', 'true');
+        ->where('is_accountable', 1);
     }
 
     //Brings all Fixed Asset Type accounts into list.
@@ -90,14 +90,14 @@ class Chart extends Model
     {
         return $query
         ->where('type', 4)
-        ->where('is_accountable','true');
+        ->where('is_accountable',1);
     }
 
     //Brings all Item accounts (formally known as Cost Centers) into Sales Detail
     public function scopeSalesAccounts($query)
     {
         return $query
-        ->where('is_accountable', 'true')
+        ->where('is_accountable', 1)
         ->where(function ($x)
         {
             $x
@@ -118,14 +118,14 @@ class Chart extends Model
         return $query
         ->where('type', 4)
         ->where('sub_type', 4)
-        ->where('is_accountable', 'true');
+        ->where('is_accountable', 1);
     }
 
     //Brings all Item Accounts (formally known as Cost Centers) into Purchase Detail
     public function scopePurchaseAccounts($query)
     {
         return $query
-        ->where('is_accountable', 'true')
+        ->where('is_accountable', 1)
         ->where(function ($y)
         {
             $y
@@ -159,7 +159,7 @@ class Chart extends Model
     public function scopeVATDebitAccounts($query)
     {
         return $query
-        ->where('is_accountable', 'true')
+        ->where('is_accountable', 1)
         ->where('type', 2)
         ->where('sub_type', 3);
     }
@@ -168,7 +168,7 @@ class Chart extends Model
     public function scopeVATCreditAccounts($query)
     {
         return $query
-        ->where('is_accountable', 'true')
+        ->where('is_accountable', 1)
         ->where('type', 1)
         ->where('sub_type', 12);
     }
