@@ -371,7 +371,7 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sales/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('accounting.SubLedger')
                                                 </a>
                                                 <br>
@@ -390,7 +390,7 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sales-byVATs/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/ledger/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('accounting.Ledger')
                                                 </a>
                                                 <br>
@@ -493,7 +493,7 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/purchases/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/balance-sheet/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('accounting.BalanceSheet')
                                                 </a>
                                                 <br>

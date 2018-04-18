@@ -48,7 +48,7 @@ class SalesController extends Controller
     $transaction = Transaction::MySales()
     ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
     ->join('currencies', 'transactions.currency_id','currencies.id')
-    ->leftjoin('statuses', 'transactions.id','statuses.model_id')
+    ->leftjoin('statuses', 'transactions.id', 'statuses.model_id')
     ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
     ->where('supplier_id', $taxPayer->id)
     ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
@@ -60,6 +60,7 @@ class SalesController extends Controller
     DB::raw('max(transactions.payment_condition) as PaymentCondition'),
     DB::raw('max(transactions.date) as Date'),
     DB::raw('max(transactions.number) as Number'),
+    DB::raw('max(statuses.name) as Status'),
     DB::raw('if(max(statuses.name)="Annul",0,sum(td.value)) as Value'))
     ->orderByRaw('max(transactions.date)', 'desc')
     ->orderByRaw('max(transactions.number)', 'desc')

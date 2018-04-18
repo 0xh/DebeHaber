@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>
-        @yield('reportName')
+        @yield('reportName') | {{ request()->route('taxPayer')->alias }}
     </title>
 
     <link href="{{url('/')}}/css/normalize.css" rel="stylesheet" type="text/css" />

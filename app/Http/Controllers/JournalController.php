@@ -146,9 +146,9 @@ class JournalController extends Controller
         $endDate = Carbon::parse($endDate)->endOfMonth();
 
         //Number of weeks helps with the for loop
-        $numberOfWeeks = $currentDate->diffInMonths($endDate);
+        $numberOfMonths = $currentDate->diffInMonths($endDate);
 
-        for ($x = 0; $x <= $numberOfWeeks; $x++)
+        for ($x = 0; $x <= $numberOfMonths; $x++)
         {
             //Get current date start of and end of week to run the query.
             $monthStartDate = Carbon::parse($currentDate->startOfMonth());
@@ -166,6 +166,7 @@ class JournalController extends Controller
             foreach ($transactions->groupBy('type') as $groupedTransactions)
             {
                 $sales = collect($groupedTransactions->where('type', 4)) ?? null;
+
                 if ($sales->count() > 0)
                 {
                     $comment = __('accounting.SalesBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);

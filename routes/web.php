@@ -90,14 +90,14 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('account-customer/{strDate}/{endDate}/', 'ReportController@accountCustomer');
             Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');
 
-            Route::get('journal/{strDate}/{endDate}/', 'ReportController@journal');
-            Route::get('journal-ByChart/{strDate}/{endDate}/', 'ReportController@journal_ByChart');
-            Route::get('journal-ByDate/{strDate}/{endDate}/', 'ReportController@journal_ByDate');
-            Route::get('journal-ByEntry/{strDate}/{endDate}/', 'ReportController@journal_ByEntry');
+            Route::get('sub_ledger/{strDate}/{endDate}/', 'ReportController@sub_ledger');
+            Route::get('ledger/{strDate}/{endDate}/', 'ReportController@ledger');
+            Route::get('ledger-byMoneyAccounts/{strDate}/{endDate}/', 'ReportController@ledgerByMoneyAccounts');
+            Route::get('ledger-byReceivables/{strDate}/{endDate}/', 'ReportController@ledgerByReceivables');
+            Route::get('ledger-byPayables/{strDate}/{endDate}/', 'ReportController@ledgerByPayables');
 
-            Route::get('balance-sums-balances/{strDate}/{endDate}/', 'ReportController@balanceSumsBalances');
-            Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
             Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet');
+            Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
             Route::get('results/{strDate}/{endDate}/', 'ReportController@resultsTable');
             Route::get('cash-flow/{strDate}/{endDate}/', 'ReportController@cashFlow');
         });

@@ -1,6 +1,6 @@
 @extends('reports.master')
 
-@section('reportName', __('accounting.SubLedger'))
+@section('reportName', __('accounting.BalanceSheet'))
 
 @section('data')
     <table class="u-full-width">
@@ -19,8 +19,8 @@
                     <td>{{ $row->date }}</td>
                     <td>{{ $row->chartName }}</td>
                     <td>{{ $row->Comment }}</td>
-                    <td>{{ $row->debit }}</td>
-                    <td>{{ $row->credit }}</td>
+                    <td>{{ $row->Debit }}</td>
+                    <td>{{ $row->Credit }}</td>
                 </tr>
             @endforeach
         </tbody>

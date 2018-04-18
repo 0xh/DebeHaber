@@ -7,7 +7,6 @@
         <tbody>
             <thead>
                 <tr>
-                    <th>@lang('global.Date')</th>
                     <th>@lang('global.Code')</th>
                     <th>@lang('accounting.Account')</th>
                     <th>@lang('global.Comment')</th>
@@ -18,11 +17,10 @@
             @foreach ($data as $row)
                 <tr>
                     <td>{{ $row->date }}</td>
-                    <td>{{ $row->chartCode }}</td>
                     <td>{{ $row->chartName }}</td>
-                    <td>{{ $row->comment }}</td>
-                    <td class="number">{{ $row->debit }}</td>
-                    <td class="number">{{ $row->credit }}</td>
+                    <td>{{ $row->Comment }}</td>
+                    <td>{{ $row->debit }}</td>
+                    <td>{{ $row->credit }}</td>
                 </tr>
             @endforeach
         </tbody>
