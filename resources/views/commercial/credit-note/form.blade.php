@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<transaction-form :trantype ="5"  inline-template>
+<transaction-form :trantype ="5" :charts="{{ $charts }}"  :vats="{{ $vats }}" :accounts=" {{ $accounts }} " inline-template>
     <div>
         <div class="row">
             <div class="col-6">
@@ -209,13 +209,13 @@
                         <span class="m--font-boldest">@{{ grandTotal }}</span>
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">@{{ grandExenta }}</span>
+                        <span class="m--font-boldest">@{{ grandTaxExempt }}</span>
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">@{{ grandGravada }}</span>
+                        <span class="m--font-boldest">@{{ grandTaxable }}</span>
                     </div>
                     <div class="col-1">
-                        <span class="m--font-boldest">@{{ grandIva }}</span>
+                        <span class="m--font-boldest">@{{ grandVAT }}</span>
                     </div>
                     <div class="col-1">
 

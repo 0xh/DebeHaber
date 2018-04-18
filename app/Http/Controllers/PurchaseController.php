@@ -21,7 +21,7 @@ class PurchaseController extends Controller
   */
   public function index(Taxpayer $taxPayer, Cycle $cycle)
   {
-    $charts = Chart::SalesAccounts()
+    $charts = Chart::PurchaseAccounts()
     ->orderBy('name')
     ->select('name', 'id', 'type')
     ->get();

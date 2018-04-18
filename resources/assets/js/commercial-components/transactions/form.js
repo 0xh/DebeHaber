@@ -126,9 +126,9 @@ Vue.component('transaction-form',
         },
         onEdit: function(data)
         {
-
+            console.log(data)
             var app = this;
-            app.id = data.id;
+            app.id = data.ID;
             app.type = data.type;
             app.Customer = data.Customer;
             app.Supplier = data.Supplier;
@@ -198,7 +198,7 @@ Vue.component('transaction-form',
             var api = null;
             app.type =  app.trantype;
 
-            if (app.trantype == 4) {
+            if (app.trantype == 4 || app.trantype == 5) {
                 app.customer_id = this.$children[0].id;
             }
             else {

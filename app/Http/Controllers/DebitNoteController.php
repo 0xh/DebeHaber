@@ -6,6 +6,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\Transaction;
 use App\TransactionDetail;
+use App\Chart;
 use Illuminate\Http\Request;
 use DB;
 
@@ -18,7 +19,23 @@ class DebitNoteController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return view('/commercial/debitnote');
+      $charts = Chart::SalesAccounts()
+      ->orderBy('name')
+      ->select('name', 'id', 'type')
+      ->get();
+
+      $vats = Chart::
+      VATDebitAccounts()
+      ->select('name', 'code', 'id', 'coefficient')
+      ->get();
+
+      $accounts = Chart::MoneyAccounts()->orderBy('name')
+      ->select('name', 'id', 'sub_type')
+      ->get();
+
+        return view('/commercial/debitnote')->with('charts',$charts)
+    ->with('vats',$vats)
+    ->with('accounts',$accounts);
     }
 
     public function get_debit_note(Taxpayer $taxPayer, Cycle $cycle, $skip)

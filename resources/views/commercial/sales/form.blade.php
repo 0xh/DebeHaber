@@ -222,6 +222,7 @@
                     </div>
                     <div class="col-1">
                         <span class="m--font-boldest">@{{ grandVAT }}</span>
+
                     </div>
                     <div class="col-1">
 

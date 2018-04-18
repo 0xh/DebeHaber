@@ -6,6 +6,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\Transaction;
 use App\TransactionDetail;
+use App\Chart;
 use Illuminate\Http\Request;
 use DB;
 
@@ -18,7 +19,22 @@ class CreditNoteController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return view('/commercial/creditnote');
+      $charts = Chart::SalesAccounts()
+      ->orderBy('name')
+      ->select('name', 'id', 'type')
+      ->get();
+
+      $vats = Chart::
+      VATCreditAccounts()
+      ->select('name', 'code', 'id', 'coefficient')
+      ->get();
+
+      $accounts = Chart::MoneyAccounts()->orderBy('name')
+      ->select('name', 'id', 'sub_type')
+      ->get();
+
+        return view('/commercial/creditnote')->with('charts',$charts)
+    ->with('vats',$vats)->with('accounts',$accounts);
     }
 
     public function get_credit_note(Taxpayer $taxPayer, Cycle $cycle, $skip)
@@ -57,7 +73,7 @@ class CreditNoteController extends Controller
         ->select(DB::raw('false as selected,transactions.id,taxpayers.name as customer
         ,customer_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
         ,number,transactions.code,code_expiry'))
-        ->first();
+        ->get();
         return response()->json($Transaction);
     }
     /**
