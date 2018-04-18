@@ -1,13 +1,12 @@
 @extends('reports.master')
 
-@section('reportName', __('accounting.Ledger'))
+@section('reportName', __('accounting.SubLedger'))
 
 @section('data')
     <table class="u-full-width">
         <tbody>
             <thead>
                 <tr>
-                    <th>@lang('global.Date')</th>
                     <th>@lang('global.Code')</th>
                     <th>@lang('accounting.Account')</th>
                     <th>@lang('global.Comment')</th>
@@ -17,12 +16,7 @@
             </thead>
             @foreach ($data as $row)
                 <tr>
-                    <td>{{ $row->date }}</td>
-                    <td>{{ $row->chartCode }}</td>
-                    <td>{{ $row->chartName }}</td>
-                    <td>{{ $row->comment }}</td>
-                    <td class="number">{{ $row->debit }}</td>
-                    <td class="number">{{ $row->credit }}</td>
+                    <td>{{  }}</td>
                 </tr>
             @endforeach
         </tbody>
