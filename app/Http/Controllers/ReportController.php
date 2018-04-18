@@ -259,7 +259,7 @@ class ReportController extends Controller
             ->select('customer.name as customer',
             'customer.taxid as customer_code',
             'transactions.type',
-            'transactions.id as salesID',
+            'transactions.id as creditID',
             'transactions.date',
             'transactions.code',
             'transactions.number',

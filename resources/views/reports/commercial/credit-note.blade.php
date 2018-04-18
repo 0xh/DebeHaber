@@ -21,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($data->groupBy('salesID') as $group)
+            @foreach ($data->groupBy('creditID') as $group)
                 <tr @if ($group->first()->status == 3) class="danger" @endif>
                     <td>{{ \Carbon\Carbon::parse($group->first()->date)->format('d/m/Y')}}</td>
 
