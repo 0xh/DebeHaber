@@ -78,7 +78,12 @@ class ReportController extends Controller
                 }
             }
 
-            $charts = $this->recursiveAdd($charts);
+            foreach ($charts->where('is_accountable', '=', '1') as $chart)
+            {
+                $chart = $charts->where('parent_id', '=', $chart->parent_id);
+                $charts = $this->recursiveAdd($charts, $chart);
+            }
+
             $data = $charts;
 
             return view('reports/accounting/balance-sheet')
@@ -89,7 +94,7 @@ class ReportController extends Controller
         }
     }
 
-    public function recursiveAdd($charts)
+    public function recursiveAdd($charts, $chart)
     {
         // Loop through chart giving value to parent
         // Make it recursrive
@@ -97,7 +102,10 @@ class ReportController extends Controller
         foreach ($charts as $chart)
         {
             # code...
-            $this->recursiveAdd($chart);
+            if ($chart->is_accounted)
+            {
+                # code...
+            }
         }
 
         return $charts;

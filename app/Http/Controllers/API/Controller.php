@@ -328,7 +328,7 @@ class Controller extends BaseController
   public function convert_date($date)
   {
     //return Carbon::parse($date);
-    return Carbon::createFromFormat('yyyy-mm-dd', $date);
+    return Carbon::createFromFormat('Y-m-d', $date);
     //$trans_date = new DateTime($date);
 
     //preg_match('/(\d{10})(\d{3})/', $date, $matches);
