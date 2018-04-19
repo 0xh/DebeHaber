@@ -327,11 +327,11 @@ class Controller extends BaseController
 
     public function convert_date($date)
     {
-        $trans_date = $date;
+        $trans_date = new DateTime($date);
 
         //preg_match('/(\d{10})(\d{3})/', $date, $matches);
         //$trans_date = Carbon::createFromTimestamp($matches[1]);
 
-        return $trans_date;
+        return $trans_date->format('Y-m-d H:i:s');
     }
 }
