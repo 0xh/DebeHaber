@@ -19,8 +19,8 @@
                     <td>{{ $row->date }}</td>
                     <td>{{ $row->chartName }}</td>
                     <td>{{ $row->Comment }}</td>
-                    <td>{{ $row->debit }}</td>
-                    <td>{{ $row->credit }}</td>
+                    <td class="number">{{ $row->debit }}</td>
+                    <td class="number">{{ $row->credit }}</td>
                 </tr>
             @endforeach
         </tbody>
