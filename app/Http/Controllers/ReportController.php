@@ -22,9 +22,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = Chart::orderBy('type')
-            ->orderBy('code')
-            ->select('code', 'name', 'type', 'sub_type', 'is_accountable')->get();
+            $data = $this->chartQuery($taxPayer, $cycle, $startDate, $endDate);
 
             return view('reports/accounting/chart_of_accounts')
             ->with('header', $taxPayer)
@@ -66,7 +64,22 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->chartBalanceQuery($taxPayer, $cycle, $startDate, $endDate);
+            $journals = $this->journalQuery($taxPayer, $startDate, $endDate);
+            $charts = $this->chartQuery($taxPayer, $cycle, $startDate, $endDate);
+
+            //Loop through Journal entries and add to chart balance
+            foreach ($journals->groupBy('chart_id') as $journalGrouped)
+            {
+                $chart = $charts->where('id', $journalGrouped->first()->chart_id)->first();
+
+                if ($chart != null)
+                {
+                    $chart->balance = $journalGrouped->sum('credit') - $journalGrouped->sum('debit');
+                }
+            }
+
+            $charts = $this->recursiveAdd($charts);
+            $data = $charts;
 
             return view('reports/accounting/balance-sheet')
             ->with('header', $taxPayer)
@@ -74,6 +87,20 @@ class ReportController extends Controller
             ->with('strDate', $startDate)
             ->with('endDate', $endDate);
         }
+    }
+
+    public function recursiveAdd($charts)
+    {
+        // Loop through chart giving value to parent
+        // Make it recursrive
+
+        foreach ($charts as $chart)
+        {
+            # code...
+            $this->recursiveAdd($chart);
+        }
+
+        return $charts;
     }
 
     public function balanceComparative(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
@@ -331,6 +358,7 @@ class ReportController extends Controller
         'journals.number',
         'journal_details.debit',
         'journal_details.credit',
+        'charts.id as chart_id',
         'charts.name as chartName',
         'charts.code as chartCode',
         'charts.type as chartType',
@@ -340,27 +368,13 @@ class ReportController extends Controller
         ->get();
     }
 
-    public function chartBalanceQuery(Taxpayer $taxPayer, $cycle, $startDate, $endDate)
+    public function chartQuery(Taxpayer $taxPayer, $cycle, $startDate, $endDate)
     {
         DB::connection()->disableQueryLog();
 
-        return Chart::leftJoin('journal_details', 'charts.id', 'journal_details.chart_id')
-        ->leftJoin('journals', 'journal_details.journal_id', 'journals.id')
-        ->select('charts.id', 'charts.chart_id',
-        'journal_details.debit as Debit',
-        'journal_details.credit as Credit',
-        'journals.comment as Comment',
-        'charts.name as chartName',
-        'charts.code as chartCode',
-        'charts.type as chartType',
-        'charts.sub_type as chartSubType')
-        ->orderBy('type')
+        return Chart::orderBy('type')
         ->orderBy('code')
-        ->where(function($q) use ($startDate, $endDate)
-        {
-            $q->whereBetween('journals.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
-            ->orWhereNull('journals.date');
-        })
+        ->select('id', 'parent_id', 'code', 'name', 'type', 'sub_type', 'is_accountable')
         ->get();
     }
 }

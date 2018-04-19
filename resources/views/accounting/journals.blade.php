@@ -24,9 +24,18 @@
             </div>
         </div>
         <div class="col-md-12 col-lg-6 col-xl-3">
-            <div class="m-widget24">
-                <div class="m-widget24__item">
-
+            <div class="m-nav-grid m-nav-grid--skin-light">
+                <div class="m-nav-grid__row">
+                    <a href="{{ route('journals.generate', [request()->route('taxPayer'), request()->route('cycle'),
+                        request()->route('cycle')->start_date,
+                        request()->route('cycle')->end_date]) }}" class="m-nav-grid__item padding-40-5">
+                        <img src="/img/icons/generate.svg" alt="" width="64">
+                        <span class="m-nav-grid__text">
+                            Generar Asientos
+                            <br>
+                            <small>Click Aqui</small>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>
