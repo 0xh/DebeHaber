@@ -177,7 +177,6 @@ class JournalController extends Controller
                 $this->generate_fromCreditNotes();
             }
 
-
             $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
             ->with('details')
             ->where('customer_id', $taxPayer->id)
@@ -240,7 +239,6 @@ class JournalController extends Controller
             $detail->debit = 0;
             $detail->credit = $value;
             $detail->chart_id = $chart->id;
-            // $detail->journal()->associate($journal);
             $detail->journal_id = $journal->id;
             $detail->save();
         }
@@ -265,7 +263,6 @@ class JournalController extends Controller
             $detail->debit = 0;
             $detail->credit = $value;
             $detail->chart_id = $chart->id;
-            // $detail->journal()->associate($journal);
             $detail->journal_id = $journal->id;
             $detail->save();
         }
@@ -300,7 +297,6 @@ class JournalController extends Controller
                     $detail->debit = $value;
                     $detail->credit = 0;
                     $detail->chart_id = $vatChart->id;
-                    // $detail->journal()->associate($journal);
                     $detail->journal_id = $journal->id;
                     $detail->save();
                 }
@@ -325,7 +321,6 @@ class JournalController extends Controller
             $detail->debit = $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedByCharts->first()->chart_id;
-            // $detail->journal()->associate($journal);
             $detail->journal_id = $journal->id;
             $detail->save();
         }

@@ -346,8 +346,10 @@ class ReportController extends Controller
 
         return Chart::leftJoin('journal_details', 'charts.id', 'journal_details.chart_id')
         ->leftJoin('journals', 'journal_details.journal_id', 'journals.id')
-        ->select('journal_details.debit as Debit',
+        ->select('charts.id', 'charts.chart_id',
+        'journal_details.debit as Debit',
         'journal_details.credit as Credit',
+        'journals.comment as Comment',
         'charts.name as chartName',
         'charts.code as chartCode',
         'charts.type as chartType',
