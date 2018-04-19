@@ -13,8 +13,6 @@ class AccountMovement extends Controller
     {
         //Convert data from
         $data = json_decode($request, true);
-        //Process Transaction
-        //
     }
 
     public function formatData($data)

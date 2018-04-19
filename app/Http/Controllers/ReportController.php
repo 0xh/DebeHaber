@@ -78,12 +78,6 @@ class ReportController extends Controller
                 }
             }
 
-            foreach ($charts->where('is_accountable', '=', '1') as $chart)
-            {
-                $chart = $charts->where('parent_id', '=', $chart->parent_id);
-                $charts = $this->recursiveAdd($charts, $chart);
-            }
-
             $data = $charts;
 
             return view('reports/accounting/balance-sheet')
@@ -92,23 +86,6 @@ class ReportController extends Controller
             ->with('strDate', $startDate)
             ->with('endDate', $endDate);
         }
-    }
-
-    public function recursiveAdd($charts, $chart)
-    {
-        // Loop through chart giving value to parent
-        // Make it recursrive
-
-        foreach ($charts as $chart)
-        {
-            # code...
-            if ($chart->is_accounted)
-            {
-                # code...
-            }
-        }
-
-        return $charts;
     }
 
     public function balanceComparative(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)

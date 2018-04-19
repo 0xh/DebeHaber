@@ -28,6 +28,18 @@
 
     @yield('styles')
 
+
+
+    @if (config('app.debug'))
+        <style>
+        body {
+            background: LightSteelBlue url('/beta.png');
+            height: 100%;
+            margin: 0;
+        }
+        </style>
+    @endif
+
     <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/apple-icon-72x72.png">
@@ -50,7 +62,7 @@
     window.Spark = <?php echo json_encode(array_merge(
         Spark::scriptVariables(), []
     )); ?>;
-    </script>
+</script>
 </head>
 <!-- end::Head -->
 
