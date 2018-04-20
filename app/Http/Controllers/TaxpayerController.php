@@ -219,7 +219,9 @@ class TaxpayerController extends Controller
         //Get current month sub 1 month.
         $workingYear = Carbon::now()->subMonth(1)->year;
         //Check if there is Cycle of current year.
-        $cycle = Cycle::where('year', $workingYear)->first();
+        $cycle = Cycle::where('year', $workingYear)
+        ->where('taxpayer_id', $taxPayer->id)
+        ->first();
 
         //If null, then create it.
         if ($cycle == null)

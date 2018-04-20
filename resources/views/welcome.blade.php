@@ -33,7 +33,7 @@
     body, html {
         background: url('/img/spark-bg.png');
         background-repeat: repeat;
-        background-size: 300px 200px;
+        background-size: 150px 100px;
         height: 100%;
         margin: 0;
     }
