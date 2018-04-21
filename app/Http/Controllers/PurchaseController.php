@@ -35,8 +35,10 @@ class PurchaseController extends Controller
     ->select('name', 'id', 'sub_type')
     ->get();
 
-    return view('/commercial/purchases')->with('charts',$charts)
-    ->with('vats',$vats)->with('accounts',$accounts);
+    return view('/commercial/purchases')
+    ->with('charts',$charts)
+    ->with('vats',$vats)
+    ->with('accounts',$accounts);
   }
 
   public function get_purchases(Taxpayer $taxPayer, Cycle $cycle, $skip)
