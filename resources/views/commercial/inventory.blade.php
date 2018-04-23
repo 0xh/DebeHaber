@@ -14,7 +14,7 @@
                                 <span>
                                     <i class="la la-plus"></i>
                                     <span>
-                                        @lang('global.Create', ['model' => __('commercial.Sales')])
+                                        @lang('global.Create', ['model' => __('commercial.Inventory')])
                                     </span>
                                 </span>
                             </button>
@@ -68,17 +68,17 @@
 @endsection
 
 @section('form')
-    <infinity :taxpayer="{{ request()->route('taxPayer')->id}}"
-        :cycle="{{ request()->route('cycle')->id }}"
-        :baseurl="commercial/inventories"
+    <infinity taxpayer="{{ request()->route('taxPayer')->id }}"
+        cycle="{{ request()->route('cycle')->id }}"
+        baseurl="commercial/inventories"
         inline-template>
         <div>
             <div v-if="$parent.showList">
-                @include('commercial/inventory/form')
-            </div>
-            <div v-else>
                 @include('commercial/inventory/list')
             </div>
+            <div v-else>
+                @include('commercial/inventory/form')
+            </div>
         </div>
-    </model>
+    </infinity>
 @endsection

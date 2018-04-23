@@ -2,7 +2,7 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('inventory-form',{
-    props: ['taxpayer','trantype'],
+    props: ['taxpayer','trantype','charts'],
     data() {
         return {
             id:0,

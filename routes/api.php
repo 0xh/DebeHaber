@@ -105,6 +105,8 @@ Route::group(['middleware' => 'auth:api'], function ()
 
                 Route::get('money_transfers/{skip}', 'MoneyTransferController@get_money_transfers');
                 Route::get('money_transfer/by-id/{id}', 'MoneyTransferController@get_money_transferByID');
+                
+                Route::get('inventories/{skip}', 'InventoryController@getInventories');
             });
         });
 

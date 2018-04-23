@@ -167,7 +167,7 @@
                                     </a>
                                 </li>
 
-                                @if (request()->route('taxPayer')->is_company == 1)
+                                {{-- @if (request()->route('taxPayer')->is_company == 1) --}}
                                     {{-- If Taxpayer is not Company, do not show Inventory, Production, and Fixed Assets--}}
 
                                     <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
@@ -194,7 +194,7 @@
                                             </span>
                                         </a>
                                     </li>
-                                @endif
+                                {{-- @endif --}}
 
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a href="{{ route('documents.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
