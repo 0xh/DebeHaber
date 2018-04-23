@@ -39,7 +39,89 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="info">
 
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.
+                    <div class="m-form__section m-form__section--first">
+                        <div class="m-form__heading">
+                            <h3 class="m-form__heading-title">Taxpayer Information</h3>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">Name</label>
+                            <div class="col-lg-6">
+                                <input type="email" class="form-control m-input" placeholder="Enter full name">
+                                <span class="m-form__help">Please enter your full name</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">Alias</label>
+                            <div class="col-lg-6">
+                                <input type="email" class="form-control m-input" placeholder="Enter email">
+                                <span class="m-form__help">We'll never share your email with anyone else</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">Tax ID</label>
+                            <div class="col-lg-6">
+                                <input type="email" class="form-control m-input" placeholder="Enter email">
+                                <span class="m-form__help">We'll never share your email with anyone else</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">Email</label>
+                            <div class="col-lg-6">
+                                <input type="email" class="form-control m-input" placeholder="Enter email">
+                                <span class="m-form__help">We'll never share your email with anyone else</span>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">Telephone</label>
+                            <div class="col-lg-6">
+                                <input type="email" class="form-control m-input" placeholder="Enter email">
+                                <span class="m-form__help">We'll never share your email with anyone else</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-form__section m-form__section--first">
+                        <div class="m-form__heading">
+                            <h3 class="m-form__heading-title">Accounting Information</h3>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">Agent</label>
+                            <div class="col-lg-6">
+                                <input type="email" class="form-control m-input" placeholder="Enter email">
+                                <span class="m-form__help">We'll never share your email with anyone else</span>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">Agent TaxID</label>
+                            <div class="col-lg-6">
+                                <input type="email" class="form-control m-input" placeholder="Enter email">
+                                <span class="m-form__help">We'll never share your email with anyone else</span>
+                            </div>
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-lg-2 col-form-label">Communication:</label>
+                            <div class="col-lg-6">
+                                <div class="m-checkbox-list">
+                                    <label class="m-checkbox">
+                                        <input type="checkbox"> Email
+                                        <span></span>
+                                    </label>
+                                    <label class="m-checkbox">
+                                        <input type="checkbox"> SMS
+                                        <span></span>
+                                    </label>
+                                    <label class="m-checkbox">
+                                        <input type="checkbox"> Phone
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="tab-pane " id="settings">
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.

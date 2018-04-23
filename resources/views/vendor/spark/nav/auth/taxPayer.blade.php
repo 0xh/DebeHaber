@@ -151,7 +151,7 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
-                                    <a href="{{ route('taxpayer.show', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                    <a href="{{ route('taxpayer.show', [request()->route('taxPayer')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-gear"></i>
                                         <span class="m-menu__link-text">
                                             @lang('global.ProfileAndSettings')
