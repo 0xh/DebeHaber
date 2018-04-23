@@ -1,47 +1,41 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 {{-- <router-view name="Datatable"  :taxpayer="{{ request()->route('taxPayer')}}"  /> --}}
+<div>
+  <div class="row">
+    <div class="col-1 m--font-boldest">
+      <p class="m--font-boldest m--font-transform-u">@lang('global.Code')</p>
+    </div>
+    <div class="col-5">
+      <p class="m--font-boldest m--font-transform-u">@lang('commercial.Number')</p>
+    </div>
+    <div class="col-2">
+      <p class="m--font-boldest m--font-transform-u">@lang('commercial.Date')</p>
+    </div>
+    <div class="col-1">
+      <p class="m--align-center m--font-boldest m--font-transform-u">@lang('global.Actions')</p>
+    </div>
+  </div>
 
-<inventory-list :taxpayer="{{ request()->route('taxPayer')->id}}"  inline-template>
-    <div>
-      <button @click="add()">add new</button>
-        <vue-good-table
-        :columns="columns"
-        :rows="rows"
-        :paginate="true"
-        :globalSearch="true"
-        styleClass="m-datatable__table">
+  <div class="row m--margin-bottom-5" v-for="invoice in list">
+    <div class="col-1">
+      <p> @{{ invoice.code }} </p>
+    </div>
+    <div class="col-5">
+      <p> @{{ invoice.number }} </p>
+    </div>
+    <div class="col-2">
+      <p>
+      @{{ invoice.date }}
+      </p>
+    </div>
 
-        {{-- SelectAll --}}
-        <template slot="table-column" slot-scope="props">
-            <span v-if="props.column.label =='SelectAll'">
-                <label class="checkbox">
-                    <input
-                    type="checkbox"
-                    @click="toggleSelectAll()">
-                </label>
-            </span>
-            <span v-else>
-                @{{props.column.label}}
-            </span>
-        </template>
-
-        {{-- Action Buttons --}}
-        <template slot="table-row-after" slot-scope="props">
-            <button @click="onEdit(rows[props.row.originalIndex])">Edit</button>
-        </template>
-
-        {{-- Checkbox --}}
-        <template slot="table-row-before" slot-scope="props">
-            <td>
-                <label class="checkbox">
-                    <input type="checkbox" v-model="rows[props.row.originalIndex].selected">
-                </label>
-            </td>
-        </template>
-
-        <tr class="m-datatable__row">
-        </tr>
-
-    </vue-good-table>
+    <div class="col-1">
+      <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
+        <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
+        <a @click="onEdit(invoice.id)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
+        <a @click="onDelete(invoice)" class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>
+      </div>
+    </div>
+  </div>
+  @include('layouts/infinity-loading')
 </div>
-</purchases-list>
