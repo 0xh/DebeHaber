@@ -57,6 +57,12 @@ Route::group(['middleware' => 'auth:api'], function ()
                     Route::get('get-money_accounts', 'ChartController@getMoneyAccounts');
                     Route::get('get-parent_accounts/{frase}', 'ChartController@getParentAccount');
                 });
+                Route::prefix('fixedasset')->group(function ()
+                {
+                    Route::get('fixedassets/{skip}', 'FixedAssetController@getFixedAsset');
+                    Route::get('fixedassets/by-id/{id}', 'FixedAssetController@getFixedAssetByID');
+
+                });
                 Route::prefix('journals')->group(function ()
                 {
                     Route::get('list', 'JournalController@getJournals');

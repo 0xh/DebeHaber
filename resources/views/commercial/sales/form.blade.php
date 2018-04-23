@@ -241,4 +241,4 @@
             @lang('global.Cancel')
         </button>
     </div>
-</sales-form>
+</transaction-form>

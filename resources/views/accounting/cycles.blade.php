@@ -5,7 +5,7 @@
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <cycle :taxpayer="{{ request()->route('taxPayer')->id }}" inline-template>
+    <cycle :taxpayer="{{ request()->route('taxPayer')->id }}"  :cycle="{{ request()->route('cycle')->id }}" inline-template>
         <div>
             <div class="row">
                 <div class="col-6">

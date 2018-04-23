@@ -83,7 +83,7 @@ Vue.component('infinity',
                 async: true,
                 success: function(data)
                 {
-                  console.log(data);
+                  console.log('/api/' + app.taxpayer + '/' + app.cycle + '/' +  app.baseurl + '/by-id/' + data);
                     app.$children[0].onEdit(data[0]);
 
                 },

@@ -3,7 +3,7 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('cycle',
 {
-    props: ['taxpayer'],
+    props: ['taxpayer','cycle'],
     data() {
         return {
             id:0,
@@ -37,7 +37,7 @@ Vue.component('cycle',
 
                     axios({
                       method: 'post',
-                      url: '',
+                      url: '/taxpayer/' + app.taxpayer + '/' + app.cycle + '/cycles/store',
                       responseType: 'json',
                             data: json
 
@@ -59,7 +59,7 @@ Vue.component('cycle',
                     })
                     .catch(function (error)
                     {
-                      console.log(error);
+                      console.log(error.response);
                     });
             // $.ajax({
             //     url: '',
@@ -94,6 +94,7 @@ Vue.component('cycle',
         onEdit: function(data)
         {
             var app = this;
+
             app.id = data.id;
             app.chart_version_id = data.chart_version_id;
             app.chart_version_name = data.chart_version_name;

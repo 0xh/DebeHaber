@@ -130,8 +130,8 @@ Vue.component('transaction-form',
             var app = this;
             app.id = data.ID;
             app.type = data.type;
-            app.Customer = data.Customer;
-            app.Supplier = data.Supplier;
+            app.Customer = data.customer;
+            app.Supplier = data.supplier;
             app.Paid = data.Paid;
             app.SupplierTaxID=data.SupplierTaxID;
             app.CustomerTaxID=data.CustomerTaxID;
@@ -151,11 +151,13 @@ Vue.component('transaction-form',
             app.comment = data.comment;
             app.ref_id = data.ref_id;
             app.details = data.details;
-            app.$children[0].selectText = data.customer;
+
             if (app.trantype == 4 ||app.trantype == 5) {
+                app.$children[0].selectText = data.customer;
                 app.$children[0].id=data.customer_id ;
             }
             else {
+                app.$children[0].selectText = data.supplier;
                 app.$children[0].id=data.supplier_id ;
             }
 

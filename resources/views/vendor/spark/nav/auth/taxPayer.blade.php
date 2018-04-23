@@ -281,6 +281,14 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                    <a  href="{{ route('fixedasset.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                        <i class="m-menu__link-icon la la-sitemap"></i>
+                                        <span class="m-menu__link-text">
+                                            @lang('accounting.FixedAsset')
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a  href="{{ route('cycles.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-calendar"></i>
                                         <span class="m-menu__link-text">

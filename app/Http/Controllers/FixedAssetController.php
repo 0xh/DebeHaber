@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Taxpayer;
 use App\Cycle;
+use App\Chart;
 use App\FixedAsset;
 use Illuminate\Http\Request;
 
@@ -16,9 +17,25 @@ class FixedAssetController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        //
+        $charts=Chart::FixedAssetGroups()->get();
+
+        return view('accounting/fixedasset')->with('charts',$charts);
     }
 
+    public function getFixedAsset(Taxpayer $taxPayer, Cycle $cycle,$skip)
+    {
+        $fixedasset = FixedAsset::skip($skip)
+        ->take(100)
+        ->get();
+        return response()->json($fixedasset);
+    }
+
+    public function getFixedAssetByID(Taxpayer $taxPayer, Cycle $cycle,$id)
+    {
+        $fixedasset = FixedAsset::where('id',$id)
+        ->get();
+        return response()->json($fixedasset);
+    }
     /**
     * Show the form for creating a new resource.
     *
@@ -35,9 +52,22 @@ class FixedAssetController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request)
+    public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
-        //
+        $fixedasset = $request->id == 0 ? new FixedAsset() : FixedAsset::where('id', $request->id)->first();
+        $fixedasset->chart_id=$request->chart_id;
+        $fixedasset->taxpayer_id=$taxPayer->id;
+        $fixedasset->currency_id=$request->currency_id;
+        $fixedasset->rate=$request->rate;
+        $fixedasset->serial=$request->serial;
+        $fixedasset->name=$request->name;
+        $fixedasset->purchase_date=$request->purchase_date;
+        $fixedasset->purchase_value=$request->purchase_value;
+        $fixedasset->current_value=$request->current_value;
+        $fixedasset->quantity=$request->quantity;
+        $fixedasset->save();
+        return response()->json('ok', 200);
+
     }
 
     /**

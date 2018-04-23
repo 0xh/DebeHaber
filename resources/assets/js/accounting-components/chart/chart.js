@@ -45,6 +45,7 @@ Vue.component('chart',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
+          console.log(json);
             var app = this;
             var api = null;
 

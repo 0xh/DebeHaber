@@ -66,13 +66,13 @@ class CycleController extends Controller
     $Cycle->end_date=$request->end_date;
     $Cycle->save();
 
-
-    $Cycle = array(
-      array('chart_version_id'=>'1', 'year'=> 4096,'start_date' => '2017/01/01','end_date' => '2017/01/01'),
-      array('chart_version_id'=>'1', 'year'=> 4096,'start_date' => '2017/01/01','end_date' => '2017/01/01'),
-    );
-
-    $Cycle->save();
+    //
+    // $Cycle = array(
+    //   array('chart_version_id'=>'1', 'year'=> 4096,'start_date' => '2017/01/01','end_date' => '2017/01/01'),
+    //   array('chart_version_id'=>'1', 'year'=> 4096,'start_date' => '2017/01/01','end_date' => '2017/01/01'),
+    // );
+    //
+    // $Cycle->save();
 
     return response()->json('ok');
   }
