@@ -109,7 +109,6 @@ class TaxpayerController extends Controller
         $taxpayerIntegration->taxpayer_id = $taxPayer->id;
         $taxpayerIntegration->team_id = Auth::user()->current_team_id;
         $taxpayerIntegration->type = 1;
-        $taxpayerIntegration->is_company = 1;
         $taxpayerIntegration->save();
 
         //TODO Check if Default Version is available for Country.

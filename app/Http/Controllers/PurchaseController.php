@@ -155,7 +155,7 @@ class PurchaseController extends Controller
         $transactionDetail->save();
       }
 
-      return response()->json('ok');
+      return response()->json('ok', 200);
     }
 
     /**

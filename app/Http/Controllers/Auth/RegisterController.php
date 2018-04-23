@@ -63,10 +63,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        //Check if $user->email exists in Invitations Table. Update all invitations if yes.
+        //This will allow current user to access the invitations avaiable to him/her.
+
+        return $user;
     }
 }
