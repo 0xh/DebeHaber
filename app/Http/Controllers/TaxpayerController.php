@@ -37,7 +37,7 @@ class TaxpayerController extends Controller
     */
     public function create()
     {
-        return view('taxpayer/profile');
+        return view('taxpayer/form');
     }
 
     /**
@@ -145,9 +145,9 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function show(Taxpayer $taxPayer)
+    public function show(Taxpayer $taxPayer, Cycle $cycle)
     {
-        //
+        return view('taxpayer/profile')->with('taxPayer', $taxPayer);
     }
 
     /**

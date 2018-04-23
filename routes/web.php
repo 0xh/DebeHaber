@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth'], function ()
     // ['middleware' => 'security'],
     Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
     {
+        Route::resource('profile', 'TaxpayerController');
+
         //These Pages require Cycle in Session to perform searches and show relevant data.
         Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');
         Route::get('cycles', 'CycleController@index')->name('cycles.index');
