@@ -27,6 +27,11 @@ class InventoryTableUpdate extends Migration
             $table->string('chart_of_incomes')->after('inventory_value');
             $table->string('comments')->after('chart_of_incomes');
         });
+
+        Schema::table('charts', function (Blueprint $table)
+        {
+            $table->unsignedDecimal('asset_years', 4, 2)->change();
+        });
     }
 
     /**
@@ -36,6 +41,12 @@ class InventoryTableUpdate extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('inventories', function (Blueprint $table)
+        {
+            $table->date('date');
+            $table->unsignedDecimal('current_value', 18, 2);
+            
+            $table->dropColumn(['start_date', 'end_date', 'sales_value', 'cost_value', 'inventory_value', 'chart_of_incomes', 'comments']);
+        });
     }
 }

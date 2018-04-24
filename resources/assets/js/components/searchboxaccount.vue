@@ -32,7 +32,7 @@
 
             <div class="input-group-append">
                 <span class="input-group-text m--font-boldest" id="basic-addon1">
-                    {{ selectText }}  {{ $t('global.Search') }}
+                    {{ selectText }}
                 </span>
             </div>
         </div>
