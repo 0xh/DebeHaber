@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\PRY;
 
 use Nasyrov\Laravel\Enums\Enum;
 
@@ -10,7 +10,6 @@ class TaxpayerTypeEnum extends Enum
     const IVA      = 2;
     const IRAGRO   = 3;
     const IRP      = 4;
-
 
         public static function labels()
         {
