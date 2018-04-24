@@ -46,6 +46,8 @@ return [
     'Dashboard' => 'Tablero :team',
     'Search' => 'Buscar',
     'Total' => 'Total',
+    'SubTotal' => 'Sub Total',
+    'GrandTotal' => 'Gran Total',
     'Actions' => 'Acciones',
     'Generic' => 'Generico',
     'Comment' => 'Commentario',

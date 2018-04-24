@@ -46,6 +46,8 @@ return [
     'Dashboard' => 'Board :team',
     'Search' => 'Pesquisar',
     'Total' => 'Total',
+    'SubTotal' => 'Sub Total',
+    'GrandTotal' => 'Gran Total',
     'Generic' => 'Genérico',
     'Comment' => 'Comentário',
     'NoResults' => 'Nenhum :model foi encontrado. ¿Qué tal crear uno?',

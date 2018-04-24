@@ -25,7 +25,7 @@
                 </thead>
                 <tr class="group">
                     <td colspan="3">
-                        <h6>{{ $groupedRows->first()->coefficient }}</h6>
+                        <h6>{{ $groupedRows->first()->coefficient * 100 }} %</h6>
                     </td>
                     <td></td>
                     <td colspan="2"><h6>@lang('global.SubTotal')</h6></td>

@@ -6,7 +6,7 @@
 @section('data')
     <table class="u-full-width">
         <tbody>
-            @foreach ($data->groupBy('costCenter') as $groupedRows)
+            @foreach ($data->groupBy('coefficient') as $groupedRows)
                 <thead>
                     <tr>
                         <th>@lang('global.Date')</th>
@@ -24,10 +24,12 @@
                     </tr>
                 </thead>
                 <tr class="group">
-                    <td colspan="3"><b>{{ $groupedRows->first()->costCenter }}</b></td>
+                    <td colspan="3">
+                        <h6>{{ $groupedRows->first()->coefficient * 100 }} %</h6>
+                    </td>
                     <td></td>
                     <td></td>
-                    <td>Sub Total</td>
+                    <td>@lang('global.SubTotal')</td>
                     <td class="number"><b>{{ number_format($groupedRows->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format(($groupedRows->where('coefficient', '=', 0.1)->sum('localCurrencyValue') - $groupedRows->where('coefficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</b></td>
                     <td class="number"><b>{{ number_format($groupedRows->where('coefficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>

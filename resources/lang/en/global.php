@@ -47,6 +47,8 @@ return [
     'Search' => 'Search',
     'ProfileAndSettings' => 'Profile and Settings',
     'Total' => 'Total',
+    'SubTotal' => 'Sub Total',
+    'GrandTotal' => 'Grand Total',
     'Actions' => 'Actions',
     'Comment' => 'Comment',
     'NoResults' => 'No records found. How about creating one?',
@@ -59,5 +61,5 @@ return [
     'DeveloperPlatform' => 'Developer Platform',
 
     'Month' => 'Month',
-    'Year' => 'Year'
+    'Year' => 'Year',
 ];

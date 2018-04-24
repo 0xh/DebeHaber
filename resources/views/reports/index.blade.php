@@ -154,7 +154,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="m-widget4__item">
+                                    {{-- <div class="m-widget4__item">
                                         <div class="m-widget4__img m-widget4__img--icon">
                                             <img src="/img/icons/sales.svg" alt="">
                                         </div>
@@ -170,7 +170,7 @@
                                                 <i class="la la-download"></i>
                                             </a>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="col-6">
@@ -293,7 +293,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="m-widget4__item">
+                                    {{-- <div class="m-widget4__item">
                                         <div class="m-widget4__img m-widget4__img--icon">
                                             <img src="/img/icons/purchase.svg" alt="">
                                         </div>
@@ -309,7 +309,7 @@
                                                 <i class="la la-download"></i>
                                             </a>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
