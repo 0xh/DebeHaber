@@ -262,7 +262,7 @@
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/debit_notes/'+dateRange[0]+'/'+dateRange[1]">
-                                                    <a href="#">@lang('commercial.DebitNotes')</a>
+                                                    @lang('commercial.DebitNotes')
                                                 </a>
                                                 <br>
                                                 <small>List of Debit Notes</small>

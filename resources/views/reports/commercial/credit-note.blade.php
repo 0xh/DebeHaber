@@ -1,5 +1,5 @@
 @extends('reports.master')
-@section('reportName', __('commercial.CreditNote'))
+@section('reportName', __('commercial.CreditNotes'))
 
 @section('data')
     <table class="u-full-width">

@@ -1,5 +1,5 @@
 @extends('reports.master')
-@section('reportName', __('commercial.DebitNote'))
+@section('reportName', __('commercial.DebitNotes'))
 
 @section('data')
     <table class="u-full-width">
@@ -10,14 +10,14 @@
                 <th>@lang('global.Taxpayer')</th>
                 <th class="number">{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-code') }}</th>
                 <th>@lang('commercial.InvoiceNumber')</th>
-                <th class="number">@lang('commercial.Taxable') 10%</th>
-                <th class="number">@lang('commercial.SalesTax') 10%</th>
-                <th class="number">@lang('commercial.Taxable') 5%</th>
-                <th class="number">@lang('commercial.SalesTax') 5%</th>
-                <th class="number">@lang('commercial.Exempt')</th>
-                <th class="number">@lang('global.Total')</th>
-                <th>@lang('accounting.ChartofAccounts')</th>
-                <th>@lang('commercial.Condition')</th>
+                <th class="number"> @lang('commercial.Taxable') 10%</th>
+                <th class="number"> @lang('commercial.SalesTax') 10%</th>
+                <th class="number"> @lang('commercial.Taxable') 5%</th>
+                <th class="number"> @lang('commercial.SalesTax') 5%</th>
+                <th class="number"> @lang('commercial.Exempt') </th>
+                <th class="number"> @lang('global.Total') </th>
+                <th> @lang('accounting.ChartofAccounts') </th>
+                <th> @lang('commercial.Condition') </th>
             </tr>
         </thead>
         <tbody>
