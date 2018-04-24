@@ -91,12 +91,14 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('credit_notes/{strDate}/{endDate}/', 'ReportController@creditNotes')->name('reports.creditNotes');
             Route::get('debit_notes/{strDate}/{endDate}/', 'ReportController@debitNotes')->name('reports.debitNotes');
 
+            Route::get('account-receivable/{strDate}/{endDate}/', 'ReportController@accountReceivable');
+            Route::get('account-customer/{strDate}/{endDate}/', 'ReportController@accountCustomer');
+            Route::get('account-payable/{strDate}/{endDate}/', 'ReportController@accountPayable');
+            Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');
+
             Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 
             Route::get('chart-ofAccounts/{strDate}/{endDate}/', 'ReportController@chartOfAccounts');
-
-            Route::get('account-customer/{strDate}/{endDate}/', 'ReportController@accountCustomer');
-            Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');
 
             Route::get('sub_ledger/{strDate}/{endDate}/', 'ReportController@sub_ledger');
             Route::get('ledger/{strDate}/{endDate}/', 'ReportController@ledger');

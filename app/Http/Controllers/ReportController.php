@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Taxpayer;
+use App\Transaction;
 use App\TransactionDetail;
 use App\Cycle;
 use App\Journal;
@@ -242,6 +243,44 @@ class ReportController extends Controller
         }
     }
 
+    public function accountReceivable(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate)->where('payment_condition', '>', 0);
+
+            return view('reports/commercial/account-receivable')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function accountCustomer(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+
+    }
+
+    public function accountPayable(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->accPayablesQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/commercial/account-payable')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function accountSupplier(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+
+    }
+
     public function vatPurchaseQuery(Taxpayer $taxPayer, $startDate, $endDate)
     {
         DB::connection()->disableQueryLog();
@@ -277,6 +316,35 @@ class ReportController extends Controller
         ->get();
     }
 
+    public function accPayablesQuery(Taxpayer $taxPayer, $startDate, $endDate)
+    {
+        DB::connection()->disableQueryLog();
+
+        return Transaction::MyPurchases()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+        ->join('currencies', 'transactions.currency_id','currencies.id')
+        ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
+        ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
+        ->where('transactions.customer_id', $taxPayer->id)
+        ->where('transactions.payment_condition', '>', 0)
+        ->whereBetween('transactions.date', [$startDate, $endDate])
+        //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
+        ->groupBy('transactions.id')
+        ->select(DB::raw('max(transactions.id) as id'),
+        DB::raw('max(taxpayers.name) as Supplier'),
+        DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
+        DB::raw('max(currencies.code) as currency_code'),
+        DB::raw('max(transactions.payment_condition) as payment_condition'),
+        DB::raw('max(transactions.date) as date'),
+        DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as code_expiry'),
+        DB::raw('max(transactions.number) as number'),
+        DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
+        DB::raw('sum(td.value/transactions.rate) as Value'))
+        ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
+        ->orderByRaw('max(transactions.number)', 'desc')
+        ->get();
+    }
+
     public function vatSaleQuery(Taxpayer $taxPayer, $startDate, $endDate)
     {
         DB::connection()->disableQueryLog();
@@ -308,6 +376,34 @@ class ReportController extends Controller
         )
         ->orderBy('transactions.date', 'asc')
         ->orderBy('transactions.number', 'asc')
+        ->get();
+    }
+
+    public function accReceivablesQuery(Taxpayer $taxPayer, $startDate, $endDate)
+    {
+        DB::connection()->disableQueryLog();
+
+        $transactions = Transaction::MySales()
+        ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+        ->join('currencies', 'transactions.currency_id','currencies.id')
+        ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
+        ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
+        ->where('transactions.supplier_id', $taxPayer->id)
+        ->where('transactions.payment_condition', '>', 0)
+        ->whereBetween('transactions.date', [$startDate, $endDate])
+        ->groupBy('transactions.id')
+        ->select(DB::raw('max(transactions.id) as ID'),
+        DB::raw('max(taxpayers.name) as Customer'),
+        DB::raw('max(taxpayers.taxid) as CutomerTaxID'),
+        DB::raw('max(currencies.code) as Currency'),
+        DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+        DB::raw('max(transactions.date) as Date'),
+        DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
+        DB::raw('max(transactions.number) as Number'),
+        DB::raw('ifnull(sum(account_movements.credit / account_movements.rate), 0) as Paid'),
+        DB::raw('sum(td.value/transactions.rate) as Value'))
+        ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
+        ->orderByRaw('max(transactions.number)', 'desc')
         ->get();
     }
 
@@ -378,7 +474,6 @@ class ReportController extends Controller
         ->orderBy('transactions.number', 'asc')
         ->get();
     }
-
 
     public function journalQuery(Taxpayer $taxPayer, $startDate, $endDate)
     {

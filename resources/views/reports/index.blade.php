@@ -141,7 +141,7 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/account-receivable/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.AccountsReceivable')
                                                 </a>
                                                 <br>
@@ -280,7 +280,9 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a href="#">@lang('commercial.AccountsPayable')</a>
+                                                <a target="_blank" :href="'reports/account-payable/'+dateRange[0]+'/'+dateRange[1]">
+                                                    @lang('commercial.AccountsPayable')
+                                                </a>
                                                 <br>
                                                 <small>List of accounts payable to suppliers</small>
                                             </span>
