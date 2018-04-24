@@ -38,7 +38,8 @@ class CreateTaxpayerSettingsTable extends Migration
 
         Schema::table('transaction_details', function (Blueprint $table)
         {
-            $table->unsignedDecimal('cost', 18, 2)->default(0)->after('value');
+            $table->unsignedDecimal('cost', 18, 2)
+            ->default(0)->after('value');
         });
     }
 
