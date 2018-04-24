@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\PRY;
+namespace App\Enums\ARG;
 
 use Nasyrov\Laravel\Enums\Enum;
 
