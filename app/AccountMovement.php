@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\ModelStatus\HasStatuses;
 
 class AccountMovement extends Model
 {
     //
+    use HasStatuses, SoftDeletes;
 
     /**
      * Get the transaction that owns the model.

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Inventory;
 use App\AccountMovement;
 use App\Transaction;
 use App\Taxpayer;
