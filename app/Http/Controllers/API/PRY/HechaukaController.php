@@ -6,7 +6,7 @@ use App\Transaction;
 use App\TransactionDetail;
 use App\Taxpayer;
 use App\Cycle;
-use App\TaxpayerIntegration;
+use App\TaxpayerSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -21,8 +21,7 @@ class HechaukaController extends Controller
     public function generateFiles(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         //Get the Integration Once. No need to bring it into the Query.
-        $integration = TaxpayerIntegration::where('taxpayer_id', $taxPayer->id)
-        ->where('team_id', Auth::user()->current_team_id)
+        $integration = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)
         ->first();
 
         //TODO: This function is wrong. It will take all files from a path.
@@ -286,7 +285,7 @@ class HechaukaController extends Controller
             /* 11 */ " \t " . ($agentName) .
             /* 12 */ " \t " . ($data->count() ?? 0) .
             /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0 ) + ($data->sum('ValueInFive') ?? 0) + ($data->sum('ValueInZero') ?? 0)).
-            /* 14 */ " \t " . ($taxPayer->regime_type == 1 ? 'Si' : 'No' ) .
+            /* 14 */ " \t " . ($integration->regime_type == 1 ? 'Si' : 'No' ) .
             /* 15 */ " \t " . "2 \r\n ";
 
 

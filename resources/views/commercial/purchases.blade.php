@@ -82,7 +82,7 @@
                     </div>
                     <div class="m-widget4__item">
                         <div class="m-widget4__ext">
-                            <a href="../reports/purchase-bySuppliers/{{ (new Carbon\Carbon('first day of last month'))->toDateString() }}/{{ (new Carbon\Carbon('last day of last month'))->toDateString() }}" class="m-widget4__icon m--font-brand">
+                            <a href="../reports/purchases-bySupplier/{{ (new Carbon\Carbon('first day of last month'))->toDateString() }}/{{ (new Carbon\Carbon('last day of last month'))->toDateString() }}" class="m-widget4__icon m--font-brand">
                                 <i class="flaticon-file-1"></i>
                             </a>
                         </div>

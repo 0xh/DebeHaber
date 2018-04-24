@@ -24,7 +24,7 @@ class CreateTaxpayerSettingsTable extends Migration
             $table->boolean('show_production')->default(false);
             $table->boolean('show_fixedasset')->default(false);
             $table->boolean('is_company')->default(false);
-            
+
         });
 
         Schema::table('taxpayer_integrations', function (Blueprint $table)
@@ -39,7 +39,7 @@ class CreateTaxpayerSettingsTable extends Migration
 
         Schema::table('transaction_details', function (Blueprint $table)
         {
-            $table->unsignedDecimal('cost', 18, 2)->after('value');
+            $table->unsignedDecimal('cost', 18, 2)->default(0)->after('value');
         });
     }
 
