@@ -24,7 +24,6 @@ class CreateTaxpayerSettingsTable extends Migration
             $table->boolean('show_production')->default(false);
             $table->boolean('show_fixedasset')->default(false);
             $table->boolean('is_company')->default(false);
-
         });
 
         Schema::table('taxpayer_integrations', function (Blueprint $table)
