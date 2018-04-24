@@ -6,6 +6,7 @@ use App\Transaction;
 use App\Taxpayer;
 use App\TaxpayerIntegration;
 use App\TaxpayerSetting;
+use App\TaxpayerType;
 use App\ChartVersion;
 use App\Cycle;
 use App\Chart;
@@ -155,8 +156,10 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function show(Taxpayer $taxPayer, Cycle $cycle)
+    public function show($taxPayer, Cycle $cycle)
     {
+        $taxPayer=Taxpayer::where('id',$taxPayer)->get();
+
         return view('taxpayer/profile')->with('taxPayer', $taxPayer);
     }
 
@@ -180,7 +183,41 @@ class TaxpayerController extends Controller
     */
     public function update(Request $request, Taxpayer $taxPayer)
     {
-        //
+        $taxPayer = Taxpayer::where('taxid', $request->taxid)->where('country', Auth::user()->country)->first();
+
+        if (isset($taxPayer))
+        {
+
+
+            $taxPayer->name = $request->name;
+            $taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0 ;
+            $taxPayer->code = $request->code;
+            $taxPayer->alias = $request->alias;
+            $taxPayer->address = $request->address;
+            $taxPayer->telephone = $request->telephone;
+            $taxPayer->email = $request->email;
+
+
+            $taxPayer->save();
+            $taxpayersetting=TaxpayerSetting::where('taxpayer_id',$taxPayer->id)->first();
+            if (!isset($taxpayersetting)) {
+            $taxpayersetting= new TaxpayerSetting();
+            }
+            $taxpayersetting->taxpayer_id=$taxPayer->id;
+            $taxpayersetting->agent_taxid = $request->agent_taxid;
+            $taxpayersetting->agent_name = $request->agent_name;
+            $taxpayersetting->save();
+
+            foreach ($request->type as  $value) {
+                $taxpayertype=new TaxpayerType();
+                $taxpayertype->taxpayer_id=$taxPayer->id;
+                $taxpayertype->type=$value;
+                $taxpayertype->save();
+            }
+            return response()->json('ok', 200);
+        }
+            return response()->json('Failed', 500);
+
     }
 
     /**
