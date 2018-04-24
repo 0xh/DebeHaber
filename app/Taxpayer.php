@@ -29,6 +29,11 @@ class Taxpayer extends Model
         ];
     }
 
+    public function setting()
+    {
+        return $this->hasOne(TaxpayerSetting::class);
+    }
+
     // public $searchable = ['id', 'taxid', 'name', 'alias'];
     /**
     * Get the integrations for the model.

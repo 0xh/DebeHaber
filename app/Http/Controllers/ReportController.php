@@ -172,20 +172,6 @@ class ReportController extends Controller
         }
     }
 
-    public function creditNote(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
-    {
-        if (isset($taxPayer))
-        {
-            $data = $this->vatCreditNoteQuery($taxPayer, $startDate, $endDate);
-
-            return view('reports/commercial/credit-note')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
-        }
-    }
-
     public function salesByVAT(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         if (isset($taxPayer))
@@ -228,6 +214,34 @@ class ReportController extends Controller
         }
     }
 
+    public function creditNotes(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatCreditNoteQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/commercial/credit-note')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
+    public function debitNotes(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->vatDebitNoteQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/commercial/debit-note')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
     public function vatPurchaseQuery(Taxpayer $taxPayer, $startDate, $endDate)
     {
         DB::connection()->disableQueryLog();
@@ -239,7 +253,7 @@ class ReportController extends Controller
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('customer.id', $taxPayer->id)
         ->where('transactions.deleted_at', '=', null)
-        ->whereIn('transactions.type', [1, 2, 3])
+        ->whereIn('transactions.type', [1, 2])
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('supplier.name as supplier',
         'supplier.taxid as supplier_code',
@@ -273,7 +287,7 @@ class ReportController extends Controller
         ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
         ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
         ->where('supplier.id', $taxPayer->id)
-        ->whereIn('transactions.type', [4, 5])
+        ->where('transactions.type', 4)
         ->where('transactions.deleted_at', '=', null)
         ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->select('customer.name as customer',
@@ -313,7 +327,7 @@ class ReportController extends Controller
         ->select('customer.name as customer',
         'customer.taxid as customer_code',
         'transactions.type',
-        'transactions.id as creditID',
+        'transactions.id as ID',
         'transactions.date',
         'transactions.code',
         'transactions.number',
@@ -330,6 +344,41 @@ class ReportController extends Controller
         ->orderBy('transactions.number', 'asc')
         ->get();
     }
+
+    public function vatDebitNoteQuery(Taxpayer $taxPayer, $startDate, $endDate)
+    {
+        DB::connection()->disableQueryLog();
+
+        return TransactionDetail::join('charts', 'charts.id', 'transaction_details.chart_id')
+        ->join('charts as vats', 'vats.id', 'transaction_details.chart_vat_id')
+        ->join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+        ->join('taxpayers as supplier', 'transactions.supplier_id', 'supplier.id')
+        ->join('taxpayers as customer', 'transactions.customer_id', 'customer.id')
+        ->where('customer.id', $taxPayer->id)
+        ->where('transactions.type', 3)
+        ->where('transactions.deleted_at', '=', null)
+        ->whereBetween('transactions.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
+        ->select('customer.name as customer',
+        'customer.taxid as customer_code',
+        'transactions.type',
+        'transactions.id as ID',
+        'transactions.date',
+        'transactions.code',
+        'transactions.number',
+        'transactions.payment_condition',
+        'transactions.comment',
+        'transactions.rate',
+        'charts.name as costCenter',
+        'vats.name as vat',
+        'vats.coefficient',
+        DB::raw('transactions.rate * if(transactions.type = 5, -transaction_details.value, transaction_details.value) as localCurrencyValue,
+        (transactions.rate * if(transactions.type = 5, -transaction_details.value, transaction_details.value)) / (vats.coefficient + 1) as vatValue')
+        )
+        ->orderBy('transactions.date', 'asc')
+        ->orderBy('transactions.number', 'asc')
+        ->get();
+    }
+
 
     public function journalQuery(Taxpayer $taxPayer, $startDate, $endDate)
     {

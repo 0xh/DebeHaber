@@ -122,7 +122,7 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sales-vat/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/credit_notes/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.CreditNotes')
                                                 </a>
                                                 <br>
@@ -261,7 +261,9 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a href="#">@lang('commercial.DebitNotes')</a>
+                                                <a target="_blank" :href="'reports/debit_notes/'+dateRange[0]+'/'+dateRange[1]">
+                                                    <a href="#">@lang('commercial.DebitNotes')</a>
+                                                </a>
                                                 <br>
                                                 <small>List of Debit Notes</small>
                                             </span>

@@ -159,14 +159,14 @@
                     <td style="text-align:left"><b>{{ $header->name }}</b></td>
 
                     <td style="text-align:right">@lang('global.LegalRepresentative')</td>
-                    {{-- <td style="text-align:left"><b>{{ $header->companySubscription->name_agent }}</b></td> --}}
+                    <td style="text-align:left"><b>{{ $header->setting->agent_name }}</b></td>
                 </tr>
                 <tr>
                     <td style="text-align:right">{{ $taxIDName }}</td>
                     <td style="text-align:left"><b>{{ $header->taxid }}-{{ $header->code }}</b></td>
 
                     <td style="text-align:right">@lang('global.LegalRepresentative') {{ $taxIDName }}</td>
-                    {{-- <td style="text-align:left"><b>{{ $header->companySubscription->gov_code_agent }}</b></td> --}}
+                    <td style="text-align:left"><b>{{ $header->setting->agent_taxid }}</b></td>
                 </tr>
                 <tr>
                     <td style="text-align:right">@lang('global.DateRange')</td>

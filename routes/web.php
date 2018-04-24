@@ -88,6 +88,9 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('sales-byCustomers/{strDate}/{endDate}/', 'ReportController@salesByCustomer')->name('reports.salesByCustomer');
             Route::get('sales-byChart/{strDate}/{endDate}/', 'ReportController@salesByChart')->name('reports.salesByChart');
 
+            Route::get('credit_notes/{strDate}/{endDate}/', 'ReportController@creditNotes')->name('reports.creditNotes');
+            Route::get('debit_notes/{strDate}/{endDate}/', 'ReportController@debitNotes')->name('reports.debitNotes');
+
             Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 
             Route::get('chart-ofAccounts/{strDate}/{endDate}/', 'ReportController@chartOfAccounts');
