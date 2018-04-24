@@ -44,7 +44,7 @@ Vue.component('cycle',
                 }
                 else
                 {
-                    alert('Something Went Wrong...')
+                    alert('Something went Wrong...')
                 }
             })
             .catch(function (error)

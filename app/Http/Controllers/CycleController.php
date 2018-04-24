@@ -72,16 +72,19 @@ class CycleController extends Controller
         }
         else
         {
-            $cycle = Cycle::where('id',$request->id)->first();
+            $cycle = Cycle::find($request->id) ?? null;
         }
 
-        $cycle->chart_version_id = $request->chart_version_id;
-        $cycle->year = $request->year;
-        $cycle->start_date = $request->start_date;
-        $cycle->end_date = $request->end_date;
-        $cycle->save();
+        if ($cycle != null)
+        {
+            $cycle->chart_version_id = $request->chart_version_id;
+            $cycle->year = $request->year;
+            $cycle->start_date = $request->start_date;
+            $cycle->end_date = $request->end_date;
+            $cycle->save();
 
-        return response()->json('ok', 200);
+            return response()->json('ok', 200);
+        }
     }
 
     /**
