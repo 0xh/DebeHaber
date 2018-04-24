@@ -77,7 +77,7 @@
                 @include('commercial/inventory/list')
             </div>
             <div v-else>
-                @include('commercial/inventory/form')
+             @include('commercial/inventory/form')
             </div>
         </div>
     </infinity>

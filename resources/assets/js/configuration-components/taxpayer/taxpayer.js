@@ -14,6 +14,9 @@ Vue.component('taxpayer',{
             address: '',
             telephone: '',
             email: '',
+            show_inventory:0,
+            show_production:0,
+            show_fixedasset:0,
             img: ''
         }
     },

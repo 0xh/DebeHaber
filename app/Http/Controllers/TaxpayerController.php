@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Transaction;
 use App\Taxpayer;
 use App\TaxpayerIntegration;
+use App\TaxpayerSetting;
 use App\ChartVersion;
 use App\Cycle;
 use App\Chart;
@@ -110,6 +111,15 @@ class TaxpayerController extends Controller
         $taxpayerIntegration->team_id = Auth::user()->current_team_id;
         $taxpayerIntegration->type = 1;
         $taxpayerIntegration->save();
+
+        $taxpayersetting = new TaxpayerSetting();
+        $taxpayersetting->taxpayer_id = $taxPayer->id;
+        $taxpayersetting->show_inventory = $request->show_inventory=true ? 1 :0;
+        $taxpayersetting->show_production = $request->show_production=true ? 1 :0;
+        $taxpayersetting->show_fixedasset = $request->show_fixedasset=true ? 1 :0;
+        $taxpayersetting->is_company =1;
+        $taxpayersetting->save();
+
 
         //TODO Check if Default Version is available for Country.
         return response()->json('ok', 200);

@@ -52,7 +52,7 @@ class ChartController extends Controller
 
         if ($request->is_accountable == 'true')
         {
-            
+
             $chart->is_accountable = 1;
             $chart->sub_type = $request->sub_type;
         }
@@ -68,6 +68,11 @@ class ChartController extends Controller
         if ($request->coefficient > 0)
         {
             $chart->coefficient = $request->coefficient;
+
+        }
+        if ($request->asset_years > 0)
+        {
+            $chart->asset_years = $request->asset_years;
 
         }
 

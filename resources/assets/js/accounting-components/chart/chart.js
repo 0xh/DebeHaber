@@ -20,7 +20,8 @@ Vue.component('chart',{
             level :  '',
             type : '',
             sub_type : '',
-            coefficient : '',
+            coefficient : 0,
+            asset_years : 0,
             canChange : true,
             list: [
                 // id:0
@@ -97,6 +98,7 @@ Vue.component('chart',{
                     app.type = null;
                     app.sub_type = null;
                     app.coefficient = null;
+                    app.asset_years = null;
                     app.$parent.$parent.showList = 1;
                     //app.init();
                 }
@@ -128,6 +130,7 @@ Vue.component('chart',{
         app.type = data.type;
         app.sub_type = data.sub_type;
         app.coefficient = data.coefficient;
+        app.asset_years =  data.asset_years;
         app.$children[0].selectText=data.name;
     },
     onDelete: function(data)
