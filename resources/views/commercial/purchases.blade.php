@@ -43,27 +43,63 @@
         </div>
         <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="container">
-                <ul class="m-nav">
-                    <li class="m-nav__section">
-                        <span class="m-nav__section-text">
-                        </span>
-                    </li>
-                    <li class="m-nav__item">
-                        <i class="m-nav__link-icon la la-paper-plane-o"></i>
-                        <span class="m-nav__link-text">@lang('commercial.SalesBook')</span>
-                    </li>
-                    <li class="m-nav__item">
-                        <i class="m-nav__link-icon la la-shopping-cart"></i>
-                        <span class="m-nav__link-text">Libro IVA Compras</span>
-                    </li>
-                    <li class="m-nav__item">
-                        <i class="m-nav__link-icon la la-book"></i>
-                        <span class="m-nav__link-text">Libro Mayor</span>
-                    </li>
-                    <li class="m-nav__item">
-                        <i class="m-nav__link-icon la la-cloud-download"></i>
-                    </li>
-                </ul>
+                <div class="m-widget4 m-widget4--chart-bottom">
+                    <div class="m-widget4__item">
+                        <div class="m-widget4__ext">
+                            <a class="m-widget4__icon m--font-brand" href="../reports/sales/{{ (new Carbon\Carbon('first day of last month'))->toDateString() }}/{{ (new Carbon\Carbon('last day of last month'))->toDateString() }}" target="_blank">
+                                <i class="flaticon-file-1"></i>
+                            </a>
+                        </div>
+                        <div class="m-widget4__info">
+                            <span class="m-widget4__text">
+                                @lang('commercial.PurchaseBook')
+                            </span>
+                        </div>
+                        <div class="m-widget4__ext">
+                            <span class="m-widget4__number m--font-danger">
+                                <i class="la la-shopping-cart"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="m-widget4__item">
+                        <div class="m-widget4__ext">
+                            <a href="../reports/sales-byVATs/{{ (new Carbon\Carbon('first day of last month'))->toDateString() }}/{{ (new Carbon\Carbon('last day of last month'))->toDateString() }}" class="m-widget4__icon m--font-brand">
+                                <i class="flaticon-file-1"></i>
+                            </a>
+                        </div>
+                        <div class="m-widget4__info">
+                            <span class="m-widget4__text">
+                                @lang('commercial.PurchaseByVAT')
+                            </span>
+                        </div>
+                        <div class="m-widget4__ext">
+                            <span class="m-widget4__stats m--font-info">
+                                <span class="m-widget4__number m--font-warning">
+                                    <i class="la la-university"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="m-widget4__item">
+                        <div class="m-widget4__ext">
+                            <a href="../reports/purchase-bySuppliers/{{ (new Carbon\Carbon('first day of last month'))->toDateString() }}/{{ (new Carbon\Carbon('last day of last month'))->toDateString() }}" class="m-widget4__icon m--font-brand">
+                                <i class="flaticon-file-1"></i>
+                            </a>
+                        </div>
+                        <div class="m-widget4__info">
+                            <span class="m-widget4__text">
+                                @lang('commercial.PurchasesBySupplier')
+                            </span>
+                        </div>
+                        <div class="m-widget4__ext">
+                            <span class="m-widget4__stats m--font-info">
+                                <span class="m-widget4__number m--font-success">
+                                    <i class="la la-users"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -73,7 +109,7 @@
     @php
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
-  
+
     <infinity :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}"
         baseurl="commercial/purchases"
