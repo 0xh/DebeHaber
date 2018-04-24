@@ -201,13 +201,19 @@ class TaxpayerController extends Controller
             $taxPayer->save();
             $taxpayersetting=TaxpayerSetting::where('taxpayer_id',$taxPayer->id)->first();
             if (!isset($taxpayersetting)) {
-            $taxpayersetting= new TaxpayerSetting();
+                $taxpayersetting= new TaxpayerSetting();
             }
             $taxpayersetting->taxpayer_id=$taxPayer->id;
             $taxpayersetting->agent_taxid = $request->agent_taxid;
             $taxpayersetting->agent_name = $request->agent_name;
             $taxpayersetting->save();
 
+            $taxpayertypes=TaxpayerType::where('taxpayer_id',$taxPayer->id)->get();
+            if (isset($taxpayertypes)) {
+                foreach ($taxpayertypes as $taxpayertype) {
+                    $taxpayertype->delete();
+                }
+            }
             foreach ($request->type as  $value) {
                 $taxpayertype=new TaxpayerType();
                 $taxpayertype->taxpayer_id=$taxPayer->id;
@@ -216,7 +222,7 @@ class TaxpayerController extends Controller
             }
             return response()->json('ok', 200);
         }
-            return response()->json('Failed', 500);
+        return response()->json('Failed', 500);
 
     }
 

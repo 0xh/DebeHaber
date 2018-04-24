@@ -111,7 +111,7 @@
                                 <div class="col-lg-6">
                                     <div class="m-checkbox-list" >
                                         @php
-                                            $enum = 'App\Enums\Countries\' . $taxPayer[0]->country . '\TaxpayerTypeEnum';
+                                            $enum = 'App\Enums\Countries\\' . $taxPayer[0]->country . '\TaxpayerTypeEnum';
                                         @endphp
                                         @foreach ($enum::labels() as $value => $label)
                                                 <input  type="checkbox" v-bind:value="{{ $value }}" class="form-control"
