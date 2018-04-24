@@ -46,7 +46,7 @@
 
     </div>
     <button v-on:click="onCalculate($data,false)" class="btn btn-primary">
-      Guardar
+      Calculate
     </button>
     <hr>
 

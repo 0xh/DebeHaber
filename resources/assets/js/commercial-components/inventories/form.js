@@ -14,6 +14,7 @@ Vue.component('inventory-form',{
             cost_value:'',
             margin:'',
             selectcharttype:[],
+            chartincome : '',
             charttypes:[],
 
         }

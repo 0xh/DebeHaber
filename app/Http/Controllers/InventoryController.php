@@ -104,7 +104,7 @@ class InventoryController extends Controller
         $inventory->sales_value = $request->sales_value;
         $inventory->cost_value = $request->cost_value;
         $inventory->inventory_value = $request->inventory_value;
-        $inventory->chart_of_incomes = 'abc';
+        $inventory->chart_of_incomes =implode(' ', $request->selectcharttype) ;
         $inventory->comments = 'abc';
 
         $inventory->save();
