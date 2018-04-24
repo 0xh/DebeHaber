@@ -88,7 +88,7 @@
                         </div>
                         <div class="m-widget4__info">
                             <span class="m-widget4__text">
-                                @lang('commercial.PurchasesBySupplier')
+                                @lang('commercial.PurchaseBySuppliers')
                             </span>
                         </div>
                         <div class="m-widget4__ext">

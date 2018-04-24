@@ -110,12 +110,12 @@
                                 <label class="col-lg-2 col-form-label">Communication:</label>
                                 <div class="col-lg-6">
                                     <div class="m-checkbox-list" >
-                                        {{-- {{ request()->route('taxPayer')->country }} --}}
-                                        @foreach (App\Enums\Countries\PRY\TaxpayerTypeEnum::labels() as $value => $label)
-
+                                        @php
+                                            $enum = 'App\Enums\Countries\' . $taxPayer[0]->country . '\TaxpayerTypeEnum';
+                                        @endphp
+                                        @foreach ($enum::labels() as $value => $label)
                                                 <input  type="checkbox" v-bind:value="{{ $value }}" class="form-control"
                                                 v-model="type">{{ $label }}</input>
-
                                         @endforeach
                                     </div>
                                 </div>
