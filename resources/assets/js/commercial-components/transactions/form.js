@@ -393,23 +393,19 @@ getTaxes: function()
 
     for(let i = 0; i < data.length; i++)
     {
-
         app.vats.push({
             name:data[i]['name'],
             id:data[i]['id'],
             coefficient:data[i]['coefficient']
         });
-
     }
-
 });
-
 },
 
 init: function (data)
 {
     var app = this;
-    app.taxpayer_id=app.$parent.taxpayer;
+    app.taxpayer_id = app.$parent.taxpayer;
 }
 },
 

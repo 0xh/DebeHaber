@@ -6,8 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChartVersion extends Model
 {
-    //
 
+    public function scopeMy($query, $taxPayer)
+    {
+        return $query
+        ->where('taxpayer_id', $taxPayer->id)
+        ->orWhere(function($subQuery) use ($taxPayer)
+        {
+            $subQuery
+            ->where('country', $taxPayer->country)
+            ->whereNull('taxpayer_id');
+        });
+    }
     /**
      * Get the taxPayer that owns the model.
      *

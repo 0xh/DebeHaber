@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ChartVersion;
 use App\Taxpayer;
 use App\Cycle;
 use Illuminate\Http\Request;
@@ -15,7 +16,21 @@ class CycleController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return view('accounting/cycles');
+        $cycles = Cycle::where('cycles.taxpayer_id', $taxPayer->id)
+        ->join('chart_versions', 'cycles.chart_version_id', 'chart_versions.id')
+        ->select('cycles.id',
+        'cycles.year',
+        'cycles.start_date',
+        'cycles.end_date',
+        'chart_versions.name as chart_version_name',
+        'chart_versions.id as chart_version_id')
+        ->get();
+
+        $versions = ChartVersion::My($taxPayer)->get();
+
+        return view('accounting/cycles')
+        ->with('cycles', $cycles)
+        ->with('versions', $versions);
     }
 
     public function get_cycle($taxPayerID)
@@ -53,28 +68,20 @@ class CycleController extends Controller
     {
         if ($request->id == 0)
         {
-            $Cycle= new Cycle();
+            $cycle = new Cycle();
         }
         else
         {
-            $Cycle= Cycle::where('id',$request->id)->first();
+            $cycle = Cycle::where('id',$request->id)->first();
         }
 
-        $Cycle->chart_version_id=$request->chart_version_id;
-        $Cycle->year=$request->year;
-        $Cycle->start_date=$request->start_date;
-        $Cycle->end_date=$request->end_date;
-        $Cycle->save();
+        $cycle->chart_version_id = $request->chart_version_id;
+        $cycle->year = $request->year;
+        $cycle->start_date = $request->start_date;
+        $cycle->end_date = $request->end_date;
+        $cycle->save();
 
-        //
-        // $Cycle = array(
-        //   array('chart_version_id'=>'1', 'year'=> 4096,'start_date' => '2017/01/01','end_date' => '2017/01/01'),
-        //   array('chart_version_id'=>'1', 'year'=> 4096,'start_date' => '2017/01/01','end_date' => '2017/01/01'),
-        // );
-        //
-        // $Cycle->save();
-
-        return response()->json('ok');
+        return response()->json('ok', 200);
     }
 
     /**

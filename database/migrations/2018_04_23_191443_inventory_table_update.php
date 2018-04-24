@@ -32,6 +32,11 @@ class InventoryTableUpdate extends Migration
         {
             $table->unsignedDecimal('asset_years', 4, 2)->change();
         });
+
+        Schema::table('chart_versions', function (Blueprint $table)
+        {
+            $table->string('country', 3)->after('taxpayer_id')->default('PRY');
+        });
     }
 
     /**
@@ -45,7 +50,7 @@ class InventoryTableUpdate extends Migration
         {
             $table->date('date');
             $table->unsignedDecimal('current_value', 18, 2);
-            
+
             $table->dropColumn(['start_date', 'end_date', 'sales_value', 'cost_value', 'inventory_value', 'chart_of_incomes', 'comments']);
         });
     }
