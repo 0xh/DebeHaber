@@ -182,7 +182,7 @@
                                         <a href="{{ route('productions.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                             <i class="m-menu__link-icon la la-industry"></i>
                                             <span class="m-menu__link-text">
-                                                @lang('commercial.Production')
+                                                @lang('commercial.Productions')
                                             </span>
                                         </a>
                                     </li>
@@ -200,13 +200,13 @@
                                     <a href="{{ route('documents.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-file-o"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.Documents')
+                                            @lang('commercial.Document')
                                         </span>
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a href="{{ route('CurrencyRate.index') }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-file-o"></i>
+                                        <i class="m-menu__link-icon la la-globe"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Rate')
                                         </span>
@@ -248,18 +248,18 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                <li class="m-menu__item ">
+                                    <a href="" disable class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-paste"></i>
-                                        <span class="m-menu__link-text">
+                                        <span class="m-menu__link-text m--font-metal">
                                             @lang('accounting.JournalTemplate')
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                <li class="m-menu__item">
+                                    <a href="" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-gamepad"></i>
-                                        <span class="m-menu__link-text">
+                                        <span class="m-menu__link-text m--font-metal">
                                             @lang('accounting.JournalSimulation')
                                         </span>
                                     </a>
@@ -277,14 +277,6 @@
                                         <i class="m-menu__link-icon la la-sitemap"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.ChartofAccounts')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="{{ route('fixedasset.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-sitemap"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('accounting.FixedAsset')
                                         </span>
                                     </a>
                                 </li>
