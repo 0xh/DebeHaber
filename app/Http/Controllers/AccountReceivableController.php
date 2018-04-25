@@ -47,11 +47,11 @@ class AccountReceivableController extends Controller
         DB::raw('max(transactions.date) as Date'),
         DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
         DB::raw('max(transactions.number) as Number'),
-        DB::raw('(select ifnull(sum(account_movements.credit/account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
+        DB::raw('(select ifnull(sum(account_movements.credit * account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
         DB::raw('sum(td.value/transactions.rate) as Value'),
-        DB::raw('(sum(td.value/transactions.rate)
+        DB::raw('(sum(td.value * transactions.rate)
         - (select
-        ifnull(sum(account_movements.credit/account_movements.rate), 0)
+        ifnull(sum(account_movements.credit * account_movements.rate), 0)
         from account_movements
         where transactions.id = account_movements.transaction_id))
         as Balance')
