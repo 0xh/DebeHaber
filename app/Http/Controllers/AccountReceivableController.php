@@ -20,10 +20,13 @@ class AccountReceivableController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-      $chart=Chart::MoneyAccounts()->orderBy('name')
-      ->select('name', 'id', 'sub_type')
-      ->get();
-        return view('/commercial/accounts-receivable')->with('charts',$chart);;
+
+        $chart=Chart::MoneyAccounts()->orderBy('name')
+        ->select('name', 'id', 'sub_type')
+        ->get();
+
+        return view('/commercial/accounts-receivable')->with('charts',$chart);
+
     }
 
     public function get_account_receivable(Taxpayer $taxPayer, Cycle $cycle, $skip)
