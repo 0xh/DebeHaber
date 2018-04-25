@@ -7,6 +7,7 @@ use App\JournalTransaction;
 use App\Transaction;
 use App\Taxpayer;
 use App\Cycle;
+use App\Chart;
 use Illuminate\Http\Request;
 use DB;
 
@@ -19,7 +20,10 @@ class AccountPayableController extends Controller
   */
   public function index(Taxpayer $taxPayer, Cycle $cycle)
   {
-    return view('/commercial/accounts-payable');
+    $chart=Chart::MoneyAccounts()->orderBy('name')
+    ->select('name', 'id', 'sub_type')
+    ->get();
+    return view('/commercial/accounts-payable')->with('charts',$chart);
   }
 
   public function get_account_payable(Taxpayer $taxPayer, Cycle $cycle, $skip)

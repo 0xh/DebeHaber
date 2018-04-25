@@ -16,7 +16,7 @@ Vue.component('sales-form', {
             supplier_id:'',
             document_id:'',
             currency_id:'',
-            rate: '',
+            rate: 1,
             payment_condition:'',
             chart_account_id:'',
             date:'',

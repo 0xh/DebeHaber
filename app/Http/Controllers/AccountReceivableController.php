@@ -7,6 +7,7 @@ use App\JournalTransaction;
 use App\Transaction;
 use App\Taxpayer;
 use App\Cycle;
+use App\Chart;
 use Illuminate\Http\Request;
 use DB;
 
