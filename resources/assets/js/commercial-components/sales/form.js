@@ -129,7 +129,7 @@ Vue.component('sales-form', {
             app.details = data.details;
             app.selectText = data.customer;
             app.id = data.customer_id;
-            app.$parent.$parent.isList = false;
+            app.$parent.$parent.showList = false;
         },
 
         onReset: function(isnew)
@@ -150,14 +150,16 @@ Vue.component('sales-form', {
             app.comment = null;
             app.ref_id = null;
             app.details = [];
-            if (isnew == false) {
-                app.$parent.$parent.isList = false;
+
+            if (isnew == false)
+            {
+                app.$parent.$parent.showList = true;
             }
         },
 
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
-        onSave: function(json,isnew)
+        onSave: function(json, isnew)
         {
             var app = this;
             var api = null;
@@ -174,19 +176,12 @@ Vue.component('sales-form', {
                 async: false,
                 success: function(data)
                 {
-                    console.log(data);
-                    if (data == 'ok')
-                    {
-                        app.onReset(isnew);
-                    }
-                    else
-                    {
-                        alert('Something Went Wrong...')
-                    }
+                    app.onReset(isnew);
                 },
                 error: function(xhr, status, error)
                 {
                     console.log(xhr.responseText);
+                    alert('Something went Wrong...');
                 }
             });
         },
