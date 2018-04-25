@@ -34,6 +34,7 @@ return [
     'Save-and-New' => 'Guardar y cargar otro',
     'Cancel' => 'Cancelar',
     'Action' => 'Acciones',
+'Balance' => 'Balance',
 
     'Timestamp' => 'Marca de Tiempo',
     'NumberOfRecords' => 'Cantidad de Registros',

@@ -34,7 +34,7 @@ return [
     'Save-and-New' => 'Save and create new',
     'Cancel' => 'Cancel',
     'Action' => 'Action',
-
+    'Balance' => 'Balance',
     'Timestamp' => 'Time Stamp',
     'NumberOfRecords' => 'Number of Records',
     'IssuedBy' => 'Issued by',

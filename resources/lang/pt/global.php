@@ -34,7 +34,8 @@ return [
     'Save-and-New' => 'Salvar e carregar outro',
     'Cancel' => 'Cancelar',
     'Action' => 'Ações | Ações',
-
+    'Balance' => 'Balance',
+    
     'Timestamp' => 'Carimbo de hora',
     'NumberOfRecords' => 'Número de registros',
     'IssuedBy' => 'Emitido por',

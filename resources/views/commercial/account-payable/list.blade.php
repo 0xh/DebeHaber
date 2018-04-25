@@ -11,14 +11,11 @@
             <div class="col-1 m--font-boldest">
                 <p class="m--font-boldest m--font-transform-u">@lang('global.Deadline')</p>
             </div>
-            <div class="col-2">
-                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Total')</p>
+            <div class="col-2 m--font-boldest">
+                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Balance')</p>
             </div>
             <div class="col-2 m--font-boldest">
                 <p class="m--align-right m--font-boldest m--font-transform-u">@lang('commercial.Paid')</p>
-            </div>
-            <div class="col-2 m--font-boldest">
-                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('commercial.Balance')</p>
             </div>
             <div class="col-2">
                 <p class="m--align-center m--font-boldest m--font-transform-u">@lang('global.Actions')</p>
@@ -48,18 +45,13 @@
 
             <div class="col-2">
                 <p class="m--font-bold m--align-right">
-                    @{{ invoice.Value }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
+                    @{{ invoice.Balance }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
                 </p>
             </div>
 
             <div class="col-2">
                 <p class="m--font-bold m--align-right">
                     @{{ invoice.Paid }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
-                </p>
-            </div>
-            <div class="col-2">
-                <p class="m--font-bold m--align-right">
-                    @{{ invoice.Balance }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
                 </p>
             </div>
             <div class="col-2">
