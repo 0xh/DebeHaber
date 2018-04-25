@@ -14,7 +14,7 @@ class ChartVersion extends Model
         ->orWhere(function($subQuery) use ($taxPayer)
         {
             $subQuery
-            ->where('country', $taxPayer->country)
+            //->where('country', $taxPayer->country)
             ->whereNull('taxpayer_id');
         });
     }

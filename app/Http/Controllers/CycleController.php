@@ -64,11 +64,12 @@ class CycleController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request)
+    public function store(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
         if ($request->id == 0)
         {
             $cycle = new Cycle();
+            $cycle->taxpayer_id = $taxPayer->id;
         }
         else
         {

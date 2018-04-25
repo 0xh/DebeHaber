@@ -33,7 +33,8 @@ Vue.component('cycle',
 
             }).then(function (response)
             {
-                if (data == 'ok')
+            
+                if (response.data == 'ok')
                 {
                     app.id = 0;
                     app.chart_version_id = null;
@@ -49,7 +50,7 @@ Vue.component('cycle',
             })
             .catch(function (error)
             {
-                console.log(error.response);
+                console.log(error);
             });
             // $.ajax({
             //     url: '',

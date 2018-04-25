@@ -13,6 +13,7 @@
                         <img src="/img/icons/generate.svg" alt="" width="64">
                         <span class="m-nav-grid__text">
                             Generar Asientos
+                
                             <br>
                             <small>Click Aqui</small>
                         </span>

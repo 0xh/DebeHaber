@@ -86,7 +86,19 @@
                     @hasSection('settings')
                         @yield('settings')
                     @else
-                        <model inline-template>
+                        @if(request()->route('cycle') != null)
+                            @php
+                            $cycleid =request()->route('cycle')->id ;
+                            $taxpayerid =request()->route('taxPayer')->id ;
+                            @endphp
+                        @else
+                            @php
+                            $cycleid =0 ;
+                            $taxpayerid =0;
+                            @endphp
+                        @endif
+                        <model  cycle="{{ $cycleid }}" taxpayer="{{ $taxpayerid }}" inline-template>
+
                             <div>
                                 <!-- BEGIN: Subheader -->
                                 <div class="m-subheader row">
@@ -117,11 +129,14 @@
                                                         /
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="#" class="m-nav__link">
+                                                        <select v-model="cycle_id" required class="custom-select" @change="cyclechange()">
+                                                            <option v-for="cycle in cycles" :value="cycle.id">@{{ cycle.year }}</option>
+                                                        </select>
+                                                        {{-- <a href="#" class="m-nav__link">
                                                             <span class="m-nav__link-text m--font-focus">
                                                                 {{ request()->route('cycle')->year }}
                                                             </span>
-                                                        </a>
+                                                        </a> --}}
                                                     </li>
                                                 </ul>
                                             @endif
