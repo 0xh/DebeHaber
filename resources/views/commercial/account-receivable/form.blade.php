@@ -61,8 +61,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-6">
+                    <div class="form-group m-form__group row">
+                        <label for="example-text-input" class="col-4 col-form-label">
+                            @lang('commercial.Balance')
+                        </label>
+                        <div class="col-8">
+                            @{{ Balance }}
+                        </div>
+                    </div>
+                </div>
 
             </div>
+
         </div>
 
         <hr>

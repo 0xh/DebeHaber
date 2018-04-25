@@ -21,6 +21,7 @@ Vue.component('transaction-form',
       Supplier:'',
       Customer:'',
       Paid :'',
+      Balance:0,
       SupplierTaxID:'',
       CustomerTaxID:'',
       customer_id: '',
@@ -128,11 +129,12 @@ Vue.component('transaction-form',
     {
       console.log(data)
       var app = this;
-      app.id = data.ID;
+      app.id = data.id;
       app.type = data.type;
       app.Customer = data.Customer;
       app.Supplier = data.Supplier;
       app.Paid = data.Paid;
+        app.Balance = data.Balance;
       app.SupplierTaxID=data.SupplierTaxID;
       app.CustomerTaxID=data.CustomerTaxID;
       app.Value = data.Value;
@@ -181,6 +183,7 @@ Vue.component('transaction-form',
       app.CustomerTaxID=null;
       app.Value = null;
       app.payment_value=null;
+          app.Balance = 0;
       app.currency_code = null;
       app.date = null;
       app.customer_id = null;
@@ -220,6 +223,11 @@ Vue.component('transaction-form',
           app.supplier_id = this.$children[0].id;
 
         }
+      }
+
+      if (parseFloat(app.payment_value)>parseFloat(app.Balance)) {
+          alert('Payment Exceed..');
+          return;
       }
 
       console.log(json);

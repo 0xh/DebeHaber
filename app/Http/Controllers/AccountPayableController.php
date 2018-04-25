@@ -32,13 +32,12 @@ class AccountPayableController extends Controller
     ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
     ->join('currencies', 'transactions.currency_id','currencies.id')
     ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
-    ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
     ->where('transactions.customer_id', $taxPayer->id)
     ->where('transactions.payment_condition', '>', 0)
     ->whereBetween('transactions.date', [$cycle->start_date, $cycle->end_date])
     //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
     ->groupBy('transactions.id')
-    ->select(DB::raw('max(transactions.id) as ID'),
+    ->select(DB::raw('max(transactions.id) as id'),
     DB::raw('max(taxpayers.name) as Supplier'),
     DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
     DB::raw('max(currencies.code) as currency_code'),
@@ -46,8 +45,15 @@ class AccountPayableController extends Controller
     DB::raw('max(transactions.date) as date'),
     DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as code_expiry'),
     DB::raw('max(transactions.number) as number'),
-    DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
-    DB::raw('sum(td.value/transactions.rate) as Value'))
+    DB::raw('(select ifnull(sum(account_movements.debit/account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
+    DB::raw('sum(td.value/transactions.rate) as Value'),
+    DB::raw('(sum(td.value/transactions.rate)
+     - (select
+     ifnull(sum(account_movements.debit/account_movements.rate), 0)
+     from account_movements
+     where transactions.id = account_movements.transaction_id))
+     as Balance')
+    )
     ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
     ->orderByRaw('max(transactions.number)', 'desc')
     ->skip($skip)
@@ -63,13 +69,12 @@ class AccountPayableController extends Controller
     ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
     ->join('currencies', 'transactions.currency_id','currencies.id')
     ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
-    ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
     ->where('transactions.customer_id', $taxPayer->id)
     ->where('transactions.id',$id)
     ->where('transactions.payment_condition', '>', 0)
     //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
     ->groupBy('transactions.id')
-    ->select(DB::raw('max(transactions.id) as ID'),
+    ->select(DB::raw('max(transactions.id) as id'),
     DB::raw('max(taxpayers.name) as Supplier'),
     DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
     DB::raw('max(currencies.code) as currency_code'),
@@ -77,8 +82,15 @@ class AccountPayableController extends Controller
     DB::raw('max(transactions.date) as date'),
     DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as code_expiry'),
     DB::raw('max(transactions.number) as number'),
-    DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
-    DB::raw('sum(td.value/transactions.rate) as Value'))
+    DB::raw('(select ifnull(sum(account_movements.debit/account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
+    DB::raw('sum(td.value/transactions.rate) as Value'),
+    DB::raw('(sum(td.value/transactions.rate)
+     - (select
+     ifnull(sum(account_movements.debit/account_movements.rate), 0)
+     from account_movements
+     where transactions.id = account_movements.transaction_id))
+     as Balance')
+    )
     ->orderByRaw('DATE_ADD(transactions.date, INTERVAL transactions.payment_condition DAY)', 'desc')
     ->orderBy('transactions.number', 'desc')
     ->get();
@@ -164,19 +176,19 @@ class AccountPayableController extends Controller
   */
   public function destroy(Taxpayer $taxPayer, Cycle $cycle,$transactionID)
   {
-      try
-      {
+    try
+    {
 
-          //TODO: Run Tests to make sure it deletes all journals related to transaction
-          AccountMovement::where('transaction_id', $transactionID)->delete();
-          JournalTransaction::where('transaction_id',$transactionID)->delete();
-          Transaction::where('id',$transactionID)->delete();
+      //TODO: Run Tests to make sure it deletes all journals related to transaction
+      AccountMovement::where('transaction_id', $transactionID)->delete();
+      JournalTransaction::where('transaction_id',$transactionID)->delete();
+      Transaction::where('id',$transactionID)->delete();
 
-          return response()->json('ok', 200);
-      }
-      catch (\Exception $e)
-      {
-          return response()->json($e, 500);
-      }
+      return response()->json('ok', 200);
+    }
+    catch (\Exception $e)
+    {
+      return response()->json($e, 500);
+    }
   }
 }

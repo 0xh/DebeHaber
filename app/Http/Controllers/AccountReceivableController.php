@@ -35,12 +35,11 @@ class AccountReceivableController extends Controller
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
-        ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
         ->where('transactions.supplier_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
         ->whereBetween('transactions.date', [$cycle->start_date, $cycle->end_date])
         ->groupBy('transactions.id')
-        ->select(DB::raw('max(transactions.id) as ID'),
+        ->select(DB::raw('max(transactions.id) as id'),
         DB::raw('max(taxpayers.name) as Customer'),
         DB::raw('max(taxpayers.taxid) as CutomerTaxID'),
         DB::raw('max(currencies.code) as Currency'),
@@ -48,8 +47,15 @@ class AccountReceivableController extends Controller
         DB::raw('max(transactions.date) as Date'),
         DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
         DB::raw('max(transactions.number) as Number'),
-        DB::raw('ifnull(sum(account_movements.credit / account_movements.rate), 0) as Paid'),
-        DB::raw('sum(td.value/transactions.rate) as Value'))
+        DB::raw('(select ifnull(sum(account_movements.credit/account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
+        DB::raw('sum(td.value/transactions.rate) as Value'),
+    DB::raw('(sum(td.value/transactions.rate)
+     - (select
+     ifnull(sum(account_movements.credit/account_movements.rate), 0)
+     from account_movements
+     where transactions.id = account_movements.transaction_id))
+     as Balance')
+    )
         ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
         ->orderByRaw('max(transactions.number)', 'desc')
         ->skip($skip)
@@ -65,21 +71,27 @@ class AccountReceivableController extends Controller
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
-        ->leftJoin('account_movements', 'transactions.id', 'account_movements.transaction_id')
         ->where('transactions.supplier_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
         ->where('transactions.id',$id)
         ->groupBy('transactions.id')
-        ->select(DB::raw('max(transactions.id) as ID'),
-      DB::raw('max(taxpayers.name) as Customer'),
-      DB::raw('max(taxpayers.taxid) as CutomerTaxID'),
-      DB::raw('max(currencies.code) as currency_code'),
-      DB::raw('max(transactions.payment_condition) as payment_condition'),
-      DB::raw('max(transactions.date) as date'),
-      DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as code_expiry'),
-      DB::raw('max(transactions.number) as number'),
-      DB::raw('ifnull(sum(account_movements.debit/account_movements.rate), 0) as Paid'),
-      DB::raw('sum(td.value/transactions.rate) as Value'))
+        ->select(DB::raw('max(transactions.id) as id'),
+        DB::raw('max(taxpayers.name) as Customer'),
+        DB::raw('max(taxpayers.taxid) as CutomerTaxID'),
+        DB::raw('max(currencies.code) as currency_code'),
+        DB::raw('max(transactions.payment_condition) as payment_condition'),
+        DB::raw('max(transactions.date) as date'),
+        DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as code_expiry'),
+        DB::raw('max(transactions.number) as number'),
+        DB::raw('(select ifnull(sum(account_movements.credit/account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
+        DB::raw('sum(td.value/transactions.rate) as Value'),
+    DB::raw('(sum(td.value/transactions.rate)
+     - (select
+     ifnull(sum(account_movements.credit/account_movements.rate), 0)
+     from account_movements
+     where transactions.id = account_movements.transaction_id))
+     as Balance')
+    )
 
         ->get();
         return response()->json($accountMovement);

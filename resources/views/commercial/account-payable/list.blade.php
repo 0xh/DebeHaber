@@ -17,6 +17,9 @@
             <div class="col-2 m--font-boldest">
                 <p class="m--align-right m--font-boldest m--font-transform-u">@lang('commercial.Paid')</p>
             </div>
+            <div class="col-2 m--font-boldest">
+                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('commercial.Balance')</p>
+            </div>
             <div class="col-2">
                 <p class="m--align-center m--font-boldest m--font-transform-u">@lang('global.Actions')</p>
             </div>
@@ -55,11 +58,16 @@
                 </p>
             </div>
             <div class="col-2">
+                <p class="m--font-bold m--align-right">
+                    @{{ invoice.Balance }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
+                </p>
+            </div>
+            <div class="col-2">
                 <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                     <a class="m-btn btn btn-secondary">
                         <i class="la la-check m--font-success"></i>
                     </a>
-                    <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-money m--font-brand"></i> @lang('commercial.MakePayment')</a>
+                    <a @click="onEdit(invoice.id)" class="m-btn btn btn-secondary"><i class="la la-money m--font-brand"></i> @lang('commercial.MakePayment')</a>
                 </div>
             </div>
         </div>

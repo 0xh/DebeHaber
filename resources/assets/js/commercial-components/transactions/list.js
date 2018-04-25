@@ -94,7 +94,7 @@ Vue.component('transaction-list',
     },
     //Get Cost Centers
     getCharts: function(data)
-    {  
+    {
       var app = this;
       axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-charts/',
       )
@@ -111,7 +111,7 @@ Vue.component('transaction-list',
     //VAT
     getTaxes: function()
     {
-        console.log('/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-vats/');
+
       var app = this;
       axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/get-vats/',
       )
