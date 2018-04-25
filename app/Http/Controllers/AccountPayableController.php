@@ -70,9 +70,8 @@ class AccountPayableController extends Controller
     ->join('currencies', 'transactions.currency_id','currencies.id')
     ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
     ->where('transactions.customer_id', $taxPayer->id)
-    ->where('transactions.id',$id)
+    ->where('transactions.id', $id)
     ->where('transactions.payment_condition', '>', 0)
-    //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
     ->groupBy('transactions.id')
     ->select(DB::raw('max(transactions.id) as id'),
     DB::raw('max(taxpayers.name) as Supplier'),
@@ -91,9 +90,8 @@ class AccountPayableController extends Controller
      where transactions.id = account_movements.transaction_id))
      as Balance')
     )
-    ->orderByRaw('DATE_ADD(transactions.date, INTERVAL transactions.payment_condition DAY)', 'desc')
-    ->orderBy('transactions.number', 'desc')
-    ->get();
+    ->first();
+
     return response()->json($accountMovement);
   }
   /**
