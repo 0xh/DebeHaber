@@ -199,7 +199,7 @@ class JournalController extends Controller
                     $this->generate_fromPurchases($taxPayer, $cycle, $purchases, $comment);
                 }
 
-                $debits = collect($groupedTransactions->whereIn('type', [1, 2])) ?? null;
+                $debits = collect($groupedTransactions->where('type', 3)) ?? null;
                 if ($debits->count() > 0)
                 {
                     $comment = __('accounting.DebitNoteComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);

@@ -102,7 +102,7 @@ class AccountMovementController extends Controller
 
             if ($transaction != null)
             {
-                $accMovement = processPayments($data, $invoice);
+                $accMovement = processPayments($data, $taxPayer, $transaction);
             }
         }
         else if ($data['Type'] == 2) //Payment Received (Account Receivables)
@@ -118,28 +118,43 @@ class AccountMovementController extends Controller
 
             if ($transaction != null)
             {
-                $accMovement = processPayments($data, $invoice);
+                $accMovement = processPayments($data, $taxPayer, $transaction);
             }
         }
         else //simple Transfer
         {
-            $accMovement = processMovement($data);
+            $accMovement = processMovement($data, $taxPayer);
         }
 
         //Return account movement if not null.
         return $accMovement != null ? $accMovement : null;
     }
 
-    public function processPayments($data, $invoice)
+    public function processPayments($data, $taxPayer, $invoice)
     {
         $accMovement = new AccountMovement();
+        $accMovement->chart_id = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
+        $accMovement->taxpayer_id = $taxPayer->id;
+        $accMovement->transaction_id = $invoice->id;
+        $accMovement->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
 
+        //Check currency rate based on date. if nothing found use default from api. TODO this should be updated to buy and sell rates.
+        if ($data['CurrencyRate'] ==  '' )
+        { $accMovement->rate = $this->checkCurrencyRate($accMovement->currency_id, $taxPayer, $data['Date']) ?? 1; }
+        else
+        { $accMovement->rate = $data['CurrencyRate'] ?? 1; }
 
+        $accMovement->date = $this->convert_date($data['Date']);
+        //based on invoice type choose if its credit or debit.
+        $accMovement->credit = $invoice->type == 4 ?  $data['Value'] : 0;
+        $accMovement->debit = ($invoice->type == 1 || $invoice->type == 2) ?  $data['Value'] : 0;
+
+        $accMovement->comment = $data['Comment'];
 
         return $accMovement;
     }
 
-    public function processMovement($data)
+    public function processMovement($taxPayer, $data)
     {
         $accMovement = new AccountMovement();
 
