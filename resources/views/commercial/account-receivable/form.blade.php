@@ -64,7 +64,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('commercial.Balance')
+                            @lang('global.Balance')
                         </label>
                         <div class="col-8">
                             @{{ Balance }}
@@ -101,21 +101,21 @@
                 <input type="text" name="" value="" v-model="payment_value">
             </div>
         </div>
+
         <div class="row">
             <div class="col-4">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
                         <b>@lang('commercial.Currency')</b>
-
                     </label>
-                    <div class="col-8">
-                        <div class="input-group">
-                            <select required v-model="currency_id" class="custom-select" v-on:change="getRate()">
-                                <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }}</option>
-                            </select>
-                            <input type="text" class="form-control" v-model="rate" />
-                        </div>
-                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="input-group">
+                    <select required v-model="currency_id" class="custom-select" v-on:change="getRate()">
+                        <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }}</option>
+                    </select>
+                    <input type="text" class="form-control" v-model="rate" />
                 </div>
             </div>
         </div>

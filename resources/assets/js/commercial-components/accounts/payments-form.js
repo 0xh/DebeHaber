@@ -5,40 +5,38 @@ Vue.component('payments-form',{
     props: ['taxpayer', 'cycle'],
     data() {
         return {
-            id:0,
-            ID:'',
-            taxpayer_id:'',
-            Customer:'',
-            CutomerTaxID:'',
-            Currency:'',
-            CurrencyID:'',
-            rate : '',
-            PaymentCondition:'',
-            Date:'',
-            Expiry:'',
-            Number:'',
-            Paid:'',
-            Value:'',
-            chart_id:'',
-            payment_value:'',
-            comment:'',
-            currencies:[],
-            charts:[]
+            id: 0,
+            ID: '',
+            taxpayer_id: '',
+            Customer: '',
+            CutomerTaxID: '',
+            Currency: '',
+            CurrencyID: '',
+            rate: '',
+            PaymentCondition: '',
+            Date: '',
+            Expiry: '',
+            Number: '',
+            Paid: '',
+            Value: '',
+            chart_id: '',
+            payment_value: '',
+            comment: '',
+            currencies: [],
+            charts: []
         }
     },
 
 
     methods: {
-
-
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json,isnew)
         {
-
             var app = this;
             var api = null;
-            this.taxpayer_id=this.taxpayer;
+
+            this.taxpayer_id = this.taxpayer;
             $.ajax({
                 url: '',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -48,20 +46,11 @@ Vue.component('payments-form',{
                 async: false,
                 success: function(data)
                 {
-                    if (data=='ok')
-                    {
-                        app.onReset();
-
-                    }
-                    else
-                    {
-                        alert('Something Went Wrong...')
-                    }
-
-
+                    app.onReset();
                 },
                 error: function(xhr, status, error)
                 {
+                    alert('Something went wrong...')
                     console.log(xhr.responseText);
                 }
             });
@@ -70,7 +59,7 @@ Vue.component('payments-form',{
         {
             console.log(data);
             var app = this;
-            app.ID=data.ID;
+            app.ID = data.ID;
             app.Customer = data.Customer;
             app.CutomerTaxID = data.CutomerTaxID;
             app.Currency = data.Currency;
@@ -82,17 +71,12 @@ Vue.component('payments-form',{
             app.Paid = data.Paid;
             app.Value = data.Value;
             app.payment_value = data.Value;
-
-
         },
 
         onReset: function(isnew)
         {
-            var app=this;
-
-
-
-            app.ID=0;
+            var app = this;
+            app.ID = 0;
             app.Customer = null;
             app.CutomerTaxID = null;
             app.Currency = null;
@@ -108,18 +92,18 @@ Vue.component('payments-form',{
             app.comment = null;
             app.rate = 0;
             app.payment_value = null;
-            if (isnew==false) {
-                app.$parent.status=0;
+            if (isnew == false)
+            {
+                app.$parent.status = 0;
             }
-
-
         },
 
         cancel()
         {
-            var app=this;
-            app.$parent.status=0;
+            var app = this;
+            app.$parent.status = 0;
         },
+
         getCurrencies: function(data)
         {
             var app=this;
@@ -131,12 +115,11 @@ Vue.component('payments-form',{
                 async: true,
                 success: function(data)
                 {
-                    app.currencies=[];
+                    app.currencies = [];
                     for(let i = 0; i < data.length; i++)
                     {
                         app.currencies.push({name:data[i]['name'],id:data[i]['id']});
                     }
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -146,8 +129,7 @@ Vue.component('payments-form',{
         },
         getRate: function()
         {
-
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -156,12 +138,10 @@ Vue.component('payments-form',{
                 async: true,
                 success: function(data)
                 {
-
-                    if (app.rate=='' || app.rate==null) {
-                        app.rate=data;
+                    if (app.rate == '' || app.rate == null)
+                    {
+                        app.rate = data;
                     }
-
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -171,7 +151,7 @@ Vue.component('payments-form',{
         },
         getCharts: function(data)
         {
-            var app=this;
+            var app = this;
             $.ajax({
                 url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},

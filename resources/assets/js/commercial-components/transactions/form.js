@@ -21,14 +21,14 @@ Vue.component('transaction-form',
             Supplier:'',
             Customer:'',
             Paid :'',
-            Balance:0,
+            Balance: 0,
             SupplierTaxID:'',
             CustomerTaxID:'',
             customer_id: '',
             supplier_id: '',
             document_id: '',
             currency_id: '',
-            rate:1,
+            rate: 1,
             payment_condition: '',
             chart_account_id: '',
             date: '',
@@ -135,8 +135,8 @@ Vue.component('transaction-form',
             app.Supplier = data.Supplier;
             app.Paid = data.Paid;
             app.Balance = data.Balance;
-            app.SupplierTaxID=data.SupplierTaxID;
-            app.CustomerTaxID=data.CustomerTaxID;
+            app.SupplierTaxID = data.SupplierTaxID;
+            app.CustomerTaxID = data.CustomerTaxID;
             app.Value = data.Value;
             app.customer_id = data.customer_id;
             app.supplier_id = data.supplier_id;
@@ -214,7 +214,7 @@ Vue.component('transaction-form',
             var api = null;
             app.type =  app.trantype;
 
-            if (this.$children[0]!=null) {
+            if (this.$children[0] != null) {
                 if (app.trantype == 4 || app.trantype == 5)
                 {
                     app.customer_id = this.$children[0].id;

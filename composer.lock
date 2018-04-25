@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9848326e463b967fa6a7f265c976b81",
+    "content-hash": "c5c1144c55ab12e510171920126cefd6",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -184,137 +184,20 @@
             "time": "2018-02-07T17:43:25+00:00"
         },
         {
-            "name": "bepsvpt/csp-builder",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BePsvPT/csp-builder.git",
-                "reference": "61fc14811b1c166462234aa53fa856f25c3e8660"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BePsvPT/csp-builder/zipball/61fc14811b1c166462234aa53fa856f25c3e8660",
-                "reference": "61fc14811b1c166462234aa53fa856f25c3e8660",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.0"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "0.4.*",
-                "doctrine/instantiator": "1.0.*",
-                "phpunit/phpunit": "5.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Bepsvpt\\CSPBuilder\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paragon Initiative Enterprises",
-                    "email": "security@paragonie.com",
-                    "homepage": "https://paragonie.com",
-                    "role": "Owner"
-                },
-                {
-                    "name": "BePsvPT",
-                    "email": "freedom@csie.io"
-                }
-            ],
-            "description": "Easily add and update Content-Security-Policy headers for your project",
-            "homepage": "https://github.com/BePsvPT/csp-builder",
-            "keywords": [
-                "content-security-policy",
-                "csp",
-                "headers",
-                "http",
-                "security",
-                "xss"
-            ],
-            "abandoned": "please upgrade bepsvpt/secure-headers to latest version",
-            "time": "2017-07-26T01:42:13+00:00"
-        },
-        {
-            "name": "bepsvpt/hpkp-builder",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BePsvPT/hpkp-builder.git",
-                "reference": "c54d096459def4ccf57601c674f5795762b56584"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BePsvPT/hpkp-builder/zipball/c54d096459def4ccf57601c674f5795762b56584",
-                "reference": "c54d096459def4ccf57601c674f5795762b56584",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.0"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "0.4.*",
-                "doctrine/instantiator": "1.0.*",
-                "phpunit/phpunit": "5.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Bepsvpt\\HPKPBuilder\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "BePsvPT",
-                    "email": "freedom@csie.io"
-                },
-                {
-                    "name": "Paragon Initiative Enterprises",
-                    "email": "info@paragonie.com",
-                    "homepage": "https://paragonie.com",
-                    "role": "Development Team"
-                }
-            ],
-            "description": "Easily integrate HTTP Public-Key-Pinning headers into your application.",
-            "homepage": "https://github.com/BePsvPT/hpkp-builder",
-            "keywords": [
-                "Hypertext",
-                "headers",
-                "hpkp",
-                "public key",
-                "public key pinning",
-                "security",
-                "security headers"
-            ],
-            "abandoned": "please upgrade bepsvpt/secure-headers to latest version",
-            "time": "2017-08-04T04:48:06+00:00"
-        },
-        {
             "name": "bepsvpt/secure-headers",
-            "version": "4.2.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BePsvPT/secure-headers.git",
-                "reference": "d57de9eb9643cd948fc47260a672fcb759967e87"
+                "reference": "d4fdbd7651e450572b074fe85a12c2007e6dc955"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BePsvPT/secure-headers/zipball/d57de9eb9643cd948fc47260a672fcb759967e87",
-                "reference": "d57de9eb9643cd948fc47260a672fcb759967e87",
+                "url": "https://api.github.com/repos/BePsvPT/secure-headers/zipball/d4fdbd7651e450572b074fe85a12c2007e6dc955",
+                "reference": "d4fdbd7651e450572b074fe85a12c2007e6dc955",
                 "shasum": ""
             },
             "require": {
-                "bepsvpt/csp-builder": "1.0.*",
-                "bepsvpt/hpkp-builder": "1.0.*",
                 "illuminate/support": "^5.1",
                 "php": "^7.0"
             },
@@ -344,7 +227,7 @@
             "authors": [
                 {
                     "name": "BePsvPT",
-                    "email": "freedom@csie.io"
+                    "email": "bepsvpt@protonmail.com"
                 }
             ],
             "description": "Add security related headers to HTTP response. The package includes Service Providers for easy Laravel integration.",
@@ -357,7 +240,7 @@
                 "https",
                 "laravel"
             ],
-            "time": "2018-03-11T01:11:57+00:00"
+            "time": "2018-04-09T09:53:08+00:00"
         },
         {
             "name": "colinodell/json5",
@@ -2286,7 +2169,7 @@
             "dist": {
                 "type": "path",
                 "url": "./spark",
-                "reference": "8821d656f7152df217cd1cd9234a6231e915d03a",
+                "reference": "a12190d7867e1f0648d871b6023b12867cdcc9d2",
                 "shasum": null
             },
             "require": {
@@ -2772,16 +2655,16 @@
         },
         {
             "name": "mcamara/laravel-localization",
-            "version": "v1.3.6",
+            "version": "1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcamara/laravel-localization.git",
-                "reference": "68a06bcb5406083f2dbe8ac6f2344aa85381b655"
+                "reference": "6cd1756bce568248b58d04878e5e1caf6096e673"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/68a06bcb5406083f2dbe8ac6f2344aa85381b655",
-                "reference": "68a06bcb5406083f2dbe8ac6f2344aa85381b655",
+                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/6cd1756bce568248b58d04878e5e1caf6096e673",
+                "reference": "6cd1756bce568248b58d04878e5e1caf6096e673",
                 "shasum": ""
             },
             "require": {
@@ -2830,7 +2713,7 @@
                 "localization",
                 "php"
             ],
-            "time": "2018-03-15T17:23:53+00:00"
+            "time": "2018-04-25T17:16:00+00:00"
         },
         {
             "name": "monolog/monolog",
