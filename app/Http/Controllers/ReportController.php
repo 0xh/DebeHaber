@@ -65,9 +65,9 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $journals = $this->journalQuery($taxPayer, $startDate, $endDate);
+            $journals = $this->journalSummarizedQuery($taxPayer, $startDate, $endDate);
             $charts = $this->chartQuery($taxPayer, $cycle, $startDate, $endDate);
-            ;
+
             // Loop through Journal entries and add to chart balance
             foreach ($journals->groupBy('chart_id') as $journalGrouped)
             {
@@ -78,7 +78,6 @@ class ReportController extends Controller
                     $chart->balance = $journalGrouped->sum('credit') - $journalGrouped->sum('debit');
                 }
             }
-
 
             foreach ($charts as $chart)
             {
@@ -507,6 +506,28 @@ class ReportController extends Controller
         ->get();
     }
 
+    public function journalSummarizedQuery(Taxpayer $taxPayer, $startDate, $endDate)
+    {
+        DB::connection()->disableQueryLog();
+
+        return Journal::join('journal_details', 'journals.id', 'journal_details.journal_id')
+        ->join('charts', 'charts.id', 'journal_details.chart_id')
+        ->select(DB::raw('max(journals.id)',
+        'max(journals.date)',
+        'max(journals.comment)',
+        'max(journals.number)',
+        'sum(journal_details.debit)',
+        'sum(journal_details.credit)',
+        'max(charts.id) as chart_id',
+        'max(charts.name) as chartName',
+        'max(charts.code) as chartCode',
+        'max(charts.type) as chartType',
+        'max(charts.sub_type) as chartSubType'))
+        ->whereBetween('journals.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
+        ->groupBy('journal_details.chart_id')
+        ->orderByRaw('max(journals.date)')
+        ->get();
+    }
 
     public function chartQuery(Taxpayer $taxPayer, $cycle, $startDate, $endDate)
     {

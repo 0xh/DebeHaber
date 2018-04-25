@@ -81,11 +81,11 @@ class AccountPayableController extends Controller
     DB::raw('max(transactions.date) as date'),
     DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as code_expiry'),
     DB::raw('max(transactions.number) as number'),
-    DB::raw('(select ifnull(sum(account_movements.debit/account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
-    DB::raw('sum(td.value/transactions.rate) as Value'),
-    DB::raw('(sum(td.value/transactions.rate)
+    DB::raw('(select ifnull(sum(account_movements.debit * account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
+    DB::raw('sum(td.value * transactions.rate) as Value'),
+    DB::raw('(sum(td.value * transactions.rate)
      - (select
-     ifnull(sum(account_movements.debit/account_movements.rate), 0)
+     ifnull(sum(account_movements.debit * account_movements.rate), 0)
      from account_movements
      where transactions.id = account_movements.transaction_id))
      as Balance')
