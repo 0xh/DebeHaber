@@ -65,7 +65,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $journals = $this->journalSummarizedQuery($taxPayer, $startDate, $endDate);
+            $journals = $this->journalQuery($taxPayer, $startDate, $endDate);
             $charts = $this->chartQuery($taxPayer, $cycle, $startDate, $endDate);
 
             // Loop through Journal entries and add to chart balance
