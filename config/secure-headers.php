@@ -192,6 +192,7 @@ return [
                 $protocol.'www.debehaber.com',
                 $protocol.'www.google-analytics.com',
                 $protocol.'www.gravatar.com/avatar/',
+                'data:'
             ],
 
             'types' => [
@@ -213,6 +214,7 @@ return [
             'allow' => [
                 $protocol.'cdnjs.cloudflare.com/',
                 $protocol.'fonts.gstatic.com/',
+                'data:'
             ],
 
             'self' => true,
