@@ -92,7 +92,7 @@ class AccountReceivableController extends Controller
         where transactions.id = account_movements.transaction_id))
         as Balance')
         )
-        ->first();
+        ->get();
         return response()->json($accountMovement);
     }
     /**
