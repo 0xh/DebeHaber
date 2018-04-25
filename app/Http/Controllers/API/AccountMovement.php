@@ -121,7 +121,7 @@ class AccountMovementController extends Controller
                 $accMovement = processPayments($data, $taxPayer, $transaction);
             }
         }
-        else //simple Transfer
+        else //simple Transfer. From one account to another.
         {
             $accMovement = processMovement($data, $taxPayer);
         }
@@ -146,19 +146,36 @@ class AccountMovementController extends Controller
 
         $accMovement->date = $this->convert_date($data['Date']);
         //based on invoice type choose if its credit or debit.
-        $accMovement->credit = $invoice->type == 4 ?  $data['Value'] : 0;
-        $accMovement->debit = ($invoice->type == 1 || $invoice->type == 2) ?  $data['Value'] : 0;
+        $accMovement->credit = $invoice->type == 4 ?  $data['Credit'] : 0;
+        $accMovement->debit = ($invoice->type == 1 || $invoice->type == 2) ?  $data['Debit'] : 0;
 
         $accMovement->comment = $data['Comment'];
+        $accMovement->save();
 
         return $accMovement;
     }
 
+
+    //Simple movements from one account to another. Maybe this should create two movements to demonstrate how it goes from one account into another.
     public function processMovement($taxPayer, $data)
     {
         $accMovement = new AccountMovement();
+        $accMovement->chart_id = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
+        $accMovement->taxpayer_id = $taxPayer->id;
+        $accMovement->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
 
+        //Check currency rate based on date. if nothing found use default from api. TODO this should be updated to buy and sell rates.
+        if ($data['CurrencyRate'] ==  '' )
+        { $accMovement->rate = $this->checkCurrencyRate($accMovement->currency_id, $taxPayer, $data['Date']) ?? 1; }
+        else
+        { $accMovement->rate = $data['CurrencyRate'] ?? 1; }
 
+        $accMovement->date = $this->convert_date($data['Date']);
+        $accMovement->credit = $data['Credit'] ?? 0;
+        $accMovement->debit = $data['Debit'] ?? 0;
+
+        $accMovement->comment = $data['Comment'];
+        $accMovement->save();
 
         return $accMovement;
     }
