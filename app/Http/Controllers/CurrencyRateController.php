@@ -32,7 +32,7 @@ class CurrencyRateController extends Controller
         if (isset($currencyRate))
         { return response()->json($currencyRate->buy_rate); }
 
-        return response()->json('Error', 500);
+        return response()->json(1);
     }
 
     public function get_sellRateByCurrency($taxPayer, $id, $date)
@@ -46,7 +46,7 @@ class CurrencyRateController extends Controller
         if (isset($currencyRate))
         { return response()->json($currencyRate->sell_rate); }
 
-        return response()->json('Error', 500);
+        return response()->json(1);
     }
 
     public function get_Allrate()

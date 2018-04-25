@@ -152,14 +152,17 @@ Vue.component('transaction-form',
       app.ref_id = data.ref_id;
       app.details = data.details;
 
-      if (app.trantype == 4 ||app.trantype == 5) {
-        app.$children[0].selectText = data.customer;
-        app.$children[0].id=data.customer_id ;
+      if (app.$children[0]!=null) {
+        if (app.trantype == 4 ||app.trantype == 5) {
+          app.$children[0].selectText = data.customer;
+          app.$children[0].id=data.customer_id ;
+        }
+        else {
+          app.$children[0].selectText = data.supplier;
+          app.$children[0].id=data.supplier_id ;
+        }
       }
-      else {
-        app.$children[0].selectText = data.supplier;
-        app.$children[0].id=data.supplier_id ;
-      }
+
 
       app.$parent.$parent.showList = false;
 
