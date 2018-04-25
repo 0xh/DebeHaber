@@ -23,7 +23,7 @@
                             @lang('global.InvoiceDate')
                         </label>
                         <div class="col-8">
-                            @{{Date}}
+                            @{{date}}
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                             @lang('commercial.InvoiceNumber')
                         </label>
                         <div class="col-8">
-                            @{{Number}}
+                            @{{number}}
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                             @lang('global.Deadline')
                         </label>
                         <div class="col-8">
-                            <p>@{{ Expiry}}</p>
+                            <p>@{{ code_expiry}}</p>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                 </label>
             </div>
             <div class="col-8">
-                <select required  v-model="chart_id" class="custom-select">
+                <select required  v-model="chart_account_id" class="custom-select">
                     <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
                 </select>
             </div>
@@ -99,7 +99,7 @@
                     </label>
                     <div class="col-8">
                         <div class="input-group">
-                            <select required v-model="CurrencyID" class="custom-select" v-on:change="getRate()">
+                            <select required v-model="currency_id" class="custom-select" v-on:change="getRate()">
                                 <option v-for="currency in currencies" :value="currency.id">@{{ currency.name }}</option>
                             </select>
                             <input type="text" class="form-control" v-model="rate" />

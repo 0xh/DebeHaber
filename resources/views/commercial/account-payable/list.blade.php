@@ -59,7 +59,7 @@
                     <a class="m-btn btn btn-secondary">
                         <i class="la la-check m--font-success"></i>
                     </a>
-                    <a @click="onEdit(invoice.id)" class="m-btn btn btn-secondary"><i class="la la-money m--font-brand"></i> @lang('commercial.MakePayment')</a>
+                    <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-money m--font-brand"></i> @lang('commercial.MakePayment')</a>
                 </div>
             </div>
         </div>

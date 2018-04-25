@@ -130,8 +130,8 @@ Vue.component('transaction-form',
       var app = this;
       app.id = data.ID;
       app.type = data.type;
-      app.Customer = data.customer;
-      app.Supplier = data.supplier;
+      app.Customer = data.Customer;
+      app.Supplier = data.Supplier;
       app.Paid = data.Paid;
       app.SupplierTaxID=data.SupplierTaxID;
       app.CustomerTaxID=data.CustomerTaxID;

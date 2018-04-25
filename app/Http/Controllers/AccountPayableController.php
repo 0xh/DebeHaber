@@ -38,7 +38,7 @@ class AccountPayableController extends Controller
     ->whereBetween('transactions.date', [$cycle->start_date, $cycle->end_date])
     //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
     ->groupBy('transactions.id')
-    ->select(DB::raw('max(transactions.id) as id'),
+    ->select(DB::raw('max(transactions.id) as ID'),
     DB::raw('max(taxpayers.name) as Supplier'),
     DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
     DB::raw('max(currencies.code) as currency_code'),
@@ -69,7 +69,7 @@ class AccountPayableController extends Controller
     ->where('transactions.payment_condition', '>', 0)
     //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
     ->groupBy('transactions.id')
-    ->select(DB::raw('max(transactions.id) as id'),
+    ->select(DB::raw('max(transactions.id) as ID'),
     DB::raw('max(taxpayers.name) as Supplier'),
     DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
     DB::raw('max(currencies.code) as currency_code'),
