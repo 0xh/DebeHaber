@@ -30,7 +30,7 @@ class FixedAssetController extends Controller
 
                 try
                 {
-                    $fixedAsset = $this->processTransaction($chunkedData, $taxPayer);
+                    $fixedAsset = $this->insertFixedAsset($chunkedData, $taxPayer);
                     $movementData[$i] = $fixedAsset;
                 }
                 catch (\Exception $e)
