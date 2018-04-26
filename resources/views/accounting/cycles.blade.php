@@ -198,7 +198,7 @@
                                 <input type="number" v-model="data.debit" name="">
                             </div>
                             <div v-if="data.is_accountable" class="col-2">
-                                <input type="number" v-model="data.debit" name="">
+                                <input type="number" v-model="data.credit" name="">
                             </div>
                         </div>
                     </div>
