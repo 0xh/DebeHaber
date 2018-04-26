@@ -20,6 +20,9 @@ return [
     'JournalSimulation' => 'Simulación de Asientos',
     'ChartofAccounts' => 'Plan de Cuentas',
     'AccountingCycle' => 'Período Fiscal',
+    'AccountingBudget' => 'Presupuesto do Anho',
+    'OpeningBalance' => 'Asento de Apertura',
+    'ClosingBalance' => 'Asento de Cierre',
     'ChartVersion' => 'Versión',
     'IsAccountable' => 'Es Imputable',
 

@@ -52,11 +52,9 @@
 @endsection
 
 @section('form')
-
-
     <infinity taxpayer="{{ request()->route('taxPayer')->id}}"
         cycle="{{ request()->route('cycle')->id }}"
-      baseurl="accounting/fixedasset/fixedassets" inline-template>
+        baseurl="accounting/fixedasset/fixedassets" inline-template>
         <div>
             <div v-if="$parent.showList">
                 @include('accounting/fixedasset/list')

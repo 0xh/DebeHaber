@@ -40,28 +40,33 @@ class CycleBudgetController extends Controller
     {
         //
     }
+
     public function cyclebudgetstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = collect($request);
 
         foreach ($charts as $detail)
         {
-            $cyclebudget = new CycleBudget() ;
-            $cyclebudget->cycle_id = $cycle->id;
-            $cyclebudget->chart_id = $detail['id'];
-            $cyclebudget->debit = $detail['debit'];
-            $cyclebudget->credit = $detail['credit'];
-            $cyclebudget->comment = $cycle->year - ' Budget';
-            $cyclebudget->save();
+            //Make sure that atleast Debit OR Credit is more than zero to avoid
+            if ($detail['debit'] > 0 || $detail['credit'] > 0)
+            {
+                $cyclebudget = new CycleBudget();
+                $cyclebudget->cycle_id = $cycle->id;
+                $cyclebudget->chart_id = $detail['id'];
+                $cyclebudget->debit = $detail['debit'];
+                $cyclebudget->credit = $detail['credit'];
+                $cyclebudget->comment = $cycle->year - ' Budget';
+                $cyclebudget->save();
+            }
         }
 
         return response()->json('ok', 200);
-
     }
-    public function getCycleBudgetsByCycleID (Request $request,Taxpayer $taxPayer, Cycle $cycle,$id)
+
+    public function getCycleBudgetsByCycleID (Request $request,Taxpayer $taxPayer, Cycle $cycle, $cycleID)
     {
-        $cyclebudget = CycleBudget::
-        join('charts', 'cycle_budgets.chart_id','charts.id')
+        $cyclebudget = CycleBudget::join('charts', 'cycle_budgets.chart_id', 'charts.id')
+        ->where('cycle_id', $cycleID)
         ->select('charts.id',
         'charts.code',
         'charts.name',

@@ -101,27 +101,24 @@ class JournalController extends Controller
         $journal->cycle_id = $cycle->id;
         $journal->save();
 
-        $charts=collect($request);
+        $charts = collect($request);
+
         foreach ($charts as $detail)
         {
-
-                $journalDetail = new JournalDetail() ;
-                $journalDetail->journal_id = $journal->id;
-                $journalDetail->chart_id = $detail['id'];
-                $journalDetail->debit = $detail['debit'];
-                $journalDetail->credit = $detail['credit'];
-                $journalDetail->save();
-
-
-
+            $journalDetail = new JournalDetail() ;
+            $journalDetail->journal_id = $journal->id;
+            $journalDetail->chart_id = $detail['id'];
+            $journalDetail->debit = $detail['debit'];
+            $journalDetail->credit = $detail['credit'];
+            $journalDetail->save();
         }
-        return response()->json('ok',200);
 
+        return response()->json('ok',200);
     }
+
     public function getJournalsByCycleID(Request $request,Taxpayer $taxPayer, Cycle $cycle,$id)
     {
-
-        $journals=Journal::where('is_first',1)->where('cycle_id',$id)
+        $journals=Journal::where('is_first', 1)->where('cycle_id',$id)
         ->join('journal_details', 'journals.id', 'journal_details.journal_id')
         ->join('charts', 'journal_details.chart_id','charts.id')
         ->select(DB::raw('charts.id'),
@@ -196,63 +193,71 @@ class JournalController extends Controller
             DB::connection()->disableQueryLog();
 
             //Do not get items that already have current status "Accounted" or "Finalized"
-            $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
+            $sales = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
             ->with('details')
             ->where('supplier_id', $taxPayer->id)
-            ->whereIn('type', [4, 5])
+            ->whereNull('deleted_at')
+            ->where('type', 4)
             ->orderBy('date')
-            ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
+            ->otherCurrentStatus('Annuled')
             ->get() ?? null;
 
-            foreach ($transactions->groupBy('type') as $groupedTransactions)
+            if ($sales->count() > 0)
             {
-                $sales = collect($groupedTransactions->where('type', 4)) ?? null;
-
-                if ($sales->count() > 0)
-                {
-                    $comment = __('accounting.SalesBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
-                    $this->generate_fromSales($taxPayer, $cycle, $sales, $comment);
-                }
-
-                //Add other types of transactions here to include into accounting.
-                $credits = collect($groupedTransactions->where('type', 5)) ?? null;
-                if ($credits->count() > 0)
-                {
-                    $comment = __('accounting.CreditNoteComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
-                    $this->generate_fromCreditNotes($taxPayer, $cycle, $credits, $comment);
-                }
+                $comment = __('accounting.SalesBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
+                $this->generate_fromSales($taxPayer, $cycle, $sales, $comment);
             }
 
-            $transactions = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
+            $credits = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
             ->with('details')
-            ->where('customer_id', $taxPayer->id)
-            ->whereIn('type', [1, 2, 3])
+            ->where('supplier_id', $taxPayer->id)
+            ->whereNull('deleted_at')
+            ->where('type', 5)
             ->orderBy('date')
-            ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
+            ->otherCurrentStatus('Annuled')
             ->get() ?? null;
 
-            foreach ($transactions->groupBy('type') as $groupedTransactions)
+            if ($credits->count() > 0)
             {
-                $purchases = collect($groupedTransactions->whereIn('type', [1, 2])) ?? null;
-                if ($purchases->count() > 0)
-                {
-                    $comment = __('accounting.PurchaseBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
-                    $this->generate_fromPurchases($taxPayer, $cycle, $purchases, $comment);
-                }
+                $comment = __('accounting.CreditNoteComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
+                $this->generate_fromCreditNotes($taxPayer, $cycle, $credits, $comment);
+            }
 
-                $debits = collect($groupedTransactions->where('type', 3)) ?? null;
-                if ($debits->count() > 0)
-                {
-                    $comment = __('accounting.DebitNoteComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
-                    $this->generate_fromDebitNotes($taxPayer, $cycle, $debits, $comment);
-                }
+            $purchases = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
+            ->with('details')
+            ->where('customer_id', $taxPayer->id)
+            ->whereNull('deleted_at')
+            ->whereIn('type', [1, 2])
+            ->orderBy('date')
+            ->otherCurrentStatus('Annuled')
+            ->get() ?? null;
+
+            if ($purchases->count() > 0)
+            {
+                $comment = __('accounting.PurchaseBookComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
+                $this->generate_fromPurchases($taxPayer, $cycle, $purchases, $comment);
+            }
+
+            $debits = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
+            ->with('details')
+            ->where('customer_id', $taxPayer->id)
+            ->whereNull('deleted_at')
+            ->where('type', 3)
+            ->orderBy('date')
+            ->otherCurrentStatus('Annuled')
+            ->get() ?? null;
+
+            if ($debits->count() > 0)
+            {
+                $comment = __('accounting.DebitNoteComment', ['startDate' => $monthStartDate->toDateString(), 'endDate' => $monthEndDate->toDateString()]);
+                $this->generate_fromDebitNotes($taxPayer, $cycle, $debits, $comment);
             }
 
             $accounts = AccountMovement::whereBetween('date', [$monthStartDate, $monthEndDate])
             ->with(['transaction', 'chart'])
             ->where('taxpayer_id', $taxPayer->id)
             ->orderBy('date')
-            ->otherCurrentStatus(['Accounted', 'Finalized', 'Annuled'])
+            ->otherCurrentStatus('Annuled')
             ->get() ?? null;
 
             if ($accounts->count() > 0)
