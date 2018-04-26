@@ -34,8 +34,9 @@ class CycleController extends Controller
         'code',
         'name',
         'is_accountable',
-        '0 as debit',
-        '0 as credit')
+        DB::raw('0 as debit'),
+        DB::raw('0 as credit'))
+        ->orderBy('code')
         ->get();
 
         return view('accounting/cycles')
