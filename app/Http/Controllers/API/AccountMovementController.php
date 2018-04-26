@@ -77,11 +77,6 @@ class AccountMovementController extends Controller
         return response()->json($movementData);
     }
 
-    public function formatData($data)
-    {
-        return Transaction::make($data)->resolve();
-    }
-
     public function processTransaction($data, Taxpayer $taxPayer, Cycle $cycle)
     {
         //Check if

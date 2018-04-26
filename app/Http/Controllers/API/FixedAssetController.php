@@ -44,17 +44,12 @@ class FixedAssetController extends Controller
         return response()->json($movementData);
     }
 
-    public function formatData($data)
-    {
-        return Transaction::make($data)->resolve();
-    }
-
     public function insertFixedAsset($data, Taxpayer $taxPayer)
     {
         $fixedAsset = FixedAsset::where('serial', $data['Serial']) ?? new FixedAsset();
         $fixedAsset->taxpayer_id = $taxPayer->id;
         $fixedAsset->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
-        
+
         if ($data['CurrencyRate'] ==  '' )
         { $fixedAsset->rate = $this->checkCurrencyRate($fixedAsset->currency_id, $taxPayer, $data['Date']) ?? 1; }
         else
