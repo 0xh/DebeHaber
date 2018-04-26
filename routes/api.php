@@ -16,7 +16,7 @@ use Laravel\Passport;
 Route::post('status', 'API\Controller@checkServer');
 
 Route::group(['middleware' => 'auth:api'], function ()
-{
+{});
   Route::post('transactions', 'API\TransactionController@start');
   Route::post('check-key', 'API\Controller@checkAPI');
   Route::post('check-server', 'API\Controller@checkServer');
@@ -122,7 +122,7 @@ Route::group(['middleware' => 'auth:api'], function ()
       Route::get('/hechauka/{startDate}/{endDate}', 'API\PRY\HechukaController@getHechauka');
     });
   });
-});
+
   Route::get('users', function()
   {
     return['username' => 'tao'];

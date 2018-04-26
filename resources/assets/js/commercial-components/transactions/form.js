@@ -25,6 +25,7 @@ Vue.component('transaction-form',
             supplier_id: '',
             document_id: '',
             currency_id: '',
+            chart_account_id:'',
             rate: 1,
             payment_condition: '',
             date: '',
@@ -133,6 +134,7 @@ Vue.component('transaction-form',
             app.CustomerTaxID = data.CustomerTaxID;
             app.Value = data.Value;
             app.customer_id = data.customer_id;
+            app.chart_account_id=data.chart_account_id;
             app.supplier_id = data.supplier_id;
             app.document_id = data.document_id;
             app.currency_id = data.currency_id;
@@ -176,6 +178,7 @@ Vue.component('transaction-form',
             app.Value = null;
             app.currency_code = null;
             app.date = null;
+            app.chart_account_id=null;
             app.customer_id = null;
             app.supplier_id = null;
             app.document_id = null;
@@ -277,19 +280,22 @@ Vue.component('transaction-form',
 
             for (let i = 0; i < app.vats.length; i++)
             {
+                console.log(app.vats);
                 if (detail.chart_vat_id == app.vats[i].id)
                 {
-                    if (parseFloat(app.vats[i].coefficient) > 0)
+
+
+                    if (app.vats[i].coefficient == '0.0000')
                     {
-                        if (app.vats[i].coefficient == '0.00')
-                        {
-                            detail.taxExempt = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.vats[i].coefficient))).toFixed(2);
-                        }
-                        else
-                        {
-                            detail.taxable = parseFloat(parseFloat(detail.value).toFixed(2) / (1 + parseFloat(app.vats[i].coefficient))).toFixed(2);
-                        }
+                        detail.taxable=0;
+                        detail.taxExempt = parseFloat(parseFloat(detail.value).toFixed(2) * (parseFloat(app.vats[i].coefficient))).toFixed(2);
                     }
+                    else
+                    {
+                        detail.taxExempt=0;
+                        detail.taxable = parseFloat(parseFloat(detail.value).toFixed(2) * ( parseFloat(app.vats[i].coefficient))).toFixed(2);
+                    }
+
 
                     detail.vat = parseFloat(parseFloat(detail.value).toFixed(2) - (  detail.taxable == 0 ?   detail.taxExempt :   detail.taxable)).toFixed(2);
                 }
