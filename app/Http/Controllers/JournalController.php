@@ -104,7 +104,7 @@ class JournalController extends Controller
         $charts=collect($request);
         foreach ($charts as $detail)
         {
-            if ($detail['debit'] >0 || $detail['credit'] >0) {
+
                 $journalDetail = new JournalDetail() ;
                 $journalDetail->journal_id = $journal->id;
                 $journalDetail->chart_id = $detail['id'];
@@ -112,7 +112,7 @@ class JournalController extends Controller
                 $journalDetail->credit = $detail['credit'];
                 $journalDetail->save();
 
-            }
+
 
         }
         return response()->json('ok',200);
@@ -120,7 +120,8 @@ class JournalController extends Controller
     }
     public function getJournalsByCycleID(Request $request,Taxpayer $taxPayer, Cycle $cycle,$id)
     {
-        $journals=Journal::where('is_first',true)->where('cycle_id',$id)
+
+        $journals=Journal::where('is_first',1)->where('cycle_id',$id)
         ->join('journal_details', 'journals.id', 'journal_details.journal_id')
         ->join('charts', 'journal_details.chart_id','charts.id')
         ->select(DB::raw('charts.id'),

@@ -169,11 +169,14 @@ Vue.component('cycle',
                 if (data.length >0 ) {
                     app.budgetlist=[];
                 }
+                else {
+                    app.budgetlist = app.budgetchart;
+                }
                 for (var i = 0; i < data.length; i++) {
 
-                    app.budgetlist.push({ id:data[i].chart_id
-                        , code:data[i].chart_code
-                        , name:data[i].chart_name
+                    app.budgetlist.push({id:data[i].id
+                        , code:data[i].code
+                        , name:data[i].name
                         , debit:data[i].debit
                         , credit:data[i].credit
                     })
@@ -183,13 +186,17 @@ Vue.component('cycle',
             axios.get('/api/' + app.taxpayer + '/' + app.cycle + '/accounting/journal/ByCycleID/' +  data.id)
             .then(({ data }) =>
             {
+                console.log(data.length);
                 if (data.length >0 ) {
                     app.chartlist=[];
                 }
+                else {
+                    app.chartlist = app.charts;
+                }
                 for (var i = 0; i < data.length; i++) {
-                    app.chartlist.push({ id:data[i].chart_id
-                        , code:data[i].chart_code
-                        , name:data[i].chart_name
+                    app.chartlist.push({ id:data[i].id
+                        , code:data[i].code
+                        , name:data[i].name
                         , debit:data[i].debit
                         , credit:data[i].credit
                     })

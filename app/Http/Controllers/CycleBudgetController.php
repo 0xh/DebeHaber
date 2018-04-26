@@ -48,16 +48,16 @@ class CycleBudgetController extends Controller
         $charts=collect($request);
         foreach ($charts as $detail)
         {
-            if ($detail['debit'] >0 || $detail['credit'] >0) {
-                $cyclebudget = new CycleBudget() ;
-                $cyclebudget->cycle_id = $cycle->id;
-                $cyclebudget->chart_id = $detail['id'];
-                $cyclebudget->debit = $detail['debit'];
-                $cyclebudget->credit = $detail['credit'];
-                $cyclebudget->comment = 'First Entry';
-                $cyclebudget->save();
 
-            }
+            $cyclebudget = new CycleBudget() ;
+            $cyclebudget->cycle_id = $cycle->id;
+            $cyclebudget->chart_id = $detail['id'];
+            $cyclebudget->debit = $detail['debit'];
+            $cyclebudget->credit = $detail['credit'];
+            $cyclebudget->comment = 'First Entry';
+            $cyclebudget->save();
+
+            
 
         }
         return response()->json('ok',200);
