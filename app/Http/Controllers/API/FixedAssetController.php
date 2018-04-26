@@ -46,7 +46,7 @@ class FixedAssetController extends Controller
 
     public function insertFixedAsset($data, Taxpayer $taxPayer)
     {
-        $fixedAsset = FixedAsset::where('serial', $data['Serial']) ?? new FixedAsset();
+        $fixedAsset = FixedAsset::where('serial', $data['Serial'])->where('taxpayer_id', $taxPayer->id)->first() ?? new FixedAsset();
         $fixedAsset->taxpayer_id = $taxPayer->id;
         $fixedAsset->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
 
