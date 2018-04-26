@@ -224,12 +224,12 @@
             </div>
         </div>
 
-        <button v-on:click="onSave($data,false,'/current/{{request()->route('company') }}/sales')" class="btn btn-primary">
-            @lang('global.Save')
-        </button>
-        <button v-on:click="onSave($data,true,'')" class="btn btn-primary">
-            @lang('global.Save-and-New')
-        </button>
+        <button v-on:click="onSave($data,false)" class="btn btn-primary">
+                @lang('global.Save')
+            </button>
+            <button v-on:click="onSave($data,true)" class="btn btn-primary">
+                @lang('global.Save-and-New')
+            </button>
         <button v-on:click="$parent.cancel()" class="btn btn-default">
             @lang('global.Cancel')
         </button>

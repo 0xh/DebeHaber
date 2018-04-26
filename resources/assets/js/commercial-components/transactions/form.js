@@ -15,13 +15,10 @@ Vue.component('transaction-form',
 
             id: 0,
             taxpayer_id:'',
-            payment_value:'',
             Value:'',
             type: this.transType,
             Supplier:'',
             Customer:'',
-            Paid :'',
-            Balance: 0,
             SupplierTaxID:'',
             CustomerTaxID:'',
             customer_id: '',
@@ -30,7 +27,6 @@ Vue.component('transaction-form',
             currency_id: '',
             rate: 1,
             payment_condition: '',
-            chart_account_id: '',
             date: '',
             number: '',
             code: '',
@@ -133,8 +129,6 @@ Vue.component('transaction-form',
             app.type = data.type;
             app.Customer = data.Customer;
             app.Supplier = data.Supplier;
-            app.Paid = data.Paid;
-            app.Balance = data.Balance;
             app.SupplierTaxID = data.SupplierTaxID;
             app.CustomerTaxID = data.CustomerTaxID;
             app.Value = data.Value;
@@ -145,7 +139,6 @@ Vue.component('transaction-form',
             app.currency_code = data.currency_code;
             app.rate = data.rate;
             app.payment_condition = data.payment_condition;
-            app.chart_account_id = data.chart_account_id;
             app.date = data.date;
             app.number = data.number;
             app.code = data.code;
@@ -178,12 +171,9 @@ Vue.component('transaction-form',
             app.type = null;
             app.Customer = null;
             app.Supplier = null;
-            app.Paid =null;
             app.SupplierTaxID=null;
             app.CustomerTaxID=null;
             app.Value = null;
-            app.payment_value=null;
-            app.Balance = 0;
             app.currency_code = null;
             app.date = null;
             app.customer_id = null;
@@ -192,7 +182,7 @@ Vue.component('transaction-form',
             app.currency_id = null;
             app.rate = null;
             app.payment_condition = null;
-            app.chart_account_id = null;
+
             app.number = null;
             app.code = null;
             app.code_expiry = null;
@@ -225,11 +215,7 @@ Vue.component('transaction-form',
                 }
             }
 
-            if (parseFloat(app.payment_value)>parseFloat(app.Balance))
-            {
-                alert('Payment Exceed..');
-                return;
-            }
+
 
             console.log(json);
             axios({

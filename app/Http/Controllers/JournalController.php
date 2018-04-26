@@ -90,6 +90,46 @@ class JournalController extends Controller
 
         return response()->json('ok');
     }
+    public function journalstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
+    {
+        //return response()->json($request[0]['debit'],500);
+        $journal =  Journal::where('is_first', true)->count() == 0 ? new Journal() : Journal::where('is_first', true)->first();
+
+        $journal->date = $cycle->start_date;
+        $journal->comment = 'First Entry';
+        $journal->is_first= true;
+        $journal->cycle_id = $cycle->id;
+        $journal->save();
+
+        $charts=collect($request);
+        foreach ($charts as $detail)
+        {
+            if ($detail['debit'] >0 || $detail['credit'] >0) {
+                $journalDetail = new JournalDetail() ;
+                $journalDetail->journal_id = $journal->id;
+                $journalDetail->chart_id = $detail['id'];
+                $journalDetail->debit = $detail['debit'];
+                $journalDetail->credit = $detail['credit'];
+                $journalDetail->save();
+
+            }
+
+        }
+        return response()->json('ok',200);
+
+    }
+    public function getJournalsByCycleID(Request $request,Taxpayer $taxPayer, Cycle $cycle,$id)
+    {
+        $journals=Journal::where('is_first',true)->where('cycle_id',$id)
+        ->join('journal_details', 'journals.id', 'journal_details.journal_id')
+        ->join('charts', 'journal_details.chart_id','charts.id')
+        ->select(DB::raw('charts.id'),
+        DB::raw('charts.code'),
+        DB::raw('charts.name'),
+        DB::raw('debit'),
+        DB::raw('credit'))->get();
+        return response()->json($journals);
+    }
 
     /**
     * Display the specified resource.

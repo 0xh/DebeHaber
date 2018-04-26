@@ -94,7 +94,7 @@ Vue.component('document',{
     init(){
       var app = this;
       $.ajax({
-        url: '/api/'  + this.taxpayer + '/get_Alldocument' ,
+        url: '/api/'  + this.taxpayer + '/get_allDocuments' ,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'get',
         dataType: 'json',

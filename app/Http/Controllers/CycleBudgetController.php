@@ -6,6 +6,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\CycleBudget;
 use Illuminate\Http\Request;
+use DB;
 
 class CycleBudgetController extends Controller
 {
@@ -38,6 +39,40 @@ class CycleBudgetController extends Controller
     public function store(Request $request)
     {
         //
+    }
+    public function cyclebudgetstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
+    {
+        //return response()->json($request[0]['debit'],500);
+
+
+        $charts=collect($request);
+        foreach ($charts as $detail)
+        {
+            if ($detail['debit'] >0 || $detail['credit'] >0) {
+                $cyclebudget = new CycleBudget() ;
+                $cyclebudget->cycle_id = $cycle->id;
+                $cyclebudget->chart_id = $detail['id'];
+                $cyclebudget->debit = $detail['debit'];
+                $cyclebudget->credit = $detail['credit'];
+                $cyclebudget->comment = 'First Entry';
+                $cyclebudget->save();
+
+            }
+
+        }
+        return response()->json('ok',200);
+
+    }
+    public function getCycleBudgetsByCycleID (Request $request,Taxpayer $taxPayer, Cycle $cycle,$id)
+    {
+        $cyclebudget=CycleBudget::
+        join('charts', 'cycle_budgets.chart_id','charts.id')
+        ->select(DB::raw('charts.id'),
+        DB::raw('charts.code'),
+        DB::raw('charts.name'),
+        DB::raw('debit'),
+        DB::raw('credit'))->get();
+        return response()->json($cyclebudget);
     }
 
     /**

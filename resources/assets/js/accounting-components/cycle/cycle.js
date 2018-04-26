@@ -3,7 +3,7 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('cycle',
 {
-    props: ['taxpayer', 'cycle', 'cycles', 'versions'],
+    props: ['taxpayer', 'cycle', 'cycles', 'versions','charts','budgetchart'],
     data() {
         return {
             id: 0,
@@ -13,6 +13,8 @@ Vue.component('cycle',
             end_date: '',
             list: [],
             chartversions: [],
+            chartlist:[],
+            budgetlist:[]
         }
     },
 
@@ -33,7 +35,7 @@ Vue.component('cycle',
 
             }).then(function (response)
             {
-            
+
                 if (response.data == 'ok')
                 {
                     app.id = 0;
@@ -82,8 +84,74 @@ Vue.component('cycle',
             //     }
             // });
         },
+
+        onJournalSave: function(json)
+        {
+            var app = this;
+            var api = null;
+
+            axios({
+                method: 'post',
+                url: '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/journalstore',
+                responseType: 'json',
+                data: app.chartlist
+
+            }).then(function (response)
+            {
+
+                if (response.data == 'ok')
+                {
+                    for (var i = 0; i < app.chartlist.length; i++) {
+                        app.chartlist[i].credit=0;
+                        app.chartlist[i].debit=0;
+                    }
+                }
+                else
+                {
+                    alert('Something went Wrong...')
+                }
+            })
+            .catch(function (error)
+            {
+                console.log(error.response);
+            });
+
+        },
+        onCycleBudgetSave: function(json)
+        {
+            var app = this;
+
+            axios({
+                method: 'post',
+                url: '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/cyclebudgetstore',
+                responseType: 'json',
+                data: app.budgetlist
+
+            }).then(function (response)
+            {
+
+                if (response.data == 'ok')
+                {
+                    for (var i = 0; i < app.budgetlist.length; i++) {
+
+                        app.budgetlist[i].credit=0;
+                        app.budgetlist[i].debit=0;
+                    }
+                }
+                else
+                {
+                    alert('Something went Wrong...')
+                }
+            })
+            .catch(function (error)
+            {
+                console.log(error.response);
+            });
+
+        },
         onEdit: function(data)
         {
+
             var app = this;
 
             app.id = data.id;
@@ -92,6 +160,42 @@ Vue.component('cycle',
             app.year = data.year;
             app.start_date = data.start_date;
             app.end_date = data.end_date;
+
+
+            axios.get('/api/' + app.taxpayer + '/' + app.cycle + '/accounting/cyclebudget/ByCycleID/' +  data.id)
+            .then(({ data }) =>
+            {
+
+                if (data.length >0 ) {
+                    app.budgetlist=[];
+                }
+                for (var i = 0; i < data.length; i++) {
+
+                    app.budgetlist.push({ id:data[i].chart_id
+                        , code:data[i].chart_code
+                        , name:data[i].chart_name
+                        , debit:data[i].debit
+                        , credit:data[i].credit
+                    })
+                }
+
+            });
+            axios.get('/api/' + app.taxpayer + '/' + app.cycle + '/accounting/journal/ByCycleID/' +  data.id)
+            .then(({ data }) =>
+            {
+                if (data.length >0 ) {
+                    app.chartlist=[];
+                }
+                for (var i = 0; i < data.length; i++) {
+                    app.chartlist.push({ id:data[i].chart_id
+                        , code:data[i].chart_code
+                        , name:data[i].chart_name
+                        , debit:data[i].debit
+                        , credit:data[i].credit
+                    })
+                }
+            });
+
         },
 
         init()
@@ -99,6 +203,8 @@ Vue.component('cycle',
             var app = this;
             app.taxpayer_id = app.$parent.taxpayer;
             app.list = app.cycles;
+            app.chartlist = app.charts;
+            app.budgetlist = app.budgetchart;
             app.chartversions = app.versions;
             // $.ajax({
             //     url: '/api/' + this.taxpayer + '/get_cycle/' ,
@@ -131,24 +237,24 @@ Vue.component('cycle',
     {
         var app = this;
         app.init();
-    //     $.ajax({
-    //         url: '/api/' + this.taxpayer +'/get_chartversion/' ,
-    //         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-    //         type: 'get',
-    //         dataType: 'json',
-    //         async: true,
-    //         success: function(data)
-    //         {
-    //             app.chartversions = [];
-    //             for(let i = 0; i < data.length; i++)
-    //             {
-    //                 app.chartversions.push({name:data[i]['name'],id:data[i]['id']});
-    //             }
-    //         },
-    //         error: function(xhr, status, error)
-    //         {
-    //             console.log(status);
-    //         }
-    //     });
+        //     $.ajax({
+        //         url: '/api/' + this.taxpayer +'/get_chartversion/' ,
+        //         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+        //         type: 'get',
+        //         dataType: 'json',
+        //         async: true,
+        //         success: function(data)
+        //         {
+        //             app.chartversions = [];
+        //             for(let i = 0; i < data.length; i++)
+        //             {
+        //                 app.chartversions.push({name:data[i]['name'],id:data[i]['id']});
+        //             }
+        //         },
+        //         error: function(xhr, status, error)
+        //         {
+        //             console.log(status);
+        //         }
+        //     });
     }
 });

@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<transaction-form :trantype ="2" :charts=" {{ $charts }}" inline-template>
+<account-form :trantype ="2" :charts=" {{ $charts }}" inline-template>
     <div>
         <div class="">
             <h4>@lang('commercial.Sales')</h4>

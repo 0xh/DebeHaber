@@ -50,9 +50,9 @@ class ChartController extends Controller
             $chart->parent_id = $request->parent_id;
         }
 
-        if ($request->is_accountable == 'true')
+        if ($request->is_accountable == true)
         {
-
+            
             $chart->is_accountable = 1;
             $chart->sub_type = $request->sub_type;
         }
