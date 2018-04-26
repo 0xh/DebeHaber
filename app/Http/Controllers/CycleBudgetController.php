@@ -42,36 +42,33 @@ class CycleBudgetController extends Controller
     }
     public function cyclebudgetstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
-        //return response()->json($request[0]['debit'],500);
+        $charts = collect($request);
 
-
-        $charts=collect($request);
         foreach ($charts as $detail)
         {
-
             $cyclebudget = new CycleBudget() ;
             $cyclebudget->cycle_id = $cycle->id;
             $cyclebudget->chart_id = $detail['id'];
             $cyclebudget->debit = $detail['debit'];
             $cyclebudget->credit = $detail['credit'];
-            $cyclebudget->comment = 'First Entry';
+            $cyclebudget->comment = $cycle->year - ' Budget';
             $cyclebudget->save();
-
-            
-
         }
-        return response()->json('ok',200);
+
+        return response()->json('ok', 200);
 
     }
     public function getCycleBudgetsByCycleID (Request $request,Taxpayer $taxPayer, Cycle $cycle,$id)
     {
-        $cyclebudget=CycleBudget::
+        $cyclebudget = CycleBudget::
         join('charts', 'cycle_budgets.chart_id','charts.id')
-        ->select(DB::raw('charts.id'),
-        DB::raw('charts.code'),
-        DB::raw('charts.name'),
-        DB::raw('debit'),
-        DB::raw('credit'))->get();
+        ->select('charts.id',
+        'charts.code',
+        'charts.name',
+        'debit',
+        'credit')
+        ->get();
+
         return response()->json($cyclebudget);
     }
 
