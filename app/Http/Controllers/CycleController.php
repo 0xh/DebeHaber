@@ -33,6 +33,8 @@ class CycleController extends Controller
         $charts = Chart::select('id',
         'code',
         'name',
+        'type',
+        'sub_type',
         'is_accountable',
         DB::raw('0 as debit'),
         DB::raw('0 as credit'))

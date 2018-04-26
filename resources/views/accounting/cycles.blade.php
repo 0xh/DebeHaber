@@ -123,16 +123,38 @@
                         <hr>
                         <div class="row m--margin-5" v-for="data in chartlist">
                             <div class="col-2 m--align-left">
-                                @{{ data.code }}
+                                <span v-if="data.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
+                                    <b>@{{ data.code }}</b>
+                                </span>
+                                <span v-else-if="data.type == 2" class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
+                                    <b>@{{ data.code }}</b>
+                                </span>
+                                <span v-else-if="data.type == 3" class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
+                                    <b>@{{ data.code }}</b>
+                                </span>
+                                <span v-else-if="data.type == 4" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
+                                    <b>@{{ data.code }}</b>
+                                </span>
+                                <span v-else-if="data.type == 5" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
+                                    <b>@{{ data.code }}</b>
+                                </span>
                             </div>
                             <div class="col-2">
-                                @{{ data.name }}
+                                <span v-if="data.is_accountable" class="m--font-bolder">
+                                    @{{ data.name }}
+                                </span>
+                                <span v-else class="m--font-bolder m--font-metal m--font-transform-u">
+                                    @{{ data.name }}
+                                </span>
                             </div>
-                            <div v-if="data.is_accountable" class="col-2">
+                            <div class="col-3 m--align-right" v-if="data.is_accountable">
+                                <input type="number" v-model="data.credit" name="">
+                            </div>
+                            <div class="col-3 m--align-right" v-if="data.is_accountable">
                                 <input type="number" v-model="data.debit" name="">
                             </div>
-                            <div v-if="data.is_accountable" class="col-2">
-                                <input type="number" v-model="data.credit" name="">
+                            <div class="col-3 m--align-right" v-else>
+                                Non Accountable Charts
                             </div>
                         </div>
                     </div>
