@@ -12,15 +12,12 @@ Vue.component('cycle-opening-balance',
             start_date: '',
             end_date: '',
             list: [
-                //     {
                 //     id:0,
                 //     chart_version_id:'',
                 //     chart_version_name:'',
                 //     year:0,
                 //     start_date:'',
                 //     end_date:''
-
-                // }
             ],
             chartversions:[]
         }
@@ -32,8 +29,8 @@ Vue.component('cycle-opening-balance',
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
-            var app=this;
-            var api=null;
+            var app = this;
+            var api = null;
 
             $.ajax({
                 url: '',

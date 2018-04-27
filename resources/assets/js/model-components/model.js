@@ -19,49 +19,53 @@ Vue.component('model',
         {
             var app = this;
             app.showList = false;
-            app.showCycle=1;
         },
-        onCycleop()
+
+        onCreateCyclce()
         {
             var app = this;
-            app.showCycle=3;
-            console.log(app.showCycle);
+            app.showCycle = 1;
         },
-        onCyclecl()
+
+        onCycleBudget()
         {
             var app = this;
-            app.showCycle=4;
+            app.showCycle = 2;
         },
-        onCyclebudget()
+
+        onOpeningBalance()
         {
             var app = this;
-            app.showCycle=2;
+            app.showCycle = 3;
         },
+
+        onClosingBalance()
+        {
+            var app = this;
+            app.showCycle = 4;
+        },
+
         cyclechange()
         {
-
-            var app=this;
+            var app = this;
             window.location.href = '/taxpayer/' + app.taxpayer + '/'+ app.cycle_id +'/stats/';
-
-
         },
+
         init: function (data)
         {
-            var app=this;
+            var app = this;
             axios.get('/api/' + app.taxpayer + '/get_cycle')
             .then(({ data }) =>
             {
                 console.log(data);
-                app.cycles=data;
-
+                app.cycles = data;
             });
         }
     },
     mounted: function mounted()
     {
-        var app=this;
+        var app = this;
         app.init();
-        app.cycle_id=app.cycle;
-        console.log(app.cycle_id);
+        app.cycle_id = app.cycle;
     }
 });

@@ -12,15 +12,12 @@ Vue.component('cycle-budget',
             start_date: '',
             end_date: '',
             list: [
-                //     {
                 //     id:0,
                 //     chart_version_id:'',
                 //     chart_version_name:'',
                 //     year:0,
                 //     start_date:'',
                 //     end_date:''
-
-                // }
             ],
             chartversions:[]
         }
@@ -44,8 +41,8 @@ Vue.component('cycle-budget',
                 async: false,
                 success: function(data)
                 {
-
-                    if (data == 'ok') {
+                    if (data == 'ok')
+                    {
                         app.id = 0;
                         app.chart_version_id = null;
                         app.year = null ;
@@ -53,11 +50,10 @@ Vue.component('cycle-budget',
                         app.end_date = null;
                         app.init();
                     }
-                    else {
+                    else
+                    {
                         alert('Something Went Wrong...')
                     }
-
-
                 },
                 error: function(xhr, status, error)
                 {

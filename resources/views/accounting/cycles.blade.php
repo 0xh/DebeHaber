@@ -11,7 +11,7 @@
                         <img src="/img/icons/cycle.svg" alt="" width="64">
                         {{-- <h3>@lang('commercial.SalesBook')</h3> --}}
                         <span class="m-nav-grid__text">
-                            <button @click="onCreate()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">
+                            <button @click="onCreateCyclce()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">
                                 <span>
                                     <i class="la la-plus"></i>
                                     <span>
@@ -54,11 +54,10 @@
                             <img src="/img/icons/opening.svg" width="42">
                         </div>
                         <div class="m-widget4__info">
-
                             <span class="m-widget4__title">
-
-                                <a href="#"><button @click="onCycleop()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">@lang('accounting.OpeningBalance')</button></a>
-
+                                <a href="#" @click="onOpeningBalance()">
+                                    @lang('accounting.OpeningBalance')
+                                </a>
                             </span>
                             <br>
                             <span class="m-widget4__sub">
@@ -72,8 +71,9 @@
                         </div>
                         <div class="m-widget4__info">
                             <span class="m-widget4__title">
-                                <a href="#"><button @click="onCyclecl()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">@lang('accounting.ClosingBalance')</button></a>
-
+                                <a href="#" @click="onClosingBalance()">
+                                    @lang('accounting.ClosingBalance')
+                                </a>
                             </span>
                             <br>
                             <span class="m-widget4__sub">
@@ -87,8 +87,9 @@
                         </div>
                         <div class="m-widget4__info">
                             <span class="m-widget4__title">
-                                <a href="#"><button @click="onCyclebudget()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">@lang('accounting.AccountingBudget')</button></a>
-
+                                <a href="#" @click="onCycleBudget()">
+                                    @lang('accounting.AccountingBudget')
+                                </a>
                             </span>
                             <br>
                             <span class="m-widget4__sub">
