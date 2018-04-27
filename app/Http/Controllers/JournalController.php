@@ -199,7 +199,7 @@ class JournalController extends Controller
             ->whereNull('deleted_at')
             ->where('type', 4)
             ->orderBy('date')
-            ->otherCurrentStatus('Annuled')
+            ->otherCurrentStatus(['Finalized', 'Annuled'])
             ->get() ?? null;
 
             if ($sales->count() > 0)
@@ -214,7 +214,7 @@ class JournalController extends Controller
             ->whereNull('deleted_at')
             ->where('type', 5)
             ->orderBy('date')
-            ->otherCurrentStatus('Annuled')
+            ->otherCurrentStatus(['Finalized', 'Annuled'])
             ->get() ?? null;
 
             if ($credits->count() > 0)
@@ -229,7 +229,7 @@ class JournalController extends Controller
             ->whereNull('deleted_at')
             ->whereIn('type', [1, 2])
             ->orderBy('date')
-            ->otherCurrentStatus('Annuled')
+            ->otherCurrentStatus(['Finalized', 'Annuled'])
             ->get() ?? null;
 
             if ($purchases->count() > 0)
@@ -244,7 +244,7 @@ class JournalController extends Controller
             ->whereNull('deleted_at')
             ->where('type', 3)
             ->orderBy('date')
-            ->otherCurrentStatus('Annuled')
+            ->otherCurrentStatus(['Finalized', 'Annuled'])
             ->get() ?? null;
 
             if ($debits->count() > 0)
@@ -257,7 +257,7 @@ class JournalController extends Controller
             ->with(['transaction', 'chart'])
             ->where('taxpayer_id', $taxPayer->id)
             ->orderBy('date')
-            ->otherCurrentStatus('Annuled')
+            ->otherCurrentStatus(['Finalized', 'Annuled'])
             ->get() ?? null;
 
             if ($accounts->count() > 0)
