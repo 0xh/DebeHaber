@@ -96,7 +96,7 @@ class JournalController extends Controller
         $journal =  Journal::where('is_first', true)->count() == 0 ? new Journal() : Journal::where('is_first', true)->first();
 
         $journal->date = $cycle->start_date;
-        $journal->comment = 'First Entry';
+        $journal->comment = $cycle->year . '- Opening Balance';
         $journal->is_first= true;
         $journal->cycle_id = $cycle->id;
         $journal->save();

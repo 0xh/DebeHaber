@@ -55,7 +55,7 @@ class CycleBudgetController extends Controller
                 $cyclebudget->chart_id = $detail['id'];
                 $cyclebudget->debit = $detail['debit'];
                 $cyclebudget->credit = $detail['credit'];
-                $cyclebudget->comment = $cycle->year - ' Budget';
+                $cyclebudget->comment = $cycle->year . '- Budget';
                 $cyclebudget->save();
             }
         }

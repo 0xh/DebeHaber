@@ -8,6 +8,7 @@ Vue.component('model',
             showList : true,
             cycle_id:0,
             cycles:[],
+            showCycle:0
 
         }
     },
@@ -18,6 +19,23 @@ Vue.component('model',
         {
             var app = this;
             app.showList = false;
+            app.showCycle=1;
+        },
+        onCycleop()
+        {
+            var app = this;
+            app.showCycle=3;
+            console.log(app.showCycle);
+        },
+        onCyclecl()
+        {
+            var app = this;
+            app.showCycle=4;
+        },
+        onCyclebudget()
+        {
+            var app = this;
+            app.showCycle=2;
         },
         cyclechange()
         {

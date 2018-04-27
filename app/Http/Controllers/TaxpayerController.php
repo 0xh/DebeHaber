@@ -214,12 +214,16 @@ class TaxpayerController extends Controller
                     $taxpayertype->delete();
                 }
             }
-            foreach ($request->type as  $value) {
-                $taxpayertype=new TaxpayerType();
-                $taxpayertype->taxpayer_id=$taxPayer->id;
-                $taxpayertype->type=$value;
-                $taxpayertype->save();
+
+            if (isset($request->type)) {
+                foreach ($request->type as  $value) {
+                    $taxpayertype=new TaxpayerType();
+                    $taxpayertype->taxpayer_id=$taxPayer->id;
+                    $taxpayertype->type=$value;
+                    $taxpayertype->save();
+                }
             }
+
             return response()->json('ok', 200);
         }
         return response()->json('Failed', 500);

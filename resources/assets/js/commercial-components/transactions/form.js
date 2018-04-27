@@ -280,7 +280,7 @@ Vue.component('transaction-form',
 
             for (let i = 0; i < app.vats.length; i++)
             {
-                console.log(app.vats);
+
                 if (detail.chart_vat_id == app.vats[i].id)
                 {
 
@@ -288,7 +288,7 @@ Vue.component('transaction-form',
                     if (app.vats[i].coefficient == '0.0000')
                     {
                         detail.taxable=0;
-                        detail.taxExempt = parseFloat(parseFloat(detail.value).toFixed(2) * (parseFloat(app.vats[i].coefficient))).toFixed(2);
+                        detail.taxExempt = parseFloat(parseFloat(detail.value).toFixed(2));
                     }
                     else
                     {

@@ -43,6 +43,7 @@ Vue.component('cycle',
                     app.year = null ;
                     app.start_date = null;
                     app.end_date = null;
+                    app.$parent.showCycle=0;
                     app.init();
                 }
                 else
@@ -160,7 +161,7 @@ Vue.component('cycle',
             app.year = data.year;
             app.start_date = data.start_date;
             app.end_date = data.end_date;
-
+app.$parent.showCycle=1;
 
             axios.get('/api/' + app.taxpayer + '/' + app.cycle + '/accounting/cyclebudget/ByCycleID/' +  data.id)
             .then(({ data }) =>
