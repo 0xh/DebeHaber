@@ -296,12 +296,13 @@ class Controller extends BaseController
         //Check if Chart Exists
         if ($name != '')
         {
+
             //TODO Wrong, you need to specify taxpayerID or else you risk bringing other accounts not belonging to taxpayer.
             //I have done this already.
             $chart = Chart::withoutGlobalScopes()
             ->My($taxPayer, $cycle)
             ->MoneyAccounts()
-            ->where('name', $costcenter['name'])
+            ->where('name', $name)
             ->first();
 
             if ($chart == null)

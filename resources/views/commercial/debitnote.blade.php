@@ -73,7 +73,7 @@
     @endphp
     <infinity :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}"
-        baseurl="commercial/debit_notes"
+        baseurl="commercial/debit-notes"
         inline-template>
 
         <div>

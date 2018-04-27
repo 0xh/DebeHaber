@@ -16,8 +16,9 @@ use Laravel\Passport;
 Route::post('status', 'API\Controller@checkServer');
 
 Route::group(['middleware' => 'auth:api'], function ()
-{});
+{
   Route::post('transactions', 'API\TransactionController@start');
+    Route::post('movement', 'API\AccountMovementController@start');
   Route::post('check-key', 'API\Controller@checkAPI');
   Route::post('check-server', 'API\Controller@checkServer');
 
@@ -88,15 +89,15 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::get('purchases/get-charts', 'ChartController@getPurchaseAccounts');
         Route::get('purchases/get-vats', 'ChartController@getVATCredit');
 
-        Route::get('credit_notes/{skip}', 'CreditNoteController@get_credit_note');
-        Route::get('credit_notes/by-id/{id}', 'CreditNoteController@get_credit_noteByID');
-        Route::get('credit_notes/get-charts', 'ChartController@getSalesAccounts');
-        Route::get('credit_notes/get-vats', 'ChartController@getVATCredit');
+        Route::get('credit-notes/{skip}', 'CreditNoteController@get_credit_note');
+        Route::get('credit-notes/by-id/{id}', 'CreditNoteController@get_credit_noteByID');
+        Route::get('credit-notes/get-charts', 'ChartController@getSalesAccounts');
+        Route::get('credit-notes/get-vats', 'ChartController@getVATCredit');
 
-        Route::get('debit_notes/{skip}', 'DebitNoteController@get_debit_note');
-        Route::get('debit_notes/by-id/{id}', 'DebitNoteController@get_debit_noteByID');
-        Route::get('debit_notes/get-charts', 'ChartController@getPurchaseAccounts');
-        Route::get('debit_notes/get-vats', 'ChartController@getVATDebit');
+        Route::get('debit-notes/{skip}', 'DebitNoteController@get_debit_note');
+        Route::get('debit-notes/by-id/{id}', 'DebitNoteController@get_debit_noteByID');
+        Route::get('debit-notes/get-charts', 'ChartController@getPurchaseAccounts');
+        Route::get('debit-notes/get-vats', 'ChartController@getVATDebit');
 
         Route::get('account_receivables/{skip}', 'AccountReceivableController@get_account_receivable');
         Route::get('account_receivables/by-id/{id}', 'AccountReceivableController@get_account_receivableByID');
@@ -127,7 +128,7 @@ Route::group(['middleware' => 'auth:api'], function ()
   {
     return['username' => 'tao'];
   });
-
+});
 
 Route::get('create-test-token', function() {
   $user = \App\User::find(1);

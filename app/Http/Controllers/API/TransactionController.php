@@ -131,11 +131,12 @@ class TransactionController extends Controller
 
         $transaction->payment_condition = $data['PaymentCondition'];
 
-        //TODO, do not ask if chart account id is null.
-        if ($data['AccountName'] != null && $transaction->payment_condition == 0)
-        {
-            $transaction->chart_account_id = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
-        }
+        // //TODO, do not ask if chart account id is null.
+        // if ($data['AccountName'] != null && $transaction->payment_condition == 0)
+        // {
+        //
+        //     $transaction->chart_account_id = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
+        // }
 
         //You may need to update the code to a Carbon nuetral. Check this, I may be wrong.
         $transaction->date = $this->convert_date($data['Date']);
