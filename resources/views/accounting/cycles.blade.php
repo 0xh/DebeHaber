@@ -37,7 +37,6 @@
                                 Someone famous in
                                 <cite title="Source Title">
                                     <a href="https://support.debehaber.com/cycles">Get Help</a>
-
                                 </cite>
                             </footer>
                         </blockquote>

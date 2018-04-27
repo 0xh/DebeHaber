@@ -35,7 +35,7 @@ class AccountPayableController extends Controller
     ->where('transactions.customer_id', $taxPayer->id)
     ->where('transactions.payment_condition', '>', 0)
     ->whereBetween('transactions.date', [$cycle->start_date, $cycle->end_date])
-    //->whereRaw('ifnull(sum(account_movements.debit), 0) < sum(td.value)')
+    ->whereRaw('ifnull(sum(account_movements.debit * account_movements.rate), 0) < sum(td.value * transactions.rate)')
     ->groupBy('transactions.id')
     ->select(DB::raw('max(transactions.id) as id'),
     DB::raw('max(taxpayers.name) as Supplier'),
