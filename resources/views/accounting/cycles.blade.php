@@ -114,7 +114,6 @@
         inline-template>
         <div>
             <div v-if="$parent.showCycle === 1">
-
                 @include('accounting/cycle/form')
             </div>
             <div v-else-if="$parent.showCycle === 2">
@@ -123,17 +122,13 @@
             <div v-else-if="$parent.showCycle === 3">
                 @include('accounting/cycle/opening-balance')
             </div>
-            <div v-else-if="$parent.showCycle ===4">
+            <div v-else-if="$parent.showCycle === 4">
                 @include('accounting/cycle/closing-balance')
             </div>
             <div v-else>
-
                 @include('accounting/cycle/list')
             </div>
         </div>
     </div>
-
-
-
 
 @endsection
