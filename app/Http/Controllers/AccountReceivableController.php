@@ -35,7 +35,11 @@ class AccountReceivableController extends Controller
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('transactions.supplier_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
-        ->whereRaw('ifnull(sum(account_movements.credit * account_movements.rate), 0) < sum(td.value * transactions.rate)')
+        ->whereRaw('(sum(td.value * transactions.rate)
+        - (select
+        ifnull(sum(account_movements.credit * account_movements.rate), 0)
+        from account_movements
+        where transactions.id = account_movements.transaction_id)) > 0')
         ->whereBetween('transactions.date', [$cycle->start_date, $cycle->end_date])
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as id'),
