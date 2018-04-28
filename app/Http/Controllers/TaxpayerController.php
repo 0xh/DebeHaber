@@ -203,6 +203,7 @@ class TaxpayerController extends Controller
             if (!isset($taxpayersetting)) {
                 $taxpayersetting= new TaxpayerSetting();
             }
+
             $taxpayersetting->taxpayer_id=$taxPayer->id;
             $taxpayersetting->agent_taxid = $request->agent_taxid;
             $taxpayersetting->agent_name = $request->agent_name;

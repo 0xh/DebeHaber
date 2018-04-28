@@ -106,6 +106,7 @@ Vue.component('cycle',
                         app.chartlist[i].credit=0;
                         app.chartlist[i].debit=0;
                     }
+                    app.$parent.showCycle = 0;
                 }
                 else
                 {
@@ -138,6 +139,7 @@ Vue.component('cycle',
                         app.budgetlist[i].credit=0;
                         app.budgetlist[i].debit=0;
                     }
+                    app.$parent.showCycle = 0;
                 }
                 else
                 {
@@ -175,11 +177,13 @@ Vue.component('cycle',
                 }
                 for (var i = 0; i < data.length; i++) {
 
-                    app.budgetlist.push({id:data[i].id
+                    app.budgetlist.push({ chart_id:data[i].chart_id
+                        ,id:data[i].id
                         , code:data[i].code
                         , name:data[i].name
                         , debit:data[i].debit
                         , credit:data[i].credit
+                        , is_accountable:data[i].is_accountable
                     })
                 }
 
@@ -194,12 +198,15 @@ Vue.component('cycle',
                 else {
                     app.chartlist = app.charts;
                 }
+
                 for (var i = 0; i < data.length; i++) {
-                    app.chartlist.push({ id:data[i].id
+                    app.chartlist.push({ chart_id:data[i].chart_id
+                        ,id:data[i].id
                         , code:data[i].code
                         , name:data[i].name
                         , debit:data[i].debit
                         , credit:data[i].credit
+                        , is_accountable:data[i].is_accountable
                     })
                 }
             });

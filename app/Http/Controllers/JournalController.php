@@ -93,7 +93,8 @@ class JournalController extends Controller
     public function journalstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
         //return response()->json($request[0]['debit'],500);
-        $journal =  Journal::where('is_first', true)->count() == 0 ? new Journal() : Journal::where('is_first', true)->first();
+        $journal =  Journal::where('is_first', true)->count() == 0 ?
+         new Journal() : Journal::where('is_first', true)->first();
 
         $journal->date = $cycle->start_date;
         $journal->comment = $cycle->year . '- Opening Balance';
@@ -105,9 +106,15 @@ class JournalController extends Controller
 
         foreach ($charts as $detail)
         {
-            $journalDetail = new JournalDetail() ;
+            if (isset($detail['id'])) {
+                $journalDetail=JournalDetail::where('id', $detail['id'])->first() ;
+            }
+            else {
+                $journalDetail=new JournalDetail();
+            }
+
             $journalDetail->journal_id = $journal->id;
-            $journalDetail->chart_id = $detail['id'];
+            $journalDetail->chart_id = $detail['chart_id'];
             $journalDetail->debit = $detail['debit'];
             $journalDetail->credit = $detail['credit'];
             $journalDetail->save();
@@ -121,7 +128,9 @@ class JournalController extends Controller
         $journals=Journal::where('is_first', 1)->where('cycle_id',$id)
         ->join('journal_details', 'journals.id', 'journal_details.journal_id')
         ->join('charts', 'journal_details.chart_id','charts.id')
-        ->select(DB::raw('charts.id'),
+        ->select(DB::raw('journal_details.id as id'),
+        DB::raw('journal_details.chart_id'),
+        DB::raw('charts.is_accountable'),
         DB::raw('charts.code'),
         DB::raw('charts.name'),
         DB::raw('debit'),

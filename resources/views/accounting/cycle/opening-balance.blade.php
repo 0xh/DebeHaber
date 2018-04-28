@@ -2,10 +2,13 @@
 
 
 
+<div class="m-form__heading">
+  <h3 class="m-form__heading-title">Opening Balance</h3>
+</div>
 <div>
     <div class="row">
         <div class="col-8">
-            <button v-on:click="onCycleBudgetSave($data)" class="btn btn-primary">
+            <button v-on:click="onJournalSave($data)" class="btn btn-primary">
                 @lang('global.Save')
             </button>
         </div>
@@ -31,7 +34,7 @@
         </div>
     </div>
     <hr>
-    <div class="row m--margin-5" v-for="data in budgetlist">
+    <div class="row m--margin-5" v-for="data in chartlist">
         <div class="col-2 m--align-left">
             @{{ data.code }}
         </div>

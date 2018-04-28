@@ -67,12 +67,14 @@ class CycleBudgetController extends Controller
     {
         $cyclebudget = CycleBudget::join('charts', 'cycle_budgets.chart_id', 'charts.id')
         ->where('cycle_id', $cycleID)
-        ->select('charts.id',
-        'charts.code',
-        'charts.name',
-        'debit',
-        'credit')
-        ->get();
+        ->select(DB::raw('cycle_budgets.id as id'),
+        DB::raw('cycle_budgets.chart_id'),
+        DB::raw('charts.is_accountable'),
+        DB::raw('charts.code'),
+        DB::raw('charts.name'),
+        DB::raw('debit'),
+        DB::raw('credit'))->get();
+    
 
         return response()->json($cyclebudget);
     }
