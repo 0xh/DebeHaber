@@ -106,7 +106,8 @@ class JournalController extends Controller
 
         foreach ($charts as $detail)
         {
-            if (isset($detail['id'])) {
+            
+            if (isset($detail['id']) && JournalDetail::where('id', $detail['id'])->count()>0) {
                 $journalDetail=JournalDetail::where('id', $detail['id'])->first() ;
             }
             else {

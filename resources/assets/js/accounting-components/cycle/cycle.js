@@ -110,6 +110,7 @@ Vue.component('cycle',
                 }
                 else
                 {
+                
                     alert('Something went Wrong...')
                 }
             })
