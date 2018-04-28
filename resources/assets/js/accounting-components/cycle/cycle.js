@@ -48,6 +48,7 @@ Vue.component('cycle',
                 }
                 else
                 {
+                    console.log(response);
                     alert('Something went Wrong...')
                 }
             })
@@ -102,15 +103,12 @@ Vue.component('cycle',
 
                 if (response.data == 'ok')
                 {
-                    for (var i = 0; i < app.chartlist.length; i++) {
-                        app.chartlist[i].credit=0;
-                        app.chartlist[i].debit=0;
-                    }
+
                     app.$parent.showCycle = 0;
                 }
                 else
                 {
-                
+
                     alert('Something went Wrong...')
                 }
             })
@@ -144,6 +142,7 @@ Vue.component('cycle',
                 }
                 else
                 {
+                        console.log(response);
                     alert('Something went Wrong...')
                 }
             })
@@ -219,33 +218,10 @@ Vue.component('cycle',
             var app = this;
             app.taxpayer_id = app.$parent.taxpayer;
             app.list = app.cycles;
-            app.chartlist = app.charts;
-            app.budgetlist = app.budgetchart;
+           app.chartlist = app.charts;
+           app.budgetlist = app.budgetchart;
             app.chartversions = app.versions;
-            // $.ajax({
-            //     url: '/api/' + this.taxpayer + '/get_cycle/' ,
-            //     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-            //     type: 'get',
-            //     dataType: 'json',
-            //     async: true,
-            //     success: function(data)
-            //     {
-            //         app.list = [];
-            //         for(let i = 0; i < data.length; i++)
-            //         {
-            //             var start_date = moment(data[i]['start_date']).format('YYYY-MM-DD');
-            //             var end_date = moment(data[i]['end_date']).format('YYYY-MM-DD');
-            //             app.list.push({chart_version_id:data[i]['chart_version_id'],id:data[i]['id']
-            //             ,chart_version_name:data[i]['chart_version_name'],year:data[i]['year']
-            //             ,start_date:start_date,end_date:end_date});
-            //         }
-            //
-            //     },
-            //     error: function(xhr, status, error)
-            //     {
-            //         console.log(status);
-            //     }
-            // });
+
         }
     },
 
@@ -253,24 +229,6 @@ Vue.component('cycle',
     {
         var app = this;
         app.init();
-        //     $.ajax({
-        //         url: '/api/' + this.taxpayer +'/get_chartversion/' ,
-        //         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        //         type: 'get',
-        //         dataType: 'json',
-        //         async: true,
-        //         success: function(data)
-        //         {
-        //             app.chartversions = [];
-        //             for(let i = 0; i < data.length; i++)
-        //             {
-        //                 app.chartversions.push({name:data[i]['name'],id:data[i]['id']});
-        //             }
-        //         },
-        //         error: function(xhr, status, error)
-        //         {
-        //             console.log(status);
-        //         }
-        //     });
+
     }
 });

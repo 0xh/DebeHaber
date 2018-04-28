@@ -92,8 +92,9 @@ class JournalController extends Controller
     }
     public function journalstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
+
         //return response()->json($request[0]['debit'],500);
-        $journal =  Journal::where('is_first', true)->count() == 0 ?
+        $journal =  Journal::where('is_first', true)->where('cycle_id',$cycle->id)->count() == 0 ?
          new Journal() : Journal::where('is_first', true)->first();
 
         $journal->date = $cycle->start_date;
@@ -104,9 +105,9 @@ class JournalController extends Controller
 
         $charts = collect($request);
 
-        foreach ($charts as $detail)
+        foreach ($charts->where('is_accountable',true) as $detail)
         {
-            
+
             if (isset($detail['id']) && JournalDetail::where('id', $detail['id'])->count()>0) {
                 $journalDetail=JournalDetail::where('id', $detail['id'])->first() ;
             }
@@ -126,7 +127,7 @@ class JournalController extends Controller
 
     public function getJournalsByCycleID(Request $request,Taxpayer $taxPayer, Cycle $cycle,$id)
     {
-        $journals=Journal::where('is_first', 1)->where('cycle_id',$id)
+        $journals=Journal::where('is_first', 1)->where('cycle_id',$cycle->id)
         ->join('journal_details', 'journals.id', 'journal_details.journal_id')
         ->join('charts', 'journal_details.chart_id','charts.id')
         ->select(DB::raw('journal_details.id as id'),

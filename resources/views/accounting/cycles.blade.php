@@ -47,7 +47,7 @@
 
         <div class="col-md-12 col-lg-4 col-xl-4">
 
-            <div v-if="showCycle >= 1" class="container">
+            <div  class="container">
                 <div class="m-widget4 m-widget4--chart-bottom">
                     <div class="m-widget4__item">
                         <div class="m-widget4__img">
