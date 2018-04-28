@@ -6,6 +6,7 @@ use App\ChartVersion;
 use App\Taxpayer;
 use App\Cycle;
 use App\Chart;
+use App\CycleBudget;
 use Illuminate\Http\Request;
 use DB;
 

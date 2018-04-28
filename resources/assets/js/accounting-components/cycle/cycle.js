@@ -3,7 +3,7 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('cycle',
 {
-    props: ['taxpayer', 'cycle', 'cycles', 'versions','charts','budgetchart'],
+    props: ['taxpayer', 'cycle', 'cycles', 'versions','charts','budgetchart','budgets'],
     data() {
         return {
             id: 0,
@@ -142,7 +142,7 @@ Vue.component('cycle',
                 }
                 else
                 {
-                        console.log(response);
+                    console.log(response);
                     alert('Something went Wrong...')
                 }
             })
@@ -165,29 +165,16 @@ Vue.component('cycle',
             app.end_date = data.end_date;
             app.$parent.showCycle = 1;
 
-            axios.get('/api/' + app.taxpayer + '/' + app.cycle + '/accounting/cyclebudget/ByCycleID/' +  data.id)
-            .then(({ data }) =>
-            {
-
-                if (data.length >0 ) {
-                    app.budgetlist=[];
+            for (var i = 0; i < app.budgetchart.length; i++) {
+                for (var j = 0; j < app.budgets.length; j++) {
+                    if (app.budgetchart[i].id==app.budgets[j].chart_id)
+                    {
+                        app.budgetchart[i].debit=app.budgets[j].debit;
+                        app.budgetchart[i].credit=app.budgets[j].credit;
+                    }
                 }
-                else {
-                    app.budgetlist = app.budgetchart;
-                }
-                for (var i = 0; i < data.length; i++) {
+            }
 
-                    app.budgetlist.push({ chart_id:data[i].chart_id
-                        ,id:data[i].id
-                        , code:data[i].code
-                        , name:data[i].name
-                        , debit:data[i].debit
-                        , credit:data[i].credit
-                        , is_accountable:data[i].is_accountable
-                    })
-                }
-
-            });
             axios.get('/api/' + app.taxpayer + '/' + app.cycle + '/accounting/journal/ByCycleID/' +  data.id)
             .then(({ data }) =>
             {
@@ -218,9 +205,11 @@ Vue.component('cycle',
             var app = this;
             app.taxpayer_id = app.$parent.taxpayer;
             app.list = app.cycles;
-           app.chartlist = app.charts;
-           app.budgetlist = app.budgetchart;
+            app.chartlist = app.charts;
+            app.budgetlist = app.budgetchart;
             app.chartversions = app.versions;
+
+
 
         }
     },

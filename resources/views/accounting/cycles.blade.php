@@ -111,6 +111,7 @@
         :cycles="{{ $cycles }}"
         :charts="{{ $charts }}"
         :budgetchart="{{ $charts }}"
+            :budgets="{{ $budgets }}"
         :versions="{{ $versions }}"
         inline-template>
         <div>

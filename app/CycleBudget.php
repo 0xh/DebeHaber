@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CycleBudget extends Model
 {
-    //
+    
 
     /**
      * Get the cycle that owns the model.

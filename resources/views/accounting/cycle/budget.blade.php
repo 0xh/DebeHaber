@@ -29,7 +29,7 @@
             </div>
         </div>
         <hr>
-        <div class="row m--margin-bottom-10" v-for="data in budgetlist">
+        <div class="row m--margin-bottom-10" v-for="data in budgetchart">
             <div class="col-2 m--align-right">
                 @{{ data.code }}
             </div>
