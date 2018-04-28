@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\CycleBudget;
 use App\Taxpayer;
 use App\Cycle;
-use App\CycleBudget;
 use Illuminate\Http\Request;
 use DB;
 
@@ -50,7 +50,7 @@ class CycleBudgetController extends Controller
             //Make sure that atleast Debit OR Credit is more than zero to avoid
             if ($detail['debit'] > 0 || $detail['credit'] > 0)
             {
-                $cyclebudget = CycleBudget::where('chart_id', $detail['chart_id'])->where('cycle_id', $cycle->id)->first() ?? new CycleBudget();
+                $cyclebudget = CycleBudget::where('chart_id', $detail['chart_id'])->where('cycle_id', $cycle->id)->first() ?? new CycleBudget();
 
                 $cyclebudget->cycle_id = $cycle->id;
                 $cyclebudget->chart_id = $detail['chart_id'];

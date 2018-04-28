@@ -15,7 +15,7 @@ class CycleBudget extends Model
      */
     public function cycle()
     {
-        return $this->belongsTo(Cycle::class, 'foreign_key', 'local_key');
+        return $this->belongsTo(Cycle::class);
     }
 
     /**
@@ -25,6 +25,6 @@ class CycleBudget extends Model
      */
     public function chart()
     {
-        return $this->belongsTo(Chart::class, 'foreign_key', 'local_key');
+        return $this->belongsTo(Chart::class);
     }
 }
