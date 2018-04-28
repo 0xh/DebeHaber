@@ -41,8 +41,11 @@ class CycleController extends Controller
         ->orderBy('code')
         ->get();
 
+        $budgets = CycleBudget::where('cycle_id', $cycle->id)->get();
+
         return view('accounting/cycles')
         ->with('cycles', $cycles)
+        ->with('budgets', $budgets)
         ->with('versions', $versions)
         ->with('charts', $charts);
     }
