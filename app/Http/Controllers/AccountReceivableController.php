@@ -174,18 +174,18 @@ class AccountReceivableController extends Controller
     */
     public function destroy(Taxpayer $taxPayer, Cycle $cycle,$transactionID)
     {
-        try
-        {
-            //TODO: Run Tests to make sure it deletes all journals related to transaction
-            AccountMovement::where('transaction_id', $transactionID)->delete();
-            JournalTransaction::where('transaction_id',$transactionID)->delete();
-            Transaction::where('id',$transactionID)->delete();
-
-            return response()->json('ok', 200);
-        }
-        catch (\Exception $e)
-        {
-            return response()->json($e, 500);
-        }
+        // try
+        // {
+        //     //TODO: Run Tests to make sure it deletes all journals related to transaction
+        //     AccountMovement::where('transaction_id', $transactionID)->delete();
+        //     JournalTransaction::where('transaction_id',$transactionID)->delete();
+        //     Transaction::where('id',$transactionID)->delete();
+        //
+        //     return response()->json('ok', 200);
+        // }
+        // catch (\Exception $e)
+        // {
+        //     return response()->json($e, 500);
+        // }
     }
 }

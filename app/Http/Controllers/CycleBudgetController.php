@@ -41,29 +41,22 @@ class CycleBudgetController extends Controller
         //
     }
 
-    public function cyclebudgetstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
+    public function cyclebudgetstore(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = collect($request);
-        foreach ($charts->where('is_accountable',true) as $detail)
+
+        foreach ($charts->where('is_accountable', true) as $detail)
         {
             //Make sure that atleast Debit OR Credit is more than zero to avoid
             if ($detail['debit'] > 0 || $detail['credit'] > 0)
             {
-                if (isset($detail['id']) && CycleBudget::where('chart_id', $detail['chart_id'])
-                ->where('cycle_id', $cycle->id)->count()>0) {
-                    $cyclebudget=CycleBudget::where('chart_id', $detail['id'])
-                    ->where('cycle_id', $cycle->id)->first() ;
-                }
-                else {
-                    $cyclebudget = new CycleBudget();
-                }
-
+                $cyclebudget = CycleBudget::where('chart_id', $detail['chart_id'])->where('cycle_id', $cycle->id)->first() ?? new CycleBudget();
 
                 $cyclebudget->cycle_id = $cycle->id;
                 $cyclebudget->chart_id = $detail['chart_id'];
                 $cyclebudget->debit = $detail['debit'];
                 $cyclebudget->credit = $detail['credit'];
-                $cyclebudget->comment = $cycle->year . '- Budget';
+                $cyclebudget->comment = $cycle->year . ' - ' . __('accounting.AccountingBudget');
                 $cyclebudget->save();
             }
         }
