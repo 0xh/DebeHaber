@@ -33,7 +33,7 @@ class ReportController extends Controller
         }
     }
 
-    public function sub_ledger(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function subLedger(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         if (isset($taxPayer))
         {
