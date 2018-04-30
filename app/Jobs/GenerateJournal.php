@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-
 use App\Inventory;
 use App\AccountMovement;
 use App\Transaction;
@@ -53,14 +52,12 @@ class GenerateJournal implements ShouldQueue
     */
     public function handle()
     {
-        $this->generateJournalsByRange($this->taxPayer,$this->cycle,$this->startDate,$this->endDate);
-    }
 
-    public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
-    {
+        //$this->generateJournalsByRange($this->taxPayer, $this->cycle, $this->startDate, $this->endDate);
+
         //Get startOf and endOf to cover entire week of range.
-        $currentDate = Carbon::parse($startDate)->startOfMonth();
-        $endDate = Carbon::parse($endDate)->endOfMonth();
+        $currentDate = Carbon::parse($this->startDate)->startOfMonth();
+        $endDate = Carbon::parse($this->endDate)->endOfMonth();
 
         //Number of weeks helps with the for loop
         $numberOfMonths = $currentDate->diffInMonths($endDate);
@@ -71,7 +68,7 @@ class GenerateJournal implements ShouldQueue
             $monthStartDate = Carbon::parse($currentDate->startOfMonth());
             $monthEndDate = Carbon::parse($currentDate->endOfMonth());
 
-            $this->query_Sales($taxPayer, $cycle, $monthStartDate, $monthEndDate);
+            $this->query_Sales($this->taxPayer, $this->cycle, $monthStartDate, $monthEndDate);
 
             //$this->query_Credits($taxPayer, $cycle, $monthStartDate, $monthEndDate);
 
@@ -136,11 +133,12 @@ class GenerateJournal implements ShouldQueue
             //Finally add a month to go into next cycle
             $currentDate = $currentDate->addMonths(1);
         }
+
     }
 
     public function query_Sales($taxPayer, $cycle, $monthStartDate, $monthEndDate)
     {
-        DB::connection()->disableQueryLog();
+        \DB::connection()->disableQueryLog();
 
         $count = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
         ->otherCurrentStatus(['Finalized', 'Annuled'])
@@ -180,6 +178,8 @@ class GenerateJournal implements ShouldQueue
     {
         //Create chart controller we might need it further in the code to lookup charts.
         $ChartController = new ChartController();
+
+        //$month = $transactions->last()->date->month;
 
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();

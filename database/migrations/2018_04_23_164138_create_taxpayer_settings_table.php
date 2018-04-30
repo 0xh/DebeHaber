@@ -16,6 +16,8 @@ class CreateTaxpayerSettingsTable extends Migration
         Schema::create('taxpayer_settings', function (Blueprint $table)
         {
             $table->unsignedInteger('taxpayer_id');
+            $table->foreign('taxpayer_id')->references('id')->on('taxpayers')->onDelete('cascade');
+
             $table->unsignedTinyInteger('type')->nullable();
             $table->unsignedTinyInteger('regime_type')->nullable();
             $table->string('agent_name', 64)->nullable();

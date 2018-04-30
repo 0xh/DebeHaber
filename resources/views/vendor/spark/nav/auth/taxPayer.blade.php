@@ -53,7 +53,7 @@
                                     </a>
                                 </li>
 
-                                @if (request()->route('taxPayer')->is_company)
+                                @if (request()->route('taxPayer')->setting() ?? request()->route('taxPayer')->setting()->is_company)
                                     <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                         <a href="{{ route('impex-exports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                             <i class="m-menu__link-icon la la-ship"></i>
@@ -299,7 +299,7 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('reports.subLedger', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.SubLedger')
@@ -307,7 +307,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="inner.html" class="m-menu__link ">
+                                    <a href="{{ route('reports.ledger', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.Ledger')
@@ -315,7 +315,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a  href="{{ route('reports.balanceSheet', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.BalanceSheet')
@@ -323,7 +323,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.BalanceSheet(Comparative)')
@@ -331,7 +331,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item"  data-redirect="true" aria-haspopup="true">
-                                    <a  href="inner.html" class="m-menu__link ">
+                                    <a class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.IncomeStatement')
@@ -339,7 +339,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item" data-redirect="true" aria-haspopup="true">
-                                    <a href="inner.html" class="m-menu__link ">
+                                    <a class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.StatementofCashflows')

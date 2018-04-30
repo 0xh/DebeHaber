@@ -100,13 +100,13 @@ Route::group(['middleware' => 'auth'], function ()
 
             Route::get('chart-ofAccounts/{strDate}/{endDate}/', 'ReportController@chartOfAccounts');
 
-            Route::get('sub_ledger/{strDate}/{endDate}/', 'ReportController@subLedger');
-            Route::get('ledger/{strDate}/{endDate}/', 'ReportController@ledger');
+            Route::get('sub_ledger/{strDate}/{endDate}/', 'ReportController@subLedger')->name('reports.subLedger');
+            Route::get('ledger/{strDate}/{endDate}/', 'ReportController@ledger')->name('reports.ledger');
             Route::get('ledger-byMoneyAccounts/{strDate}/{endDate}/', 'ReportController@ledgerByMoneyAccounts');
             Route::get('ledger-byReceivables/{strDate}/{endDate}/', 'ReportController@ledgerByReceivables');
             Route::get('ledger-byPayables/{strDate}/{endDate}/', 'ReportController@ledgerByPayables');
 
-            Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet');
+            Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet')->name('reports.balanceSheet');
             // Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
             // Route::get('results/{strDate}/{endDate}/', 'ReportController@resultsTable');
             // Route::get('cash-flow/{strDate}/{endDate}/', 'ReportController@cashFlow');
