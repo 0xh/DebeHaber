@@ -52,7 +52,7 @@ class CurrencyRateController extends Controller
     public function get_Allrate()
     {
         $currencyRate = CurrencyRate::Join('currencies', 'currencies.id', 'currency_rates.currency_id')
-        ->select(DB::raw('currencies.name, rate'))
+        ->select('currencies.name', 'buy_rate', 'sell_rate')
         ->get();
 
         return response()->json($currencyRate);

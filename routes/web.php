@@ -96,7 +96,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('account-payable/{strDate}/{endDate}/', 'ReportController@accountPayable');
             Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');
 
-            Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
+            // Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 
             Route::get('chart-ofAccounts/{strDate}/{endDate}/', 'ReportController@chartOfAccounts');
 
@@ -107,9 +107,9 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('ledger-byPayables/{strDate}/{endDate}/', 'ReportController@ledgerByPayables');
 
             Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet');
-            Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
-            Route::get('results/{strDate}/{endDate}/', 'ReportController@resultsTable');
-            Route::get('cash-flow/{strDate}/{endDate}/', 'ReportController@cashFlow');
+            // Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
+            // Route::get('results/{strDate}/{endDate}/', 'ReportController@resultsTable');
+            // Route::get('cash-flow/{strDate}/{endDate}/', 'ReportController@cashFlow');
         });
     });
 });

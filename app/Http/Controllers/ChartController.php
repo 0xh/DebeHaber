@@ -52,7 +52,7 @@ class ChartController extends Controller
 
         if ($request->is_accountable == true)
         {
-            
+
             $chart->is_accountable = 1;
             $chart->sub_type = $request->sub_type;
         }
@@ -289,6 +289,8 @@ class ChartController extends Controller
     {
         //Check if CustomerID exists in Chart.
         $chart = Chart::My($taxPayer, $cycle)
+        ->where('type', 2)
+        ->where('sub_type', 1)
         ->where('partner_id', $partnerID)
         ->first();
 
