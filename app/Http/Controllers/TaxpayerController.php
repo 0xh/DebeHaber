@@ -273,10 +273,9 @@ class TaxpayerController extends Controller
 
     public function selectTaxpayer(Request $request,Taxpayer $taxPayer)
     {
-
-
         //Get current month sub 1 month.
         $workingYear = Carbon::now()->subMonth(1)->year;
+
         //Check if there is Cycle of current year.
         $cycle = Cycle::where('year', $workingYear)
         ->where('taxpayer_id', $taxPayer->id)
@@ -297,6 +296,13 @@ class TaxpayerController extends Controller
             $cycle->save();
         }
 
+        $setting = $taxPayer->setting ?? new TaxpayerSetting();
+
+        if ($setting->id != null || $setting->id == 0)
+        {
+            $setting->taxpayer_id = $taxPayer->id;
+            $setting->save();
+        }
 
         //run code to check for fiscal year selection and create if not.
         return redirect()->route('taxpayer.dashboard', [$taxPayer, $cycle]);
