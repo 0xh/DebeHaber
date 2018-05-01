@@ -36,6 +36,18 @@
                                         </span>
                                     </a>
                                 </li>
+
+                                @if (request()->route('taxPayer')->setting->does_export)
+                                    <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                        <a href="{{ route('impex-exports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-ship"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.Exports')
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a href="{{ route('account-receivables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-money"></i>
@@ -52,17 +64,6 @@
                                         </span>
                                     </a>
                                 </li>
-
-                                @if (request()->route('taxPayer')->setting() ?? request()->route('taxPayer')->setting()->is_company)
-                                    <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                        <a href="{{ route('impex-exports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                            <i class="m-menu__link-icon la la-ship"></i>
-                                            <span class="m-menu__link-text">
-                                                @lang('commercial.Exports')
-                                            </span>
-                                        </a>
-                                    </li>
-                                @endif
 
                                 <h3 class="m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
@@ -98,7 +99,19 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+
+                                @if (request()->route('taxPayer')->setting->does_import)
+                                    <li class="m-menu__item"  data-redirect="true" aria-haspopup="true">
+                                        <a href="{{ route('impex-imports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-ship"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.Imports')
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                <li class="m-menu__item"  data-redirect="true" aria-haspopup="true">
                                     <a href="{{ route('account-payables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-money"></i>
 
@@ -115,16 +128,7 @@
                                         </span>
                                     </a>
                                 </li>
-                                @if (request()->route('taxPayer')->is_company)
-                                    <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                        <a href="{{ route('impex-imports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                            <i class="m-menu__link-icon la la-ship"></i>
-                                            <span class="m-menu__link-text">
-                                                @lang('commercial.Imports')
-                                            </span>
-                                        </a>
-                                    </li>
-                                @endif
+
                                 <h3 class="m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
                                         @lang('global.Reports')
@@ -168,8 +172,8 @@
                                 </li>
 
                                 {{-- @if (request()->route('taxPayer')->is_company == 1) --}}
-                                    {{-- If Taxpayer is not Company, do not show Inventory, Production, and Fixed Assets--}}
-
+                                {{-- If Taxpayer is not Company, do not show Inventory, Production, and Fixed Assets--}}
+                                @if (request()->route('taxPayer')->setting->show_inventory)
                                     <li class="m-menu__item " data-redirect="true" aria-haspopup="true">
                                         <a href="{{ route('inventories.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                             <i class="m-menu__link-icon la la-cubes"></i>
@@ -178,6 +182,8 @@
                                             </span>
                                         </a>
                                     </li>
+                                @endif
+                                @if (request()->route('taxPayer')->setting->show_production)
                                     <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                         <a href="{{ route('productions.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                             <i class="m-menu__link-icon la la-industry"></i>
@@ -186,6 +192,8 @@
                                             </span>
                                         </a>
                                     </li>
+                                @endif
+                                @if (request()->route('taxPayer')->setting->show_fixedasset)
                                     <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                         <a href="{{ route('fixed-assets.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                             <i class="m-menu__link-icon la la-key"></i>
@@ -194,6 +202,7 @@
                                             </span>
                                         </a>
                                     </li>
+                                @endif
                                 {{-- @endif --}}
 
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">

@@ -25,6 +25,10 @@ class CreateTaxpayerSettingsTable extends Migration
             $table->boolean('show_inventory')->default(false);
             $table->boolean('show_production')->default(false);
             $table->boolean('show_fixedasset')->default(false);
+
+            $table->boolean('does_import')->default(false);
+            $table->boolean('does_export')->default(false);
+
             $table->boolean('is_company')->default(false);
         });
 

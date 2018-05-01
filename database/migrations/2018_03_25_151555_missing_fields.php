@@ -51,6 +51,29 @@ class MissingFields extends Migration
     */
     public function down()
     {
-        //
+        Schema::table('currency_rates', function (Blueprint $table)
+        {
+            $table->decimal('rate', 10, 4)->default(1);
+
+            $table->dropColumn('taxpayer_id')->nullable()->after('currency_id');
+
+            $table->dropColumn('date');
+            $table->dropColumn('buy_rate', 10, 4);
+            $table->dropColumn('sell_rate', 10, 4);
+        });
+
+        //User Fields
+        Schema::table('users', function (Blueprint $table)
+        {
+            $table->dropColumn('country', 3);
+            $table->dropColumn('language', 5);
+            $table->dropColumn('timezone', 32);
+        });
+
+        Schema::table('taxpayers', function (Blueprint $table)
+        {
+            $table->dropColumn('regime_type');
+        });
+
     }
 }
