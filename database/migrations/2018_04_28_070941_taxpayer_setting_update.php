@@ -13,9 +13,9 @@ class TaxpayerSettingUpdate extends Migration
     */
     public function up()
     {
-        Schema::table('taxpayer_settings', function (Blueprint $table)
+        Schema::table('charts', function (Blueprint $table)
         {
-            // $table->increments('id');
+            $table->index(['type', 'sub_type']);
         });
     }
 
@@ -26,9 +26,6 @@ class TaxpayerSettingUpdate extends Migration
     */
     public function down()
     {
-        Schema::table('taxpayer_settings', function (Blueprint $table)
-        {
-            // $table->dropColumn(['id']);
-        });
+        //No Changes
     }
 }
