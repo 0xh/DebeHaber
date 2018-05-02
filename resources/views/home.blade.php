@@ -1,6 +1,6 @@
 
 @php
-    $currentTeam = Auth::user()->currentTeam->name;
+$currentTeam = Auth::user()->currentTeam->name;
 @endphp
 
 @extends('spark::layouts.dashboard')
@@ -53,19 +53,20 @@
                                     </div>
 
                                     <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="...">
-                                        <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
-                                            <i class="la la-info text-info"></i>
+                                        <a href="{{ route('taxpayer.show', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
+                                            <i class="la la-pencil text-info"></i>
                                         </a>
-
-                                        {{-- @if ($favorites->contains('company_id', $integration->taxpayer_id)) --}}
-                                            <a href="#" onclick="addFavorite({{ $integration->taxpayer_id }},0)" class="m-btn btn btn-secondary">
+                                        @if ($integration->is_owner == 1)
+                                            {{-- onclick="addFavorite({{ $integration->taxpayer_id }}, 0)" --}}
+                                            <a href="#" class="m-btn btn btn-secondary">
                                                 <i class="la la-star text-warning"></i>
                                             </a>
-                                        {{-- @else --}}
-                                            {{-- <a href="#" onclick="addFavorite({{$integration->taxpayer_id}},1)" class="m-btn btn btn-secondary">
+                                        @else
+                                            <a href="#" class="m-btn btn btn-secondary">
                                                 <i class="la la-star-o text-warning"></i>
                                             </a>
-                                        @endif --}}
+                                        @endif
+
                                     </div>
                                 </div>
                             @endforeach
@@ -105,8 +106,15 @@
                                     </span>
                                 </span>
                             </div>
-
                         </form>
+
+                        <ul>
+                            @foreach ($integrationInvites as $invite)
+                                <li>
+                                    {{ $invite->taxpayer }}
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -124,30 +132,30 @@
                 <div class="m-portlet__body">
                     <div class="m-widget4">
                         {{-- <spark-team-settings :user="user" :team-id="user.current_team_id" inline-template>
-                            <spark-team-members :user="user" :team="team" inline-template>
-                                <div>
-                                    <div class="m-widget4__item" v-for="member in team.users">
-                                        <div class="m-widget4__img m-widget4__img--pic">
-                                            <img :src="member.photo_url" alt="spark-profile-photo">
-                                        </div>
-                                        <div class="m-widget4__info">
-                                            <span class="m-widget4__title">
-                                                @{{ member.name }}
-                                            </span>
-                                        </div>
-                                        <div class="m-widget4__ext">
-                                            <a href="#" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
-                                                @{{ teamMemberRole(member) }}
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </spark-team-members>
-                        </spark-team-settings> --}}
+                        <spark-team-members :user="user" :team="team" inline-template>
+                        <div>
+                        <div class="m-widget4__item" v-for="member in team.users">
+                        <div class="m-widget4__img m-widget4__img--pic">
+                        <img :src="member.photo_url" alt="spark-profile-photo">
                     </div>
-                </div>
+                    <div class="m-widget4__info">
+                    <span class="m-widget4__title">
+                    @{{ member.name }}
+                </span>
             </div>
-        </div>
+            <div class="m-widget4__ext">
+            <a href="#" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
+            @{{ teamMemberRole(member) }}
+        </a>
     </div>
+</div>
+</div>
+</spark-team-members>
+</spark-team-settings> --}}
+</div>
+</div>
+</div>
+</div>
+</div>
 
 @endsection

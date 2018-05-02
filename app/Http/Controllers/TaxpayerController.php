@@ -60,7 +60,6 @@ class TaxpayerController extends Controller
 
         if (!isset($taxPayer))
         {
-
             $taxPayer= new Taxpayer();
             $taxPayer->name = $request->name;
             $taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0 ;
@@ -106,20 +105,21 @@ class TaxpayerController extends Controller
 
         $existingtaxpayerIntegration = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)->first();
 
-        $taxpayerIntegration = new TaxpayerIntegration();
-        $taxpayerIntegration->is_owner = !isset($existingtaxpayerIntegration) ? 1 : 0 ;
-        $taxpayerIntegration->taxpayer_id = $taxPayer->id;
-        $taxpayerIntegration->team_id = Auth::user()->current_team_id;
-        $taxpayerIntegration->type = 1;
-        $taxpayerIntegration->save();
+        $taxPayer_Integration = new TaxpayerIntegration();
+        $taxPayer_Integration->is_owner = !isset($existingtaxpayerIntegration) ? 1 : 0;
+        $taxPayer_Integration->status = !isset($existingtaxpayerIntegration) ? 2 : 1;
+        $taxPayer_Integration->taxpayer_id = $taxPayer->id;
+        $taxPayer_Integration->team_id = Auth::user()->current_team_id;
+        $taxPayer_Integration->type = 1;
+        $taxPayer_Integration->save();
 
-        $taxpayersetting = new TaxpayerSetting();
-        $taxpayersetting->taxpayer_id = $taxPayer->id;
-        $taxpayersetting->show_inventory = $request->show_inventory=true ? 1 :0;
-        $taxpayersetting->show_production = $request->show_production=true ? 1 :0;
-        $taxpayersetting->show_fixedasset = $request->show_fixedasset=true ? 1 :0;
-        $taxpayersetting->is_company =1;
-        $taxpayersetting->save();
+        $taxPayer_Setting = new TaxpayerSetting();
+        $taxPayer_Setting->taxpayer_id = $taxPayer->id;
+        $taxPayer_Setting->show_inventory = $request->show_inventory = true ? 1 :0;
+        $taxPayer_Setting->show_production = $request->show_production = true ? 1 :0;
+        $taxPayer_Setting->show_fixedasset = $request->show_fixedasset = true ? 1 :0;
+        $taxPayer_Setting->is_company =1;
+        $taxPayer_Setting->save();
 
 
         //TODO Check if Default Version is available for Country.
@@ -147,6 +147,7 @@ class TaxpayerController extends Controller
         $customerOrSupplier->email = $request->email;
 
         $customerOrSupplier->save();
+
         return response()->json('ok', 200);
     }
 
@@ -183,12 +184,10 @@ class TaxpayerController extends Controller
     */
     public function update(Request $request, Taxpayer $taxPayer)
     {
-        $taxPayer = Taxpayer::where('taxid', $request->taxid)->where('country', Auth::user()->country)->first();
+        $taxPayer = Taxpayer::find($taxPayer->id);
 
         if (isset($taxPayer))
         {
-
-
             $taxPayer->name = $request->name;
             $taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0 ;
             $taxPayer->code = $request->code;
@@ -196,39 +195,37 @@ class TaxpayerController extends Controller
             $taxPayer->address = $request->address;
             $taxPayer->telephone = $request->telephone;
             $taxPayer->email = $request->email;
-
-
             $taxPayer->save();
-            $taxpayersetting=TaxpayerSetting::where('taxpayer_id',$taxPayer->id)->first();
-            if (!isset($taxpayersetting)) {
-                $taxpayersetting= new TaxpayerSetting();
-            }
 
-            $taxpayersetting->taxpayer_id=$taxPayer->id;
-            $taxpayersetting->agent_taxid = $request->agent_taxid;
-            $taxpayersetting->agent_name = $request->agent_name;
-            $taxpayersetting->save();
+            $taxPayer_Setting = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() ?? new TaxpayerSetting();
+            $taxPayer_Setting->taxpayer_id = $taxPayer->id;
+            $taxPayer_Setting->agent_taxid = $request->agent_taxid;
+            $taxPayer_Setting->agent_name = $request->agent_name;
+            $taxPayer_Setting->save();
 
-            $taxpayertypes=TaxpayerType::where('taxpayer_id',$taxPayer->id)->get();
-            if (isset($taxpayertypes)) {
-                foreach ($taxpayertypes as $taxpayertype) {
+            $taxpayertypes = TaxpayerType::where('taxpayer_id', $taxPayer->id)->get();
+
+            if (isset($taxpayertypes))
+            {
+                foreach ($taxpayertypes as $taxpayertype)
+                {
                     $taxpayertype->delete();
                 }
             }
 
             if (isset($request->type)) {
                 foreach ($request->type as  $value) {
-                    $taxpayertype=new TaxpayerType();
-                    $taxpayertype->taxpayer_id=$taxPayer->id;
-                    $taxpayertype->type=$value;
+                    $taxpayertype = new TaxpayerType();
+                    $taxpayertype->taxpayer_id = $taxPayer->id;
+                    $taxpayertype->type = $value;
                     $taxpayertype->save();
                 }
             }
 
             return response()->json('ok', 200);
         }
-        return response()->json('Failed', 500);
 
+        return response()->json('Failed', 500);
     }
 
     /**
@@ -273,10 +270,9 @@ class TaxpayerController extends Controller
 
     public function selectTaxpayer(Request $request,Taxpayer $taxPayer)
     {
-
-
         //Get current month sub 1 month.
         $workingYear = Carbon::now()->subMonth(1)->year;
+
         //Check if there is Cycle of current year.
         $cycle = Cycle::where('year', $workingYear)
         ->where('taxpayer_id', $taxPayer->id)
@@ -285,8 +281,14 @@ class TaxpayerController extends Controller
         //If null, then create it.
         if ($cycle == null)
         {
-            //TODO Get Last ChartVersion or Default.
-            $chartVersion = 1;
+            //TODO Get Last ChartVersion or Default..
+            $chartVersion = ChartVersion::where('country', $taxPayer->country)->first() ?? new ChartVersion();
+            if ($chartVersion->id != null || $chartVersion->id == 0)
+            {
+                $chartVersion->country = $taxPayer->country;
+                $chartVersion->name = "Generic";
+                $chartVersion->save();
+            }
 
             $cycle = new Cycle();
             $cycle->chart_version_id = $chartVersion; //->id;
@@ -297,6 +299,12 @@ class TaxpayerController extends Controller
             $cycle->save();
         }
 
+        $setting = $taxPayer->setting ?? new TaxpayerSetting();
+        if ($setting->id != null || $setting->id == 0)
+        {
+            $setting->taxpayer_id = $taxPayer->id;
+            $setting->save();
+        }
 
         //run code to check for fiscal year selection and create if not.
         return redirect()->route('taxpayer.dashboard', [$taxPayer, $cycle]);
