@@ -35,7 +35,7 @@ return [
     'Cancel' => 'Cancelar',
     'Action' => 'Ações | Ações',
     'Balance' => 'Balance',
-        
+
     'Timestamp' => 'Carimbo de hora',
     'NumberOfRecords' => 'Número de registros',
     'IssuedBy' => 'Emitido por',
@@ -61,5 +61,22 @@ return [
     'DeveloperPlatform' => 'Plataforma de Desenvolvimento',
 
     'Month' => 'Meis',
-    'Year' => 'Anho'
+    'Year' => 'Anho',
+
+    'Telephone' => 'Telefone',
+    'Address' => 'Endereço',
+    'Email' => 'Endereço de e-mail',
+
+    'Accountant' => 'Contador',
+    'AccountantDesc' => "Selecione esta opção se você estiver lidando com a contabilidade para este contribuinte.",
+    'Personal' => 'Próprio',
+    'PersonalDesc' => "Selecione esta opção se você for o proprietário ou gerente deste contribuinte.",
+    'Auditor' => 'Auditor',
+    'AuditorDesc' => "Selecione esta opção se você estiver auditando este contribuinte.",
+
+    'ViewData' => 'Visualizar dados de :module',
+    'ManageData' => 'Gerenciar dados de :module',
+    'Post' => 'Postar :module',
+    'AuditorPlatform' => 'Plataforma para Auditores',
+    'SpecialReport_KPI' => 'Relatórios Especiais e KPI',
 ];

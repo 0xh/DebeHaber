@@ -62,4 +62,21 @@ return [
 
     'Month' => 'Month',
     'Year' => 'Year',
+
+    'Telephone' => 'Telephone',
+    'Address' => 'Address',
+    'Email' => 'Email',
+
+    'Accountant' => 'Accountant',
+    'AccountantDesc' => "Select this option if you will be handling the accounting for this taxpayer.",
+    'Personal' => 'Personal',
+    'PersonalDesc' => "Select this option if you are the owner or manager of this taxpayer.",
+    'Auditor' => 'Auditor',
+    'AuditorDesc' => "Select this option if you will be auditing this taxpayer.",
+
+    'ViewData' => 'View :module Data',
+    'ManageData' => 'Manage :module Data',
+    'Post' => 'Post :module',
+    'AuditorPlatform' => 'Platform for Auditors',
+    'SpecialReport_KPI' => 'Special Reports & KPI',
 ];

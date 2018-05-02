@@ -112,14 +112,14 @@ class TaxpayerController extends Controller
         $cycle->save();
 
         $bool_IntegrationExists = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)->exists();
-        
+
         //Even though integration exists, you need to create a new integration that is specific for this team.
         $taxPayer_Integration = new TaxpayerIntegration();
         $taxPayer_Integration->is_owner = $bool_IntegrationExists == true ? 0 : 1;
         $taxPayer_Integration->status = $bool_IntegrationExists == true ? 1 : 2;
         $taxPayer_Integration->taxpayer_id = $taxPayer->id;
         $taxPayer_Integration->team_id = Auth::user()->current_team_id;
-        $taxPayer_Integration->type = $request->type;
+        $taxPayer_Integration->type = $request->type ?? 1; //Default to 1 if nothing is selected
         $taxPayer_Integration->save();
 
         $taxPayer_Setting = $bool_IntegrationExists ? TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() : new TaxpayerSetting();

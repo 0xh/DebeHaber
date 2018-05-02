@@ -34,7 +34,7 @@ return [
     'Save-and-New' => 'Guardar y cargar otro',
     'Cancel' => 'Cancelar',
     'Action' => 'Acciones',
-'Balance' => 'Balance',
+    'Balance' => 'Balance',
 
     'Timestamp' => 'Marca de Tiempo',
     'NumberOfRecords' => 'Cantidad de Registros',
@@ -62,5 +62,24 @@ return [
     'DeveloperPlatform' => 'Plataforma de Desarrollo',
 
     'Month' => 'Mes',
-    'Year' => 'Año'
-];
+    'Year' => 'Año',
+
+    'Telephone' => 'Telefono',
+    'Address' => 'Dirección',
+    'Email' => 'Correo Electronico',
+
+    'AccountType' => 'Account Type',
+
+    'Accountant' => 'Contador',
+    'AccountantDesc' => "Seleccione esta opción si va a manejar la contabilidad de este contribuyente.",
+    'Personal' => 'Personal',
+    'PersonalDesc' => "Seleccione esta opción si usted es el propietario o el administrador de este contribuyente.",
+    'Auditor' => 'Auditor',
+    'AuditorDesc' => "Seleccione esta opción si va a auditar a este contribuyente.",
+
+    'ViewData' => 'Ver datos de :module',
+    'ManageData' => 'Gestionar datos de :module',
+    'Post' => 'Publicar :module',
+    'AuditorPlatform' => 'Plataforma para auditores',
+    'SpecialReport_KPI' => 'Informes especiales y KPI',
+ ];
