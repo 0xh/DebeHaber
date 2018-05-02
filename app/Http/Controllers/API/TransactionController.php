@@ -162,6 +162,7 @@ class TransactionController extends Controller
         {
             foreach ($detailByVAT->groupBy('Type') as $groupedRows)
             {
+            
                 $detail = new TransactionDetail();
                 $detail->transaction_id = $transaction_id;
 
