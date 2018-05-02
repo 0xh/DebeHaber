@@ -35,7 +35,7 @@ class HomeController extends Controller
         $integrationInvites = TaxpayerIntegration::
         where('is_owner', 0)
         ->where('status', 1)
-        ->whereIn('taxpayer_id', $taxPayerIntegrations->where('is_owner', 1))
+        ->whereIn('taxpayer_id', $taxPayerIntegrations->where('is_owner', '=', 1)->pluck('taxpayer_id'))
         ->with(['taxpayer', 'team'])
         ->get();
 

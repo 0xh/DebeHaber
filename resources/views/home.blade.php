@@ -56,6 +56,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                                         <a href="{{ route('taxpayer.show', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
                                             <i class="la la-pencil text-info"></i>
                                         </a>
+                                        
                                         @if ($integration->is_owner == 1)
                                             {{-- onclick="addFavorite({{ $integration->taxpayer_id }}, 0)" --}}
                                             <a href="#" class="m-btn btn btn-secondary">
