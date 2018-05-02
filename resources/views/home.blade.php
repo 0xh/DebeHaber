@@ -56,7 +56,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                                         <a href="{{ route('taxpayer.show', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
                                             <i class="la la-pencil text-info"></i>
                                         </a>
-                                        
+
                                         @if ($integration->is_owner == 1)
                                             {{-- onclick="addFavorite({{ $integration->taxpayer_id }}, 0)" --}}
                                             <a href="#" class="m-btn btn btn-secondary">
@@ -132,31 +132,11 @@ $currentTeam = Auth::user()->currentTeam->name;
                 </div>
                 <div class="m-portlet__body">
                     <div class="m-widget4">
-                        {{-- <spark-team-settings :user="user" :team-id="user.current_team_id" inline-template>
-                        <spark-team-members :user="user" :team="team" inline-template>
-                        <div>
-                        <div class="m-widget4__item" v-for="member in team.users">
-                        <div class="m-widget4__img m-widget4__img--pic">
-                        <img :src="member.photo_url" alt="spark-profile-photo">
+                        
                     </div>
-                    <div class="m-widget4__info">
-                    <span class="m-widget4__title">
-                    @{{ member.name }}
-                </span>
+                </div>
             </div>
-            <div class="m-widget4__ext">
-            <a href="#" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
-            @{{ teamMemberRole(member) }}
-        </a>
+        </div>
     </div>
-</div>
-</div>
-</spark-team-members>
-</spark-team-settings> --}}
-</div>
-</div>
-</div>
-</div>
-</div>
 
 @endsection

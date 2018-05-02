@@ -50,14 +50,20 @@ class TaxpayerController extends Controller
     */
     public function store(Request $request)
     {
+        //Used below for date and year.
+        $current_date = Carbon::now();
+
         //TODO Request ID must be of Integration, not Taxpayer. From there you can know if taxpayer exists.
 
         //Check if taxPayer exists.
         //$taxPayer = $request->id == 0 ? new Taxpayer() : Taxpayer::find($request->id)->first();
 
         //Check Taxpayer by TaxID. If exists, use it, or else create it.
-        $taxPayer = Taxpayer::where('taxid', $request->taxid)->where('country', Auth::user()->country)->first();
+        $taxPayer = Taxpayer::where('taxid', $request->taxid)
+        ->where('country', Auth::user()->country)
+        ->first();
 
+        //If taxpayer does not exist, then create it.
         if (!isset($taxPayer))
         {
             $taxPayer= new Taxpayer();
@@ -66,14 +72,15 @@ class TaxpayerController extends Controller
             $taxPayer->code = $request->code;
         }
 
+        //Update basic information
         $taxPayer->alias = $request->alias;
         $taxPayer->address = $request->address;
         $taxPayer->telephone = $request->telephone;
         $taxPayer->email = $request->email;
         $taxPayer->save();
 
-        $current_date = Carbon::now();
-        $chartVersion = ChartVersion::where(function($query) use($taxPayer)
+        $chartVersion = ChartVersion::where('country', $taxPayer->country)
+        ->where(function($query) use($taxPayer)
         {
             $query
             ->where('taxpayer_id', $taxPayer->id)
@@ -86,6 +93,7 @@ class TaxpayerController extends Controller
             $chartVersion = new ChartVersion();
             $chartVersion->name = $current_date->year;
             $chartVersion->taxpayer_id = $taxPayer->id;
+            $chartVersion->country = $taxPayer->country;
             $chartVersion->save();
         }
 
@@ -103,24 +111,24 @@ class TaxpayerController extends Controller
         $cycle->taxpayer_id = $taxPayer->id;
         $cycle->save();
 
-        $existingtaxpayerIntegration = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)->first();
-
+        $bool_IntegrationExists = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)->exists();
+        
+        //Even though integration exists, you need to create a new integration that is specific for this team.
         $taxPayer_Integration = new TaxpayerIntegration();
-        $taxPayer_Integration->is_owner = !isset($existingtaxpayerIntegration) ? 1 : 0;
-        $taxPayer_Integration->status = !isset($existingtaxpayerIntegration) ? 2 : 1;
+        $taxPayer_Integration->is_owner = $bool_IntegrationExists == true ? 0 : 1;
+        $taxPayer_Integration->status = $bool_IntegrationExists == true ? 1 : 2;
         $taxPayer_Integration->taxpayer_id = $taxPayer->id;
         $taxPayer_Integration->team_id = Auth::user()->current_team_id;
-        $taxPayer_Integration->type = 1;
+        $taxPayer_Integration->type = $request->type;
         $taxPayer_Integration->save();
 
-        $taxPayer_Setting = new TaxpayerSetting();
+        $taxPayer_Setting = $bool_IntegrationExists ? TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() : new TaxpayerSetting();
         $taxPayer_Setting->taxpayer_id = $taxPayer->id;
-        $taxPayer_Setting->show_inventory = $request->show_inventory = true ? 1 :0;
-        $taxPayer_Setting->show_production = $request->show_production = true ? 1 :0;
-        $taxPayer_Setting->show_fixedasset = $request->show_fixedasset = true ? 1 :0;
-        $taxPayer_Setting->is_company =1;
+        // $taxPayer_Setting->show_inventory = $request->show_inventory = true ? 1 : 0;
+        // $taxPayer_Setting->show_production = $request->show_production = true ? 1 : 0;
+        // $taxPayer_Setting->show_fixedasset = $request->show_fixedasset = true ? 1 : 0;
+        //$taxPayer_Setting->is_company = 1;
         $taxPayer_Setting->save();
-
 
         //TODO Check if Default Version is available for Country.
         return response()->json('ok', 200);

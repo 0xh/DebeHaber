@@ -1,6 +1,6 @@
 @extends('spark::layouts.app')
 
-@section('title', 'Profile')
+@section('title', __('global.ProfileAndSettings'))
 
 @section('content')
     <taxpayer :taxpayer="{{ $taxPayer }}" inline-template>
@@ -83,9 +83,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                     <div class="tab-pane " id="settings">
                         <div class="m-form__section m-form__section--first">
@@ -111,11 +108,11 @@
                                 <div class="col-lg-6">
                                     <div class="m-checkbox-list" >
                                         @php
-                                            $enum = 'App\Enums\Countries\\' . $taxPayer[0]->country . '\TaxpayerTypeEnum';
+                                        $enum = 'App\Enums\Countries\\' . $taxPayer[0]->country . '\TaxpayerTypeEnum';
                                         @endphp
                                         @foreach ($enum::labels() as $value => $label)
-                                                <input  type="checkbox" v-bind:value="{{ $value }}" class="form-control"
-                                                v-model="type">{{ $label }}</input>
+                                            <input  type="checkbox" v-bind:value="{{ $value }}" class="form-control"
+                                            v-model="type">{{ $label }}</input>
                                         @endforeach
                                     </div>
                                 </div>
@@ -127,8 +124,8 @@
                     </div>
                 </div>
                 <button v-on:click="onUpdate($data,false)" class="btn btn-primary">
-                Save
-              </button>
+                    Save
+                </button>
             </div>
         </div>
     </taxpayer>
