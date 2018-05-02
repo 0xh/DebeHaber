@@ -46,6 +46,9 @@ return [
     'Notification' => 'Notificación | Notificaciones',
     'Dashboard' => 'Tablero :team',
     'Search' => 'Buscar',
+    'ProfileAndSettings' => 'Pefil & Configuración',
+    'Settings' => 'Configuración',
+    'Confirmation' => 'Confirmación',
     'Total' => 'Total',
     'SubTotal' => 'Sub Total',
     'GrandTotal' => 'Gran Total',
@@ -82,4 +85,4 @@ return [
     'Post' => 'Publicar :module',
     'AuditorPlatform' => 'Plataforma para auditores',
     'SpecialReport_KPI' => 'Informes especiales y KPI',
- ];
+];

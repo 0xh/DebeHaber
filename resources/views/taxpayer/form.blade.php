@@ -52,7 +52,7 @@
                                         </a>
                                         <div class="m-wizard__step-info">
                                             <div class="m-wizard__step-title">
-                                                1. @lang('global.Taxpayer')
+                                                @lang('global.Taxpayer')
                                             </div>
                                             <div class="m-wizard__step-desc">
                                                 All Taxpayer related information
@@ -62,12 +62,12 @@
                                     <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2">
                                         <a href="#" class="m-wizard__step-number">
                                             <span>
-                                                <i class="la la-user"></i>
+                                                <i class="la la-gear"></i>
                                             </span>
                                         </a>
                                         <div class="m-wizard__step-info">
                                             <div class="m-wizard__step-title">
-                                                2. @lang('global.ProfileSettings')
+                                                @lang('global.Settings')
                                             </div>
                                             <div class="m-wizard__step-desc">
                                                 All accounting information
@@ -82,7 +82,7 @@
                                         </a>
                                         <div class="m-wizard__step-info">
                                             <div class="m-wizard__step-title">
-                                                3. @lang('global.Confirmation')
+                                                @lang('global.Confirmation')
                                             </div>
                                             <div class="m-wizard__step-desc">
                                                 Check data and save.
@@ -95,11 +95,9 @@
                         </div>
 
                         <div class="m-wizard__form">
-
                             <form class="m-form m-form--label-align-left- m-form--state-" id="m_form" novalidate="novalidate">
-                                <!--begin: Form Body -->
+
                                 <div class="m-portlet__body">
-                                    <!--begin: Form Wizard Step 1-->
                                     <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
                                         <div class="row">
                                             <div class="col-xl-10 offset-xl-2">
@@ -109,47 +107,41 @@
                                                             @lang('global.Taxpayer')
                                                         </h3>
                                                     </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">
-                                                            @lang('global.Taxid')
-                                                        </label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" v-model="taxid">
-                                                            <span class="m-form__help">
-                                                                RUC or something similar
-                                                            </span>
+                                                    <div class="form-group m-form__group">
+                                                        <div class="row">
+                                                            <label class="col-xl-10 col-lg-10 col-form-label">
+                                                                @lang('global.Taxid')
+                                                            </label>
+                                                            <div class="col-xl-10 col-lg-9">
+                                                                <input type="text" name="name" class="form-control m-input" placeholder="" v-model="taxid">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">
-                                                            @lang('global.Name')
-                                                        </label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <input type="email" name="email" class="form-control m-input" placeholder="" v-model="name">
-                                                            <span class="m-form__help">
-                                                                Taxpayer Name
-                                                            </span>
+                                                        <div class="row">
+                                                            <label class="col-xl-3 col-lg-3 col-form-label">
+                                                                @lang('global.Name')
+                                                            </label>
+                                                            <div class="col-xl-10 col-lg-9">
+                                                                <input type="email" name="email" class="form-control m-input" placeholder="" v-model="name">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">
-                                                            @lang('global.Alias')
-                                                        </label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" class="form-control m-input" v-model="alias">
-
-                                                            <span class="m-form__help">
-                                                                Simple name to help remember the Taxpayer
-                                                            </span>
+                                                        <div class="row">
+                                                            <label class="col-xl-10 col-lg-3 col-form-label">
+                                                                @lang('global.Alias')
+                                                            </label>
+                                                            <div class="col-xl-10 col-lg-9">
+                                                                <input type="text" class="form-control m-input" v-model="alias">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group m-form__group row">
-                                                    <label class="col-lg-2 col-form-label">
-                                                        Account Type
-                                                    </label>
-                                                    <div class="col-lg-10">
+                                                    <div class="m-form__heading">
+                                                        <h3 class="m-form__heading-title">
+                                                            @lang('global.AccountType')
+                                                        </h3>
+                                                    </div>
+                                                    <div class="col-lg-12">
                                                         <div class="row">
                                                             <div class="col-lg-4">
                                                                 <label class="m-option m-option--plain">
@@ -303,8 +295,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--end: Form Wizard Step 1-->
-                                    <!--begin: Form Wizard Step 2-->
                                     <div class="m-wizard__form-step" id="m_wizard_form_step_2">
                                         <div class="row">
                                             <div class="col-xl-8 offset-xl-2">
@@ -404,8 +394,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--end: Form Wizard Step 2-->
-                                    <!--begin: Form Wizard Step 3-->
                                     <div class="m-wizard__form-step" id="m_wizard_form_step_3">
                                         <div class="row">
                                             <div class="col-xl-8 offset-xl-2">
@@ -630,8 +618,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--end: Form Wizard Step 3-->
-                                    <!--begin: Form Wizard Step 4-->
                                     <div class="m-wizard__form-step" id="m_wizard_form_step_4">
                                         <div class="row">
                                             <div class="col-xl-8 offset-xl-2">
@@ -964,10 +950,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--end: Form Wizard Step 4-->
                                 </div>
-                                <!--end: Form Body -->
-                                <!--begin: Form Actions -->
+
                                 <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                     <div class="m-form__actions m-form__actions">
                                         <div class="row">
@@ -976,7 +960,7 @@
                                                 <a href="#" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" data-wizard-action="prev">
                                                     <span>
                                                         <i class="la la-arrow-left"></i>
-                                                        &nbsp;&nbsp;
+                                                        &nbsp; &nbsp;
                                                         <span>
                                                             Back
                                                         </span>
@@ -1021,16 +1005,14 @@
                     <div class="m-portlet__body">
                         <div class="m-section">
                             <h2 class="m-section__heading">
-                                Benifits Of Joining
+                                @{{ $parent.currentTeam.name }}
                             </h2>
                             <div class="m-section__content">
                                 <p>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    A taxpayer is a person or organization (such as a company) subject to a tax on income.
                                 </p>
                                 <p>
-                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                    It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                    Once you create a taxpayer, if your team is the first to reference it, then you will become the default owner. In case another team previously owns it, then you will have to wait authorization.
                                 </p>
                             </div>
                         </div>
@@ -1040,15 +1022,15 @@
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
                                         <h3 class="m-widget1__title">
-                                            Member Profit
+                                            @lang('global.Users')
                                         </h3>
                                         <span class="m-widget1__desc">
-                                            Awerage Weekly Profit
+                                            Total number of users
                                         </span>
                                     </div>
                                     <div class="col m--align-right">
                                         <span class="m-widget1__number m--font-brand">
-                                            +$17,800
+                                            @{{ $parent.currentTeam.users.length }} / 2
                                         </span>
                                     </div>
                                 </div>
@@ -1057,37 +1039,19 @@
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
                                         <h3 class="m-widget1__title">
-                                            Orders
+                                            @lang('global.Taxpayers')
                                         </h3>
                                         <span class="m-widget1__desc">
-                                            Weekly Customer Orders
+                                            Total number of Taxpayers allowed
                                         </span>
                                     </div>
                                     <div class="col m--align-right">
                                         <span class="m-widget1__number m--font-danger">
-                                            +1,800
+                                            @{{ $parent.currentTeam.users.length }} / 1
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="m-widget1__item">
-                                <div class="row m-row--no-padding align-items-center">
-                                    <div class="col">
-                                        <h3 class="m-widget1__title">
-                                            Issue Reports
-                                        </h3>
-                                        <span class="m-widget1__desc">
-                                            System bugs and issues
-                                        </span>
-                                    </div>
-                                    <div class="col m--align-right">
-                                        <span class="m-widget1__number m--font-success">
-                                            -27,49%
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end: Form Wizard Step 4-->
                         </div>
                         <!--end: Form Body -->
                     </div>

@@ -40,35 +40,48 @@ $currentTeam = Auth::user()->currentTeam->name;
                                         {{-- {{ $integration->taxPayer->image }} --}}
                                         <img src="/photo/" alt="" onerror="this.src='/img/icons/cloud.jpg';">
                                     </div>
-                                    <div class="m-widget4__info">
-                                        <span class="m-widget4__title">
-                                            <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}">
+
+                                    @if ($integration->status == 1)
+                                        <div class="m-widget4__info">
+                                            <span class="m-widget4__title">
                                                 {{ $integration->taxpayer->name }}
-                                            </a>
-                                        </span>
-                                        <br>
-                                        <span class="m-widget4__sub">
-                                            {{ $integration->taxpayer->alias }} | {{ $integration->taxpayer->taxid }}
-                                        </span>
-                                    </div>
+                                            </span>
+                                            <br>
+                                            <span class="m-widget4__sub">
+                                                Awaiting Approval
+                                            </span>
+                                        </div>
+                                    @else
+                                        <div class="m-widget4__info">
+                                            <span class="m-widget4__title">
+                                                <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}">
+                                                    {{ $integration->taxpayer->name }}
+                                                </a>
+                                            </span>
+                                            <br>
+                                            <span class="m-widget4__sub">
+                                                {{ $integration->taxpayer->alias }} | {{ $integration->taxpayer->taxid }}
+                                            </span>
+                                        </div>
 
-                                    <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="...">
-                                        <a href="{{ route('taxpayer.show', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
-                                            <i class="la la-pencil text-info"></i>
-                                        </a>
-
-                                        @if ($integration->is_owner == 1)
-                                            {{-- onclick="addFavorite({{ $integration->taxpayer_id }}, 0)" --}}
-                                            <a href="#" class="m-btn btn btn-secondary">
-                                                <i class="la la-star text-warning"></i>
+                                        <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="...">
+                                            <a href="{{ route('taxpayer.show', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
+                                                <i class="la la-pencil text-info"></i>
                                             </a>
-                                        @else
-                                            <a href="#" class="m-btn btn btn-secondary">
-                                                <i class="la la-star-o text-warning"></i>
-                                            </a>
-                                        @endif
 
-                                    </div>
+                                            @if ($integration->is_owner == 1)
+                                                {{-- onclick="addFavorite({{ $integration->taxpayer_id }}, 0)" --}}
+                                                <a href="#" class="m-btn btn btn-secondary">
+                                                    <i class="la la-star text-warning"></i>
+                                                </a>
+                                            @else
+                                                <a href="#" class="m-btn btn btn-secondary">
+                                                    <i class="la la-star-o text-warning"></i>
+                                                </a>
+                                            @endif
+                                        </div>
+
+                                    @endif
                                 </div>
                             @endforeach
                         @endif
@@ -132,7 +145,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                 </div>
                 <div class="m-portlet__body">
                     <div class="m-widget4">
-                        
+
                     </div>
                 </div>
             </div>

@@ -46,6 +46,8 @@ return [
     'Dashboard' => ':team Dashboard',
     'Search' => 'Search',
     'ProfileAndSettings' => 'Profile and Settings',
+    'Settings' => 'Settings',
+    'Confirmation' => 'Confirmation',
     'Total' => 'Total',
     'SubTotal' => 'Sub Total',
     'GrandTotal' => 'Grand Total',
