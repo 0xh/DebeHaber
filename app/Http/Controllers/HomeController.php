@@ -28,9 +28,19 @@ class HomeController extends Controller
         $user = Auth()->user();
 
         $taxPayerIntegrations = TaxpayerIntegration::MyTaxPayers($user->current_team->id)
+        ->where('status', 2)
         ->with('taxpayer')
         ->get();
 
-        return view('home')->with('taxPayerIntegrations', $taxPayerIntegrations);
+        $integrationInvites = TaxpayerIntegration::
+        where('is_owner', 0)
+        ->where('status', 1)
+        ->whereIn('taxpayer_id', $taxPayerIntegrations->where('is_owner', 1))
+        ->with(['taxpayer', 'team'])
+        ->get();
+
+        return view('home')
+        ->with('taxPayerIntegrations', $taxPayerIntegrations)
+        ->with('integrationInvites', $integrationInvites);
     }
 }

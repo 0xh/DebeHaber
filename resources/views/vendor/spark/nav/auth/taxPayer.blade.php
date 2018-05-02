@@ -183,6 +183,7 @@
                                         </a>
                                     </li>
                                 @endif
+
                                 @if (request()->route('taxPayer')->setting->show_production)
                                     <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                         <a href="{{ route('productions.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
@@ -193,6 +194,7 @@
                                         </a>
                                     </li>
                                 @endif
+
                                 @if (request()->route('taxPayer')->setting->show_fixedasset)
                                     <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                         <a href="{{ route('fixed-assets.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
