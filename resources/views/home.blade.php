@@ -5,7 +5,7 @@ $currentTeam = Auth::user()->currentTeam->name;
 
 @extends('spark::layouts.dashboard')
 
-@section('title', __('global.Dashboard',['team' => $currentTeam]))
+@section('title', __('global.Dashboard', ['team' => $currentTeam]))
 
 @section('content')
 
