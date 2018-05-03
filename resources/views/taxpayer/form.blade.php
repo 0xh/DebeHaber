@@ -59,7 +59,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2">
+
+                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2"  v-if="show_column==1">
                                         <a href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -108,16 +109,16 @@
                                                         </h3>
                                                     </div>
                                                     <div class="form-group m-form__group">
-                                                      <div class="row">
+                                                        <div class="row">
 
-                                                          <div class="col-xl-10 col-lg-9">
+                                                            <div class="col-xl-10 col-lg-9">
 
-                                                        <router-view name="SearchBoxTaxPayer" :url="/get_taxpayer/" >
-                                                        </router-view>
+                                                                <router-view name="SearchBoxTaxPayer" :url="/get_taxpayer/" >
+                                                                </router-view>
 
-                                                          </div>
-                                                      </div>
-                                                        <div class="row" v-if="$parent.show_column==1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" v-if="show_column==1">
 
                                                             <label class="col-xl-10 col-lg-10 col-form-label">
                                                                 @lang('global.Taxid')
@@ -129,7 +130,7 @@
                                                         <div class="row" v-else>
                                                             @{{ taxid }}
                                                         </div>
-                                                        <div class="row" v-if="$parent.show_column==1">
+                                                        <div class="row" v-if="show_column==1">
                                                             <label class="col-xl-3 col-lg-3 col-form-label">
                                                                 @lang('global.Name')
                                                             </label>
@@ -411,7 +412,7 @@
                                         </div>
                                     </div>
                                     <div class="m-wizard__form-step" id="m_wizard_form_step_3">
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             <div class="col-xl-8 offset-xl-2">
                                                 <div class="m-form__section m-form__section--first">
                                                     <div class="m-form__heading">
@@ -632,7 +633,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>ddd --}}
                                     </div>
                                     <div class="m-wizard__form-step" id="m_wizard_form_step_4">
                                         <div class="row">
@@ -993,7 +994,7 @@
                                                         </span>
                                                     </span>
                                                 </a>
-                                                <a href="#" class="btn btn-warning m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
+                                                <a v-on:click="onSave($data,false)" class="btn btn-warning m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
                                                     <span>
                                                         <span>
                                                             Save &amp; Continue
