@@ -94,7 +94,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--fit">
                     <div class="row justify-content-center m--padding-20">
                         <div class="col-3">
-                            <img src="/img/icons/invitation.svg" class="" alt="" width="135">
+                            <img src="/img/icons/teams.svg" class="" alt="" width="135">
                         </div>
                         <div class="col-9">
                             <h3>Pending Approvals</h3>
