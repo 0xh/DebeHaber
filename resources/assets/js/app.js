@@ -18,6 +18,7 @@ require('spark-bootstrap');
 require('./components/bootstrap');
 
 import VueRouter from 'vue-router';
+import SearchBoxTaxPayer from './components/search-taxpayer.vue';
 import SearchBox from './components/searchbox.vue';
 import SearchBoxAccount from './components/searchboxaccount.vue';
 import Vue from 'vue';
@@ -72,6 +73,7 @@ const routes = [
         path: '/',
         components: {
             SearchBox : SearchBox,
+            SearchBoxTaxPayer : SearchBoxTaxPayer,
             SearchBoxAccount : SearchBoxAccount,
         }
     },

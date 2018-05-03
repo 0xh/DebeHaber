@@ -38,7 +38,7 @@
                             <!--begin: Form Wizard Progress -->
                             <div class="m-wizard__progress">
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: @{{ progBarPercent }};"></div>
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" ></div>
                                 </div>
                             </div>
 
@@ -108,7 +108,17 @@
                                                         </h3>
                                                     </div>
                                                     <div class="form-group m-form__group">
-                                                        <div class="row">
+                                                      <div class="row">
+
+                                                          <div class="col-xl-10 col-lg-9">
+
+                                                        <router-view name="SearchBoxTaxPayer" :url="/get_taxpayer/" >
+                                                        </router-view>
+
+                                                          </div>
+                                                      </div>
+                                                        <div class="row" v-if="$parent.show_column==1">
+
                                                             <label class="col-xl-10 col-lg-10 col-form-label">
                                                                 @lang('global.Taxid')
                                                             </label>
@@ -116,13 +126,19 @@
                                                                 <input type="text" name="name" class="form-control m-input" placeholder="" v-model="taxid">
                                                             </div>
                                                         </div>
-                                                        <div class="row">
+                                                        <div class="row" v-else>
+                                                            @{{ taxid }}
+                                                        </div>
+                                                        <div class="row" v-if="$parent.show_column==1">
                                                             <label class="col-xl-3 col-lg-3 col-form-label">
                                                                 @lang('global.Name')
                                                             </label>
                                                             <div class="col-xl-10 col-lg-9">
                                                                 <input type="email" name="email" class="form-control m-input" placeholder="" v-model="name">
                                                             </div>
+                                                        </div>
+                                                        <div class="row" v-else>
+                                                            @{{ name }}
                                                         </div>
                                                         <div class="row">
                                                             <label class="col-xl-10 col-lg-3 col-form-label">
