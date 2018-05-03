@@ -17,14 +17,14 @@ $currentTeam = Auth::user()->currentTeam->name;
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Contribuyentes del equipo, {{ $currentTeam }}
+                                @lang('guide.SelectTaxpayer')
                             </h3>
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
                         <a href="{{ route('taxpayer.create') }}" class="btn btn--sm m-btn--pill btn-secondary m-btn m-btn--label-brand">
                             <span>
-                                Crear un Contribuyente
+                                @lang('global.Create', ['model' => __('global.Taxpayer')])
                             </span>
                         </a>
                     </div>
@@ -47,7 +47,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                                                 {{ $integration->taxpayer->name }}
                                             </span>
                                             <br>
-                                            <span class="m-widget4__sub">
+                                            <span class="m-widget4__sub m--font-warning">
                                                 Awaiting Approval
                                             </span>
                                         </div>
@@ -90,66 +90,118 @@ $currentTeam = Auth::user()->currentTeam->name;
             </div>
         </div>
         <div class="col-xl-6">
-            <!--begin:: Invitations-->
-            <div class="m-portlet m-portlet--bordered-semi m-portlet--fit">
-                <div class="row justify-content-center padding-40-5">
-                    <div class="col-3">
-                        <img src="/img/icons/invitation.svg" class="" alt="" width="135">
+            @if ($integrationInvites->count() > 0)
+                <div class="m-portlet m-portlet--bordered-semi m-portlet--fit">
+                    <div class="row justify-content-center m--padding-20">
+                        <div class="col-3">
+                            <img src="/img/icons/invitation.svg" class="" alt="" width="135">
+                        </div>
+                        <div class="col-9">
+                            <h3>Pending Approvals</h3>
+                            <p>The following teams are requesting access to taxpayers of which <span class="m--font-bold">{{ $currentTeam }}</span> is the owner. Make sure you approve only those teams that have the correct role so that their association with your taxpayer is limited to only those features. For more info on that, click here...</p>
+                        </div>
                     </div>
-                    <div class="col-9">
-                        <h3>Invitar a Alguien</h3>
-                        <p>
-                            <br>
-                            ¿Quieres invitar alguien para que forme parte del equipo?
-                            <br>
-                            Miembros tienen accesso a todos los contribuyentes del equipo.
-                        </p>
-                        <form class="" action="index.html" method="post">
-                            <div class="m-input-icon m-input-icon--left m-input-icon--right">
-                                <input type="text" class="form-control m-input m-input--pill m-input--air" name="email" value="" placeholder="Correo Electronico del Invitado">
-                                <span class="m-input-icon__icon m-input-icon__icon--left">
-                                    <span>
-                                        <i class="la la-envelope"></i>
-                                    </span>
-                                </span>
-                                <span class="m-input-icon__icon m-input-icon__icon--right">
-                                    <span>
-                                        <button class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill btn-inline-input" type="button" name="button">
-                                            <i class="la la-send"></i>
-                                        </button>
-                                    </span>
-                                </span>
-                            </div>
-                        </form>
 
-                        <ul>
-                            @foreach ($integrationInvites as $invite)
-                                <li>
-                                    {{ $invite->taxpayer }}
-                                </li>
-                            @endforeach
-                        </ul>
+                    <div class="row justify-content-center">
+                        <table class="m-datatable__table">
+                            <thead class="m-datatable__head">
+                                <tr class="m-datatable__row">
+                                    <td>Team</td>
+                                    <td>Taxpayer</td>
+                                    <td>Role</td>
+                                    <td>Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody class="m-datatable__body">
+                                @foreach ($integrationInvites as $invite)
+                                    <tr class="m-datatable__row">
+                                        <td class="m-datatable__cell">{{ $invite->team->name }}</td>
+                                        <td class="m-datatable__cell">{{ $invite->taxpayer->name }}</td>
+                                        <td class="m-datatable__cell">
+                                            @if ($invite->type == 1)
+                                                Accountant
+                                            @elseif($invite->type == 2)
+                                                Personal
+                                            @else
+                                                Auditor
+                                            @endif
+                                        </td>
+                                        <td class="m-datatable__cell">
+                                            <a href="#">Approve</a>
+                                            <a href="#">Reject</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <!--begin:: Widgets/Outbound Bandwidth-->
-            <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 400px">
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <h3 class="m-portlet__head-text">
-                                @lang('teams.team_members')
-                            </h3>
-                        </div>
+        @endif
+
+        <!--begin:: Invitations-->
+        <div class="m-portlet m-portlet--bordered-semi m-portlet--fit">
+            <div class="row justify-content-center padding-40-5">
+                <div class="col-3">
+                    <img src="/img/icons/invitation.svg" class="" alt="" width="135">
+                </div>
+                <div class="col-9">
+                    <h3>Invitar Alquien</h3>
+                    <table class="m-table">
+                        <thead>
+                            <tr>
+                                <td>Team</td>
+                                <td>Taxpayer</td>
+                                <td>Role</td>
+                                <td>Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($integrationInvites as $invite)
+                                <tr>
+                                    <td>{{ $invite->team->name }}</td>
+                                    <td>{{ $invite->taxpayer->name }}</td>
+                                    <td>
+                                        @if ($invite->type == 1)
+                                            Accountant
+                                        @elseif($invite->type == 2)
+                                            Personal
+                                        @else
+                                            Auditor
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="#">Approve</a>
+                                        <a href="#">Reject</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--begin:: Widgets/Outbound Bandwidth-->
+        <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 400px">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                            @lang('teams.team_members')
+                        </h3>
                     </div>
                 </div>
-                <div class="m-portlet__body">
-                    <div class="m-widget4">
+            </div>
+            <div class="m-portlet__body">
+                <div class="m-widget4">
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 @endsection
