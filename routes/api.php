@@ -40,8 +40,8 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::get('get_documents/{type}', 'DocumentController@get_document');
     Route::get('get_allDocuments', 'DocumentController@get_Alldocument');
     Route::get('get_documentByID/{id}', 'DocumentController@get_documentByID');
-    Route::get('get_taxpayers/{frase}', 'TaxpayerController@get_taxpayer');
-      Route::get('get_owner/{id}', 'TaxpayerController@get_owner');
+    Route::get('get_taxpayers/{searchBy}', 'TaxpayerController@get_taxpayer');
+    Route::get('get_owner/{id}', 'TaxpayerController@get_owner');
 
     Route::prefix('{cycle}')->group(function ()
     {

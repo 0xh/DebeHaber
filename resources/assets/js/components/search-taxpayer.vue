@@ -94,13 +94,16 @@ export default {
                     async: false,
                     success: function(data)
                     {
-                        if (data.id==app.current_user) {
-                            app.$parent.no_owner=1;
-                            app.$parent.owner_name=data.name;
-                            app.$parent.owner_name=data.name;
+                        if (data.id == app.current_user)
+                        {
+                            app.$parent.no_owner = 1;
+                            app.$parent.owner_img = data.team.photo_url;
+                            app.$parent.owner_name = data.team.name;
+                            app.$parent.owner_type = data.type;
                         }
-                        else {
-                            app.$parent.no_owner=0;
+                        else
+                        {
+                            app.$parent.no_owner = 0;
                         }
 
                     },
