@@ -16,7 +16,7 @@ use Laravel\Passport;
 Route::post('status', 'API\Controller@checkServer');
 
 Route::group(['middleware' => 'auth:api'], function ()
-{
+{});
   Route::post('transactions', 'API\TransactionController@start');
     Route::post('movement', 'API\AccountMovementController@start');
   Route::post('check-key', 'API\Controller@checkAPI');
@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::get('get_allDocuments', 'DocumentController@get_Alldocument');
     Route::get('get_documentByID/{id}', 'DocumentController@get_documentByID');
     Route::get('get_taxpayers/{frase}', 'TaxpayerController@get_taxpayer');
+      Route::get('get_owner/{id}', 'TaxpayerController@get_owner');
 
     Route::prefix('{cycle}')->group(function ()
     {
@@ -128,7 +129,7 @@ Route::group(['middleware' => 'auth:api'], function ()
   {
     return['username' => 'tao'];
   });
-});
+
 
 Route::get('create-test-token', function() {
   $user = \App\User::find(1);

@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="no_owner">
+                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="no_owner===1">
                                         <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -115,7 +115,7 @@
                                                                     </a>
                                                                 </div>
 
-                                                                <router-view name="SearchBoxTaxPayer" :url="/get_taxpayer/">
+                                                                <router-view name="SearchBoxTaxPayer" :url="/get_taxpayer/" :current_user=" {{ Auth::user()-> id}}">
                                                                 </router-view>
 
                                                             </div>
@@ -471,7 +471,7 @@
                                                         </span>
                                                     </span>
                                                 </a>
-                                                <a v-on:click="nextPage(data)" class="btn btn-warning m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
+                                                <a v-on:click="nextPage($data)" class="btn btn-warning m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
                                                     <span>
                                                         <span>
                                                             Save &amp; Continue

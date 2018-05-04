@@ -32,7 +32,7 @@ Vue.component('taxpayer',{
             setting_agenttaxid: '',
             setting_agent: '',
 
-            no_owner: true,
+            no_owner: 0,
             owner_name: '',
             owner_img: '',
             owner_type: '',
@@ -90,7 +90,7 @@ Vue.component('taxpayer',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
-            var api = null;
+
 
             $.ajax({
                 url: '/taxpayer',
@@ -101,6 +101,7 @@ Vue.component('taxpayer',{
                 async: false,
                 success: function(data)
                 {
+                    console.log(data);
                     document.location.href = '../home/'
                 },
                 error: function(xhr, status, error)

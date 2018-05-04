@@ -53,7 +53,7 @@ Vue.prototype.$http = Axios
 
 export default {
     extends: VueTypeahead,
-    props: ['taxpayer','url', 'cycle'],
+    props: ['url','current_user'],
     data () {
         return {
             name:'',
@@ -67,7 +67,8 @@ export default {
             minChars: 3,
             queryParamName: '',
             selectText:'Favor Elegir',
-            id:''
+            id:'',
+
         }
     },
 
@@ -83,108 +84,132 @@ export default {
             app.$parent.email = item.email;
             app.$parent.telephone = item.telephone;
             app.$parent.address = item.address;
-            app.$parent.show_column = 0;
-        },
 
-        onSave()
-        {
-            $.ajax({
-                url: '/api/' + this.current_company + '/store-taxpayer',
-                headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                type: 'post',
-                data:{
-                    name : this.name,
-                    code : this.code,
-                    taxid : this.taxid,
-                    address : this.address,
-                    email : this.email,
-                    telephone : this.telephone,
-                },
-                dataType: 'json',
-                async: false,
-                success: function(data)
+            $.ajax(
                 {
-                    //console.log(data);
-                },
-                error: function(xhr, status, error)
-                {
-                    console.log(xhr.responseText);
-                }
-            });
+                    url: '/api/' + this.current_company + '/get_owner/'  + item.id,
+                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                    type: 'get',
+                    dataType: 'json',
+                    async: false,
+                    success: function(data)
+                    {
+                        if (data.id==app.current_user) {
+                            app.$parent.no_owner=1;
+                            app.$parent.owner_name=data.name;
+                            app.$parent.owner_name=data.name;
+                        }
+                        else {
+                            app.$parent.no_owner=0;
+                        }
+
+                    },
+                    error: function(xhr, status, error)
+                    {
+                        console.log(xhr.responseText);
+                    }
+                });
+            },
+
+            onSave()
+            {
+                $.ajax({
+                    url: '/api/' + this.current_company + '/store-taxpayer',
+                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+                    type: 'post',
+                    data:{
+                        name : this.name,
+                        code : this.code,
+                        taxid : this.taxid,
+                        address : this.address,
+                        email : this.email,
+                        telephone : this.telephone,
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function(data)
+                    {
+                        //console.log(data);
+                    },
+                    error: function(xhr, status, error)
+                    {
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
         }
     }
-}
-</script>
+    </script>
 
-<style scoped>
+    <style scoped>
 
-.fa-times
-{
-    cursor: pointer;
-}
+    .fa-times
+    {
+        cursor: pointer;
+    }
 
-i
-{
-    float: right;
-    position: relative;
-    opacity: 0.4;
-}
+    i
+    {
+        float: right;
+        position: relative;
+        opacity: 0.4;
+    }
 
-ul
-{
-    position: absolute;
-    padding: 0;
-    min-width: 100%;
-    background-color: #fff;
-    list-style: none;
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0,0,0, 0.25);
-    z-index: 1000;
-}
+    ul
+    {
+        position: absolute;
+        padding: 0;
+        min-width: 100%;
+        background-color: #fff;
+        list-style: none;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(0,0,0, 0.25);
+        z-index: 1000;
+    }
 
-li
-{
-    padding: 5px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-}
+    li
+    {
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+    }
 
-li:first-child
-{
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
+    li:first-child
+    {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
 
-li:last-child
-{
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom: 0;
-}
+    li:last-child
+    {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-bottom: 0;
+    }
 
-span
-{
-    color: #2c3e50;
-}
+    span
+    {
+        color: #2c3e50;
+    }
 
-.active
-{
-    background-color: #3aa373;
-}
+    .active
+    {
+        background-color: #3aa373;
+    }
 
-.active span
-{
-    color: white;
-}
+    .active span
+    {
+        color: white;
+    }
 
-.name
-{
-    font-weight: 500;
-    font-size: 14px;
-}
+    .name
+    {
+        font-weight: 500;
+        font-size: 14px;
+    }
 
-.screen-name
-{
-    font-style: italic;
-}
-</style>
+    .screen-name
+    {
+        font-style: italic;
+    }
+    </style>
