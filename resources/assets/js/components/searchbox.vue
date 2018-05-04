@@ -138,7 +138,7 @@ Vue.prototype.$http = Axios
 
 export default {
     extends: VueTypeahead,
-    props: ['taxpayer','url', 'cycle'],
+    props: ['taxpayer','url', 'cycle', 'country'],
     data () {
         return {
             name:'',
@@ -147,8 +147,8 @@ export default {
             email:'',
             code:'',
             telephone:'',
-            src: '/api/' + this.current_company + '/get_taxpayers/',
-            limit: 5,
+            src: '/api/' + this.country + '/get_taxpayers/',
+            limit: 15,
             minChars: 3,
             queryParamName: '',
             selectText:'Favor Elegir',
@@ -167,7 +167,7 @@ export default {
 
             $.ajax(
                 {
-                    url: '/api/' + this.current_company + '/' + this.cycle + '/commercial'  + this.url,
+                    url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial'  + this.url,
                     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                     type: 'get',
                     dataType: 'json',
@@ -195,7 +195,7 @@ export default {
             onSave()
             {
                 $.ajax({
-                    url: '/api/' + this.current_company + '/store-taxpayer',
+                    url: '/api/' + this.taxpayer + '/store-taxpayer',
                     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                     type: 'post',
                     data:{

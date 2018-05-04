@@ -28,19 +28,18 @@ class TaxpayerController extends Controller
 
     }
 
-    public function get_taxpayer($teamID, $query)
+    public function get_taxpayer($country, $query)
     {
-        $taxPayers = Taxpayer::search($query)->take(10)->get();
+        $taxPayers = Taxpayer::search($query)
+        // ->where('country', $country)
+        ->take(25)
+        ->get();
+
         return response()->json($taxPayers);
     }
 
-    public function get_owner($taxpayer, $id)
+    public function get_owner($country, $id)
     {
-        // $taxPayer = Taxpayer::where('id',$id)->first();
-        //
-        // if (isset($taxPayer))
-        // {
-
         $taxPayer_Integration = TaxpayerIntegration::where('taxpayer_id', $taxPayer->id)
         ->where('is_owner', 1)
         ->with('team')
@@ -50,8 +49,6 @@ class TaxpayerController extends Controller
         {
             return response()->json($taxPayer_Integration);
         }
-
-        //}
 
         return response()->json(null);
     }

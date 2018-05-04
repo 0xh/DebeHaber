@@ -6,7 +6,7 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        @lang('global.Date')
+                        <b>@lang('global.InvoiceDate')</b>
                     </label>
                     <div class="col-8">
                         <input type="date" class="form-control" v-model="date" />
@@ -18,7 +18,7 @@
                     </label>
 
                     <div class="col-8">
-                        <router-view name="SearchBox" :url="/get_last_purchase/"  :cycle="{{request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" ></router-view>
+                        <router-view name="SearchBox" :url="/get_last_purchase/"  :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" :country="{{ request()->route('taxPayer')->country }}"></router-view>
                     </div>
                 </div>
             </div>
@@ -37,8 +37,13 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
+
+                    @php
+                    $documentCode = Config::get('countries.' . request()->route('taxPayer')->country . '.document-code');
+                    @endphp
+
                     <label for="example-text-input" class="col-4 col-form-label">
-                        Timbrado &amp; Venci.
+                        <b>{{ $documentCode }}  &amp; @lang('global.Deadline')</b>
                     </label>
                     <div class="col-8">
                         <div class="row">

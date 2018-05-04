@@ -43,9 +43,23 @@ Vue.component('taxpayer',{
             type: '1',
         }
     },
-
     methods:
     {
+        isCompany: function()
+        {
+            var app = this;
+            if (app.setting_is_company == 'false')
+            {
+                setting_regime = '';
+                setting_agenttaxid: '';
+                setting_agent: '';
+                setting_inventory: '';
+                setting_production: '';
+                setting_fixedasset: '';
+                setting_import: '';
+                setting_export: '';
+            }
+        },
         //Useful for when user wants to create a Taxpayer not in the system.
         clearPage: function()
         {

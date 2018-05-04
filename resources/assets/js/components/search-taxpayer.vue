@@ -18,9 +18,6 @@
             aria-describedby="basic-addon2"
             autocomplete="off"
 
-            v-shortkey.once="['ctrl', 'n']"
-            @shortkey="add()"
-
             v-model="query"
             @keydown.down="down"
             @keydown.up="up"
@@ -29,8 +26,8 @@
             @blur="reset"
             @input="update"/>
 
-
         </div>
+
         <span class="m-form__help">
             <ul v-show="hasItems">
                 <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
@@ -53,7 +50,7 @@ Vue.prototype.$http = Axios
 
 export default {
     extends: VueTypeahead,
-    props: ['url','current_user'],
+    props: ['country'],
     data () {
         return {
             name:'',
@@ -62,13 +59,12 @@ export default {
             email:'',
             code:'',
             telephone:'',
-            src: '/api/' + this.current_company + '/get_taxpayers/',
-            limit: 5,
+            src: '/api/' + this.country + '/get_taxpayers/',
+            limit: 15,
             minChars: 3,
             queryParamName: '',
             selectText:'Favor Elegir',
             id:'',
-
         }
     },
 
@@ -87,7 +83,7 @@ export default {
 
             $.ajax(
                 {
-                    url: '/api/' + this.current_company + '/get_owner/'  + item.id,
+                    url: '/api/' + this.country + '/get_owner/' + item.id,
                     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                     type: 'get',
                     dataType: 'json',
@@ -108,34 +104,6 @@ export default {
                             app.$parent.owner_name = '';
                             app.$parent.owner_type = '';
                         }
-
-                    },
-                    error: function(xhr, status, error)
-                    {
-                        console.log(xhr.responseText);
-                    }
-                });
-            },
-
-            onSave()
-            {
-                $.ajax({
-                    url: '/api/' + this.current_company + '/store-taxpayer',
-                    headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-                    type: 'post',
-                    data:{
-                        name : this.name,
-                        code : this.code,
-                        taxid : this.taxid,
-                        address : this.address,
-                        email : this.email,
-                        telephone : this.telephone,
-                    },
-                    dataType: 'json',
-                    async: false,
-                    success: function(data)
-                    {
-                        //console.log(data);
                     },
                     error: function(xhr, status, error)
                     {

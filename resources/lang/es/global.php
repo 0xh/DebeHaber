@@ -31,7 +31,7 @@ return [
     'New' => 'Nuevo',
     'Create' => 'Crear una :model',
     'Save' => 'Guardar',
-    'Save-and-New' => 'Guardar y cargar otro',
+    'Save-and-New' => 'Guardar y cargar otra',
     'Cancel' => 'Cancelar',
     'Action' => 'Acciones',
     'Balance' => 'Balance',

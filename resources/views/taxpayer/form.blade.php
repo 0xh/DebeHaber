@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="no_owner===1">
+                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="owner_name == ''">
                                         <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -115,7 +115,7 @@
                                                                     </a>
                                                                 </div>
 
-                                                                <router-view name="SearchBoxTaxPayer" :url="/get_taxpayer/" :current_user=" {{ Auth::user()-> id}}">
+                                                                <router-view name="SearchBoxTaxPayer" :country="PRY">
                                                                 </router-view>
 
                                                             </div>
@@ -221,38 +221,40 @@
                                                             <div class="col-7">
                                                                 <span class="m-switch m-switch--sm m-switch--icon">
                                                                     <label>
-                                                                        <input type="checkbox" checked="checked" v-model="setting_is_company">
+                                                                        <input type="checkbox" checked="checked" v-model="setting_is_company" @click="isCompany">
                                                                         <span></span>
                                                                     </label>
                                                                 </span>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row" v-if="setting_is_company">
+                                                        <div class="row">
                                                             <label class="col-4 col-form-label">
                                                                 @lang('global.LegalRepresentative')
                                                             </label>
                                                             <div class="col-7">
-                                                                <input type="text" class="form-control m-input" v-model="setting_agent">
+                                                                <input v-if="setting_is_company" type="text" class="form-control m-input" v-model="setting_agent">
+                                                                <input v-else disabled="disabled" class="form-control m-input" v-model="setting_agent">
                                                             </div>
                                                         </div>
 
-                                                        <div class="row" v-if="setting_is_company">
+                                                        <div class="row">
                                                             <label class="col-4 col-form-label">
                                                                 @lang('global.Taxid')
                                                             </label>
                                                             <div class="col-7">
-                                                                <input type="text" class="form-control m-input" v-model="setting_agenttaxid">
+                                                                <input v-if="setting_is_company" type="text" class="form-control m-input" v-model="setting_agenttaxid">
+                                                                <input v-else disabled="disabled" class="form-control m-input" v-model="setting_agenttaxid">
                                                             </div>
                                                         </div>
 
-                                                        <div v-if="setting_is_company" class="m-separator m-separator--dashed"></div>
+                                                        <div class="m-separator m-separator--dashed"></div>
 
-                                                        <div class="row" v-if="setting_is_company">
+                                                        <div class="row">
                                                             <label class="col-4 col-form-label">
                                                                 @lang('accounting.Regime')
                                                             </label>
-                                                            <div class="col-7">
+                                                            <div v-if="setting_is_company" class="col-7">
                                                                 <label class="m-radio m-radio--solid m-radio--warning">
                                                                     <input type="radio" name="account_group" checked="" value="" v-model="setting_regime">
                                                                     None
@@ -279,6 +281,33 @@
                                                                     <span></span>
                                                                 </label>
                                                             </div>
+                                                            <div v-else class="col-7">
+                                                                <label class="m-radio m-radio--solid m-radio--warning m-radio--disabled">
+                                                                    <input type="radio" disabled name="account_group" checked="" value="" v-model="setting_regime">
+                                                                    None
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-radio m-radio--solid m-radio--info m-radio--disabled">
+                                                                    <input type="radio" disabled name="account_group" value="1" v-model="setting_regime">
+                                                                    Turismo
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-radio m-radio--solid m-radio--info m-radio--disabled">
+                                                                    <input type="radio" disabled name="account_group" value="2" v-model="setting_regime">
+                                                                    Materia Prima
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-radio m-radio--solid m-radio--info m-radio--disabled">
+                                                                    <input type="radio" disabled name="account_group" value="3" v-model="setting_regime">
+                                                                    Maquila
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-radio m-radio--solid m-radio--info m-radio--disabled">
+                                                                    <input type="radio" disabled name="account_group" value="4" v-model="setting_regime">
+                                                                    Admision Temporania
+                                                                    <span></span>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group m-form__group">
@@ -287,8 +316,6 @@
                                                             <i class="la la-gear"></i>
                                                             @lang('global.Settings')
                                                         </h4>
-
-                                                        {{-- <div class="m-separator m-separator--dashed m-separator--lg"></div> --}}
 
                                                         <div class="row">
                                                             <label class="col-4 col-form-label">
@@ -300,13 +327,23 @@
                                                                     @lang('commercial.FixedAssets')
                                                                     <span></span>
                                                                 </label>
-                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_inventory">
+                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_inventory">
                                                                     <input type="checkbox">
                                                                     @lang('commercial.Inventory')
                                                                     <span></span>
                                                                 </label>
-                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_production">
+                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled" v-model="setting_inventory">
+                                                                    <input disabled type="checkbox">
+                                                                    @lang('commercial.Inventory')
+                                                                    <span></span>
+                                                                </label>
+                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_production">
                                                                     <input type="checkbox">
+                                                                    @lang('commercial.Productions')
+                                                                    <span></span>
+                                                                </label>
+                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled" v-model="setting_production">
+                                                                    <input disabled type="checkbox">
                                                                     @lang('commercial.Productions')
                                                                     <span></span>
                                                                 </label>
@@ -320,13 +357,23 @@
                                                                 @lang('commercial.InternationalCommerce')
                                                             </label>
                                                             <div class="m-checkbox-list col-7">
-                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
+                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
                                                                     <input type="checkbox">
                                                                     @lang('commercial.Imports')
                                                                     <span></span>
                                                                 </label>
-                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
+                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand m-checkbox--disabled" v-model="setting_production">
+                                                                    <input disabled type="checkbox">
+                                                                    @lang('commercial.Imports')
+                                                                    <span></span>
+                                                                </label>
+                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
                                                                     <input type="checkbox">
+                                                                    @lang('commercial.Exports')
+                                                                    <span></span>
+                                                                </label>
+                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand m-checkbox--disabled" v-model="setting_production">
+                                                                    <input disabled type="checkbox">
                                                                     @lang('commercial.Exports')
                                                                     <span></span>
                                                                 </label>

@@ -32,7 +32,7 @@ return [
     'New' => 'New',
     'Create' => 'Create a :model',
     'Save' => 'Save',
-    'Save-and-New' => 'Save and create new',
+    'Save-and-New' => 'Save and create another',
     'Cancel' => 'Cancel',
     'Action' => 'Action',
     'Balance' => 'Balance',
