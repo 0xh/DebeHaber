@@ -591,17 +591,17 @@
 
                                 <div class="m-widget6__item">
                                     <span v-if="owner_name != ''" class="m-widget6__text">
-                                        @{{ owner_name }} |
+                                        @{{ owner_name }}
                                     </span>
                                     <span v-if="owner_name != ''" class="m-widget6__text">
                                         <div class="m-demo__preview m-demo__preview--badge">
-                                            <span v-if="owner_type == '1'" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
+                                            <span v-if="owner_type == '1'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
                                                 @lang('global.Accountant')
                                             </span>
-                                            <span v-if="owner_type == '2'" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
+                                            <span v-if="owner_type == '2'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
                                                 @lang('global.Personal')
                                             </span>
-                                            <span v-if="owner_type == '3'" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
+                                            <span v-if="owner_type == '3'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
                                                 @lang('global.Auditor')
                                             </span>
                                         </div>
