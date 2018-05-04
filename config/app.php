@@ -168,8 +168,8 @@ return [
         MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class
-
+        Barryvdh\Debugbar\ServiceProvider::class,
+        //Barryvdh\TranslationManager\ManagerServiceProvider::class,
     ],
 
     /*

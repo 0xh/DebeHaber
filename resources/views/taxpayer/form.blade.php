@@ -559,6 +559,25 @@
                         </div>
                         <div class="m-separator m-separator--fit"></div>
                         <div class="m-widget1 m-widget1--paddingless">
+
+                            <div v-if="page > 1" class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
+                                        <h3 class="m-widget1__title">
+                                            Team @{{ owner_name }}
+                                        </h3>
+                                        <span class="m-widget1__desc">
+                                            Total number of users
+                                        </span>
+                                    </div>
+                                    <div class="col m--align-right">
+                                        <span class="m-widget1__number m--font-brand">
+                                            @{{ $parent.currentTeam.users.length }} / 2
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
