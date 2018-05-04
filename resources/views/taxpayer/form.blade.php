@@ -545,22 +545,18 @@
                 <div class="m-portlet">
                     <div class="m-portlet__body">
                         <div class="m-section">
-                            <h2 class="m-section__heading">
-                                @{{ $parent.currentTeam.name }}
-                            </h2>
+                            <h3 class="m-widget1__title">
+                                @lang('global.Taxpayer')
+                            </h3>
+
                             <div class="m-section__content">
                                 <p>
                                     Once you create a taxpayer, if your team is the first to reference it, then you will become the default owner. In case another team previously owns it, then you will have to wait authorization.
                                 </p>
                             </div>
                         </div>
+
                         <div class="m-separator m-separator--fit"></div>
-
-                        <h3 class="m-widget1__title">
-                            @lang('global.Taxpayer')
-                        </h3>
-
-
 
                         <div class="m-widget6">
                             <div class="m-widget6__body">
