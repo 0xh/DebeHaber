@@ -104,6 +104,9 @@ export default {
                         else
                         {
                             app.$parent.no_owner = 0;
+                            app.$parent.owner_img = '';
+                            app.$parent.owner_name = '';
+                            app.$parent.owner_type = '';
                         }
 
                     },
