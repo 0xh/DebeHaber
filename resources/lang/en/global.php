@@ -16,6 +16,7 @@ return [
     'Audits' => 'Audits',
     'Reports' => 'Reports',
     'Name' => 'Name',
+    'NameOf' => 'Name of :model',
     'Year' => 'Year',
     'Date' => 'Date',
     'InvoiceDate' => 'Invoice Date',

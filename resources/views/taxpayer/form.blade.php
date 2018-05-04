@@ -4,7 +4,6 @@
 
 @section('content')
     <taxpayer inline-template>
-
         <div class="row">
             <div class="col-xl-9">
                 <!--Begin::Main Portlet-->
@@ -38,14 +37,13 @@
                             <!--begin: Form Wizard Progress -->
                             <div class="m-wizard__progress">
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" ></div>
+                                    <div class="progress-bar" role="progressbar" style="width: @{{ pageProg }}%"></div>
                                 </div>
                             </div>
-
                             <div class="m-wizard__nav">
                                 <div class="m-wizard__steps">
                                     <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_1">
-                                        <a href="#" class="m-wizard__step-number">
+                                        <a @click="page = 1" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-briefcase"></i>
                                             </span>
@@ -60,8 +58,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2"  v-if="show_column==1">
-                                        <a href="#" class="m-wizard__step-number">
+                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="no_owner">
+                                        <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
                                             </span>
@@ -76,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_3">
-                                        <a href="#" class="m-wizard__step-number">
+                                        <a @click="page = 3" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-check"></i>
                                             </span>
@@ -97,61 +95,250 @@
 
                         <div class="m-wizard__form">
                             <form class="m-form m-form--label-align-left- m-form--state-" id="m_form" novalidate="novalidate">
-
                                 <div class="m-portlet__body">
-                                    <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
+                                    <div class="m-wizard__form-step m-wizard__form-step--current" v-if="page == 1">
                                         <div class="row">
-                                            <div class="col-xl-10 offset-xl-2">
+                                            <div class="col-xl-11 offset-xl-1">
                                                 <div class="m-form__section m-form__section--first">
                                                     <div class="m-form__heading">
-                                                        <h3 class="m-form__heading-title">
-                                                            @lang('global.Taxpayer')
+                                                        <h3>
+                                                            @lang('global.Create', ['model' => __('global.Taxpayer')])
                                                         </h3>
                                                     </div>
                                                     <div class="form-group m-form__group">
                                                         <div class="row">
+                                                            <div class="col-11">
+                                                                <div class="alert m-alert m-alert--default" role="alert">
+                                                                    Search for your taxpayer by name or identification number. In case you can't find it in our database ...
+                                                                    <a @click="clearPage()" href="#taxpayer">
+                                                                        @lang('global.Create', ['model' => __('global.Taxpayer')]).
+                                                                    </a>
+                                                                </div>
 
-                                                            <div class="col-xl-10 col-lg-9">
-
-                                                                <router-view name="SearchBoxTaxPayer" :url="/get_taxpayer/" >
+                                                                <router-view name="SearchBoxTaxPayer" :url="/get_taxpayer/">
                                                                 </router-view>
 
                                                             </div>
                                                         </div>
-                                                        <div class="row" v-if="show_column==1">
 
-                                                            <label class="col-xl-10 col-lg-10 col-form-label">
+                                                        <div class="m-separator m-separator--dashed m-separator--lg"></div>
+
+                                                        <div class="m-form__heading">
+                                                            <h3 class="m-form__heading-title">
+                                                                <i class="la la-briefcase"></i>
+                                                                @lang('global.Taxpayer')
+                                                            </h3>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="col-5 col-form-label">
+                                                                <a id="taxpayer"></a>
                                                                 @lang('global.Taxid')
                                                             </label>
-                                                            <div class="col-xl-10 col-lg-9">
-                                                                <input type="text" name="name" class="form-control m-input" placeholder="" v-model="taxid">
+                                                            <div class="col-6">
+                                                                <input v-if="id == 0" type="text" class="form-control m-input" v-model="taxid">
+                                                                <input v-else disabled="disabled" class="form-control m-input" v-model="taxid">
                                                             </div>
                                                         </div>
-                                                        <div class="row" v-else>
-                                                            @{{ taxid }}
-                                                        </div>
-                                                        <div class="row" v-if="show_column==1">
-                                                            <label class="col-xl-3 col-lg-3 col-form-label">
-                                                                @lang('global.Name')
-                                                            </label>
-                                                            <div class="col-xl-10 col-lg-9">
-                                                                <input type="email" name="email" class="form-control m-input" placeholder="" v-model="name">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row" v-else>
-                                                            @{{ name }}
-                                                        </div>
+
                                                         <div class="row">
-                                                            <label class="col-xl-10 col-lg-3 col-form-label">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.NameOf', ['model' => __('global.Taxpayer')])
+                                                            </label>
+                                                            <div class="col-6">
+                                                                <input v-if="id == 0" type="text" class="form-control m-input" v-model="name">
+                                                                <input v-else disabled="disabled" class="form-control m-input" v-model="name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="col-5 col-form-label">
                                                                 @lang('global.Alias')
                                                             </label>
-                                                            <div class="col-xl-10 col-lg-9">
+                                                            <div class="col-6">
                                                                 <input type="text" class="form-control m-input" v-model="alias">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    <div class="form-group m-form__group">
 
+                                                        <div class="m-form__heading">
+                                                            <h3 class="m-form__heading-title">
+                                                                <i class="la la-phone"></i>
+                                                                @lang('global.ContactData')
+                                                            </h3>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.Telephone')
+                                                            </label>
+                                                            <div class="col-6">
+                                                                <input type="text" class="form-control m-input" v-model="telephone">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.Email')
+                                                            </label>
+                                                            <div class="col-6">
+                                                                <input type="email" class="form-control m-input" v-model="email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.Address')
+                                                            </label>
+                                                            <div class="col-6">
+                                                                <textarea class="form-control m-input" v-model="address" rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-wizard__form-step m-wizard__form-step--current" v-if="page == 2">
+                                        <div class="row">
+                                            <div class="col-xl-11 offset-xl-1">
+                                                <div class="m-form__section m-form__section--first">
+                                                    <div class="m-form__heading">
+                                                        <h2>
+                                                            @lang('global.ProfileAndSettings')
+                                                        </h2>
+                                                    </div>
+                                                    <div class="form-group m-form__group">
+
+                                                        <h4 class="m--font-info">
+                                                            <i class="la la-user"></i>
+                                                            @lang('global.Profile')
+                                                        </h4>
+
+                                                        <div class="row">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.IsCompany')
+                                                            </label>
+                                                            <div class="col-6">
+                                                                <span class="m-switch m-switch--sm m-switch--icon">
+                                                                    <label>
+                                                                        <input type="checkbox" checked="checked" v-model="setting_is_company">
+                                                                        <span></span>
+                                                                    </label>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" v-if="setting_is_company">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.LegalRepresentative')
+                                                            </label>
+                                                            <div class="col-6">
+                                                                <input type="text" class="form-control m-input" v-model="setting_agent">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" v-if="setting_is_company">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.Taxid')
+                                                            </label>
+                                                            <div class="col-6">
+                                                                <input type="text" class="form-control m-input" v-model="setting_agenttaxid">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" v-if="setting_is_company">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.Regime')
+                                                            </label>
+                                                            <div class="col-6">
+                                                                <label class="m-radio m-radio--solid m-radio--warning">
+                                                                    <input type="radio" name="account_group" checked="" value="" v-model="setting_regime">
+                                                                    None
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-radio m-radio--solid m-radio--info">
+                                                                    <input type="radio" name="account_group" value="1" v-model="setting_regime">
+                                                                    Turismo
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-radio m-radio--solid m-radio--info">
+                                                                    <input type="radio" name="account_group" value="2" v-model="setting_regime">
+                                                                    Materia Prima
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-radio m-radio--solid m-radio--info">
+                                                                    <input type="radio" name="account_group" value="3" v-model="setting_regime">
+                                                                    Maquila
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-radio m-radio--solid m-radio--info">
+                                                                    <input type="radio" name="account_group" value="4" v-model="setting_regime">
+                                                                    Admision Temporania
+                                                                    <span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group m-form__group">
+
+                                                        <h4 class="m--font-info">
+                                                            <i class="la la-gear"></i>
+                                                            @lang('global.Settings')
+                                                        </h4>
+
+                                                        {{-- <div class="m-separator m-separator--dashed m-separator--lg"></div> --}}
+
+                                                        <div class="row">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('global.Modules')
+                                                            </label>
+                                                            <div class="m-checkbox-list col-6">
+                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_fixedasset">
+                                                                    <input type="checkbox">
+                                                                    @lang('commercial.FixedAssets')
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_inventory">
+                                                                    <input type="checkbox">
+                                                                    @lang('commercial.Inventory')
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_production">
+                                                                    <input type="checkbox">
+                                                                    @lang('commercial.Productions')
+                                                                    <span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        {{-- <div class="m-separator m-separator--dashed m-separator--lg"></div> --}}
+
+                                                        <div class="row">
+                                                            <label class="col-5 col-form-label">
+                                                                @lang('commercial.InternationalCommerce')
+                                                            </label>
+                                                            <div class="m-checkbox-list col-6">
+                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
+                                                                    <input type="checkbox">
+                                                                    @lang('commercial.Imports')
+                                                                    <span></span>
+                                                                </label>
+                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
+                                                                    <input type="checkbox">
+                                                                    @lang('commercial.Exports')
+                                                                    <span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-wizard__form-step m-wizard__form-step--current" v-if="page == 3">
+                                        <div class="row">
+                                            <div class="col-11 offset-xl-1">
                                                 <div class="form-group m-form__group row">
                                                     <div class="m-form__heading">
                                                         <h3 class="m-form__heading-title">
@@ -164,7 +351,7 @@
                                                                 <label class="m-option m-option--plain">
                                                                     <span class="m-option__control">
                                                                         <span class="m-radio m-radio--brand">
-                                                                            <input type="radio" name="m_option_1" value="1">
+                                                                            <input type="radio" name="m_option_1" value="1" v-model="type">
                                                                             <span></span>
                                                                         </span>
                                                                     </span>
@@ -187,14 +374,13 @@
                                                                             </ul>
                                                                         </span>
                                                                     </span>
-
                                                                 </label>
                                                             </div>
                                                             <div class="col-lg-4">
                                                                 <label class="m-option m-option--plain">
                                                                     <span class="m-option__control">
                                                                         <span class="m-radio m-radio--brand">
-                                                                            <input type="radio" name="m_option_1" value="1">
+                                                                            <input type="radio" name="m_option_1" value="2" v-model="type">
                                                                             <span></span>
                                                                         </span>
                                                                     </span>
@@ -208,12 +394,12 @@
                                                                             @lang('global.PersonalDesc')
                                                                             <hr>
                                                                             <ul>
-                                                                                <li class="m--font-info">@lang('global.ViewData', ['module' => __('global.Commercial')])</li>
-                                                                                <li class="m--font-info">@lang('global.ManageData', ['module' => __('global.Commercial')])</li>
-                                                                                <li class="m--font-info">@lang('global.ViewData', ['module' => __('accounting.Accounting')])</li>
-                                                                                <li class="m--font-danger">@lang('global.ManageData', ['module' => __('accounting.Accounting')])</li>
-                                                                                <li class="m--font-info">@lang('global.Post', ['module' => __('global.Comment')])</li>
-                                                                                <li class="m--font-danger">@lang('global.AuditorPlatform') <small>[@lang('SpecialReport_KPI')]</small></li>
+                                                                                <li class="m--font-info"> @lang('global.ViewData', ['module' => __('global.Commercial')]) </li>
+                                                                                <li class="m--font-info"> @lang('global.ManageData', ['module' => __('global.Commercial')]) </li>
+                                                                                <li class="m--font-info"> @lang('global.ViewData', ['module' => __('accounting.Accounting')]) </li>
+                                                                                <li class="m--font-danger"> @lang('global.ManageData', ['module' => __('accounting.Accounting')]) </li>
+                                                                                <li class="m--font-info"> @lang('global.Post', ['module' => __('global.Comment')]) </li>
+                                                                                <li class="m--font-danger"> @lang('global.AuditorPlatform') <small>[@lang('SpecialReport_KPI')] </small></li>
                                                                             </ul>
                                                                         </span>
                                                                     </span>
@@ -224,7 +410,7 @@
                                                                 <label class="m-option m-option--plain">
                                                                     <span class="m-option__control">
                                                                         <span class="m-radio m-radio--brand">
-                                                                            <input type="radio" name="m_option_1" value="1">
+                                                                            <input type="radio" name="m_option_1" value="3" v-model="type">
                                                                             <span></span>
                                                                         </span>
                                                                     </span>
@@ -250,717 +436,6 @@
 
                                                                 </label>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                                <div class="m-form__section">
-                                                    <div class="m-form__heading">
-                                                        <h3 class="m-form__heading-title">
-                                                            @lang('global.ContactInformation')
-                                                            <i data-toggle="m-tooltip" data-width="auto" class="m-form__heading-help-icon flaticon-info" title="" data-original-title="Some help text goes here"></i>
-                                                        </h3>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">
-                                                            @lang('global.Email')
-                                                        </label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" class="form-control m-input" placeholder="" v-model="telephone">
-                                                            <span class="m-form__help">
-
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">
-                                                            @lang('global.Telephone')
-                                                        </label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" class="form-control m-input" placeholder="" v-model="email">
-                                                            <span class="m-form__help">
-
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">
-                                                            @lang('global.Address')
-                                                        </label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <textarea class="form-control m-input" rows="3" v-model="address"></textarea>
-                                                            <span class="m-form__help">
-                                                                Address, City, and State if applicable
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">
-                                                            @lang('global.Country')
-                                                        </label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <select class="form-control">
-                                                                {{-- {{ $countries->all()->pluck('name.common') }} --}}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-wizard__form-step" id="m_wizard_form_step_2">
-                                        <div class="row">
-                                            <div class="col-xl-8 offset-xl-2">
-                                                <div class="m-form__section m-form__section--first">
-                                                    <div class="m-form__heading">
-                                                        <h3 class="m-form__heading-title">
-                                                            Account Details
-                                                        </h3>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-12">
-                                                            <label class="form-control-label">
-                                                                * URL:
-                                                            </label>
-                                                            <input type="url" name="account_url" class="form-control m-input" placeholder="" value="http://sinortech.vertoffice.com">
-                                                            <span class="m-form__help">
-                                                                Please enter your preferred URL  to your dashboard
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-6 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * Username:
-                                                            </label>
-                                                            <input type="text" name="account_username" class="form-control m-input" placeholder="" value="nick.stone">
-                                                            <span class="m-form__help">
-                                                                Your username to login to your dashboard
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-lg-6 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * Password:
-                                                            </label>
-                                                            <input type="password" name="account_password" class="form-control m-input" placeholder="" value="qwerty">
-                                                            <span class="m-form__help">
-                                                                Please use letters and at least one number and symbol
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                                <div class="m-form__section">
-                                                    <div class="m-form__heading">
-                                                        <h3 class="m-form__heading-title">
-                                                            Client Settings
-                                                        </h3>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-6 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * User Group:
-                                                            </label>
-                                                            <div class="m-radio-inline">
-                                                                <label class="m-radio m-radio--solid m-radio--brand">
-                                                                    <input type="radio" name="account_group" checked="" value="2">
-                                                                    Sales Person
-                                                                    <span></span>
-                                                                </label>
-                                                                <label class="m-radio m-radio--solid m-radio--brand">
-                                                                    <input type="radio" name="account_group" value="2">
-                                                                    Customer
-                                                                    <span></span>
-                                                                </label>
-                                                            </div>
-                                                            <span class="m-form__help">
-                                                                Please select user group
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-lg-6 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * Communications:
-                                                            </label>
-                                                            <div class="m-checkbox-inline">
-                                                                <label class="m-checkbox m-checkbox--solid m-checkbox--brand">
-                                                                    <input type="checkbox" name="account_communication[]" checked="" value="email">
-                                                                    Email
-                                                                    <span></span>
-                                                                </label>
-                                                                <label class="m-checkbox m-checkbox--solid  m-checkbox--brand">
-                                                                    <input type="checkbox" name="account_communication[]" value="sms">
-                                                                    SMS
-                                                                    <span></span>
-                                                                </label>
-                                                                <label class="m-checkbox m-checkbox--solid  m-checkbox--brand">
-                                                                    <input type="checkbox" name="account_communication[]" value="phone">
-                                                                    Phone
-                                                                    <span></span>
-                                                                </label>
-                                                            </div>
-                                                            <span class="m-form__help">
-                                                                Please select user communication options
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-wizard__form-step" id="m_wizard_form_step_3">
-                                        {{-- <div class="row">
-                                            <div class="col-xl-8 offset-xl-2">
-                                                <div class="m-form__section m-form__section--first">
-                                                    <div class="m-form__heading">
-                                                        <h3 class="m-form__heading-title">
-                                                            Billing Information
-                                                        </h3>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-12">
-                                                            <label class="form-control-label">
-                                                                * Cardholder Name:
-                                                            </label>
-                                                            <input type="text" name="billing_card_name" class="form-control m-input" placeholder="" value="Nick Stone">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-12">
-                                                            <label class="form-control-label">
-                                                                * Card Number:
-                                                            </label>
-                                                            <input type="text" name="billing_card_number" class="form-control m-input" placeholder="" value="372955886840581">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-4 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * Exp Month:
-                                                            </label>
-                                                            <select class="form-control m-input" name="billing_card_exp_month">
-                                                                <option value="">
-                                                                    Select
-                                                                </option>
-                                                                <option value="01">
-                                                                    01
-                                                                </option>
-                                                                <option value="02">
-                                                                    02
-                                                                </option>
-                                                                <option value="03">
-                                                                    03
-                                                                </option>
-                                                                <option value="04" selected="">
-                                                                    04
-                                                                </option>
-                                                                <option value="05">
-                                                                    05
-                                                                </option>
-                                                                <option value="06">
-                                                                    06
-                                                                </option>
-                                                                <option value="07">
-                                                                    07
-                                                                </option>
-                                                                <option value="08">
-                                                                    08
-                                                                </option>
-                                                                <option value="09">
-                                                                    09
-                                                                </option>
-                                                                <option value="10">
-                                                                    10
-                                                                </option>
-                                                                <option value="11">
-                                                                    11
-                                                                </option>
-                                                                <option value="12">
-                                                                    12
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-lg-4 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * Exp Year:
-                                                            </label>
-                                                            <select class="form-control m-input" name="billing_card_exp_year">
-                                                                <option value="">
-                                                                    Select
-                                                                </option>
-                                                                <option value="2018">
-                                                                    2018
-                                                                </option>
-                                                                <option value="2019">
-                                                                    2019
-                                                                </option>
-                                                                <option value="2020">
-                                                                    2020
-                                                                </option>
-                                                                <option value="2021" selected="">
-                                                                    2021
-                                                                </option>
-                                                                <option value="2022">
-                                                                    2022
-                                                                </option>
-                                                                <option value="2023">
-                                                                    2023
-                                                                </option>
-                                                                <option value="2024">
-                                                                    2024
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-lg-4 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * CVV:
-                                                            </label>
-                                                            <input type="number" class="form-control m-input" name="billing_card_cvv" placeholder="" value="450">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                                <div class="m-form__section">
-                                                    <div class="m-form__heading">
-                                                        <h3 class="m-form__heading-title">
-                                                            Billing Address
-                                                            <i data-toggle="m-tooltip" data-width="auto" class="m-form__heading-help-icon flaticon-info" title="" data-original-title="If different than the corresponding address"></i>
-                                                        </h3>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-12">
-                                                            <label class="form-control-label">
-                                                                * Address 1:
-                                                            </label>
-                                                            <input type="text" name="billing_address_1" class="form-control m-input" placeholder="" value="Headquarters 1120 N Street Sacramento 916-654-5266">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-12">
-                                                            <label class="form-control-label">
-                                                                Address 2:
-                                                            </label>
-                                                            <input type="text" name="billing_address_2" class="form-control m-input" placeholder="" value="P.O. Box 942873 Sacramento, CA 94273-0001">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-lg-5 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * City:
-                                                            </label>
-                                                            <input type="text" class="form-control m-input" name="billing_city" placeholder="" value="Polo Alto">
-                                                        </div>
-                                                        <div class="col-lg-5 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * State:
-                                                            </label>
-                                                            <input type="text" class="form-control m-input" name="billing_state" placeholder="" value="California">
-                                                        </div>
-                                                        <div class="col-lg-2 m-form__group-sub">
-                                                            <label class="form-control-label">
-                                                                * ZIP:
-                                                            </label>
-                                                            <input type="text" class="form-control m-input" name="billing_zip" placeholder="" value="34890">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                                <div class="m-form__section">
-                                                    <div class="m-form__heading">
-                                                        <h3 class="m-form__heading-title">
-                                                            Delivery Type
-                                                        </h3>
-                                                    </div>
-                                                    <div class="form-group m-form__group">
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <label class="m-option">
-                                                                    <span class="m-option__control">
-                                                                        <span class="m-radio m-radio--state-brand">
-                                                                            <input type="radio" name="billing_delivery" value="">
-                                                                            <span></span>
-                                                                        </span>
-                                                                    </span>
-                                                                    <span class="m-option__label">
-                                                                        <span class="m-option__head">
-                                                                            <span class="m-option__title">
-                                                                                Standart Delevery
-                                                                            </span>
-                                                                            <span class="m-option__focus">
-                                                                                Free
-                                                                            </span>
-                                                                        </span>
-                                                                        <span class="m-option__body">
-                                                                            Estimated 14-20 Day Shipping
-                                                                            (&nbsp;Duties end taxes may be due
-                                                                            upon delivery&nbsp;)
-                                                                        </span>
-                                                                    </span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <label class="m-option">
-                                                                    <span class="m-option__control">
-                                                                        <span class="m-radio m-radio--state-brand">
-                                                                            <input type="radio" name="billing_delivery" value="">
-                                                                            <span></span>
-                                                                        </span>
-                                                                    </span>
-                                                                    <span class="m-option__label">
-                                                                        <span class="m-option__head">
-                                                                            <span class="m-option__title">
-                                                                                Fast Delevery
-                                                                            </span>
-                                                                            <span class="m-option__focus">
-                                                                                $&nbsp;8.00
-                                                                            </span>
-                                                                        </span>
-                                                                        <span class="m-option__body">
-                                                                            Estimated 2-5 Day Shipping
-                                                                            (&nbsp;Duties end taxes may be due
-                                                                            upon delivery&nbsp;)
-                                                                        </span>
-                                                                    </span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="m-form__help">
-                                                            <!--must use this helper element to display error message for the options-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>ddd --}}
-                                    </div>
-                                    <div class="m-wizard__form-step" id="m_wizard_form_step_4">
-                                        <div class="row">
-                                            <div class="col-xl-8 offset-xl-2">
-                                                <!--begin::Section-->
-                                                <div class="m-accordion m-accordion--default" id="m_accordion_1" role="tablist">
-                                                    <!--begin::Item-->
-                                                    <div class="m-accordion__item active">
-                                                        <div class="m-accordion__item-head" role="tab" id="m_accordion_1_item_1_head" data-toggle="collapse" href="#m_accordion_1_item_1_body" aria-expanded="  false">
-                                                            <span class="m-accordion__item-icon">
-                                                                <i class="fa flaticon-user-ok"></i>
-                                                            </span>
-                                                            <span class="m-accordion__item-title">
-                                                                1. Client Information
-                                                            </span>
-                                                            <span class="m-accordion__item-mode"></span>
-                                                        </div>
-                                                        <div class="m-accordion__item-body collapse show" id="m_accordion_1_item_1_body" role="tabpanel" aria-labelledby="m_accordion_1_item_1_head" data-parent="#m_accordion_1">
-                                                            <!--begin::Content-->
-                                                            <div class="tab-content  m--padding-30">
-                                                                <div class="m-form__section m-form__section--first">
-                                                                    <div class="m-form__heading">
-                                                                        <h4 class="m-form__heading-title">
-                                                                            Account Details
-                                                                        </h4>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            URL:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                sinortech.vertoffice.com
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Username:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                sinortech.admin
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Password:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                *********
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                                                <div class="m-form__section">
-                                                                    <div class="m-form__heading">
-                                                                        <h4 class="m-form__heading-title">
-                                                                            Client Settings
-                                                                        </h4>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            User Group:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                Customer
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Communications:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                Phone, Email
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--end::Content-->
-                                                        </div>
-                                                    </div>
-                                                    <!--end::Item-->
-                                                    <!--begin::Item-->
-                                                    <div class="m-accordion__item">
-                                                        <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_1_item_2_head" data-toggle="collapse" href="#m_accordion_1_item_2_body" aria-expanded="    false">
-                                                            <span class="m-accordion__item-icon">
-                                                                <i class="fa  flaticon-placeholder"></i>
-                                                            </span>
-                                                            <span class="m-accordion__item-title">
-                                                                2. Account Setup
-                                                            </span>
-                                                            <span class="m-accordion__item-mode"></span>
-                                                        </div>
-                                                        <div class="m-accordion__item-body collapse" id="m_accordion_1_item_2_body" role="tabpanel" aria-labelledby="m_accordion_1_item_2_head" data-parent="#m_accordion_1">
-                                                            <!--begin::Content-->
-                                                            <div class="tab-content  m--padding-30">
-                                                                <div class="m-form__section m-form__section--first">
-                                                                    <div class="m-form__heading">
-                                                                        <h4 class="m-form__heading-title">
-                                                                            Account Details
-                                                                        </h4>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            URL:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                sinortech.vertoffice.com
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Username:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                sinortech.admin
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Password:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                *********
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                                                <div class="m-form__section">
-                                                                    <div class="m-form__heading">
-                                                                        <h4 class="m-form__heading-title">
-                                                                            Client Settings
-                                                                        </h4>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            User Group:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                Customer
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Communications:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                Phone, Email
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--end::Content-->
-                                                        </div>
-                                                    </div>
-                                                    <!--end::Item-->
-                                                    <!--begin::Item-->
-                                                    <div class="m-accordion__item">
-                                                        <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_1_item_3_head" data-toggle="collapse" href="#m_accordion_1_item_3_body" aria-expanded="    false">
-                                                            <span class="m-accordion__item-icon">
-                                                                <i class="fa  flaticon-alert-2"></i>
-                                                            </span>
-                                                            <span class="m-accordion__item-title">
-                                                                3. Billing Setup
-                                                            </span>
-                                                            <span class="m-accordion__item-mode"></span>
-                                                        </div>
-                                                        <div class="m-accordion__item-body collapse" id="m_accordion_1_item_3_body" role="tabpanel" aria-labelledby="m_accordion_1_item_3_head" data-parent="#m_accordion_1">
-                                                            <div class="tab-content  m--padding-30">
-                                                                <div class="m-form__section m-form__section--first">
-                                                                    <div class="m-form__heading">
-                                                                        <h4 class="m-form__heading-title">
-                                                                            Billing Information
-                                                                        </h4>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Cardholder Name:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                Nick Stone
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Card Number:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                *************4589
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Exp Month:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                10
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Exp Year:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                2018
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            CVV:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                ***
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                                                <div class="m-form__section">
-                                                                    <div class="m-form__heading">
-                                                                        <h4 class="m-form__heading-title">
-                                                                            Billing Address
-                                                                        </h4>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Address Line 1:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                Headquarters 1120 N Street Sacramento 916-654-5266
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Address Line 2:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                P.O. Box 942873 Sacramento, CA 94273-0001
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            City:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                Polo Alto
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            State:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                California
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            ZIP:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                37505
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group m-form__group--sm row">
-                                                                        <label class="col-xl-4 col-lg-4 col-form-label">
-                                                                            Country:
-                                                                        </label>
-                                                                        <div class="col-xl-8 col-lg-8">
-                                                                            <span class="m-form__control-static">
-                                                                                USA
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--end::Item-->
-                                                </div>
-                                                <!--end::Section-->
-                                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                                <div class="form-group m-form__group m-form__group--sm row">
-                                                    <div class="col-xl-12">
-                                                        <div class="m-checkbox-inline">
-                                                            <label class="m-checkbox m-checkbox--solid m-checkbox--brand">
-                                                                <input type="checkbox" name="accept" value="1">
-                                                                Click here to indicate that you have read and agree to the terms presented in the Terms and Conditions agreement
-                                                                <span></span>
-                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -994,7 +469,7 @@
                                                         </span>
                                                     </span>
                                                 </a>
-                                                <a v-on:click="onSave($data,false)" class="btn btn-warning m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
+                                                <a v-on:click="nextPage(data)" class="btn btn-warning m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
                                                     <span>
                                                         <span>
                                                             Save &amp; Continue
@@ -1075,200 +550,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        {{--
-
-        <form class="m-form m-form--fit m-form--label-align-right">
-        <div class="m-portlet m-portlet--tabs">
-        <div class="m-portlet__head">
-        <div class="m-portlet__head-caption">
-        <div class="m-portlet__head-title">
-        <h3 class="m-portlet__head-text">
-        <b>1. </b> @lang('global.Create', ['model' => __('global.Taxpayer')]) <small></small>
-    </h3>
-</div>
-</div>
-</div>
-
-<div class="m-portlet__body row">
-<div class="form-group m-form__group col-8">
-<label>
-@lang('global.Taxid')
-</label>
-<div class="input-group m-input-group">
-<input type="number" class="form-control m-input" v-model="taxid">
-</div>
-</div>
-
-<div class="form-group m-form__group col-8">
-<label for="lblTaxpayer">
-@lang('global.Taxpayer')
-</label>
-<input type="text" class="form-control form-control-lg m-input" v-model="taxpayer">
-</div>
-
-<div class="form-group m-form__group col-8">
-<label for="lblAlias">
-@lang('global.Alias')
-</label>
-<input type="text" class="form-control form-control-lg m-input" v-model="alias">
-</div>
-
-<div class="form-group m-form__group col-8">
-<label>
-@lang('global.Address')
-</label>
-<textarea class="form-control m-input" id="exampleTextarea" rows="3" v-model="address"></textarea>
-</div>
-
-<div class="form-group m-form__group col-8">
-<label>
-@lang('global.Telephone')
-</label>
-<input type="text" class="form-control form-control-lg m-input" v-model="telephone">
-</div>
-
-<div class="form-group m-form__group col-8">
-<label>
-@lang('global.Email')
-</label>
-<input type="email" class="form-control form-control-lg m-input" v-model="email">
-</div>
-</div>
-
-</div>
-
-<div class="m-portlet m-portlet--tabs">
-<div class="m-portlet__head">
-<div class="m-portlet__head-caption">
-<div class="m-portlet__head-title">
-<h3 class="m-portlet__head-text">
-<b>2. </b> @lang('global.ProfileAndSettings') <small></small>
-</h3>
-</div>
-</div>
-</div>
-<div class="m-portlet__body">
-<div>
-<div class="form-group m-form__group row">
-<label class="col-lg-2 col-form-label">
-Account Type
-</label>
-<div class="col-lg-10">
-<div class="row">
-<div class="col-lg-4">
-<label class="m-option m-option--plain">
-<span class="m-option__control">
-<span class="m-radio m-radio--brand">
-<input type="radio" name="m_option_1" value="1">
-<span></span>
-</span>
-</span>
-<span class="m-option__label">
-<span class="m-option__head">
-<span class="m-option__title">
-@lang('global.Accountant')
-</span>
-</span>
-<span class="m-option__body">
-@lang('global.AccountantDesc')
-<hr>
-<ul>
-<li class="m--font-info">@lang('global.ViewData', ['module' => __('global.Commercial')])</li>
-<li class="m--font-info">@lang('global.ManageData', ['module' => __('global.Commercial')])</li>
-<li class="m--font-info">@lang('global.ViewData', ['module' => __('accounting.Accounting')])</li>
-<li class="m--font-info">@lang('global.ManageData', ['module' => __('accounting.Accounting')])</li>
-<li class="m--font-info">@lang('global.Post', ['module' => __('global.Comment')])</li>
-<li class="m--font-danger">@lang('global.AuditorPlatform') <small>[@lang('SpecialReport_KPI')]</small></li>
-</ul>
-</span>
-</span>
-
-</label>
-</div>
-<div class="col-lg-4">
-<label class="m-option m-option--plain">
-<span class="m-option__control">
-<span class="m-radio m-radio--brand">
-<input type="radio" name="m_option_1" value="1">
-<span></span>
-</span>
-</span>
-<span class="m-option__label">
-<span class="m-option__head">
-<span class="m-option__title">
-@lang('global.Personal')
-</span>
-</span>
-<span class="m-option__body">
-@lang('global.PersonalDesc')
-<hr>
-<ul>
-<li class="m--font-info">@lang('global.ViewData', ['module' => __('global.Commercial')])</li>
-<li class="m--font-info">@lang('global.ManageData', ['module' => __('global.Commercial')])</li>
-<li class="m--font-info">@lang('global.ViewData', ['module' => __('accounting.Accounting')])</li>
-<li class="m--font-danger">@lang('global.ManageData', ['module' => __('accounting.Accounting')])</li>
-<li class="m--font-info">@lang('global.Post', ['module' => __('global.Comment')])</li>
-<li class="m--font-danger">@lang('global.AuditorPlatform') <small>[@lang('SpecialReport_KPI')]</small></li>
-</ul>
-</span>
-</span>
-
-</label>
-</div>
-<div class="col-lg-4">
-<label class="m-option m-option--plain">
-<span class="m-option__control">
-<span class="m-radio m-radio--brand">
-<input type="radio" name="m_option_1" value="1">
-<span></span>
-</span>
-</span>
-<span class="m-option__label">
-<span class="m-option__head">
-<span class="m-option__title">
-@lang('global.Auditor')
-</span>
-</span>
-<span class="m-option__body">
-@lang('global.AuditorDesc')
-<hr>
-<ul>
-<li class="m--font-info">@lang('global.ViewData', ['module' => __('global.Commercial')])</li>
-<li class="m--font-danger">@lang('global.ManageData', ['module' => __('global.Commercial')])</li>
-<li class="m--font-info">@lang('global.ViewData', ['module' => __('accounting.Accounting')])</li>
-<li class="m--font-danger">@lang('global.ManageData', ['module' => __('accounting.Accounting')])</li>
-<li class="m--font-info">@lang('global.Post', ['module' => __('global.Comment')])</li>
-<li class="m--font-info">@lang('global.AuditorPlatform') <small>[@lang('SpecialReport_KPI')]</small></li>
-</ul>
-</span>
-</span>
-
-</label>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</form> --}}
-</taxpayer>
+    </taxpayer>
 
 @endsection
