@@ -378,27 +378,27 @@
                                                             </label>
                                                             <div class="m-checkbox-list col-7">
                                                                 <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_fixedasset">
-                                                                    <input type="checkbox">
+                                                                    <input type="checkbox" v-model="setting_fixedasset">
                                                                     @lang('commercial.FixedAssets')
                                                                     <span></span>
                                                                 </label>
                                                                 <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_inventory">
-                                                                    <input type="checkbox">
+                                                                    <input type="checkbox" v-model="setting_inventory">
                                                                     @lang('commercial.Inventory')
                                                                     <span></span>
                                                                 </label>
                                                                 <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled" v-model="setting_inventory">
-                                                                    <input disabled type="checkbox">
+                                                                    <input disabled type="checkbox" v-model="setting_inventory">
                                                                     @lang('commercial.Inventory')
                                                                     <span></span>
                                                                 </label>
                                                                 <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_production">
-                                                                    <input type="checkbox">
+                                                                    <input type="checkbox" v-model="setting_production">
                                                                     @lang('commercial.Productions')
                                                                     <span></span>
                                                                 </label>
                                                                 <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled" v-model="setting_production">
-                                                                    <input disabled type="checkbox">
+                                                                    <input disabled type="checkbox" v-model="setting_production">
                                                                     @lang('commercial.Productions')
                                                                     <span></span>
                                                                 </label>
@@ -413,22 +413,22 @@
                                                             </label>
                                                             <div class="m-checkbox-list col-7">
                                                                 <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
-                                                                    <input type="checkbox">
+                                                                    <input type="checkbox" v-model="setting_import">
                                                                     @lang('commercial.Imports')
                                                                     <span></span>
                                                                 </label>
                                                                 <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand m-checkbox--disabled" v-model="setting_production">
-                                                                    <input disabled type="checkbox">
+                                                                    <input disabled type="checkbox" v-model="setting_import">
                                                                     @lang('commercial.Imports')
                                                                     <span></span>
                                                                 </label>
                                                                 <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
-                                                                    <input type="checkbox">
+                                                                    <input type="checkbox" v-model="setting_export">
                                                                     @lang('commercial.Exports')
                                                                     <span></span>
                                                                 </label>
                                                                 <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand m-checkbox--disabled" v-model="setting_production">
-                                                                    <input disabled type="checkbox">
+                                                                    <input disabled type="checkbox" v-model="setting_export">
                                                                     @lang('commercial.Exports')
                                                                     <span></span>
                                                                 </label>
@@ -704,7 +704,7 @@
                             </div>
 
                             <span v-if="owner_name != ''">
-                                <i class="la la-warning m--font-warning"></i> 
+                                <i class="la la-warning m--font-warning"></i>
                                 <p>
                                     It seems like another team has linked this taxpayer first. To access the accounting for this taxpayer, you will need to wait for authorization.
                                 </p>

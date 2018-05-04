@@ -146,13 +146,28 @@ class TaxpayerController extends Controller
         $taxPayer_Integration->type = $request->type ?? 1; //Default to 1 if nothing is selected
         $taxPayer_Integration->save();
 
+        //Only create settings if they don't already exists. Make sure not to over write another users information.
         $taxPayer_Setting = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() ?? new TaxpayerSetting();
-        $taxPayer_Setting->taxpayer_id = $taxPayer->id;
-        $taxPayer_Setting->show_inventory = $request->setting_inventory = true ? 1 : 0;
-        $taxPayer_Setting->show_production = $request->setting_production = true ? 1 : 0;
-        $taxPayer_Setting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
-        $taxPayer_Setting->is_company = $request->setting_is_company;
-        $taxPayer_Setting->save();
+
+        if ($taxPayer_Setting->taxpayer_id == 0)
+        {
+            $taxPayer_Setting->taxpayer_id = $taxPayer->id;
+
+            $taxPayer_Setting->agent_name = $request->setting_agent = true ? 1 : 0;
+            $taxPayer_Setting->agent_taxid = $request->setting_agenttaxid = true ? 1 : 0;
+
+            $taxPayer_Setting->show_inventory = $request->setting_inventory = true ? 1 : 0;
+            $taxPayer_Setting->show_production = $request->setting_production = true ? 1 : 0;
+            $taxPayer_Setting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
+
+            $taxPayer_Setting->does_export = $request->setting_export = true ? 1 : 0;
+            $taxPayer_Setting->does_import = $request->setting_import = true ? 1 : 0;
+
+            $taxPayer_Setting->is_company = $request->setting_is_company;
+            $taxPayer_Setting->save();
+        }
+
+        //Send an email to user or team members.
 
         //TODO Check if Default Version is available for Country.
         return response()->json('ok', 200);
