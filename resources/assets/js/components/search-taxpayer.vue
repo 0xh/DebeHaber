@@ -90,8 +90,10 @@ export default {
                     async: false,
                     success: function(data)
                     {
-                        if (data.id == app.current_user)
+
+                        if (data!=null)
                         {
+                        
                             app.$parent.no_owner = 1;
                             app.$parent.owner_img = data.team.photo_url;
                             app.$parent.owner_name = data.team.name;

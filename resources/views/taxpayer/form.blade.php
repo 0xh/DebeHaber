@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="owner_name == ''">
+                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="no_owner === 1">
                                         <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -115,7 +115,7 @@
                                                                     </a>
                                                                 </div>
 
-                                                                <router-view name="SearchBoxTaxPayer" :country="PRY">
+                                                                <router-view name="SearchBoxTaxPayer" country="PRY">
                                                                 </router-view>
 
                                                             </div>
