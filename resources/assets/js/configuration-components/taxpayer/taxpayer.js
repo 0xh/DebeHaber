@@ -10,8 +10,7 @@ Vue.component('taxpayer',{
             show_settings: false,
             create_taxpayer: '',
             page: '1',
-            pageProg: '25%',
-
+            pageProg: '',
             id: 0,
             name: '',
             alias: '',

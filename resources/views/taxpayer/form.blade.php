@@ -29,10 +29,6 @@
                     </div>
 
                     <div class="m-wizard m-wizard--2 m-wizard--success m-wizard--step-first" id="m_wizard">
-                        <div class="m-portlet__padding-x">
-                            <!-- Here you can put a message or alert -->
-                        </div>
-
                         <div class="m-wizard__head m-portlet__padding-x">
                             <!--begin: Form Wizard Progress -->
                             <div class="m-wizard__progress">
@@ -42,7 +38,22 @@
                             </div>
                             <div class="m-wizard__nav">
                                 <div class="m-wizard__steps">
-                                    <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_1">
+                                    <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_1" v-if="page == 1">
+                                        <a @click="page = 1" href="#" class="m-wizard__step-number">
+                                            <span>
+                                                <i class="la la-briefcase"></i>
+                                            </span>
+                                        </a>
+                                        <div class="m-wizard__step-info">
+                                            <div class="m-wizard__step-title">
+                                                @lang('global.Taxpayer')
+                                            </div>
+                                            <div class="m-wizard__step-desc">
+                                                All Taxpayer related information
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-wizard__step m-wizard__step--done" data-wizard-target="#m_wizard_form_step_1" v-else>
                                         <a @click="page = 1" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-briefcase"></i>
@@ -58,7 +69,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="owner_name != ''">
+                                    <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_2" v-if="owner_name == '' && page == 2">
                                         <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -73,7 +84,53 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_3">
+                                    <div class="m-wizard__step m-wizard__step--done" data-wizard-target="#m_wizard_form_step_2" v-else-if="owner_name == '' && page > 2">
+                                        <a @click="page = 2" href="#" class="m-wizard__step-number">
+                                            <span>
+                                                <i class="la la-gear"></i>
+                                            </span>
+                                        </a>
+                                        <div class="m-wizard__step-info">
+                                            <div class="m-wizard__step-title">
+                                                @lang('global.Settings')
+                                            </div>
+                                            <div class="m-wizard__step-desc">
+                                                All accounting information
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-else>
+                                        <a @click="page = 2" href="#" class="m-wizard__step-number">
+                                            <span>
+                                                <i class="la la-gear"></i>
+                                            </span>
+                                        </a>
+                                        <div class="m-wizard__step-info">
+                                            <div class="m-wizard__step-title">
+                                                @lang('global.Settings')
+                                            </div>
+                                            <div class="m-wizard__step-desc">
+                                                All accounting information
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_3" v-if="page == 3">
+                                        <a @click="page = 3" href="#" class="m-wizard__step-number">
+                                            <span>
+                                                <i class="la la-check"></i>
+                                            </span>
+                                        </a>
+                                        <div class="m-wizard__step-info">
+                                            <div class="m-wizard__step-title">
+                                                @lang('global.Confirmation')
+                                            </div>
+                                            <div class="m-wizard__step-desc">
+                                                Check data and save.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_3" v-else>
                                         <a @click="page = 3" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-check"></i>
@@ -90,9 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--end: Form Wizard Nav -->
                         </div>
-
                         <div class="m-wizard__form">
                             <form class="m-form m-form--label-align-left- m-form--state-" id="m_form" novalidate="novalidate">
                                 <div class="m-portlet__body">
@@ -660,7 +715,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</taxpayer>
+    </taxpayer>
 
 @endsection
