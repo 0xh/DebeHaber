@@ -31,7 +31,8 @@ class CycleController extends Controller
 
         $versions = ChartVersion::My($taxPayer)->get();
 
-        $charts = Chart::select(DB::raw('0 as id'),'id as chart_id',
+        $charts = Chart::select(DB::raw('0 as id'),
+        'id as chart_id',
         'code',
         'name',
         'type',

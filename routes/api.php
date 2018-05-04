@@ -46,8 +46,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::get('get_cycle', 'CycleController@get_cycle');
         Route::get('get_chartversion', 'ChartVersionController@get_chartversion');
         Route::get('get_currency', 'CurrencyController@get_currency');
-        Route::get('get_buyRateByCurrency/{currencyID}/{date?}', 'CurrencyRateController@get_buyRateByCurrency');
-        Route::get('get_sellRateByCurrency/{currencyID}/{date?}', 'CurrencyRateController@get_sellRateByCurrency');
+        Route::get('get_rates/{currencyID}/{date?}', 'CurrencyRateController@get_ratesByCurrency');
 
         Route::get('get_documents/{type}', 'DocumentController@get_document');
         Route::get('get_allDocuments', 'DocumentController@get_Alldocument');

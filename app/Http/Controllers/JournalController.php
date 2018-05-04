@@ -126,18 +126,19 @@ class JournalController extends Controller
         return response()->json('ok',200);
     }
 
-    public function getJournalsByCycleID(Request $request,Taxpayer $taxPayer, Cycle $cycle,$id)
+    public function getJournalsByCycleID(Request $request, Taxpayer $taxPayer, Cycle $cycle, $id)
     {
-        $journals=Journal::where('is_first', 1)->where('cycle_id',$cycle->id)
+        $journals = Journal::where('is_first', 1)->where('cycle_id',$cycle->id)
         ->join('journal_details', 'journals.id', 'journal_details.journal_id')
         ->join('charts', 'journal_details.chart_id','charts.id')
-        ->select(DB::raw('journal_details.id as id'),
-        DB::raw('journal_details.chart_id'),
-        DB::raw('charts.is_accountable'),
-        DB::raw('charts.code'),
-        DB::raw('charts.name'),
-        DB::raw('debit'),
-        DB::raw('credit'))->get();
+        ->select('journal_details.id as id',
+        'journal_details.chart_id',
+        'charts.is_accountable',
+        'charts.code',
+        'charts.name',
+        'debit',
+        'credit')
+        ->get();
 
         return response()->json($journals);
     }
