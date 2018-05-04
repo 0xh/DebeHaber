@@ -87,15 +87,17 @@ class TaxpayerController extends Controller
         {
             $taxPayer= new Taxpayer();
             $taxPayer->name = $request->name;
-            $taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0 ;
-            $taxPayer->code = $request->code;
+            $taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0;
+            $taxPayer->code = $taxPayer->code ?? $request->code;
+
+            $taxPayer->country = Auth::user()->country;
         }
 
         //Update basic information
-        $taxPayer->alias = $request->alias;
-        $taxPayer->address = $request->address;
-        $taxPayer->telephone = $request->telephone;
-        $taxPayer->email = $request->email;
+        $taxPayer->alias = $taxPayer->alias ?? $request->alias;
+        $taxPayer->address = $taxPayer->address ?? $request->address;
+        $taxPayer->telephone = $taxPayer->telephone ?? $request->telephone;
+        $taxPayer->email = $taxPayer->email ?? $request->email;
         $taxPayer->save();
 
         $chartVersion = ChartVersion::where('country', $taxPayer->country)
@@ -130,7 +132,10 @@ class TaxpayerController extends Controller
         $cycle->taxpayer_id = $taxPayer->id;
         $cycle->save();
 
-        $bool_IntegrationExists = TaxpayerIntegration::where('team_id', Auth::user()->current_team_id)->exists();
+        //Search for owner of the integration with this taxpayer.
+        $bool_IntegrationExists = TaxpayerIntegration::where('taxpayer_id', $taxPayer->id)
+        ->where('is_owner', 1)
+        ->exists();
 
         //Even though integration exists, you need to create a new integration that is specific for this team.
         $taxPayer_Integration = new TaxpayerIntegration();
@@ -141,13 +146,12 @@ class TaxpayerController extends Controller
         $taxPayer_Integration->type = $request->type ?? 1; //Default to 1 if nothing is selected
         $taxPayer_Integration->save();
 
-        $taxPayer_Setting = $bool_IntegrationExists ? TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() : new TaxpayerSetting();
-
+        $taxPayer_Setting = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() ?? new TaxpayerSetting();
         $taxPayer_Setting->taxpayer_id = $taxPayer->id;
-        // $taxPayer_Setting->show_inventory = $request->show_inventory = true ? 1 : 0;
-        // $taxPayer_Setting->show_production = $request->show_production = true ? 1 : 0;
-        // $taxPayer_Setting->show_fixedasset = $request->show_fixedasset = true ? 1 : 0;
-        //$taxPayer_Setting->is_company = 1;
+        $taxPayer_Setting->show_inventory = $request->setting_inventory = true ? 1 : 0;
+        $taxPayer_Setting->show_production = $request->setting_production = true ? 1 : 0;
+        $taxPayer_Setting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
+        $taxPayer_Setting->is_company = $request->setting_is_company;
         $taxPayer_Setting->save();
 
         //TODO Check if Default Version is available for Country.

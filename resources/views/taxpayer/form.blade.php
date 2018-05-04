@@ -702,13 +702,13 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="m-widget6__foot">
-                                <div class="m-widget6__action m--align-right">
-                                    <button type="button" class="btn m-btn--pill btn-secondary m-btn m-btn--hover-brand m-btn--custom">
-                                        Export
-                                    </button>
-                                </div>
-                            </div>
+
+                            <span v-if="owner_name != ''">
+                                <i class="la la-warning m--font-warning"></i> 
+                                <p>
+                                    It seems like another team has linked this taxpayer first. To access the accounting for this taxpayer, you will need to wait for authorization.
+                                </p>
+                            </span>
                         </div>
                     </div>
 
