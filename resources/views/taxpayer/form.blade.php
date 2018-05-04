@@ -131,31 +131,31 @@
                                                         </div>
 
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 <a id="taxpayer"></a>
                                                                 @lang('global.Taxid')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <input v-if="id == 0" type="text" class="form-control m-input" v-model="taxid">
                                                                 <input v-else disabled="disabled" class="form-control m-input" v-model="taxid">
                                                             </div>
                                                         </div>
 
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.NameOf', ['model' => __('global.Taxpayer')])
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <input v-if="id == 0" type="text" class="form-control m-input" v-model="name">
                                                                 <input v-else disabled="disabled" class="form-control m-input" v-model="name">
                                                             </div>
                                                         </div>
 
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.Alias')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <input type="text" class="form-control m-input" v-model="alias">
                                                             </div>
                                                         </div>
@@ -170,26 +170,26 @@
                                                         </div>
 
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.Telephone')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <input type="text" class="form-control m-input" v-model="telephone">
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.Email')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <input type="email" class="form-control m-input" v-model="email">
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.Address')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <textarea class="form-control m-input" v-model="address" rows="3"></textarea>
                                                             </div>
                                                         </div>
@@ -215,10 +215,10 @@
                                                         </h4>
 
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.IsCompany')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <span class="m-switch m-switch--sm m-switch--icon">
                                                                     <label>
                                                                         <input type="checkbox" checked="checked" v-model="setting_is_company">
@@ -229,28 +229,30 @@
                                                         </div>
 
                                                         <div class="row" v-if="setting_is_company">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.LegalRepresentative')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <input type="text" class="form-control m-input" v-model="setting_agent">
                                                             </div>
                                                         </div>
 
                                                         <div class="row" v-if="setting_is_company">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.Taxid')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <input type="text" class="form-control m-input" v-model="setting_agenttaxid">
                                                             </div>
                                                         </div>
 
+                                                        <div v-if="setting_is_company" class="m-separator m-separator--dashed"></div>
+
                                                         <div class="row" v-if="setting_is_company">
-                                                            <label class="col-5 col-form-label">
-                                                                @lang('global.Regime')
+                                                            <label class="col-4 col-form-label">
+                                                                @lang('accounting.Regime')
                                                             </label>
-                                                            <div class="col-6">
+                                                            <div class="col-7">
                                                                 <label class="m-radio m-radio--solid m-radio--warning">
                                                                     <input type="radio" name="account_group" checked="" value="" v-model="setting_regime">
                                                                     None
@@ -289,10 +291,10 @@
                                                         {{-- <div class="m-separator m-separator--dashed m-separator--lg"></div> --}}
 
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('global.Modules')
                                                             </label>
-                                                            <div class="m-checkbox-list col-6">
+                                                            <div class="m-checkbox-list col-7">
                                                                 <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_fixedasset">
                                                                     <input type="checkbox">
                                                                     @lang('commercial.FixedAssets')
@@ -314,10 +316,10 @@
                                                         {{-- <div class="m-separator m-separator--dashed m-separator--lg"></div> --}}
 
                                                         <div class="row">
-                                                            <label class="col-5 col-form-label">
+                                                            <label class="col-4 col-form-label">
                                                                 @lang('commercial.InternationalCommerce')
                                                             </label>
-                                                            <div class="m-checkbox-list col-6">
+                                                            <div class="m-checkbox-list col-7">
                                                                 <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
                                                                     <input type="checkbox">
                                                                     @lang('commercial.Imports')
