@@ -118,7 +118,7 @@ Vue.component('taxpayer',{
                 },
                 error: function(xhr, status, error)
                 {
-                    console.log(error);
+                    console.log(xhr.responseText);
                 }
             });
         },
