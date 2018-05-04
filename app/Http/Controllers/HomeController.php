@@ -43,4 +43,32 @@ class HomeController extends Controller
         ->with('taxPayerIntegrations', $taxPayerIntegrations)
         ->with('integrationInvites', $integrationInvites);
     }
+
+    public function teamAccept($integrationID, $type)
+    {
+        $integrationInvite = TaxpayerIntegration::find($integrationID);
+
+        if (isset($integrationInvite))
+        {
+            $integrationInvite->status = 2;
+            $integrationInvite->type = $type;
+            $integrationInvite->save();
+        }
+
+        return redirect()->back();
+    }
+
+    //Accept a Member
+    public function teamReject($integrationID)
+    {
+        $integrationInvite = TaxpayerIntegration::find($integrationID);
+
+        if (isset($integrationInvite))
+        {
+            $integrationInvite->status = 3;
+            $integrationInvite->save();
+        }
+
+        return redirect()->back();
+    }
 }

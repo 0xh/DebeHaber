@@ -23,10 +23,10 @@ Route::prefix('{country}')->group(function ()
 
 Route::group(['middleware' => 'auth:api'], function ()
 {});
-    Route::post('transactions', 'API\TransactionController@start');
-    Route::post('movement', 'API\AccountMovementController@start');
-    Route::post('check-key', 'API\Controller@checkAPI');
-    Route::post('check-server', 'API\Controller@checkServer');
+    Route::post('/transactions', 'API\TransactionController@start');
+    Route::post('/movement', 'API\AccountMovementController@start');
+    Route::post('/check-key', 'API\Controller@checkAPI');
+    Route::post('/check-server', 'API\Controller@checkServer');
 
     Route::get('/my-taxpayers/{teamID}/{userID}', 'TaxpayerIntegrationController@index');
     Route::get('/get_Allrate', 'CurrencyRateController@get_Allrate');
@@ -35,6 +35,13 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         Route::get('/get_owner/{taxPayerID}', 'TaxpayerController@get_owner');
         Route::get('/get_taxpayers/{searchBy}', 'TaxpayerController@get_taxpayer');
+    });
+
+    //Used for accepting or rejecting a team from accesing your taxpayer's data.
+    Route::prefix('teams')->group(function ()
+    {
+        Route::post('/accpet-invite/{id}/{type}', 'HomeController@teamAccept')->name('team.accept');
+        Route::post('/reject-invite/{id}', 'HomeController@teamReject')->name('team.reject');
     });
 
     Route::prefix('{taxPayer}')->group(function ()

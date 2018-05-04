@@ -77,7 +77,6 @@ class TaxpayerController extends Controller
 
         //TODO Request ID must be of Integration, not Taxpayer. From there you can know if taxpayer exists.
 
-
         //Check Taxpayer by TaxID. If exists, use it, or else create it.
         $taxPayer = Taxpayer::where('taxid', $request->taxid)
         ->where('country', Auth::user()->country)
@@ -143,7 +142,7 @@ class TaxpayerController extends Controller
         $taxPayer_Integration->save();
 
         $taxPayer_Setting = $bool_IntegrationExists ? TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() : new TaxpayerSetting();
-    
+
         $taxPayer_Setting->taxpayer_id = $taxPayer->id;
         // $taxPayer_Setting->show_inventory = $request->show_inventory = true ? 1 : 0;
         // $taxPayer_Setting->show_production = $request->show_production = true ? 1 : 0;

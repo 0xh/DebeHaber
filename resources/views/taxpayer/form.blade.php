@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="no_owner === 1">
+                                    <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-if="owner_name != ''">
                                         <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -550,74 +550,312 @@
                             </h2>
                             <div class="m-section__content">
                                 <p>
-                                    A taxpayer is a person or organization (such as a company) subject to a tax on income.
-                                </p>
-                                <p>
                                     Once you create a taxpayer, if your team is the first to reference it, then you will become the default owner. In case another team previously owns it, then you will have to wait authorization.
                                 </p>
                             </div>
                         </div>
                         <div class="m-separator m-separator--fit"></div>
-                        <div class="m-widget1 m-widget1--paddingless">
 
-                            <div v-if="page > 1" class="m-widget1__item">
-                                <div class="row m-row--no-padding align-items-center">
-                                    <div class="col">
-                                        <h3 class="m-widget1__title">
-                                            Team @{{ owner_name }}
-                                        </h3>
-                                        <span class="m-widget1__desc">
-                                            Total number of users
-                                        </span>
-                                    </div>
-                                    <div class="col m--align-right">
-                                        <span class="m-widget1__number m--font-brand">
-                                            @{{ $parent.currentTeam.users.length }} / 2
-                                        </span>
-                                    </div>
+                        <h3 class="m-widget1__title">
+                            @lang('global.Taxpayer')
+                        </h3>
+
+
+
+                        <div class="m-widget6">
+                            <div class="m-widget6__body">
+
+                                <div class="m-widget6__item">
+                                    <span class="m-widget6__text">
+                                        @{{ name }}
+                                    </span>
+                                    <span v-if="taxid != ''" class="m-widget6__text m--align-right m--font-boldest m--font-success">
+                                        <i class="la la-check-circle"></i>
+                                    </span>
+                                    <span v-else class="m-widget6__text m--align-right m--font-boldest m--font-danger">
+                                        <i class="la la-times-circle"></i>
+                                    </span>
+                                </div>
+
+                                <div class="m-widget6__item">
+                                    <span class="m-widget6__text">
+                                        @{{ taxid }}
+                                    </span>
+                                    <span v-if="taxid != ''" class="m-widget6__text m--align-right m--font-boldest m--font-success">
+                                        <i class="la la-check-circle"></i>
+                                    </span>
+                                    <span v-else class="m-widget6__text m--align-right m--font-boldest m--font-danger">
+                                        <i class="la la-times-circle"></i>
+                                    </span>
+                                </div>
+
+                                <div class="m-widget6__item">
+                                    <span v-if="owner_name != ''" class="m-widget6__text">
+                                        @{{ owner_name }} |
+                                    </span>
+                                    <span v-if="owner_name != ''" class="m-widget6__text">
+                                        <div class="m-demo__preview m-demo__preview--badge">
+                                            <span v-if="owner_type == '1'" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
+                                                @lang('global.Accountant')
+                                            </span>
+                                            <span v-if="owner_type == '2'" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
+                                                @lang('global.Personal')
+                                            </span>
+                                            <span v-if="owner_type == '3'" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
+                                                @lang('global.Auditor')
+                                            </span>
+                                        </div>
+                                    </span>
+                                    <span v-else class="m-widget6__text">
+                                        @{{ $parent.currentTeam.name }}
+                                    </span>
+
+                                    <span v-if="owner_name != ''" class="m-widget6__text m--align-right m--font-boldest m--font-warning">
+                                        <i class="la la-warning"></i>
+                                    </span>
+                                    <span v-else class="m-widget6__text m--align-right m--font-boldest m--font-success">
+                                        <i class="la la-check-circle"></i>
+                                    </span>
+                                </div>
+
+                                <div class="m-widget6__item">
+                                    <span v-if="owner_type != 1" class="m-widget6__text">
+                                        @lang('global.Accountant')
+                                    </span>
+
+                                    <span v-if="owner_type != 2" class="m-widget6__text">
+                                        @lang('global.Accountant')
+                                    </span>
+
+                                    <span v-if="owner_type != 3" class="m-widget6__text">
+                                        @lang('global.Accountant')
+                                    </span>
+
+                                    <span v-if="owner_type != ''" class="m-widget6__text m--align-right m--font-boldest m--font-warning">
+                                        <i class="la la-warning"></i>
+                                    </span>
+
+                                    <span v-else class="m-widget6__text m--align-right m--font-boldest m--font-success">
+                                        <i class="la la-check-circle"></i>
+                                    </span>
                                 </div>
                             </div>
-
-                            <div class="m-widget1__item">
-                                <div class="row m-row--no-padding align-items-center">
-                                    <div class="col">
-                                        <h3 class="m-widget1__title">
-                                            @lang('global.Users')
-                                        </h3>
-                                        <span class="m-widget1__desc">
-                                            Total number of users
-                                        </span>
-                                    </div>
-                                    <div class="col m--align-right">
-                                        <span class="m-widget1__number m--font-brand">
-                                            @{{ $parent.currentTeam.users.length }} / 2
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="m-widget1__item">
-                                <div class="row m-row--no-padding align-items-center">
-                                    <div class="col">
-                                        <h3 class="m-widget1__title">
-                                            @lang('global.Taxpayers')
-                                        </h3>
-                                        <span class="m-widget1__desc">
-                                            Total number of Taxpayers allowed
-                                        </span>
-                                    </div>
-                                    <div class="col m--align-right">
-                                        <span class="m-widget1__number m--font-danger">
-                                            @{{ $parent.currentTeam.users.length }} / 1
-                                        </span>
-                                    </div>
+                            <div class="m-widget6__foot">
+                                <div class="m-widget6__action m--align-right">
+                                    <button type="button" class="btn m-btn--pill btn-secondary m-btn m-btn--hover-brand m-btn--custom">
+                                        Export
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <!--end: Form Body -->
+
+                        <div class="m-widget4">
+                            <div class="m-widget4__item">
+                                {{-- <div class="m-widget4__ext">
+                                <span class="m-widget4__icon m--font-brand">
+                                <i class="flaticon-users"></i>
+                            </span>
+                        </div> --}}
+                        <div class="m-widget4__info">
+                            <span class="m-widget4__text">
+                                @{{ name }}
+                            </span>
+                        </div>
+                        <div class="m-widget4__ext">
+                            <span v-if="taxid != ''" class="m-widget4__number m--font-success">
+                                <i class="la la-check"></i>
+                            </span>
+                            <span v-else class="m-widget4__number m--font-danger">
+                                <i class="la la-times-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-widget4">
+                    <div class="m-widget4__item">
+                        <div class="m-widget4__ext">
+                            <span class="m-widget4__icon m--font-brand">
+                                <i class="flaticon-users"></i>
+                            </span>
+                        </div>
+                        <div class="m-widget4__info">
+                            <span class="m-widget4__text">
+                                @{{ taxid }}
+                            </span>
+                        </div>
+                        <div class="m-widget4__ext">
+                            <span v-if="taxid != ''" class="m-widget4__number m--font-success">
+                                <i class="la la-check"></i>
+                            </span>
+                            <span v-else class="m-widget4__number m--font-danger">
+                                <i class="la la-times-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-widget4">
+                    <div class="m-widget4__item">
+                        <div class="m-widget4__ext">
+                            <span class="m-widget4__icon m--font-brand">
+                                <i class="flaticon-users"></i>
+                            </span>
+                        </div>
+                        <div class="m-widget4__info">
+                            <span class="m-widget4__text">
+                                @{{ owner_name }}
+                            </span>
+                        </div>
+                        <div class="m-widget4__ext">
+                            <span v-if="owner_name == ''" class="m-widget4__number m--font-success">
+                                <i class="la la-check"></i>
+                            </span>
+                            <span v-else class="m-widget4__number m--font-warning">
+                                <i class="la la-warning"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-widget4__item m-widget4__item-border">
+                    <div class="m-widget4__ext">
+                        <span class="m-widget4__icon m--font-brand">
+                            <i class="flaticon-music"></i>
+                        </span>
+                    </div>
+                    <div class="m-widget4__info">
+                        <span class="m-widget4__text">
+                            Red Painted Truck
+                        </span>
+                    </div>
+                    <div class="m-widget4__ext">
+                        <span class="m-widget4__number m--font-info">
+                            +134
+                        </span>
+                    </div>
+                </div>
+                <div class="m-widget4__item m-widget4__item-border">
+                    <div class="m-widget4__ext">
+                        <span class="m-widget4__icon m--font-brand">
+                            <i class="flaticon-user"></i>
+                        </span>
+                    </div>
+                    <div class="m-widget4__info">
+                        <span class="m-widget4__text">
+                            New Customer
+                        </span>
+                    </div>
+                    <div class="m-widget4__ext">
+                        <span class="m-widget4__number m--font-info">
+                            +13%
+                        </span>
                     </div>
                 </div>
             </div>
+
+
+
+            <div class="m-widget1 m-widget1--paddingless">
+                <div class="m-widget1__item">
+
+
+                    <div class="m-widget4__item">
+                        <div class="m-widget4__ext">
+                            <span class="m-widget4__icon m--font-brand">
+                                <i class="flaticon-interface-3"></i>
+                            </span>
+                        </div>
+                        <div class="m-widget4__info">
+                            <span class="m-widget4__text">
+                                @{{ name }}
+                            </span>
+                        </div>
+                        <div class="m-widget4__ext">
+                            <span class="m-widget4__number m--font-info">
+                                <i class="la la-check"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div v-if="name != ''" class="row m-row--no-padding">
+                        <div class="col">
+                            <i class="la la-briefcase"></i>
+                            <span class="m-widget1__desc">
+                                @{{ name }}
+                            </span>
+                        </div>
+                    </div>
+                    <div v-if="taxid != ''" class="row m-row--no-padding">
+                        <div class="col">
+                            <i class="la la-at"></i>
+                            <span class="m-widget1__desc">
+                                @{{ taxid }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-widget1__item">
+                    <h3 class="m-widget1__title">
+                        <i class="la la-warning"></i>
+                        Approval Required
+                    </h3>
+                    <div class="row m-row--no-padding align-items-center">
+                        <div class="col-10">
+                            <span class="m-widget1__desc">
+                                This taxpayer belongs to the @{{ owner_name }} team.
+                                C
+                            </span>
+                        </div>
+                        <div class="col-2 m--align-right">
+                            <span class="m-widget1__number m--font-brand">
+                                <img :src="owner_img" width="32">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-widget1__item">
+                    <div class="row m-row--no-padding align-items-center">
+                        <div class="col">
+                            <h3 class="m-widget1__title">
+                                @lang('global.Users')
+                            </h3>
+                            <span class="m-widget1__desc">
+                                Total number of users
+                            </span>
+                        </div>
+                        <div class="col m--align-right">
+                            <span class="m-widget1__number m--font-brand">
+                                @{{ $parent.currentTeam.users.length }} / 2
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-widget1__item">
+                    <div class="row m-row--no-padding align-items-center">
+                        <div class="col">
+                            <h3 class="m-widget1__title">
+                                @lang('global.Taxpayers')
+                            </h3>
+                            <span class="m-widget1__desc">
+                                Total number of Taxpayers allowed
+                            </span>
+                        </div>
+                        <div class="col m--align-right">
+                            <span class="m-widget1__number m--font-danger">
+                                @{{ $parent.currentTeam.users.length }} / 1
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end: Form Body -->
         </div>
-    </taxpayer>
+    </div>
+</div>
+</div>
+</taxpayer>
 
 @endsection
