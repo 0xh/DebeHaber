@@ -22,7 +22,8 @@ $currentTeam = Auth::user()->currentTeam->name;
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <a href="{{ route('taxpayer.create') }}" class="btn btn--sm m-btn--pill btn-secondary m-btn m-btn--label-brand">
+                        <a href="{{ route('taxpayer.create') }}" class="btn btn--sm m-btn--pill btn-brand m-btn">
+                            <i class="la la-plus"></i>
                             <span>
                                 @lang('global.Create', ['model' => __('global.Taxpayer')])
                             </span>

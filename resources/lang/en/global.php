@@ -77,6 +77,9 @@ return [
     'Auditor' => 'Auditor',
     'AuditorDesc' => "Select this option if you will be auditing this taxpayer.",
 
+    'Member' => 'Member',
+    'Assistant' => 'Assistant',
+
     'ViewData' => 'View :module Data',
     'ManageData' => 'Manage :module Data',
     'Post' => 'Post :module',

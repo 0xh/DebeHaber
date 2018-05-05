@@ -9,7 +9,7 @@
                 <!--Begin::Main Portlet-->
                 <div class="m-portlet">
                     <!--begin: Portlet Head-->
-                    <div class="m-portlet__head">
+                    {{-- <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
                                 <h3 class="m-portlet__head-text">
@@ -26,14 +26,14 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="m-wizard m-wizard--2 m-wizard--success m-wizard--step-first" id="m_wizard">
                         <div class="m-wizard__head m-portlet__padding-x">
                             <!--begin: Form Wizard Progress -->
                             <div class="m-wizard__progress">
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: @{{ pageProg }}%"></div>
+                                    <div class="progress-bar" role="progressbar" style="width:100%"></div>
                                 </div>
                             </div>
                             <div class="m-wizard__nav">
@@ -48,9 +48,9 @@
                                             <div class="m-wizard__step-title">
                                                 @lang('global.Taxpayer')
                                             </div>
-                                            <div class="m-wizard__step-desc">
+                                            {{-- <div class="m-wizard__step-desc">
                                                 All Taxpayer related information
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="m-wizard__step m-wizard__step--done" data-wizard-target="#m_wizard_form_step_1" v-else>
@@ -63,9 +63,9 @@
                                             <div class="m-wizard__step-title">
                                                 @lang('global.Taxpayer')
                                             </div>
-                                            <div class="m-wizard__step-desc">
+                                            {{-- <div class="m-wizard__step-desc">
                                                 All Taxpayer related information
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
 
@@ -79,9 +79,9 @@
                                             <div class="m-wizard__step-title">
                                                 @lang('global.Settings')
                                             </div>
-                                            <div class="m-wizard__step-desc">
+                                            {{-- <div class="m-wizard__step-desc">
                                                 All accounting information
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="m-wizard__step m-wizard__step--done" data-wizard-target="#m_wizard_form_step_2" v-else-if="owner_name == '' && page > 2">
@@ -94,9 +94,9 @@
                                             <div class="m-wizard__step-title">
                                                 @lang('global.Settings')
                                             </div>
-                                            <div class="m-wizard__step-desc">
+                                            {{-- <div class="m-wizard__step-desc">
                                                 All accounting information
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-else>
@@ -109,9 +109,9 @@
                                             <div class="m-wizard__step-title">
                                                 @lang('global.Settings')
                                             </div>
-                                            <div class="m-wizard__step-desc">
+                                            {{-- <div class="m-wizard__step-desc">
                                                 All accounting information
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
 
@@ -125,9 +125,9 @@
                                             <div class="m-wizard__step-title">
                                                 @lang('global.Confirmation')
                                             </div>
-                                            <div class="m-wizard__step-desc">
+                                            {{-- <div class="m-wizard__step-desc">
                                                 Check data and save.
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_3" v-else>
@@ -140,9 +140,9 @@
                                             <div class="m-wizard__step-title">
                                                 @lang('global.Confirmation')
                                             </div>
-                                            <div class="m-wizard__step-desc">
+                                            {{-- <div class="m-wizard__step-desc">
                                                 Check data and save.
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="m-separator m-separator--dashed m-separator--lg"></div>
+                                                        {{-- <div class="m-separator m-separator--dashed m-separator--lg"></div> --}}
 
                                                         <div class="m-form__heading">
                                                             <h3 class="m-form__heading-title">
@@ -191,7 +191,7 @@
                                                                 @lang('global.Taxid')
                                                             </label>
                                                             <div class="col-7">
-                                                                <input v-if="id == 0" type="text" class="form-control m-input" v-model="taxid">
+                                                                <input v-if="id == 0" type="number" class="form-control m-input" v-model="taxid">
                                                                 <input v-else disabled="disabled" class="form-control m-input" v-model="taxid">
                                                             </div>
                                                         </div>
@@ -377,27 +377,27 @@
                                                                 @lang('global.Modules')
                                                             </label>
                                                             <div class="m-checkbox-list col-7">
-                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_fixedasset">
+                                                                <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success">
                                                                     <input type="checkbox" v-model="setting_fixedasset">
                                                                     @lang('commercial.FixedAssets')
                                                                     <span></span>
                                                                 </label>
-                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_inventory">
+                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success">
                                                                     <input type="checkbox" v-model="setting_inventory">
                                                                     @lang('commercial.Inventory')
                                                                     <span></span>
                                                                 </label>
-                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled" v-model="setting_inventory">
+                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled">
                                                                     <input disabled type="checkbox" v-model="setting_inventory">
                                                                     @lang('commercial.Inventory')
                                                                     <span></span>
                                                                 </label>
-                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success" v-model="setting_production">
+                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success">
                                                                     <input type="checkbox" v-model="setting_production">
                                                                     @lang('commercial.Productions')
                                                                     <span></span>
                                                                 </label>
-                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled" v-model="setting_production">
+                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled">
                                                                     <input disabled type="checkbox" v-model="setting_production">
                                                                     @lang('commercial.Productions')
                                                                     <span></span>
@@ -412,22 +412,22 @@
                                                                 @lang('commercial.InternationalCommerce')
                                                             </label>
                                                             <div class="m-checkbox-list col-7">
-                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
+                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand">
                                                                     <input type="checkbox" v-model="setting_import">
                                                                     @lang('commercial.Imports')
                                                                     <span></span>
                                                                 </label>
-                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand m-checkbox--disabled" v-model="setting_production">
+                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand m-checkbox--disabled">
                                                                     <input disabled type="checkbox" v-model="setting_import">
                                                                     @lang('commercial.Imports')
                                                                     <span></span>
                                                                 </label>
-                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand" v-model="setting_production">
+                                                                <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand">
                                                                     <input type="checkbox" v-model="setting_export">
                                                                     @lang('commercial.Exports')
                                                                     <span></span>
                                                                 </label>
-                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand m-checkbox--disabled" v-model="setting_production">
+                                                                <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-brand m-checkbox--disabled">
                                                                     <input disabled type="checkbox" v-model="setting_export">
                                                                     @lang('commercial.Exports')
                                                                     <span></span>
@@ -647,35 +647,6 @@
                                 </div>
 
                                 <div class="m-widget6__item">
-                                    <span v-if="owner_name != ''" class="m-widget6__text">
-                                        @{{ owner_name }}
-                                    </span>
-                                    <span v-if="owner_name != ''" class="m-widget6__text">
-                                        <div class="m-demo__preview m-demo__preview--badge">
-                                            <span v-if="owner_type == '1'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
-                                                @lang('global.Accountant')
-                                            </span>
-                                            <span v-if="owner_type == '2'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
-                                                @lang('global.Personal')
-                                            </span>
-                                            <span v-if="owner_type == '3'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
-                                                @lang('global.Auditor')
-                                            </span>
-                                        </div>
-                                    </span>
-                                    <span v-else class="m-widget6__text">
-                                        @{{ $parent.currentTeam.name }}
-                                    </span>
-
-                                    <span v-if="owner_name != ''" class="m-widget6__text m--align-right m--font-boldest m--font-warning">
-                                        <i class="la la-warning"></i>
-                                    </span>
-                                    <span v-else class="m-widget6__text m--align-right m--font-boldest m--font-success">
-                                        <i class="la la-check-circle"></i>
-                                    </span>
-                                </div>
-
-                                <div class="m-widget6__item">
                                     <span class="m-widget6__text">
                                         @{{ $parent.currentTeam.name }}
                                     </span>
@@ -701,6 +672,29 @@
                                         <i class="la la-times-circle"></i>
                                     </span>
                                 </div>
+
+                                <div v-if="owner_name != ''" class="m-widget6__item">
+                                    <span  class="m-widget6__text">
+                                        @{{ owner_name }}
+                                    </span>
+                                    <span class="m-widget6__text">
+                                        <div class="m-demo__preview m-demo__preview--badge">
+                                            <span v-if="owner_type == '1'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
+                                                @lang('global.Accountant')
+                                            </span>
+                                            <span v-if="owner_type == '2'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
+                                                @lang('global.Personal')
+                                            </span>
+                                            <span v-if="owner_type == '3'" class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
+                                                @lang('global.Auditor')
+                                            </span>
+                                        </div>
+                                    </span>
+
+                                    <span class="m-widget6__text m--align-right m--font-boldest m--font-warning">
+                                        <i class="la la-warning"></i>
+                                    </span>
+                                </div>
                             </div>
 
                             <span v-if="owner_name != ''">
@@ -716,5 +710,4 @@
             </div>
         </div>
     </taxpayer>
-
 @endsection

@@ -8,7 +8,6 @@ Vue.component('taxpayer',{
 
             show_wizard: false,
             show_settings: false,
-            create_taxpayer: '',
             page: '1',
             pageProg: '',
             id: 0,
@@ -18,15 +17,17 @@ Vue.component('taxpayer',{
             address: '',
             telephone: '',
             email: '',
+            
+            type: '1',
 
-            setting_inventory: '',
-            setting_production: '',
-            setting_fixedasset: '',
-            setting_import: '',
-            setting_export: '',
+            setting_inventory: false,
+            setting_production: false,
+            setting_fixedasset: false,
+            setting_import: false,
+            setting_export: false,
 
             setting_regime: '',
-            setting_is_company: '',
+            setting_is_company: false,
 
             setting_agenttaxid: '',
             setting_agent: '',
@@ -38,8 +39,6 @@ Vue.component('taxpayer',{
 
             agent_name: '',
             agent_taxid: '',
-
-            type: '1',
         }
     },
     methods:
@@ -52,11 +51,10 @@ Vue.component('taxpayer',{
                 setting_regime = '';
                 setting_agenttaxid: '';
                 setting_agent: '';
-                setting_inventory: '';
-                setting_production: '';
-                setting_fixedasset: '';
-                setting_import: '';
-                setting_export: '';
+                setting_inventory: false;
+                setting_production: false;
+                setting_import: false;
+                setting_export: false;
             }
         },
         //Useful for when user wants to create a Taxpayer not in the system.
@@ -94,7 +92,9 @@ Vue.component('taxpayer',{
                 app.page = app.page + 1;
             }
             else
-            { app.page = app.page + 1; }
+            {
+                app.page = app.page + 1;
+            }
 
             app.pageProg = (app.page / 3) * 100;
         },
@@ -112,7 +112,6 @@ Vue.component('taxpayer',{
                 async: false,
                 success: function(data)
                 {
-                    console.log(data);
                     document.location.href = '../home/'
                 },
                 error: function(xhr, status, error)
