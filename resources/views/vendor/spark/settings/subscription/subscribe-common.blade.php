@@ -44,8 +44,8 @@
         <table class="table table-responsive-sm table-valign-middle mb-0 ">
             <thead></thead>
             <tbody>
-                <tr v-for="plan in plansForActiveInterval">
-                    <!-- Plan Name paidPlansForActiveInterval-->
+                <tr v-for="plan in paidPlansForActiveInterval">
+                    <!-- Plan Name -->
                     <td>
                         <div class="d-flex align-items-center">
                             <i class="radio-select mr-2" @click="selectPlan(plan)"
@@ -57,7 +57,7 @@
                     <!-- Plan Features Button -->
                     <td>
                         <button class="btn btn-default" @click="showPlanDetails(plan)">
-                            {{__('Features')}}
+                            <i class="fa fa-btn fa-star-o"></i> {{__('Features')}}
                         </button>
                     </td>
 

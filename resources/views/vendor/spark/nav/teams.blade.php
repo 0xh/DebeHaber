@@ -1,44 +1,24 @@
 <!-- Teams -->
-
-<li class="m-nav__section m--hide">
-    <span class="m-nav__section-text">
-        {{ __('teams.teams')}}
-    </span>
-</li>
+<h6 class="dropdown-header">{{ __('teams.teams')}}</h6>
 
 <!-- Create Team -->
 @if (Spark::createsAdditionalTeams())
-    <li class="m-nav__item">
-        <a href="/settings#/{{Spark::teamsPrefix()}}" class="m-nav__link">
-            <i class="m-nav__link-icon la la-plus-circle"></i>
-            <span class="m-nav__link-title">
-                <span class="m-nav__link-wrap">
-                    <span class="m-nav__link-text m--font-metal">
-                        {{__('teams.create_team')}}
-                    </span>
-                </span>
-            </span>
-        </a>
-    </li>
+    <a class="dropdown-item" href="/settings#/{{Spark::teamsPrefix()}}">
+        <i class="fa fa-fw text-left fa-btn fa-plus-circle"></i> {{__('teams.create_team')}}
+    </a>
 @endif
 
 <!-- Switch Current Team -->
 @if (Spark::showsTeamSwitcher())
-    <li class="m-nav__item" v-for="team in teams">
-        <a :href="'/settings/{{ Spark::teamsPrefix() }}/'+ team.id +'/switch'" class="m-nav__link">
-            <i class="m-nav__link-icon la la-users"></i>
-            <span class="m-nav__link-title">
-                <span class="m-nav__link-wrap">
-                    <span v-if="user.current_team_id == team.id" class="m-nav__link-text m--font-info">
-                        @{{ team.name }}
-                    </span>
-                    <span v-else>
-                        @{{ team.name }}
-                    </span>
-                </span>
-            </span>
-        </a>
-    </li>
+    <a class="dropdown-item" v-for="team in teams" :href="'/settings/{{ Spark::teamsPrefix() }}/'+ team.id +'/switch'">
+        <span v-if="user.current_team_id == team.id">
+            <i class="fa fa-fw text-left fa-btn fa-check text-success"></i> @{{ team.name }}
+        </span>
+
+        <span v-else>
+            <img :src="team.photo_url" class="spark-profile-photo-xs"><i class="fa fa-btn"></i> @{{ team.name }}
+        </span>
+    </a>
 @endif
 
 <div class="dropdown-divider"></div>
