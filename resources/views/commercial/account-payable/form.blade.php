@@ -4,75 +4,74 @@
 <account-form :trantype ="2" :charts=" {{ $charts }}" inline-template>
     <div>
         <div class="">
-            <p class="lead m--font-boldest m--font-transform-u">@lang('commercial.Purchases')</p>
+            <p class="lead m--font-boldest m--font-transform-u">@lang('commercial.Purchase')</p>
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
                             @lang('commercial.Supplier')
                         </label>
                         <div class="col-8">
-                            @{{Supplier}}
+                            @{{ Supplier }}
                             {{-- <input type="date" class="form-control" v-model="date" /> --}}
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
                             @lang('global.InvoiceDate')
                         </label>
                         <div class="col-8">
-                            @{{date}}
+                            @{{ new Date(date).toLocaleDateString() }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group m-form__group row">
+                        <label for="example-text-input" class="col-4 col-form-label">
+                            @lang('global.Due')
+                        </label>
+                        <div class="col-8">
+                            <p>
+                                @{{ new Number(Value).toLocaleString() }} <span class="m--font-primary">@{{ Currency }}</span>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
                             @lang('commercial.InvoiceNumber')
                         </label>
                         <div class="col-8">
-                            @{{number}}
+                            <p>@{{ number }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
                             @lang('global.Deadline')
                         </label>
                         <div class="col-8">
-                            <p>@{{ code_expiry}}</p>
+                            <p>@{{ new Date(code_expiry).toLocaleDateString() }}</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group m-form__group row">
-                        <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('commercial.Value')
-                        </label>
-                        <div class="col-8">
-                            @{{ Value }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
                             @lang('global.Balance')
                         </label>
                         <div class="col-8">
-                            @{{ Balance }}
+                            @{{ new Number(Balance).toLocaleString() }}
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <hr>
