@@ -45,13 +45,13 @@
 
             <div class="col-2">
                 <p class="m--font-bold m--align-right">
-                    @{{ invoice.Balance }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
+                    @{{ invoice.Balance.toLocaleString() }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
                 </p>
             </div>
 
             <div class="col-2">
                 <p class="m--font-bold m--align-right">
-                    @{{ invoice.Paid }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
+                    @{{ invoice.Paid.toLocaleString() }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
                 </p>
             </div>
             <div class="col-2">
