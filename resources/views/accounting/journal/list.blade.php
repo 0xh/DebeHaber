@@ -37,16 +37,15 @@
         </div>
         <div class="row" v-for="detail in journal.details">
             <div class="col-8">
-                <p> @{{ detail.id }} | <span class="m--font-bold">@{{ detail.chart }}</span> </p>
-                {{-- /* <em>@{{ detail }}</em> */ --}}
+                <p> @{{ detail.chart.code }} | <span class="m--font-bold">@{{ detail.chart.name }}</span> </p>
             </div>
             <div class="col-2 m--align-right">
-                <p v-if="detail.credit > 0" class="m--font-bold "> @{{ detail.credit }} </p>
-                <p v-else > 0 </p>
+                <p v-if="detail.credit > 0" class="m--font-bold "> @{{ new Number(detail.credit).toLocaleString() }} </p>
+                <p v-else class="m--font-metal"> 0 </p>
             </div>
             <div class="col-2 m--align-right">
-                <p v-if="detail.debit > 0" class="m--font-bold "> @{{ detail.debit }} </p>
-                <p v-else > 0 </p>
+                <p v-if="detail.debit > 0" class="m--font-bold "> @{{ new Number(detail.debit).toLocaleString() }} </p>
+                <p v-else class="m--font-metal"> 0 </p>
             </div>
         </div>
     </div>

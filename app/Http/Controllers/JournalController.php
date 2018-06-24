@@ -33,7 +33,7 @@ class JournalController extends Controller
     public function getJournals(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
         $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
-        ->with('details.chart:id,name,code')
+        ->with('details.chart:id,name,code,type')
         ->orderBy('date', 'desc')
 
         ->take(100)

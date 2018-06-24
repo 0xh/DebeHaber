@@ -39,7 +39,6 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
-
                     @php
                     $documentCode = Config::get('countries.' . request()->route('taxPayer')->country . '.document-code');
                     @endphp

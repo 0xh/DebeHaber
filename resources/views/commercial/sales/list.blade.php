@@ -5,10 +5,10 @@
       <div class="col-1 m--font-boldest">
         <p class="m--font-boldest m--font-transform-u">@lang('global.Date')</p>
       </div>
-      <div class="col-5">
+      <div class="col-4">
         <p class="m--font-boldest m--font-transform-u">@lang('commercial.Customer')</p>
       </div>
-      <div class="col-2">
+      <div class="col-3">
         <p class="m--font-boldest m--font-transform-u">@lang('commercial.InvoiceNumber')</p>
       </div>
       <div class="col-2">
@@ -23,10 +23,10 @@
       <div class="col-1">
         <p> @{{ new Date(invoice.Date).toLocaleDateString() }} </p>
       </div>
-      <div class="col-5">
+      <div class="col-4">
         <p> <span class="m--font-bold">@{{ invoice.Customer }}</span> | <em>@{{ invoice.CustomerTaxID }}</em> </p>
       </div>
-      <div class="col-2">
+      <div class="col-5">
         <p>
           @{{ invoice.Number }} |
           <span v-if="invoice.PaymentCondition > 0" class="m--font-bold m--font-info"> Credit </span>
