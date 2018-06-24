@@ -23,7 +23,7 @@ import SearchBox from './components/searchbox.vue';
 import SearchBoxAccount from './components/searchboxaccount.vue';
 import Vue from 'vue';
 
-import ElementUI from 'element-ui';
+// import ElementUI from 'element-ui';
 // import 'element-ui/lib/theme-chalk/index.css';
 // import locale from 'element-ui/lib/locale/lang/es';
 
@@ -34,8 +34,12 @@ import Locales from './vue-i18n-locales.generated.js';
 import Bars from 'vuebars'
 import Trend from 'vuetrend';
 
+import Buefy from 'buefy'
+import 'buefy/lib/buefy.css'
+
 const store = new Vuex.Store();
 
+Vue.use(Buefy)
 Vue.use(vuexI18n.plugin, store);
 Vue.use(Bars)
 Vue.use(Trend);

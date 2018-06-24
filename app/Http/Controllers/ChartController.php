@@ -321,20 +321,49 @@ class ChartController extends Controller
         return $chart;
     }
 
-    public function mergeCharts($fromChart, $toChart)
+    public function mergeCharts($fromChartId, $toChartId, $boolIncludeFutureReference = false)
     {
-        //update all transactions
+        //run validation on chart types and make sure a transfer can take place.
+        $fromChart = Chart::find($fromChartId);
+        $toChart = Chart::find($toChartId);
 
-        //update all transaction details
+        if (isset($fromChart) && isset($toChart))
+        {
+            App\CycleBudget::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
-        //update all account movements
+            App\FixedAsset::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
-        //update all journal details
+            App\ProductionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
-        //update all journal templates
+            App\Inventory::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
-        //update all journal simulation details
+            //update all transaction money accounts
+            App\Transaction::where('chart_account_id', $fromChartId)->update(['chart_account_id' => $toChartId]);
 
-        //delete $fromCharts
+            //update all transaction details and vats
+            App\TransactionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            App\TransactionDetail::where('vat_id', $fromChartId)->update(['vat_id' => $toChartId]);
+
+            //update all account movements
+            App\AccountMovement::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+
+            //update all journal details
+            App\JournalDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            App\JournalTemplateDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            App\JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+
+            //add alias to new chart
+            if ($boolIncludeFutureReference) {
+                $toChart->alias = $fromChart->name;
+                $toChart->save();
+            }
+
+            //delete $fromCharts
+            $fromChart->forceDelete();
+
+            //return success
+        }
+
+        // return failure
     }
 }
