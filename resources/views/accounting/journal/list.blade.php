@@ -41,11 +41,11 @@
             </div>
             <div class="col-2 m--align-right">
                 <p v-if="detail.credit > 0" class="m--font-bold "> @{{ new Number(detail.credit).toLocaleString() }} </p>
-                <p v-else class="m--font-metal"> 0 </p>
+                <p v-else class="m--font-metal"> - </p>
             </div>
             <div class="col-2 m--align-right">
                 <p v-if="detail.debit > 0" class="m--font-bold "> @{{ new Number(detail.debit).toLocaleString() }} </p>
-                <p v-else class="m--font-metal"> 0 </p>
+                <p v-else class="m--font-metal"> - </p>
             </div>
         </div>
     </div>
