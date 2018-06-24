@@ -21,7 +21,7 @@
 
     <div class="row m--margin-bottom-5" v-for="invoice in list">
       <div class="col-1">
-        <p> @{{ invoice.Date }} </p>
+        <p> @{{ new Date(invoice.Date).toLocaleDateString() }} </p>
       </div>
       <div class="col-5">
         <p> <span class="m--font-bold">@{{ invoice.Customer }}</span> | <em>@{{ invoice.CustomerTaxID }}</em> </p>
@@ -35,7 +35,7 @@
       </div>
       <div class="col-2">
         <p class="m--font-bold m--align-right">
-          @{{ invoice.Value }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
+          @{{ new Number(invoice.Value).toLocaleString() }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
         </p>
       </div>
       <div class="col-1">

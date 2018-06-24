@@ -10,6 +10,7 @@
                         <b>@lang('global.InvoiceDate')</b>
                     </label>
                     <div class="col-8">
+                        {{-- <b-datepicker placeholder="Click to select..." v-model="date" icon="calendar-today"></b-datepicker> --}}
                         <input type="date" class="form-control" v-model="date" />
                     </div>
                 </div>
@@ -46,6 +47,7 @@
                     <label for="example-text-input" class="col-4 col-form-label">
                         <b>{{ $documentCode }}  &amp; @lang('global.Deadline')</b>
                     </label>
+
                     <div class="col-8">
                         <div class="row">
                             <div class="col-5">
@@ -62,7 +64,7 @@
                         <b>@lang('commercial.InvoiceNumber')</b>
                     </label>
                     <div class="col-8">
-                        <masked-input class="form-control m-input" mask="{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-mask') }}"   v-model="number" />
+                        <masked-input class="form-control m-input" mask="{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-mask') }}"   v-model="number" ></MaskedInput>
                         </div>
                     </div>
                 </div>
@@ -156,11 +158,8 @@
                         <div class="col-2">
                             <span class="m--font-boldest">@lang('commercial.Taxable')</span>
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             <span class="m--font-boldest">@lang('commercial.SalesTax')</span>
-                        </div>
-                        <div class="col-1">
-                            <span class="m--font-boldest"></span>
                         </div>
                     </div>
 
@@ -178,19 +177,18 @@
                             </select>
                         </div>
                         <div class="col-2">
-                            <input type="text" class="form-control" v-model="detail.value" @change="onPriceChange(detail)"/>
+                            <b-input placeholder="Number" type="number" v-model="detail.value" :input="onPriceChange(detail)"></b-input>
                         </div>
                         <div class="col-2">
-                            @{{ detail.taxExempt }}
+                            @{{ new Number(detail.taxExempt).toLocaleString() }}
                         </div>
                         <div class="col-2">
-                            @{{ detail.taxable }}
+                            @{{ new Number(detail.taxable).toLocaleString() }}
                         </div>
                         <div class="col-1">
-                            @{{ detail.vat }}
+                            @{{ new Number(detail.vat).toLocaleString() }}
                         </div>
                         <div class="col-1">
-                            <input type="hidden" :value="grandTotal"/>
                             <button v-on:click="deleteDetail(detail)" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
                                 <i class="la la-remove"></i>
                             </button>
@@ -207,21 +205,16 @@
                             <span class="m--font-boldest">@lang('global.Total')</span>
                         </div>
                         <div class="col-2">
-
-                            <span class="m--font-boldest">@{{ grandTotal }}</span>
+                            <span class="m--font-boldest">@{{ new Number(grandTotal).toLocaleString() }}</span>
                         </div>
                         <div class="col-2">
-                            <span class="m--font-boldest">@{{ grandTaxExempt }}</span>
+                            <span class="m--font-boldest">@{{ new Number(grandTaxExempt).toLocaleString() }}</span>
                         </div>
                         <div class="col-2">
-                            <span class="m--font-boldest">@{{ grandTaxable }}</span>
+                            <span class="m--font-boldest">@{{ new Number(grandTaxable).toLocaleString() }}</span>
                         </div>
-                        <div class="col-1">
-                            <span class="m--font-boldest">@{{ grandVAT }}</span>
-
-                        </div>
-                        <div class="col-1">
-
+                        <div class="col-2">
+                            <span class="m--font-boldest">@{{ new Number(grandVAT).toLocaleString() }}</span>
                         </div>
                     </div>
                 </div>

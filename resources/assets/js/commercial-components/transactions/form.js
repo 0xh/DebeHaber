@@ -45,10 +45,7 @@ Vue.component('transaction-form',
                 // taxable
             ],
             documents:[],
-            //    accounts:[],
             currencies:[],
-            //  charts:[],
-            //  vats:[]
         }
     },
 
@@ -64,48 +61,49 @@ Vue.component('transaction-form',
         grandTotal: function()
         {
             var app = this;
-            var total = 0.0;
+            var total = 0;
             for (let i = 0; i < app.details.length; i++)
             {
-                total += parseFloat(app.details[i].value).toFixed(2) ;
+                total += parseFloat(app.details[i].value).toFixed(2);
             }
 
-            return parseFloat(total).toFixed(2);
+            return total;
         },
 
         grandTaxExempt: function()
         {
-            var total = 0.0;
-            for (let i = 0; i < this.details.length; i++)
+            var app = this;
+            var total = 0;
+            for (let i = 0; i < app.details.length; i++)
             {
-                total += parseFloat(this.details[i].taxExempt).toFixed(2);
+                total +=  parseFloat(app.details[i].taxExempt).toFixed(2);
             }
 
-            return parseFloat(total).toFixed(2);
+            return total;
         },
 
         grandTaxable: function()
         {
             var app = this;
-            var total = 0.0;
-
+            var total = 0;
             for (let i = 0; i < app.details.length; i++)
             {
                 total += parseFloat(app.details[i].taxable).toFixed(2);
             }
 
-            return parseFloat(total).toFixed(2);
+            return total;
         },
 
         grandVAT: function()
         {
-            var total = 0.0;
-            for (let i = 0; i < this.details.length; i++)
+            var app = this;
+            var total = 0;
+            for (let i = 0; i < app.details.length; i++)
             {
-                total += parseFloat(this.details[i].vat).toFixed(2);
+                total += parseFloat(app.details[i].vat).toFixed(2);
             }
 
-            return parseFloat(total).toFixed(2);
+            return total;
         }
     },
 
@@ -122,9 +120,9 @@ Vue.component('transaction-form',
             let index = this.details.indexOf(detail)
             this.details.splice(index, 1)
         },
+
         onEdit: function(data)
         {
-            console.log(data)
             var app = this;
             app.id = data.id;
             app.type = data.type;
@@ -134,7 +132,7 @@ Vue.component('transaction-form',
             app.CustomerTaxID = data.CustomerTaxID;
             app.Value = data.Value;
             app.customer_id = data.customer_id;
-            app.chart_account_id=data.chart_account_id;
+            app.chart_account_id = data.chart_account_id;
             app.supplier_id = data.supplier_id;
             app.document_id = data.document_id;
             app.currency_id = data.currency_id;
@@ -148,27 +146,26 @@ Vue.component('transaction-form',
             app.comment = data.comment;
             app.ref_id = data.ref_id;
             app.details = data.details;
-            for (var i = 0; i < app.details.length; i++) {
+
+            for (var i = 0; i < app.details.length; i++)
+            {
                 app.onPriceChange(app.details[i]);
-
             }
-
 
             if (app.$children[0] != null)
             {
                 if (app.trantype == 4 || app.trantype == 5)
                 {
                     app.$children[0].selectText = data.customer;
-                    app.$children[0].id=data.customer_id ;
+                    app.$children[0].id = data.customer_id ;
                 }
                 else {
                     app.$children[0].selectText = data.supplier;
-                    app.$children[0].id=data.supplier_id ;
+                    app.$children[0].id = data.supplier_id ;
                 }
             }
 
             app.$parent.$parent.showList = false;
-
         },
 
         onReset: function(isnew)
@@ -179,12 +176,12 @@ Vue.component('transaction-form',
             app.type = null;
             app.Customer = null;
             app.Supplier = null;
-            app.SupplierTaxID=null;
-            app.CustomerTaxID=null;
+            app.SupplierTaxID = null;
+            app.CustomerTaxID = null;
             app.Value = null;
             app.currency_code = null;
             app.date = null;
-            app.chart_account_id=null;
+            app.chart_account_id = null;
             app.customer_id = null;
             app.supplier_id = null;
             app.document_id = null;
@@ -211,7 +208,7 @@ Vue.component('transaction-form',
         {
             var app = this;
             var api = null;
-            app.type =  app.trantype;
+            app.type = app.trantype;
 
             if (this.$children[0] != null) {
                 if (app.trantype == 4 || app.trantype == 5)
@@ -224,15 +221,11 @@ Vue.component('transaction-form',
                 }
             }
 
-
-
-            console.log(json);
             axios({
                 method: 'post',
                 url: '',
                 responseType: 'json',
                 data: json
-
             }).then(function (response)
             {
                 if (response.status = 200 )
@@ -246,7 +239,6 @@ Vue.component('transaction-form',
             })
             .catch(function (error)
             {
-                console.log(error);
                 console.log(error.response);
             });
         },
@@ -286,24 +278,22 @@ Vue.component('transaction-form',
 
             for (let i = 0; i < app.vats.length; i++)
             {
-
                 if (detail.chart_vat_id == app.vats[i].id)
                 {
-
-
+                    //check if tax exempt
                     if (app.vats[i].coefficient == '0.0000')
                     {
-                        detail.taxable=0;
-                        detail.taxExempt = parseFloat(parseFloat(detail.value).toFixed(2));
+                        detail.taxExempt = parseFloat(detail.value).toFixed(2);
+                        detail.taxable = 0;
                     }
                     else
                     {
-                        detail.taxExempt=0;
-                        detail.taxable = parseFloat(parseFloat(detail.value).toFixed(2) * ( parseFloat(app.vats[i].coefficient))).toFixed(2);
+                        detail.taxExempt = 0;
+                        detail.taxable = parseFloat(new Number(detail.value) / (1 + new Number(app.vats[i].coefficient))).toFixed(2);
                     }
 
-
-                    detail.vat = parseFloat(parseFloat(detail.value).toFixed(2) - (  detail.taxable == 0 ?   detail.taxExempt :   detail.taxable)).toFixed(2);
+                    //calculate vat
+                    detail.vat = parseFloat(new Number(detail.value) - (new Number(detail.taxable))).toFixed(2);
                 }
             }
         },
@@ -311,103 +301,97 @@ Vue.component('transaction-form',
         getAccounts: function(data)
         {
             var app = this;
-            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get-money_accounts' ,
-        )
-        .then(({ data }) =>
-        {
-            app.accounts = [];
-            for(let i = 0; i < data.length; i++)
+            axios
+            .get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get-money_accounts')
+            .then(({ data }) =>
             {
-                app.accounts.push({name:data[i]['name'],id:data[i]['id']});
-            }
-        });
+                app.accounts = [];
+                for(let i = 0; i < data.length; i++)
+                {
+                    app.accounts.push({ name:data[i]['name'], id:data[i]['id'] });
+                }
+            });
+        },
 
-    },
-    getDocuments: function(data)
-    {
-        var app = this;
-
-        axios.get('/api/' + app.$parent.taxpayer + '/get_documents/' + app.transType ,
-    )
-    .then(({ data }) =>
-    {
-        app.documents = [];
-        for(let i = 0; i < data.length; i++)
+        getDocuments: function(data)
         {
-            app.documents.push({ name:data[i]['code'], id:data[i]['id'] });
-        }
-    });
+            var app = this;
+            axios.get('/api/' + app.$parent.taxpayer + '/get_documents/' + app.transType)
+            .then(({ data }) =>
+            {
+                app.documents = [];
+                for(let i = 0; i < data.length; i++)
+                {
+                    app.documents.push({ name:data[i]['code'], id:data[i]['id'] });
+                }
+            });
 
-},
-getCurrencies: function(data)
-{
-    var app = this;
-    axios.get('/api/' + app.$parent.taxpayer + '/get_currency' ,
-)
-.then(({ data }) =>
-{
-    app.currencies = [];
-    for(let i = 0; i < data.length; i++)
-    {
-        app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
-        if (data[i]['code'] == this.taxpayerCurrency)
+        },
+
+        getCurrencies: function(data)
         {
-            app.currency_id = data[i]['id'];
+            var app = this;
+            axios.get('/api/' + app.$parent.taxpayer + '/get_currency' )
+            .then(({ data }) =>
+            {
+                app.currencies = [];
+                for(let i = 0; i < data.length; i++)
+                {
+                    app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
+                    if (data[i]['code'] == this.taxpayerCurrency)
+                    {
+                        app.currency_id = data[i]['id'];
+                    }
+                }
+            });
+
+        },
+
+        //Get Cost Centers
+        getCharts: function(data)
+        {
+            var app = this;
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-charts/')
+            .then(({ data }) =>
+            {
+                app.charts = [];
+                for(let i = 0; i < data.length; i++)
+                {
+                    app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
+                }
+            });
+        },
+
+        //VAT
+        getTaxes: function()
+        {
+            var app = this;
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-vats/')
+            .then(({ data }) =>
+            {
+                app.vats = [];
+                for(let i = 0; i < data.length; i++)
+                {
+                    app.vats.push({
+                        name:data[i]['name'],
+                        id:data[i]['id'],
+                        coefficient:data[i]['coefficient']
+                    });
+                }
+            });
+        },
+
+        init: function (data)
+        {
+            var app = this;
+            app.taxpayer_id = app.$parent.taxpayer;
+        },
+
+        mounted: function mounted()
+        {
+            this.init();
+            this.getDocuments();
+            this.getCurrencies();
         }
     }
-});
-
-},
-//Get Cost Centers
-getCharts: function(data)
-{
-    var app = this;
-    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-charts/',
-)
-.then(({ data }) =>
-{
-    app.charts = [];
-    for(let i = 0; i < data.length; i++)
-    {
-        app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
-    }
-
-});
-
-},
-//VAT
-getTaxes: function()
-{
-
-    var app = this;
-    axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-vats/',
-)
-.then(({ data }) =>
-{
-    app.vats = [];
-
-    for(let i = 0; i < data.length; i++)
-    {
-        app.vats.push({
-            name:data[i]['name'],
-            id:data[i]['id'],
-            coefficient:data[i]['coefficient']
-        });
-    }
-});
-},
-
-init: function (data)
-{
-    var app = this;
-    app.taxpayer_id = app.$parent.taxpayer;
-}
-},
-
-mounted: function mounted()
-{
-    this.init();
-    this.getDocuments();
-    this.getCurrencies();
-}
 });
