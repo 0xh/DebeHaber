@@ -91,9 +91,9 @@ class JournalController extends Controller
 
         return response()->json('ok');
     }
+
     public function journalstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
-
         //return response()->json($request[0]['debit'],500);
         $journal =  Journal::where('is_first', true)->where('cycle_id',$cycle->id)->count() == 0 ?
         new Journal() : Journal::where('is_first', true)->first();

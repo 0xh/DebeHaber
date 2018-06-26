@@ -152,7 +152,7 @@ class GenerateJournal implements ShouldQueue
         {
             //Do not get items that already have current status "Accounted" or "Finalized"
             $sales = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
-            ->with('details')
+            ->with('details:chart_id,chart_vat_id,value,cost')
             ->where('supplier_id', $taxPayer->id)
             ->whereNull('deleted_at')
             ->where('type', 4)
