@@ -13,7 +13,7 @@
             <div class="col-2">
                 <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Total')</p>
             </div>
-            <div class="col-1">
+            <div class="col-2">
                 <p class="m--align-center m--font-boldest m--font-transform-u">@lang('global.Actions')</p>
             </div>
         </div>
@@ -37,7 +37,7 @@
                     @{{ new Number(invoice.Value).toLocaleString() }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
                 </p>
             </div>
-            <div class="col-1">
+            <div class="col-2">
                 <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                     <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
                     <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>

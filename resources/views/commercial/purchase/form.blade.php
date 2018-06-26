@@ -184,13 +184,13 @@
                         <input type="text" class="form-control" v-model="detail.value" @change="onPriceChange(detail)"/>
                     </div>
                     <div class="col-2">
-                        @{{ detail.taxExempt }}
+                        @{{ new Number(detail.taxExempt).toLocaleString() }}
                     </div>
                     <div class="col-2">
-                        @{{ detail.taxable }}
+                        @{{ new Number(detail.taxable).toLocaleString() }}
                     </div>
                     <div class="col-1">
-                        @{{ detail.vat }}
+                        @{{ new Number(detail.vat).toLocaleString() }}
                     </div>
                     <div class="col-1">
                         <input type="hidden" :value="grandTotal"/>
@@ -211,16 +211,16 @@
                     </div>
                     <div class="col-2">
 
-                        <span class="m--font-boldest">@{{ grandTotal }}</span>
+                        <span class="m--font-boldest">@{{ new Number(grandTotal).toLocaleString() }}</span>
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">@{{ grandTaxExempt }}</span>
+                        <span class="m--font-boldest">@{{ new Number(grandTaxExempt).toLocaleString() }}</span>
                     </div>
                     <div class="col-2">
-                        <span class="m--font-boldest">@{{ grandTaxable }}</span>
+                        <span class="m--font-boldest">@{{ new Number(grandTaxable).toLocaleString() }}</span>
                     </div>
                     <div class="col-1">
-                        <span class="m--font-boldest">@{{ grandVAT }}</span>
+                        <span class="m--font-boldest">@{{ new Number(grandVAT).toLocaleString() }}</span>
                     </div>
                     <div class="col-1">
 
