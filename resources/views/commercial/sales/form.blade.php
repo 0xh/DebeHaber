@@ -63,7 +63,7 @@
                         <b>@lang('commercial.InvoiceNumber')</b>
                     </label>
                     <div class="col-8">
-                        <masked-input class="form-control m-input" mask="{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-mask') }}"   v-model="number" ></MaskedInput>
+                        <masked-input class="form-control m-input" mask="{{ Config::get('countries.' . request()->route('taxPayer')->country . '.document-mask') }}" v-model="number" ></MaskedInput>
                         </div>
                     </div>
                 </div>

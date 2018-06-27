@@ -338,10 +338,10 @@ Vue.component('transaction-form',
                 for(let i = 0; i < data.length; i++)
                 {
                     app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
-                    if (data[i]['code'] == this.taxpayerCurrency)
-                    {
-                        app.currency_id = data[i]['id'];
-                    }
+                    // if (data[i]['code'] == this.taxpayerCurrency)
+                    // {
+                    //     app.currency_id = data[i]['id'];
+                    // }
                 }
             });
 

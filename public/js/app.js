@@ -82420,8 +82420,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-form', {
         },
 
         getCurrencies: function getCurrencies(data) {
-            var _this = this;
-
             var app = this;
             __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/api/' + app.$parent.taxpayer + '/get_currency').then(function (_ref6) {
                 var data = _ref6.data;
@@ -82429,9 +82427,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-form', {
                 app.currencies = [];
                 for (var i = 0; i < data.length; i++) {
                     app.currencies.push({ name: data[i]['name'], id: data[i]['id'], isoCode: data[i]['code'] });
-                    if (data[i]['code'] == _this.taxpayerCurrency) {
-                        app.currency_id = data[i]['id'];
-                    }
+                    // if (data[i]['code'] == this.taxpayerCurrency)
+                    // {
+                    //     app.currency_id = data[i]['id'];
+                    // }
                 }
             });
         },
