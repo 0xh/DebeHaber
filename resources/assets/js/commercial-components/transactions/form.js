@@ -335,6 +335,7 @@ Vue.component('transaction-form',
             .then(({ data }) =>
             {
                 app.currencies = [];
+                console.log(data);
                 for(let i = 0; i < data.length; i++)
                 {
                     app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
