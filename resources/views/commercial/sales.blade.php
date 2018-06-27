@@ -106,9 +106,7 @@
 
 @section('form')
 
-    @php
-    $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
-    @endphp
+  
     <infinity taxpayer="{{ request()->route('taxPayer')->id }}" cycle="{{ request()->route('cycle')->id }}" baseurl="commercial/sales" inline-template>
         <div>
             <div v-if="$parent.showList">

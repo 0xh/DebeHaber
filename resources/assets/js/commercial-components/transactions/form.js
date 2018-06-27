@@ -331,7 +331,7 @@ Vue.component('transaction-form',
         getCurrencies: function()
         {
             var app = this;
-            console.log('abc');
+            
             axios.get('/api/' + app.$parent.taxpayer + '/get_currency' )
             .then(({ data }) =>
             {
@@ -387,13 +387,15 @@ Vue.component('transaction-form',
         {
             var app = this;
             app.taxpayer_id = app.$parent.taxpayer;
-        },
-
-        mounted: function mounted()
-        {
-            this.init();
-           this.getDocuments();
-            this.getCurrencies();
         }
+
+
+    },
+    mounted: function mounted()
+    {
+
+        //this.init();
+       this.getDocuments();
+        this.getCurrencies();
     }
 });
