@@ -82463,13 +82463,14 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-form', {
             });
         },
 
-        getCurrencies: function getCurrencies(data) {
+        getCurrencies: function getCurrencies() {
             var app = this;
+            console.log('abc');
             __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/api/' + app.$parent.taxpayer + '/get_currency').then(function (_ref6) {
                 var data = _ref6.data;
 
                 app.currencies = [];
-                console.log(data);
+
                 for (var i = 0; i < data.length; i++) {
                     app.currencies.push({ name: data[i]['name'], id: data[i]['id'], isoCode: data[i]['code'] });
                     // if (data[i]['code'] == this.taxpayerCurrency)

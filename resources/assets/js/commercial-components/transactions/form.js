@@ -331,11 +331,12 @@ Vue.component('transaction-form',
         getCurrencies: function()
         {
             var app = this;
+            console.log('abc');
             axios.get('/api/' + app.$parent.taxpayer + '/get_currency' )
             .then(({ data }) =>
             {
                 app.currencies = [];
-                console.log(data);
+
                 for(let i = 0; i < data.length; i++)
                 {
                     app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
