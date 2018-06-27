@@ -328,7 +328,7 @@ Vue.component('transaction-form',
 
         },
 
-        getCurrencies: function(data)
+        getCurrencies: function()
         {
             var app = this;
             axios.get('/api/' + app.$parent.taxpayer + '/get_currency' )
