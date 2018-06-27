@@ -390,7 +390,7 @@ Vue.component('transaction-form',
         mounted: function mounted()
         {
             this.init();
-            this.getDocuments();
+           this.getDocuments();
             this.getCurrencies();
         }
     }
