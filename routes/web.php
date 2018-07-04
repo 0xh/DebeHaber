@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function ()
                 'fixed-assets' => 'FixedAssetController',
                 'documents' => 'DocumentController'
             ]);
-              Route::get('sales/anull/{transactionID}', 'SalesController@anull');
+            Route::get('sales/anull/{transactionID}', 'SalesController@anull');
         });
 
         Route::prefix('/accounting')->group(function ()
@@ -71,6 +71,8 @@ Route::group(['middleware' => 'auth'], function ()
             ]);
             // Route::get('generate-journals/{$startDate}/{$endDate}', 'JournalController@generateJournalsByRange')->name('journals.generate');
             Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
+        
+            Route::get('merge-charts-index', 'ChartController@mergeChartsIndex')->name('MergeCharts.index');
         });
 
         Route::prefix('reports')->group(function ()

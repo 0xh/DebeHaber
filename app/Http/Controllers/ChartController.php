@@ -5,6 +5,16 @@ namespace App\Http\Controllers;
 use App\Taxpayer;
 use App\Chart;
 use App\Cycle;
+use App\CycleBudget;
+use App\FixedAsset;
+use App\Inventory;
+use App\Transaction;
+use App\TransactionDetail;
+use App\AccountMovement;
+use App\JournalDetail;
+use App\JournalTemplateDetail;
+use App\JournalSimDetail;
+use App\ProductionDetail;
 use App\Enums\ChartTypeEnum;
 use Illuminate\Http\Request;
 
@@ -320,8 +330,12 @@ class ChartController extends Controller
 
         return $chart;
     }
+    public function mergeChartsIndex(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        return view('accounting/mergechart');
+    }
 
-    public function mergeCharts($fromChartId, $toChartId, $boolIncludeFutureReference = false)
+    public function mergeCharts(Taxpayer $taxPayer, Cycle $cycle,$fromChartId, $toChartId, $boolIncludeFutureReference = false)
     {
         //run validation on chart types and make sure a transfer can take place.
         $fromChart = Chart::find($fromChartId);
@@ -329,28 +343,28 @@ class ChartController extends Controller
 
         if (isset($fromChart) && isset($toChart))
         {
-            App\CycleBudget::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            CycleBudget::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
-            App\FixedAsset::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            FixedAsset::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
-            App\ProductionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            ProductionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
-            App\Inventory::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            Inventory::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
             //update all transaction money accounts
-            App\Transaction::where('chart_account_id', $fromChartId)->update(['chart_account_id' => $toChartId]);
+            Transaction::where('chart_account_id', $fromChartId)->update(['chart_account_id' => $toChartId]);
 
             //update all transaction details and vats
-            App\TransactionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-            App\TransactionDetail::where('vat_id', $fromChartId)->update(['vat_id' => $toChartId]);
+            TransactionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            TransactionDetail::where('chart_vat_id', $fromChartId)->update(['chart_vat_id' => $toChartId]);
 
             //update all account movements
-            App\AccountMovement::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            AccountMovement::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
             //update all journal details
-            App\JournalDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-            App\JournalTemplateDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-            App\JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            JournalDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            JournalTemplateDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
             //add alias to new chart
             if ($boolIncludeFutureReference) {
@@ -361,9 +375,9 @@ class ChartController extends Controller
             //delete $fromCharts
             $fromChart->forceDelete();
 
-            //return success
+                return response()->json('Sucess',500);
         }
 
-        // return failure
+            return response()->json('Fail',501);
     }
 }
