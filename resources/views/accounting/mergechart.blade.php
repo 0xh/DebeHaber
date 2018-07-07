@@ -11,7 +11,7 @@
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <mergechart :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" inline-template>
+  <mergechart :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" :id="{{ request()->route('id') }}" :name="'{{ request()->route('name') }}'" inline-template>
       <div>
 
           <!--begin::Form-->

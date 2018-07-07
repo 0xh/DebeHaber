@@ -135,36 +135,8 @@ Vue.component('chart',{
     },
     onDelete: function(data)
     {
-        swal({
-            title: 'Delete "' + data.name + '"',
-            text: 'Please select another chart to merge all transactions from the current chart.',
-            html: '<input id="swal-input1" class="swal2-input">',
-            input: 'text',
-            showCancelButton: true,
-            confirmButtonText: 'Merge',
-            showLoaderOnConfirm: true,
-            preConfirm: (email) => {
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        if (email === 'taken@example.com') {
-                            swal.showValidationError(
-                                'This email is already taken.'
-                            )
-                        }
-                        resolve()
-                    }, 2000)
-                })
-            },
-            allowOutsideClick: () => !swal.isLoading()
-        }).then((result) => {
-            if (result.value) {
-                swal({
-                    type: 'success',
-                    title: 'Ajax request finished!',
-                    html: 'Submitted email: ' + result.value
-                })
-            }
-        })
+        console.log('ad');
+        windows.location.herf="http://localhost:8000/taxpayer/769164/16/accounting/merge-charts-index#/2"
     }
 },
 

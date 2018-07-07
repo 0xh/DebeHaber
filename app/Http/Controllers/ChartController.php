@@ -343,7 +343,7 @@ class ChartController extends Controller
 
         return $chart;
     }
-    public function mergeChartsIndex(Taxpayer $taxPayer, Cycle $cycle)
+    public function mergeChartsIndex(Taxpayer $taxPayer, Cycle $cycle,$id,$name)
     {
         return view('accounting/mergechart');
     }

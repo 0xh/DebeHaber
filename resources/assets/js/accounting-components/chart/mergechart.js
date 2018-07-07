@@ -7,7 +7,7 @@ Vue.use(VueSweetAlert);
 
 Vue.component('mergechart',{
 
-    props: ['taxpayer','cycle'],
+    props: ['taxpayer','cycle','id','name'],
     data() {
         return {
             id : 0,
@@ -65,6 +65,8 @@ Vue.component('mergechart',{
 
     mounted: function mounted()
     {
-        //    this.init();
+        console.log(this.name);
+         this.$children[0].selectText=this.name;
+          this.fromChartId=this.id;
     }
 });

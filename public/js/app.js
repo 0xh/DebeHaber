@@ -80381,36 +80381,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('chart', {
             app.$children[0].selectText = data.name;
         },
         onDelete: function onDelete(data) {
-            swal({
-                title: 'Delete "' + data.name + '"',
-                text: 'Please select another chart to merge all transactions from the current chart.',
-                html: '<input id="swal-input1" class="swal2-input">',
-                input: 'text',
-                showCancelButton: true,
-                confirmButtonText: 'Merge',
-                showLoaderOnConfirm: true,
-                preConfirm: function preConfirm(email) {
-                    return new Promise(function (resolve) {
-                        setTimeout(function () {
-                            if (email === 'taken@example.com') {
-                                swal.showValidationError('This email is already taken.');
-                            }
-                            resolve();
-                        }, 2000);
-                    });
-                },
-                allowOutsideClick: function allowOutsideClick() {
-                    return !swal.isLoading();
-                }
-            }).then(function (result) {
-                if (result.value) {
-                    swal({
-                        type: 'success',
-                        title: 'Ajax request finished!',
-                        html: 'Submitted email: ' + result.value
-                    });
-                }
-            });
+            console.log('ad');
+            windows.location.herf = "http://localhost:8000/taxpayer/769164/16/accounting/merge-charts-index#/2";
         }
     },
 
@@ -80439,7 +80411,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mergechart', {
 
-    props: ['taxpayer', 'cycle'],
+    props: ['taxpayer', 'cycle', 'id', 'name'],
     data: function data() {
         return {
             id: 0,
@@ -80487,7 +80459,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mergechart', {
     },
 
     mounted: function mounted() {
-        //    this.init();
+        console.log(this.name);
+        this.$children[0].selectText = this.name;
+        this.fromChartId = this.id;
     }
 });
 
@@ -83575,6 +83549,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('infinity', {
                     console.log(status);
                 }
             });
+        },
+        onDeleteChart: function onDeleteChart(data) {
+            console.log('ad');
+            window.location = "http://localhost:8000/taxpayer/769164/16/accounting/merge-charts-index/" + data.id + "/" + data.name;
         },
         onDelete: function onDelete(data) {
             //SweetAlert message and confirmation.

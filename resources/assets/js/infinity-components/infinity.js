@@ -93,6 +93,11 @@ Vue.component('infinity',
                 }
             });
         },
+        onDeleteChart: function(data)
+          {
+              console.log('ad');
+              window.location="http://localhost:8000/taxpayer/769164/16/accounting/merge-charts-index/" + data.id + "/" + data.name
+          },
         onDelete: function(data)
         {
             //SweetAlert message and confirmation.
