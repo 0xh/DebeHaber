@@ -22,7 +22,7 @@
                           @lang('global.FromAccount'):
                       </label>
                       <div class="col-lg-6">
-                          <router-view name="SearchBoxAccount" url="/accounting/chart/get-parent_accounts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
+                          <router-view name="SearchBoxAccount" url="/accounting/chart/get-accountable_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
 
                           </router-view>
                       </div>
@@ -32,7 +32,7 @@
                           @lang('global.ToAccount'):
                       </label>
                       <div class="col-lg-6">
-                          <router-view name="SearchBoxAccount" url="/accounting/chart/get-parent_accounts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
+                          <router-view name="SearchBoxAccount" url="/accounting/chart/get-accountable_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
 
                           </router-view>
                       </div>

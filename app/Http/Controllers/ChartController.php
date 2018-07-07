@@ -226,6 +226,19 @@ class ChartController extends Controller
 
         return response()->json($charts);
     }
+    public function searchAccountableCharts(Taxpayer $taxPayer, Cycle $cycle, $query)
+    {
+        $charts = Chart::where('is_accountable', true)
+        ->where(function ($q) use ($query)
+        {
+            $q->where('name', 'like', '%' . $query . '%')
+            ->orWhere('code', 'like', '%' . $query . '%');
+        })
+        ->with('children:name')
+        ->get();
+
+        return response()->json($charts);
+    }
 
     public function createIfNotExists_CashAccounts(Taxpayer $taxPayer, Cycle $cycle, $chart_id)
     {
