@@ -380,7 +380,7 @@ class ChartController extends Controller
             JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
             //Fix all parents
-            Chart::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            Chart::where('parent_id', $fromChartId)->update(['parent_id' => $toChartId]);
 
             //add alias to new chart
             $alias = new ChartAlias();
