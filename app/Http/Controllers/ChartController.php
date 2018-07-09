@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Taxpayer;
 use App\Chart;
+use App\ChartAlias;
 use App\Cycle;
 use App\CycleBudget;
 use App\FixedAsset;
