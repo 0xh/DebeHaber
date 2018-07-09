@@ -16,7 +16,6 @@ use App\JournalDetail;
 use App\JournalTemplateDetail;
 use App\JournalSimDetail;
 use App\ProductionDetail;
-use App\ChartAlias;
 use App\Enums\ChartTypeEnum;
 use Illuminate\Http\Request;
 
@@ -386,7 +385,7 @@ class ChartController extends Controller
 
             //add alias to new chart
             $alias = new ChartAlias();
-            $alias->chart_id = $toChartId->id;
+            $alias->chart_id = $toChart->id;
             $alias->name = $fromChart->name;
             $alias->save();
 

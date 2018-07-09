@@ -80,7 +80,7 @@
                                 @lang('global.FromAccount'):
                             </label>
                             <div class="col-lg-10">
-                                <router-view name="SearchBoxAccount" url="/accounting/chart/get-accountable_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" ></router-view>
+                                @{{selectid}} -> @{{selectname}}
                             </div>
                         </div>
                         <div class="form-group m-form__group row">

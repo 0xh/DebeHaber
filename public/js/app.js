@@ -80425,38 +80425,36 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mergechart', {
             var app = this;
             var api = null;
 
-            app.fromChartId = app.$children[0].id;
-            app.toChartId = app.$children[1].id;
+            app.fromChartId = app.selectid;
+            app.toChartId = app.$children[0].id;
 
-            $.ajax({
-                //charts/merge/{id}
-                url: '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/chart/merge/' + app.fromChartId + '/' + app.toChartId,
-                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-                type: 'post',
-                data: json,
-                dataType: 'json',
-                async: false,
-                success: function success(data) {
-                    console.log(data);
-                    if (data == 200) {
-                        alert('Chart Merged...');
-                    } else {
-                        alert('Something Went Wrong...');
+            if (this.fromChartId > 0 && this.toChartId > 0) {
+                $.ajax({
+                    //charts/merge/{id}
+                    url: '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/chart/merge/' + app.fromChartId + '/' + app.toChartId,
+                    headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                    type: 'post',
+                    data: json,
+                    dataType: 'json',
+                    async: false,
+                    success: function success(data) {
+                        console.log(data);
+                        if (data == 200) {
+                            alert('Chart Merged...');
+                        } else {
+                            alert('Something Went Wrong...');
+                        }
+                    },
+                    error: function error(xhr, status, _error) {
+                        app.$swal('Something went wrong, check logs...' + _error);
+                        console.log(xhr.responseText);
                     }
-                },
-                error: function error(xhr, status, _error) {
-                    app.$swal('Something went wrong, check logs...' + _error);
-                    console.log(xhr.responseText);
-                }
-            });
+                });
+            }
         }
     },
 
-    mounted: function mounted() {
-        console.log(this.selectid);
-        this.$children[0].selectText = this.selectname;
-        this.$children[0].id = this.selectid;
-    }
+    mounted: function mounted() {}
 });
 
 /***/ }),
