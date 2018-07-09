@@ -15,6 +15,7 @@ use App\JournalDetail;
 use App\JournalTemplateDetail;
 use App\JournalSimDetail;
 use App\ProductionDetail;
+use App\ChartAlias;
 use App\Enums\ChartTypeEnum;
 use Illuminate\Http\Request;
 
@@ -384,14 +385,14 @@ class ChartController extends Controller
 
             //add alias to new chart
             $alias = new ChartAlias();
-            $alias->chart_id = $fromChart->id;
+            $alias->chart_id = $toChartId->id;
             $alias->name = $fromChart->name;
             $alias->save();
 
             //delete $fromCharts
             $fromChart->forceDelete();
 
-            return response()->json('Ok', 200);
+            return response()->json(200, 200);
         }
 
         return response()->json('Chart not Found', 404);
