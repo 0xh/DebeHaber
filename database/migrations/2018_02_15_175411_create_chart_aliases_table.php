@@ -14,16 +14,11 @@ class CreateChartAliasesTable extends Migration
     public function up()
     {
         Schema::create('chart_aliases', function (Blueprint $table) {
-
             $table->increments('id');
-
             $table->unsignedInteger('chart_id');
             $table->foreign('chart_id')->references('id')->on('charts')->onDelete('cascade');
-
             $table->string('name');
-
             $table->timestamps();
-
         });
     }
 

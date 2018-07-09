@@ -348,7 +348,7 @@ class ChartController extends Controller
         return view('accounting/chart-merge');
     }
 
-    public function mergeCharts(Taxpayer $taxPayer, Cycle $cycle,$fromChartId, $toChartId, $boolIncludeFutureReference = false)
+    public function mergeCharts(Taxpayer $taxPayer, Cycle $cycle, $fromChartId, $toChartId)
     {
         //run validation on chart types and make sure a transfer can take place.
         $fromChart = Chart::find($fromChartId);
@@ -383,10 +383,10 @@ class ChartController extends Controller
             Chart::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
             //add alias to new chart
-            if ($boolIncludeFutureReference) {
-                $toChart->alias = $fromChart->name;
-                $toChart->save();
-            }
+            $alias = new ChartAlias();
+            $alias->chart_id = $fromChart->id;
+            $alias->name = $fromChart->name;
+            $alias->save();
 
             //delete $fromCharts
             $fromChart->forceDelete();
