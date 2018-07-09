@@ -80438,19 +80438,32 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mergechart', {
                     dataType: 'json',
                     async: false,
                     success: function success(data) {
-                        console.log(data);
+                        //console.log(data);
                         if (data == 200) {
-                            alert('Chart Merged...');
+                            app.$swal('Chart Merged...');
                         } else {
-                            alert('Something Went Wrong...');
+                            app.$swal('Something went wrong, check logs...' + error);
                         }
                     },
-                    error: function error(xhr, status, _error) {
-                        app.$swal('Something went wrong, check logs...' + _error);
+                    error: function (_error) {
+                        function error(_x, _x2, _x3) {
+                            return _error.apply(this, arguments);
+                        }
+
+                        error.toString = function () {
+                            return _error.toString();
+                        };
+
+                        return error;
+                    }(function (xhr, status, error) {
+                        app.$swal('Something went wrong, check logs...' + error);
                         console.log(xhr.responseText);
-                    }
+                    })
                 });
             }
+        },
+        cancel: function cancel() {
+            this.$parent.close();
         }
     },
 

@@ -40,14 +40,14 @@ Vue.component('mergechart',{
                     async : false,
                     success: function(data)
                     {
-                        console.log(data);
+                        //console.log(data);
                         if (data == 200)
                         {
-                            alert('Chart Merged...')
+                            app.$swal('Chart Merged...');
                         }
                         else
                         {
-                            alert('Something Went Wrong...')
+                            app.$swal('Something went wrong, check logs...' + error);
                         }
                     },
                     error: function(xhr, status, error)
@@ -58,11 +58,16 @@ Vue.component('mergechart',{
                 });
             }
 
+        },
+        cancel: function()
+        {
+this.$parent.close();
+
         }
     },
 
     mounted: function mounted()
     {
-        
+
     }
 });
