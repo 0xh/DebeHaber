@@ -326,7 +326,7 @@ class TaxpayerController extends Controller
         ->first();
 
         //If null, then create it.
-        if (isset($cycle))
+        if ($cycle->id == null || $cycle->id == 0)
         {
             //TODO Get Last ChartVersion or Default..
             $chartVersion = ChartVersion::where('country', $taxPayer->country)->first() ?? new ChartVersion();
