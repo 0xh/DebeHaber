@@ -132,11 +132,6 @@ Vue.component('chart',{
         app.coefficient = data.coefficient;
         app.asset_years =  data.asset_years;
         app.$children[0].selectText=data.name;
-    },
-
-    onDelete: function(data)
-    {
-        windows.location.herf = "merge/" + data.id
     }
 },
 

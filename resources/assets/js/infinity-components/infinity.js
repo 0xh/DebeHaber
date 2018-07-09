@@ -16,6 +16,9 @@ Vue.component('infinity',
             skip: 0,
             pageSize: 100,
             search: '',
+            isActive:false,
+            fromid:0,
+            fromname:''
 
         }
     },
@@ -90,9 +93,20 @@ Vue.component('infinity',
                 }
             });
         },
+        onDeleteAccount: function(data)
+        {
+            
+            this.fromid=data.id;
+            this.fromname=data.name;
+            this.isActive=true;
+
+            //window.location.href =  "charts/merge/" + data.id
+
+        },
         onDelete: function(data)
         {
             //SweetAlert message and confirmation.
+
             var app = this;
             $.ajax({
                 url: '/taxpayer/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + data.ID,

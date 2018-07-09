@@ -58,19 +58,69 @@
             <div v-if="data.taxpayer_id != null" class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                 <button @click="onView(data)" class="m-btn btn btn-success"><i class="la la-eye"></i></button>
                 <button @click="onEdit(data.id)" class="m-btn btn btn-primary"><i class="la la-pencil"></i></button>
+                <button @click="onDeleteAccount(data)" class="m-btn btn btn-primary"><i class="la la-pencil"></i></button>
                 {{-- <button href="{{ route('charts.merge', [request()->route('taxPayer'), request()->route('cycle'), ]) }}" class="m-btn btn btn-secondary">
                     <i class="la la-trash m--font-danger"></i>
                 </button> --}}
-                <button href="{{ route('charts.merge', [request()->route('taxPayer'), request()->route('cycle'), ]) }}" class="m-btn btn btn-secondary">
+                {{-- <button href="{{ route('charts.merge', [request()->route('taxPayer'), request()->route('cycle'), ]) }}" class="m-btn btn btn-secondary">
                     <i class="la la-trash m--font-danger"></i>
-                </button>
+                </button> --}}
             </div>
             <div v-else class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                 <button disabled class="m-btn btn btn-metal"></button>
                 <button disabled class="m-btn btn btn-secondary">Classification Account</button>
             </div>
         </div>
+
     </div>
+    <b-modal :active.sync="isActive">
+        <mergechart :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" :selectid="fromid" :selectname="fromname" inline-template>
+          <div>
+
+              <!--begin::Form-->
+              <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator">
+                  <div class="m-portlet__body">
+                      <div class="form-group m-form__group row">
+                          <label class="col-lg-2 col-form-label">
+                              @lang('global.FromAccount'):
+                          </label>
+                          <div class="col-lg-6">
+                              <router-view name="SearchBoxAccount" url="/accounting/chart/get-accountable_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
+
+                              </router-view>
+                          </div>
+                      </div>
+                      <div class="form-group m-form__group row">
+                          <label class="col-lg-2 col-form-label">
+                              @lang('global.ToAccount'):
+                          </label>
+                          <div class="col-lg-6">
+                              <router-view name="SearchBoxAccount" url="/accounting/chart/get-accountable_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
+
+                              </router-view>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+
+              <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                  <div class="m-form__actions m-form__actions--solid">
+                      <div class="row">
+                          <div class="col-lg-2"></div>
+                          <div class="col-lg-6">
+                              <button v-on:click="onSave($data)" class="btn btn-primary">
+                                  @lang('global.Save')
+                              </button>
+                              <button v-on:click="cancel()" class="btn btn-secondary">Cancel</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </mergechart>
+    </b-modal>
 
     <infinite-loading force-use-infinite-wrapper="true" @infinite="infiniteHandler">
         <span slot="no-more">

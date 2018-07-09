@@ -7,7 +7,7 @@ Vue.use(VueSweetAlert);
 
 Vue.component('mergechart',{
 
-    props: ['taxpayer','cycle','id','name'],
+    props: ['taxpayer','cycle','selectid','selectname'],
     data() {
         return {
             id : 0,
@@ -31,7 +31,7 @@ Vue.component('mergechart',{
 
             $.ajax({
                 //charts/merge/{id}
-                url : '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/charts/merge/' +  app.fromChartId + '/' + app.toChartId,
+                url : '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/chart/merge/' +  app.fromChartId + '/' + app.toChartId,
                 headers : {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type : 'post',
                 data : json,
@@ -60,8 +60,8 @@ Vue.component('mergechart',{
 
     mounted: function mounted()
     {
-        console.log(this.name);
-        this.$children[0].selectText = this.name;
-        this.fromChartId = this.id;
+        console.log(this.selectid);
+        this.$children[0].selectText = this.selectname;
+        this.$children[0].id = this.selectid;
     }
 });
