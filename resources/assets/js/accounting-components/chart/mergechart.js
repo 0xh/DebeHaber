@@ -14,8 +14,6 @@ Vue.component('mergechart',{
             fromChartId : '',
             toChartId : '',
             boolIncludeFutureReference : '',
-
-
         }
     },
 
@@ -25,15 +23,15 @@ Vue.component('mergechart',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
-
             var app = this;
             var api = null;
 
-            app.fromChartId=app.$children[0].id;
-            app.toChartId=app.$children[1].id;
+            app.fromChartId = app.$children[0].id;
+            app.toChartId = app.$children[1].id;
 
             $.ajax({
-                url : '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/chart/merge-charts/' +  app.fromChartId + '/' + app.toChartId,
+                //charts/merge/{id}
+                url : '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/charts/merge/' +  app.fromChartId + '/' + app.toChartId,
                 headers : {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type : 'post',
                 data : json,
@@ -45,7 +43,6 @@ Vue.component('mergechart',{
                     if (data == 200)
                     {
                         alert('Chart Merged...')
-
                     }
                     else
                     {
@@ -59,14 +56,12 @@ Vue.component('mergechart',{
                 }
             });
         }
-
-
     },
 
     mounted: function mounted()
     {
         console.log(this.name);
-         this.$children[0].selectText=this.name;
-          this.fromChartId=this.id;
+        this.$children[0].selectText = this.name;
+        this.fromChartId = this.id;
     }
 });

@@ -27,12 +27,9 @@ Vue.component('infinity',
             return this.list;
         },
 
-
         Today: function Today() {
             return new Date();
         }
-
-
     },
 
     components:
@@ -83,7 +80,7 @@ Vue.component('infinity',
                 async: true,
                 success: function(data)
                 {
-                  console.log('/api/' + app.taxpayer + '/' + app.cycle + '/' +  app.baseurl + '/by-id/' + data);
+                    console.log('/api/' + app.taxpayer + '/' + app.cycle + '/' +  app.baseurl + '/by-id/' + data);
                     app.$children[0].onEdit(data[0]);
 
                 },
@@ -93,11 +90,6 @@ Vue.component('infinity',
                 }
             });
         },
-        onDeleteChart: function(data)
-          {
-              console.log('ad');
-              window.location="http://localhost:8000/taxpayer/769164/16/accounting/merge-charts-index/" + data.id + "/" + data.name
-          },
         onDelete: function(data)
         {
             //SweetAlert message and confirmation.

@@ -343,9 +343,9 @@ class ChartController extends Controller
 
         return $chart;
     }
-    public function mergeChartsIndex(Taxpayer $taxPayer, Cycle $cycle,$id,$name)
+    public function mergeChartsIndex(Taxpayer $taxPayer, Cycle $cycle, $id)
     {
-        return view('accounting/mergechart');
+        return view('accounting/chart-merge');
     }
 
     public function mergeCharts(Taxpayer $taxPayer, Cycle $cycle,$fromChartId, $toChartId, $boolIncludeFutureReference = false)
@@ -379,6 +379,9 @@ class ChartController extends Controller
             JournalTemplateDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
+            //Fix all parents
+            Chart::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+
             //add alias to new chart
             if ($boolIncludeFutureReference) {
                 $toChart->alias = $fromChart->name;
@@ -388,9 +391,9 @@ class ChartController extends Controller
             //delete $fromCharts
             $fromChart->forceDelete();
 
-                return response()->json('Sucess',500);
+            return response()->json('Ok', 200);
         }
 
-            return response()->json('Fail',501);
+        return response()->json('Chart not Found', 404);
     }
 }

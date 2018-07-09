@@ -58,8 +58,12 @@
             <div v-if="data.taxpayer_id != null" class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                 <button @click="onView(data)" class="m-btn btn btn-success"><i class="la la-eye"></i></button>
                 <button @click="onEdit(data.id)" class="m-btn btn btn-primary"><i class="la la-pencil"></i></button>
-                <button @click="onDeleteChart(data)" class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></button>
-                {{-- <a @click="onMigrate(data)" class="m-btn btn btn-secondary"><i class="la la-forward m--font-warning"></i></a> --}}
+                {{-- <button href="{{ route('charts.merge', [request()->route('taxPayer'), request()->route('cycle'), ]) }}" class="m-btn btn btn-secondary">
+                    <i class="la la-trash m--font-danger"></i>
+                </button> --}}
+                <button href="{{ route('charts.merge', [request()->route('taxPayer'), request()->route('cycle'), ]) }}" class="m-btn btn btn-secondary">
+                    <i class="la la-trash m--font-danger"></i>
+                </button>
             </div>
             <div v-else class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
                 <button disabled class="m-btn btn btn-metal"></button>

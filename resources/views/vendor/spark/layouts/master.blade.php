@@ -88,8 +88,8 @@
                     @else
                         @if(request()->route('cycle') != null)
                             @php
-                            $cycleid =request()->route('cycle')->id ;
-                            $taxpayerid =request()->route('taxPayer')->id ;
+                            $cycleid = request()->route('cycle')->id ;
+                            $taxpayerid = request()->route('taxPayer')->id ;
                             @endphp
                         @else
                             @php

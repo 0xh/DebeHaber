@@ -71,8 +71,7 @@ Route::group(['middleware' => 'auth'], function ()
             ]);
             // Route::get('generate-journals/{$startDate}/{$endDate}', 'JournalController@generateJournalsByRange')->name('journals.generate');
             Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
-
-            Route::get('merge-charts-index/{id}/{name}', 'ChartController@mergeChartsIndex')->name('MergeCharts.index');
+            Route::get('charts/merge/{id}', 'ChartController@mergeChartsIndex')->name('charts.merge');
         });
 
         Route::prefix('reports')->group(function ()

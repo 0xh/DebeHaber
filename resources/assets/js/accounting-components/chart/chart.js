@@ -133,10 +133,10 @@ Vue.component('chart',{
         app.asset_years =  data.asset_years;
         app.$children[0].selectText=data.name;
     },
-    
+
     onDelete: function(data)
     {
-        windows.location.herf="/taxpayer/769164/16/accounting/merge-charts-index#/2"
+        windows.location.herf = "merge/" + data.id
     }
 },
 
