@@ -358,28 +358,21 @@ class ChartController extends Controller
         if (isset($fromChart) && isset($toChart))
         {
             CycleBudget::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-
             FixedAsset::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-
             ProductionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
 
             Inventory::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-
             //update all transaction money accounts
             Transaction::where('chart_account_id', $fromChartId)->update(['chart_account_id' => $toChartId]);
-
             //update all transaction details and vats
             TransactionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             TransactionDetail::where('chart_vat_id', $fromChartId)->update(['chart_vat_id' => $toChartId]);
-
             //update all account movements
             AccountMovement::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-
             //update all journal details
             JournalDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             JournalTemplateDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-
             //Fix all parents
             Chart::where('parent_id', $fromChartId)->update(['parent_id' => $toChartId]);
 
@@ -395,6 +388,6 @@ class ChartController extends Controller
             return response()->json(200, 200);
         }
 
-        return response()->json('Chart not Found', 404);
+        return response()->json('Chart not found', 404);
     }
 }
