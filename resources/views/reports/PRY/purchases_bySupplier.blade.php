@@ -32,7 +32,7 @@
                     <td class="number"><b>{{ number_format($groupedRows->where('coefficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</b></td>
                     <td class="number"><b>0</b></td>
                     <td class="number"><b>{{ number_format($groupedRows->where('coefficient', '=', 0.00)->sum('vatValue'), 0, ',', '.') }}</b></td>
-                    <td class="number"><b>{{ number_format($groupedRows->sum('vatValue'), 0, ',', '.') }}</b></td>
+                    <td class="number"><b>{{ number_format($groupedRows->sum('localCurrencyValue'), 0, ',', '.') }}</b></td>
                 </tr>
                 @foreach ($groupedRows->groupBy('purchaseID') as $row)
                     <tr>

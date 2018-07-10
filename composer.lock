@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5c1144c55ab12e510171920126cefd6",
+    "content-hash": "2c6db7f74adb25aad434716a3f083d7a",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -284,6 +284,64 @@
                 "laravel"
             ],
             "time": "2018-06-09T12:19:29+00:00"
+        },
+        {
+            "name": "beyondcode/laravel-self-diagnosis",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beyondcode/laravel-self-diagnosis.git",
+                "reference": "b330a934bf2fe65b92d9adadc6e7d46313322ec0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beyondcode/laravel-self-diagnosis/zipball/b330a934bf2fe65b92d9adadc6e7d46313322ec0",
+                "reference": "b330a934bf2fe65b92d9adadc6e7d46313322ec0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+                "php": "^7.1",
+                "vlucas/phpdotenv": "~2.5"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "~3.5",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BeyondCode\\SelfDiagnosis\\SelfDiagnosisServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BeyondCode\\SelfDiagnosis\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Pociot",
+                    "email": "marcel@beyondco.de",
+                    "homepage": "https://beyondcode.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Perform various self diagnosis tests on your Laravel application.",
+            "homepage": "https://github.com/beyondcode/laravel-self-diagnosis",
+            "keywords": [
+                "beyondcode",
+                "laravel-self-diagnosis"
+            ],
+            "time": "2018-07-09T12:33:27+00:00"
         },
         {
             "name": "colinodell/json5",
@@ -1666,16 +1724,16 @@
         },
         {
             "name": "hootlex/laravel-friendships",
-            "version": "v1.0.23",
+            "version": "v1.0.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hootlex/laravel-friendships.git",
-                "reference": "b9f9bf78bf3ee92ba35e10f755f84287ab9226d0"
+                "reference": "0100718545bad757006737c21a7b35dc5c52b443"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hootlex/laravel-friendships/zipball/b9f9bf78bf3ee92ba35e10f755f84287ab9226d0",
-                "reference": "b9f9bf78bf3ee92ba35e10f755f84287ab9226d0",
+                "url": "https://api.github.com/repos/hootlex/laravel-friendships/zipball/0100718545bad757006737c21a7b35dc5c52b443",
+                "reference": "0100718545bad757006737c21a7b35dc5c52b443",
                 "shasum": ""
             },
             "require": {
@@ -1690,6 +1748,13 @@
                 "phpunit/phpunit": "5.*"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hootlex\\Friendships\\FriendshipsServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Hootlex\\Friendships\\": "src/"
@@ -1713,7 +1778,7 @@
                 "friendships",
                 "laravel"
             ],
-            "time": "2017-07-17T12:25:59+00:00"
+            "time": "2018-07-03T09:16:10+00:00"
         },
         {
             "name": "intervention/image",
@@ -2216,7 +2281,7 @@
             "dist": {
                 "type": "path",
                 "url": "./spark",
-                "reference": "368de5bd46dd8c049158a9c7a3a2aa1e853602c7",
+                "reference": "89e7593c3919595b3146f4b2f5e45f6036926ee4",
                 "shasum": null
             },
             "require": {
@@ -2586,16 +2651,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.0.6",
+            "version": "3.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "61bb806573f5c1a8afa3ef5e67152083489537b0"
+                "reference": "7c4e3d9a2a04a3e3e6bd0c21cad42fcca65c10b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/61bb806573f5c1a8afa3ef5e67152083489537b0",
-                "reference": "61bb806573f5c1a8afa3ef5e67152083489537b0",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/7c4e3d9a2a04a3e3e6bd0c21cad42fcca65c10b1",
+                "reference": "7c4e3d9a2a04a3e3e6bd0c21cad42fcca65c10b1",
                 "shasum": ""
             },
             "require": {
@@ -2646,7 +2711,7 @@
                 "php",
                 "phpspreadsheet"
             ],
-            "time": "2018-06-12T09:42:31+00:00"
+            "time": "2018-07-05T06:24:59+00:00"
         },
         {
             "name": "martinlindhe/laravel-vue-i18n-generator",
@@ -3022,27 +3087,27 @@
         },
         {
             "name": "nette/finder",
-            "version": "v2.4.1",
+            "version": "v2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/finder.git",
-                "reference": "4d43a66d072c57d585bf08a3ef68d3587f7e9547"
+                "reference": "ee951a656cb8ac622e5dd33474a01fd2470505a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/finder/zipball/4d43a66d072c57d585bf08a3ef68d3587f7e9547",
-                "reference": "4d43a66d072c57d585bf08a3ef68d3587f7e9547",
+                "url": "https://api.github.com/repos/nette/finder/zipball/ee951a656cb8ac622e5dd33474a01fd2470505a0",
+                "reference": "ee951a656cb8ac622e5dd33474a01fd2470505a0",
                 "shasum": ""
             },
             "require": {
-                "nette/utils": "^2.4 || ~3.0.0",
+                "nette/utils": "~2.4",
                 "php": ">=5.6.0"
             },
             "conflict": {
                 "nette/nette": "<2.2"
             },
             "require-dev": {
-                "nette/tester": "^2.0",
+                "nette/tester": "~2.0",
                 "tracy/tracy": "^2.3"
             },
             "type": "library",
@@ -3072,9 +3137,15 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "Nette Finder: Files Searching",
+            "description": "🔍 Nette Finder: find files and directories with an intuitive API.",
             "homepage": "https://nette.org",
-            "time": "2017-07-10T23:47:08+00:00"
+            "keywords": [
+                "filesystem",
+                "glob",
+                "iterator",
+                "nette"
+            ],
+            "time": "2018-06-28T11:49:23+00:00"
         },
         {
             "name": "nette/utils",
@@ -3211,16 +3282,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.15",
+            "version": "v2.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "10bcb46e8f3d365170f6de9d05245aa066b81f09"
+                "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/10bcb46e8f3d365170f6de9d05245aa066b81f09",
-                "reference": "10bcb46e8f3d365170f6de9d05245aa066b81f09",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/29af24f25bab834fcbb38ad2a69fa93b867e070d",
+                "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d",
                 "shasum": ""
             },
             "require": {
@@ -3256,7 +3327,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2018-06-08T15:26:40+00:00"
+            "time": "2018-07-04T16:31:37+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -4546,16 +4617,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.0.2",
+            "version": "v6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "412333372fb6c8ffb65496a2bbd7321af75733fc"
+                "reference": "aa899fef280b1c1aec8d5d4ac069af7f80c89a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/412333372fb6c8ffb65496a2bbd7321af75733fc",
-                "reference": "412333372fb6c8ffb65496a2bbd7321af75733fc",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/aa899fef280b1c1aec8d5d4ac069af7f80c89a23",
+                "reference": "aa899fef280b1c1aec8d5d4ac069af7f80c89a23",
                 "shasum": ""
             },
             "require": {
@@ -4566,10 +4637,14 @@
                 "mockery/mockery": "~0.9.1",
                 "symfony/phpunit-bridge": "~3.3@dev"
             },
+            "suggest": {
+                "ext-intl": "Needed to support internationalized email addresses",
+                "true/punycode": "Needed to support internationalized email addresses, if ext-intl is not installed"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.0-dev"
+                    "dev-master": "6.1-dev"
                 }
             },
             "autoload": {
@@ -4591,13 +4666,13 @@
                 }
             ],
             "description": "Swiftmailer, free feature-rich PHP mailer",
-            "homepage": "http://swiftmailer.symfony.com",
+            "homepage": "https://swiftmailer.symfony.com",
             "keywords": [
                 "email",
                 "mail",
                 "mailer"
             ],
-            "time": "2017-09-30T22:39:41+00:00"
+            "time": "2018-07-04T11:12:44+00:00"
         },
         {
             "name": "symfony/console",
@@ -5627,28 +5702,28 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
+                "reference": "6ae3e2e6494bb5e58c2decadafc3de7f1453f70a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/6ae3e2e6494bb5e58c2decadafc3de7f1453f70a",
+                "reference": "6ae3e2e6494bb5e58c2decadafc3de7f1453f70a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.9"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.0"
+                "phpunit/phpunit": "^4.8.35 || ^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -5658,7 +5733,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause-Attribution"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -5673,7 +5748,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-09-01T10:05:43+00:00"
+            "time": "2018-07-01T10:25:50+00:00"
         },
         {
             "name": "watson/rememberable",
@@ -5725,16 +5800,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.7.2",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "741e7a571836f038de731105f4742ca8a164e43a"
+                "reference": "63d920d1c9ebc009d860c3666593a66298727dd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/741e7a571836f038de731105f4742ca8a164e43a",
-                "reference": "741e7a571836f038de731105f4742ca8a164e43a",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/63d920d1c9ebc009d860c3666593a66298727dd6",
+                "reference": "63d920d1c9ebc009d860c3666593a66298727dd6",
                 "shasum": ""
             },
             "require": {
@@ -5753,12 +5828,22 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7.x-dev",
-                    "dev-develop": "1.8.x-dev",
+                    "dev-master": "1.8.x-dev",
+                    "dev-develop": "1.9.x-dev",
                     "dev-release-2.0": "2.0.x-dev"
                 }
             },
             "autoload": {
+                "files": [
+                    "src/functions/create_uploaded_file.php",
+                    "src/functions/marshal_headers_from_sapi.php",
+                    "src/functions/marshal_method_from_sapi.php",
+                    "src/functions/marshal_protocol_version_from_sapi.php",
+                    "src/functions/marshal_uri_from_sapi.php",
+                    "src/functions/normalize_server.php",
+                    "src/functions/normalize_uploaded_files.php",
+                    "src/functions/parse_cookie_header.php"
+                ],
                 "psr-4": {
                     "Zend\\Diactoros\\": "src/"
                 }
@@ -5774,7 +5859,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2018-05-29T16:53:08+00:00"
+            "time": "2018-07-09T21:17:27+00:00"
         }
     ],
     "packages-dev": [
