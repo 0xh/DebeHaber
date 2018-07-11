@@ -207,7 +207,7 @@ class TaxpayerController extends Controller
     public function show($taxPayer)
     {
 
-        $taxPayer=Taxpayer::where('id',$taxPayer)->get();
+        $taxPayer=Taxpayer::where('id',$taxPayer)->with('setting')->get();
 
         return view('taxpayer/profile')->with('taxPayer', $taxPayer);
     }
@@ -230,9 +230,10 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function update(Request $request, Taxpayer $taxPayer)
+    public function update(Request $request, $taxPayer)
     {
-        $taxPayer = Taxpayer::find($taxPayer->id);
+
+        $taxPayer = Taxpayer::find($taxPayer);
 
         if (isset($taxPayer))
         {

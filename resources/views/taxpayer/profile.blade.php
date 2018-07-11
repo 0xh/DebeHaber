@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_2" v-if="owner_name == '' && page == 2">
+                                    <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_2" v-if="owner_name == '' && page == 2">
                                         <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -81,8 +81,8 @@
                                             </div>
 
                                         </div>
-                                    </div> --}}
-                                    {{-- <div class="m-wizard__step m-wizard__step--done" data-wizard-target="#m_wizard_form_step_2" v-else-if="owner_name == '' && page > 2">
+                                    </div>
+                                     <div class="m-wizard__step m-wizard__step--done" data-wizard-target="#m_wizard_form_step_2" v-else-if="owner_name == '' && page > 2">
                                         <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -94,8 +94,8 @@
                                             </div>
 
                                         </div>
-                                    </div> --}}
-                                    {{-- <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-else>
+                                    </div>
+                                     <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" v-else>
                                         <a @click="page = 2" href="#" class="m-wizard__step-number">
                                             <span>
                                                 <i class="la la-gear"></i>
@@ -107,7 +107,7 @@
                                             </div>
 
                                         </div>
-                                    </div> --}}
+                                    </div>
 
                                     {{-- <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_3" v-if="page == 3">
                                         <a @click="page = 3" href="#" class="m-wizard__step-number">
@@ -235,7 +235,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- <div class="m-wizard__form-step m-wizard__form-step--current" v-if="page == 2">
+                                     <div class="m-wizard__form-step m-wizard__form-step--current" v-if="page == 2">
                                         <div class="row">
                                             <div class="col-xl-11 offset-xl-1">
                                                 <div class="m-form__section m-form__section--first">
@@ -421,7 +421,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div> 
                                     {{-- <div class="m-wizard__form-step m-wizard__form-step--current" v-if="page == 3">
                                         <div class="row">
                                             <div class="col-11 offset-xl-1">
