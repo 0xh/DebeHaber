@@ -17,7 +17,7 @@ Vue.component('taxpayer',{
             address: '',
             telephone: '',
             email: '',
-            
+
             type: '1',
 
             setting_inventory: false,
@@ -120,5 +120,16 @@ Vue.component('taxpayer',{
                 }
             });
         },
+    },
+    mounted: function mounted()
+    {
+      console.log(this.taxpayer);
+      this.id= this.taxpayer[0].id;
+      this.name= this.taxpayer[0].name;
+      this.alias=  this.taxpayer[0].alias;
+      this.taxid= this.taxpayer[0].taxid;
+      this.address= this.taxpayer[0].address;
+      this.telephone=this.taxpayer[0].telephone;
+      this.email= this.taxpayer[0].email;
     }
 });

@@ -204,8 +204,9 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function show($taxPayer, Cycle $cycle)
+    public function show($taxPayer)
     {
+
         $taxPayer=Taxpayer::where('id',$taxPayer)->get();
 
         return view('taxpayer/profile')->with('taxPayer', $taxPayer);
