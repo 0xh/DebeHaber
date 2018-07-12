@@ -4,7 +4,7 @@
             <a href="#" class="m-menu__link m-menu__toggle">
                 <span class="m-menu__item-here"></span>
                 <i class="m-menu__link-icon la la-briefcase"></i>
-                <span class="m-menu__link-text">
+                <span class="m-menu__link-text menu-name">
                     {{ request()->route('taxPayer')->alias }}
                 </span>
                 <i class="m-menu__hor-arrow la la-angle-down"></i>
@@ -291,7 +291,7 @@
                                         </span>
                                     </a>
                                 </li>
-                                
+
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a  href="{{ route('cycles.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-calendar"></i>
