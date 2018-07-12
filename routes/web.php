@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function ()
     Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
     {
         Route::resource('profile', 'TaxpayerController');
+        Route::resource('settings', 'TaxpayerIntegrationController');
 
         //These Pages require Cycle in Session to perform searches and show relevant data.
         Route::get('stats', 'TaxpayerController@showDashboard')->name('taxpayer.dashboard');

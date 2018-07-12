@@ -1,7 +1,7 @@
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-Vue.component('taxpayer',{
+Vue.component('taxpayer-integration',{
     props: ['taxpayer'],
     data() {
         return {
@@ -26,7 +26,7 @@ Vue.component('taxpayer',{
             setting_import: false,
             setting_export: false,
 
-            setting_regime: '',
+            setting_regime: 0,
             setting_is_company: false,
 
             setting_agenttaxid: '',
@@ -46,15 +46,15 @@ Vue.component('taxpayer',{
         isCompany: function()
         {
             var app = this;
-            if (app.setting_is_company == 'false')
+            if (app.setting_is_company === 'false')
             {
-                setting_regime = '';
-                setting_agenttaxid: '';
-                setting_agent: '';
-                setting_inventory: false;
-                setting_production: false;
-                setting_import: false;
-                setting_export: false;
+                app.setting_regime =  0;
+                app.setting_agenttaxid =  '';
+                app.setting_agent =  '';
+                app.setting_inventory =  false;
+                app.setting_production =  false;
+                app.setting_import =  false;
+                app.setting_export =  false;
             }
         },
         //Useful for when user wants to create a Taxpayer not in the system.
@@ -104,7 +104,7 @@ Vue.component('taxpayer',{
         onSave: function(json)
         {
             $.ajax({
-                url: '/taxpayer/' + json.id,
+                url: '/taxpayer-integration/' + json.id,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'PUT',
                 data:json,

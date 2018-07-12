@@ -206,8 +206,9 @@ class TaxpayerController extends Controller
     */
     public function show($taxPayer)
     {
-
-        $taxPayer=Taxpayer::where('id',$taxPayer)->with('setting')->get();
+        $taxPayer = Taxpayer::where('id',$taxPayer)
+        ->with('setting')
+        ->get();
 
         return view('taxpayer/profile')->with('taxPayer', $taxPayer);
     }
@@ -230,22 +231,22 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function update(Request $request, $taxPayer)
+    public function update(Request $request, Taxpayer $taxPayer)
     {
-
-        $taxPayer = Taxpayer::find($taxPayer);
+        //$taxPayer = Taxpayer::find($taxPayer);
 
         if (isset($taxPayer))
         {
-            $taxPayer->name = $request->name;
-            $taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0 ;
-            $taxPayer->code = $request->code;
+            //$taxPayer->name = $request->name;
+            //$taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0 ;
+            //$taxPayer->code = $request->code;
             $taxPayer->alias = $request->alias;
             $taxPayer->address = $request->address;
             $taxPayer->telephone = $request->telephone;
             $taxPayer->email = $request->email;
             $taxPayer->save();
 
+            //this code is wrong. you need to get specific taxpayer setting
             $taxPayer_Setting = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() ?? new TaxpayerSetting();
             $taxPayer_Setting->taxpayer_id = $taxPayer->id;
             $taxPayer_Setting->agent_taxid = $request->agent_taxid;
