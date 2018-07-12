@@ -20,7 +20,7 @@
                             <div class="m-widget6__body">
                                 <div class="m-widget6__item">
                                     <span class="m-widget6__text">
-                                        @{{ name }}
+                                        @{{ alias }}
                                     </span>
                                     <span class="m-widget6__text m--align-right m--font-boldest m--font-success">
                                         <i class="la la-check-circle"></i>
@@ -37,6 +37,8 @@
                                 </div>
 
                                 <div class="m-widget6__item">
+                                    <h6>@lang('global.Teams')</h6>
+
                                     <span class="m-widget6__text">
                                         @{{ $parent.currentTeam.name }}
                                     </span>
@@ -64,6 +66,7 @@
                                 </div>
 
                                 <div v-if="owner_name != ''" class="m-widget6__item">
+
                                     <span  class="m-widget6__text">
                                         @{{ owner_name }}
                                     </span>
@@ -101,7 +104,7 @@
             <div class="col-xl-9">
                 <!--Begin::Main Portlet-->
                 <div class="m-portlet">
-                    <b-tabs>
+                    <b-tabs size="is-large">
                         <b-tab-item label="Taxpayer">
                             <div class="m-portlet__body">
                                 <div class="row">
@@ -122,8 +125,9 @@
                                                         @lang('global.Taxid')
                                                     </label>
                                                     <div class="col-7">
-                                                        <input v-if="id == 0" type="number" class="form-control m-input" v-model="taxid">
-                                                        <input v-else disabled="disabled" class="form-control m-input" v-model="taxid">
+                                                        <b-field>
+                                                            <b-input v-model="taxid" disabled></b-input>
+                                                        </b-field>
                                                     </div>
                                                 </div>
 
@@ -132,8 +136,9 @@
                                                         @lang('global.NameOf', ['model' => __('global.Taxpayer')])
                                                     </label>
                                                     <div class="col-7">
-                                                        <input v-if="id == 0" type="text" class="form-control m-input" v-model="name">
-                                                        <input v-else disabled="disabled" class="form-control m-input" v-model="name">
+                                                        <b-field>
+                                                            <b-input v-model="name" disabled></b-input>
+                                                        </b-field>
                                                     </div>
                                                 </div>
 
@@ -142,7 +147,9 @@
                                                         @lang('global.Alias')
                                                     </label>
                                                     <div class="col-7">
-                                                        <input type="text" class="form-control m-input" v-model="alias">
+                                                        <b-field>
+                                                            <b-input v-model="alias" maxlength="32"></b-input>
+                                                        </b-field>
                                                     </div>
                                                 </div>
                                             </div>
@@ -161,7 +168,7 @@
                                                     </label>
                                                     <div class="col-7">
                                                         <b-field>
-                                                            <b-input v-model="telephone"></b-input>
+                                                            <b-input v-model="telephone" maxlength="64"></b-input>
                                                         </b-field>
                                                     </div>
                                                 </div>
@@ -171,7 +178,7 @@
                                                     </label>
                                                     <div class="col-7">
                                                         <b-field>
-                                                            <b-input type="email" v-model="email"></b-input>
+                                                            <b-input type="email" maxlength="64" v-model="email"></b-input>
                                                         </b-field>
                                                     </div>
                                                 </div>
@@ -181,7 +188,7 @@
                                                     </label>
                                                     <div class="col-7">
                                                         <b-field>
-                                                            <b-input type="textarea" minlength="10" maxlength="100" v-model="address" placeholder="Maxlength automatically counts characters"></b-input>
+                                                            <b-input type="textarea" minlength="10" maxlength="191" v-model="address"></b-input>
                                                         </b-field>
                                                     </div>
                                                 </div>
