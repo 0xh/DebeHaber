@@ -139,27 +139,31 @@ class GenerateJournal implements ShouldQueue
     {
         \DB::connection()->disableQueryLog();
 
-        $count = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
-        ->otherCurrentStatus(['Finalized', 'Annuled'])
-        ->where('type', 4)
-        ->whereNull('deleted_at')
-        ->count();
+        //TODO: NEW CODE FOR SALES JOURNAL
+
+
+
+        // $count = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
+        // ->otherCurrentStatus(['Finalized', 'Annuled'])
+        // ->where('type', 4)
+        // ->whereNull('deleted_at')
+        // ->count();
 
         $skip = 0;
 
-        for ($i = 0; $i < $count; $i++)
-        {
+        // for ($i = 0; $i < $count; $i++)
+        // {
             //Do not get items that already have current status "Accounted", "Finalized", or "Annuled"
-            $sales = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
-            ->with('details:chart_id,chart_vat_id,value,cost')
-            ->where('supplier_id', $taxPayer->id)
-            ->whereNull('deleted_at')
-            ->where('type', 4)
-            ->orderBy('date')
-            ->otherCurrentStatus(['Finalized', 'Annuled'])
-            ->take(750)
-            ->skip($skip)
-            ->get();
+            // $sales = Transaction::whereBetween('date', [$monthStartDate, $monthEndDate])
+            // ->with('details:chart_id,chart_vat_id,value,cost')
+            // ->where('supplier_id', $taxPayer->id)
+            // ->whereNull('deleted_at')
+            // ->where('type', 4)
+            // ->orderBy('date')
+            // ->otherCurrentStatus(['Finalized', 'Annuled'])
+            // ->take(750)
+            // ->skip($skip)
+            // ->get();
 
             if ($sales->count() > 0)
             {
@@ -172,7 +176,6 @@ class GenerateJournal implements ShouldQueue
                 ??
                 new Journal();
 
-                //get sum of all transactions divided by exchange rate.
                 $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
                 $journal->date = $sales->last()->date;
                 $journal->comment = $comment;
@@ -182,8 +185,44 @@ class GenerateJournal implements ShouldQueue
                 $this->generate_fromSales($taxPayer, $cycle, $journal, $sales);
             }
 
+            //New Query:
+            //select rate,
+            //(select sum(value) from transaction_detail where transaction_id = transactions.id)
+            //from transactions
+            //where supplier_id = $taxPayer->id and payment_condition == 0
+            //group by chart_account_id, currency_rate
+
+            //run code for cash sales (insert detail into journal)
+
+            //2nd Query:
+            //select rate, customer_id
+            //(select sum(value) from transaction_detail where transaction_id = transactions.id)
+            //from transactions
+            //where supplier_id = $taxPayer->id and payment_condition > 0
+            //group by customer_id, currency_rate
+
+            //run code for credit sales (insert detail into journal)
+
+            //3rd Query: for vat
+            //select rate, customer_id
+            //(select sum(value) from transaction_detail where transaction_id = transactions.id)
+            //from transactions
+            //where supplier_id = $taxPayer->id and payment_condition > 0
+            //group by customer_id, currency_rate
+
+            //run code for credit sales (insert detail into journal)
+
+            //3rd Query: for item or cost center
+            //select rate, customer_id
+            //(select sum(value) from transaction_detail where transaction_id = transactions.id)
+            //from transactions
+            //where supplier_id = $taxPayer->id and payment_condition > 0
+            //group by customer_id, currency_rate
+
+            //run code for credit sales (insert detail into journal)
+
             $skip += 1;
-        }
+        //}
     }
 
     //Generates Journals for a given range of Transactions. If one is passed, it will create one journal.
