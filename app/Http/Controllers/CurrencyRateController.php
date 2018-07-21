@@ -26,11 +26,24 @@ class CurrencyRateController extends Controller
         $date = Carbon::parse($date) ?? Carbon::now();
 
         $currencyRate = CurrencyRate::where('currency_id', $id)
+        ->orWhere(function($subQuery) use ($taxPayer)
+        {
+            $subQuery->where('taxpayer_id', $taxPayer->id);
+        })
         ->whereDate('date', $date)
+        ->orderBy('taxpayer_id')
         ->first();
 
         if (isset($currencyRate))
-        { return response()->json($currencyRate); }
+        {
+            return response()->json($currencyRate);
+        }
+        else
+        {
+            //swap fx
+            //if isset
+            //store locally taxpaerid null
+        }
 
         return response()->json(1);
     }

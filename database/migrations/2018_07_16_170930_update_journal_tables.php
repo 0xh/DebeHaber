@@ -13,13 +13,23 @@ class UpdateJournalTables extends Migration
     */
     public function up()
     {
-        // Schema::dropIfExists('journal_account_movements');
-        // Schema::dropIfExists('journal_productions');
-        // // Schema::dropIfExists('journal_transactions');
-        // //
         Schema::table('journals', function (Blueprint $table) {
             $table->boolean('is_automatic')->default(false)->after('comment');
         });
+
+        //
+        Schema::rename('journal_transactions', 'journal_transaction');
+
+        Schema::table('journal_transaction', function (Blueprint $table) {
+            $table->boolean('require_update')->default(false)->after('id');
+        });
+
+        Schema::table('journal_transaction', function (Blueprint $table) {
+            $table->boolean('require_update')->default(false)->after('id');
+        });
+
+        Schema::rename('journal_productions', 'journal_production');
+        Schema::rename('journal_account_movements', 'journal_account_movement');
     }
 
     /**
