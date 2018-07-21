@@ -19,17 +19,21 @@ class UpdateJournalTables extends Migration
 
         //
         Schema::rename('journal_transactions', 'journal_transaction');
-
         Schema::table('journal_transaction', function (Blueprint $table) {
-            $table->boolean('require_update')->default(false)->after('id');
+            $table->boolean('update_required')->default(false)->after('id');
         });
 
-        Schema::table('journal_transaction', function (Blueprint $table) {
-            $table->boolean('require_update')->default(false)->after('id');
-        });
-
+        //
         Schema::rename('journal_productions', 'journal_production');
+        Schema::table('journal_production', function (Blueprint $table) {
+            $table->boolean('update_required')->default(false)->after('id');
+        });
+
+        //
         Schema::rename('journal_account_movements', 'journal_account_movement');
+        Schema::table('journal_account_movement', function (Blueprint $table) {
+            $table->boolean('update_required')->default(false)->after('id');
+        });
     }
 
     /**

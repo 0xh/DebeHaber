@@ -85,4 +85,9 @@ return [
     'Post' => 'Publicar :module',
     'AuditorPlatform' => 'Plataforma para auditores',
     'SpecialReport_KPI' => 'Informes especiales y KPI',
+
+    'Edit' => 'Editar',
+    'Annul' => 'Annular',
+    'Delete' => 'Eliminar',
+    'Approve' => 'Aprobar'
 ];
