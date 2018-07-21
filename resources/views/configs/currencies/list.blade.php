@@ -60,10 +60,14 @@
                     </div>
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            @lang('accounting.Rate')
+                            @lang('accounting.BuyRate')
                         </span>
                     </div>
-
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('accounting.SellRate')
+                        </span>
+                    </div>
 
 
                     <div class="col-2">
@@ -82,7 +86,9 @@
                     <div class="col-2">
                         @{{ data.buy_rate }}
                     </div>
-
+                    <div class="col-2">
+                        @{{ data.sell_rate }}
+                    </div>
                     <div class="col-2">
                         <button v-on:click="onEdit(data)" class="btn btn-outline-pencil m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
                             <i class="la la-pencil"></i>

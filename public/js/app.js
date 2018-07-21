@@ -83490,7 +83490,8 @@ Vue.component('currency', {
             app.id = 0;
 
             app.currency_id = data.currency_id;
-            app.rate = data.rate;
+            app.buy_rate = data.buy_rate;
+            app.sell_rate = data.sell_rate;
             app.init();
           } else {
             alert('Something Went Wrong...');
@@ -83506,7 +83507,8 @@ Vue.component('currency', {
       var app = this;
       app.id = data.id;
       app.currency_id = data.currency_id;
-      app.rate = data.rate;
+      app.buy_rate = data.buy_rate;
+      app.sell_rate = data.sell_rate;
     },
     init: function init() {
       var app = this;
@@ -83523,7 +83525,8 @@ Vue.component('currency', {
             app.list.push({ id: data[i]['id'],
               currency_id: data[i]['currency_id'],
               name: data[i]['name'],
-              rate: data[i]['rate'] });
+              buy_rate: data[i]['buy_rate'],
+              sell_rate: data[i]['sell_rate'] });
           }
         },
         error: function error(xhr, status, _error2) {

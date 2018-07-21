@@ -44,7 +44,8 @@ Vue.component('currency',{
             app.id = 0;
 
             app.currency_id = data.currency_id;
-            app.rate = data.rate;
+            app.buy_rate = data.buy_rate;
+            app.sell_rate = data.sell_rate;
             app.init();
           }
           else
@@ -65,7 +66,7 @@ Vue.component('currency',{
       app.id = data.id;
       app.currency_id = data.currency_id;
       app.buy_rate = data.buy_rate;
-      app.buy_rate = data.sell_rate;
+      app.sell_rate = data.sell_rate;
 
     },
     init(){
@@ -85,44 +86,46 @@ Vue.component('currency',{
             app.list.push({id : data[i]['id'],
             currency_id : data[i]['currency_id'],
             name:data[i]['name'],
-            rate : data[i]['rate']});
-          }
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(status);
+            buy_rate : data[i]['buy_rate'],
+            sell_rate : data[i]['sell_rate']});
         }
-      });
-    },
-    getCurrencies: function(data)
-    {
-      var app=this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/get_currency' ,
-        headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        success: function(data)
-        {
-          app.currencies=[];
-          for(let i = 0; i < data.length; i++)
-          {
-            app.currencies.push({name:data[i]['name'],id:data[i]['id']});
-          }
-
-        },
-        error: function(xhr, status, error)
-        {
-          console.log(xhr.responseText);
-        }
-      });
-    }
+        
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(status);
+      }
+    });
   },
-
-  mounted: function mounted()
+  getCurrencies: function(data)
   {
-    this.init();
-    this.getCurrencies();
+    var app=this;
+    $.ajax({
+      url: '/api/' + this.taxpayer + '/get_currency' ,
+      headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+      type: 'get',
+      dataType: 'json',
+      async: true,
+      success: function(data)
+      {
+        app.currencies=[];
+        for(let i = 0; i < data.length; i++)
+        {
+          app.currencies.push({name:data[i]['name'],id:data[i]['id']});
+        }
+
+      },
+      error: function(xhr, status, error)
+      {
+        console.log(xhr.responseText);
+      }
+    });
   }
+},
+
+mounted: function mounted()
+{
+  this.init();
+  this.getCurrencies();
+}
 });

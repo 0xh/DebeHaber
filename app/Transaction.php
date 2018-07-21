@@ -115,10 +115,10 @@ class Transaction extends Model
   *
   * @return \Illuminate\Database\Eloquent\Relations\HasMany
   */
-  public function journals()
-  {
-    return $this->hasMany(JournalTransaction::class);
-  }
+  // public function journals()
+  // {
+  //   return $this->hasMany(JournalTransaction::class);
+  // }
 
   /**
   * Get the details for the model.
