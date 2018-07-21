@@ -74,25 +74,28 @@ class TaxpayerIntegrationController extends Controller
     */
     public function update(Request $request, TaxpayerIntegration $taxpayerIntegration)
     {
+
         if (isset($taxpayerIntegration))
         {
-            $taxpayerSetting = TaxpayerSetting::where('taxpayer_id', $taxpayerIntegration->taxpayer_id)->first();
+
+            $taxpayerSetting = TaxpayerSetting::where('taxpayer_id', $request->id)
+            ->first();
 
             if (isset($taxpayerSetting))
             {
                 $taxpayerSetting->regime_type=$request->setting_regime;
-                $taxPayer_Setting->agent_name = $request->setting_agent = true ? 1 : 0;
-                $taxPayer_Setting->agent_taxid = $request->setting_agenttaxid = true ? 1 : 0;
-                $taxPayer_Setting->show_inventory = $request->setting_inventory = true ? 1 : 0;
-                $taxPayer_Setting->show_production = $request->setting_production = true ? 1 : 0;
-                $taxPayer_Setting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
-                $taxPayer_Setting->does_export = $request->setting_export = true ? 1 : 0;
-                $taxPayer_Setting->does_import = $request->setting_import = true ? 1 : 0;
-                $taxPayer_Setting->is_company = $request->setting_is_company;
-                $taxPayer_Setting->save();
+                $taxpayerSetting->agent_name = $request->setting_agent ;
+                $taxpayerSetting->agent_taxid = $request->setting_agenttaxid ;
+                $taxpayerSetting->show_inventory = $request->setting_inventory = true ? 1 : 0;
+                $taxpayerSetting->show_production = $request->setting_production = true ? 1 : 0;
+                $taxpayerSetting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
+                $taxpayerSetting->does_export = $request->setting_export = true ? 1 : 0;
+                $taxpayerSetting->does_import = $request->setting_import = true ? 1 : 0;
+                $taxpayerSetting->is_company = $request->setting_is_company;
+                $taxpayerSetting->save();
             }
 
-            $taxPayer = TaxPayer::where('id', $taxpayerIntegration->taxpayer_id)->first();
+            $taxPayer = TaxPayer::where('id', $request->id)->first();
 
             if (isset($taxPayer))
             {

@@ -19,6 +19,7 @@ Route::get('/home', 'HomeController@show')->name('hello');
 Route::group(['middleware' => 'auth'], function ()
 {
 
+
   Route::put('taxpayer-integration/{taxPayer}', 'TaxpayerIntegrationController@update');
   //Taxpayer Resource, CRUD
   Route::resource('taxpayer', 'TaxpayerController');

@@ -125,7 +125,24 @@ Vue.component('taxpayer-integration',{
     },
     mounted: function mounted()
     {
-        this.id = this.taxpayer[0].id;
+
+        $.ajax({
+            url: 'taxpayer-integration/' ,
+            headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function(data)
+            {
+                this.id = this.data.id;
+            },
+            error: function(xhr, status, error)
+            {
+                console.log(xhr.responseText);
+            }
+        });
+
+
         this.name = this.taxpayer[0].name;
         this.alias =  this.taxpayer[0].alias;
         this.taxid = this.taxpayer[0].taxid;

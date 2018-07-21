@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class TaxpayerIntegration extends Model
 {
 
+  protected $fillable = [
+      'id'
+
+  ];
     public function scopeMyTaxPayers($query, $teamID)
     {
         return $query->where('team_id', $teamID);

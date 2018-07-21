@@ -206,8 +206,9 @@ class TaxpayerController extends Controller
     */
     public function show($taxPayer)
     {
-        $taxPayer = Taxpayer::where('id',$taxPayer)
+        $taxPayer = Taxpayer::where('taxpayers.id',$taxPayer)
         ->with('setting')
+        ->with('integrations')
         ->get();
 
         return view('taxpayer/profile')->with('taxPayer', $taxPayer);
