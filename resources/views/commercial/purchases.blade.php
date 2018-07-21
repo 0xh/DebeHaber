@@ -106,14 +106,7 @@
 @endsection
 
 @section('form')
-    @php
-    $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
-    @endphp
-
-    <buefy :taxpayer="{{ request()->route('taxPayer')->id}}"
-        :cycle="{{ request()->route('cycle')->id }}"
-        baseurl="commercial/purchases"
-        inline-template>
+    <buefy :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{ request()->route('cycle')->id }}" baseurl="commercial/purchases" inline-template>
         <div>
             <div v-if="$parent.showList">
                 @include('commercial/purchase/list')
@@ -122,5 +115,5 @@
                 @include('commercial/purchase/form')
             </div>
         </div>
-    </infinity>
+    </buefy>
 @endsection

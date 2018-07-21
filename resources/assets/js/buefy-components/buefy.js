@@ -1,25 +1,27 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('buefy',
 {
-    props: ['taxpayer', 'cycle','baseurl'],
+    props: ['taxpayer', 'cycle', 'baseurl'],
     data() {
         return {
             list: [],
             meta: [{total:0}],
-        
+            isLoading: true
         };
     },
 
     methods: {
-        onLoad(page) {
-
+        onLoad(page)
+        {
             axios
             .get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl)
             .then(response => {
+                this.isLoading = false;
+
                 this.list = response.data.data;
                 this.meta = response.data.meta;
             }).catch(error => {
-
+                this.isLoading = false;
             });
         },
         pageChange (page) {
@@ -39,9 +41,7 @@ Vue.component('buefy',
                 async: true,
                 success: function(data)
                 {
-                    console.log( data);
                     app.$children[0].onEdit(data[0]);
-
                 },
                 error: function(xhr, status, error)
                 {
@@ -51,18 +51,12 @@ Vue.component('buefy',
         },
         onDeleteAccount: function(data)
         {
-
-            this.fromid=data.id;
-            this.fromname=data.name;
-            this.isActive=true;
-
-            //window.location.href =  "charts/merge/" + data.id
-
+            this.fromid = data.id;
+            this.fromname = data.name;
+            this.isActive = true;
         },
         onDelete: function(data)
         {
-            //SweetAlert message and confirmation.
-
             var app = this;
             $.ajax({
                 url: '/taxpayer/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + data.ID,
@@ -98,7 +92,7 @@ Vue.component('buefy',
                 async: true,
                 success: function(responsedata)
                 {
-                    data.Value=0;
+                    data.Value = 0;
                 },
                 error: function(xhr, status, error)
                 {
@@ -111,7 +105,6 @@ Vue.component('buefy',
     mounted: function mounted()
     {
         var app = this;
-
         app.onLoad();
     }
 });
