@@ -9,6 +9,7 @@ use App\Cycle;
 use App\Chart;
 use App\Transaction;
 use App\TransactionDetail;
+use App\Http\Resources\TransactionResource;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -42,33 +43,38 @@ class SalesController extends Controller
     ->with('accounts',$accounts);
   }
 
-  public function get_sales(Taxpayer $taxPayer, Cycle $cycle, $skip)
+  public function get_sales(Taxpayer $taxPayer, Cycle $cycle)
   {
 
-    $transaction = Transaction::MySales()
-    ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
-    ->join('currencies', 'transactions.currency_id','currencies.id')
-    ->leftjoin('statuses', 'transactions.id', 'statuses.model_id')
-    ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
-    ->where('supplier_id', $taxPayer->id)
-    ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
-    ->groupBy('transactions.id')
-    ->select(DB::raw('max(transactions.id) as ID'),
-    DB::raw('max(taxpayers.name) as Customer'),
-    DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
-    DB::raw('max(currencies.code) as Currency'),
-    DB::raw('max(transactions.payment_condition) as PaymentCondition'),
-    DB::raw('max(transactions.date) as Date'),
-    DB::raw('max(transactions.number) as Number'),
-    DB::raw('max(statuses.name) as Status'),
-    DB::raw('if(max(statuses.name)="Annul",0,sum(td.value)) as Value'))
-    ->orderByRaw('max(transactions.date)', 'desc')
-    ->orderByRaw('max(transactions.number)', 'desc')
-    ->skip($skip)
-    ->take(100)
-    ->get();
+    return TransactionResource::collection(
+      Transaction::MySales()
+      ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
+      ->join('currencies', 'transactions.currency_id','currencies.id')
+      ->leftjoin('statuses', 'transactions.id', 'statuses.model_id')
+      ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
+      ->where('supplier_id', $taxPayer->id)
+      ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
+      ->groupBy('transactions.id')
+      ->select(DB::raw('max(transactions.id) as ID'),
+      DB::raw('max(taxpayers.name) as Customer'),
+      DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
+      DB::raw('max(currencies.code) as Currency'),
+      DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+      DB::raw('max(transactions.date) as Date'),
+      DB::raw('max(transactions.number) as Number'),
+      DB::raw('max(statuses.name) as Status'),
+      DB::raw('if(max(statuses.name)="Annul",0,sum(td.value)) as Value'))
+      ->orderByRaw('max(transactions.date)', 'desc')
+      ->orderByRaw('max(transactions.number)', 'desc')
+      ->paginate(100)
+    );
 
-    return response()->json($transaction, 200);
+  // //  return response()->json($orders);
+  //   $transaction =
+  //   ->take(100)
+  //   ->get();
+  //
+  //   return response()->json($transaction, 200);
   }
 
   public function getLastSale($partnerID)
@@ -170,13 +176,13 @@ class SalesController extends Controller
 
     // if ($transaction->code != '')
     // {
-      $transaction->code = $request->code;
-  //  }
+    $transaction->code = $request->code;
+    //  }
 
     // if ($transaction->code_expiry != '')
     // {
-      $transaction->code_expiry = $request->code_expiry;
-  //  }
+    $transaction->code_expiry = $request->code_expiry;
+    //  }
 
     $transaction->comment = $request->comment;
     $transaction->type = $request->type;

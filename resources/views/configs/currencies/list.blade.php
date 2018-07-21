@@ -5,7 +5,7 @@
 @section('form')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <currency  inline-template>
+    <currency taxpayer="{{ request()->route('taxPayer')->id}}" cycle="{{ request()->route('cycle')->id }}" inline-template>
         <diV>
             <div>
                 <div class="row">
@@ -80,7 +80,7 @@
                         @{{ data.name }}
                     </div>
                     <div class="col-2">
-                        @{{ data.rate }}
+                        @{{ data.buy_rate }}
                     </div>
 
                     <div class="col-2">

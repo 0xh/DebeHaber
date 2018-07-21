@@ -14,13 +14,14 @@ class JournalResource extends JsonResource
     */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'date' => $this->name,
-            'number' => $this->number,
-            'comment' => $this->comment,
-            'is_presented' => $this->is_presented,
-            'details' => JournalDetailResource::collection($this->whenLoaded('details')),
-        ];
+         return parent::toArray($request);
+        // return [
+        //     'id' => $this->id,
+        //     'date' => $this->name,
+        //     'number' => $this->number,
+        //     'comment' => $this->comment,
+        //     'is_presented' => $this->is_presented,
+        //     'details' => JournalDetailResource::collection($this->whenLoaded('details')),
+        // ];
     }
 }

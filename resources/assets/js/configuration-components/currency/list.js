@@ -64,8 +64,8 @@ Vue.component('currency',{
       var app = this;
       app.id = data.id;
       app.currency_id = data.currency_id;
-      app.rate = data.rate;
-
+      app.buy_rate = data.buy_rate;
+      app.buy_rate = data.sell_rate;
 
     },
     init(){

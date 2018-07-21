@@ -10,6 +10,7 @@ use App\Cycle;
 use App\Journal;
 use App\JournalDetail;
 use App\JournalTransaction;
+use App\Http\Resources\JournalResource;
 use DB;
 use App\Jobs\GenerateJournal;
 use Carbon\Carbon;
@@ -30,18 +31,24 @@ class JournalController extends Controller
         return view('/accounting/journals');
     }
 
-    public function getJournals(Taxpayer $taxPayer, Cycle $cycle, $skip)
+    public function getJournals(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
-        ->with('details.chart:id,name,code,type')
-        ->orderBy('date', 'desc')
-
-        ->take(100)
-        ->skip($skip)
-        ->get();
-
-        // return new JournalCollection($journals);
-        return response()->json($journals);
+      return JournalResource::collection(
+        Journal::with('details:id,journal_id,chart_id,debit,credit')
+       ->with('details.chart:id,name,code,type')
+       ->orderBy('date', 'desc')
+        ->paginate(100)
+      );
+        // $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
+        // ->with('details.chart:id,name,code,type')
+        // ->orderBy('date', 'desc')
+        //
+        // ->take(100)
+        // ->skip($skip)
+        // ->get();
+        //
+        // // return new JournalCollection($journals);
+        // return response()->json($journals);
     }
 
     public function getJournalsByID($taxPayerID, Cycle $cycle, $id)

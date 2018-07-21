@@ -25,7 +25,7 @@
 
     <link href="/vendors/base/vendors.bundle.min.css" rel="stylesheet">
     <link href="/css/style.bundle.min.css" rel="stylesheet">
-
+    
     @yield('styles')
 
 

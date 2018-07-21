@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         {
             Route::prefix('accounting')->group(function ()
             {
-                Route::get('journals/{skip}', 'JournalController@getJournals');
+                Route::get('journals', 'JournalController@getJournals');
                 Route::get('journal/ByID/{id}', 'JournalController@getJournalsByID');
                 Route::get('delete_journalByID/{id}', 'JournalController@getJournalsByID');
                 Route::post('journalstore', 'JournalController@journalstore');
@@ -95,14 +95,14 @@ Route::group(['middleware' => 'auth:api'], function ()
 
             Route::prefix('commercial')->group(function ()
             {
-                Route::get('sales/{skip}', 'SalesController@get_sales');
+                Route::get('sales', 'SalesController@get_sales');
                 Route::get('sales/by-id/{id}', 'SalesController@get_salesByID');
                 Route::get('sales/default/{partnerID}', 'SalesController@getLastSale');
                 Route::get('sales/last', 'SalesController@get_lastDate');
                 Route::get('sales/get-charts', 'ChartController@getSalesAccounts');
                 Route::get('sales/get-vats', 'ChartController@getVATDebit');
 
-                Route::get('purchases/{skip}', 'PurchaseController@get_purchases');
+                Route::get('purchases', 'PurchaseController@get_purchases');
                 Route::get('purchases/by-id/{id}', 'PurchaseController@get_purchasesByID');
                 Route::get('purchases/default/{partnerID}', 'PurchaseController@getLastPurchase');
                 Route::get('purchases/get-charts', 'ChartController@getPurchaseAccounts');

@@ -216,7 +216,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
-                                    <a href="{{ route('CurrencyRate.index') }}" class="m-menu__link ">
+                                    <a href="{{ route('CurrencyRate.index',[request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-globe"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Rate')
@@ -291,7 +291,7 @@
                                         </span>
                                     </a>
                                 </li>
-                                
+
                                 <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
                                     <a  href="{{ route('cycles.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-calendar"></i>

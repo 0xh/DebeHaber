@@ -36,10 +36,16 @@ import Trend from 'vuetrend';
 
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
+import Icon from 'buefy/src/components/icon';
 
 const store = new Vuex.Store();
 
-Vue.use(Buefy)
+Vue.component(Icon.name, Icon);
+Vue.use(Buefy, {
+    defaultIconPack: 'fas',
+    
+    // ...
+})
 Vue.use(vuexI18n.plugin, store);
 Vue.use(Bars)
 Vue.use(Trend);

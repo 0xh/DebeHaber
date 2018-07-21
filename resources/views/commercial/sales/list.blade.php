@@ -1,7 +1,42 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <div>
-    <div class="row">
+
+    <b-table :data="list" hoverable>
+          <template slot-scope="props">
+              <b-table-column field="Date" label="Date">
+                @{{ new Date(props.row.Date).toLocaleDateString() }}
+              </b-table-column>
+
+              <b-table-column field="Customer" label="Customer">
+                  @{{ props.row.Customer }} |   @{{ props.row.CustomerTaxID }}
+              </b-table-column>
+
+              <b-table-column field="Number" label="InvoiceNumber">
+                  @{{ props.row.Number }}
+                  <span v-if="props.row.PaymentCondition > 0" class="m--font-bold m--font-info"> Credit </span>
+                  <span v-else class="m--font-bold m--font-success"> Cash</span>
+              </b-table-column>
+
+              <b-table-column field="customer_email" label="Total">
+                  @{{ new Number(props.row.customer_email).toLocaleString() }}    @{{ props.row.Currency }}
+              </b-table-column>
+
+              <b-table-column custom-key="actions">
+
+                <button v-on:click="onEdit(props.row.ID)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" data-original-title="Delete">
+                  <i class="la la-pencil m--font-brand"></i>
+                </button>
+                  <button v-on:click="onDelete(props.row)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" data-original-title="Delete">
+                      <i class="fa fa-trash"></i>
+                  </button>
+                  <button v-on:click="onAnull(props.row)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" data-original-title="Delete">
+                      <i class="fa fa-trash"></i>
+                  </button>
+              </b-table-column>
+          </template>
+      </b-table>
+    {{-- <div class="row">
       <div class="col-1 m--font-boldest">
         <p class="m--font-boldest m--font-transform-u">@lang('global.Date')</p>
       </div>
@@ -46,6 +81,6 @@
           <a @click="onAnull(invoice)" class="m-btn btn btn-secondary"><i class="la la-close m--font-danger"></i></a>
         </div>
       </div>
-    </div>
-    @include('layouts/infinity-loading')
+    </div> --}}
+  <b-pagination :total="meta.total" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>
   </div>

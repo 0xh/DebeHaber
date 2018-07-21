@@ -20,9 +20,10 @@ Vue.component('taxpayer-integration',{
 
             type: '1',
 
-            setting_inventory: false,
+
             setting_production: false,
             setting_fixedasset: false,
+            setting_inventory: false,
             setting_import: false,
             setting_export: false,
 
@@ -52,8 +53,9 @@ Vue.component('taxpayer-integration',{
                 app.setting_agenttaxid =  '';
                 app.setting_agent =  '';
                 app.setting_inventory =  false;
+                app.setting_fixedasset =  false;
                 app.setting_production =  false;
-                app.setting_import =  false;
+                app.setting_import = false;
                 app.setting_export =  false;
             }
         },

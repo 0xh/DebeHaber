@@ -9,6 +9,7 @@ use App\Cycle;
 use App\Chart;
 use App\Transaction;
 use App\TransactionDetail;
+use App\Http\Resources\TransactionResource;
 use Illuminate\Http\Request;
 use DB;
 
@@ -41,30 +42,50 @@ class PurchaseController extends Controller
     ->with('accounts',$accounts);
   }
 
-  public function get_purchases(Taxpayer $taxPayer, Cycle $cycle, $skip)
+  public function get_purchases(Taxpayer $taxPayer, Cycle $cycle)
   {
-    $transactions = Transaction::MyPurchases()
-    ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
-    ->join('currencies', 'transactions.currency_id','currencies.id')
-    ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
-    ->where('transactions.customer_id', $taxPayer->id)
-    ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
-    ->groupBy('transactions.id')
-    ->select(DB::raw('max(transactions.id) as ID'),
-    DB::raw('max(taxpayers.name) as Supplier'),
-    DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
-    DB::raw('max(currencies.code) as Currency'),
-    DB::raw('max(transactions.payment_condition) as PaymentCondition'),
-    DB::raw('max(transactions.date) as Date'),
-    DB::raw('max(transactions.number) as Number'),
-    DB::raw('sum(td.value) as Value'))
-    ->orderByRaw('max(transactions.date)', 'desc')
-    ->orderByRaw('max(transactions.number)', 'desc')
-    ->skip($skip)
-    ->take(100)
-    ->get();
-
-    return response()->json($transactions);
+    return TransactionResource::collection(
+      Transaction::MyPurchases()
+      ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+      ->join('currencies', 'transactions.currency_id','currencies.id')
+      ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
+      ->where('transactions.customer_id', $taxPayer->id)
+      ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
+      ->groupBy('transactions.id')
+      ->select(DB::raw('max(transactions.id) as ID'),
+      DB::raw('max(taxpayers.name) as Supplier'),
+      DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
+      DB::raw('max(currencies.code) as Currency'),
+      DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+      DB::raw('max(transactions.date) as Date'),
+      DB::raw('max(transactions.number) as Number'),
+      DB::raw('sum(td.value) as Value'))
+      ->orderByRaw('max(transactions.date)', 'desc')
+      ->orderByRaw('max(transactions.number)', 'desc')
+      ->paginate(100)
+    );
+    // $transactions = Transaction::MyPurchases()
+    // ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
+    // ->join('currencies', 'transactions.currency_id','currencies.id')
+    // ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
+    // ->where('transactions.customer_id', $taxPayer->id)
+    // ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
+    // ->groupBy('transactions.id')
+    // ->select(DB::raw('max(transactions.id) as ID'),
+    // DB::raw('max(taxpayers.name) as Supplier'),
+    // DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
+    // DB::raw('max(currencies.code) as Currency'),
+    // DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+    // DB::raw('max(transactions.date) as Date'),
+    // DB::raw('max(transactions.number) as Number'),
+    // DB::raw('sum(td.value) as Value'))
+    // ->orderByRaw('max(transactions.date)', 'desc')
+    // ->orderByRaw('max(transactions.number)', 'desc')
+    // ->skip($skip)
+    // ->take(100)
+    // ->get();
+    //
+    // return response()->json($transactions);
   }
 
   public function getLastPurchase($taxPayerID)
@@ -200,19 +221,19 @@ class PurchaseController extends Controller
     */
     public function destroy(Taxpayer $taxPayer, Cycle $cycle,$transactionID)
     {
-        try
-        {
+      try
+      {
 
-            //TODO: Run Tests to make sure it deletes all journals related to transaction
-            AccountMovement::where('transaction_id', $transactionID)->delete();
-            JournalTransaction::where('transaction_id',$transactionID)->delete();
-            Transaction::where('id',$transactionID)->delete();
+        //TODO: Run Tests to make sure it deletes all journals related to transaction
+        AccountMovement::where('transaction_id', $transactionID)->delete();
+        JournalTransaction::where('transaction_id',$transactionID)->delete();
+        Transaction::where('id',$transactionID)->delete();
 
-            return response()->json('ok', 200);
-        }
-        catch (\Exception $e)
-        {
-            return response()->json($e, 500);
-        }
+        return response()->json('ok', 200);
+      }
+      catch (\Exception $e)
+      {
+        return response()->json($e, 500);
+      }
     }
   }

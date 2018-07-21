@@ -106,8 +106,8 @@
 
 @section('form')
 
-  
-    <infinity taxpayer="{{ request()->route('taxPayer')->id }}" cycle="{{ request()->route('cycle')->id }}" baseurl="commercial/sales" inline-template>
+
+    <buefy taxpayer="{{ request()->route('taxPayer')->id }}" cycle="{{ request()->route('cycle')->id }}" baseurl="commercial/sales" inline-template>
         <div>
             <div v-if="$parent.showList">
                 @include('commercial/sales/list')
@@ -116,6 +116,6 @@
                 @include('commercial/sales/form')
             </div>
         </div>
-    </infinity>
+    </buefy>
 
 @endsection

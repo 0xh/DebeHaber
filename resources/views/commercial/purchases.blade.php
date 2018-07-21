@@ -110,7 +110,7 @@
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
 
-    <infinity :taxpayer="{{ request()->route('taxPayer')->id}}"
+    <buefy :taxpayer="{{ request()->route('taxPayer')->id}}"
         :cycle="{{ request()->route('cycle')->id }}"
         baseurl="commercial/purchases"
         inline-template>

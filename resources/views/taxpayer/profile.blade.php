@@ -104,7 +104,7 @@
             <div class="col-xl-9">
                 <!--Begin::Main Portlet-->
                 <div class="m-portlet">
-                    <b-tabs size="is-large">
+                    <b-tabs size="is-large" >
                         <b-tab-item label="Taxpayer">
                             <div class="m-portlet__body">
                                 <div class="row">
@@ -324,8 +324,13 @@
                                                         @lang('global.Modules')
                                                     </label>
                                                     <div class="m-checkbox-list col-7">
-                                                        <label class="m-checkbox m-checkbox--check-bold m-checkbox--state-success">
+                                                        <label v-if="setting_is_company" class="m-checkbox m-checkbox--check-bold m-checkbox--state-success">
                                                             <input type="checkbox" v-model="setting_fixedasset">
+                                                            @lang('commercial.FixedAssets')
+                                                            <span></span>
+                                                        </label>
+                                                        <label v-else class="m-checkbox m-checkbox--check-bold m-checkbox--state-success m-checkbox--disabled">
+                                                            <input disabled type="checkbox" v-model="setting_fixedasset">
                                                             @lang('commercial.FixedAssets')
                                                             <span></span>
                                                         </label>
@@ -390,9 +395,12 @@
                         </b-tab-item>
                     </b-tabs>
                 </div>
+                <button v-on:click="onSave($data,false)" class="btn btn-primary">
+                    Save
+                </button>
                 <!--End::Main Portlet-->
             </div>
 
         </div>
-    </taxpayer>
+    </taxpayer-integration>
 @endsection
