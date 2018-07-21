@@ -32,7 +32,7 @@ class Journal extends Model
 
     public function transactions()
     {
-        return $this->hasManyThrough('App\JournalTransaction', 'App\Transaction');
+        return $this->hasManyThrough('App\Transaction', 'App\JournalTransaction');
     }
 
     /**
