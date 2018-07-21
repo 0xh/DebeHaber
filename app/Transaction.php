@@ -55,6 +55,16 @@ class Transaction extends Model
   *
   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
   */
+  public function journals()
+  {
+      return $this->hasManyThrough('App\JournalTransaction', 'App\Journal');
+  }
+
+  /**
+  * Get the accountChart that owns the model.
+  *
+  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+  */
   public function accountChart()
   {
     return $this->belongsTo(Chart::class, 'chart_account_id', 'id');
