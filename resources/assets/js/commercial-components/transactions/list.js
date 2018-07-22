@@ -6,7 +6,7 @@ import axios from 'axios';
 
 Vue.component('transaction-list',
 {
-    props: ['taxpayer', 'cycle', 'baseurl','transType'],
+    props: ['taxpayer', 'cycle', 'baseurl', 'transType'],
     data() {
         return {
             documents:[],

@@ -1,7 +1,8 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<transaction-form :trantype ="4" :charts="{{ $charts }}" :vats="{{ $vats }}" :accounts=" {{ $accounts }} " inline-template>
+{{-- :charts="{{ $charts }}" :vats="{{ $vats }}" :accounts="{{ $accounts }}" --}}
+<transaction-form :trantype ="4" inline-template>
     <div>
         <div class="row">
             <div class="col-6">
