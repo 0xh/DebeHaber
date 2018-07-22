@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
     * @var array
     */
     protected $commands = [
-        //
         Commands\DailyRates::class
     ];
 
@@ -25,8 +24,7 @@ class Kernel extends ConsoleKernel
     */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('currency:rates')->hourly();
-        // ->hourly()
+        $schedule->command('currency:rates')->everyMinute();
         // ->between('7:00', '12:00');
     }
 
