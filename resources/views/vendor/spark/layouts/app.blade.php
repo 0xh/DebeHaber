@@ -1,7 +1,7 @@
 @extends('spark::layouts.master')
 
 @section('styles')
-    <link href="{{ mix(Spark::usesRightToLeftTheme() ? 'css/app-rtl.css' : 'css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix(Spark::usesRightToLeftTheme() ? 'css/app-rtl.css' : 'css/app.css') }}" rel="stylesheet"/>
 @endsection
 
 @section('settings')

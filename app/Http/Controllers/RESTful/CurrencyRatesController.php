@@ -12,7 +12,7 @@ class CurrencyRatesController extends Controller
     protected static function boot()
     {
         parent::boot();
-        $this->getRates();
+        getRates();
     }
 
     public function getRates()

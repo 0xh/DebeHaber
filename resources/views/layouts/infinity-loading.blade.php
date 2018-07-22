@@ -1,4 +1,10 @@
-<infinite-loading force-use-infinite-wrapper="true" @infinite="infiniteHandler">
-    <span slot="no-more">@lang('global.NoData')</span>
-    <span slot="no-results">@lang('global.NoResults')</span>
-</infinite-loading>
+<template slot="empty">
+    <section class="section">
+        <div class="content has-text-grey has-text-centered">
+            <p>
+                <b-icon icon="emoticon-sad" size="is-large"> </b-icon>
+            </p>
+            <span slot="no-results">@lang('global.NoResults')</span>
+        </div>
+    </section>
+</template>

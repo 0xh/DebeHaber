@@ -38,19 +38,14 @@
                     </span>
                 </button>
 
-                <button v-on:click="onAnull(props.row)" type="button" class="btn btn-outline-danger m-btn btn-sm m-btn--icon">
-                    <span>
-                        <i class="fa fa-close"></i>
-                        <span>@lang('global.Annul')</span>
-                    </span>
-                </button>
-
                 <button v-on:click="onDelete(props.row)" type="button" class="btn btn-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                     <i class="fa fa-trash"></i>
                 </button>
 
             </b-table-column>
         </template>
+
+        @include('layouts/infinity-loading')
     </b-table>
 
     <b-pagination :total="meta.total" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>

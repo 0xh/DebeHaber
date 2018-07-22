@@ -25,7 +25,7 @@
 
     <link href="/vendors/base/vendors.bundle.min.css" rel="stylesheet">
     <link href="/css/style.bundle.min.css" rel="stylesheet">
-    
+
     @yield('styles')
 
 
@@ -66,7 +66,7 @@
 </head>
 <!-- end::Head -->
 
-<body class="m--skin- m-content--skin-light m-header--fixed m-header--fixed-mobile">
+<body class="m-header--fixed m-header--fixed-mobile">
     <div id="spark-app" v-cloak>
         <!-- begin:: Page -->
         <div class="m-grid m-grid--hor m-grid--root m-page">
@@ -97,8 +97,7 @@
                             $taxpayerid =0;
                             @endphp
                         @endif
-                        <model  cycle="{{ $cycleid }}" taxpayer="{{ $taxpayerid }}" inline-template>
-
+                        <model cycle="{{ $cycleid }}" taxpayer="{{ $taxpayerid }}" inline-template>
                             <div>
                                 <!-- BEGIN: Subheader -->
                                 <div class="m-subheader row">
@@ -132,11 +131,6 @@
                                                         <select v-model="cycle_id" required class="custom-select" @change="cyclechange()">
                                                             <option v-for="cycle in cycles" :value="cycle.id">@{{ cycle.year }}</option>
                                                         </select>
-                                                        {{-- <a href="#" class="m-nav__link">
-                                                            <span class="m-nav__link-text m--font-focus">
-                                                                {{ request()->route('cycle')->year }}
-                                                            </span>
-                                                        </a> --}}
                                                     </li>
                                                 </ul>
                                             @endif
@@ -235,59 +229,57 @@
             </div>
         </footer>
         <!-- end::Footer -->
+
+        <!-- begin::Scroll Top -->
+        <div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
+            <i class="la la-arrow-up"></i>
+        </div>
+        <!-- end::Scroll Top -->
+        <ul class="m-nav-sticky">
+            @if (request()->route('taxPayer'))
+                <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.SalesBook')" data-placement="left">
+                    <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                        <i class="la la-paper-plane"></i>
+                    </a>
+                </li>
+                <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.PurchaseBook')" data-placement="left">
+                    <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                        <i class="la la-shopping-cart"></i>
+                    </a>
+                </li>
+
+                <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('accounting.Journal')" data-placement="left">
+                    <a href="{{ route('journals.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                        <i class="la la-list"></i>
+                    </a>
+                </li>
+
+                <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Reports')" data-placement="left">
+                    <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                        <i class="la la-pie-chart"></i>
+                    </a>
+                </li>
+            @endif
+            <hr>
+            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Tickets" data-placement="left">
+                <a href="https://support.debehaber.com/ticket/" target="_blank">
+                    <i class="la la-envelope m--font-primary"></i>
+                </a>
+            </li>
+            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Support')" data-placement="left">
+                <a href="https://support.debehaber.com" target="_blank">
+                    <i class="la la-life-ring m--font-primary"></i>
+                </a>
+            </li>
+        </ul>
+        <!-- begin::Quick Nav -->
     </div>
-    <!-- end:: Page -->
 
-    <!-- begin::Scroll Top -->
-    <div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
-        <i class="la la-arrow-up"></i>
-    </div>
-    <!-- end::Scroll Top -->
-    <ul class="m-nav-sticky">
 
-        @if (request()->route('taxPayer'))
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.SalesBook')" data-placement="left">
-                <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
-                    <i class="la la-paper-plane"></i>
-                </a>
-            </li>
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.PurchaseBook')" data-placement="left">
-                <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
-                    <i class="la la-shopping-cart"></i>
-                </a>
-            </li>
-
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('accounting.Journal')" data-placement="left">
-                <a href="{{ route('journals.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
-                    <i class="la la-list"></i>
-                </a>
-            </li>
-
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Reports')" data-placement="left">
-                <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
-                    <i class="la la-pie-chart"></i>
-                </a>
-            </li>
-        @endif
-        <hr>
-        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Tickets" data-placement="left">
-            <a href="https://support.debehaber.com/ticket/" target="_blank">
-                <i class="la la-envelope m--font-primary"></i>
-            </a>
-        </li>
-        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Support')" data-placement="left">
-            <a href="https://support.debehaber.com" target="_blank">
-                <i class="la la-life-ring m--font-primary"></i>
-            </a>
-        </li>
-    </ul>
-    <!-- begin::Quick Nav -->
-</div>
-
-<script src="/vendors/base/vendors.bundle.min.js"></script>
-<script src="/js/scripts.bundle.min.js"></script>
-<script src="{{ mix('js/app.js') }}"></script>
-@yield('script')
+    <script src="/vendors/base/vendors.bundle.min.js"></script>
+    <script src="/js/scripts.bundle.min.js"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
+    @yield('script')
 </body>
 <!-- end::Body -->
 </html>
