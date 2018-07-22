@@ -26,7 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('currency:rates')
-        ->daily()->timezone('America/New_York');
+        ->hourly()
+        ->between('9:00', '12:00');
     }
 
     /**
