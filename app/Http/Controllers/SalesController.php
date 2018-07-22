@@ -49,7 +49,7 @@ class SalesController extends Controller
             DB::raw('if(max(statuses.name)="Annul",0,sum(td.value)) as Value'))
             ->orderByRaw('max(transactions.date)', 'desc')
             ->orderByRaw('max(transactions.number)', 'desc')
-            ->paginate(100)
+            ->paginate(50)
         );
 
         // //  return response()->json($orders);
