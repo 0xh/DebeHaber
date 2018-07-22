@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('currency:rates')
         ->hourly()
-        ->between('9:00', '12:00');
+        ->between('7:00', '12:00');
     }
 
     /**
