@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Spatie\BinaryUuid\HasBinaryUuid;
 use Illuminate\Database\Eloquent\Model;
 use App\Cycle;
 use App\Scopes\JournalScope;
@@ -14,12 +15,19 @@ use App\JournalSim;
 
 class Journal extends Model
 {
+    use HasBinaryUuid;
 
     protected static function boot()
     {
         parent::boot();
         static::addGlobalScope(new JournalScope);
     }
+
+    public function getKeyName()
+    {
+        return 'id';
+    }
+
     /**
     * Get the details for the model.
     *

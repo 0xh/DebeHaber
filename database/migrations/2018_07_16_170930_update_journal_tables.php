@@ -14,25 +14,36 @@ class UpdateJournalTables extends Migration
     public function up()
     {
         Schema::table('journals', function (Blueprint $table) {
-            $table->boolean('is_automatic')->default(false)->after('comment');
+            $table->boolean('is_automatic')->default(false)->after('comment')->comment('helps identify the transactions made by user');
+
+            // $table->unsignedTinyInteger('type')->after('cycle_id')->nullable()
+            // ->comment('1  = Purchases, 2 = Self-Invoice (Purchases), 3 = Debit Note (Purchase), 4 = Sales Invoice, 5 = Credit Note (Sales)');
+
+            $table->dropColumn('id');
+            $table->char('id', 36)->primary();
         });
 
-        //
-        Schema::rename('journal_transactions', 'journal_transaction');
-        Schema::table('journal_transaction', function (Blueprint $table) {
-            $table->boolean('update_required')->default(false)->after('id');
+        Schema::table('journal_details', function (Blueprint $table) {
+            $table->dropColumn('journal_id');
+            $table->char('journal_id', 36)->index()->after('type');
         });
 
-        //
-        Schema::rename('journal_productions', 'journal_production');
-        Schema::table('journal_production', function (Blueprint $table) {
-            $table->boolean('update_required')->default(false)->after('id');
+        Schema::dropIfExists('journal_transactions');
+
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->char('journal_id', 36)->index()->after('type');
         });
 
-        //
-        Schema::rename('journal_account_movements', 'journal_account_movement');
-        Schema::table('journal_account_movement', function (Blueprint $table) {
-            $table->boolean('update_required')->default(false)->after('id');
+        Schema::dropIfExists('journal_productions');
+
+        Schema::table('productions', function (Blueprint $table) {
+            $table->char('journal_id', 36)->index()->after('taxpayer_id');
+        });
+
+        Schema::dropIfExists('journal_account_movements');
+
+        Schema::table('account_movements', function (Blueprint $table) {
+            $table->char('journal_id', 36)->index()->after('taxpayer_id');
         });
     }
 
