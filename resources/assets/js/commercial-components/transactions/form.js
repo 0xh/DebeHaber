@@ -46,6 +46,9 @@ Vue.component('transaction-form',
             ],
             documents:[],
             currencies:[],
+            charts:[],
+            vats:[],
+            accounts:[]
         }
     },
 
@@ -331,7 +334,7 @@ Vue.component('transaction-form',
         getCurrencies: function()
         {
             var app = this;
-            
+
             axios.get('/api/' + app.$parent.taxpayer + '/get_currency' )
             .then(({ data }) =>
             {
@@ -395,7 +398,10 @@ Vue.component('transaction-form',
     {
 
         //this.init();
-       this.getDocuments();
+        this.getCharts();
+        this.getTaxes();
+        this.getAccounts();
+        this.getDocuments();
         this.getCurrencies();
     }
 });

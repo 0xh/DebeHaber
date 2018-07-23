@@ -72,31 +72,13 @@ class TaxpayerIntegrationController extends Controller
     * @param  \App\TaxpayerIntegration  $taxpayerIntegration
     * @return \Illuminate\Http\Response
     */
-    public function update(Request $request, TaxpayerIntegration $taxpayerIntegration)
+    public function update(Request $request, TaxpayerIntegration $taxPayerIntegration)
     {
 
-        if (isset($taxpayerIntegration))
+        if (isset($taxPayerIntegration))
         {
 
-            $taxpayerSetting = TaxpayerSetting::where('taxpayer_id', $request->id)
-            ->first();
-
-            if (isset($taxpayerSetting))
-            {
-                $taxpayerSetting->regime_type=$request->setting_regime;
-                $taxpayerSetting->agent_name = $request->setting_agent ;
-                $taxpayerSetting->agent_taxid = $request->setting_agenttaxid ;
-                $taxpayerSetting->show_inventory = $request->setting_inventory = true ? 1 : 0;
-                $taxpayerSetting->show_production = $request->setting_production = true ? 1 : 0;
-                $taxpayerSetting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
-                $taxpayerSetting->does_export = $request->setting_export = true ? 1 : 0;
-                $taxpayerSetting->does_import = $request->setting_import = true ? 1 : 0;
-                $taxpayerSetting->is_company = $request->setting_is_company;
-                $taxpayerSetting->save();
-            }
-
-            $taxPayer = TaxPayer::where('id', $request->id)->first();
-
+            $taxPayer = TaxPayer::where('id', $taxPayerIntegration->taxpayer_id)->with('setting')->first();
             if (isset($taxPayer))
             {
                 $taxPayer->alias = $taxPayer->alias;
@@ -104,6 +86,22 @@ class TaxpayerIntegrationController extends Controller
                 $taxPayer->telephone = $request->telephone;
                 $taxPayer->email = $request->email;
                 $taxPayer->save();
+
+                // $taxPayer->setting->regime_type=$request->setting_regime;
+                // $taxPayer->setting->agent_name = $request->setting_agent ;
+                // $taxPayer->setting->agent_taxid = $request->setting_agenttaxid ;
+                // $taxPayer->setting->show_inventory = $request->setting_inventory = true ? 1 : 0;
+                // $taxPayer->setting->show_production = $request->setting_production = true ? 1 : 0;
+                // $taxPayer->setting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
+                // $taxPayer->setting->does_export = $request->setting_export = true ? 1 : 0;
+                // $taxPayer->setting->does_import = $request->setting_import = true ? 1 : 0;
+                // $taxPayer->setting->is_company = $request->setting_is_company;
+                //$taxPayer->setting->save();
+
+
+
+
+
             }
 
             return response()->json('Ok', 200);

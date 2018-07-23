@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth'], function ()
 {
 
 
-  Route::put('taxpayer-integration/{taxPayer}', 'TaxpayerIntegrationController@update');
+  Route::put('taxpayer-integration/{taxPayerIntegration}', 'TaxpayerIntegrationController@update');
   //Taxpayer Resource, CRUD
   Route::resource('taxpayer', 'TaxpayerController');
 

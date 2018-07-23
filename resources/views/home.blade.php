@@ -66,7 +66,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                                         </div>
 
                                         <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="...">
-                                            <a href="{{ route('taxpayer.show', $integration->taxpayer) }}" class="m-btn btn btn-secondary">
+                                            <a href="{{ route('taxpayer.edit', $integration) }}" class="m-btn btn btn-secondary">
                                                 <i class="la la-pencil text-info"></i>
                                             </a>
 

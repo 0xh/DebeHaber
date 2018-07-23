@@ -105,6 +105,7 @@ Vue.component('taxpayer-integration',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
+
             $.ajax({
                 url: '/taxpayer-integration/' + json.id,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -114,7 +115,8 @@ Vue.component('taxpayer-integration',{
                 async: false,
                 success: function(data)
                 {
-                    document.location.href = '../home/'
+                    console.log(json.id);
+                    document.location.href = '../../home/'
                 },
                 error: function(xhr, status, error)
                 {
@@ -126,42 +128,29 @@ Vue.component('taxpayer-integration',{
     mounted: function mounted()
     {
 
-        $.ajax({
-            url: 'taxpayer-integration/' ,
-            headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-            type: 'GET',
-            dataType: 'json',
-            async: false,
-            success: function(data)
-            {
-                this.id = this.data.id;
-            },
-            error: function(xhr, status, error)
-            {
-                console.log(xhr.responseText);
-            }
-        });
-
-
+        this.id=this.taxpayer[0].id;
         this.name = this.taxpayer[0].name;
         this.alias =  this.taxpayer[0].alias;
         this.taxid = this.taxpayer[0].taxid;
         this.address = this.taxpayer[0].address;
         this.telephone = this.taxpayer[0].telephone;
         this.email = this.taxpayer[0].email;
+        if (this.taxpayer[0].setting!=null)
+        {
+            this.setting_inventory = this.taxpayer[0].setting.show_inventory;
+            this.setting_production = this.taxpayer[0].setting.show_production;
+            this.setting_fixedasset = this.taxpayer[0].setting.show_fixedasset;
 
-        this.setting_inventory = this.taxpayer[0].setting.show_inventory;
-        this.setting_production = this.taxpayer[0].setting.show_production;
-        this.setting_fixedasset = this.taxpayer[0].setting.show_fixedasset;
 
+            this.setting_regime = this.taxpayer[0].setting.regime_type;
+            this.setting_is_company = this.taxpayer[0].setting.is_company;
 
-        this.setting_regime = this.taxpayer[0].setting.regime_type;
-        this.setting_is_company = this.taxpayer[0].setting.is_company;
+            this.setting_agenttaxid = this.taxpayer[0].setting.agent_taxid;
+            this.setting_agent = this.taxpayer[0].setting.agent_name;
 
-        this.setting_agenttaxid = this.taxpayer[0].setting.agent_taxid;
-        this.setting_agent = this.taxpayer[0].setting.agent_name;
+            this.agent_name = this.taxpayer[0].setting.agent_name;
+            this.agent_taxid = this.taxpayer[0].setting.agent_taxid;
+        }
 
-        this.agent_name = this.taxpayer[0].setting.agent_name;
-        this.agent_taxid = this.taxpayer[0].setting.agent_taxid;
     }
 });

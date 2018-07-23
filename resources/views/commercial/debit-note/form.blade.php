@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<transaction-form :trantype ="3" :charts="{{ $charts }}" :vats="{{ $vats }}" :accounts=" {{ $accounts }} " inline-template>
+<transaction-form :trantype ="5"  inline-template>
     <div>
         <div class="row">
             <div class="col-6">
@@ -38,6 +38,7 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
+
                     @php
                     $documentCode = Config::get('countries.' . request()->route('taxPayer')->country . '.document-code');
                     @endphp
@@ -45,10 +46,11 @@
                     <label for="example-text-input" class="col-4 col-form-label">
                         <b>{{ $documentCode }}  &amp; @lang('global.Deadline')</b>
                     </label>
+
                     <div class="col-8">
                         <div class="row">
                             <div class="col-5">
-                                <input type="text"  placeholder="Number"   v-model="code" />
+                                <input type="text" placeholder="Number" v-model="code" />
                             </div>
                             <div class="col-7">
                                 <input type="date" class="form-control m-input" v-model="code_expiry"/>
@@ -58,7 +60,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        <b>@lang('commercial.InvoiceNumber')
+                        <b>@lang('commercial.InvoiceNumber')</b>
                     </label>
                     <div class="col-8">
                         <input class="form-control m-input" type="text" value="001-001-0000000" v-model="number">
@@ -73,18 +75,17 @@
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        @lang('commercial.Condition')
+                        <b>@lang('commercial.Condition')</b>
                     </label>
                     <div class="col-8">
                         <div class="input-group">
                             <input id="payment_condition" type="text" class="form-control" v-model="payment_condition" placeholder=" 0 = Contado 1 0 mas = credito "/>
-
                         </div>
                     </div>
                 </div>
                 <div class="form-group m-form__group row" v-if="payment_condition == 0">
                     <label for="example-text-input" class="col-4 col-form-label ">
-                        @lang('commercial.Account')
+                        <b>@lang('commercial.Account')</b>
                     </label>
                     <div class="col-8">
                         <div>
@@ -94,12 +95,11 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="col-6">
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-4 col-form-label">
-                        @lang('commercial.Currency')
+                        <b>@lang('commercial.Currency')</b>
                     </label>
                     <div class="col-8">
                         <div class="input-group">
@@ -122,7 +122,7 @@
                             <i class="flaticon-calendar"></i>
                         </span>
                         <h3 class="m-portlet__head-text m--font-primary">
-                            @lang('commercial.Detail')
+                            <b>@lang('commercial.Detail')</b>
                         </h3>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                         <span>
                             <i class="la la-plus"></i>
                             <span>
-                                @lang('global.New')
+                                <b>@lang('global.New')</b>
                             </span>
                         </span>
                     </a>
@@ -140,9 +140,7 @@
             <div class="m-portlet__body">
                 <div class="row">
                     <div class="col-2">
-                        <span class="m--font-boldest">
-                            @lang('commercial.Account')
-                        </span>
+                        <span class="m--font-boldest">@lang('commercial.Account')</span>
                     </div>
                     <div class="col-2">
                         <span class="m--font-boldest">@lang('commercial.SalesTax')</span>
@@ -157,7 +155,7 @@
                         <span class="m--font-boldest">@lang('commercial.Taxable')</span>
                     </div>
                     <div class="col-1">
-                        <span class="m--font-boldest">@lang('commercial.Salestax')</span>
+                        <span class="m--font-boldest">@lang('commercial.SalesTax')</span>
                     </div>
                     <div class="col-1">
                         <span class="m--font-boldest"></span>
@@ -225,7 +223,6 @@
                 </div>
             </div>
         </div>
-
         <button v-on:click="onSave($data,false)" class="btn btn-primary">
             @lang('global.Save')
         </button>

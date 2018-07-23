@@ -9,6 +9,7 @@ use App\AccountMovement;
 use App\TransactionDetail;
 use App\JournalTransaction;
 use App\Chart;
+use App\Http\Resources\TransactionResource;
 use Illuminate\Http\Request;
 use DB;
 
@@ -21,29 +22,13 @@ class CreditNoteController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-      $charts = Chart::SalesAccounts()
-      ->orderBy('name')
-      ->select('name', 'id', 'type')
-      ->get();
-
-      $vats = Chart::
-      VATCreditAccounts()
-      ->orderBy('name')
-      ->select('name', 'code', 'id', 'coefficient')
-      ->get();
-
-      $accounts = Chart::MoneyAccounts()
-      ->orderBy('name')
-      ->select('name', 'id', 'sub_type')
-      ->get();
-
-        return view('/commercial/creditnote')->with('charts',$charts)
-    ->with('vats',$vats)->with('accounts',$accounts);
+      return view('/commercial/creditnote');
     }
 
-    public function get_credit_note(Taxpayer $taxPayer, Cycle $cycle, $skip)
+    public function get_credit_note(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $transactions = Transaction::MyCreditNotes()
+      return TransactionResource::collection(
+        Transaction::MyCreditNotes()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'currencies.id', 'transactions.currency_id')
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
@@ -60,9 +45,7 @@ class CreditNoteController extends Controller
         DB::raw('sum(td.value) as Value'))
         ->orderByRaw('max(transactions.date)', 'desc')
         ->orderByRaw('max(transactions.number)', 'desc')
-        ->skip($skip)
-        ->take(100)
-        ->get();
+        ->paginate(50));
 
         return response()->json($transactions);
     }

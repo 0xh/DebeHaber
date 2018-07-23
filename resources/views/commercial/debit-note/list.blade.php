@@ -1,52 +1,52 @@
-<meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 <div>
-    <div class="row">
-        <div class="col-1 m--font-boldest">
-            <p class="m--font-boldest m--font-transform-u">@lang('global.Date')</p>
-        </div>
-        <div class="col-5">
-            <p class="m--font-boldest m--font-transform-u">@lang('commercial.Supplier')</p>
-        </div>
-        <div class="col-2">
-            <p class="m--font-boldest m--font-transform-u">@lang('commercial.InvoiceNumber')</p>
-        </div>
-        <div class="col-2">
-            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Total')</p>
-        </div>
-        <div class="col-1">
-            <p class="m--align-center m--font-boldest m--font-transform-u">@lang('global.Actions')</p>
-        </div>
-    </div>
+    <b-table :data="list" hoverable :loading="isLoading">
+        <template slot-scope="props">
+            <b-table-column field="Date" label="@lang('global.Date')">
+                <small>
+                    @{{ new Date(props.row.Date).toLocaleDateString() }}
+                </small>
+            </b-table-column>
 
-    <div class="row m--margin-bottom-5" v-for="invoice in list">
-        <div class="col-1">
-            <p> @{{ invoice.Date }} </p>
-        </div>
-        <div class="col-5">
-            <p> <span class="m--font-bold">@{{ invoice.Supplier }}</span> |  <em>@{{ invoice.SupplierTaxID }}</em> </p>
-        </div>
-        <div class="col-2">
-            <p>
-                @{{ invoice.Number }} |
-                <span v-if="invoice.PaymentCondition > 0" class="m--font-bold m--font-info"> Credit </span>
-                <span v-else class="m--font-bold m--font-success"> Cash</span>
-            </p>
-        </div>
-        <div class="col-2">
-            <p class="m--font-bold m--align-right">
-                @{{ invoice.Value }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
-            </p>
-        </div>
-        <div class="col-1">
-            <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
-                <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
-                <a @click="onEdit(invoice.ID)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
-                <a @click="onDelete(invoice)" class="m-btn btn btn-secondary"><i class="la la-trash m--font-danger"></i></a>
-            </div>
-        </div>
-    </div>
+            <b-table-column field="Customer" label="@lang('commercial.Supplier')">
+                @{{ props.row.Supplier }}
 
-    @include('layouts/infinity-loading')
+                <small class="m--font-metal">
+                    @{{ props.row.SupplierTaxID }}
+                </small>
+            </b-table-column>
 
+            <b-table-column field="Number" label="@lang('commercial.InvoiceNumber')">
+                @{{ props.row.Number }}
+                <small v-if="props.row.PaymentCondition > 0" class="m--font-bold m--font-info"> Credit </small>
+                <small v-else class="m--font-bold m--font-success"> Cash</small>
+            </b-table-column>
+
+            <b-table-column field="Value" label="@lang('global.Total')" numeric>
+                @{{ new Number(props.row.Value).toLocaleString() }}
+                <small class="m--font-brand">
+                    @{{ props.row.Currency }}
+                </small>
+            </b-table-column>
+
+            <b-table-column custom-key="actions">
+
+                <button v-on:click="onEdit(props.row.ID)" type="button" class="btn btn-outline-info btn-sm m-btn m-btn--icon">
+                    <span>
+                        <i class="fa fa-pencil"></i>
+                        <span>@lang('global.Edit')</span>
+                    </span>
+                </button>
+
+                <button v-on:click="onDelete(props.row)" type="button" class="btn btn-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                    <i class="fa fa-trash"></i>
+                </button>
+
+            </b-table-column>
+        </template>
+          @include('layouts/infinity-loading')
+    </b-table>
+
+    <b-pagination :total="meta.total" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>
 </div>

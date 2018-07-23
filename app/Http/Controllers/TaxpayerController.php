@@ -220,9 +220,14 @@ class TaxpayerController extends Controller
     * @param  \App\Taxpayer  $taxpayer
     * @return \Illuminate\Http\Response
     */
-    public function edit(Taxpayer $taxPayer)
+    public function edit($taxPayerintegration)
     {
-        //
+      $taxPayer = Taxpayer::join('taxpayer_integrations', 'taxpayers.id', 'taxpayer_integrations.taxpayer_id')
+      ->with('setting')
+      ->where('taxpayer_integrations.id',$taxPayerintegration)
+      ->get();
+    
+      return view('taxpayer/profile')->with('taxPayer', $taxPayer);
     }
 
     /**

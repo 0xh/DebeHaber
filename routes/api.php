@@ -108,12 +108,12 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::get('purchases/get-charts', 'ChartController@getPurchaseAccounts');
                 Route::get('purchases/get-vats', 'ChartController@getVATCredit');
 
-                Route::get('credit-notes/{skip}', 'CreditNoteController@get_credit_note');
+                Route::get('credit-notes', 'CreditNoteController@get_credit_note');
                 Route::get('credit-notes/by-id/{id}', 'CreditNoteController@get_credit_noteByID');
                 Route::get('credit-notes/get-charts', 'ChartController@getSalesAccounts');
                 Route::get('credit-notes/get-vats', 'ChartController@getVATCredit');
 
-                Route::get('debit-notes/{skip}', 'DebitNoteController@get_debit_note');
+                Route::get('debit-notes', 'DebitNoteController@get_debit_note');
                 Route::get('debit-notes/by-id/{id}', 'DebitNoteController@get_debit_noteByID');
                 Route::get('debit-notes/get-charts', 'ChartController@getPurchaseAccounts');
                 Route::get('debit-notes/get-vats', 'ChartController@getVATDebit');

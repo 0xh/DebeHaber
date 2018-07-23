@@ -14,7 +14,7 @@ Vue.component('buefy',
         onLoad(page)
         {
             axios
-            .get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl)
+            .get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '?page=' + page)
             .then(response => {
                 this.isLoading = false;
 
@@ -26,6 +26,7 @@ Vue.component('buefy',
         },
         pageChange (page) {
             var app = this;
+
             app.onLoad(page);
         },
         onEdit: function(data)
@@ -105,6 +106,6 @@ Vue.component('buefy',
     mounted: function mounted()
     {
         var app = this;
-        app.onLoad();
+        app.onLoad(1);
     }
 });

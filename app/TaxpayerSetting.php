@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaxpayerSetting extends Model
 {
+    protected $fillable = [
+      'agent_name'
+
+  ];
     public $timestamps  = false;
 
     public function taxpayer()
     {
-        return $this->hasOne(Taxpayer::class);
+        return $this->belongsTo('App\Taxpayer','taxpayer_id','id');
     }
 }

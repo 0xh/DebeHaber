@@ -78,10 +78,10 @@ class Journal extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-    public function transactions()
-    {
-        return $this->hasMany(JournalTransaction::class);
-    }
+    // public function transactions()
+    // {
+    //     return $this->hasMany(JournalTransaction::class);
+    // }
 
     /**
     * Get the accountMovements for the model.
