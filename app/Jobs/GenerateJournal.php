@@ -97,10 +97,13 @@ class GenerateJournal implements ShouldQueue
             //Create sales query, since the same query is called multiple times.
             $salesQuery = Transaction::whereBetween('date', [$startDate, $endDate])
             ->otherCurrentStatus(['Annuled'])
-            ->where('supplier_id', $taxPayer->id);
+            ->where('supplier_id', $this->taxPayer->id)->get();
+
+
             //if the count is less than 0, no need to go inside and run additional code.
             if ($salesQuery->count() > 0)
             {
+
                 $this->query_Sales($salesQuery, $startDate, $endDate);
             }
 
@@ -108,7 +111,7 @@ class GenerateJournal implements ShouldQueue
             //Create purchase query, since the same query is called multiple times.
             $purchaseQuery = Transaction::whereBetween('date', [$startDate, $endDate])
             ->otherCurrentStatus(['Annuled'])
-            ->where('customer_id', $taxPayer->id);
+            ->where('customer_id', $this->taxPayer->id);
             //if the count is less than 0, no need to go inside and run additional code.
             if ($purchaseQuery->count() > 0)
             {
@@ -130,7 +133,7 @@ class GenerateJournal implements ShouldQueue
         //TODO how will i know this journal belongs to sales?
 
         $journal = Journal::where('is_automatic', 1)
-        ->where('cycle_id', $cycle->id)
+        ->where('cycle_id', $this->cycle->id)
         ->whereBetween('date', [$startDate, $endDate])
         ->whereNull('deleted_at')
         ->with('details')
@@ -140,7 +143,7 @@ class GenerateJournal implements ShouldQueue
 
         $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
-        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $sales->last()->date;
         $journal->comment = $comment;
         $journal->save();
@@ -158,7 +161,7 @@ class GenerateJournal implements ShouldQueue
         foreach($cashSales as $row)
         {
             //search if a similar chart is already existing in journal details. if not, create a new detail.
-            $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
+            $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $row->chart_account_id)->id;
 
             $value = $row->details->sum('value') * $row->rate;
             $detail = $journal->details->where('chart_id', $accountChartID)->first() ?? new JournalDetail();
@@ -182,7 +185,7 @@ class GenerateJournal implements ShouldQueue
         //run code for credit sales (insert detail into journal)
         foreach($creditSales as $row)
         {
-            $customerChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
+            $customerChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $row->customer_id)->id;
 
             $value = $row->details->sum('value') * $row->rate;
             $detail = $journal->details->where('chart_id', $customerChartID)->first() ?? new JournalDetail();
@@ -198,7 +201,7 @@ class GenerateJournal implements ShouldQueue
         $vatAccounts = TransactionDetail::with('transaction:rate')
         ->whereHas('transaction', function ($query) {
             $query->whereBetween('date', [$startDate, $endDate])
-            ->where('supplier_id', $taxPayer->id)
+            ->where('supplier_id', $this->taxPayer->id)
             ->otherCurrentStatus(['Annuled']);
         })
         ->groupBy('chart_vat_id', 'rate')
@@ -222,7 +225,7 @@ class GenerateJournal implements ShouldQueue
         $itemAccounts = TransactionDetail::with('transaction:rate')
         ->whereHas('transaction', function ($query) {
             $query->whereBetween('date', [$startDate, $endDate])
-            ->where('supplier_id', $taxPayer->id)
+            ->where('supplier_id', $this->taxPayer->id)
             ->otherCurrentStatus(['Annuled']);
         })
         ->groupBy('chart_id', 'rate')
@@ -251,7 +254,7 @@ class GenerateJournal implements ShouldQueue
 
         //TODO: how will i know this journal belongs to sales or purchases?
         $journal = Journal::where('is_automatic', 1)
-        ->where('cycle_id', $cycle->id)
+        ->where('cycle_id', $this->cycle->id)
         ->whereBetween('date', [$startDate, $endDate])
         ->whereNull('deleted_at')
         ->with('details')
@@ -261,7 +264,7 @@ class GenerateJournal implements ShouldQueue
 
         $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
-        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $sales->last()->date;
         $journal->comment = $comment;
         $journal->save();
@@ -283,7 +286,7 @@ class GenerateJournal implements ShouldQueue
         foreach($cashSales as $row)
         {
             //search if a similar chart is already existing in journal details. if not, create a new detail.
-            $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
+            $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $row->chart_account_id)->id;
 
             $value = $row->details->sum('value') * $row->rate;
             $detail = $journal->details->where('chart_id', $accountChartID)->first() ?? new JournalDetail();
@@ -306,7 +309,7 @@ class GenerateJournal implements ShouldQueue
         //run code for credit sales (insert detail into journal)
         foreach($creditSales as $row)
         {
-            $supplierChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->supplier_id)->id;
+            $supplierChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $row->supplier_id)->id;
 
             $value = $row->details->sum('value') * $row->rate;
             $detail = $journal->details->where('chart_id', $supplierChartID)->first() ?? new JournalDetail();
@@ -322,7 +325,7 @@ class GenerateJournal implements ShouldQueue
         $vatAccounts = TransactionDetail::with('transaction:rate')
         ->whereHas('transaction', function ($query) {
             $query->whereBetween('date', [$startDate, $endDate])
-            ->where('supplier_id', $taxPayer->id)
+            ->where('supplier_id', $this->taxPayer->id)
             ->otherCurrentStatus(['Annuled']);
         })
         ->groupBy('chart_vat_id', 'rate')
@@ -346,7 +349,7 @@ class GenerateJournal implements ShouldQueue
         $itemAccounts = TransactionDetail::with('transaction:rate')
         ->whereHas('transaction', function ($query) {
             $query->whereBetween('date', [$startDate, $endDate])
-            ->where('supplier_id', $taxPayer->id)
+            ->where('supplier_id', $this->taxPayer->id)
             ->otherCurrentStatus(['Annuled']);
         })
         ->groupBy('chart_id', 'rate')
@@ -375,7 +378,7 @@ class GenerateJournal implements ShouldQueue
 
         $credits = Transaction::whereBetween('date', [$startDate, $endDate])
         ->with('details')
-        ->where('supplier_id', $taxPayer->id)
+        ->where('supplier_id', $this->taxPayer->id)
         ->whereNull('deleted_at')
         ->where('type', 5)
         ->orderBy('date')
@@ -385,7 +388,7 @@ class GenerateJournal implements ShouldQueue
         if ($credits->count() > 0)
         {
             $comment = __('accounting.CreditNoteComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
-            $this->generate_fromCreditNotes($taxPayer, $cycle, $credits, $comment);
+            $this->generate_fromCreditNotes($this->taxPayer, $this->cycle, $credits, $comment);
         }
     }
 
@@ -396,7 +399,7 @@ class GenerateJournal implements ShouldQueue
 
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
-        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $transactions->sortBy('date')->last()->date; //
         $journal->comment = $comment;
         $journal->save();
@@ -480,7 +483,7 @@ class GenerateJournal implements ShouldQueue
             }
 
             //Check for Cash Account used.
-            $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
+            $chart = $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $groupedTransactions->first()->chart_id);
 
             $detail = new JournalDetail();
             $detail->debit = $value;
@@ -504,7 +507,7 @@ class GenerateJournal implements ShouldQueue
                 }
             }
 
-            $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedTransactions->first()->customer_id);
+            $chart = $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $groupedTransactions->first()->customer_id);
 
             //Create Generic if not
             $detail = new JournalDetail();
@@ -541,7 +544,7 @@ class GenerateJournal implements ShouldQueue
         //
         $debits = Transaction::whereBetween('date', [$startDate, $endDate])
         ->with('details')
-        ->where('customer_id', $taxPayer->id)
+        ->where('customer_id', $this->taxPayer->id)
         ->whereNull('deleted_at')
         ->where('type', 3)
         ->orderBy('date')
@@ -551,7 +554,7 @@ class GenerateJournal implements ShouldQueue
         if ($debits->count() > 0)
         {
             $comment = __('accounting.DebitNoteComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
-            $this->generate_fromDebitNotes($taxPayer, $cycle, $debits, $comment);
+            $this->generate_fromDebitNotes($this->taxPayer, $this->cycle, $debits, $comment);
         }
     }
 
@@ -562,7 +565,7 @@ class GenerateJournal implements ShouldQueue
 
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
-        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $transactions->last()->date; //
         $journal->comment = $comment;
         $journal->save();
@@ -583,7 +586,7 @@ class GenerateJournal implements ShouldQueue
 
             //Check for Cash Account used.
 
-            $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedTransactions->first()->chart_id);
+            $chart = $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $groupedTransactions->first()->chart_id);
 
             $detail = new JournalDetail();
             $detail->debit = 0;
@@ -606,7 +609,7 @@ class GenerateJournal implements ShouldQueue
                 }
             }
 
-            $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedTransactions->first()->customer_id);
+            $chart = $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $groupedTransactions->first()->customer_id);
 
             //Create Generic if not
             $detail = new JournalDetail();
@@ -698,7 +701,7 @@ class GenerateJournal implements ShouldQueue
 
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
-        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $accMovements->last()->date; //
         $journal->comment = $comment;
         $journal->save();
@@ -717,7 +720,7 @@ class GenerateJournal implements ShouldQueue
             if ($value > 0)
             {
                 //Check for Cash Account used.
-                $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedByAccount->first()->chart_id);
+                $chart = $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $groupedByAccount->first()->chart_id);
 
                 $detail = new JournalDetail();
                 $detail->debit = 0;
@@ -742,7 +745,7 @@ class GenerateJournal implements ShouldQueue
             if ($value > 0)
             {
                 //Check for Account Receivables used.
-                $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedByInvoice->first()->customer_id);
+                $chart = $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $groupedByInvoice->first()->customer_id);
 
                 $detail = new JournalDetail();
                 $detail->debit = $value;
@@ -771,7 +774,7 @@ class GenerateJournal implements ShouldQueue
 
         //get sum of all transactions divided by exchange rate.
         $journal = new Journal();
-        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $accMovements->last()->date; //
         $journal->comment = $comment;
         $journal->save();
@@ -790,7 +793,7 @@ class GenerateJournal implements ShouldQueue
             if ($value > 0)
             {
                 //Check for Cash Account used.
-                $chart = $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $groupedByAccount->first()->chart_id);
+                $chart = $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $groupedByAccount->first()->chart_id);
 
                 $detail = new JournalDetail();
                 $detail->debit = $value;
@@ -815,7 +818,7 @@ class GenerateJournal implements ShouldQueue
             if ($value > 0)
             {
                 //Check for Account Receivables used.
-                $chart = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $groupedByInvoice->first()->supplier_id);
+                $chart = $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $groupedByInvoice->first()->supplier_id);
 
                 $detail = new JournalDetail();
                 $detail->debit = 0;

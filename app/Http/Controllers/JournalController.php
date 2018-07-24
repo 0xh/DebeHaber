@@ -197,7 +197,8 @@ class JournalController extends Controller
 
     public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
+
         GenerateJournal::dispatch($taxPayer, $cycle, $startDate, $endDate);
-        return back();
+        //return back();
     }
 }
