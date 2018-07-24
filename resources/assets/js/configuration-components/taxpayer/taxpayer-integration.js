@@ -21,14 +21,14 @@ Vue.component('taxpayer-integration',{
             type: '1',
 
 
-            setting_production: false,
-            setting_fixedasset: false,
-            setting_inventory: false,
-            setting_import: false,
-            setting_export: false,
+            setting_production: 0,
+            setting_fixedasset: 0,
+            setting_inventory: 0,
+            setting_import: 0,
+            setting_export: 0,
 
             setting_regime: 0,
-            setting_is_company: false,
+            setting_is_company: 0,
 
             setting_agenttaxid: '',
             setting_agent: '',
@@ -38,8 +38,7 @@ Vue.component('taxpayer-integration',{
             owner_img: '',
             owner_type: '',
 
-            agent_name: '',
-            agent_taxid: '',
+
         }
     },
     methods:
@@ -52,11 +51,11 @@ Vue.component('taxpayer-integration',{
                 app.setting_regime =  0;
                 app.setting_agenttaxid =  '';
                 app.setting_agent =  '';
-                app.setting_inventory =  false;
-                app.setting_fixedasset =  false;
-                app.setting_production =  false;
-                app.setting_import = false;
-                app.setting_export =  false;
+                app.setting_inventory =  0;
+                app.setting_fixedasset =  0;
+                app.setting_production =  0;
+                app.setting_import = 0;
+                app.setting_export =  0;
             }
         },
         //Useful for when user wants to create a Taxpayer not in the system.
@@ -135,6 +134,7 @@ Vue.component('taxpayer-integration',{
         this.address = this.taxpayer[0].address;
         this.telephone = this.taxpayer[0].telephone;
         this.email = this.taxpayer[0].email;
+        console.log(this.taxpayer[0].setting);
         if (this.taxpayer[0].setting!=null)
         {
             this.setting_inventory = this.taxpayer[0].setting.show_inventory;
@@ -148,8 +148,7 @@ Vue.component('taxpayer-integration',{
             this.setting_agenttaxid = this.taxpayer[0].setting.agent_taxid;
             this.setting_agent = this.taxpayer[0].setting.agent_name;
 
-            this.agent_name = this.taxpayer[0].setting.agent_name;
-            this.agent_taxid = this.taxpayer[0].setting.agent_taxid;
+
         }
 
     }

@@ -226,7 +226,7 @@ class TaxpayerController extends Controller
       ->with('setting')
       ->where('taxpayer_integrations.id',$taxPayerintegration)
       ->get();
-    
+
       return view('taxpayer/profile')->with('taxPayer', $taxPayer);
     }
 
@@ -253,7 +253,8 @@ class TaxpayerController extends Controller
             $taxPayer->save();
 
             //this code is wrong. you need to get specific taxpayer setting
-            $taxPayer_Setting = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() ?? new TaxpayerSetting();
+            $taxPayer_Setting = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first()
+            ?? new TaxpayerSetting();
             $taxPayer_Setting->taxpayer_id = $taxPayer->id;
             $taxPayer_Setting->agent_taxid = $request->agent_taxid;
             $taxPayer_Setting->agent_name = $request->agent_name;

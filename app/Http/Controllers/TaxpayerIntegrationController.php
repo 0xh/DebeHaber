@@ -86,15 +86,41 @@ class TaxpayerIntegrationController extends Controller
                 $taxPayer->email = $request->email;
                 $taxPayer->save();
 
+                if ($request->setting_inventory) {
+                    $isinventory=1;
+                }
+                else {
+                    $isinventory=0;
+                }
+                if ($request->setting_production) {
+                    $isproduction=1;
+                }
+                else {
+                    $isproduction=0;
+                }
+                if ($request->setting_fixedasset) {
+                    $isasset=1;
+                }
+                else {
+                    $isasset=0;
+                }
+                if ($request->setting_is_company) {
+                    $iscompany=1;
+                }
+                else {
+                    $iscompany=0;
+                }
+
                 $taxPayer->setting()->update([
                     'regime_type' => $request->setting_regime ?? 0,
                     'agent_name' => $request->setting_agent,
                     'agent_taxid' => $request->setting_agenttaxid,
-                    'show_inventory' => $request->setting_inventory = true ? 1 : 0,
-                    'show_production' => $request->setting_production = true ? 1 : 0,
-                    'show_fixedasset' => $request->setting_fixedasset = true ? 1 : 0,
-                    'is_company' => $request->setting_is_company = true ? 1 : 0,
+                    'show_inventory' => $isinventory,
+                    'show_production' => $isproduction,
+                    'show_fixedasset' => $isasset,
+                    'is_company' => $iscompany,
                 ]);
+                return response()->json('Ok', 200);
             }
         }
 
