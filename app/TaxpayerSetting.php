@@ -15,8 +15,8 @@ class TaxpayerSetting extends Model
     'show_inventory',
     'show_production',
     'show_fixedasset',
-    'does_import',
-    'does_export',
+    //'does_import',
+    //'does_export',
     'is_company'
   ];
 
@@ -24,6 +24,6 @@ class TaxpayerSetting extends Model
 
   public function taxpayer()
   {
-    return $this->belongsTo('App\Taxpayer', 'taxpayer_id', 'id');
+    return $this->belongsTo('App\Taxpayer', 'taxpayer_id');
   }
 }

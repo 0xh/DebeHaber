@@ -31,7 +31,7 @@ class Taxpayer extends Model
 
     public function setting()
     {
-        return $this->hasOne('App\TaxpayerSetting', 'id', 'taxpayer_id');
+        return $this->hasOne('App\TaxpayerSetting', 'taxpayer_id');
     }
 
     /**
