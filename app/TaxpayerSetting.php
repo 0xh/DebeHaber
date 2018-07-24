@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class TaxpayerSetting extends Model
 {
     protected $fillable = [
-        'agent_name'
+        'agent_name',
+        
     ];
 
     public $timestamps  = false;
