@@ -74,34 +74,32 @@ class TaxpayerIntegrationController extends Controller
     */
     public function update(Request $request, TaxpayerIntegration $taxPayerIntegration)
     {
-
         if (isset($taxPayerIntegration))
         {
-
             $taxPayer = TaxPayer::where('id', $taxPayerIntegration->taxpayer_id)->with('setting')->first();
+
             if (isset($taxPayer))
             {
-                $taxPayer->alias = $taxPayer->alias;
+                $taxPayer->alias = $request->alias;
                 $taxPayer->address = $request->address;
                 $taxPayer->telephone = $request->telephone;
                 $taxPayer->email = $request->email;
                 $taxPayer->save();
 
-                // $taxPayer->setting->regime_type=$request->setting_regime;
-                // $taxPayer->setting->agent_name = $request->setting_agent ;
-                // $taxPayer->setting->agent_taxid = $request->setting_agenttaxid ;
-                // $taxPayer->setting->show_inventory = $request->setting_inventory = true ? 1 : 0;
-                // $taxPayer->setting->show_production = $request->setting_production = true ? 1 : 0;
-                // $taxPayer->setting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
-                // $taxPayer->setting->does_export = $request->setting_export = true ? 1 : 0;
-                // $taxPayer->setting->does_import = $request->setting_import = true ? 1 : 0;
-                // $taxPayer->setting->is_company = $request->setting_is_company;
-                //$taxPayer->setting->save();
 
+                $taxPayer->$setting->update(['name' => 'Test']);
 
-
-
-
+                $setting = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() ?? new TaxpayerSetting();
+                $setting->regime_type = $request->setting_regime;
+                $setting->agent_name = $request->setting_agent;
+                $setting->agent_taxid = $request->setting_agenttaxid ;
+                $setting->show_inventory = $request->setting_inventory = true ? 1 : 0;
+                $setting->show_production = $request->setting_production = true ? 1 : 0;
+                $setting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
+                $setting->does_export = $request->setting_export = true ? 1 : 0;
+                $setting->does_import = $request->setting_import = true ? 1 : 0;
+                $setting->is_company = $request->setting_is_company;
+                $setting->save();
             }
 
             return response()->json('Ok', 200);
