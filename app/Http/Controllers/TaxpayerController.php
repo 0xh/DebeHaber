@@ -206,6 +206,7 @@ class TaxpayerController extends Controller
     */
     public function show($taxPayer)
     {
+
         $taxPayer = Taxpayer::where('taxpayers.id',$taxPayer)
         ->with('setting')
         ->with('integrations')
@@ -222,12 +223,13 @@ class TaxpayerController extends Controller
     */
     public function edit($taxPayerintegration)
     {
-      $taxPayer = Taxpayer::join('taxpayer_integrations', 'taxpayers.id', 'taxpayer_integrations.taxpayer_id')
-      ->with('setting')
-      ->where('taxpayer_integrations.id',$taxPayerintegration)
-      ->get();
 
-      return view('taxpayer/profile')->with('taxPayer', $taxPayer);
+        $taxPayer = Taxpayer::join('taxpayer_integrations', 'taxpayers.id', 'taxpayer_integrations.taxpayer_id')
+        ->join('taxpayer_settings', 'taxpayers.id', 'taxpayer_settings.taxpayer_id')
+        ->where('taxpayer_integrations.id',$taxPayerintegration)
+        ->get();
+    
+        return view('taxpayer/profile')->with('taxPayer', $taxPayer);
     }
 
     /**
