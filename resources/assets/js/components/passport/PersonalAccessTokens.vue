@@ -58,10 +58,9 @@
                     </form>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
                     <button type="button" class="btn btn-primary" @click="store">
-                        Create
+                        Generate Code
                     </button>
                 </div>
             </div>
@@ -119,31 +118,27 @@
 
         <!-- Access Token Modal -->
         <b-modal :active.sync="isAcessToken" :width="800" scroll="keep">
-            <div  id="modal-access-token" tabindex="-1" >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">
-                                Personal Access Token
-                            </h4>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Personal Access Token
+                    </h4>
 
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
 
-                        <div class="modal-body">
-                            <p>
-                                Here is your new personal access token. This is the only time it will be shown so don't lose it!
-                                You may now use this token to make API requests.
-                            </p>
+                <div class="modal-body">
+                    <p>
+                        Here is your new personal access token. This is the only time it will be shown so don't lose it!
+                        You may now use this token to make API requests.
+                    </p>
 
-                            <textarea class="form-control" rows="10">{{ accessToken }}</textarea>
-                        </div>
+                    <textarea class="form-control" rows="10">{{ accessToken }}</textarea>
+                </div>
 
-                        <!-- Modal Actions -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="showAcessTokenForm">Close</button>
-                        </div>
-                    </div>
+                <!-- Modal Actions -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" @click="showAcessTokenForm">Close</button>
                 </div>
             </div>
         </b-modal>
