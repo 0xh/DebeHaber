@@ -128,8 +128,8 @@ $currentTeam = Auth::user()->currentTeam->name;
                                             @endif
                                         </td>
                                         <td class="m-datatable__cell">
-                                            <a href="#">Approve</a>
-                                            <a href="#">Reject</a>
+                                            <a href="{{ route('Accept', [$invite->id,$invite->type]) }}">Approve</a>
+                                            <a href="{{ route('Reject', [$invite->id,$invite->type]) }}">Reject</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -172,8 +172,8 @@ $currentTeam = Auth::user()->currentTeam->name;
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="#">Approve</a>
-                                        <a href="#">Reject</a>
+                                        <a href="{{ route('Accept', [$invite->id,$invite->type]) }}">Approve</a>
+                                        <a href="{{ route('Reject', [$invite->id,$invite->type]) }}">Reject</a>
                                     </td>
                                 </tr>
                             @endforeach

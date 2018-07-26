@@ -15,7 +15,8 @@ Route::get('/', 'WelcomeController@show');
 
 //No Team, maybe Team. No taxpayer selected
 Route::get('/home', 'HomeController@show')->name('hello');
-
+Route::get('/teamAccept/{integrationID}/{type}', 'HomeController@teamAccept')->name('Accept');
+Route::get('/teamReject', 'HomeController@teamReject')->name('Reject');
 Route::group(['middleware' => 'auth'], function ()
 {
 
