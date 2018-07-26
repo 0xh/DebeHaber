@@ -24,7 +24,7 @@ class UpdateJournalTables extends Migration
         Schema::dropIfExists('journals');
 
         Schema::create('journals', function (Blueprint $table) {
-            $table->char('id', 36)->primary();
+            $table->uuid('id')->primary();
 
             $table->unsignedInteger('cycle_id');
             $table->foreign('cycle_id')->references('id')->on('cycles')->onDelete('cascade');
@@ -44,9 +44,9 @@ class UpdateJournalTables extends Migration
         });
 
         Schema::create('journal_details', function (Blueprint $table) {
-            $table->char('id', 36)->primary();
+            $table->uuid('id')->primary();
 
-            $table->char('journal_id', 36);
+            $table->uuid('journal_id');
             $table->foreign('journal_id')->references('id')->on('journals')->onDelete('cascade');
 
             $table->unsignedInteger('chart_id');
@@ -59,15 +59,15 @@ class UpdateJournalTables extends Migration
         });
 
         Schema::table('transactions', function (Blueprint $table) {
-            $table->char('journal_id', 36)->nullable()->index()->after('type');
+            $table->uuid('journal_id')->nullable()->index()->after('type');
         });
 
         Schema::table('productions', function (Blueprint $table) {
-            $table->char('journal_id', 36)->nullable()->index()->after('taxpayer_id');
+            $table->uuid('journal_id')->nullable()->index()->after('taxpayer_id');
         });
 
         Schema::table('account_movements', function (Blueprint $table) {
-            $table->char('journal_id', 36)->nullable()->index()->after('taxpayer_id');
+            $table->uuid('journal_id')->nullable()->index()->after('taxpayer_id');
         });
     }
 

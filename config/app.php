@@ -169,6 +169,7 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Spatie\BinaryUuid\UuidServiceProvider::class,
         //Barryvdh\TranslationManager\ManagerServiceProvider::class,
     ],
 

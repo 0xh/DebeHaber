@@ -96,6 +96,7 @@ class GenerateJournal implements ShouldQueue
             //SALES
             //Create sales query, since the same query is called multiple times.
             $salesQuery = Transaction::whereBetween('date', [$startDate, $endDate])
+            ->with('details')
             ->otherCurrentStatus(['Annuled'])
             ->where('supplier_id', $this->taxPayer->id)->get();
 
@@ -135,7 +136,6 @@ class GenerateJournal implements ShouldQueue
         $journal = Journal::where('is_automatic', 1)
         ->where('cycle_id', $this->cycle->id)
         ->whereBetween('date', [$startDate, $endDate])
-        ->whereNull('deleted_at')
         ->with('details')
         ->first()
         ??
@@ -144,15 +144,16 @@ class GenerateJournal implements ShouldQueue
         $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
         $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        $journal->date = $sales->last()->date;
+        $journal->date = $salesQuery->last()->date;
         $journal->comment = $comment;
         $journal->save();
 
+
         //New Query:
         $cashSales = $salesQuery
-        ->with('details:value')
+        //->with('details:items.value')
         ->where('payment_condition', '=', 0)
-        ->otherCurrentStatus(['Annuled'])
+        //->otherCurrentStatus(['Annuled'])
         ->groupBy('rate', 'chart_account_id')
         ->select('rate', 'chart_account_id')
         ->get();
@@ -256,7 +257,6 @@ class GenerateJournal implements ShouldQueue
         $journal = Journal::where('is_automatic', 1)
         ->where('cycle_id', $this->cycle->id)
         ->whereBetween('date', [$startDate, $endDate])
-        ->whereNull('deleted_at')
         ->with('details')
         ->first()
         ??
@@ -265,7 +265,7 @@ class GenerateJournal implements ShouldQueue
         $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
         $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        $journal->date = $sales->last()->date;
+        $journal->date = $purchaseQuery->last()->date;
         $journal->comment = $comment;
         $journal->save();
 
