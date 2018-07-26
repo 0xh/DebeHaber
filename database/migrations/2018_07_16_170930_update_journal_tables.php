@@ -13,21 +13,17 @@ class UpdateJournalTables extends Migration
   */
   public function up()
   {
-    
-    Schema::table('journals', function (Blueprint $table) {
-    //  $table->dropColumn('id');
-      $table->char('id', 36)->change();
 
+
+    Schema::table('journals', function (Blueprint $table) {
+      $table->boolean('is_automatic')->default(false)->after('comment')->comment('helps identify the transactions made by user');
+
+      // $table->unsignedTinyInteger('type')->after('cycle_id')->nullable()
+      // ->comment('1  = Purchases, 2 = Self-Invoice (Purchases), 3 = Debit Note (Purchase), 4 = Sales Invoice, 5 = Credit Note (Sales)');
+
+
+      $table->char('id', 36)->primary();
     });
-    // Schema::table('journals', function (Blueprint $table) {
-    //   $table->boolean('is_automatic')->default(false)->after('comment')->comment('helps identify the transactions made by user');
-    //
-    //   // $table->unsignedTinyInteger('type')->after('cycle_id')->nullable()
-    //   // ->comment('1  = Purchases, 2 = Self-Invoice (Purchases), 3 = Debit Note (Purchase), 4 = Sales Invoice, 5 = Credit Note (Sales)');
-    //
-    //
-    //   $table->char('id', 36)->primary();
-    // });
 
     Schema::table('journal_details', function (Blueprint $table) {
       $table->dropColumn('journal_id');
