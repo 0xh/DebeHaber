@@ -78,10 +78,10 @@ Vue.component('taxpayer',{
         {
             var app = this;
 
-            if (app.page == 3)
-            {
+            // if (app.page == 3)
+            // {
                 this.onSave(json);
-            }
+          //  }
 
             //If owner exists, then skip settings (#2) page.
             if (app.owner_name != '')
