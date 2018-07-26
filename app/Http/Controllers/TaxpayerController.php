@@ -336,7 +336,7 @@ class TaxpayerController extends Controller
         $cycle = Cycle::where('year', $workingYear)
         ->where('taxpayer_id', $taxPayer->id)
         ->first();
-    dd($cycle);
+
 
         //If null, then create it.
         if ($cycle->id == null || $cycle->id == 0)
