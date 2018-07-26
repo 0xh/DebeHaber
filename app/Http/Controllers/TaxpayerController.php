@@ -228,7 +228,7 @@ class TaxpayerController extends Controller
         ->join('taxpayer_settings', 'taxpayers.id', 'taxpayer_settings.taxpayer_id')
         ->where('taxpayer_integrations.id',$taxPayerintegration)
         ->get();
-    
+
         return view('taxpayer/profile')->with('taxPayer', $taxPayer);
     }
 
@@ -336,10 +336,12 @@ class TaxpayerController extends Controller
         $cycle = Cycle::where('year', $workingYear)
         ->where('taxpayer_id', $taxPayer->id)
         ->first();
+    dd($cycle);
 
         //If null, then create it.
         if ($cycle->id == null || $cycle->id == 0)
         {
+
             //TODO Get Last ChartVersion or Default..
             $chartVersion = ChartVersion::where('country', $taxPayer->country)->first() ?? new ChartVersion();
             if ($chartVersion->id != null || $chartVersion->id == 0)
