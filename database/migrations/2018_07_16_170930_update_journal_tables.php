@@ -6,68 +6,90 @@ use Illuminate\Database\Migrations\Migration;
 
 class UpdateJournalTables extends Migration
 {
-  /**
-  * Run the migrations.
-  *
-  * @return void
-  */
-  public function up()
-  {
+    /**
+    * Run the migrations.
+    *
+    * @return void
+    */
+    public function up()
+    {
+        Schema::dropIfExists('journal_sim_details');
+        Schema::dropIfExists('journal_sims');
 
+        Schema::dropIfExists('journal_transactions');
+        Schema::dropIfExists('journal_productions');
+        Schema::dropIfExists('journal_account_movements');
 
-    Schema::table('journals', function (Blueprint $table) {
-      $table->boolean('is_automatic')->default(false)->after('comment')->comment('helps identify the transactions made by user');
+        Schema::dropIfExists('journal_details');
+        Schema::dropIfExists('journals');
 
-      // $table->unsignedTinyInteger('type')->after('cycle_id')->nullable()
-      // ->comment('1  = Purchases, 2 = Self-Invoice (Purchases), 3 = Debit Note (Purchase), 4 = Sales Invoice, 5 = Credit Note (Sales)');
+        Schema::create('journals', function (Blueprint $table) {
+            $table->char('id', 36)->primary();
 
+            $table->unsignedInteger('cycle_id');
+            $table->foreign('cycle_id')->references('id')->on('cycles')->onDelete('cascade');
 
-      $table->char('id', 36)->primary();
-    });
+            $table->unsignedMediumInteger('number')->nullable();
 
-    Schema::table('journal_details', function (Blueprint $table) {
-      $table->dropColumn('journal_id');
-      $table->char('journal_id', 36)->index()->after('type');
-    });
+            $table->date('date');
 
-    Schema::dropIfExists('journal_transactions');
+            $table->string('comment', 64);
 
-    Schema::table('transactions', function (Blueprint $table) {
-      $table->char('journal_id', 36)->index()->after('type');
-    });
+            $table->boolean('is_automatic')->default(false)->comment('helps identify the transactions made by user');
+            $table->boolean('is_presented')->default(false)->comment('If Journal has been presented and now allow further changes.');
+            $table->boolean('is_first')->default(false)->comment('Refers to if Journal is an Opening Balance. Can only be one per Accounting Cycle');
+            $table->boolean('is_last')->default(false)->comment('Refers to if Journal is an Closing Balance. Can only be one per Accounting Cycle');;
 
-    Schema::dropIfExists('journal_productions');
+            $table->timestamps();
+        });
 
-    Schema::table('productions', function (Blueprint $table) {
-      $table->char('journal_id', 36)->index()->after('taxpayer_id');
-    });
+        Schema::create('journal_details', function (Blueprint $table) {
+            $table->char('id', 36)->primary();
 
-    Schema::dropIfExists('journal_account_movements');
+            $table->char('journal_id', 36);
+            $table->foreign('journal_id')->references('id')->on('journals')->onDelete('cascade');
 
-    Schema::table('account_movements', function (Blueprint $table) {
-      $table->char('journal_id', 36)->index()->after('taxpayer_id');
-    });
-  }
+            $table->unsignedInteger('chart_id');
+            $table->foreign('chart_id')->references('id')->on('charts')->onDelete('cascade');
 
-  /**
-  * Reverse the migrations.
-  *
-  * @return void
-  */
-  public function down()
-  {
-    // Schema::create('journal_account_movements', function (Blueprint $table) {
-    //     $table->increments('id');
-    // });
-    // Schema::create('journal_productions', function (Blueprint $table) {
-    //     $table->increments('id');
-    // });
-    // Schema::create('journal_transactions', function (Blueprint $table) {
-    //     $table->increments('id');
-    // });
-    //
-    Schema::table('journals', function (Blueprint $table) {
-      $table->dropColumn('is_automatic');
-    });
-  }
+            $table->unsignedDecimal('debit', 18, 2)->default(0);
+            $table->unsignedDecimal('credit', 18, 2)->default(0);
+
+            $table->timestamps();
+        });
+
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->char('journal_id', 36)->nullable()->index()->after('type');
+        });
+
+        Schema::table('productions', function (Blueprint $table) {
+            $table->char('journal_id', 36)->nullable()->index()->after('taxpayer_id');
+        });
+
+        Schema::table('account_movements', function (Blueprint $table) {
+            $table->char('journal_id', 36)->nullable()->index()->after('taxpayer_id');
+        });
+    }
+
+    /**
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down()
+    {
+        // Schema::create('journal_account_movements', function (Blueprint $table) {
+        //     $table->increments('id');
+        // });
+        // Schema::create('journal_productions', function (Blueprint $table) {
+        //     $table->increments('id');
+        // });
+        // Schema::create('journal_transactions', function (Blueprint $table) {
+        //     $table->increments('id');
+        // });
+        //
+        Schema::table('journals', function (Blueprint $table) {
+            $table->dropColumn('is_automatic');
+        });
+    }
 }

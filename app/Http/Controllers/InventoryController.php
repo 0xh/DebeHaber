@@ -19,12 +19,12 @@ class InventoryController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $charts=Chart::Inventories()->get();
+        $charts = Chart::Inventories()->get();
 
         return view('commercial/inventory')->with('charts',$charts);
     }
 
-    public function getInventories(Taxpayer $taxPayer, Cycle $cycle,$skip)
+    public function get_inventories(Taxpayer $taxPayer, Cycle $cycle, $skip)
     {
         $inventory = Inventory::skip($skip)
         ->take(100)
@@ -32,13 +32,7 @@ class InventoryController extends Controller
         return response()->json($inventory);
     }
 
-    public function get_inventory($taxPayerID)
-    {
-        $Transaction = Inventory::where('taxpayer_id', $taxPayerID)->get();
-        return response()->json($Transaction);
-    }
-
-    public function get_InventoryChartType(Taxpayer $taxPayer, Cycle $cycle)
+    public function get_inventoryChartType(Taxpayer $taxPayer, Cycle $cycle)
     {
         $Transaction = Chart::where('chart_version_id', $cycle->chart_version_id)
         ->where('type',4)
@@ -47,27 +41,30 @@ class InventoryController extends Controller
 
         return response()->json($Transaction);
     }
-    public function Calulate_sales(Request $request,Taxpayer $taxPayer, Cycle $cycle)
-    {
 
-        $Transaction =Transaction::MySales()
+    //TODO pass start and end date to calculate sales.
+    public function calc_sales(Request $request, Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $Transaction = Transaction::MySales()
         ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
-        ->whereIn('td.chart_id',$request->selectcharttype)
+        ->whereIn('td.chart_id', $request->selectcharttype)
         ->groupBy('td.chart_id')
-        ->select(DB::raw('sum(td.value) as sales_cost'),
+        ->select(DB::raw('sum(td.value) as sales'),
         DB::raw('sum(td.cost) as cost_value'))
         ->get();
         return response()->json($Transaction);
     }
-    public function Calulate_InvenotryValue(Request $request,Taxpayer $taxPayer, Cycle $cycle)
+
+    //TODO pass start date to calculate sales at beging of inventory range
+    public function calc_invenotryValue(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
-        $journals =Journal::leftJoin('journal_details as jd', 'jd.journal_id', 'journals.id')
-        ->where('journals.cycle_id',$cycle->id)
+        $journals = Journal::leftJoin('journal_details as jd', 'jd.journal_id', 'journals.id')
+        ->where('journals.cycle_id', $cycle->id)
         ->where('jd.chart_id',$request->chart_id)
         ->groupBy('jd.chart_id')
         ->select(DB::raw('sum(td.debit) as inventory_value'))
         ->get();
-        return response()->json($journals);
+        return response()->json($journals ?? 0);
     }
 
     /**
@@ -105,11 +102,11 @@ class InventoryController extends Controller
         $inventory->cost_value = $request->cost_value;
         $inventory->inventory_value = $request->inventory_value;
         $inventory->chart_of_incomes =implode(' ', $request->selectcharttype) ;
-        $inventory->comments = 'abc';
+        $inventory->comments = $request->comment;
 
         $inventory->save();
 
-        return response()->json('ok');
+        return response()->json('ok', 200);
     }
 
     /**
