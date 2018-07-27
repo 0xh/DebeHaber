@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Inventory;
 use App\AccountMovement;
 use App\Transaction;
+use App\TransactionDetail;
 use App\Taxpayer;
 use App\Cycle;
 use App\Journal;
@@ -98,7 +99,7 @@ class GenerateJournal implements ShouldQueue
             $salesQuery = Transaction::whereBetween('date', [$startDate, $endDate])
             ->with('details')
             ->otherCurrentStatus(['Annuled'])
-            ->where('supplier_id', $this->taxPayer->id)->get();
+            ->where('supplier_id', $this->taxPayer->id);
 
 
             //if the count is less than 0, no need to go inside and run additional code.
@@ -130,7 +131,7 @@ class GenerateJournal implements ShouldQueue
     public function query_Sales($salesQuery, $startDate, $endDate)
     {
         \DB::connection()->disableQueryLog();
-
+        $ChartController= new ChartController();
         //TODO how will i know this journal belongs to sales?
 
         $journal = Journal::where('is_automatic', 1)
@@ -144,16 +145,17 @@ class GenerateJournal implements ShouldQueue
         $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
         $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        $journal->date = $salesQuery->last()->date;
+        $journal->date = $salesQuery->get()->last()->date;
         $journal->comment = $comment;
         $journal->save();
 
 
         //New Query:
+
         $cashSales = $salesQuery
-        //->with('details:items.value')
+        ->with('details:value')
         ->where('payment_condition', '=', 0)
-        //->otherCurrentStatus(['Annuled'])
+        ->otherCurrentStatus(['Annuled'])
         ->groupBy('rate', 'chart_account_id')
         ->select('rate', 'chart_account_id')
         ->get();
@@ -199,20 +201,21 @@ class GenerateJournal implements ShouldQueue
         }
 
         //3rd Query: for vat
-        $vatAccounts = TransactionDetail::with('transaction:rate')
-        ->whereHas('transaction', function ($query) {
+        $vatAccounts = TransactionDetail::
+        join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+        ->whereHas('transaction', function ($query) use ($startDate,$endDate) {
             $query->whereBetween('date', [$startDate, $endDate])
             ->where('supplier_id', $this->taxPayer->id)
             ->otherCurrentStatus(['Annuled']);
         })
         ->groupBy('chart_vat_id', 'rate')
-        ->select('chart_vat_id', 'value')
+        ->select(DB::raw('sum(value) as value'),'chart_vat_id','rate')
         ->get();
 
         //run code for credit sales (insert detail into journal)
         foreach($vatAccounts as $row)
         {
-            $value = $row->value * $row->transaction->rate;
+            $value = $row->value * $row->rate;
             $detail = $journal->details->where('chart_id', $row->chart_vat_id)->first() ?? new JournalDetail();
 
             $detail->debit = $value;
@@ -223,20 +226,21 @@ class GenerateJournal implements ShouldQueue
         }
 
         //3rd Query: for item or cost center
-        $itemAccounts = TransactionDetail::with('transaction:rate')
-        ->whereHas('transaction', function ($query) {
+        $itemAccounts = TransactionDetail::
+        join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+        ->whereHas('transaction', function ($query) use ($startDate,$endDate) {
             $query->whereBetween('date', [$startDate, $endDate])
             ->where('supplier_id', $this->taxPayer->id)
             ->otherCurrentStatus(['Annuled']);
         })
         ->groupBy('chart_id', 'rate')
-        ->select('chart_id', 'value')
+        ->select(DB::raw('sum(value) as value'),'chart_id','rate')
         ->get();
 
         //run code for credit sales (insert detail into journal)
         foreach($itemAccounts as $row)
         {
-            $value = $row->value * $row->transaction->rate;
+            $value = $row->value * $row->rate;
             $detail = $journal->details->where('chart_id', $row->chart_id)->first() ?? new JournalDetail();
 
             $detail->debit = $value;

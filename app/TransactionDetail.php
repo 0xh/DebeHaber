@@ -14,6 +14,7 @@ class TransactionDetail extends Model
         'chart_id',
         'chart_vat_id',
         'value',
+        'rate',
     ];
 
     public function scopeVAT($query)
@@ -28,7 +29,7 @@ class TransactionDetail extends Model
     */
     public function transaction()
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->belongsTo(Transaction::class,'transaction_id');
     }
 
     /**
