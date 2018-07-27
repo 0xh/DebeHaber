@@ -101,11 +101,9 @@ class GenerateJournal implements ShouldQueue
             ->otherCurrentStatus(['Annuled'])
             ->where('supplier_id', $this->taxPayer->id);
 
-
             //if the count is less than 0, no need to go inside and run additional code.
             if ($salesQuery->count() > 0)
             {
-
                 $this->query_Sales($salesQuery, $startDate, $endDate);
             }
 
@@ -132,8 +130,10 @@ class GenerateJournal implements ShouldQueue
     {
         \DB::connection()->disableQueryLog();
         $ChartController= new ChartController();
-        //TODO how will i know this journal belongs to sales?
 
+        //maybe check diff journals in salesQuery, or directly delete all journals related to salesQuery.
+
+        //TODO how will i know this journal belongs to sales?
         $journal = Journal::where('is_automatic', 1)
         ->where('cycle_id', $this->cycle->id)
         ->whereBetween('date', [$startDate, $endDate])
@@ -147,11 +147,10 @@ class GenerateJournal implements ShouldQueue
         $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $salesQuery->get()->last()->date;
         $journal->comment = $comment;
+        $journal->is_automatic = 1;
         $journal->save();
 
-
         //New Query:
-
         $cashSales = $salesQuery
         ->with('details:value')
         ->where('payment_condition', '=', 0)
