@@ -96,7 +96,7 @@ Vue.component('taxpayer',{
       }
       else
       {
-        app.page = app.page +parseInt(1);
+        app.page = parseInt(app.page) +parseInt(1);
 
       }
 
