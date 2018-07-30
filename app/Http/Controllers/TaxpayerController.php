@@ -76,7 +76,7 @@ class TaxpayerController extends Controller
         $current_date = Carbon::now();
 
         //TODO Request ID must be of Integration, not Taxpayer. From there you can know if taxpayer exists.
-        
+
         //Check Taxpayer by TaxID. If exists, use it, or else create it.
         $taxPayer = Taxpayer::where('taxid', $request->taxid)
         ->where('country', Auth::user()->country)
@@ -160,8 +160,8 @@ class TaxpayerController extends Controller
             $taxPayer_Setting->show_production = $request->setting_production = true ? 1 : 0;
             $taxPayer_Setting->show_fixedasset = $request->setting_fixedasset = true ? 1 : 0;
 
-            $taxPayer_Setting->does_export = $request->setting_export = true ? 1 : 0;
-            $taxPayer_Setting->does_import = $request->setting_import = true ? 1 : 0;
+            // $taxPayer_Setting->does_export = $request->setting_export = true ? 1 : 0;
+            // $taxPayer_Setting->does_import = $request->setting_import = true ? 1 : 0;
 
             $taxPayer_Setting->is_company = $request->setting_is_company;
             $taxPayer_Setting->save();
