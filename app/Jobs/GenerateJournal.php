@@ -101,16 +101,10 @@ class GenerateJournal implements ShouldQueue
             ->otherCurrentStatus(['Annuled'])
             ->where('supplier_id', $this->taxPayer->id);
 
-            $journalQuery =Transaction::whereBetween('date', [$startDate, $endDate])
-            ->with('details')
-            ->otherCurrentStatus(['Annuled'])
-            ->where('supplier_id', $this->taxPayer->id)->groupBy('journal_id')
-            ->select('journal_id')->get();
-
             //if the count is less than 0, no need to go inside and run additional code.
             if ($salesQuery->count() > 0)
             {
-                $this->query_Sales($salesQuery,$journalQuery, $startDate, $endDate);
+                $this->query_Sales($salesQuery, $startDate, $endDate);
             }
 
             //PURCHASES
@@ -138,18 +132,24 @@ class GenerateJournal implements ShouldQueue
         }
     }
 
-    public function query_Sales($salesQuery,$journalQuery, $startDate, $endDate)
+    public function query_Sales($salesQuery, $startDate, $endDate)
     {
         \DB::connection()->disableQueryLog();
-        $ChartController= new ChartController();
 
+        $journalQuery = Transaction::whereBetween('date', [$startDate, $endDate])
+        ->with('details')
+        ->otherCurrentStatus(['Annuled'])
+        ->where('supplier_id', $this->taxPayer->id)
+        ->groupBy('journal_id')
+        ->select('journal_id')->get();
 
         //maybe check diff journals in salesQuery, or directly delete all journals related to salesQuery.
-        Transaction::whereIn('journal_id', $journalQuery)
-        ->update(['journal_id' =>null]);
-        $journals=Journal::whereIn('id',$journalQuery)->delete();
+        Transaction::whereIn('journal_id', [$journalQuery])
+        ->update(['journal_id' => null]);
 
-        //
+        $journals = Journal::whereIn('id', $journalQuery)
+        ->delete();
+
         // //TODO how will i know this journal belongs to sales?
         // $journal = Journal::where('is_automatic', 1)
         // ->where('cycle_id', $this->cycle->id)
@@ -158,8 +158,7 @@ class GenerateJournal implements ShouldQueue
         // ->first()
         // ??
 
-
-        $journal=new Journal();
+        $journal = new Journal();
         $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
         $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
@@ -168,13 +167,14 @@ class GenerateJournal implements ShouldQueue
         $journal->is_automatic = 1;
         $journal->save();
 
-
         //New Query:
         $cashSales = $salesQuery
         ->groupBy('rate', 'chart_account_id')
         ->where('payment_condition', '=', 0)
         ->select('rate', 'chart_account_id')
         ->get();
+
+        $ChartController= new ChartController();
 
         //run code for cash sales (insert detail into journal)
         foreach($cashSales as $row)
