@@ -84,16 +84,20 @@ Vue.component('taxpayer',{
       }
 
       //If owner exists, then skip settings (#2) page.
+
       if (app.owner_name != '')
       {
+
         if (app.page == 1)
         { app.page == 2; }
 
         app.page = app.page + 1;
+        console.log(app.page);
       }
       else
       {
         app.page = app.page + 1;
+        console.log(app.page);
       }
 
       app.pageProg = (app.page / 3) * 100;
