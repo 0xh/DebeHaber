@@ -91,12 +91,12 @@ Vue.component('taxpayer',{
         if (app.page == 1)
         { app.page == 2; }
 
-        app.page = app.page + 1;
+        app.page = app.page + parseInt(1);
         console.log(app.page);
       }
       else
       {
-        app.page = app.page + 1;
+        app.page = app.page +parseInt(2);
         console.log(app.page);
       }
 
