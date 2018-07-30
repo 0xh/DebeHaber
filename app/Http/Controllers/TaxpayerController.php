@@ -163,7 +163,7 @@ class TaxpayerController extends Controller
             // $taxPayer_Setting->does_export = $request->setting_export = true ? 1 : 0;
             // $taxPayer_Setting->does_import = $request->setting_import = true ? 1 : 0;
 
-            $taxPayer_Setting->is_company = $request->setting_is_company;
+            $taxPayer_Setting->is_company =$request->setting_is_company = true ? 1 : 0 ;
             $taxPayer_Setting->save();
         }
 
