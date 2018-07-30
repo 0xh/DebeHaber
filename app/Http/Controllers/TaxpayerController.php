@@ -76,7 +76,7 @@ class TaxpayerController extends Controller
         $current_date = Carbon::now();
 
         //TODO Request ID must be of Integration, not Taxpayer. From there you can know if taxpayer exists.
-        
+          return response()->json( $request->taxid, 500);
         //Check Taxpayer by TaxID. If exists, use it, or else create it.
         $taxPayer = Taxpayer::where('taxid', $request->taxid)
         ->where('country', Auth::user()->country)
