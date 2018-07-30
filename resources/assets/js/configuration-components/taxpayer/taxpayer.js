@@ -110,7 +110,7 @@ Vue.component('taxpayer',{
       $.ajax({
         url: '/taxpayer/' + json.id,
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-        type: 'PUT',
+        type: 'POST',
         data:json,
         dataType: 'json',
         async: false,
