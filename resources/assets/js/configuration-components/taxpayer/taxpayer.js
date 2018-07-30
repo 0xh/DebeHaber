@@ -108,7 +108,7 @@ Vue.component('taxpayer',{
     onSave: function(json)
     {
       $.ajax({
-        url: '/taxpayer/' + json.id,
+        url: '/taxpayer/',
         headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
         type: 'POST',
         data:json,
