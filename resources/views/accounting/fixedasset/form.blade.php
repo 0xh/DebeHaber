@@ -12,9 +12,9 @@
                         @lang('global.Charts'):
                     </label>
                     <div class="col-lg-6">
-                        <select v-model="chart_id" required class="custom-select"  >
-                            <option v-for="chart in charts" :value="chart.id">@{{ chart.name }}</option>
-                        </select>
+                      <router-view name="SearchBoxAccount" url="/accounting/chart/get-fixedasset_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
+
+                      </router-view>
                     </div>
                 </div>
 

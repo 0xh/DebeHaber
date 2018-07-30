@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth:api'], function ()
                 {
                     Route::get('charts/{skip}', 'ChartController@getCharts');
                     Route::get('charts/by-id/{id}', 'ChartController@getChartsByID');
+                      Route::get('get-fixedasset_charts', 'ChartController@getFixedAssets');
                     Route::get('get-accountable_charts', 'ChartController@getAccountableCharts');
                     Route::get('get-accountable_charts/{frase}', 'ChartController@searchAccountableCharts');
                     Route::get('get-money_accounts', 'ChartController@getMoneyAccounts');

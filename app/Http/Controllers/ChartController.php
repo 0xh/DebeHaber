@@ -172,6 +172,18 @@ class ChartController extends Controller
 
         return response()->json($charts);
     }
+    public function getFixedAssets(Taxpayer $taxPayer, Cycle $cycle)
+    {
+
+        $charts = Chart::FixedAssetGroups()
+        ->orderBy('name')
+        ->select('name', 'id', 'type')
+        ->get();
+
+        return response()->json($charts);
+    }
+
+    
 
     // Accounts used in Purchase. Expense + Fixed Assets
     public function getPurchaseAccounts(Taxpayer $taxPayer, Cycle $cycle)
