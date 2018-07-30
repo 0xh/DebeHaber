@@ -91,13 +91,13 @@ Vue.component('taxpayer',{
         if (app.page == 1)
         { app.page == 2; }
 
-        app.page = app.page + parseInt(1);
+        app.page = parseInt(app.page) + parseInt(1);
         console.log(app.page);
       }
       else
       {
-        app.page = app.page +parseInt(2);
-        console.log(app.page);
+        app.page = app.page +parseInt(1);
+
       }
 
       app.pageProg = (app.page / 3) * 100;
