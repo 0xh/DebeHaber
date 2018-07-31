@@ -71,7 +71,7 @@
         Margin Value
       </label>
       <div class="col-8">
-        <input type="number" class="form-control" v-model="margin" />
+        <input type="number" class="form-control" v-model="margin" onChange="calculateMargin()"/>
       </div>
     </div>
     <div class="form-group m-form__group row">

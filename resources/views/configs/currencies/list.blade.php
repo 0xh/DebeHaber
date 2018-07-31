@@ -21,10 +21,20 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('global.rate')
+                            @lang('global.Buyrate')
                         </label>
                         <div class="col-8">
-                            <input type="text" class="form-control" v-model="rate" />
+                            <input type="text" class="form-control" v-model="buy_rate" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group m-form__group row">
+                        <label for="example-text-input" class="col-4 col-form-label">
+                            @lang('global.Sellrate')
+                        </label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" v-model="sell_rate" />
                         </div>
                     </div>
                 </div>

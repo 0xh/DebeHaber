@@ -7,7 +7,8 @@ Vue.component('currency',{
         return {
             id:0,
             currency_id:'',
-            rate:'',
+            buy_rate:'',
+              sell_rate:'',
             list: [
                 //     id:0,
                 //     currency_id:'',
