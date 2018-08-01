@@ -97,7 +97,6 @@ class GenerateJournal implements ShouldQueue
             //SALES
             //Create sales query, since the same query is called multiple times.
             $salesQuery = Transaction::whereBetween('date', [$startDate, $endDate])
-            ->with('details')
             ->otherCurrentStatus(['Annuled'])
             ->where('supplier_id', $this->taxPayer->id);
 
@@ -169,6 +168,7 @@ class GenerateJournal implements ShouldQueue
 
         //New Query:
         $cashSales = $salesQuery
+        ->with('details')
         ->groupBy('rate', 'chart_account_id')
         ->where('payment_condition', '=', 0)
         ->select('rate', 'chart_account_id')
@@ -197,6 +197,7 @@ class GenerateJournal implements ShouldQueue
 
         //2nd Query:
         $creditSales = $salesQuery
+        ->with('details')
         ->groupBy('rate', 'customer_id')
         ->where('payment_condition', '>', 0)
         ->select('rate', 'customer_id')
@@ -245,7 +246,7 @@ class GenerateJournal implements ShouldQueue
             $detail->save();
 
         }
-        dd($accounts);
+
         //3rd Query: for item or cost center
         $itemAccounts = TransactionDetail::
         join('transactions', 'transactions.id', 'transaction_details.transaction_id')
