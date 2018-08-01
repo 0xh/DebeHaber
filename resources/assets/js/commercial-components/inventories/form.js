@@ -78,10 +78,10 @@ Vue.component('inventory-form',{
       });
 
     },
-    calculateMargin:function ()
+    calculateCost:function ()
     {
       var app=this;
-      app.margin=(app.sales_value % app.cost_value);
+      app.cost_value=(app.sales_value * (1-app.margin));
     },
     onCalculate: function(json)
     {
@@ -95,7 +95,7 @@ Vue.component('inventory-form',{
         async: false,
         success: function(data)
         {
-
+          // TODO: Abhi Please check this i m not sure abouto calculate this calcution
           app.sales_value=data[0].sales_cost;
           app.cost_value=data[0].cost_value;
           app.margin=(app.sales_value-app.cost_value)/app.sales_value;
