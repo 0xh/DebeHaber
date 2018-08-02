@@ -20,13 +20,12 @@ class TransactionResource extends JsonResource
             'CustomerTaxID' => $this->taxPayer->taxid,
             'Currency' => $this->currency->code,
             'PaymentCondition' => $this->payment_condition,
-            'Date' => $this->date,
+            'Date' => Date($this->date),
             'Number' => $this->number,
             'Value' => $this->details->sum('value'),
             //'Status' => $this->Status->name,
             //When Loaded will only bring if "with('details')" is used in eloquent call. Only if eager loaded.
             'details' => $this->details
-
         ];
         //return parent::toArray($request);
     }

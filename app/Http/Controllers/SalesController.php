@@ -34,7 +34,6 @@ class SalesController extends Controller
       ->with('taxPayer:name,id')
       ->with('currency')
       ->with('details')
-      ->where('supplier_id', $taxPayer->id)
       ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
       ->groupBy('transactions.id')
       ->orderBy('transactions.date', 'desc')
