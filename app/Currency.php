@@ -35,7 +35,7 @@ class Currency extends Model
      */
     public function transactions()
     {
-        return $this->hasMany(Transaction::class,'id');
+        return $this->hasMany(Transaction::class,'id','currency_id');
     }
 
     /**
