@@ -31,10 +31,10 @@ class SalesController extends Controller
 
     return TransactionResource::collection(
       Transaction::MySales()
-     //  ->with('taxPayer:name,id')
-     //  ->with('currency:name,code')
-     // ->with('status:name')
-     //  ->with('details')
+      ->with('taxPayer:name,id')
+      ->with('currency:name,code')
+     ->with('status:name')
+      ->with('details')
       // ->paginate(50)
      //  ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
      //   ->join('currencies', 'transactions.currency_id','currencies.id')
