@@ -58,6 +58,7 @@ class SalesController extends Controller
 
     public function get_salesByID(Taxpayer $taxPayer, Cycle $cycle, $id)
     {
+
         $transaction = Transaction::MySales()->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->where('supplier_id', $taxPayer->id)
         ->where('transactions.id', $id)
@@ -72,6 +73,7 @@ class SalesController extends Controller
         chart_account_id,
         date,
         number,
+        type,
         transactions.code,code_expiry'))
         ->get();
 
