@@ -14,20 +14,19 @@ class TransactionResource extends JsonResource
     */
     public function toArray($request)
     {
-        // return [
-        //     'date' => $request->resource['date'],
-        //     'invoiceNumber' => $this->resource['number'],
-        //     'invoiceCode' => $this->resource['code'],
-        //     'expiryDate' => $this->resource['expiry_date'],
-        //
-        //     'customerName' => $this->resource['customer.name'],
-        //     'customerTaxID' => $this->resource['customer.taxid'],
-        //     'supplierName' => $this->resource['supplier.name'],
-        //     'supplierTaxID' => $this->resource['supplier.taxid'],
-        //     //When Loaded will only bring if "with('details')" is used in eloquent call. Only if eager loaded.
-        //     'details' => TransactionDetailResource::collection($this->whenLoaded('details')),
-        //     'refID' => $this->resource['refID']
-        // ];
-          return parent::toArray($request);
+        return [
+            'ID' =>$request->resource['id'],
+            'Customer' => $this->resource['taxPayer.name'],
+            'CustomerTaxID' => $this->resource['taxPayer.taxid'],
+            'Currency' => $request->resource['currency.code'],
+            'PaymentCondition' => $request->resource['payment_condition'],
+            'PaymentCondition' => $request->resource['payment_condition'],
+            'Date' => $request->resource['date'],
+            'Number' => $this->resource['number'],
+            'Status' => $this->resource['Status.name'],
+
+            'expiryDate' => $this->resource['expiry_date']
+        ];
+        //return parent::toArray($request);
     }
 }

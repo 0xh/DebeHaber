@@ -100,6 +100,11 @@ class Transaction extends Model
     return $this->belongsTo(Currency::class);
   }
 
+  public function status()
+  {
+    return $this->belongsTo(Statuse::class);
+  }
+
   /**
   * Get the accountMovements for the model.
   *
