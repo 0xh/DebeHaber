@@ -77,7 +77,7 @@ class Transaction extends Model
   */
   public function taxPayer()
   {
-    return $this->belongsTo(Taxpayer::class);
+    return $this->belongsTo(Taxpayer::class,'customer_id');
   }
 
   /**
@@ -97,12 +97,7 @@ class Transaction extends Model
   */
   public function currency()
   {
-    return $this->belongsTo(Currency::class);
-  }
-
-  public function status()
-  {
-    return $this->belongsTo(Statuse::class);
+    return $this->belongsTo(Currency::class,'currency_id');
   }
 
   /**
