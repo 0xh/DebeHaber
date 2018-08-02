@@ -77,7 +77,7 @@ class Transaction extends Model
   */
   public function taxPayer()
   {
-    return $this->belongsTo(Taxpayer::class);
+    return $this->hasOne(Taxpayer::class);
   }
 
   /**
