@@ -44,7 +44,7 @@ class SalesController extends Controller
       ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
       ->groupBy('transactions.id')
       ->select(DB::raw('max(transactions.id) as ID'),
-      DB::raw('max(taxpayer.name) as Customer'),
+      DB::raw('max(taxpayers.name) as Customer'),
       DB::raw('max(taxpayers.taxid) as CustomerTaxID'),
       DB::raw('max(currencies.code) as Currency'),
       DB::raw('max(transactions.payment_condition) as PaymentCondition'),
