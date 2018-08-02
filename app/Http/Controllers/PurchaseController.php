@@ -30,7 +30,7 @@ class PurchaseController extends Controller
         //TODO improve query using sum of deatils instead of inner join.
         return TransactionResource::collection(
             Transaction::MyPurchases()
-            ->with('taxPayer:name,id')
+            ->with('supplier:name,id')
             ->with('currency')
             ->with('details')
             ->whereBetween('date', [$cycle->start_date, $cycle->end_date])

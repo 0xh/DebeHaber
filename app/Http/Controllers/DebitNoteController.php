@@ -31,7 +31,7 @@ class DebitNoteController extends Controller
     {
         return TransactionResource::collection(
           Transaction::MyDebitNotes()
-                ->with('taxPayer:name,id')
+                ->with('supplier:name,id')
                 ->with('currency')
                 ->with('details')
                 ->whereBetween('date', [$cycle->start_date, $cycle->end_date])

@@ -87,9 +87,19 @@ class Transaction extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
-    public function taxPayer()
+    public function customer()
     {
-        return $this->belongsTo(Taxpayer::class,'customer_id');
+        return $this->belongsTo(Taxpayer::class, 'customer_id');
+    }
+
+    /**
+    * Get the taxPayer that owns the model.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+    public function supplier()
+    {
+        return $this->belongsTo(Taxpayer::class, 'supplier_id');
     }
 
     /**

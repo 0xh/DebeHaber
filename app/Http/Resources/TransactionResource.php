@@ -16,8 +16,10 @@ class TransactionResource extends JsonResource
      {
         return [
             'ID' =>$this->id,
-            'Customer' => $this->taxPayer->name,
-            'CustomerTaxID' => $this->taxPayer->taxid,
+            'Customer' => $this->customer->name,
+            'CustomerTaxID' => $this->customer->taxid,
+            'Supplier' => $this->supplier->name,
+            'SupplierTaxID' => $this->supplier->taxid,
             'Currency' => $this->currency->code,
             'PaymentCondition' => $this->payment_condition,
             'Date' => Date($this->date),

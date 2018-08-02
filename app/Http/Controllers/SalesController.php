@@ -31,7 +31,7 @@ class SalesController extends Controller
 
         return TransactionResource::collection(
             Transaction::MySales()
-            ->with('taxPayer:name,id')
+            ->with('customer:name,id')
             ->with('currency')
             ->with('details')
             ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
