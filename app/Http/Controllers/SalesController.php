@@ -38,7 +38,7 @@ class SalesController extends Controller
       // ->paginate(50)
       ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
        ->join('currencies', 'transactions.currency_id','currencies.id')
-      ->leftjoin('statuses', 'transactions.id', 'statuses.model_id')
+    //  ->leftjoin('statuses', 'transactions.id', 'statuses.model_id')
      // ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
       ->where('supplier_id', $taxPayer->id)
       ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
