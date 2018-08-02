@@ -194,7 +194,7 @@
                     @lang('global.Timestamp') <b>{{ Carbon\Carbon::now(Auth::user()->timezone) }}</b>
                 </td>
                 <td style="text-align:center">
-                    <img src="/img/logos/debehaber.svg" width="100" alt="">
+                    <img src="/img/logos/debehaber.png" width="100" alt="">
                 </td>
                 <td style="text-align:right">@lang('global.IssuedBy') <b>{{ Auth::user()->name }}</b> | <a href="mailto:{{ Auth::user()->email }}">{{ Auth::user()->email }}</a></td>
             </tr>

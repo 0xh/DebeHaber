@@ -14,7 +14,7 @@ inline-template>
                 <div class="m-stack m-stack--ver m-stack--general">
                     <div class="m-stack__item m-stack__item--middle m-brand__logo">
                         <a href="index.html" class="m-brand__logo-wrapper">
-                            <img alt="debehaber logo" src="/img/logos/debehaber.svg" width="128" width="128"/>
+                            <img alt="debehaber logo" src="/img/logos/debehaber.png" width="128" width="128"/>
                         </a>
                     </div>
                     <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -52,7 +52,7 @@ inline-template>
             <div class="m-stack__item m-stack__item--middle m-stack__item--center">
                 <!-- BEGIN: Brand -->
                 <a href="/" class="m-brand m-brand--desktop">
-                    <img alt="" src="/img/logos/debehaber.svg" width="128"/>
+                    <img alt="" src="/img/logos/debehaber.png" width="128"/>
                 </a>
                 <!-- END: Brand -->
             </div>
