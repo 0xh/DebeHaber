@@ -40,17 +40,26 @@ class Transaction extends Model
 
     public function scopeMyCreditNotes($query)
     {
-        return $query->where('transactions.type', 5);
+        $taxPayerID = request()->route('taxPayer')->id ?? request()->route('taxPayer');
+
+        return $query->where('transactions.type', 5)
+        ->where('supplier_id', $taxPayerID);
     }
 
     public function scopeMyPurchases($query)
     {
-        return $query->whereIn('transactions.type', [1, 2]);
+        $taxPayerID = request()->route('taxPayer')->id ?? request()->route('taxPayer');
+
+        return $query->whereIn('transactions.type', [1, 2])
+        ->where('customer_id', $taxPayerID);
     }
 
     public function scopeMyDebitNotes($query)
     {
-        return $query->where('transactions.type', 3);
+        $taxPayerID = request()->route('taxPayer')->id ?? request()->route('taxPayer');
+
+        return $query->where('transactions.type', 3)
+        ->where('customer_id', $taxPayerID);
     }
 
     /**
