@@ -30,24 +30,16 @@ class DebitNoteController extends Controller
     public function get_debit_note(Taxpayer $taxPayer, Cycle $cycle)
     {
         return TransactionResource::collection(
-            $transactions = Transaction::MyDebitNotes()
-            ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
-            ->join('currencies', 'currencies.id', 'transactions.currency_id')
-            ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
-            ->where('customer_id', $taxPayer->id)
-            ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
-            ->groupBy('transactions.id')
-            ->select(DB::raw('max(transactions.id) as ID'),
-            DB::raw('max(taxpayers.name) as Supplier'),
-            DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
-            DB::raw('max(currencies.code) as Currency'),
-            DB::raw('max(transactions.payment_condition) as PaymentCondition'),
-            DB::raw('max(transactions.date) as Date'),
-            DB::raw('max(transactions.number) as Number'),
-            DB::raw('sum(td.value) as Value'))
-            ->orderByRaw('max(transactions.date)', 'desc')
-            ->orderByRaw('max(transactions.number)', 'desc')
-            ->paginate(50));
+          Transaction::MyDebitNotes()
+                ->with('taxPayer:name,id')
+                ->with('currency')
+                ->with('details')
+                ->where('supplier_id', $taxPayer->id)
+                ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
+                ->groupBy('transactions.id')
+                ->orderBy('transactions.date', 'desc')
+                ->paginate(50)
+            );
 
             return response()->json($transactions);
         }

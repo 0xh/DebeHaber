@@ -30,22 +30,13 @@ class PurchaseController extends Controller
         //TODO improve query using sum of deatils instead of inner join.
         return TransactionResource::collection(
             Transaction::MyPurchases()
-            ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
-            ->join('currencies', 'transactions.currency_id','currencies.id')
-            ->leftJoin('transaction_details as td', 'td.transaction_id', 'transactions.id')
-            ->where('transactions.customer_id', $taxPayer->id)
+            ->with('taxPayer:name,id')
+            ->with('currency')
+            ->with('details')
+            ->where('supplier_id', $taxPayer->id)
             ->whereBetween('date', [$cycle->start_date, $cycle->end_date])
             ->groupBy('transactions.id')
-            ->select(DB::raw('max(transactions.id) as ID'),
-            DB::raw('max(taxpayers.name) as Supplier'),
-            DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
-            DB::raw('max(currencies.code) as Currency'),
-            DB::raw('max(transactions.payment_condition) as PaymentCondition'),
-            DB::raw('max(transactions.date) as Date'),
-            DB::raw('max(transactions.number) as Number'),
-            DB::raw('sum(td.value) as Value'))
-            ->orderByRaw('max(transactions.date)', 'desc')
-            ->orderByRaw('max(transactions.number)', 'desc')
+            ->orderBy('transactions.date', 'desc')
             ->paginate(50)
         );
     }

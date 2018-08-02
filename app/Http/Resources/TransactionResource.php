@@ -15,16 +15,17 @@ class TransactionResource extends JsonResource
     public function toArray($request)
      {
         return [
-            'ID' =>$this->resource['id'],
-            'Customer' => $this->resource['tax_payer'],
-            'CustomerTaxID' => $this->resource['tax_payer.taxid'],
-            'Currency' => $this->resource['currency.code'],
-            'PaymentCondition' => $this->resource['payment_condition'],
-            'Date' => $this->resource['date'],
-            'Number' => $this->resource['number'],
-            'Status' => $this->resource['Status.name'],
+            'ID' =>$this->id,
+            'Customer' => $this->taxPayer->name,
+            'CustomerTaxID' => $this->taxPayer->taxid,
+            'Currency' => $this->currency->code,
+            'PaymentCondition' => $this->payment_condition,
+            'Date' => $this->date,
+            'Number' => $this->number,
+            'Value' => $this->details->sum('value'),
+            //'Status' => $this->Status->name,
             //When Loaded will only bring if "with('details')" is used in eloquent call. Only if eager loaded.
-            'details' => $this->resource['details']
+            'details' => $this->details
 
         ];
         //return parent::toArray($request);
