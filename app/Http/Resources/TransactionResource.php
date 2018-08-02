@@ -24,8 +24,9 @@ class TransactionResource extends JsonResource
             'Date' => $this->resource['date'],
             'Number' => $this->resource['number'],
             'Status' => $this->resource['Status.name'],
+            //When Loaded will only bring if "with('details')" is used in eloquent call. Only if eager loaded.
+            'details' => $this->resource['details']
 
-            'expiryDate' => $this->resource['expiry_date']
         ];
         //return parent::toArray($request);
     }
