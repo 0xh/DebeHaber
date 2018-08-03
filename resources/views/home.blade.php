@@ -30,68 +30,53 @@ $currentTeam = Auth::user()->currentTeam->name;
                         </a>
                     </div>
                 </div>
-
                 <div class="m-portlet__body">
                     <!--begin::Widget5-->
-                    <div class="m-widget4 m-widget4--chart-bottom">
+                    <div class="m-widget5">
                         @if(isset($taxPayerIntegrations))
                             @foreach($taxPayerIntegrations->sortBy('taxpayer.name') as $integration)
-                                <div class="m-widget4__item">
-                                    
-                                    @if ($integration->taxpayer->setting->is_company)
-                                        <img src="/img/icons/company.png" height="64">
-                                    @else
-                                        <img src="/img/icons/avatar.png" height="64">
-                                    @endif
-
-                                    {{-- <div class="m-widget4__img m-widget4__img--logo">
+                                <div class="m-widget5__item">
+                                    <div class="m-widget5__pic">
                                         @if ($integration->taxpayer->setting->is_company)
-                                            <img src="/img/icons/company.png" height="64">
+                                            <img src="/img/icons/company.png" alt>
                                         @else
-                                            <img src="/img/icons/avatar.png" height="64">
+                                            <img src="/img/icons/avatar.png" alt>
                                         @endif
-                                    </div> --}}
+                                    </div>
 
                                     @if ($integration->status == 1)
-                                        <div class="m-widget4__info">
-                                            <span class="m-widget4__title">
+                                        <div class="m-widget5__content">
+                                            <span class="m-widget5__title">
                                                 {{ $integration->taxpayer->name }}
                                             </span>
                                             <br>
-                                            <span class="m-widget4__sub m--font-warning">
+                                            <span class="m-widget5__desc m--font-warning">
                                                 Awaiting Approval
                                             </span>
                                         </div>
                                     @else
-                                        <div class="m-widget4__info">
-                                            <span class="m-widget4__title">
+                                        <div class="m-widget5__content">
+                                            <span class="m-widget5__title">
                                                 <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}">
                                                     {{ $integration->taxpayer->name }}
                                                 </a>
                                             </span>
                                             <br>
-                                            <span class="m-widget4__sub">
+                                            <span class="m-widget5__desc">
                                                 {{ $integration->taxpayer->alias }} | {{ $integration->taxpayer->taxid }}
                                             </span>
                                         </div>
 
-                                        <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="...">
-                                            <a href="{{ route('taxpayer.edit', $integration) }}" class="m-btn btn btn-secondary">
-                                                <i class="la la-pencil text-info"></i>
-                                            </a>
-
-                                            @if ($integration->is_owner == 1)
-                                                {{-- onclick="addFavorite({{ $integration->taxpayer_id }}, 0)" --}}
-                                                <a href="#" class="m-btn btn btn-secondary">
-                                                    <i class="la la-star text-warning"></i>
+                                        <div class="m-widget5__stats2 btn-toolbar justify-content-between" role="toolbar" aria-label="...">
+                                            <div class="btn-group" role="group">
+                                                <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="m-btn btn btn-primary">
+                                                    <i class="la la-eye"></i>
                                                 </a>
-                                            @else
-                                                <a href="#" class="m-btn btn btn-secondary">
-                                                    <i class="la la-star-o text-warning"></i>
+                                                <a href="{{ route('taxpayer.edit', $integration) }}" class="m-btn btn btn-info">
+                                                    <i class="la la-pencil"></i>
                                                 </a>
-                                            @endif
+                                            </div>
                                         </div>
-
                                     @endif
                                 </div>
                             @endforeach
