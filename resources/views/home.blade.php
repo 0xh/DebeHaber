@@ -37,10 +37,20 @@ $currentTeam = Auth::user()->currentTeam->name;
                         @if(isset($taxPayerIntegrations))
                             @foreach($taxPayerIntegrations->sortBy('taxpayer.name') as $integration)
                                 <div class="m-widget4__item">
-                                    <div class="m-widget4__img m-widget4__img--logo">
-                                        {{-- {{ $integration->taxPayer->image }} --}}
-                                        <img src="/photo/" alt="" onerror="this.src='/img/icons/cloud.jpg';">
-                                    </div>
+                                    
+                                    @if ($integration->taxpayer->setting->is_company)
+                                        <img src="/img/icons/company.png" height="64">
+                                    @else
+                                        <img src="/img/icons/avatar.png" height="64">
+                                    @endif
+
+                                    {{-- <div class="m-widget4__img m-widget4__img--logo">
+                                        @if ($integration->taxpayer->setting->is_company)
+                                            <img src="/img/icons/company.png" height="64">
+                                        @else
+                                            <img src="/img/icons/avatar.png" height="64">
+                                        @endif
+                                    </div> --}}
 
                                     @if ($integration->status == 1)
                                         <div class="m-widget4__info">
