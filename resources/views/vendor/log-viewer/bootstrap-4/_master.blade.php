@@ -215,7 +215,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light sticky-top bg-light p-0">
         <a href="{{ route('log-viewer::dashboard') }}" class="navbar-brand mr-0">
-            <img src="/img/logos/debehaber.png" alt="" width="128">
+            <img src="/img/logos/debehaber.jpg" alt="" width="128">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
