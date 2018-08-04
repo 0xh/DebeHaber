@@ -17,9 +17,9 @@ class SparkServiceProvider extends ServiceProvider
     protected $details = [
         'vendor' => 'Cognitivo',
         'product' => 'DebeHaber',
-        'street' => 'PO Box 111',
-        'location' => 'Your Town, NY 12345',
-        'phone' => '555-555-5555',
+        'street' => 'Planta Industrial, Km 24 Ruta II.',
+        'location' => 'Capiata, Paraguay',
+        'phone' => '+595-228-63115',
     ];
 
     /**
