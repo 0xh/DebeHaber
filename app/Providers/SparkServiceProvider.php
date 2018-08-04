@@ -38,7 +38,6 @@ class SparkServiceProvider extends ServiceProvider
         'abhi@cognitivo.in',
         'ashah@indopar.com.py',
         'pankeel@cognitivo.in',
-        'ricardo@cognitivo.in',
         'heti.shah@gmail.com'
     ];
 
