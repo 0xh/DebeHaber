@@ -6,62 +6,60 @@
     <title>
         @yield('title') | DebeHaber
     </title>
-    <meta name="description" content="Latest updates and statistic charts">
+    <meta name="description" content="Gestione su Contabilidad online de manera gratuito">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!--begin::Web font -->
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-    <script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script> --}}
+    {{-- <script>
     WebFont.load({
-        google: {"families":["Open+Sans:300,400,500,600,700","Roboto:300,400,500,600,700"]},
-        active: function() {
-            sessionStorage.fonts = true;
-        }
-    });
-    </script>
-    <!--end::Web font -->
+    google: {"families":["Open+Sans:300,400,500,600,700","Roboto:300,400,500,600,700"]},
+    active: function() {
+    sessionStorage.fonts = true;
+}
+});
+</script> --}}
+<!--end::Web font -->
 
-    <link href="/vendors/base/vendors.bundle.min.css" rel="stylesheet">
-    <link href="/css/style.bundle.min.css" rel="stylesheet">
+<link href="/vendors/base/vendors.bundle.min.css" rel="stylesheet">
+<link href="/css/style.bundle.min.css" rel="stylesheet">
 
-    @yield('styles')
+@yield('styles')
 
+@if (config('app.debug'))
+    <style>
+    body {
+        background: LightSteelBlue url('/beta.png');
+        height: 100%;
+        margin: 0;
+    }
+    </style>
+@endif
 
+<link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/img/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/img/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="/img/favicon/manifest.json">
+<meta name="msapplication-TileColor" content="#f5f5f5">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#f5f5f5">
 
-    @if (config('app.debug'))
-        <style>
-        body {
-            background: LightSteelBlue url('/beta.png');
-            height: 100%;
-            margin: 0;
-        }
-        </style>
-    @endif
-
-    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/img/favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-
-    <script>
-    window.Spark = <?php echo json_encode(array_merge(
-        Spark::scriptVariables(), []
-    )); ?>;
+<script>
+window.Spark = <?php echo json_encode(array_merge(
+    Spark::scriptVariables(), []
+)); ?>;
 </script>
 </head>
 <!-- end::Head -->
@@ -93,13 +91,12 @@
                             @endphp
                         @else
                             @php
-                            $cycleid =0 ;
-                            $taxpayerid =0;
+                            $cycleid = 0 ;
+                            $taxpayerid = 0;
                             @endphp
                         @endif
                         <model cycle="{{ $cycleid }}" taxpayer="{{ $taxpayerid }}" inline-template>
                             <div>
-                                <!-- BEGIN: Subheader -->
                                 <div class="m-subheader row">
                                     <div class="d-flex align-items-center col-9">
                                         <div class="mr-auto">
@@ -150,7 +147,6 @@
                                         </span>
                                     </div>
                                 </div>
-
                                 @hasSection('stats')
                                     <div class="m-portlet">
                                         <div class="m-portlet__body  m-portlet__body--no-padding">

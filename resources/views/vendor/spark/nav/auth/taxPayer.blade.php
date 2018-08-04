@@ -3,7 +3,12 @@
         <li class="m-menu__item @if (\Request::is('*/commercial/*')) m-menu__item--active @endif m-menu__item--submenu m-menu__item--rel"  data-menu-submenu-toggle="click" aria-haspopup="true">
             <a href="#" class="m-menu__link m-menu__toggle">
                 <span class="m-menu__item-here"></span>
-                <i class="m-menu__link-icon la la-briefcase"></i>
+                @if (request()->route('taxPayer')->setting->is_company)
+                    <i class="m-menu__link-icon la la-briefcase"></i>
+                @else
+                    <i class="m-menu__link-icon la la-user"></i>
+                @endif
+
                 <span class="m-menu__link-text menu-name">
                     {{ request()->route('taxPayer')->alias }}
                 </span>
@@ -220,6 +225,15 @@
                                         <i class="m-menu__link-icon la la-globe"></i>
                                         <span class="m-menu__link-text">
                                             @lang('commercial.Rate')
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="m-menu__item "  data-redirect="true" aria-haspopup="true">
+                                    <a href="{{ route('hello') }}" class="m-menu__link">
+                                        <i class="m-menu__link-icon la la-refresh m--font-danger"></i>
+                                        <span class="m-menu__link-text m--font-danger">
+                                            @lang('commercial.Change Taxpayer')
                                         </span>
                                     </a>
                                 </li>

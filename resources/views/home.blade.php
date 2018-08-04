@@ -8,7 +8,6 @@ $currentTeam = Auth::user()->currentTeam->name;
 @section('title', __('global.Dashboard', ['team' => $currentTeam]))
 
 @section('content')
-
     <div class="row">
         <div class="col-xl-6">
             <!--begin:: Widgets/Top Products-->
@@ -58,12 +57,12 @@ $currentTeam = Auth::user()->currentTeam->name;
                                         <div class="m-widget5__content">
                                             <span class="m-widget5__title">
                                                 <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}">
-                                                    {{ $integration->taxpayer->name }}
+                                                    {{ $integration->taxpayer->alias }}
                                                 </a>
                                             </span>
                                             <br>
                                             <span class="m-widget5__desc">
-                                                {{ $integration->taxpayer->alias }} | {{ $integration->taxpayer->taxid }}
+                                                {{ $integration->taxpayer->name }} | {{ $integration->taxpayer->taxid }}
                                             </span>
                                         </div>
 
@@ -132,72 +131,67 @@ $currentTeam = Auth::user()->currentTeam->name;
                         </table>
                     </div>
                 </div>
-            </div>
-        @endif
+            @endif
 
-        <!--begin:: Invitations-->
-        <div class="m-portlet m-portlet--bordered-semi m-portlet--fit">
-            <div class="row justify-content-center padding-40-5">
-                <div class="col-3">
-                    <img src="/img/icons/invitation.svg" class="" alt="" width="135">
-                </div>
-                <div class="col-9">
-                    <h3>Invitar Alquien</h3>
-                    <table class="m-table">
-                        <thead>
-                            <tr>
-                                <td>Team</td>
-                                <td>Taxpayer</td>
-                                <td>Role</td>
-                                <td>Actions</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($integrationInvites as $invite)
+            <!--begin:: Invitations-->
+            <div class="m-portlet m-portlet--bordered-semi m-portlet--fit">
+                <div class="row justify-content-center padding-40-5">
+                    <div class="col-3">
+                        <img src="/img/icons/invitation.svg" class="" alt="" width="135">
+                    </div>
+                    <div class="col-9">
+                        <h3>Invitar Alquien</h3>
+                        <table class="m-table">
+                            <thead>
                                 <tr>
-                                    <td>{{ $invite->team->name }}</td>
-                                    <td>{{ $invite->taxpayer->name }}</td>
-                                    <td>
-                                        @if ($invite->type == 1)
-                                            Accountant
-                                        @elseif($invite->type == 2)
-                                            Personal
-                                        @else
-                                            Auditor
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('Accept', [$invite->id,$invite->type]) }}">Approve</a>
-                                        <a href="{{ route('Reject', [$invite->id,$invite->type]) }}">Reject</a>
-                                    </td>
+                                    <td>Team</td>
+                                    <td>Taxpayer</td>
+                                    <td>Role</td>
+                                    <td>Actions</td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <ul>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!--begin:: Widgets/Outbound Bandwidth-->
-        <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 400px">
-            <div class="m-portlet__head">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <h3 class="m-portlet__head-text">
-                            @lang('teams.team_members')
-                        </h3>
+                            </thead>
+                            <tbody>
+                                @foreach ($integrationInvites as $invite)
+                                    <tr>
+                                        <td>{{ $invite->team->name }}</td>
+                                        <td>{{ $invite->taxpayer->name }}</td>
+                                        <td>
+                                            @if ($invite->type == 1)
+                                                Accountant
+                                            @elseif($invite->type == 2)
+                                                Personal
+                                            @else
+                                                Auditor
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('Accept', [$invite->id,$invite->type]) }}">Approve</a>
+                                            <a href="{{ route('Reject', [$invite->id,$invite->type]) }}">Reject</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="m-portlet__body">
-                <div class="m-widget4">
+            <!--begin:: Widgets/Outbound Bandwidth-->
+            <div class="m-portlet m-portlet--bordered-semi m-portlet--half-height m-portlet--fit " style="min-height: 400px">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <h3 class="m-portlet__head-text">
+                                @lang('teams.team_members')
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="m-widget4">
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 @endsection
