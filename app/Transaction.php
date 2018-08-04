@@ -67,9 +67,9 @@ class Transaction extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
-    public function journals()
+    public function journal()
     {
-        return $this->hasManyThrough('App\Journal', 'App\JournalTransaction');
+        return $this->belongsTo('App\Journal');
     }
 
     /**
