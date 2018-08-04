@@ -82696,7 +82696,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-form', {
             console.log(data);
 
             var app = this;
-
+            this.$children[0].selectText = data.customer;
+            this.$children[0].id = data.customer_id;
             app.id = data.id;
             app.type = data.type;
             app.Customer = data.customer;

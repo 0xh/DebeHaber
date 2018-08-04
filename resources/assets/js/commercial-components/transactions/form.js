@@ -126,10 +126,11 @@ Vue.component('transaction-form',
 
         onEdit: function(data)
         {
-          console.log(data);
+            console.log(data);
 
             var app = this;
-
+            this.$children[0].selectText=data.customer;
+            this.$children[0].id=data.customer_id;
             app.id = data.id;
             app.type = data.type;
             app.Customer = data.customer;
@@ -160,7 +161,7 @@ Vue.component('transaction-form',
 
             if (app.$children[0] != null)
             {
-                
+
                 if (app.type == 4 || app.type == 5)
                 {
 
