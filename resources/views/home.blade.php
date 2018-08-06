@@ -34,17 +34,17 @@ $currentTeam = Auth::user()->currentTeam->name;
                     <div class="m-widget5">
                         @if(isset($taxPayerIntegrations))
                             @foreach($taxPayerIntegrations->sortBy('taxpayer.name') as $integration)
-                                <div class="m-widget5__item">
-                                    <div class="m-widget5__pic">
+                                <div class="m-widget5__item row">
+                                    <div class="m-widget5__pic col-2">
                                         @if ($integration->taxpayer->setting->is_company)
-                                            <img src="/img/icons/company.png" alt>
+                                            <img src="/img/icons/company.png" height="64" width="64" alt>
                                         @else
-                                            <img src="/img/icons/avatar.png" alt>
+                                            <img src="/img/icons/avatar.png" height="64" width="64" alt>
                                         @endif
                                     </div>
 
                                     @if ($integration->status == 1)
-                                        <div class="m-widget5__content">
+                                        <div class="m-widget5__content col-8">
                                             <span class="m-widget5__title">
                                                 {{ $integration->taxpayer->name }}
                                             </span>
@@ -54,14 +54,14 @@ $currentTeam = Auth::user()->currentTeam->name;
                                             </span>
                                         </div>
                                     @else
-                                        <div class="m-widget5__content">
+                                        <div class="m-widget5__content col-8">
                                             <span class="m-widget5__title">
                                                 <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}">
                                                     {{ $integration->taxpayer->alias }}
                                                 </a>
                                             </span>
                                             <br>
-                                            <span class="m-widget5__desc">
+                                            <span class="m-widget5__desc col-2">
                                                 {{ $integration->taxpayer->name }} | {{ $integration->taxpayer->taxid }}
                                             </span>
                                         </div>
