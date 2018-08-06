@@ -34,6 +34,7 @@ Vue.component('buefy',
             var app = this;
 
             app.$parent.showList = false;
+
             $.ajax({
                 url: '/api/' + app.taxpayer + '/' + app.cycle + '/' +  app.baseurl + '/by-id/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -42,6 +43,7 @@ Vue.component('buefy',
                 async: true,
                 success: function(data)
                 {
+
                     app.$children[0].onEdit(data[0]);
                 },
                 error: function(xhr, status, error)

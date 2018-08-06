@@ -69,9 +69,19 @@ class PurchaseController extends Controller
             ->where('customer_id', $taxPayer->id)
             ->where('transactions.id', $id)
             ->with('details')
-            ->select(DB::raw('false as selected,transactions.id,taxpayers.name as supplier
-            ,supplier_id,document_id,currency_id,rate,payment_condition,chart_account_id,date
-            ,number,transactions.code,code_expiry'))
+            ->select(DB::raw('false as selected,transactions.id,
+            taxpayers.name as supplier,
+            supplier_id,
+            document_id,
+            currency_id,
+            rate,
+            payment_condition,
+            chart_account_id,
+            date,
+            number,
+            type,
+            transactions.code,
+            code_expiry'))
             ->get();
 
             return response()->json($Transaction);

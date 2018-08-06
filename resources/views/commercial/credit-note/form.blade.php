@@ -176,7 +176,7 @@
                         </select>
                     </div>
                     <div class="col-2">
-                        <input type="text" class="form-control" v-model="detail.value" @change="onPriceChange(detail)"/>
+                        <input type="text" class="form-control" v-model="detail.value" :input="onPriceChange(detail)"/>
                     </div>
                     <div class="col-2">
                         @{{ detail.taxExempt }}

@@ -9,7 +9,7 @@ Vue.component('transaction-form',
         MaskedInput
     },
 
-    props: ['trantype','charts','vats','accounts'],
+    //props: ['trantype','charts','vats','accounts'],
     data() {
         return {
 
@@ -64,10 +64,10 @@ Vue.component('transaction-form',
         grandTotal: function()
         {
             var app = this;
-            var total = 0;
+            var total = new Number(0);
             for (let i = 0; i < app.details.length; i++)
             {
-                total += parseFloat(app.details[i].value).toFixed(2);
+                total += parseFloat(new Number(app.details[i].value)).toFixed(2);
             }
 
             return total;
@@ -75,26 +75,36 @@ Vue.component('transaction-form',
 
         grandTaxExempt: function()
         {
+
             var app = this;
-            var total = 0;
+            var totalTaxExempt = new Number(0);
+
             for (let i = 0; i < app.details.length; i++)
             {
-                total +=  parseFloat(app.details[i].taxExempt).toFixed(2);
+
+                if (app.details[i].taxExempt!=null) {
+                    totalTaxExempt +=  parseFloat(new Number(app.details[i].taxExempt)).toFixed(2);
+                }
+
             }
 
-            return total;
+            return totalTaxExempt;
         },
 
         grandTaxable: function()
         {
             var app = this;
-            var total = 0;
+            var totaltaxable = 0;
             for (let i = 0; i < app.details.length; i++)
             {
-                total += parseFloat(app.details[i].taxable).toFixed(2);
+
+
+
+                totaltaxable += parseFloat(app.details[i].taxable).toFixed(2);
+
             }
 
-            return total;
+            return totaltaxable;
         },
 
         grandVAT: function()
@@ -126,11 +136,10 @@ Vue.component('transaction-form',
 
         onEdit: function(data)
         {
-            console.log(data);
+
 
             var app = this;
-            this.$children[0].selectText=data.customer;
-            this.$children[0].id=data.customer_id;
+
             app.id = data.id;
             app.type = data.type;
             app.Customer = data.customer;
@@ -156,23 +165,23 @@ Vue.component('transaction-form',
 
             for (var i = 0; i < app.details.length; i++)
             {
+
                 app.onPriceChange(app.details[i]);
             }
 
-            if (app.$children[0] != null)
+
+
+            if (app.type == 4 || app.type == 5)
             {
 
-                if (app.type == 4 || app.type == 5)
-                {
-
-                    app.$children[0].selectText = data.customer;
-                    app.$children[0].id = data.customer_id ;
-                }
-                else {
-                    app.$children[0].selectText = data.supplier;
-                    app.$children[0].id = data.supplier_id ;
-                }
+                app.$children[0].selectText = data.customer;
+                app.$children[0].id = data.customer_id ;
             }
+            else {
+                app.$children[0].selectText = data.supplier;
+                app.$children[0].id = data.supplier_id ;
+            }
+
 
             app.$parent.$parent.showList = false;
         },
@@ -217,10 +226,10 @@ Vue.component('transaction-form',
         {
             var app = this;
             var api = null;
-            app.type = app.trantype;
+            //app.type = app.trantype;
 
             if (this.$children[0] != null) {
-                if (app.trantype == 4 || app.trantype == 5)
+                if (app.type == 4 || app.type == 5)
                 {
                     app.customer_id = this.$children[0].id;
                 }
