@@ -1,7 +1,8 @@
+<buefy-menu inline-template>
 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
     <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
         <li class="m-menu__item @if (\Request::is('*/commercial/*')) m-menu__item--active @endif m-menu__item--submenu m-menu__item--rel"  data-menu-submenu-toggle="click" aria-haspopup="true">
-            <a href="#" class="m-menu__link m-menu__toggle">
+            <a href="#" class="m-menu__link m-menu__toggle" @click="OpenTransaction()">
                 <span class="m-menu__item-here"></span>
                 @if (request()->route('taxPayer')->setting->is_company)
                     <i class="m-menu__link-icon la la-briefcase"></i>
@@ -21,9 +22,9 @@
             $endDate = new Carbon\Carbon('last day of last month');
             @endphp
 
-            <div class="m-menu__submenu m-menu__submenu--fixed m-menu__submenu--left" style="width:900px">
+            <div class="m-menu__submenu m-menu__submenu--fixed m-menu__submenu--left" style="width:900px" >
                 <span class="m-menu__arrow m-menu__arrow--adjust"></span>
-                <div class="m-menu__subnav">
+                <div class="m-menu__subnav" v-if="istransaction==true">
                     <ul class="m-menu__content">
                         <li class="m-menu__item">
                             <h3 class="m-menu__heading m-menu__toggle">
@@ -244,7 +245,7 @@
             </div>
         </li>
         <li class="m-menu__item @if (\Request::is('*/accounting/*')) m-menu__item--active @endif m-menu__item--submenu m-menu__item--rel" data-menu-submenu-toggle="click" aria-haspopup="true">
-            <a  href="#" class="m-menu__link m-menu__toggle">
+            <a  href="#" class="m-menu__link m-menu__toggle" @click="OpenAccount()">
                 <span class="m-menu__item-here"></span>
                 <i class="m-menu__link-icon la la-calculator"></i>
                 <span class="m-menu__link-text">
@@ -255,7 +256,7 @@
             </a>
             <div class="m-menu__submenu  m-menu__submenu--fixed m-menu__submenu--left" style="width:700px">
                 <span class="m-menu__arrow m-menu__arrow--adjust"></span>
-                <div class="m-menu__subnav">
+                <div class="m-menu__subnav" v-if="istransaction==true">
                     <ul class="m-menu__content">
                         <li class="m-menu__item">
                             <h3 class="m-menu__heading m-menu__toggle">
@@ -388,3 +389,4 @@
         </li>
     </ul>
 </div>
+</buefy-menu>

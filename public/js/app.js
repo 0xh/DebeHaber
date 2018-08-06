@@ -81463,6 +81463,32 @@ var app = new __WEBPACK_IMPORTED_MODULE_4_vue___default.a({
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./resources/assets/js/buefy-components/buefy.js");
+__webpack_require__("./resources/assets/js/buefy-components/buefy-menu.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/buefy-components/buefy-menu.js":
+/***/ (function(module, exports) {
+
+Vue.component('buefy-menu', {
+    data: function data() {
+        return {
+            istransaction: false,
+            isaccount: false
+        };
+    },
+
+
+    methods: {
+        OpenTransaction: function OpenTransaction() {
+            this.istransaction = !this.istransaction;
+        },
+        OpenAccount: function OpenAccount() {
+            this.isaccount = !this.isaccount;
+        }
+    }
+
+});
 
 /***/ }),
 

@@ -43,7 +43,7 @@ const store = new Vuex.Store();
 Vue.component(Icon.name, Icon);
 Vue.use(Buefy, {
     defaultIconPack: 'fas',
-    
+
     // ...
 })
 Vue.use(vuexI18n.plugin, store);
