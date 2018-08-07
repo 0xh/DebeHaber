@@ -31,23 +31,17 @@
 
             <b-table-column custom-key="actions" numeric>
 
-                <button v-on:click="onEdit(props.row.ID)" type="button" class="btn btn-outline-info btn-sm m-btn m-btn--icon">
-                    <span>
-                        <i class="fa fa-pencil"></i>
-                        <span>@lang('global.Edit')</span>
-                    </span>
-                </button>
+                <a href="#" v-on:click="onEdit(props.row.ID)" class="btn btn-primary m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+                    <i class="la la-pencil"></i>
+                </a>
 
-                <button v-on:click="onAnull(props.row)" type="button" class="btn btn-outline-metal m-btn btn-sm m-btn--icon">
-                    <span>
-                        <i class="fa fa-close"></i>
-                        <span>@lang('global.Annul')</span>
-                    </span>
-                </button>
+                <a href="#" v-on:click="onAnull(props.row)" class="btn btn-danger m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+                    <i class="la la-close"></i>
+                </a>
 
-                <button v-on:click="onDelete(props.row)" type="button" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                <a href="#" v-on:click="onDelete(props.row)" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
                     <i class="fa fa-trash"></i>
-                </button>
+                </a>
 
             </b-table-column>
         </template>

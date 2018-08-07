@@ -13,18 +13,15 @@
 
     <link href="/vendors/base/vendors.bundle.css" rel="stylesheet">
     <link href="/css/style.bundle.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
 
     @yield('styles')
 
-    @if (config('app.debug'))
+    {{-- @if (config('app.debug'))
         <style>
-        body {
-            background: LightSteelBlue url('/beta.png');
-            height: 100%;
-            margin: 0;
-        }
+        body { background: url('/img/misc/beta128.jpg'); }
         </style>
-    @endif
+    @endif --}}
 
     <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
@@ -44,11 +41,7 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#f5f5f5">
 
-    <script>
-    window.Spark = <?php echo json_encode(array_merge(
-        Spark::scriptVariables(), []
-    )); ?>;
-</script>
+    <script> window.Spark = <?php echo json_encode(array_merge(Spark::scriptVariables(), [])); ?>; </script>
 </head>
 <!-- end::Head -->
 
@@ -83,6 +76,7 @@
                             $taxpayerid = 0;
                             @endphp
                         @endif
+
                         <model cycle="{{ $cycleid }}" taxpayer="{{ $taxpayerid }}" inline-template>
                             <div>
                                 <div class="m-subheader row">
