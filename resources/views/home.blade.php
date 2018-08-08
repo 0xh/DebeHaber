@@ -29,59 +29,49 @@ $currentTeam = Auth::user()->currentTeam->name;
                         </a>
                     </div>
                 </div>
-                <div class="m-portlet__body">
-                    <!--begin::Widget5-->
-                    <div class="m-widget5">
-                        @if(isset($taxPayerIntegrations))
-                            @foreach($taxPayerIntegrations->sortBy('taxpayer.name') as $integration)
-                                <div class="m-widget5__item row">
-
-                                    <div class="m-widget5__pic">
-                                        @if ($integration->taxpayer->setting->is_company)
-                                            <img src="/img/icons/company.png" height="64" width="64" alt>
-                                        @else
-                                            <img src="/img/icons/avatar.png" height="64" width="64" alt>
-                                        @endif
-                                    </div>
-
-                                    @if ($integration->status == 1)
-                                        <div class="m-widget5__content">
-                                            <span class="m-widget5__title">
-                                                {{ $integration->taxpayer->name }}
-                                            </span>
-                                            <br>
-                                            <span class="m-widget5__desc m--font-warning">
-                                                Awaiting Approval
-                                            </span>
-                                        </div>
+                <!--begin::Widget5-->
+                <div class="m-widget5 m-section__content">
+                    @if(isset($taxPayerIntegrations))
+                        @foreach($taxPayerIntegrations->sortBy('taxpayer.name') as $integration)
+                            <div class="m-stack m-stack--ver m-stack--general">
+                                <div class="m-stack__item m-stack__item--center m-stack__item--middle" style="width:74px; height:74px">
+                                    @if ($integration->taxpayer->setting->is_company)
+                                        <img src="/img/icons/company.png" height="64" width="64" alt>
                                     @else
-                                        <div class="m-widget5__content">
-                                            <span class="m-widget5__title">
-                                                <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}">
-                                                    {{ $integration->taxpayer->alias }}
-                                                </a>
-                                            </span>
-                                            <br>
-                                            <span class="m-widget5__desc">
-                                                {{ $integration->taxpayer->name }} | {{ $integration->taxpayer->taxid }}
-                                            </span>
-                                        </div>
-
-                                        <div class="m-widget5__stats2 btn-toolbar justify-content-between" role="toolbar" aria-label="...">
-                                            <div class="btn-group" role="group">
-                                                <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="m-btn btn btn-primary">
-                                                    <i class="la la-eye"></i>
-                                                </a>
-                                                <a href="{{ route('taxpayer.edit', $integration) }}" class="m-btn btn btn-info">
-                                                    <i class="la la-pencil"></i>
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <img src="/img/icons/avatar.png" height="64" width="64" alt>
                                     @endif
                                 </div>
-                            @endforeach
-                        @endif
-                    </div>
+
+                                @if ($integration->status == 1)
+                                    <div class="m-stack__item m-stack__item--left m-stack__item--middle ">
+                                        <span class="m-widget5__title">
+                                            {{ $integration->taxpayer->name }}
+                                        </span>
+                                        <br>
+                                        <span class="m-widget5__desc m-stack__item--right m--font-warning">
+                                            Awaiting Approval
+                                        </span>
+                                    </div>
+                                @else
+                                    <div class="m-stack__item m-stack__item--left m-stack__item--middle ">
+                                        <span class="m-widget5__title">
+                                            <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="btn btn-secondary m-btn m-btn--icon">
+                                                <span>
+                                                    <i class="la la-eye"></i>
+                                                    <span>{{ $integration->taxpayer->alias }}</span>
+                                                </span>
+                                            </a>
+                                        </span>
+                                        <br>
+                                        <span class="m-widget5__desc m--font-metal">
+                                            {{ $integration->taxpayer->name }} | {{ $integration->taxpayer->taxid }}
+                                        </span>
+                                    </div>
+                                @endif
+                            </div>
+                            <hr>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
