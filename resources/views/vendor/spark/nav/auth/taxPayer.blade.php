@@ -12,12 +12,12 @@
                     <i class="m-menu__link-icon la la-user m--font-info"></i>
                 @endif
 
-                <span class="m-menu__link-text menu-name">
+                <span class="m-menu__link-text menu-name m--font-success">
                     {{ request()->route('taxPayer')->alias }}
                 </span>
 
-                <i class="m-menu__hor-arrow la la-angle-down"></i>
-                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                <i class="m-menu__hor-arrow m--font-success la la-angle-down"></i>
+                <i class="m-menu__ver-arrow m--font-success la la-angle-right"></i>
             </a>
 
             @php

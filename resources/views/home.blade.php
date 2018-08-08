@@ -21,6 +21,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
+                        <a href="{{ route('taxpayer.create') }}" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">
                             <span>
                                 <i class="la la-plus"></i>
                                 <span>
