@@ -42,10 +42,12 @@ $currentTeam = Auth::user()->currentTeam->name;
                                     @else
                                         <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="btn btn-secondary m-btn m-btn--icon">
                                             <span>
-                                                @if ($integration->taxpayer->setting->is_company)
-                                                    <i class="la la-briefcase m--font-success"></i>
-                                                @else
-                                                    <i class="la la-user m--font-info"></i>
+                                                @if(isset($integration->taxpayer->setting))
+                                                    @if ($integration->taxpayer->setting->is_company)
+                                                        <i class="la la-briefcase m--font-success"></i>
+                                                    @else
+                                                        <i class="la la-user m--font-info"></i>
+                                                    @endif
                                                 @endif
                                                 <span class="m--block-inline">{{ $integration->taxpayer->alias }}</span>
                                             </span>
