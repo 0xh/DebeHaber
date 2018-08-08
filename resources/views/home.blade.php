@@ -21,57 +21,45 @@ $currentTeam = Auth::user()->currentTeam->name;
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <a href="{{ route('taxpayer.create') }}" class="btn btn--sm m-btn--pill btn-brand m-btn">
-                            <i class="la la-plus"></i>
                             <span>
-                                @lang('global.Create', ['model' => __('global.Taxpayer')])
+                                <i class="la la-plus"></i>
+                                <span>
+                                    @lang('global.Create', ['model' => __('global.Taxpayer')])
+                                </span>
                             </span>
                         </a>
                     </div>
                 </div>
-                <!--begin::Widget5-->
-                <div class="m-widget5 m-section__content">
-                    @if(isset($taxPayerIntegrations))
-                        @foreach($taxPayerIntegrations->sortBy('taxpayer.name') as $integration)
-                            <div class="m-stack m-stack--ver m-stack--general">
-                                <div class="m-stack__item m-stack__item--center m-stack__item--middle" style="width:74px; height:74px">
-                                    @if ($integration->taxpayer->setting->is_company)
-                                        <img src="/img/icons/company.png" height="64" width="64" alt>
+                <div class="m-portlet__body">
+                    <!--begin::Widget5-->
+                    <div class="m-widget5 m-section__content">
+                        @if(isset($taxPayerIntegrations))
+                            @foreach($taxPayerIntegrations->sortBy('taxpayer.name') as $integration)
+                                <span class="m-widget5__title">
+                                    @if ($integration->status == 1)
+                                        <span class="m-badge m-badge--warning m-badge--wide">Awaiting Approval</span>
                                     @else
-                                        <img src="/img/icons/avatar.png" height="64" width="64" alt>
+                                        <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="btn btn-secondary m-btn m-btn--icon">
+                                            <span>
+                                                @if ($integration->taxpayer->setting->is_company)
+                                                    <i class="la la-briefcase m--font-success"></i>
+                                                @else
+                                                    <i class="la la-user m--font-info"></i>
+                                                @endif
+                                                <span class="m--block-inline">{{ $integration->taxpayer->alias }}</span>
+                                            </span>
+                                        </a>
                                     @endif
-                                </div>
+                                </span>
 
-                                @if ($integration->status == 1)
-                                    <div class="m-stack__item m-stack__item--left m-stack__item--middle ">
-                                        <span class="m-widget5__title">
-                                            {{ $integration->taxpayer->name }}
-                                        </span>
-                                        <br>
-                                        <span class="m-widget5__desc m-stack__item--right m--font-warning">
-                                            Awaiting Approval
-                                        </span>
-                                    </div>
-                                @else
-                                    <div class="m-stack__item m-stack__item--left m-stack__item--middle ">
-                                        <span class="m-widget5__title">
-                                            <a href="{{ url('selectTaxPayer', $integration->taxpayer) }}" class="btn btn-secondary m-btn m-btn--icon">
-                                                <span>
-                                                    <i class="la la-eye"></i>
-                                                    <span>{{ $integration->taxpayer->alias }}</span>
-                                                </span>
-                                            </a>
-                                        </span>
-                                        <br>
-                                        <span class="m-widget5__desc m--font-metal">
-                                            {{ $integration->taxpayer->name }} | {{ $integration->taxpayer->taxid }}
-                                        </span>
-                                    </div>
-                                @endif
-                            </div>
-                            <hr>
-                        @endforeach
-                    @endif
+                                <span class="m-widget5__desc m--font-metal">
+                                    {{ $integration->taxpayer->taxid }} | {{ mb_strimwidth($integration->taxpayer->name, 0, 32, '...') }}
+                                </span>
+
+                                <hr>
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
