@@ -1,82 +1,85 @@
 <template>
     <div class="">
-        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">Crear Contribuyente</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group m-form__group row">
-                            <label class="col-lg-3 col-form-label">
-                                Nombre
-                            </label>
-                            <div class="col-lg-7">
-                                <input type="text" v-model="name"/>
-                            </div>
-                        </div>
-                        <div class="form-group m-form__group row">
-                            <label class="col-lg-3 col-form-label">
-                                Code
-                            </label>
-                            <div class="col-lg-7">
-                                <input type="text" v-model="code"/>
-                            </div>
-                        </div>
 
-                        <div class="form-group m-form__group row">
-                            <label class="col-lg-3 col-form-label">
-                                RUC
-                            </label>
-                            <div class="col-lg-7">
-                                <input type="text" v-model="taxid"/>
-                            </div>
+        <b-modal :active.sync="data.showModal" :width="640" scroll="keep">
+            <!-- <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true"> -->
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Crear Contribuyente</h4>
                         </div>
+                        <div class="modal-body">
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    Nombre
+                                </label>
+                                <div class="col-lg-7">
+                                    <input type="text" v-model="name"/>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    Code
+                                </label>
+                                <div class="col-lg-7">
+                                    <input type="text" v-model="code"/>
+                                </div>
+                            </div>
 
-                        <div class="form-group m-form__group row">
-                            <label class="col-lg-3 col-form-label">
-                                Dirección
-                            </label>
-                            <div class="col-lg-7">
-                                <textarea  v-model="address"/>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    RUC
+                                </label>
+                                <div class="col-lg-7">
+                                    <input type="text" v-model="taxid"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group m-form__group row">
-                            <label class="col-lg-3 col-form-label">
-                                Correo
-                            </label>
-                            <div class="col-lg-7">
-                                <input type="text" v-model="email"/>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    Dirección
+                                </label>
+                                <div class="col-lg-7">
+                                    <textarea  v-model="address"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group m-form__group row">
-                            <label class="col-lg-3 col-form-label">
-                                Teléfono
-                            </label>
-                            <div class="col-lg-7">
-                                <input type="text" v-model="telephone"/>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    Correo
+                                </label>
+                                <div class="col-lg-7">
+                                    <input type="text" v-model="email"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
 
-                            <div class="col-sm-7">
-                                <button type="submit" data-dismiss="modal" class="btn btn-success" v-on:click="onSave()">
-                                    Guardar
-                                </button>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    Teléfono
+                                </label>
+                                <div class="col-lg-7">
+                                    <input type="text" v-model="telephone"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-sm-7">
+                                    <button type="submit" data-dismiss="modal" class="btn btn-success" v-on:click="onSave()">
+                                        Guardar
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            <!-- </div> -->
+        </b-modal>
 
         <div class="input-group m-input-group">
             <div class="input-group-prepend">
@@ -89,27 +92,14 @@
                 </span>
             </div>
 
-            <input type="text"
-            name ="contribuyente"
-            class="form-control m-input"
-            placeholder="Buscar"
-            aria-describedby="basic-addon2"
-            autocomplete="off"
-
-            v-shortkey.once="['ctrl', 'n']"
-            @shortkey="add()"
-
-            v-model="query"
-            @keydown.down="down"
-            @keydown.up="up"
-            @keydown.enter="hit"
-            @keydown.esc="reset"
-            @blur="reset"
-            @input="update"/>
+            <input type="text" name ="contribuyente" class="form-control m-input" placeholder="Buscar" aria-describedby="basic-addon2"
+            autocomplete="off" v-shortkey.once="['ctrl', 'n']" @shortkey="data.showModal = true" v-model="query"
+            @keydown.down="down" @keydown.up="up" @keydown.enter="hit" @keydown.esc="reset"
+            @blur="reset" @input="update"/>
 
             <div class="input-group-append">
                 <span class="input-group-text m--font-boldest" id="basic-addon1">
-                    <a class="btn-icon-only" data-pk="1" data-target="#myModal1" data-title="Añadir" data-toggle="modal" data-type="text">
+                    <a class="btn-icon-only" @click="data.showModal = true">
                         <i class="la la-plus"></i>
                     </a>
                     @{{ selectText }}
@@ -141,6 +131,7 @@ export default {
     props: ['taxpayer','url', 'cycle', 'country'],
     data () {
         return {
+            showModal:false,
             name:'',
             taxid:'',
             address:'',

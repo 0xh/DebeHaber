@@ -322,40 +322,43 @@
                                 <p class="lead"> Special reports from your country </p>
 
                                 <div class="m-widget4">
-                                    <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/cloud.jpg" alt="">
+                                    @if (request()->route('taxPayer')->setting->is_company)
+                                        <div class="m-widget4__item">
+                                            <div class="m-widget4__img m-widget4__img--icon">
+                                                <img src="/img/icons/cloud.jpg" alt="">
+                                            </div>
+                                            <div class="m-widget4__info">
+                                                <span class="m-widget4__text">
+                                                    <a :href="'reports/hechauka/generate_files/'+dateRange[0]+'/'+dateRange[1]">Hechauka</a>
+                                                    <br>
+                                                    <small>Download your files</small>
+                                                </span>
+                                            </div>
+                                            <div class="m-widget4__ext">
+                                                <a href="#" class="m-widget4__icon">
+                                                    <i class="la la-download"></i>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="m-widget4__info">
-                                            <span class="m-widget4__text">
-                                                <a :href="'reports/hechauka/generate_files/'+dateRange[0]+'/'+dateRange[1]">Hechauka</a>
-                                                <br>
-                                                <small>Download your files</small>
-                                            </span>
+                                    @else
+                                        <div class="m-widget4__item">
+                                            <div class="m-widget4__img m-widget4__img--icon">
+                                                <img src="/img/icons/cloud.jpg" alt="">
+                                            </div>
+                                            <div class="m-widget4__info">
+                                                <span class="m-widget4__text">
+                                                    <a href="#">Aranduka</a>
+                                                    <br>
+                                                    <small>Download your files</small>
+                                                </span>
+                                            </div>
+                                            <div class="m-widget4__ext">
+                                                <a href="#" class="m-widget4__icon">
+                                                    <i class="la la-download"></i>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="m-widget4__ext">
-                                            <a href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/cloud.jpg" alt="">
-                                        </div>
-                                        <div class="m-widget4__info">
-                                            <span class="m-widget4__text">
-                                                <a href="#">Aranduka</a>
-                                                <br>
-                                                <small>Download your files</small>
-                                            </span>
-                                        </div>
-                                        <div class="m-widget4__ext">
-                                            <a href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
-                                            </a>
-                                        </div>
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

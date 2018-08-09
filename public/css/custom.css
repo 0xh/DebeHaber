@@ -1,11 +1,1 @@
-.menu-name {
-  white-space: nowrap;
-}
-
-html,
-body {
-  height: -webkit-max-content !important;
-  height: -moz-max-content !important;
-  height: max-content !important;
-  background-color: whitesmoke;
-}
+.menu-name{white-space:nowrap}body,html{height:-webkit-max-content!important;height:-moz-max-content!important;height:max-content!important}
