@@ -54,55 +54,52 @@
                     <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
                         <div class="m-stack__item m-topbar__nav-wrapper">
                             <ul class="m-topbar__nav m-nav m-nav--inline">
-                                <li class="m-nav__item m-nav__item--focus m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"
-                                data-dropdown-toggle="click" data-dropdown-persistent="true" id="m_quicksearch" data-search-type="dropdown">
-                                <a href="#" class="m-nav__link m-dropdown__toggle m-btn--gradient-to-danger">
-                                    <span class="m-nav__link-icon">
-                                        <span class="m-nav__link-icon-wrapper">
-                                            <i class="flaticon-search-1"></i>
+                                <li class="m-nav__item m-nav__item--focus m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light" m-dropdown-toggle="click" m-dropdown-persistent="1" id="m_quicksearch" data-search-type="dropdown">
+                                    <a href="#" class="m-nav__link m-dropdown__toggle m-btn--gradient-to-danger">
+                                        <span class="m-nav__link-icon">
+                                            <span class="m-nav__link-icon-wrapper">
+                                                <i class="flaticon-search-1"></i>
+                                            </span>
                                         </span>
-                                    </span>
-                                </a>
-                                <div class="m-dropdown__wrapper">
-                                    <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
-                                    <div class="m-dropdown__inner ">
-                                        <div class="m-dropdown__header">
-                                            <form  class="m-list-search__form">
-                                                <div class="m-list-search__form-wrapper">
-                                                    <span class="m-list-search__form-input-wrapper">
-                                                        <input id="m_quicksearch_input" autocomplete="off" type="text" name="q" class="m-list-search__form-input" value="" placeholder="@lang('global.Search')">
-                                                    </span>
-                                                    <span class="m-list-search__form-icon-close" id="m_quicksearch_close">
-                                                        <i class="la la-remove"></i>
-                                                    </span>
+                                    </a>
+                                    <div class="m-dropdown__wrapper">
+                                        <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
+                                        <div class="m-dropdown__inner ">
+                                            <div class="m-dropdown__header">
+                                                <form  class="m-list-search__form">
+                                                    <div class="m-list-search__form-wrapper">
+                                                        <span class="m-list-search__form-input-wrapper">
+                                                            <input id="m_quicksearch_input" autocomplete="off" type="text" name="q" class="m-list-search__form-input" value="" placeholder="@lang('global.Search')">
+                                                        </span>
+                                                        <span class="m-list-search__form-icon-close" id="m_quicksearch_close">
+                                                            <i class="la la-remove"></i>
+                                                        </span>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="m-dropdown__body">
+                                                <div class="m-dropdown__scrollable m-scrollable" data-max-height="300" data-mobile-max-height="200">
+                                                    <div class="m-dropdown__content"></div>
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <div class="m-dropdown__body">
-                                            <div class="m-dropdown__scrollable m-scrollable" data-max-height="300" data-mobile-max-height="200">
-                                                <div class="m-dropdown__content"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                                <li class="m-nav__item m-nav__item--accent m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width" m-dropdown-toggle="click" m-dropdown-persistent="1">
+                                    <a href="#" @click="showNotifications" class="m-nav__link m-dropdown__toggle">
+                                        <span v-if="unreadAnnouncementsCount > 0" class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger m-animate-blink"></span>
 
-                            <li class="m-nav__item m-nav__item--accent m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width" data-dropdown-toggle="click" data-dropdown-persistent="true">
-                                <a href="#" @click="showNotifications" class="m-nav__link m-dropdown__toggle">
-                                    {{-- id="m_topbar_notification_icon" --}}
-                                    <span v-if="unreadAnnouncementsCount > 0" class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger m-animate-blink"></span>
-
-                                    <span class="m-nav__link-icon" >
-                                        <span v-if="unreadAnnouncementsCount > 0" class="m-nav__link-icon m-nav__link-icon-wrapper m-animate-shake">
-                                            <i class="flaticon-music-2"></i>
-                                        </span>
-                                        <span v-else class="m-nav__link-icon-wrapper">
-                                            <i class="flaticon-music-2"></i>
+                                        <span class="m-nav__link-icon">
+                                            <span v-if="unreadAnnouncementsCount > 0" class="m-nav__link-icon m-nav__link-icon-wrapper m-animate-shake">
+                                                <i class="flaticon-music-2"></i>
+                                            </span>
+                                            <span v-else class="m-nav__link-icon-wrapper">
+                                                <i class="flaticon-music-2"></i>
+                                            </span>
                                         </span>
                                     </a>
                                 </li>
-
-                                <li class="m-nav__item m-nav__item--danger m-dropdown m-dropdown--skin-light m-dropdown--large m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push m-dropdown--mobile-full-width m-dropdown--skin-light"  data-dropdown-toggle="click">
+                                <li class="m-nav__item m-nav__item--danger m-dropdown m-dropdown--skin-light m-dropdown--large m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push m-dropdown--mobile-full-width m-dropdown--skin-light" m-dropdown-toggle="click">
                                     <a href="#" class="m-nav__link m-dropdown__toggle">
                                         <span class="m-nav__link-badge m-badge m-badge--dot m-badge--info m--hide"></span>
                                         <span class="m-nav__link-icon">
@@ -161,7 +158,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="m-nav__item m-dropdown m-dropdown--medium m-dropdown--arrow  m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click">
+                                <li class="m-nav__item m-dropdown m-dropdown--medium m-dropdown--arrow  m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" m-dropdown-toggle="click">
                                     <a href="#" class="m-nav__link m-dropdown__toggle">
                                         <span class="m-topbar__username m--hidden-mobile">
                                             @{{ user.name }}
