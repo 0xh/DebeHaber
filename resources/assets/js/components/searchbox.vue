@@ -1,9 +1,9 @@
 <template>
     <div class="">
 
-        <b-modal :active.sync="data.showModal" :width="640" scroll="keep">
+        <b-modal :active.sync="showModal" :width="640" scroll="keep">
             <!-- <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true"> -->
-                <div class="modal-dialog">
+                <!-- <div class="modal-dialog"> -->
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
@@ -77,7 +77,7 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                </div>
+                <!-- </div> -->
             <!-- </div> -->
         </b-modal>
 
@@ -93,13 +93,13 @@
             </div>
 
             <input type="text" name ="contribuyente" class="form-control m-input" placeholder="Buscar" aria-describedby="basic-addon2"
-            autocomplete="off" v-shortkey.once="['ctrl', 'n']" @shortkey="data.showModal = true" v-model="query"
+            autocomplete="off" v-shortkey.once="['ctrl', 'n']" @shortkey="showModal = true" v-model="query"
             @keydown.down="down" @keydown.up="up" @keydown.enter="hit" @keydown.esc="reset"
             @blur="reset" @input="update"/>
 
             <div class="input-group-append">
                 <span class="input-group-text m--font-boldest" id="basic-addon1">
-                    <a class="btn-icon-only" @click="data.showModal = true">
+                    <a class="btn-icon-only" @click="showModal = true">
                         <i class="la la-plus"></i>
                     </a>
                     @{{ selectText }}
