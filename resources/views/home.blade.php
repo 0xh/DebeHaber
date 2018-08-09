@@ -56,7 +56,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                                 </span>
 
                                 <span class="m-widget5__desc m--font-metal">
-                                    {{ $integration->taxpayer->taxid }} | {{ mb_strimwidth($integration->taxpayer->name, 0, 32, '...') }}
+                                    {{ $integration->taxpayer->taxid }} | {{ mb_strimwidth($integration->taxpayer->name, 0, 28, '...') }}
                                 </span>
 
                                 <hr>
