@@ -63255,7 +63255,8 @@ var render = function() {
                     type: "button",
                     "data-dismiss": "modal",
                     "aria-hidden": "true"
-                  }
+                  },
+                  on: { click: _vm.showAcessTokenForm }
                 },
                 [_vm._v("×")]
               )
@@ -81441,6 +81442,7 @@ __webpack_require__("./resources/assets/js/buefy-components/buefy.js");
 /***/ (function(module, exports) {
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
 Vue.component('buefy', {
     props: ['taxpayer', 'cycle', 'baseurl'],
     data: function data() {

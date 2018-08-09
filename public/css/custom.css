@@ -1,11 +1,11 @@
 .menu-name {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 html,
 body {
-    background-color: #f5f5f5 !important;
-    height: -webkit-max-content !important;
-    height: -moz-max-content !important;
-    height: max-content !important;
+  height: -webkit-max-content !important;
+  height: -moz-max-content !important;
+  height: max-content !important;
 }
+

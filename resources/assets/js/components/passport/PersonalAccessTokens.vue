@@ -124,7 +124,7 @@
                         Personal Access Token
                     </h4>
 
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" @click="showAcessTokenForm" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
 
                 <div class="modal-body">
