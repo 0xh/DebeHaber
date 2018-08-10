@@ -33,22 +33,12 @@ class JournalController extends Controller
 
     public function getJournals(Taxpayer $taxPayer, Cycle $cycle)
     {
-      return JournalResource::collection(
-        Journal::with('details:id,journal_id,chart_id,debit,credit')
-       ->with('details.chart:id,name,code,type')
-       ->orderBy('date', 'desc')
-        ->paginate(100)
-      );
-        // $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
-        // ->with('details.chart:id,name,code,type')
-        // ->orderBy('date', 'desc')
-        //
-        // ->take(100)
-        // ->skip($skip)
-        // ->get();
-        //
-        // // return new JournalCollection($journals);
-        // return response()->json($journals);
+        return JournalResource::collection(
+            Journal::with('details:id,journal_id,chart_id,debit,credit')
+            ->with('details.chart:id,name,code,type')
+            ->orderBy('date', 'desc')
+            ->paginate(100)
+        );
     }
 
     public function getJournalsByID($taxPayerID, Cycle $cycle, $id)

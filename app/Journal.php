@@ -2,8 +2,10 @@
 
 namespace App;
 
-use Spatie\BinaryUuid\HasBinaryUuid;
 use Illuminate\Database\Eloquent\Model;
+
+use Spatie\BinaryUuid\HasBinaryUuid;
+
 use App\Cycle;
 use App\Scopes\JournalScope;
 use App\JournalDetail;
@@ -16,6 +18,8 @@ use App\JournalSim;
 class Journal extends Model
 {
     use HasBinaryUuid;
+    public $incrementing = false;
+    public $primaryKey = 'id';
 
     protected static function boot()
     {
@@ -35,7 +39,7 @@ class Journal extends Model
     */
     public function details()
     {
-        return $this->hasMany(JournalDetail::class,'journal_id');
+        return $this->hasMany(JournalDetail::class, 'journal_id');
     }
 
     public function transactions()

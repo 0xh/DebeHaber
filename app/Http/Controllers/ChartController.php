@@ -183,7 +183,7 @@ class ChartController extends Controller
         return response()->json($charts);
     }
 
-    
+
 
     // Accounts used in Purchase. Expense + Fixed Assets
     public function getPurchaseAccounts(Taxpayer $taxPayer, Cycle $cycle)
@@ -383,8 +383,8 @@ class ChartController extends Controller
             AccountMovement::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             //update all journal details
             JournalDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-            JournalTemplateDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-            JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            //JournalTemplateDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
+            //JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             //Fix all parents
             Chart::where('parent_id', $fromChartId)->update(['parent_id' => $toChartId]);
 

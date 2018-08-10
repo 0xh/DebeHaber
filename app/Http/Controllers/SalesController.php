@@ -150,7 +150,7 @@ class SalesController extends Controller
         //  }
 
         $transaction->comment = $request->comment;
-        $transaction->type = 3;
+        $transaction->type = $request->type ?? 3;
         $transaction->save();
 
         foreach ($request->details as $detail)
