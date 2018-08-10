@@ -9,7 +9,7 @@ Vue.component('transaction-form',
         MaskedInput
     },
 
-    //props: ['trantype','charts','vats','accounts'],
+    props: ['trantype','charts','vats','accounts'],
     data() {
         return {
 

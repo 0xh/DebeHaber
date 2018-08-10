@@ -10,8 +10,9 @@
                 <span class="m-menu__item-here"></span>
 
                 @php
-                $icon = request()->route('taxPayer')->setting->is_company ? 'briefcase' : 'user';
-                $color = request()->route('taxPayer')->setting->is_company ? 'success' : 'info';
+                $isCompany = request()->route('taxPayer')->setting->is_company;
+                $icon = $isCompany ? 'briefcase' : 'user';
+                $color = $isCompany ? 'success' : 'info';
                 @endphp
 
                 <i class="m-menu__link-icon la la-{{ $icon }} m--font-{{ $color }}"></i>
@@ -35,47 +36,56 @@
                         <li class="m-menu__item">
                             <h3 class="m-menu__heading m-menu__toggle">
                                 <span class="m-menu__link-text">
-                                    @lang('commercial.Sales')
+                                    @lang('commercial.Income')
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </h3>
                             <ul class="m-menu__inner">
-                                <li class="m-menu__item">
-                                    <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-paper-plane"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.SalesBook')
-                                        </span>
-                                    </a>
-                                </li>
-
-                                @if (request()->route('taxPayer')->setting->does_export)
+                                @if ($isCompany)
                                     <li class="m-menu__item">
-                                        <a href="{{ route('impex-exports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                            <i class="m-menu__link-icon la la-ship"></i>
+                                        <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-paper-plane"></i>
                                             <span class="m-menu__link-text">
-                                                @lang('commercial.Exports')
+                                                @lang('commercial.SalesBook')
+                                            </span>
+                                        </a>
+                                    </li>
+                                    @if (request()->route('taxPayer')->setting->does_export)
+                                        <li class="m-menu__item">
+                                            <a href="{{ route('impex-exports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                                <i class="m-menu__link-icon la la-ship"></i>
+                                                <span class="m-menu__link-text">
+                                                    @lang('commercial.Exports')
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    <li class="m-menu__item">
+                                        <a href="{{ route('account-receivables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-money"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.AccountsReceivable')
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item">
+                                        <a href="{{ route('credit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-mail-reply"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.CreditNotes')
+                                            </span>
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="m-menu__item">
+                                        <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-paper-plane"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.Income')
                                             </span>
                                         </a>
                                     </li>
                                 @endif
-
-                                <li class="m-menu__item">
-                                    <a href="{{ route('account-receivables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-money"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.AccountsReceivable')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
-                                    <a href="{{ route('credit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-mail-reply"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.CreditNotes')
-                                        </span>
-                                    </a>
-                                </li>
 
                                 <h3 class="m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
@@ -97,49 +107,61 @@
                         <li class="m-menu__item">
                             <h3 class="m-menu__heading m-menu__toggle">
                                 <span class="m-menu__link-text">
-                                    @lang('commercial.Purchases')
+                                    @lang('commercial.Expenses')
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </h3>
                             <ul class="m-menu__inner">
-                                <li class="m-menu__item">
-                                    <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-shopping-cart"></i>
-
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.PurchaseBook')
-                                        </span>
-                                    </a>
-                                </li>
-
-                                @if (request()->route('taxPayer')->setting->does_import)
+                                @if ($isCompany)
                                     <li class="m-menu__item">
-                                        <a href="{{ route('impex-imports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                            <i class="m-menu__link-icon la la-ship"></i>
+                                        <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-shopping-cart"></i>
+
                                             <span class="m-menu__link-text">
-                                                @lang('commercial.Imports')
+                                                @lang('commercial.PurchaseBook')
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    @if (request()->route('taxPayer')->setting->does_import)
+                                        <li class="m-menu__item">
+                                            <a href="{{ route('impex-imports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                                <i class="m-menu__link-icon la la-ship"></i>
+                                                <span class="m-menu__link-text">
+                                                    @lang('commercial.Imports')
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endif
+
+                                    <li class="m-menu__item">
+                                        <a href="{{ route('account-payables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-money"></i>
+
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.AccountsPayable')
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item">
+                                        <a href="{{ route('debit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-mail-forward"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.DebitNotes')
+                                            </span>
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="m-menu__item">
+                                        <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon la la-shopping-cart"></i>
+
+                                            <span class="m-menu__link-text">
+                                                @lang('commercial.Expense')
                                             </span>
                                         </a>
                                     </li>
                                 @endif
-
-                                <li class="m-menu__item">
-                                    <a href="{{ route('account-payables.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-money"></i>
-
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.AccountsPayable')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
-                                    <a href="{{ route('debit-notes.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-mail-forward"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('commercial.DebitNotes')
-                                        </span>
-                                    </a>
-                                </li>
 
                                 <h3 class="m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
@@ -278,7 +300,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item">
-                                    <a href="" disable class="m-menu__link ">
+                                    <a href="" disabled class="m-menu__link">
                                         <i class="m-menu__link-icon la la-paste"></i>
                                         <span class="m-menu__link-text m--font-metal">
                                             @lang('accounting.JournalTemplate')
@@ -356,19 +378,11 @@
                                     <a class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('accounting.BalanceSheet(Comparative)')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
-                                    <a class="m-menu__link ">
-                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
-                                        <span class="m-menu__link-text">
                                             @lang('accounting.IncomeStatement')
                                         </span>
                                     </a>
                                 </li>
-                                <li class="m-menu__ite">
+                                <li class="m-menu__item">
                                     <a class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
                                         <span class="m-menu__link-text">

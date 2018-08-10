@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use DB;
 use App\Inventory;
 use App\AccountMovement;
 use App\Transaction;
@@ -11,12 +12,11 @@ use App\Cycle;
 use App\Journal;
 use App\JournalDetail;
 use App\JournalTransaction;
-use App\Http\Controllers\ChartController;
-use DB;
+
 use Carbon\Carbon;
+use App\Http\Controllers\ChartController;
 use Illuminate\Http\Request;
 use App\Http\Resources\JournalCollection;
-use Illuminate\Support\Facades\Log;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -57,6 +57,9 @@ class GenerateJournal implements ShouldQueue
         $this->generateByMonth();
     }
 
+    /**
+    * Generate journals on daily basis. This function is for PAID customers only.
+    */
     public function generateByDay()
     {
         //Get startOf and endOf to cover entire week of range.
@@ -79,6 +82,9 @@ class GenerateJournal implements ShouldQueue
         }
     }
 
+    /**
+    * Generate journals on monthly basis.
+    */
     public function generateByMonth()
     {
         //Get startOf and endOf to cover entire week of range.
@@ -131,37 +137,37 @@ class GenerateJournal implements ShouldQueue
         }
     }
 
+
+    /**
+    * Generates one journal for all sales in date range.
+    */
     public function query_Sales($salesQuery, $startDate, $endDate)
     {
         \DB::connection()->disableQueryLog();
 
-        $journalQuery = Transaction::whereBetween('date', [$startDate, $endDate])
+        //Get list of Journals related directly to transaction. Does not include journals that were manually created without link.
+        $arrJournalIDs = Transaction::MySales()
         ->with('details')
-        ->otherCurrentStatus(['Annuled'])
+        ->whereBetween('date', [$startDate, $endDate])
         ->where('supplier_id', $this->taxPayer->id)
+        ->otherCurrentStatus(['Annuled'])
         ->groupBy('journal_id')
-        ->select('journal_id')->get();
+        ->select('journal_id')
+        ->get();
 
         //maybe check diff journals in salesQuery, or directly delete all journals related to salesQuery.
-        Transaction::whereIn('journal_id', [$journalQuery])
+        Transaction::whereIn('journal_id', [$arrJournalIDs])
         ->update(['journal_id' => null]);
 
-        $journals = Journal::whereIn('id', $journalQuery)
+        //Delete the journals with id
+        Journal::whereIn('id', $arrJournalIDs)
         ->delete();
-
-        // //TODO how will i know this journal belongs to sales?
-        // $journal = Journal::where('is_automatic', 1)
-        // ->where('cycle_id', $this->cycle->id)
-        // ->whereBetween('date', [$startDate, $endDate])
-        // ->with('details')
-        // ->first()
-        // ??
 
         $journal = new Journal();
         $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
         $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        $journal->date = $salesQuery->get()->last()->date;
+        $journal->date = $endDate;
         $journal->comment = $comment;
         $journal->is_automatic = 1;
         $journal->save();
