@@ -1,23 +1,26 @@
 
-<button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark " id="m_aside_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
+<button class="m-aside-header-menu-mobile-close m-aside-header-menu-mobile-close--skin-dark" id="m_aside_header_menu_mobile_close_btn">
+    <i class="la la-close"></i>
+</button>
+
 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark">
     <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
         <li class="m-menu__item @if (\Request::is('*/commercial/*')) m-menu__item--active @endif m-menu__item--submenu m-menu__item--rel" m-menu-submenu-toggle="click" aria-haspopup="true">
             <a href="#" class="m-menu__link m-menu__toggle">
                 <span class="m-menu__item-here"></span>
 
-                @if (request()->route('taxPayer')->setting->is_company)
-                    <i class="m-menu__link-icon la la-briefcase m--font-success"></i>
-                @else
-                    <i class="m-menu__link-icon la la-user m--font-info"></i>
-                @endif
+                @php
+                $icon = request()->route('taxPayer')->setting->is_company ? 'briefcase' : 'user';
+                $color = request()->route('taxPayer')->setting->is_company ? 'success' : 'info';
+                @endphp
 
-                <span class="m-menu__link-text menu-name m--font-success">
+                <i class="m-menu__link-icon la la-{{ $icon }} m--font-{{ $color }}"></i>
+                <span class="m-menu__link-text menu-name m--font-{{ $color }}">
                     {{ request()->route('taxPayer')->alias }}
                 </span>
 
-                <i class="m-menu__hor-arrow m--font-success la la-angle-down"></i>
-                <i class="m-menu__ver-arrow m--font-success la la-angle-right"></i>
+                <i class="m-menu__hor-arrow m--font-{{ $color }} la la-angle-down"></i>
+                <i class="m-menu__ver-arrow m--font-{{ $color }} la la-angle-right"></i>
             </a>
 
             @php

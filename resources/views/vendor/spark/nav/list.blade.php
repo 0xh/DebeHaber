@@ -29,10 +29,6 @@
                     <div class="m-stack m-stack--ver m-stack--desktop">
                         <div class="m-stack__item m-stack__item--fluid">
                             <!-- BEGIN: Horizontal Menu -->
-                            <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark " id="m_aside_header_menu_mobile_close_btn">
-                                <i class="la la-close"></i>
-                            </button>
-
                             @if (request()->route('taxPayer'))
                                 @include('spark::nav.auth.taxPayer')
                             @else
