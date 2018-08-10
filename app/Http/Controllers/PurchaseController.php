@@ -124,7 +124,7 @@ class PurchaseController extends Controller
             $transaction->code = $request->code;
             $transaction->code_expiry = $request->code_expiry;
             $transaction->comment = $request->comment;
-            $transaction->type = $request->type;
+            $transaction->type = 1;
             $transaction->save();
 
             foreach ($request->details as $detail)
