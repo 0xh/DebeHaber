@@ -188,4 +188,77 @@ class AccountReceivableController extends Controller
         //     return response()->json($e, 500);
         // }
     }
+
+    public function generate_Journals($startDate, $endDate)
+    {
+        //Create chart controller we might need it further in the code to lookup charts.
+        $ChartController = new ChartController();
+
+        //get sum of all transactions divided by exchange rate.
+        $journal = new Journal();
+        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->date = $accMovements->last()->date; //
+        $journal->comment = $comment;
+        $journal->save();
+
+        //Affect all Cash Sales and uses Cash Accounts
+        foreach ($accMovements->groupBy('chart_id') as $groupedByAccount)
+        {
+            $value = 0;
+
+            //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
+            foreach ($groupedByAccount->groupBy('rate') as $groupedByRate)
+            {
+                $value += $groupedByRate->sum('credit') * $groupedByRate->first()->rate;
+            }
+
+            if ($value > 0)
+            {
+                //Check for Cash Account used.
+                $chart = $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $groupedByAccount->first()->chart_id);
+
+                $detail = new JournalDetail();
+                $detail->debit = 0;
+                $detail->credit = $value;
+                $detail->chart_id = $chart->id;
+                $detail->journal_id = $journal->id;
+                $detail->save();
+            }
+        }
+
+        //Affect all Cash Sales and uses Cash Accounts
+        foreach ($accMovements->transaction->groupBy('customer_id') as $groupedByInvoice)
+        {
+            $value = 0;
+
+            //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
+            foreach ($groupedByInvoice->groupBy('rate') as $groupedByRate)
+            {
+                $value += $groupedByRate->sum('credit') * $groupedByRate->first()->rate;
+            }
+
+            if ($value > 0)
+            {
+                //Check for Account Receivables used.
+                $chart = $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $groupedByInvoice->first()->customer_id);
+
+                $detail = new JournalDetail();
+                $detail->debit = $value;
+                $detail->credit = 0;
+                $detail->chart_id = $chart->id;
+                $detail->journal_id = $journal->id;
+                $detail->save();
+            }
+        }
+
+        foreach ($accMovements as $mov)
+        {
+            $mov->setStatus('Accounted');
+
+            $journalAccountMovement = new JournalAccountMovement();
+            $journalAccountMovement->journal_id = $journal->id;
+            $journalAccountMovement->account_movement_id = $mov->id;
+            $journalAccountMovement->save();
+        }
+    }
 }
