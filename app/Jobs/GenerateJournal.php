@@ -229,43 +229,33 @@ class GenerateJournal implements ShouldQueue
             $detail->save();
         }
 
-        //3rd Query: for vat
-        $vatAccounts = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
-        ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-        ->join('charts', 'charts.id', '=', 'transaction_details.chart_vat_id')
-        ->groupBy('transaction_details.chart_vat_id', 'rate')
-        ->select(DB::raw('max(rate) as rate'),
-        DB::raw('max(charts.coefficient) as coefficient'),
-        DB::raw('max(transaction_details.chart_vat_id) as chart_vat_id'),
-        DB::raw('sum(transaction_details.value) as total'))
-        ->get();
-
-        //run code for credit sales (insert detail into journal)
-        foreach($vatAccounts as $row)
-        {
-            $value = ($row->total - ($row->total / (1 + $row->coefficient))) * $row->rate;
-
-            $detail = new JournalDetail();
-            $detail->debit = $value;
-            $detail->credit = 0;
-            $detail->chart_id = $row->chart_vat_id;
-            $detail->journal_id = $journal->id;
-            $detail->save();
-        }
-
-        //3rd Query: for item or cost center
-        $itemAccounts = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        $detailAccounts = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
         ->join('charts', 'charts.id', '=', 'transaction_details.chart_vat_id')
         ->groupBy('rate', 'transaction_details.chart_id', 'transaction_details.chart_vat_id')
         ->select(DB::raw('max(rate) as rate'),
         DB::raw('max(charts.coefficient) as coefficient'),
+        DB::raw('max(transaction_details.chart_vat_id) as chart_vat_id'),
         DB::raw('max(transaction_details.chart_id) as chart_id'),
         DB::raw('sum(transaction_details.value) as total'))
         ->get();
 
         //run code for credit sales (insert detail into journal)
-        foreach($itemAccounts->groupBy('chart_id') as $groupedRow)
+        foreach($detailAccounts->groupBy('chart_vat_id') as $groupedRow)
+        {
+            $groupTotal = $groupedRow->sum('total');
+            $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
+
+            $detail = $journal->details->where('chart_vat_id', $groupedRow->first()->chart_vat_id)->first() ?? new JournalDetail();
+            $detail->debit += $value;
+            $detail->credit = 0;
+            $detail->chart_id = $groupedRow->first()->chart_vat_id;
+            $detail->journal_id = $journal->id;
+            $detail->save();
+        }
+
+        //run code for credit sales (insert detail into journal)
+        foreach($detailAccounts->groupBy('chart_id') as $groupedRow)
         {
             $value = 0;
 
@@ -275,13 +265,14 @@ class GenerateJournal implements ShouldQueue
                 $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate;
             }
 
-            $detail = new JournalDetail();
-            $detail->debit = $value;
+            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new JournalDetail();
+            $detail->debit += $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_id;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
+
         //End of Sales Code
     }
 
@@ -289,12 +280,12 @@ class GenerateJournal implements ShouldQueue
     {
         \DB::connection()->disableQueryLog();
 
-        $querySales = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        $purchaseQuery = Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)
         ->get();
 
-        if ($querySales->where('journal_id', '!=', null)->count() > 0)
+        if ($purchaseQuery->where('journal_id', '!=', null)->count() > 0)
         {
-            $arrJournalIDs = $querySales->where('journal_id', '!=', null)->pluck('journal_id');
+            $arrJournalIDs = $purchaseQuery->where('journal_id', '!=', null)->pluck('journal_id');
             //## Important! Null all references of Journal in Transactions.
             Transaction::whereIn('journal_id', [$arrJournalIDs])
             ->update(['journal_id' => null]);
@@ -307,7 +298,7 @@ class GenerateJournal implements ShouldQueue
         }
 
         $journal = new Journal();
-        $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
+        $comment = __('accounting.PurchaseBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
         $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $endDate;
@@ -317,12 +308,12 @@ class GenerateJournal implements ShouldQueue
 
         //Assign all transactions the new journal_id.
         //No need for If Count > 0, because if it was 0, it would not have gone in this function.
-        Transaction::whereIn('id', $querySales->pluck('id'))
+        Transaction::whereIn('id', $purchaseQuery->pluck('id'))
         ->update(['journal_id' => $journal->id]);
 
         $ChartController= new ChartController();
 
-        $salesInCash = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        $purchasesInCash = Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
         ->groupBy('rate', 'chart_account_id')
         ->where('payment_condition', '=', 0)
@@ -332,7 +323,7 @@ class GenerateJournal implements ShouldQueue
         ->get();
 
         //run code for cash sales (insert detail into journal)
-        foreach($salesInCash as $row)
+        foreach($purchasesInCash as $row)
         {
             //search if a similar chart is already existing in journal details. if not, create a new detail.
             $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $row->chart_account_id)->id;
@@ -340,75 +331,65 @@ class GenerateJournal implements ShouldQueue
             $value = $row->total * $row->rate;
 
             $detail = new JournalDetail();
-            $detail->debit = 0;
-            $detail->credit = $value;
+            $detail->credit = 0;
+            $detail->debit = $value;
             $detail->chart_id = $accountChartID;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
 
         //2nd Query:
-        $creditSales = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        $purchasesOnCredit = Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-        ->groupBy('rate', 'customer_id')
+        ->groupBy('rate', 'supplier_id')
         ->where('payment_condition', '>', 0)
         ->select(DB::raw('max(rate) as rate'),
-        DB::raw('max(customer_id) as customer_id'),
+        DB::raw('max(supplier_id) as customer_id'),
         DB::raw('sum(transaction_details.value) as total'))
         ->get();
 
         //run code for credit sales (insert detail into journal)
-        foreach($creditSales as $row)
+        foreach($purchasesOnCredit as $row)
         {
-            $customerChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $row->customer_id)->id;
+            $customerChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_AccountsPayable($this->taxPayer, $this->cycle, $row->supplier_id)->id;
 
             $value = $row->total * $row->rate;
 
             $detail = new JournalDetail();
-            $detail->debit = 0;
-            $detail->credit = $value;
+            $detail->credit = 0;
+            $detail->debit = $value;
             $detail->chart_id = $customerChartID;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
 
-        //3rd Query: for vat
-        $vatAccounts = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
-        ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-        ->join('charts', 'charts.id', '=', 'transaction_details.chart_vat_id')
-        ->groupBy('transaction_details.chart_vat_id', 'rate')
-        ->select(DB::raw('max(rate) as rate'),
-        DB::raw('max(charts.coefficient) as coefficient'),
-        DB::raw('max(transaction_details.chart_vat_id) as chart_vat_id'),
-        DB::raw('sum(transaction_details.value) as total'))
-        ->get();
-
-        //run code for credit sales (insert detail into journal)
-        foreach($vatAccounts as $row)
-        {
-            $value = ($row->total - ($row->total / (1 + $row->coefficient))) * $row->rate;
-
-            $detail = new JournalDetail();
-            $detail->debit = $value;
-            $detail->credit = 0;
-            $detail->chart_id = $row->chart_vat_id;
-            $detail->journal_id = $journal->id;
-            $detail->save();
-        }
-
-        //3rd Query: for item or cost center
-        $itemAccounts = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        $detailAccounts = Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
         ->join('charts', 'charts.id', '=', 'transaction_details.chart_vat_id')
         ->groupBy('rate', 'transaction_details.chart_id', 'transaction_details.chart_vat_id')
         ->select(DB::raw('max(rate) as rate'),
         DB::raw('max(charts.coefficient) as coefficient'),
+        DB::raw('max(transaction_details.chart_vat_id) as chart_vat_id'),
         DB::raw('max(transaction_details.chart_id) as chart_id'),
         DB::raw('sum(transaction_details.value) as total'))
         ->get();
 
         //run code for credit sales (insert detail into journal)
-        foreach($itemAccounts->groupBy('chart_id') as $groupedRow)
+        foreach($detailAccounts->groupBy('chart_vat_id') as $groupedRow)
+        {
+            $groupTotal = $groupedRow->sum('total');
+            $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
+
+            $detail = $journal->details->where('chart_vat_id', $groupedRow->first()->chart_vat_id)->first() ?? new JournalDetail();
+            $detail->credit += $value;
+            $detail->debit = 0;
+            $detail->chart_id = $groupedRow->first()->chart_vat_id;
+            $detail->journal_id = $journal->id;
+            $detail->save();
+        }
+
+        //run code for credit sales (insert detail into journal)
+        foreach($detailAccounts->groupBy('chart_id') as $groupedRow)
         {
             $value = 0;
 
@@ -418,14 +399,14 @@ class GenerateJournal implements ShouldQueue
                 $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate;
             }
 
-            $detail = new JournalDetail();
+            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new JournalDetail();
+            $detail->credit += $value;
             $detail->debit = 0;
-            $detail->credit = $value;
             $detail->chart_id = $groupedRow->first()->chart_id;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
-        //End of Sales Code
+
     }
 
     public function query_Credits($startDate, $endDate)
