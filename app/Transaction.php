@@ -38,11 +38,29 @@ class Transaction extends Model
         ->where('supplier_id', $taxPayerID);
     }
 
+    public function scopeMySalesForJournals($query, $startDate, $endDate, $taxPayerID)
+    {
+        return $query
+        ->whereBetween('date', [$startDate, $endDate])
+        ->otherCurrentStatus(['Annuled'])
+        ->where('transactions.type', 4)
+        ->where('supplier_id', $taxPayerID);
+    }
+
     public function scopeMyCreditNotes($query)
     {
         $taxPayerID = request()->route('taxPayer')->id ?? request()->route('taxPayer');
 
         return $query->where('transactions.type', 5)
+        ->where('supplier_id', $taxPayerID);
+    }
+
+    public function scopeMyCreditNotesForJournals($query, $startDate, $endDate, $taxPayerID)
+    {
+        return $query
+        ->whereBetween('date', [$startDate, $endDate])
+        ->otherCurrentStatus(['Annuled'])
+        ->where('transactions.type', 5)
         ->where('supplier_id', $taxPayerID);
     }
 
@@ -54,11 +72,29 @@ class Transaction extends Model
         ->where('customer_id', $taxPayerID);
     }
 
+    public function scopeMyPurchasesForJournals($query, $startDate, $endDate, $taxPayerID)
+    {
+        return $query
+        ->whereBetween('date', [$startDate, $endDate])
+        ->otherCurrentStatus(['Annuled'])
+        ->whereIn('transactions.type', [1, 2])
+        ->where('customer_id', $taxPayerID);
+    }
+
     public function scopeMyDebitNotes($query)
     {
         $taxPayerID = request()->route('taxPayer')->id ?? request()->route('taxPayer');
 
         return $query->where('transactions.type', 3)
+        ->where('customer_id', $taxPayerID);
+    }
+
+    public function scopeMyDebitNotesForJournals($query, $startDate, $endDate, $taxPayerID)
+    {
+        return $query
+        ->whereBetween('date', [$startDate, $endDate])
+        ->otherCurrentStatus(['Annuled'])
+        ->where('transactions.type', 3)
         ->where('customer_id', $taxPayerID);
     }
 
@@ -151,5 +187,16 @@ class Transaction extends Model
     public function details()
     {
         return $this->hasMany(TransactionDetail::class);
+    }
+
+    /**
+    * Get only the total value from details.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function totals()
+    {
+        return $this->hasMany(TransactionDetail::class)
+        ->selectRaw('sum(value)');
     }
 }

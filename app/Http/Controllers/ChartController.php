@@ -356,6 +356,7 @@ class ChartController extends Controller
 
         return $chart;
     }
+
     public function mergeChartsIndex(Taxpayer $taxPayer, Cycle $cycle, $id)
     {
         return view('accounting/chart-merge');
@@ -397,7 +398,7 @@ class ChartController extends Controller
             //delete $fromCharts
             $fromChart->forceDelete();
 
-            return response()->json(200, 200);
+            return response()->json('Ok', 200);
         }
 
         return response()->json('Chart not found', 404);
