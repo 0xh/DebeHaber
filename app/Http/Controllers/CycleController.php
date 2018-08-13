@@ -62,6 +62,7 @@ class CycleController extends Controller
         'cycles.end_date',
         'chart_versions.name as chart_version_name',
         'chart_versions.id as chart_version_id')
+        ->take(5)
         ->get();
 
         return response()->json($cycle);

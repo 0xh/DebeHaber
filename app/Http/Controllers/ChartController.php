@@ -63,7 +63,6 @@ class ChartController extends Controller
 
         if ($request->is_accountable == true)
         {
-
             $chart->is_accountable = 1;
             $chart->sub_type = $request->sub_type;
         }
@@ -72,19 +71,20 @@ class ChartController extends Controller
             $chart->is_accountable = 0;
             $chart->sub_type = 0;
         }
-        if ($request->type>0) {
+
+        if ($request->type > 0)
+        {
             $chart->type = $request->type;
         }
 
         if ($request->coefficient > 0)
         {
             $chart->coefficient = $request->coefficient;
-
         }
+
         if ($request->asset_years > 0)
         {
             $chart->asset_years = $request->asset_years;
-
         }
 
         $chart->code = $request->code;
@@ -145,7 +145,7 @@ class ChartController extends Controller
     {
         $charts = Chart::orderBy('code')
         ->skip($skip)
-        ->take(100)
+        ->take(300)
         ->get();
         return response()->json($charts);
     }

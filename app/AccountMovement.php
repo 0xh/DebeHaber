@@ -27,6 +27,9 @@ class AccountMovement extends Model
     */
     public function scopeMyAccountPayablesForJournals($query, $startDate, $endDate, $taxPayerID)
     {
+        //TODO change query to focus on transaction with whereHas('AccountMovement')
+        //this will allow to focus more on the sum of payments made, instead of each payment made in the time frame.
+
         return $query->whereHas('transaction', function ($q) use($taxPayerID)
         {
             $q->where('customer_id', $taxPayerID)

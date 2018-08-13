@@ -20,9 +20,10 @@ class AccountPayableController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $chart=Chart::MoneyAccounts()->orderBy('name')
+        $chart = Chart::MoneyAccounts()->orderBy('name')
         ->select('name', 'id', 'sub_type')
         ->get();
+
         return view('/commercial/accounts-payable')->with('charts',$chart);
     }
 
@@ -82,8 +83,7 @@ class AccountPayableController extends Controller
         DB::raw('max(transactions.number) as number'),
         DB::raw('(select ifnull(sum(account_movements.debit * account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
         DB::raw('sum(td.value * transactions.rate) as Value'),
-        DB::raw('(sum(td.value * transactions.rate)
-        - (select
+        DB::raw('(sum(td.value * transactions.rate) - (select
         ifnull(sum(account_movements.debit * account_movements.rate), 0)
         from account_movements
         where transactions.id = account_movements.transaction_id))
@@ -115,12 +115,12 @@ class AccountPayableController extends Controller
         {
             $accountMovement = new AccountMovement();
             $accountMovement->taxpayer_id = $request->taxpayer_id;
-            $accountMovement->chart_id =$request->chart_account_id ;
+            $accountMovement->chart_id = $request->chart_account_id ;
             $accountMovement->date = $request->date;
 
             $accountMovement->transaction_id = $request->id != '' ? $request->id : null;
             $accountMovement->currency_id = $request->currency_id;
-            $accountMovement->rate = $request->rate;
+            $accountMovement->rate = $request->rate ?? 1;
             $accountMovement->debit = $request->payment_value != '' ? $request->payment_value : 0;
             $accountMovement->comment = $request->comment;
 
@@ -224,7 +224,7 @@ class AccountPayableController extends Controller
         AccountMovement::whereIn('id', $queryAccountPayables->pluck('id'))
         ->update(['journal_id' => $journal->id]);
 
-        $ChartController= new ChartController();
+        $chartController= new ChartController();
 
         //1st Query: Sales Transactions done in Credit. Must affect customer credit account.
         $listOfPayables = AccountMovement::MyAccountPayablesForJournals($startDate, $endDate, $taxPayer->id)
@@ -238,7 +238,7 @@ class AccountPayableController extends Controller
         //run code for credit purchase (insert detail into journal)
         foreach($listOfPayables as $row)
         {
-            $customerChartID = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
+            $customerChartID = $chartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
             $value = $row->total * $row->rate;
 
             $detail = $journal->details->where('chart_id', $customerChartID)->first() ?? new \App\JournalDetail();
@@ -249,15 +249,14 @@ class AccountPayableController extends Controller
         }
 
         //run code for credit purchase (insert detail into journal)
-        foreach($listOfPayables->where('coefficient', '>', 0)->groupBy('chart_vat_id') as $groupedRow)
+        foreach($listOfPayables->groupBy('rate') as $groupedRow)
         {
-            $groupTotal = $groupedRow->sum('total');
-            $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
+            $accountChartID = $groupedRow->first()->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
 
             $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_vat_id)->first() ?? new \App\JournalDetail();
-            $detail->credit += $value;
+            $detail->credit = $groupedRow->sum('total');
             $detail->debit = 0;
-            $detail->chart_id = $groupedRow->first()->chart_vat_id;
+            $detail->chart_id = $accountChartID;
             $journal->details()->save($detail);
         }
 
