@@ -16,7 +16,7 @@ Vue.component('transaction-form',
             id: 0,
             taxpayer_id:'',
             Value:'',
-            type: this.transType,
+            type:'',
             Supplier:'',
             Customer:'',
             SupplierTaxID:'',
@@ -411,7 +411,7 @@ Vue.component('transaction-form',
     },
     mounted: function mounted()
     {
-
+        this.type=this.trantype;
         //this.init();
         this.getCharts();
         this.getTaxes();
