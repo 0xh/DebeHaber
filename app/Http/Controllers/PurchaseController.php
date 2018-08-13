@@ -43,7 +43,7 @@ class PurchaseController extends Controller
     {
         $Transaction = Transaction::MyPurchases()
         ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
-        ->where('customer_id', $taxPayerID)
+        ->where('supplier_id', $taxPayerID)
         ->with('details')
         ->orderBy('date', 'desc')
         ->select(DB::raw(
@@ -66,7 +66,7 @@ class PurchaseController extends Controller
         {
             $Transaction = Transaction::MyPurchases()
             ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
-            ->where('customer_id', $taxPayer->id)
+            ->where('supplier_id', $taxPayer->id)
             ->where('transactions.id', $id)
             ->with('details')
             ->select(DB::raw('false as selected,transactions.id,
@@ -106,7 +106,7 @@ class PurchaseController extends Controller
         public function store(Request $request,Taxpayer $taxPayer)
         {
             $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
-            $transaction->customer_id = $taxPayer->id;
+            $transaction->supplier_id = $taxPayer->id;
             $transaction->supplier_id = $request->supplier_id;
             $transaction->document_id = $request->document_id > 0 ? $request->document_id : null;
             $transaction->currency_id = $request->currency_id;
@@ -198,31 +198,34 @@ class PurchaseController extends Controller
             }
         }
 
-        public function generate_Journals($startDate, $endDate)
+        /*
+        Purchase code to generate journals.
+        */
+        public function generate_Journals($startDate, $endDate, $taxPayer, $cycle)
         {
             \DB::connection()->disableQueryLog();
 
-            $purchaseQuery = Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)
+            $queryPurchases = Transaction::MyPurchasesForJournals($startDate, $endDate, $taxPayer->id)
             ->get();
 
-            if ($purchaseQuery->where('journal_id', '!=', null)->count() > 0)
+            if ($queryPurchases->where('journal_id', '!=', null)->count() > 0)
             {
-                $arrJournalIDs = $purchaseQuery->where('journal_id', '!=', null)->pluck('journal_id');
+                $arrJournalIDs = $queryPurchases->where('journal_id', '!=', null)->pluck('journal_id');
                 //## Important! Null all references of Journal in Transactions.
                 Transaction::whereIn('journal_id', [$arrJournalIDs])
                 ->update(['journal_id' => null]);
 
                 //Delete the journals & details with id
-                JournalDetail::whereIn('journal_id', [$arrJournalIDs])
+                \App\JournalDetail::whereIn('journal_id', [$arrJournalIDs])
                 ->forceDelete();
-                Journal::whereIn('id', [$arrJournalIDs])
+                \App\Journal::whereIn('id', [$arrJournalIDs])
                 ->forceDelete();
             }
 
-            $journal = new Journal();
-            $comment = __('accounting.PurchaseBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
+            $journal = new \App\Journal();
+            $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
-            $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+            $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
             $journal->date = $endDate;
             $journal->comment = $comment;
             $journal->is_automatic = 1;
@@ -230,12 +233,13 @@ class PurchaseController extends Controller
 
             //Assign all transactions the new journal_id.
             //No need for If Count > 0, because if it was 0, it would not have gone in this function.
-            Transaction::whereIn('id', $purchaseQuery->pluck('id'))
+            Transaction::whereIn('id', $queryPurchases->pluck('id'))
             ->update(['journal_id' => $journal->id]);
 
             $ChartController= new ChartController();
 
-            $purchasesInCash = Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)
+            //Sales Transactionsd done in cash. Must affect direct cash account.
+            $cashPurchases = Transaction::MyPurchasesForJournals($startDate, $endDate, $taxPayer->id)
             ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
             ->groupBy('rate', 'chart_account_id')
             ->where('payment_condition', '=', 0)
@@ -244,15 +248,15 @@ class PurchaseController extends Controller
             DB::raw('sum(transaction_details.value) as total'))
             ->get();
 
-            //run code for cash sales (insert detail into journal)
-            foreach($purchasesInCash as $row)
+            //run code for cash purchase (insert detail into journal)
+            foreach($cashPurchases as $row)
             {
-                //search if a similar chart is already existing in journal details. if not, create a new detail.
+                // search if chart exists, or else create it. we don't want an error causing all transactions not to be accounted.
                 $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $row->chart_account_id)->id;
 
                 $value = $row->total * $row->rate;
 
-                $detail = new JournalDetail();
+                $detail = new \App\JournalDetail();
                 $detail->credit = 0;
                 $detail->debit = $value;
                 $detail->chart_id = $accountChartID;
@@ -260,32 +264,33 @@ class PurchaseController extends Controller
                 $detail->save();
             }
 
-            //2nd Query:
-            $purchasesOnCredit = Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)
+            //2nd Query: Sales Transactions done in Credit. Must affect customer credit account.
+            $creditPurchases = Transaction::MyPurchasesForJournals($startDate, $endDate, $taxPayer->id)
             ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
             ->groupBy('rate', 'supplier_id')
             ->where('payment_condition', '>', 0)
             ->select(DB::raw('max(rate) as rate'),
-            DB::raw('max(supplier_id) as customer_id'),
+            DB::raw('max(supplier_id) as supplier_id'),
             DB::raw('sum(transaction_details.value) as total'))
             ->get();
 
-            //run code for credit sales (insert detail into journal)
-            foreach($purchasesOnCredit as $row)
+            //run code for credit purchase (insert detail into journal)
+            foreach($creditPurchases as $row)
             {
-                $supplierChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_AccountsPayable($this->taxPayer, $this->cycle, $row->supplier_id)->id;
+                $supplierChartID = $ChartController->createIfNotExists_AccountsPayable($this->taxPayer, $this->cycle, $row->supplier_id)->id;
 
                 $value = $row->total * $row->rate;
 
-                $detail = new JournalDetail();
+                $detail = $journal->details->where('chart_id', $supplierChartID)->first() ?? new \App\JournalDetail();
                 $detail->credit = 0;
-                $detail->debit = $value;
+                $detail->debit += $value;
                 $detail->chart_id = $supplierChartID;
                 $detail->journal_id = $journal->id;
                 $detail->save();
             }
 
-            $detailAccounts = Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)
+            //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
+            $detailAccounts = Transaction::MyPurchasesForJournals($startDate, $endDate, $taxPayer->id)
             ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
             ->join('charts', 'charts.id', '=', 'transaction_details.chart_vat_id')
             ->groupBy('rate', 'transaction_details.chart_id', 'transaction_details.chart_vat_id')
@@ -296,13 +301,13 @@ class PurchaseController extends Controller
             DB::raw('sum(transaction_details.value) as total'))
             ->get();
 
-            //run code for credit sales (insert detail into journal)
-            foreach($detailAccounts->where('coefficient', '>', 0)->groupBy('chart_vat_id') as $groupedRow)
+            //run code for credit purchase (insert detail into journal)
+            foreach($detailAccounts->groupBy('chart_vat_id') as $groupedRow)
             {
                 $groupTotal = $groupedRow->sum('total');
                 $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
 
-                $detail = $journal->details->where('chart_vat_id', $groupedRow->first()->chart_vat_id)->first() ?? new JournalDetail();
+                $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_vat_id)->first() ?? new \App\JournalDetail();
                 $detail->credit += $value;
                 $detail->debit = 0;
                 $detail->chart_id = $groupedRow->first()->chart_vat_id;
@@ -310,7 +315,7 @@ class PurchaseController extends Controller
                 $detail->save();
             }
 
-            //run code for credit sales (insert detail into journal)
+            //run code for credit purchase (insert detail into journal)
             foreach($detailAccounts->groupBy('chart_id') as $groupedRow)
             {
                 $value = 0;
@@ -321,7 +326,7 @@ class PurchaseController extends Controller
                     $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate;
                 }
 
-                $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new JournalDetail();
+                $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new \App\JournalDetail();
                 $detail->credit += $value;
                 $detail->debit = 0;
                 $detail->chart_id = $groupedRow->first()->chart_id;
