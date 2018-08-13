@@ -184,7 +184,6 @@ class PurchaseController extends Controller
         {
             try
             {
-
                 //TODO: Run Tests to make sure it deletes all journals related to transaction
                 AccountMovement::where('transaction_id', $transactionID)->delete();
                 JournalTransaction::where('transaction_id',$transactionID)->delete();
@@ -205,7 +204,7 @@ class PurchaseController extends Controller
         {
             \DB::connection()->disableQueryLog();
 
-            $queryPurchases = Transaction::MyPurchasesForJournals($startDate, $endDate, $taxPayer->id)
+            $queryPurchases = AccountMovement::MyPurchasesForJournals($startDate, $endDate, $taxPayer->id)
             ->get();
 
             if ($queryPurchases->where('journal_id', '!=', null)->count() > 0)
@@ -318,9 +317,7 @@ class PurchaseController extends Controller
 
                 //Discount Vat Value for these items.
                 foreach($groupedRow->groupBy('coefficient') as $row)
-                {
-                    $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate;
-                }
+                { $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate; }
 
                 $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new \App\JournalDetail();
                 $detail->credit += $value;

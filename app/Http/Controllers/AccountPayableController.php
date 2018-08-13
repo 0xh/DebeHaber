@@ -193,14 +193,14 @@ class AccountPayableController extends Controller
     {
         \DB::connection()->disableQueryLog();
 
-        $queryCreditNotes = Transaction::MyCreditNotesForJournals($startDate, $endDate, $taxPayer->id)
+        $queryAccountPayables = AccountMovement::MyAccountPayablesForJournals($startDate, $endDate, $taxPayer->id)
         ->get();
 
-        if ($queryCreditNotes->where('journal_id', '!=', null)->count() > 0)
+        if ($queryAccountPayables->where('journal_id', '!=', null)->count() > 0)
         {
-            $arrJournalIDs = $queryCreditNotes->where('journal_id', '!=', null)->pluck('journal_id');
+            $arrJournalIDs = $queryAccountPayables->where('journal_id', '!=', null)->pluck('journal_id');
             //## Important! Null all references of Journal in Transactions.
-            Transaction::whereIn('journal_id', [$arrJournalIDs])
+            AccountMovement::whereIn('journal_id', [$arrJournalIDs])
             ->update(['journal_id' => null]);
 
             //Delete the journals & details with id
@@ -211,9 +211,9 @@ class AccountPayableController extends Controller
         }
 
         $journal = new \App\Journal();
-        $comment = __('accounting.CreditNoteComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
+        $comment = __('accounting.AccountsPayableComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
-        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->cycle_id = $cycle->id;
         $journal->date = $endDate;
         $journal->comment = $comment;
         $journal->is_automatic = 1;
@@ -221,22 +221,22 @@ class AccountPayableController extends Controller
 
         //Assign all transactions the new journal_id.
         //No need for If Count > 0, because if it was 0, it would not have gone in this function.
-        Transaction::whereIn('id', $queryCreditNotes->pluck('id'))
+        AccountMovement::whereIn('id', $queryAccountPayables->pluck('id'))
         ->update(['journal_id' => $journal->id]);
 
         $ChartController= new ChartController();
 
         //1st Query: Sales Transactions done in Credit. Must affect customer credit account.
-        $listOfCreditNotes = Transaction::MyCreditNotesForJournals($startDate, $endDate, $taxPayer->id)
-        ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-        ->groupBy('rate', 'customer_id')
+        $listOfPayables = AccountMovement::MyAccountPayablesForJournals($startDate, $endDate, $taxPayer->id)
+        ->groupBy('rate', 'supplier_id')
         ->select(DB::raw('max(rate) as rate'),
-        DB::raw('max(customer_id) as customer_id'),
-        DB::raw('sum(transaction_details.value) as total'))
+        DB::raw('max(supplier_id) as supplier_id'),
+        DB::raw('sum(debit) as debit'),
+        DB::raw('sum(credit) as credit'))
         ->get();
 
         //run code for credit purchase (insert detail into journal)
-        foreach($listOfCreditNotes as $row)
+        foreach($listOfPayables as $row)
         {
             $customerChartID = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
             $value = $row->total * $row->rate;
@@ -248,20 +248,8 @@ class AccountPayableController extends Controller
             $journal->details()->save($detail);
         }
 
-        //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
-        $detailAccounts = Transaction::MyCreditNotesForJournals($startDate, $endDate, $taxPayer->id)
-        ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-        ->join('charts', 'charts.id', '=', 'transaction_details.chart_vat_id')
-        ->groupBy('rate', 'transaction_details.chart_id', 'transaction_details.chart_vat_id')
-        ->select(DB::raw('max(rate) as rate'),
-        DB::raw('max(charts.coefficient) as coefficient'),
-        DB::raw('max(transaction_details.chart_vat_id) as chart_vat_id'),
-        DB::raw('max(transaction_details.chart_id) as chart_id'),
-        DB::raw('sum(transaction_details.value) as total'))
-        ->get();
-
         //run code for credit purchase (insert detail into journal)
-        foreach($detailAccounts->where('coefficient', '>', 0)->groupBy('chart_vat_id') as $groupedRow)
+        foreach($listOfPayables->where('coefficient', '>', 0)->groupBy('chart_vat_id') as $groupedRow)
         {
             $groupTotal = $groupedRow->sum('total');
             $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
@@ -273,22 +261,8 @@ class AccountPayableController extends Controller
             $journal->details()->save($detail);
         }
 
-        //run code for credit purchase (insert detail into journal)
-        foreach($detailAccounts->groupBy('chart_id') as $groupedRow)
-        {
-            $value = 0;
-
-            //Discount Vat Value for these items.
-            foreach($groupedRow->groupBy('coefficient') as $row)
-            {
-                $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate;
-            }
-
-            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new \App\JournalDetail();
-            $detail->credit += $value;
-            $detail->debit = 0;
-            $detail->chart_id = $groupedRow->first()->chart_id;
-            $journal->details()->save($detail);
-        }
+        //diff in currency entry is worth looking into.
+        //if there is a diff in currency, then we don't want to over-pay the supplier. Instead pay correct amount,
+        //and throw the rest into profit or loss row.
     }
 }
