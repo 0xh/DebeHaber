@@ -34,7 +34,7 @@ class JournalController extends Controller
     public function getJournals(Taxpayer $taxPayer, Cycle $cycle)
     {
         return JournalResource::collection(
-            Journal::with('details:id,journal_id,chart_id,debit,credit')
+            Journal::with('details:chart_id,debit,credit')
             ->with('details.chart:id,name,code,type')
             ->orderBy('date', 'desc')
             ->paginate(100)

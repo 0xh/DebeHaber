@@ -59,15 +59,15 @@ class UpdateJournalTables extends Migration
         });
 
         Schema::table('transactions', function (Blueprint $table) {
-            $table->uuid('journal_id')->nullable()->index()->after('type');
+            $table->uuid('journal_id')->nullable()->after('type');
         });
 
         Schema::table('productions', function (Blueprint $table) {
-            $table->uuid('journal_id')->nullable()->index()->after('taxpayer_id');
+            $table->uuid('journal_id')->nullable()->after('taxpayer_id');
         });
 
         Schema::table('account_movements', function (Blueprint $table) {
-            $table->uuid('journal_id')->nullable()->index()->after('taxpayer_id');
+            $table->uuid('journal_id')->nullable()->after('taxpayer_id');
         });
     }
 

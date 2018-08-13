@@ -39,7 +39,7 @@ class Journal extends Model
     */
     public function details()
     {
-        return $this->hasMany(JournalDetail::class, 'journal_id');
+        return $this->hasMany(JournalDetail::class);
     }
 
     public function transactions()
@@ -76,16 +76,6 @@ class Journal extends Model
     {
         return $this->hasMany(JournalProduction::class);
     }
-
-    /**
-    * Get the transactions for the model.
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-    // public function transactions()
-    // {
-    //     return $this->hasMany(JournalTransaction::class);
-    // }
 
     /**
     * Get the accountMovements for the model.

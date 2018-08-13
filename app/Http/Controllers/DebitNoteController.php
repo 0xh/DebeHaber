@@ -22,8 +22,6 @@ class DebitNoteController extends Controller
     */
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-
-
         return view('/commercial/debitnote');
     }
 
@@ -63,6 +61,7 @@ class DebitNoteController extends Controller
         transactions.code,
         code_expiry'))
         ->get();
+
         return response()->json($Transaction);
     }
     /**
@@ -83,21 +82,15 @@ class DebitNoteController extends Controller
     */
     public function store(Request $request,Taxpayer $taxPayer)
     {
-        if ($request->id == 0)
-        {
-            $Transaction = new Transaction();
-        }
-        else
-        {
-            $Transaction = Transaction::where('id', $request->id)->first();
-        }
-
+        $Transaction = Transaction::where('id', $request->id)->first() ?? new Transaction();
         $Transaction->customer_id = $taxPayer->id;
         $Transaction->supplier_id = $request->supplier_id;
+
         if ($request->document_id > 0)
         {
             $Transaction->document_id = $request->document_id;
         }
+
         $Transaction->currency_id = $request->currency_id;
         $Transaction->rate = $request->rate;
         $Transaction->payment_condition = $request->payment_condition;

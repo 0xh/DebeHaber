@@ -242,11 +242,11 @@ class SalesController extends Controller
     /**
     * Generates one journal for all sales in date range.
     */
-    public function generate_Journals($startDate, $endDate)
+    public function generate_Journals($startDate, $endDate, $taxPayer, $cycle)
     {
         \DB::connection()->disableQueryLog();
 
-        $querySales = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        $querySales = Transaction::MySalesForJournals($startDate, $endDate, $taxPayer->id)
         ->get();
 
         if ($querySales->where('journal_id', '!=', null)->count() > 0)
@@ -257,16 +257,16 @@ class SalesController extends Controller
             ->update(['journal_id' => null]);
 
             //Delete the journals & details with id
-            JournalDetail::whereIn('journal_id', [$arrJournalIDs])
+            \App\JournalDetail::whereIn('journal_id', [$arrJournalIDs])
             ->forceDelete();
-            Journal::whereIn('id', [$arrJournalIDs])
+            \App\Journal::whereIn('id', [$arrJournalIDs])
             ->forceDelete();
         }
 
-        $journal = new Journal();
+        $journal = new \App\Journal();
         $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
-        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
+        $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
         $journal->date = $endDate;
         $journal->comment = $comment;
         $journal->is_automatic = 1;
@@ -279,7 +279,8 @@ class SalesController extends Controller
 
         $ChartController= new ChartController();
 
-        $salesInCash = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        //Sales Transactionsd done in cash. Must affect direct cash account.
+        $salesInCash = Transaction::MySalesForJournals($startDate, $endDate, $taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
         ->groupBy('rate', 'chart_account_id')
         ->where('payment_condition', '=', 0)
@@ -291,12 +292,12 @@ class SalesController extends Controller
         //run code for cash sales (insert detail into journal)
         foreach($salesInCash as $row)
         {
-            //search if a similar chart is already existing in journal details. if not, create a new detail.
+            // search if chart exists, or else create it. we don't want an error causing all transactions not to be accounted.
             $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $row->chart_account_id)->id;
 
             $value = $row->total * $row->rate;
 
-            $detail = new JournalDetail();
+            $detail = new \App\JournalDetail();
             $detail->debit = 0;
             $detail->credit = $value;
             $detail->chart_id = $accountChartID;
@@ -304,8 +305,8 @@ class SalesController extends Controller
             $detail->save();
         }
 
-        //2nd Query:
-        $creditSales = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        //2nd Query: Sales Transactions done in Credit. Must affect customer credit account.
+        $creditSales = Transaction::MySalesForJournals($startDate, $endDate, $taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
         ->groupBy('rate', 'customer_id')
         ->where('payment_condition', '>', 0)
@@ -317,19 +318,20 @@ class SalesController extends Controller
         //run code for credit sales (insert detail into journal)
         foreach($creditSales as $row)
         {
-            $customerChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $row->customer_id)->id;
+            $customerChartID = $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $row->customer_id)->id;
 
             $value = $row->total * $row->rate;
 
-            $detail = new JournalDetail();
+            $detail = $journal->details->where('chart_id', $customerChartID)->first() ?? new \App\JournalDetail();
             $detail->debit = 0;
-            $detail->credit = $value;
+            $detail->credit += $value;
             $detail->chart_id = $customerChartID;
             $detail->journal_id = $journal->id;
             $detail->save();
         }
 
-        $detailAccounts = Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)
+        //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
+        $detailAccounts = Transaction::MySalesForJournals($startDate, $endDate, $taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
         ->join('charts', 'charts.id', '=', 'transaction_details.chart_vat_id')
         ->groupBy('rate', 'transaction_details.chart_id', 'transaction_details.chart_vat_id')
@@ -346,7 +348,7 @@ class SalesController extends Controller
             $groupTotal = $groupedRow->sum('total');
             $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
 
-            $detail = $journal->details->where('chart_vat_id', $groupedRow->first()->chart_vat_id)->first() ?? new JournalDetail();
+            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_vat_id)->first() ?? new \App\JournalDetail();
             $detail->debit += $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_vat_id;
@@ -365,7 +367,7 @@ class SalesController extends Controller
                 $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate;
             }
 
-            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new JournalDetail();
+            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new \App\JournalDetail();
             $detail->debit += $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_id;

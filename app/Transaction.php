@@ -168,16 +168,7 @@ class Transaction extends Model
     {
         return $this->hasMany(AccountMovement::class);
     }
-
-    /**
-    * Get the journals for the model.
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-    // public function journals()
-    // {
-    //   return $this->hasMany(JournalTransaction::class);
-    // }
+    
 
     /**
     * Get the details for the model.
