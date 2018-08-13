@@ -2,12 +2,18 @@
 
 namespace App;
 
-use Spatie\BinaryUuid\HasBinaryUuid;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\BinaryUuid\HasBinaryUuid;
 
 class JournalDetail extends Model
 {
     use HasBinaryUuid;
+
+    protected $uuids = [
+        'id',
+        'journal_id'
+    ];
+
     protected $fillable = [
         'type',
         'journal_id',
@@ -27,7 +33,7 @@ class JournalDetail extends Model
     */
     public function journal()
     {
-        return $this->belongsTo(Journal::class);
+        return $this->belongsTo(Journal::class, 'id', 'journal_id');
     }
 
 

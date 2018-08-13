@@ -304,7 +304,7 @@ class ChartController extends Controller
 
             if ($chart == null)
             {
-                //if not, create generic.
+                //if not, create specific.
                 $chart = new Chart();
                 $chart->taxpayer_id = $taxPayer->id;
                 $chart->chart_version_id = $cycle->chart_version_id;
@@ -340,7 +340,7 @@ class ChartController extends Controller
 
             if ($chart == null)
             {
-                //if not, create generic.
+                //if not, create specific.
                 $chart = new Chart();
                 $chart->taxpayer_id = $taxPayer->id;
                 $chart->chart_version_id = $cycle->chart_version_id;

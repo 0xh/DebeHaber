@@ -3,11 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Spatie\BinaryUuid\HasBinaryUuid;
+use App\Scopes\JournalScope;
 
 use App\Cycle;
-use App\Scopes\JournalScope;
 use App\JournalDetail;
 use App\Taxpayer;
 use App\JournalProduction;
@@ -18,14 +17,23 @@ use App\JournalSim;
 class Journal extends Model
 {
     use HasBinaryUuid;
-    public $incrementing = false;
-    public $primaryKey = 'id';
 
     protected static function boot()
     {
         parent::boot();
         static::addGlobalScope(new JournalScope);
     }
+
+    protected $fillable = [
+        'cycle_id',
+        'number',
+        'date',
+        'comment',
+        'is_accountable',
+        'is_presented',
+        'is_first',
+        'is_last',
+    ];
 
     public function getKeyName()
     {
@@ -39,7 +47,7 @@ class Journal extends Model
     */
     public function details()
     {
-        return $this->hasMany(JournalDetail::class);
+        return $this->hasMany(JournalDetail::class, 'journal_id', 'id');
     }
 
     public function transactions()

@@ -230,7 +230,6 @@ class CreditNoteController extends Controller
         $listOfCreditNotes = Transaction::MyCreditNotesForJournals($startDate, $endDate, $taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
         ->groupBy('rate', 'customer_id')
-        //->where('payment_condition', '>', 0) TODO, do not apply payment condition to debit note.
         ->select(DB::raw('max(rate) as rate'),
         DB::raw('max(customer_id) as customer_id'),
         DB::raw('sum(transaction_details.value) as total'))
@@ -240,15 +239,13 @@ class CreditNoteController extends Controller
         foreach($listOfCreditNotes as $row)
         {
             $customerChartID = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
-
             $value = $row->total * $row->rate;
 
             $detail = $journal->details->where('chart_id', $customerChartID)->first() ?? new \App\JournalDetail();
             $detail->credit = 0;
             $detail->debit += $value;
             $detail->chart_id = $customerChartID;
-            $detail->journal_id = $journal->id;
-            $detail->save();
+            $journal->details()->save($detail);
         }
 
         //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
@@ -264,7 +261,7 @@ class CreditNoteController extends Controller
         ->get();
 
         //run code for credit purchase (insert detail into journal)
-        foreach($detailAccounts->groupBy('chart_vat_id') as $groupedRow)
+        foreach($detailAccounts->where('coefficient', '>', 0)->groupBy('chart_vat_id') as $groupedRow)
         {
             $groupTotal = $groupedRow->sum('total');
             $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
@@ -273,8 +270,7 @@ class CreditNoteController extends Controller
             $detail->credit += $value;
             $detail->debit = 0;
             $detail->chart_id = $groupedRow->first()->chart_vat_id;
-            $detail->journal_id = $journal->id;
-            $detail->save();
+            $journal->details()->save($detail);
         }
 
         //run code for credit purchase (insert detail into journal)
@@ -292,8 +288,7 @@ class CreditNoteController extends Controller
             $detail->credit += $value;
             $detail->debit = 0;
             $detail->chart_id = $groupedRow->first()->chart_id;
-            $detail->journal_id = $journal->id;
-            $detail->save();
+            $journal->details()->save($detail);
         }
     }
 }

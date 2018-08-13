@@ -33,11 +33,9 @@ class JournalController extends Controller
 
     public function getJournals(Taxpayer $taxPayer, Cycle $cycle)
     {
-
         return JournalResource::collection(
-            Journal::with('details:chart_id,debit,credit')
-            ->with('details.chart:id,name,code,type')
-            ->select(DB::raw('HEX(id) as uuid'),'number','date','comment','is_automatic','is_presented','is_first','is_last')
+            Journal::with(['details:journal_uuid,chart_id,debit,credit',
+            'details.chart:id,name,code,type'])
             ->orderBy('date', 'desc')
             ->paginate(100)
         );
@@ -45,8 +43,8 @@ class JournalController extends Controller
 
     public function getJournalsByID($taxPayerID, Cycle $cycle, $id)
     {
-        $journals = Journal::with('details:id,journal_id,chart_id,debit,credit')
-        ->where('journals.id', $id)
+        $journals = Journal::with('details:uuid,journal_uuid,chart_id,debit,credit')
+        ->withUuid($id)
         ->get();
 
         return response()->json($journals);

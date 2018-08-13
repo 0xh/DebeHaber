@@ -253,15 +253,13 @@ class PurchaseController extends Controller
             {
                 // search if chart exists, or else create it. we don't want an error causing all transactions not to be accounted.
                 $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
-
                 $value = $row->total * $row->rate;
 
                 $detail = new \App\JournalDetail();
                 $detail->credit = 0;
                 $detail->debit = $value;
                 $detail->chart_id = $accountChartID;
-                $detail->journal_id = $journal->id;
-                $detail->save();
+                $journal->details()->save($detail);
             }
 
             //2nd Query: Sales Transactions done in Credit. Must affect customer credit account.
@@ -278,15 +276,14 @@ class PurchaseController extends Controller
             foreach($creditPurchases as $row)
             {
                 $supplierChartID = $ChartController->createIfNotExists_AccountsPayable($taxPayer, $cycle, $row->supplier_id)->id;
-
                 $value = $row->total * $row->rate;
 
+                //TODO, not working properly as its checking the journal, but we are not attaching the detail to the journal.
                 $detail = $journal->details->where('chart_id', $supplierChartID)->first() ?? new \App\JournalDetail();
                 $detail->credit = 0;
                 $detail->debit += $value;
                 $detail->chart_id = $supplierChartID;
-                $detail->journal_id = $journal->id;
-                $detail->save();
+                $journal->details()->save($detail);
             }
 
             //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
@@ -302,7 +299,7 @@ class PurchaseController extends Controller
             ->get();
 
             //run code for credit purchase (insert detail into journal)
-            foreach($detailAccounts->groupBy('chart_vat_id') as $groupedRow)
+            foreach($detailAccounts->where('coefficient', '>', 0)->groupBy('chart_vat_id') as $groupedRow)
             {
                 $groupTotal = $groupedRow->sum('total');
                 $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
@@ -311,8 +308,7 @@ class PurchaseController extends Controller
                 $detail->credit += $value;
                 $detail->debit = 0;
                 $detail->chart_id = $groupedRow->first()->chart_vat_id;
-                $detail->journal_id = $journal->id;
-                $detail->save();
+                $journal->details()->save($detail);
             }
 
             //run code for credit purchase (insert detail into journal)
@@ -330,8 +326,7 @@ class PurchaseController extends Controller
                 $detail->credit += $value;
                 $detail->debit = 0;
                 $detail->chart_id = $groupedRow->first()->chart_id;
-                $detail->journal_id = $journal->id;
-                $detail->save();
+                $journal->details()->save($detail);
             }
         }
     }

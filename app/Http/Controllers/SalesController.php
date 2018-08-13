@@ -302,7 +302,7 @@ class SalesController extends Controller
             $detail->credit = $value;
             $detail->chart_id = $accountChartID;
             $detail->journal_id = $journal->id;
-            $detail->save();
+            $journal->details()->save($detail);
         }
 
         //2nd Query: Sales Transactions done in Credit. Must affect customer credit account.
@@ -326,8 +326,7 @@ class SalesController extends Controller
             $detail->debit = 0;
             $detail->credit += $value;
             $detail->chart_id = $customerChartID;
-            $detail->journal_id = $journal->id;
-            $detail->save();
+            $journal->details()->save($detail);
         }
 
         //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
@@ -343,7 +342,7 @@ class SalesController extends Controller
         ->get();
 
         //run code for credit sales (insert detail into journal)
-        foreach($detailAccounts->groupBy('chart_vat_id') as $groupedRow)
+        foreach($detailAccounts->where('coefficient', '>', 0)->groupBy('chart_vat_id') as $groupedRow)
         {
             $groupTotal = $groupedRow->sum('total');
             $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
@@ -352,8 +351,7 @@ class SalesController extends Controller
             $detail->debit += $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_vat_id;
-            $detail->journal_id = $journal->id;
-            $detail->save();
+            $journal->details()->save($detail);
         }
 
         //run code for credit sales (insert detail into journal)
@@ -371,10 +369,7 @@ class SalesController extends Controller
             $detail->debit += $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_id;
-            $detail->journal_id = $journal->id;
-            $detail->save();
+            $journal->details()->save($detail);
         }
-
-        //End of Sales Code
     }
 }
