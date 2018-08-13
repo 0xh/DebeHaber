@@ -293,7 +293,7 @@ class SalesController extends Controller
         foreach($salesInCash as $row)
         {
             // search if chart exists, or else create it. we don't want an error causing all transactions not to be accounted.
-            $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $row->chart_account_id)->id;
+            $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
 
             $value = $row->total * $row->rate;
 
@@ -318,7 +318,7 @@ class SalesController extends Controller
         //run code for credit sales (insert detail into journal)
         foreach($creditSales as $row)
         {
-            $customerChartID = $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $row->customer_id)->id;
+            $customerChartID = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
 
             $value = $row->total * $row->rate;
 

@@ -119,7 +119,7 @@ class GenerateJournal implements ShouldQueue
             if (Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
             {
                 $controller = new PurchaseController();
-                $controller->generate_Journals($startDate, $endDate, $this->taxPayer);
+                $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
             }
 
             /*
@@ -128,7 +128,7 @@ class GenerateJournal implements ShouldQueue
             if (Transaction::MyCreditNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
             {
                 $controller = new CreditNoteController();
-                $controller->generate_Journals($startDate, $endDate, $this->taxPayer);
+                $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
             }
 
             /*
@@ -137,17 +137,17 @@ class GenerateJournal implements ShouldQueue
             if (Transaction::MyDebitNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
             {
                 $controller = new DebitNoteController();
-                $controller->generate_Journals($startDate, $endDate, $this->taxPayer);
+                $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
             }
 
-            /*
-            Accounts Payables
-            */
-            if (AccountMovement::MyDebitNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
-            {
-                $controller = new AccountsRecievableController();
-                $controller->generate_Journals($startDate, $endDate, $this->taxPayer);
-            }
+            // /*
+            // Accounts Payables
+            // */
+            // if (AccountMovement::MyDebitNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
+            // {
+            //     $controller = new AccountsRecievableController();
+            //     $controller->generate_Journals($startDate, $endDate, $this->taxPayer);
+            // }
 
             $currentDate = $endDate->addDay();
         }

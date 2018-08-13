@@ -168,7 +168,7 @@ class Transaction extends Model
     {
         return $this->hasMany(AccountMovement::class);
     }
-    
+
 
     /**
     * Get the details for the model.

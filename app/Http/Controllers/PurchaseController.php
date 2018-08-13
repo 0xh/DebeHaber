@@ -223,7 +223,7 @@ class PurchaseController extends Controller
             }
 
             $journal = new \App\Journal();
-            $comment = __('accounting.SalesBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
+            $comment = __('accounting.PurchaseBookComment', ['startDate' => $startDate->toDateString(), 'endDate' => $endDate->toDateString()]);
 
             $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
             $journal->date = $endDate;
@@ -252,7 +252,7 @@ class PurchaseController extends Controller
             foreach($cashPurchases as $row)
             {
                 // search if chart exists, or else create it. we don't want an error causing all transactions not to be accounted.
-                $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $row->chart_account_id)->id;
+                $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
 
                 $value = $row->total * $row->rate;
 
@@ -277,7 +277,7 @@ class PurchaseController extends Controller
             //run code for credit purchase (insert detail into journal)
             foreach($creditPurchases as $row)
             {
-                $supplierChartID = $ChartController->createIfNotExists_AccountsPayable($this->taxPayer, $this->cycle, $row->supplier_id)->id;
+                $supplierChartID = $ChartController->createIfNotExists_AccountsPayable($taxPayer, $cycle, $row->supplier_id)->id;
 
                 $value = $row->total * $row->rate;
 
