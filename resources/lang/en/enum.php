@@ -42,6 +42,8 @@ return [
     'UtilitiesExpense' => 'Utilities Expense',
     'WagesExpense' => 'Wages Expense',
     'OtherExpenses' => 'Other Expenses',
+    'DiffInExchangeRate' => 'Difference in Exchange Rate',
+    'RevenuFromInventory' => 'Revenue from Inventory',
 
     'AccountsPayable' => 'Accounts Payable',
     'AccruedLiabilities' => 'Accrued Liabilities',

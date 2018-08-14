@@ -42,6 +42,8 @@ return [
     'UtilitiesExpense' => 'Gastos de Servicios Públicos',
     'WagesExpense' => 'Gasto de Salarios',
     'OtherExpenses' => 'Otros Gastos',
+    'DiffInExchangeRate' => 'Diferencia en Tipo de Cambio',
+    'RevenuFromInventory' => 'Ventas de Mercancía',
 
     'AccountsPayable' => 'Cuentas por Pagar',
     'AccruedLiabilities' => 'Obligaciones Acumuladas',

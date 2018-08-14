@@ -139,7 +139,6 @@ class ChartController extends Controller
         //
     }
 
-
     // All API related Queries.
     public function getCharts(Taxpayer $taxPayer, Cycle $cycle,$skip)
     {
@@ -164,7 +163,6 @@ class ChartController extends Controller
 
     public function getSalesAccounts(Taxpayer $taxPayer, Cycle $cycle)
     {
-
         $charts = Chart::SalesAccounts()
         ->orderBy('name')
         ->select('name', 'id', 'type')
@@ -172,9 +170,9 @@ class ChartController extends Controller
 
         return response()->json($charts);
     }
+
     public function getFixedAssets(Taxpayer $taxPayer, Cycle $cycle)
     {
-
         $charts = Chart::FixedAssetGroups()
         ->orderBy('name')
         ->select('name', 'id', 'type')
@@ -182,8 +180,6 @@ class ChartController extends Controller
 
         return response()->json($charts);
     }
-
-
 
     // Accounts used in Purchase. Expense + Fixed Assets
     public function getPurchaseAccounts(Taxpayer $taxPayer, Cycle $cycle)
@@ -239,6 +235,7 @@ class ChartController extends Controller
 
         return response()->json($charts);
     }
+
     public function searchAccountableCharts(Taxpayer $taxPayer, Cycle $cycle, $query)
     {
         $charts = Chart::where('is_accountable', true)
@@ -290,10 +287,12 @@ class ChartController extends Controller
     {
         //Check if CustomerID exists in Chart.
         $chart = Chart::My($taxPayer, $cycle)
+        ->where('type', 1)
+        ->where('sub_type', 5)
         ->where('partner_id', $partnerID)
         ->first();
 
-        if ($chart == null)
+        if (!isset($chart))
         {
             //if not, then look for generic.
             $chart = Chart::My($taxPayer, $cycle)
@@ -302,7 +301,7 @@ class ChartController extends Controller
             ->where('is_accountable', true)
             ->first();
 
-            if ($chart == null)
+            if (!isset($chart))
             {
                 //if not, create specific.
                 $chart = new Chart();
@@ -330,7 +329,7 @@ class ChartController extends Controller
         ->where('partner_id', $partnerID)
         ->first();
 
-        if ($chart == null)
+        if (!isset($chart))
         {
             //if not, then look for generic.
             $chart = Chart::My($taxPayer, $cycle)
@@ -338,7 +337,7 @@ class ChartController extends Controller
             ->where('sub_type', 1)
             ->first();
 
-            if ($chart == null)
+            if (!isset($chart))
             {
                 //if not, create specific.
                 $chart = new Chart();
@@ -352,6 +351,56 @@ class ChartController extends Controller
                 $chart->name = __('commercial.AccountsPayable') . ' ' . Taxpayer::find($partnerID)->name;
                 $chart->save();
             }
+        }
+
+        return $chart;
+    }
+
+    public function createIfNotExists_IncomeFromFX(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $chart = Chart::My($taxPayer, $cycle)
+        ->where('type', 4)
+        ->where('sub_type', 3)
+        ->where('is_accountable', true)
+        ->first();
+
+        if (!isset($chart))
+        {
+            //if not, create specific.
+            $chart = new Chart();
+            $chart->taxpayer_id = $taxPayer->id;
+            $chart->chart_version_id = $cycle->chart_version_id;
+            $chart->type = 4;
+            $chart->sub_type = 3;
+            $chart->is_accountable = true;
+            $chart->code = 'N/A';
+            $chart->name = __('enum.DiffInExchangeRate');
+            $chart->save();
+        }
+
+        return $chart;
+    }
+
+    public function createIfNotExists_ExpenseFromFX(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $chart = Chart::My($taxPayer, $cycle)
+        ->where('type', 5)
+        ->where('sub_type', 11)
+        ->where('is_accountable', true)
+        ->first();
+
+        if (!isset($chart))
+        {
+            //if not, create specific.
+            $chart = new Chart();
+            $chart->taxpayer_id = $taxPayer->id;
+            $chart->chart_version_id = $cycle->chart_version_id;
+            $chart->type = 5;
+            $chart->sub_type = 11;
+            $chart->is_accountable = true;
+            $chart->code = 'N/A';
+            $chart->name = __('enum.DiffInExchangeRate');
+            $chart->save();
         }
 
         return $chart;

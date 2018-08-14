@@ -238,10 +238,10 @@ class AccountPayableController extends Controller
         //run code for credit purchase (insert detail into journal)
         foreach($listOfPayables as $row)
         {
-            $customerChartID = $chartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
+            $supplierChartID = $chartController->createIfNotExists_AccountsPayables($taxPayer, $cycle, $row->customer_id)->id;
             $value = $row->total * $row->rate;
 
-            $detail = $journal->details->where('chart_id', $customerChartID)->first() ?? new \App\JournalDetail();
+            $detail = $journal->details->where('chart_id', $supplierChartID)->first() ?? new \App\JournalDetail();
             $detail->credit = 0;
             $detail->debit += $value;
             $detail->chart_id = $customerChartID;
@@ -260,8 +260,29 @@ class AccountPayableController extends Controller
             $journal->details()->save($detail);
         }
 
-        //diff in currency entry is worth looking into.
-        //if there is a diff in currency, then we don't want to over-pay the supplier. Instead pay correct amount,
-        //and throw the rest into profit or loss row.
+        //get the total credits and debits to see if there is a difference in account.
+        $totalCredits = $journal->details()->sum('credit');
+        $totalDebits = $journal->details()->sum('debit');
+
+        //Credit is greater than Debit
+        if ($totalCredits > $totalDebits)
+        {
+            $detail = new \App\JournalDetail();
+            $detail->credit = $totalCredits - $totalDebits;
+            $detail->debit = 0;
+            $detail->chart_id = $ChartController->createIfNotExists_IncomeFromFX($taxPayer, $cycle)->id;
+            $journal->details()->save($detail);
+        }
+        //Debit is greater than Credit
+        else if($totalCredits < $totalDebits)
+        {
+            $detail = new \App\JournalDetail();
+            $detail->credit = 0;
+            $detail->debit = $totalDebits - $totalCredits;
+            $detail->chart_id = $ChartController->createIfNotExists_ExpenseFromFX($taxPayer, $cycle)->id;
+            $journal->details()->save($detail);
+        }
+
+        //End of Code
     }
 }
