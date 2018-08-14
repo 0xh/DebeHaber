@@ -12,7 +12,6 @@ use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DebitNoteController;
 use App\Taxpayer;
 use App\Cycle;
-use App\JournalTransaction;
 use Carbon\Carbon;
 use App\Http\Controllers\ChartController;
 use Illuminate\Http\Request;

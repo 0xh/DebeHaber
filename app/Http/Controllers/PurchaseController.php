@@ -204,7 +204,7 @@ class PurchaseController extends Controller
         {
             \DB::connection()->disableQueryLog();
 
-            $queryPurchases = AccountMovement::MyPurchasesForJournals($startDate, $endDate, $taxPayer->id)
+            $queryPurchases = Transaction::MyPurchasesForJournals($startDate, $endDate, $taxPayer->id)
             ->get();
 
             if ($queryPurchases->where('journal_id', '!=', null)->count() > 0)
