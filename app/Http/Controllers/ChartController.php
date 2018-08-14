@@ -257,15 +257,18 @@ class ChartController extends Controller
         ->where('id', $chart_id)
         ->first();
 
-        if ($chart == null)
+        if (!isset($chart))
         {
             //if not, then look for generic.
             $chart = Chart::My($taxPayer, $cycle)
             ->where('type', 1)
-            ->where('sub_type', 1)
-            ->first();
+            ->where(function($q) use ($taxPayer, $cycle)
+            {
+                $q->where('sub_type', 1)
+                ->orWhere('sub_type', 3);
+            })->first();
 
-            if ($chart == null)
+            if (!isset($chart))
             {
                 //if not, create generic.
                 $chart = new Chart();

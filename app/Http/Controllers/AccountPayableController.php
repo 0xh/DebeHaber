@@ -246,6 +246,8 @@ class AccountPayableController extends Controller
             $detail->debit += $value;
             $detail->chart_id = $customerChartID;
             $journal->details()->save($detail);
+
+            $totalDebits += $value;
         }
 
         //run code for credit purchase (insert detail into journal)
@@ -254,15 +256,18 @@ class AccountPayableController extends Controller
             $accountChartID = $groupedRow->first()->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
 
             $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_vat_id)->first() ?? new \App\JournalDetail();
-            $detail->credit = $groupedRow->sum('total');
+            $detail->credit = $groupedRow->sum('total') * $groupedRow->rate;
             $detail->debit = 0;
             $detail->chart_id = $accountChartID;
             $journal->details()->save($detail);
+
+            $totalCredits += $groupedRow->sum('total') * $groupedRow->rate;
         }
 
         //get the total credits and debits to see if there is a difference in account.
-        $totalCredits = $journal->details()->sum('credit');
-        $totalDebits = $journal->details()->sum('debit');
+        //TODO. sum of credits is in local currency. you need to convert to default.
+        //$totalCredits = $journal->details()->sum('credit');
+        //$totalDebits = $journal->details()->sum('debit');
 
         //Credit is greater than Debit
         if ($totalCredits > $totalDebits)
