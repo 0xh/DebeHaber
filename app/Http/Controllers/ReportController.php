@@ -47,6 +47,20 @@ class ReportController extends Controller
         }
     }
 
+    public function subLedgerByMonth(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->journalQuery($taxPayer, $startDate, $endDate);
+
+            return view('reports/accounting/ledger-sub-pivot')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate);
+        }
+    }
+
     public function ledger(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         if (isset($taxPayer))

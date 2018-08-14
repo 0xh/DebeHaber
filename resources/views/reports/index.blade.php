@@ -12,7 +12,7 @@
             <div class="m-portlet__head">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
-                        <h3 class="m-portlet__head-text">
+                        {{-- <h3 class="m-portlet__head-text">
                             @lang('global.DateRange')
                             <el-date-picker v-model="dateRange"
                             type="daterange"
@@ -24,7 +24,7 @@
                             format = "dd/MM/yyyy"
                             value-format = "yyyy-MM-dd"
                             :picker-options="pickerOptions2"></el-date-picker>
-                        </h3>
+                        </h3> --}}
                     </div>
                 </div>
                 <div class="m-portlet__head-tools">
@@ -52,6 +52,7 @@
             </div>
             <div class="m-portlet__body">
                 <div class="tab-content">
+                    {{-- Commercial Reports --}}
                     <div class="tab-pane active" id="commercial" role="tabpanel">
                         <div class="row">
                             <div class="col-6">
@@ -416,7 +417,7 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sales-byCustomers/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/sub_ledger-ByMonth/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('commercial.SalesTax')])
                                                 </a>
                                                 <br>
