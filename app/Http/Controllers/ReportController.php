@@ -38,7 +38,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $startDate, $endDate);
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate);
 
             return view('reports/accounting/ledger-sub')
             ->with('header', $taxPayer)
@@ -52,7 +52,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $startDate, $endDate);
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate);
             $period = CarbonPeriod::create($startDate, '1 month', $endDate);
 
             return view('reports/accounting/ledger-sub-pivot')
@@ -68,7 +68,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $startDate, $endDate);
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate);
 
             return view('reports/accounting/ledger')
             ->with('header', $taxPayer)
@@ -82,7 +82,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $journals = $this->journalQuery($taxPayer, $startDate, $endDate);
+            $journals = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate);
             $charts = $this->chartQuery($taxPayer, $cycle, $startDate, $endDate);
 
             // Loop through Journal entries and add to chart balance
@@ -501,7 +501,7 @@ class ReportController extends Controller
         ->get();
     }
 
-    public function journalQuery(Taxpayer $taxPayer, $startDate, $endDate)
+    public function journalQuery(Taxpayer $taxPayer, $cycleID, $startDate, $endDate)
     {
         DB::connection()->disableQueryLog();
 
@@ -519,11 +519,12 @@ class ReportController extends Controller
         'charts.type as chartType',
         'charts.sub_type as chartSubType')
         ->whereBetween('journals.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
+        ->where('cycle_id', $cycleID)
         ->orderBy('date')
         ->get();
     }
 
-    public function journalSummarizedQuery(Taxpayer $taxPayer, $startDate, $endDate)
+    public function journalSummarizedQuery(Taxpayer $taxPayer, $cycleID, $startDate, $endDate)
     {
         DB::connection()->disableQueryLog();
 
@@ -541,6 +542,7 @@ class ReportController extends Controller
         'max(charts.type) as chartType',
         'max(charts.sub_type) as chartSubType'))
         ->whereBetween('journals.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
+        ->where('cycle_id', $cycleID)
         ->groupBy('journal_details.chart_id')
         ->orderByRaw('max(journals.date)')
         ->get();
