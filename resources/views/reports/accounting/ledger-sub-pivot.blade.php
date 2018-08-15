@@ -9,11 +9,11 @@
             <thead>
                 <tr>
                     <th>@lang('global.Code')</th>
-                    <th>@lang('accounting.Account')</th>
+                    <th>@lang('accounting.Accounts')</th>
                     <th>@lang('global.Comment')</th>
 
                     @foreach ($period as $month)
-                        <th colspan="2" class="number">{{ $month->format('M-Y') }}</th>
+                        <th class="number">{{ $month->format('M-Y') }}</th>
                     @endforeach
                 </tr>
             </thead>
@@ -34,21 +34,19 @@
                         @endphp
 
                         <td class="number">
-                            {{ number_format($runningTotal, 0, ',', '.') }}
-                        </td>
-                        <td class="number" width="8">
                             @if ($runningTotal > $prevRunningTotal && $prevRunningTotal != 0)
                                 <span class="small" style="color:limegreen">{{ number_format(($runningTotal / $prevRunningTotal) * 100, 0, ',', '.') }}%</span>
+                                &nbsp;
                             @elseif ($runningTotal < $prevRunningTotal && $prevRunningTotal != 0)
                                 <span class="small" style="color:red">[{{ number_format(($runningTotal / $prevRunningTotal) * 100, 0, ',', '.') }}%]</span>
-                            @elseif ($prevRunningTotal == 0 || $runningTotal == $prevRunningTotal)
-                                <span class="small" style="color:silver">0%</span>
+                                &nbsp;
                             @endif
-
-                            @php
-                            $prevRunningTotal = $runningTotal;
-                            @endphp
+                            {{ number_format($runningTotal, 0, ',', '.') }}
                         </td>
+
+                        @php
+                        $prevRunningTotal = $runningTotal;
+                        @endphp
 
                     @endforeach
                 </tr>
