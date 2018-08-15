@@ -10,6 +10,7 @@ use App\Cycle;
 use App\Journal;
 use App\Chart;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use DB;
 
 class ReportController extends Controller
@@ -52,12 +53,14 @@ class ReportController extends Controller
         if (isset($taxPayer))
         {
             $data = $this->journalQuery($taxPayer, $startDate, $endDate);
+            $period = CarbonPeriod::create($startDate, '1 month', $endDate);
 
             return view('reports/accounting/ledger-sub-pivot')
             ->with('header', $taxPayer)
             ->with('data', $data)
             ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            ->with('endDate', $endDate)
+            ->with('period', $period);
         }
     }
 
