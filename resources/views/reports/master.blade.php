@@ -75,6 +75,15 @@
         font-weight: bolder;
     }
 
+    .header
+    {
+        padding: 8px;
+        background-color: gainsboro;
+        background-blend-mode: lighten;
+        color: white;
+        width: 100%;
+    }
+
     .danger
     {
         color: crimson;
@@ -136,6 +145,12 @@
 </head>
 
 <body>
+    <div class="row header">
+        <div class="four columns">
+            <a class="button button-primary" href="#">Excel</a>
+        </div>
+    </div>
+
     <div class="row">
         <div class="four columns">
             <h5><b>@yield('reportName')</b></h5>

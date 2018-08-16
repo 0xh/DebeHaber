@@ -363,7 +363,7 @@ class ReportController extends Controller
 
             if ($e == 'e')
             {
-                return Excel::download(new View2Excel('reports.PRY.credit-note',
+                return Excel::download(new View2Excel('reports.commercial.credit-note',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
             }
             else
