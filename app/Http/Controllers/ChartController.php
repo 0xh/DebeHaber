@@ -411,6 +411,56 @@ class ChartController extends Controller
         return $chart;
     }
 
+    public function createIfNotExists_VATWithholdingReceivables(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $chart = Chart::My($taxPayer, $cycle)
+        ->where('type', 1)
+        ->where('sub_type', 13)
+        ->where('is_accountable', true)
+        ->first();
+
+        if (!isset($chart))
+        {
+            //if not, create specific.
+            $chart = new Chart();
+            $chart->taxpayer_id = $taxPayer->id;
+            $chart->chart_version_id = $cycle->chart_version_id;
+            $chart->type = 1;
+            $chart->sub_type = 13;
+            $chart->is_accountable = true;
+            $chart->code = 'N/A';
+            $chart->name = __('enum.VatWithholdings');
+            $chart->save();
+        }
+
+        return $chart;
+    }
+
+    public function createIfNotExists_VATWithholdingPayables(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        $chart = Chart::My($taxPayer, $cycle)
+        ->where('type', 2)
+        ->where('sub_type', 7)
+        ->where('is_accountable', true)
+        ->first();
+
+        if (!isset($chart))
+        {
+            //if not, create specific.
+            $chart = new Chart();
+            $chart->taxpayer_id = $taxPayer->id;
+            $chart->chart_version_id = $cycle->chart_version_id;
+            $chart->type = 2;
+            $chart->sub_type = 7;
+            $chart->is_accountable = true;
+            $chart->code = 'N/A';
+            $chart->name = __('enum.VatWithholdings');
+            $chart->save();
+        }
+
+        return $chart;
+    }
+
     public function mergeChartsIndex(Taxpayer $taxPayer, Cycle $cycle, $id)
     {
         return view('accounting/chart-merge');

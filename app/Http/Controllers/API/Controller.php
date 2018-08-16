@@ -116,8 +116,7 @@ class Controller extends BaseController
                 //Sales
                 if ($type == 4 || $type == 5)
                 {
-                    $chart = Chart::withoutGlobalScopes()
-                    ->My($taxPayer, $cycle)
+                    $chart = Chart::My($taxPayer, $cycle)
                     ->Incomes()
                     ->where('name', $name)
                     ->first();
@@ -131,8 +130,7 @@ class Controller extends BaseController
                 }
                 else //Purchase
                 {
-                    $chart = Chart::withoutGlobalScopes()
-                    ->My($taxPayer, $cycle)
+                    $chart = Chart::My($taxPayer, $cycle)
                     ->Expenses()
                     ->where('name', $name)
                     ->first();
@@ -151,8 +149,7 @@ class Controller extends BaseController
                 //Sales
                 if ($type == 4 || $type == 5)
                 {
-                    $chart = Chart::withoutGlobalScopes()
-                    ->My($taxPayer, $cycle)
+                    $chart = Chart::My($taxPayer, $cycle)
                     ->RevenuFromInventory()
                     ->where('name', $name)
                     ->first();
@@ -167,8 +164,7 @@ class Controller extends BaseController
                 }
                 else //Purchase
                 {
-                    $chart = Chart::withoutGlobalScopes()
-                    ->My($taxPayer, $cycle)
+                    $chart = Chart::My($taxPayer, $cycle)
                     ->Inventories()
                     ->where('name', $name)
                     ->first();
@@ -184,8 +180,7 @@ class Controller extends BaseController
             //Type 3 = FixedAsset
             elseif ($costcenter == 3)
             {
-                $chart = Chart::withoutGlobalScopes()
-                ->My($taxPayer, $cycle)
+                $chart = Chart::My($taxPayer, $cycle)
                 ->fixedAssets()
                 ->where('name', $name)
                 ->first();
@@ -224,8 +219,7 @@ class Controller extends BaseController
         if ($coefficient != '' || $coefficient == 0)
         {
 
-            $chart = Chart::withoutGlobalScopes()
-            ->My($taxPayer, $cycle)
+            $chart = Chart::My($taxPayer, $cycle)
             ->VATDebitAccounts()
             ->where('coefficient', $coefficient/100)
             ->first();
@@ -260,8 +254,7 @@ class Controller extends BaseController
         //Check if Chart Exists
         if ($coefficient != '' || $coefficient == 0)
         {
-            $chart = Chart::withoutGlobalScopes()
-            ->My($taxPayer, $cycle)
+            $chart = Chart::My($taxPayer, $cycle)
             ->VATCreditAccounts()
             ->where('coefficient', $coefficient/100)
             ->first();
@@ -299,8 +292,7 @@ class Controller extends BaseController
 
             //TODO Wrong, you need to specify taxpayerID or else you risk bringing other accounts not belonging to taxpayer.
             //I have done this already.
-            $chart = Chart::withoutGlobalScopes()
-            ->My($taxPayer, $cycle)
+            $chart = Chart::My($taxPayer, $cycle)
             ->MoneyAccounts()
             ->where('name', $name)
             ->first();

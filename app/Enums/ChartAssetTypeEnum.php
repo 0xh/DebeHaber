@@ -18,6 +18,7 @@ class ChartAssetTypeEnum extends Enum
     const AccumulatedDepreciation   = 10; //(contra account)
     const OtherAssets               = 11;
     const VATReceivable             = 12;
+    const VATWithHolding            = 13;
 
     public static function labels()
     {

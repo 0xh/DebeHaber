@@ -12,6 +12,7 @@ class ChartLiabilityTypeEnum extends Enum
     const TaxesPayable       = 4;
     const WagesPayable       = 5;
     const NotesPayable       = 6;
+    const VATWithHolding     = 7;
 
     public static function labels()
     {
