@@ -105,19 +105,17 @@ Route::group(['middleware' => 'auth'], function ()
 
       // Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 
-      Route::get('chart-ofAccounts/{strDate}/{endDate}/', 'ReportController@chartOfAccounts');
+      Route::get('chart-ofAccounts/{strDate}/{endDate}/{e?}', 'ReportController@chartOfAccounts');
 
-      Route::get('sub_ledger/{strDate}/{endDate}/', 'ReportController@subLedger')->name('reports.subLedger');
-      Route::get('ledger/{strDate}/{endDate}/', 'ReportController@ledger')->name('reports.ledger');
-      Route::get('ledger-ByMonth/{strDate}/{endDate}/', 'ReportController@ledgerByMonth')->name('reports.ledgerByMonth');
-      Route::get('ledger-byMoneyAccounts/{strDate}/{endDate}/', 'ReportController@ledgerByMoneyAccounts');
-      Route::get('ledger-byReceivables/{strDate}/{endDate}/', 'ReportController@ledgerByReceivables');
-      Route::get('ledger-byPayables/{strDate}/{endDate}/', 'ReportController@ledgerByPayables');
+      Route::get('sub_ledger/{strDate}/{endDate}/{e?}', 'ReportController@subLedger')->name('reports.subLedger');
+      Route::get('ledger/{strDate}/{endDate}/{e?}', 'ReportController@ledger')->name('reports.ledger');
+      Route::get('ledger-ByMonth/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByMonth')->name('reports.ledgerByMonth');
+      Route::get('ledger-byMoneyAccounts/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByMoneyAccounts');
+      Route::get('ledger-byReceivables/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByReceivables');
+      Route::get('ledger-byPayables/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByPayables');
+      Route::get('ledger-byExpenses/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByPayables');
 
       Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet')->name('reports.balanceSheet');
-      // Route::get('balance-comparative/{strDate}/{endDate}/', 'ReportController@balanceComparative');
-      // Route::get('results/{strDate}/{endDate}/', 'ReportController@resultsTable');
-      // Route::get('cash-flow/{strDate}/{endDate}/', 'ReportController@cashFlow');
     });
   });
 });

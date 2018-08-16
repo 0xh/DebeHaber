@@ -4,10 +4,10 @@
 @section('data')
     <table class="u-full-width">
         <tbody>
-            @foreach ($data->groupBy('type') as $groupedRows)
+            @foreach ($data->groupBy('type')->sortBy('type') as $groupedRows)
                 <thead>
                     <tr>
-                        <td>
+                        <td colspan="2">
                             <h6>
                                 @if ($groupedRows->first()->type == '1')
                                     @lang('enum.Assets')
@@ -26,20 +26,29 @@
                     <tr>
                         <th>@lang('global.Code')</th>
                         <th>@lang('global.Name')</th>
-                        <th>@lang('global.Type')</th>
-                        <th>@lang('global.SubType')</th>
+                        <th>@lang('accounting.SubType')</th>
                     </tr>
                 </thead>
 
-                @foreach ($groupedRows as $row)
-                    <tr>
-                        <td class="important">{{ $row->code }}</td>
-                        <td class="important">{{ $row->name }}</td>
-                        <td>{{ $row->type }}</td>
-                        <td>{{ $row->sub_type }}</td>
-                    </tr>
-                @endforeach
-
+                    @foreach ($groupedRows as $row)
+                        <tr>
+                            <td class="important">{{ $row->code }}</td>
+                            <td class="important">{{ $row->name }}</td>
+                            <td>
+                                @if ($row->type == '1')
+                                    <b>{{ \App\Enums\ChartAssetTypeEnum::labels()[$row->sub_type] ?? '' }}</b>
+                                @elseif ($row->type == '2')
+                                    <b>{{ \App\Enums\ChartLiabilityTypeEnum::labels()[$row->sub_type] ?? '' }}</b>
+                                @elseif ($row->type == '3')
+                                    <b>{{ \App\Enums\ChartEquityTypeEnum::labels()[$row->sub_type] ?? '' }}</b>
+                                @elseif ($row->type == '4')
+                                    <b>{{ \App\Enums\ChartRevenueTypeEnum::labels()[$row->sub_type] ?? '' }}</b>
+                                @elseif ($row->type == '5')
+                                    <b>{{ \App\Enums\ChartExpenseTypeEnum::labels()[$row->sub_type] ?? '' }}</b>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
             @endforeach
         </tbody>
     </table>

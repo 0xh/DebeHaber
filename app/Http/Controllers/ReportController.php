@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\View2Excel;
 use App\Taxpayer;
 use App\Transaction;
 use App\TransactionDetail;
@@ -20,65 +22,97 @@ class ReportController extends Controller
         return view('reports/index');
     }
 
-    public function chartOfAccounts(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function chartOfAccounts(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->chartQuery($taxPayer, $cycle, $startDate, $endDate);
 
-            return view('reports/accounting/chart_of_accounts')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.accounting.chart_of_accounts',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/accounting/chart_of_accounts')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function subLedger(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function subLedger(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->sortBy('date');
 
-            return view('reports/accounting/ledger-sub')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.accounting.ledger-sub',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/accounting/ledger-sub')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function ledger(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function ledger(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->sortBy('date');;
 
-            return view('reports/accounting/ledger')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.accounting.ledger',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/accounting/ledger')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function ledgerByMonth(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function ledgerByMonth(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->sortBy('chartType');
             $period = CarbonPeriod::create($startDate, '1 month', $endDate);
 
-            return view('reports/accounting/ledger-ByMonth')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate)
-            ->with('period', $period);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/accounting/ledger-ByMonth')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate)
+                ->with('period', $period);
+            }
         }
     }
 
-    public function balanceSheet(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function balanceSheet(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
@@ -107,202 +141,314 @@ class ReportController extends Controller
 
             $data = $charts->sortBy('type')->sortBy('code');
 
-            return view('reports/accounting/balance-sheet')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.accounting.balance-sheet',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/accounting/balance-sheet')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function balanceComparative(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function balanceComparative(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->chartBalanceQuery($taxPayer, $cycle, $startDate, $endDate);
 
-            return view('reports/accounting/balance-comparative')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.accounting.balance-comparative',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/accounting/balance-comparative')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function purchases(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function purchases(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/purchases')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.purchases',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/PRY/purchases')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function purchasesByVAT(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function purchasesByVAT(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/purchases_byVAT')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.purchases_byVAT',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/PRY/purchases_byVAT')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function purchasesByChart(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function purchasesByChart(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/purchases_byChart')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.purchases_byChart',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/PRY/purchases_byChart')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function purchasesBySupplier(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function purchasesBySupplier(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatPurchaseQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/purchases_bySupplier')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.purchases_bySupplier',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/PRY/purchases_bySupplier')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function sales(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function sales(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/sales')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.sales',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/PRY/sales')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function salesByVAT(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function salesByVAT(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/sales_byVAT')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.sales_byVAT',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/PRY/sales_byVAT')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function salesByChart(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function salesByChart(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/sales_byVat')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.sales_byVat',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/PRY/sales_byVat')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function salesByCustomer(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function salesByCustomer(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/PRY/sales_byCustomer')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.sales_byCustomer',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/PRY/sales_byCustomer')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function creditNotes(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function creditNotes(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatCreditNoteQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/commercial/credit-note')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.PRY.credit-note',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/commercial/credit-note')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function debitNotes(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function debitNotes(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatDebitNoteQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/commercial/debit-note')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.commercial.debit-note',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/commercial/debit-note')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function accountReceivable(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function accountReceivable(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->vatSaleQuery($taxPayer, $startDate, $endDate)->where('payment_condition', '>', 0);
 
-            return view('reports/commercial/account-receivable')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.commercial.account-receivable',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/commercial/account-receivable')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function accountCustomer(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function accountCustomer(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
 
     }
 
-    public function accountPayable(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function accountPayable(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))
         {
             $data = $this->accPayablesQuery($taxPayer, $startDate, $endDate);
 
-            return view('reports/commercial/account-payable')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate);
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.commercial.account-payable',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else
+            {
+                return view('reports/commercial/account-payable')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate);
+            }
         }
     }
 
-    public function accountSupplier(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    public function accountSupplier(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
 
     }
@@ -551,7 +697,7 @@ class ReportController extends Controller
     {
         DB::connection()->disableQueryLog();
 
-        return Chart::orderBy('parent_id','desc')
+        return Chart::orderBy('parent_id','asc')
         ->select('id', 'parent_id', 'code', 'name', 'type', 'sub_type', 'is_accountable')
         ->get();
     }

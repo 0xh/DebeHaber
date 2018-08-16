@@ -84208,33 +84208,6 @@ __webpack_require__("./resources/assets/js/report-components/paraguay.js");
 Vue.component('reports', {
     data: function data() {
         return {
-            pickerOptions2: {
-                shortcuts: [{
-                    text: 'Semana',
-                    onClick: function onClick(picker) {
-                        var end = new Date();
-                        var start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: 'Mes',
-                    onClick: function onClick(picker) {
-                        var end = new Date();
-                        var start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: 'Año',
-                    onClick: function onClick(picker) {
-                        var end = new Date();
-                        var start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }]
-            },
             dateRange: [moment().subtract(1, 'months').startOf('month').format("YYYY-MM-DD"), moment().subtract(1, 'months').endOf('month').format("YYYY-MM-DD")]
         };
     }

@@ -11,7 +11,7 @@
         <div class="m-portlet m-portlet--tabs">
             <div class="m-portlet__head">
                 <div class="m-portlet__head-tools">
-                    <ul class="nav nav-tabs m-tabs-line m-tabs-line--right m-tabs-line--brand" role="tablist">
+                    <ul class="nav nav-tabs m-tabs-line m-tabs-line--info m-tabs-line--2x m-tabs-line--right" role="tablist">
                         <li class="nav-item m-tabs__item">
                             <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#commercial" role="tab" aria-selected="false">
                                 <i class="la la-briefcase"></i>
@@ -24,7 +24,7 @@
                                 @lang('accounting.Accounting')
                             </a>
                         </li>
-                        <li class="nav-item m-tabs__item">
+                        <li class="nav-item m-tabs__item disabled">
                             <a class="nav-link m-tabs__link" data-toggle="tab" href="#audit" role="tab" aria-selected="true">
                                 <i class="la la-search"></i>
                                 @lang('global.Audits')
@@ -40,12 +40,13 @@
                         <div class="row">
                             <div class="col-6">
                                 <h3> @lang('commercial.Sales') </h3>
+
                                 <p class="lead"> Basic reports giving you information regarding your sales. </p>
 
                                 <div class="m-widget4">
                                     <div class="m-widget4__item">
                                         <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/sales.svg" alt="">
+                                            <img src="/img/icons/sales.jpg" alt>
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
@@ -56,12 +57,18 @@
                                                 <small>Basic list of sales invoices</small>
                                             </span>
                                         </div>
+                                        {{-- <div class="m-widget4__ext">
+                                            <a target="_blank" href="#" class="m-widget4__icon">
+                                                <i class="la la-envelope m--font-info"></i>
+                                            </a>
+                                        </div> --}}
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
                                         <div class="m-widget4__img m-widget4__img--icon">
                                             <img src="/img/icons/sales.svg" alt="">
@@ -77,10 +84,11 @@
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
                                         <div class="m-widget4__img m-widget4__img--icon">
                                             <img src="/img/icons/sales.svg" alt="">
@@ -96,10 +104,11 @@
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
                                         <div class="m-widget4__img m-widget4__img--icon">
                                             <img src="/img/icons/credit-note.svg" alt="">
@@ -115,10 +124,11 @@
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
                                         <div class="m-widget4__img m-widget4__img--icon">
                                             <img src="/img/icons/account-receivable.svg" alt="">
@@ -134,27 +144,10 @@
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
-                                    {{-- <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/sales.svg" alt="">
-                                        </div>
-                                        <div class="m-widget4__info">
-                                            <span class="m-widget4__text">
-                                                <a target="_blank" href="#">@lang('commercial.VATDebit')</a>
-                                                <br>
-                                                <small>List of VAT Debit (sales invoice plus debit notes)</small>
-                                            </span>
-                                        </div>
-                                        <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
-                                            </a>
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </div>
                             <div class="col-6">
@@ -178,7 +171,7 @@
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -197,7 +190,7 @@
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -216,7 +209,7 @@
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -235,7 +228,7 @@
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -253,16 +246,14 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" href="#" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/account-payable.svg" alt="">
-                                        </div>
                                         <div class="m-widget4__info">
+                                            <img src="/img/icons/account-payable.svg" alt="">
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/account-payable/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.AccountsPayable')
@@ -272,28 +263,11 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" href="#" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
-                                    {{-- <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/purchase.svg" alt="">
-                                        </div>
-                                        <div class="m-widget4__info">
-                                            <span class="m-widget4__text">
-                                                <a href="#">@lang('commercial.SalesVAT')</a>
-                                                <br>
-                                                <small>List of VAT Debit (purchase invoice plus credit notes)</small>
-                                            </span>
-                                        </div>
-                                        <div class="m-widget4__ext">
-                                            <a href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
-                                            </a>
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -308,19 +282,19 @@
                                 <div class="m-widget4">
                                     @if (request()->route('taxPayer')->setting->is_company)
                                         <div class="m-widget4__item">
-                                            <div class="m-widget4__img m-widget4__img--icon">
-                                                <img src="/img/icons/cloud.jpg" alt="">
-                                            </div>
                                             <div class="m-widget4__info">
+                                                <img src="/img/icons/cloud.jpg" width="32" height="32" alt="">
                                                 <span class="m-widget4__text">
-                                                    <a :href="'reports/hechauka/generate_files/'+dateRange[0]+'/'+dateRange[1]">Hechauka</a>
+                                                    <a :href="'reports/hechauka/generate_files/'+dateRange[0]+'/'+dateRange[1]">
+                                                        Hechauka
+                                                    </a>
                                                     <br>
                                                     <small>Download your files</small>
                                                 </span>
                                             </div>
                                             <div class="m-widget4__ext">
-                                                <a href="#" class="m-widget4__icon">
-                                                    <i class="la la-download"></i>
+                                                <a :href="'reports/hechauka/generate_files/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                    <i class="la la-file-zip-o m--font-warning"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -338,7 +312,7 @@
                                             </div>
                                             <div class="m-widget4__ext">
                                                 <a href="#" class="m-widget4__icon">
-                                                    <i class="la la-download"></i>
+                                                    <i class="la la-file-zip-o m--font-warning"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -356,9 +330,12 @@
                                 <p class="lead">  </p>
 
                                 <div class="m-widget4">
+
                                     <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/journals.svg" alt="">
+                                        <div class="m-widget4__ext">
+                                            <span class="m-widget4__icon">
+                                                <i class="la la-file-text-o"></i>
+                                            </span>
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
@@ -370,14 +347,17 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/journals.svg" alt="">
+                                        <div class="m-widget4__ext">
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-book"></i>
+                                            </a>
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
@@ -389,18 +369,21 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/report.svg" alt="">
+                                        <div class="m-widget4__ext">
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-book"></i>
+                                            </a>
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/ledger-ByMonth/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
+                                                <a target="_blank" :href="'reports/ledger-byMonth/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('general.Month')])
                                                 </a>
                                                 <br>
@@ -408,37 +391,43 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/report.svg" alt="">
+                                        <div class="m-widget4__ext">
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-book"></i>
+                                            </a>
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sales-byCustomers/'+dateRange[0]+'/'+dateRange[1]">
-                                                    @lang('accounting.LedgerOf', ['attribute' => __('enum.BankAccount')])
+                                                <a target="_blank" :href="'reports/ledger-byMoneyAccounts/'+ this.$parent.cycles[0].start_date +'/'+dateRange[1]">
+                                                    @lang('accounting.LedgerOf', ['attribute' => __('enum.MoneyAccounts')])
                                                 </a>
                                                 <br>
                                                 <small></small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/report.svg" alt="">
+                                        <div class="m-widget4__ext">
+                                            <span class="m-widget4__icon">
+                                                <i class="la la-book"></i>
+                                            </span>
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sales-byCustomers/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/ledger-byReceivables/'+ this.$parent.cycles[0].start_date +'/'+dateRange[1]">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('commercial.AccountsReceivable')])
                                                 </a>
                                                 <br>
@@ -446,18 +435,21 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--icon">
-                                            <img src="/img/icons/report.svg" alt="">
+                                        <div class="m-widget4__ext">
+                                            <span class="m-widget4__icon">
+                                                <img src="/img/icons/account-payable.svg" alt="">
+                                            </span>
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sales-byCustomers/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/ledger-byPayables/'+ this.$parent.cycles[0].start_date +'/'+dateRange[1]">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('commercial.AccountsPayable')])
                                                 </a>
                                                 <br>
@@ -465,11 +457,34 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
+                                    <div class="m-widget4__item">
+                                        <div class="m-widget4__ext">
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-book"></i>
+                                            </a>
+                                        </div>
+                                        <div class="m-widget4__info">
+                                            <span class="m-widget4__text">
+                                                <a target="_blank" :href="'reports/ledger-byExpenses/'+ this.$parent.cycles[0].start_date +'/'+dateRange[1]">
+                                                    @lang('accounting.LedgerOf', ['attribute' => __('commercial.Expenses')])
+                                                </a>
+                                                <br>
+                                                <small></small>
+                                            </span>
+                                        </div>
+                                        <div class="m-widget4__ext">
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -492,8 +507,8 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -511,8 +526,8 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -530,8 +545,8 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a target="_blank" :href="'reports/purchases/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -561,8 +576,8 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" href="#" class="m-widget4__icon">
-                                                <i class="la la-download"></i>
+                                            <a :href="'reports/chart-ofAccounts/'+dateRange[0]+'/'+dateRange[1]+'/e'" class="m-widget4__icon">
+                                                <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>

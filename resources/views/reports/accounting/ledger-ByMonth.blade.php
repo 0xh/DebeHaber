@@ -27,16 +27,15 @@
                     <tr>
                         <td colspan="3">
                             @if ($groupedBySubType->first()->chartType == '1')
-                                <b>{{ \App\Enums\ChartAssetTypeEnum::labels()[$groupedBySubType->first()->chartSubType] }}</b>
+                                <b>{{ \App\Enums\ChartAssetTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
                             @elseif ($groupedBySubType->first()->chartType == '2')
-                                <b>{{ \App\Enums\ChartLiabilityTypeEnum::labels()[$groupedBySubType->first()->chartSubType] }}</b>
+                                <b>{{ \App\Enums\ChartLiabilityTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
                             @elseif ($groupedBySubType->first()->chartType == '3')
-                                <b>{{ \App\Enums\ChartEquityTypeEnum::labels()[$groupedBySubType->first()->chartSubType] }}</b>
+                                <b>{{ \App\Enums\ChartEquityTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
                             @elseif ($groupedBySubType->first()->chartType == '4')
-                                <b>{{ \App\Enums\ChartRevenueTypeEnum::labels()[$groupedBySubType->first()->chartSubType] }}</b>
+                                <b>{{ \App\Enums\ChartRevenueTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
                             @elseif ($groupedBySubType->first()->chartType == '5')
-                                {{-- {{$groupedBySubType->first()->chartSubType}} --}}
-                                <b>{{ \App\Enums\ChartExpenseTypeEnum::labels()[$groupedBySubType->first()->chartSubType] }}</b>
+                                <b>{{ \App\Enums\ChartExpenseTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
                             @endif
                         </td>
                     </tr>
@@ -72,7 +71,6 @@
                                 @php
                                 $prevRunningTotal = $runningTotal;
                                 @endphp
-
                             @endforeach
                         </tr>
                     @endforeach

@@ -88,7 +88,7 @@
                                             @if(request()->route('cycle') != null)
                                                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                                                     <li class="m-nav__item m-nav__item--home">
-                                                        <a href="{{ route('hello') }}" class="m-nav__link m-nav__link--icon m--font-primary">
+                                                        <a href="{{ route('hello') }}" class="m-nav__link m-nav__link--icon m--font-info">
                                                             <i class="la la-home"></i>
                                                             @lang('global.Dashboard',['team' => Auth::user()->currentTeam->name])
                                                         </a>
@@ -98,7 +98,7 @@
                                                     </li>
                                                     <li class="m-nav__item">
                                                         <a href="{{ route('taxpayer.dashboard', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-nav__link">
-                                                            <span class="m-nav__link-text m--font-brand">
+                                                            <span class="m-nav__link-text m--font-info">
                                                                 {{ request()->route('taxPayer')->name }}
                                                             </span>
                                                         </a>
