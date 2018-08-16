@@ -143,7 +143,23 @@ class AccountMovementController extends Controller
 
     $accMovement = new AccountMovement();
 
-    $accMovement->chart_id = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
+    //Get Payment Type. 0=Normal, 1=CreditNote, 2=VATWitholding
+    $payentType = $data['PaymentType'];
+    if ($payentType == 0)
+    {
+      $chartID = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
+    }
+    else if ($payentType == 1)
+    {
+      $chartID = 0;//get Accounts payable forsuppliers
+    }
+    else if ($payentType == 2)
+    {
+      $chartID = 0;
+    }
+
+
+    $accMovement->chart_id = $chartID;
 
     $accMovement->taxpayer_id = $taxPayer->id;
     $accMovement->transaction_id = $invoice->id;
@@ -161,7 +177,7 @@ class AccountMovementController extends Controller
     $accMovement->debit = ($invoice->type == 1 || $invoice->type == 2) ?  $data['Debit'] : 0;
 
     $accMovement->comment = $data['Comment'];
-    
+
     $accMovement->save();
 
     return $accMovement;
