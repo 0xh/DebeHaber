@@ -10,18 +10,16 @@
                 <tr>
                     <th>@lang('global.Code')</th>
                     <th>@lang('accounting.Accounts')</th>
-                    <th>@lang('global.Comment')</th>
 
                     @foreach ($period as $month)
                         <th class="number">{{ $month->format('M-Y') }}</th>
                     @endforeach
                 </tr>
             </thead>
-            @foreach ($data->groupBy('chartCode')->sortBy('chartCode') as $groupedRow)
+            @foreach ($data->groupBy('chart_id') as $groupedRow)
                 <tr>
                     <td>{{ $groupedRow->first()->chartCode }}</td>
                     <td>{{ $groupedRow->first()->chartName }}</td>
-                    <td>{{ $groupedRow->first()->Comment }}</td>
 
                     @php
                     $prevRunningTotal = 0;
@@ -35,12 +33,13 @@
 
                         <td class="number">
                             @if ($runningTotal > $prevRunningTotal && $prevRunningTotal != 0)
-                                <span class="small" style="color:limegreen">{{ number_format(($runningTotal / $prevRunningTotal) * 100, 0, ',', '.') }}%</span>
+                                <span style="color:limegreen">{{ number_format(($runningTotal / $prevRunningTotal) * 100, 0, ',', '.') }}%</span>
                                 &nbsp;
                             @elseif ($runningTotal < $prevRunningTotal && $prevRunningTotal != 0)
-                                <span class="small" style="color:red">[{{ number_format(($runningTotal / $prevRunningTotal) * 100, 0, ',', '.') }}%]</span>
+                                <span style="color:red">[{{ number_format(($runningTotal / $prevRunningTotal) * 100, 0, ',', '.') }}%]</span>
                                 &nbsp;
                             @endif
+
                             {{ number_format($runningTotal, 0, ',', '.') }}
                         </td>
 

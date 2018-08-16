@@ -107,9 +107,9 @@ Route::group(['middleware' => 'auth'], function ()
 
       Route::get('chart-ofAccounts/{strDate}/{endDate}/', 'ReportController@chartOfAccounts');
 
-      Route::get('sub_ledger-ByMonth/{strDate}/{endDate}/', 'ReportController@subLedgerByMonth')->name('reports.subLedgerByMonth');
       Route::get('sub_ledger/{strDate}/{endDate}/', 'ReportController@subLedger')->name('reports.subLedger');
       Route::get('ledger/{strDate}/{endDate}/', 'ReportController@ledger')->name('reports.ledger');
+      Route::get('ledger-ByMonth/{strDate}/{endDate}/', 'ReportController@ledgerByMonth')->name('reports.ledgerByMonth');
       Route::get('ledger-byMoneyAccounts/{strDate}/{endDate}/', 'ReportController@ledgerByMoneyAccounts');
       Route::get('ledger-byReceivables/{strDate}/{endDate}/', 'ReportController@ledgerByReceivables');
       Route::get('ledger-byPayables/{strDate}/{endDate}/', 'ReportController@ledgerByPayables');

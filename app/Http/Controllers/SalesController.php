@@ -277,8 +277,6 @@ class SalesController extends Controller
         Transaction::whereIn('id', $querySales->pluck('id'))
         ->update(['journal_id' => $journal->id]);
 
-        $ChartController= new ChartController();
-
         //Sales Transactionsd done in cash. Must affect direct cash account.
         $salesInCash = Transaction::MySalesForJournals($startDate, $endDate, $taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
@@ -292,6 +290,7 @@ class SalesController extends Controller
         //run code for cash sales (insert detail into journal)
         foreach($salesInCash as $row)
         {
+            $ChartController = new ChartController();
             // search if chart exists, or else create it. we don't want an error causing all transactions not to be accounted.
             $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
 
@@ -308,7 +307,8 @@ class SalesController extends Controller
         //2nd Query: Sales Transactions done in Credit. Must affect customer credit account.
         $creditSales = Transaction::MySalesForJournals($startDate, $endDate, $taxPayer->id)
         ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-        ->groupBy('rate', 'customer_id')
+        ->groupBy('rate')
+        ->groupBy('customer_id')
         ->where('payment_condition', '>', 0)
         ->select(DB::raw('max(rate) as rate'),
         DB::raw('max(customer_id) as customer_id'),
@@ -318,6 +318,7 @@ class SalesController extends Controller
         //run code for credit sales (insert detail into journal)
         foreach($creditSales as $row)
         {
+            $ChartController = new ChartController();
             $customerChartID = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
 
             $value = $row->total * $row->rate;

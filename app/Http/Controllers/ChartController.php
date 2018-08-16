@@ -302,6 +302,7 @@ class ChartController extends Controller
             ->where('type', 1)
             ->where('sub_type', 5)
             ->where('is_accountable', true)
+            ->whereNull('partner_id')
             ->first();
 
             if (!isset($chart))
@@ -338,6 +339,7 @@ class ChartController extends Controller
             $chart = Chart::My($taxPayer, $cycle)
             ->where('type', 2)
             ->where('sub_type', 1)
+            ->whereNull('partner_id')
             ->first();
 
             if (!isset($chart))

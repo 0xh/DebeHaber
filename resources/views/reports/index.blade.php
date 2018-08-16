@@ -10,23 +10,6 @@
     <reports inline-template>
         <div class="m-portlet m-portlet--tabs">
             <div class="m-portlet__head">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        {{-- <h3 class="m-portlet__head-text">
-                            @lang('global.DateRange')
-                            <el-date-picker v-model="dateRange"
-                            type="daterange"
-                            align="right"
-                            unlink-panels
-                            range-separator="|"
-                            start-placeholder="@lang('global.StartDate')"
-                            end-placeholder="@lang('global.EndDate')"
-                            format = "dd/MM/yyyy"
-                            value-format = "yyyy-MM-dd"
-                            :picker-options="pickerOptions2"></el-date-picker>
-                        </h3> --}}
-                    </div>
-                </div>
                 <div class="m-portlet__head-tools">
                     <ul class="nav nav-tabs m-tabs-line m-tabs-line--right m-tabs-line--brand" role="tablist">
                         <li class="nav-item m-tabs__item">
@@ -417,8 +400,8 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/sub_ledger-ByMonth/'+dateRange[0]+'/'+dateRange[1]">
-                                                    @lang('accounting.LedgerOf', ['attribute' => __('commercial.SalesTax')])
+                                                <a target="_blank" :href="'reports/ledger-ByMonth/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
+                                                    @lang('accounting.LedgerOf', ['attribute' => __('general.Month')])
                                                 </a>
                                                 <br>
                                                 <small></small>
@@ -501,7 +484,7 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/balance-sheet/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/balance-sheet/' + this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
                                                     @lang('accounting.BalanceSheet')
                                                 </a>
                                                 <br>
@@ -520,7 +503,7 @@
                                         </div>
                                         <div class="m-widget4__info">
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/purchases/'+dateRange[0]+'/'+dateRange[1]">
+                                                <a target="_blank" :href="'reports/purchases/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
                                                     @lang('accounting.BalanceSheetCompBy', ['attribute' => __('global.Month')])
                                                 </a>
                                                 <br>

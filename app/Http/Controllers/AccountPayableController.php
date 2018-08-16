@@ -227,7 +227,7 @@ class AccountPayableController extends Controller
         $chartController= new ChartController();
 
         //1st Query: Sales Transactions done in Credit. Must affect customer credit account.
-        $listOfPayables = AccountMovement::MyAccountPayablesForJournals($startDate, $endDate, $taxPayer->id)
+        $listOfPays = AccountMovement::MyAccountPayablesForJournals($startDate, $endDate, $taxPayer->id)
         ->groupBy('rate', 'supplier_id')
         ->select(DB::raw('max(rate) as rate'),
         DB::raw('max(supplier_id) as supplier_id'),
@@ -249,6 +249,14 @@ class AccountPayableController extends Controller
 
             $totalDebits += $value;
         }
+
+        $listOfPayables = AccountMovement::MyAccountPayablesForJournals($startDate, $endDate, $taxPayer->id)
+        ->groupBy('rate', 'supplier_id')
+        ->select(DB::raw('max(rate) as rate'),
+        DB::raw('max(supplier_id) as supplier_id'),
+        DB::raw('sum(debit) as debit'),
+        DB::raw('sum(credit) as credit'))
+        ->get();
 
         //run code for credit purchase (insert detail into journal)
         foreach($listOfPayables->groupBy('rate') as $groupedRow)

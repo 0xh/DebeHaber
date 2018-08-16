@@ -38,7 +38,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate);
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->sortBy('date');
 
             return view('reports/accounting/ledger-sub')
             ->with('header', $taxPayer)
@@ -48,33 +48,33 @@ class ReportController extends Controller
         }
     }
 
-    public function subLedgerByMonth(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
-    {
-        if (isset($taxPayer))
-        {
-            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate);
-            $period = CarbonPeriod::create($startDate, '1 month', $endDate);
-
-            return view('reports/accounting/ledger-sub-pivot')
-            ->with('header', $taxPayer)
-            ->with('data', $data)
-            ->with('strDate', $startDate)
-            ->with('endDate', $endDate)
-            ->with('period', $period);
-        }
-    }
-
     public function ledger(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate);
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->sortBy('date');;
 
             return view('reports/accounting/ledger')
             ->with('header', $taxPayer)
             ->with('data', $data)
             ->with('strDate', $startDate)
             ->with('endDate', $endDate);
+        }
+    }
+
+    public function ledgerByMonth(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
+    {
+        if (isset($taxPayer))
+        {
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->sortBy('chartType');
+            $period = CarbonPeriod::create($startDate, '1 month', $endDate);
+
+            return view('reports/accounting/ledger-ByMonth')
+            ->with('header', $taxPayer)
+            ->with('data', $data)
+            ->with('strDate', $startDate)
+            ->with('endDate', $endDate)
+            ->with('period', $period);
         }
     }
 
@@ -520,7 +520,6 @@ class ReportController extends Controller
         'charts.sub_type as chartSubType')
         ->whereBetween('journals.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->where('cycle_id', $cycleID)
-        ->orderBy('date')
         ->get();
     }
 
@@ -543,7 +542,7 @@ class ReportController extends Controller
         'max(charts.sub_type) as chartSubType'))
         ->whereBetween('journals.date', array(Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()))
         ->where('cycle_id', $cycleID)
-        ->groupBy('journal_details.chart_id')
+        ->groupBy('journal_details.chart_id', 'journals.date')
         ->orderByRaw('max(journals.date)')
         ->get();
     }
