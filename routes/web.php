@@ -113,7 +113,7 @@ Route::group(['middleware' => 'auth'], function ()
       Route::get('ledger-byMoneyAccounts/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByCashAccount');
       Route::get('ledger-byReceivables/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByReceivables');
       Route::get('ledger-byPayables/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByPayables');
-      Route::get('ledger-byExpenses/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByPayables');
+      Route::get('ledger-byExpenses/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByExpenses');
 
       Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet')->name('reports.balanceSheet');
     });

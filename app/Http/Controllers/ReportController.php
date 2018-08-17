@@ -145,10 +145,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->where(function($q) {
-                $q->where('chartType', '=', 1)
-                ->where('chartSubType', '=', 5);
-            })->sortBy('chartName');
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->where('chartType', '=', 1)->where('chartSubType', '=', 5)->sortBy('chartName');
             $period = CarbonPeriod::create($startDate, '1 month', $endDate);
 
             if ($e == 'e')
@@ -173,10 +170,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->where(function($q) {
-                $q->where('chartType', '=', 2)
-                ->where('chartSubType', '=', 1);
-            })->sortBy('chartName');
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->where('chartType', '=', 2)->where('chartSubType', '=', 1)->sortBy('chartName');
             $period = CarbonPeriod::create($startDate, '1 month', $endDate);
 
             if ($e == 'e')
@@ -201,10 +195,7 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->where(function($q)
-            {
-                $q->where('chartType', '=', 5);
-            })->sortBy('chartSubType');
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->where('chartType', '=', 5)->sortBy('chartSubType');
             $period = CarbonPeriod::create($startDate, '1 month', $endDate);
 
             if ($e == 'e')
