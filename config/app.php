@@ -170,6 +170,7 @@ return [
         ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\BinaryUuid\UuidServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         //Barryvdh\TranslationManager\ManagerServiceProvider::class,
     ],
 
@@ -219,6 +220,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 ];

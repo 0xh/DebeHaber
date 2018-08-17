@@ -13,6 +13,7 @@ use App\Journal;
 use App\Chart;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use PDF;
 use DB;
 
 class ReportController extends Controller
@@ -32,6 +33,12 @@ class ReportController extends Controller
             {
                 return Excel::download(new View2Excel('reports.accounting.chart_of_accounts',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+            }
+            else if($e == 'p')
+            {
+                $pdf = PDF::loadView('reports.accounting.chart_of_accounts',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
+                return $pdf->download(__('accounting.ChartOfAccounts') . '.pdf');
             }
             else
             {

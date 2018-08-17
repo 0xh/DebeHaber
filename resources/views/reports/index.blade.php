@@ -531,6 +531,11 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
+                                            <a :href="'reports/chart-ofAccounts/'+dateRange[0]+'/'+dateRange[1]+'/p'" class="m-widget4__icon">
+                                                <i class="la la-file-pdf-o m--font-danger"></i>
+                                            </a>
+                                        </div>
+                                        <div class="m-widget4__ext">
                                             <a :href="'reports/chart-ofAccounts/'+dateRange[0]+'/'+dateRange[1]+'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>

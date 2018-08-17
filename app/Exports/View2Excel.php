@@ -21,8 +21,6 @@ class View2Excel implements FromView
     */
     public function view(): View
     {
-        return view($this->view,
-            $this->data
-        );
+        return view($this->view, $this->data);
     }
 }
