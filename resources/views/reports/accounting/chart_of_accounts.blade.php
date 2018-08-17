@@ -25,8 +25,8 @@
                     </tr>
                     <tr>
                         <th>@lang('global.Code')</th>
-                        <th>@lang('global.Name')</th>
-                        <th>@lang('accounting.SubType')</th>
+                        <th>@lang('accounting.ChartofAccounts')</th>
+                        <th>@lang('global.SubType')</th>
                     </tr>
                 </thead>
 

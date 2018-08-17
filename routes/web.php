@@ -85,23 +85,23 @@ Route::group(['middleware' => 'auth'], function ()
       Route::get('/', 'ReportController@index')->name('reports.index');
       Route::get('hechauka/generate_files/{start_date}/{end_date}', 'API\PRY\HechaukaController@generateFiles');
 
-      Route::get('purchases/{strDate}/{endDate}', 'ReportController@purchases')->name('reports.purchases');
-      Route::get('purchases-byVAT/{strDate}/{endDate}', 'ReportController@purchasesByVAT')->name('reports.purchaseByVAT');
+      Route::get('purchases/{strDate}/{endDate}/{e?}', 'ReportController@purchases')->name('reports.purchases');
+      Route::get('purchases-byVAT/{strDate}/{endDate}/{e?}', 'ReportController@purchasesByVAT')->name('reports.purchaseByVAT');
       Route::get('purchases-bySupplier/{strDate}/{endDate}/', 'ReportController@purchasesBySupplier')->name('reports.purchaseBySupplier');
       Route::get('purchases-byChart/{strDate}/{endDate}/', 'ReportController@purchasesByChart')->name('reports.salesByChart');
 
-      Route::get('sales/{strDate}/{endDate}', 'ReportController@sales')->name('reports.sales');
-      Route::get('sales-byVATs/{strDate}/{endDate}', 'ReportController@salesByVAT')->name('reports.salesByVAT');
-      Route::get('sales-byCustomers/{strDate}/{endDate}/', 'ReportController@salesByCustomer')->name('reports.salesByCustomer');
-      Route::get('sales-byChart/{strDate}/{endDate}/', 'ReportController@salesByChart')->name('reports.salesByChart');
+      Route::get('sales/{strDate}/{endDate}/{e?}', 'ReportController@sales')->name('reports.sales');
+      Route::get('sales-byVATs/{strDate}/{endDate}/{e?}', 'ReportController@salesByVAT')->name('reports.salesByVAT');
+      Route::get('sales-byCustomers/{strDate}/{endDate}/{e?}', 'ReportController@salesByCustomer')->name('reports.salesByCustomer');
+      Route::get('sales-byChart/{strDate}/{endDate}/{e?}', 'ReportController@salesByChart')->name('reports.salesByChart');
 
-      Route::get('credit_notes/{strDate}/{endDate}/', 'ReportController@creditNotes')->name('reports.creditNotes');
-      Route::get('debit_notes/{strDate}/{endDate}/', 'ReportController@debitNotes')->name('reports.debitNotes');
+      Route::get('credit_notes/{strDate}/{endDate}/{e?}', 'ReportController@creditNotes')->name('reports.creditNotes');
+      Route::get('debit_notes/{strDate}/{endDate}/{e?}', 'ReportController@debitNotes')->name('reports.debitNotes');
 
-      Route::get('account-receivable/{strDate}/{endDate}/', 'ReportController@accountReceivable');
-      Route::get('account-customer/{strDate}/{endDate}/', 'ReportController@accountCustomer');
-      Route::get('account-payable/{strDate}/{endDate}/', 'ReportController@accountPayable');
-      Route::get('account-supplier/{strDate}/{endDate}/', 'ReportController@accountSupplier');
+      Route::get('account-receivable/{strDate}/{endDate}/{e?}', 'ReportController@accountReceivable');
+      Route::get('account-customer/{strDate}/{endDate}/{e?}', 'ReportController@accountCustomer');
+      Route::get('account-payable/{strDate}/{endDate}/{e?}', 'ReportController@accountPayable');
+      Route::get('account-supplier/{strDate}/{endDate}/{e?}', 'ReportController@accountSupplier');
 
       // Route::get('fx-rates/{strDate}/{endDate}/', 'ReportController@fxRates');
 
@@ -110,7 +110,7 @@ Route::group(['middleware' => 'auth'], function ()
       Route::get('sub_ledger/{strDate}/{endDate}/{e?}', 'ReportController@subLedger')->name('reports.subLedger');
       Route::get('ledger/{strDate}/{endDate}/{e?}', 'ReportController@ledger')->name('reports.ledger');
       Route::get('ledger-ByMonth/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByMonth')->name('reports.ledgerByMonth');
-      Route::get('ledger-byMoneyAccounts/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByMoneyAccounts');
+      Route::get('ledger-byMoneyAccounts/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByCashAccount');
       Route::get('ledger-byReceivables/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByReceivables');
       Route::get('ledger-byPayables/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByPayables');
       Route::get('ledger-byExpenses/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByPayables');

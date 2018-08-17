@@ -15,6 +15,7 @@ return [
     'descExpense' => 'Represent your expenditures. Common examples are utilities, rents, depreciation, interest, and insurance',
 
     //Chart of Account = Sub Types
+    'CashAccount' => 'Cash Account',
     'BankAccount' => 'Bank Account',
     'PayrollAccount' => 'Payroll Account',
     'PettyCash' => 'Petty Cash',

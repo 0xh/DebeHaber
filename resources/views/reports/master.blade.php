@@ -8,6 +8,7 @@
 
     <link href="{{url('/')}}/css/normalize.css" rel="stylesheet" type="text/css" />
     <link href="{{url('/')}}/css/skeleton.css" rel="stylesheet" type="text/css" />
+    <link href="{{url('/')}}/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
 
     <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
@@ -28,9 +29,6 @@
     <meta name="theme-color" content="#ffffff">
 
     <style>
-
-    /* @import url('https://fonts.googleapis.com/css?family=OpenSans'); */
-
     body
     {
         padding: 10px;
@@ -38,7 +36,8 @@
         line-height: 0 !important;
     }
 
-    a{
+    a
+    {
         /* color: black; */
         text-decoration: none !important;
     }
@@ -136,20 +135,13 @@
     @media print
     {
         hr
-        {
-            page-break-after: always;
-        }
+        { page-break-after: always; }
     }
 
     </style>
 </head>
 
 <body>
-    <div class="row header">
-        <div class="four columns">
-            <a class="button button-primary" href="#">Excel</a>
-        </div>
-    </div>
 
     <div class="row">
         <div class="four columns">
@@ -163,7 +155,7 @@
     </div>
 
     @php
-        $taxIDName = Config::get('countries.' . request()->route('taxPayer')->country . '.taxpayer-id')
+    $taxIDName = Config::get('countries.' . request()->route('taxPayer')->country . '.taxpayer-id')
     @endphp
 
     <div class="container">
@@ -191,9 +183,22 @@
                         <small>
                             @lang('global.NumberOfRecords')
                         </small>
+
                         @isset($data)
                             <b>{{ $data->count() }}</b>
                         @endisset
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right">
+                        Share This!
+                    </td>
+                    <td>
+                        <a href="{{ basename(Request::url()) }}/e">
+                            <span><i class="la la-file-excel-o"></i>Excel</span>
+                        </a>
                     </td>
                 </tr>
             </table>
