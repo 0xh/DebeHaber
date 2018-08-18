@@ -32,7 +32,8 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.accounting.chart_of_accounts',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . ' | ' . $startDate . '-' . $endDate . '.xls');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]),
+                __('accounting.ChartOfAccounts') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else if($e == 'p')
             {
@@ -119,13 +120,13 @@ class ReportController extends Controller
             {
                 return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
-                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
+                __('accounting.LedgerOf', ['attribute' => 'Month']) . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else if($e == 'p')
             {
                 $pdf = PDF::loadView('reports.accounting.ledger-ByMonth',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
-                return $pdf->download(__('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.pdf');
+                return $pdf->download(__('accounting.LedgerOf', ['attribute' => 'Month']) . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
@@ -143,27 +144,27 @@ class ReportController extends Controller
     {
         if (isset($taxPayer))
         {
-            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->where('chartType', 1)->where(function($q) {
-                $q->where('chartSubType', '=', 1)
-                ->orWhere('chartSubType', '=', 3);
-            })->sortBy('chartName');
+            $data = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->where('chartType', 1)
+            ->where('chartSubType', '=', 1)
+            ->sortBy('chartName');
+
             $period = CarbonPeriod::create($startDate, '1 month', $endDate);
 
             if ($e == 'e')
             {
-                return Excel::download(new View2Excel('reports.accounting.ledger-ByCashAccount',
+                return Excel::download(new View2Excel('reports.accounting.ledger-ByCashAccounts',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
                 __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else if($e == 'p')
             {
-                $pdf = PDF::loadView('reports.accounting.ledger-ByCashAccount',
+                $pdf = PDF::loadView('reports.accounting.ledger-ByCashAccounts',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
                 return $pdf->download(__('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
-                return view('reports/accounting/ledger-ByCashAccount')
+                return view('reports.accounting.ledger-ByCashAccounts')
                 ->with('header', $taxPayer)
                 ->with('data', $data)
                 ->with('strDate', $startDate)
@@ -184,17 +185,17 @@ class ReportController extends Controller
             {
                 return Excel::download(new View2Excel('reports.accounting.ledger-ByReceivables',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
-                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
+                __('accounting.LedgerOf', ['attribute' => 'AccountReceivables']) . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else if($e == 'p')
             {
-                $pdf = PDF::loadView('reports.accounting.ledger-ByCashAccount',
+                $pdf = PDF::loadView('reports.accounting.ledger-ByReceivables',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
-                return $pdf->download(__('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.pdf');
+                return $pdf->download(__('accounting.LedgerOf', ['attribute' => 'AccountReceivables']) . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
-                return view('reports/accounting/ledger-ByMonth')
+                return view('reports.accounting.ledger-ByReceivables')
                 ->with('header', $taxPayer)
                 ->with('data', $data)
                 ->with('strDate', $startDate)
@@ -213,13 +214,13 @@ class ReportController extends Controller
 
             if ($e == 'e')
             {
-                return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
+                return Excel::download(new View2Excel('reports.accounting.ledger-ByPayables',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
                 __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
-                return view('reports/accounting/ledger-ByMonth')
+                return view('reports.accounting.ledger-ByPayables')
                 ->with('header', $taxPayer)
                 ->with('data', $data)
                 ->with('strDate', $startDate)
@@ -238,13 +239,13 @@ class ReportController extends Controller
 
             if ($e == 'e')
             {
-                return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
+                return Excel::download(new View2Excel('reports.accounting.ledger-ByExpenses',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
                 __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
-                return view('reports/accounting/ledger-ByMonth')
+                return view('reports.accounting.ledger-ByExpenses')
                 ->with('header', $taxPayer)
                 ->with('data', $data)
                 ->with('strDate', $startDate)
