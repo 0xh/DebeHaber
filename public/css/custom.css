@@ -9,3 +9,7 @@ body {
   height: max-content !important;
 }
 
+.m-subheader .m-subheader__title
+{
+    font-family: OpenSans !important;
+}

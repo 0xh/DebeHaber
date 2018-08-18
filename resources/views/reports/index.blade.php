@@ -325,7 +325,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -343,7 +343,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/ledger/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/ledger/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -362,7 +362,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/ledger-byMonth/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/ledger-byMonth/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -381,7 +381,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/ledger-byMoneyAccounts/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/ledger-byMoneyAccounts/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -400,7 +400,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/ledger-byReceivables/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/ledger-byReceivables/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -419,7 +419,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/ledger-byPayables/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/ledger-byPayables/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -438,7 +438,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/ledger-byExpenses/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/ledger-byExpenses/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -465,7 +465,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/balance-sheet/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/balance-sheet/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -483,7 +483,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/balance-sheetComparative/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/balance-sheetComparative/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -501,7 +501,7 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a target="_blank" :href="'reports/balance-sheetComparativeYearly/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                            <a :href="'reports/balance-sheetComparativeYearly/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
@@ -536,7 +536,7 @@
                                             </a>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a :href="'reports/chart-ofAccounts/'+dateRange[0]+'/'+dateRange[1]+'/e'" class="m-widget4__icon">
+                                            <a :href="'reports/account-payable/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
