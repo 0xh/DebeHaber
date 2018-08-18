@@ -32,13 +32,13 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.accounting.chart_of_accounts',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.ChartOfAccounts') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else if($e == 'p')
             {
                 $pdf = PDF::loadView('reports.accounting.chart_of_accounts',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
-                return $pdf->download(__('accounting.ChartOfAccounts') . '.pdf');
+                return $pdf->download(__('accounting.ChartOfAccounts') . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
@@ -60,7 +60,13 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.accounting.ledger-sub',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.SubLedger') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.SubLedger') . ' | ' . $startDate . '-' . $endDate . '.xls');
+            }
+            else if($e == 'p')
+            {
+                $pdf = PDF::loadView('reports.accounting.ledger-sub',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
+                return $pdf->download(__('accounting.SubLedger') . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
@@ -82,7 +88,14 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.accounting.ledger',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.Ledger') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]),
+                __('accounting.Ledger') . ' | ' . $startDate . '-' . $endDate . '.xls');
+            }
+            else if($e == 'p')
+            {
+                $pdf = PDF::loadView('reports.accounting.ledger',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
+                return $pdf->download(__('accounting.Ledger') . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
@@ -106,7 +119,13 @@ class ReportController extends Controller
             {
                 return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
-                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . '.xlsx');
+                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
+            }
+            else if($e == 'p')
+            {
+                $pdf = PDF::loadView('reports.accounting.ledger-ByMonth',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
+                return $pdf->download(__('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
@@ -132,13 +151,19 @@ class ReportController extends Controller
 
             if ($e == 'e')
             {
-                return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
+                return Excel::download(new View2Excel('reports.accounting.ledger-ByCashAccount',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
-                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . '.xlsx');
+                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
+            }
+            else if($e == 'p')
+            {
+                $pdf = PDF::loadView('reports.accounting.ledger-ByCashAccount',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
+                return $pdf->download(__('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
-                return view('reports/accounting/ledger-ByMonth')
+                return view('reports/accounting/ledger-ByCashAccount')
                 ->with('header', $taxPayer)
                 ->with('data', $data)
                 ->with('strDate', $startDate)
@@ -157,9 +182,15 @@ class ReportController extends Controller
 
             if ($e == 'e')
             {
-                return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
+                return Excel::download(new View2Excel('reports.accounting.ledger-ByReceivables',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
-                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . '.xlsx');
+                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
+            }
+            else if($e == 'p')
+            {
+                $pdf = PDF::loadView('reports.accounting.ledger-ByCashAccount',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]);
+                return $pdf->download(__('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.pdf');
             }
             else
             {
@@ -184,7 +215,7 @@ class ReportController extends Controller
             {
                 return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
-                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . '.xlsx');
+                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -209,7 +240,7 @@ class ReportController extends Controller
             {
                 return Excel::download(new View2Excel('reports.accounting.ledger-ByMonth',
                 ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate, 'period' => $period]),
-                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . '.xlsx');
+                __('accounting.LedgerOf', ['attribute' => 'ByMonth']) . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -255,7 +286,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.accounting.balance-sheet',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.BalanceSheet') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.BalanceSheet') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -277,7 +308,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.accounting.balance-comparative',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.BalanceSheet(Comparative)') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.BalanceSheet(Comparative)') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -299,7 +330,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.PRY.purchases',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.Purchases') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.Purchases') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -321,7 +352,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.PRY.purchases_byVAT',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.PurchaseByVAT') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.PurchaseByVAT') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -343,7 +374,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.PRY.purchases_byChart',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.PurchaseByChart') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.PurchaseByChart') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -365,7 +396,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.PRY.purchases_bySupplier',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.PurchaseBySuppliers') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.PurchaseBySuppliers') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -387,7 +418,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.PRY.sales',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.Sales') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.Sales') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -409,7 +440,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.PRY.sales_byVAT',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.SalesByVAT') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.SalesByVAT') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -431,7 +462,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.PRY.sales_byVat',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.SalesByChart') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.SalesByChart') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -453,7 +484,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.PRY.sales_byCustomer',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.SalesByCustomer') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.SalesByCustomer') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -475,7 +506,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.commercial.credit-note',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.CreditNotes') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.CreditNotes') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -497,7 +528,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.commercial.debit-note',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.DebitNotes') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.DebitNotes') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -519,7 +550,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.commercial.account-receivable',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.AccountsReceivable') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.AccountsReceivable') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {
@@ -546,7 +577,7 @@ class ReportController extends Controller
             if ($e == 'e')
             {
                 return Excel::download(new View2Excel('reports.commercial.account-payable',
-                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.AccountsPayable') . '.xlsx');
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('commercial.AccountsPayable') . ' | ' . $startDate . '-' . $endDate . '.xls');
             }
             else
             {

@@ -1,6 +1,6 @@
 @extends('reports.master')
 
-@section('reportName', __('accounting.LedgerOf', ['attribute' => 'Month']))
+@section('reportName', __('accounting.LedgerOf', ['attribute' => 'CashAccounts']))
 
 @section('data')
 
