@@ -93,7 +93,7 @@ export default {
 
                         if (data!=null)
                         {
-                        
+
                             app.$parent.no_owner = 1;
                             app.$parent.owner_img = data.team.photo_url;
                             app.$parent.owner_name = data.team.name;
@@ -115,6 +115,8 @@ export default {
             }
         }
     }
+
+
     </script>
 
     <style scoped>

@@ -3164,6 +3164,8 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED
                 }
             });
         }
+    }, mounted: function mounted() {
+        console.log(this.country);
     }
 });
 

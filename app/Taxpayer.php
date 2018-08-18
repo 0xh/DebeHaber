@@ -11,6 +11,7 @@ class Taxpayer extends Model
 
     protected $fillable = [
         'name',
+        'country',
         'alias',
         'taxid',
         'address',

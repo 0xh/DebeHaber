@@ -203,7 +203,9 @@ export default {
                     }
                 });
             }
-        }
+        },mounted: function mounted() {
+            console.log(this.country);
+            }
     }
     </script>
 

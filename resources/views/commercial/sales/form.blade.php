@@ -21,7 +21,7 @@
                     </label>
 
                     <div class="col-8">
-                        <router-view name="SearchBox" :url="/getLastSale/" :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" :country="{{ request()->route('taxPayer')->country }}"></router-view>
+                        <router-view name="SearchBox" :url="/getLastSale/" :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" country="{{ request()->route('taxPayer')->country}}"></router-view>
                     </div>
                 </div>
             </div>
