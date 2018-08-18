@@ -83809,7 +83809,7 @@ Vue.component('taxpayer-integration', {
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function onSave(json) {
-
+            console.log(json);
             $.ajax({
                 url: '/taxpayer-integration/' + json.id,
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },

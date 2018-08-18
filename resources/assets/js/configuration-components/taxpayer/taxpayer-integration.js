@@ -104,7 +104,7 @@ Vue.component('taxpayer-integration',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
-
+          console.log(json);
             $.ajax({
                 url: '/taxpayer-integration/' + json.id,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},

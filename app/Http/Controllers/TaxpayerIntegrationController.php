@@ -72,8 +72,11 @@ class TaxpayerIntegrationController extends Controller
   * @param  \App\TaxpayerIntegration  $taxpayerIntegration
   * @return \Illuminate\Http\Response
   */
-  public function update(Request $request, TaxpayerIntegration $taxPayerIntegration)
+  public function update(Request $request, $taxPayerIntegration)
   {
+
+    $taxPayerIntegration=taxPayerIntegration::where('taxpayer_id',$taxPayerIntegration)->first();
+        
     if (isset($taxPayerIntegration))
     {
       $taxPayer = TaxPayer::where('id', $taxPayerIntegration->taxpayer_id)->with('setting')->first();
