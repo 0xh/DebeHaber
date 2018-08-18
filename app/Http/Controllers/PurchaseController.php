@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AccountMovement;
-use App\JournalTransaction;
+//use App\JournalTransaction;
 use App\Taxpayer;
 use App\Cycle;
 use App\Chart;
@@ -66,7 +66,6 @@ class PurchaseController extends Controller
         {
             $Transaction = Transaction::MyPurchases()
             ->join('taxpayers', 'taxpayers.id', 'transactions.supplier_id')
-            ->where('supplier_id', $taxPayer->id)
             ->where('transactions.id', $id)
             ->with('details')
             ->select(DB::raw('false as selected,transactions.id,
@@ -186,7 +185,7 @@ class PurchaseController extends Controller
             {
                 //TODO: Run Tests to make sure it deletes all journals related to transaction
                 AccountMovement::where('transaction_id', $transactionID)->delete();
-                JournalTransaction::where('transaction_id',$transactionID)->delete();
+                //JournalTransaction::where('transaction_id',$transactionID)->delete();
                 Transaction::where('id',$transactionID)->delete();
 
                 return response()->json('ok', 200);

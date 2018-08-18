@@ -172,7 +172,7 @@ class DebitNoteController extends Controller
     {
         try
         {
-            JournalTransaction::where('transaction_id', $transaction->id)->delete();
+            //JournalTransaction::where('transaction_id', $transaction->id)->delete();
             $transaction->delete();
 
             return response()->json('ok', 200);

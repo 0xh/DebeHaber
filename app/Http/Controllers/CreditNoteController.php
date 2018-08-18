@@ -178,7 +178,7 @@ class CreditNoteController extends Controller
         try
         {
             AccountMovement::where('transaction_id', $transaction->id)->delete();
-            JournalTransaction::where('transaction_id', $transaction->id)->delete();
+          //  JournalTransaction::where('transaction_id', $transaction->id)->delete();
             $transaction->delete();
 
             return response()->json('ok', 200);

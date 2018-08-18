@@ -9,7 +9,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\Journal;
 use App\JournalDetail;
-use App\JournalTransaction;
+//use App\JournalTransaction;
 use App\Http\Resources\JournalResource;
 use DB;
 use App\Jobs\GenerateJournal;

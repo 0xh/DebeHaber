@@ -137,7 +137,7 @@ Vue.component('transaction-form',
         onEdit: function(data)
         {
 
-
+            console.log(data);
             var app = this;
 
             app.id = data.id;

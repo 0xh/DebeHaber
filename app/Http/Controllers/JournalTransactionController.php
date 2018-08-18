@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Taxpayer;
 use App\Cycle;
-use App\JournalTransaction;
+//use App\JournalTransaction;
 use Illuminate\Http\Request;
 
 class JournalTransactionController extends Controller
