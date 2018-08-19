@@ -35,7 +35,7 @@
         "nasyrov/laravel-enums": "^1.1",
         "nesbot/carbon": "1.32.0 as 1.25.0",
         "php-http/guzzle6-adapter": "^1.1",
-        "php-http/message": "^1.6",
+        "php-http/message": "^1.7",
         "pragmarx/countries": "^0.5.5",
         "predis/predis": "^1.1",
         "rweber7912/timezoned": "dev-master",

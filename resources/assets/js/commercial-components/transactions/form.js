@@ -81,13 +81,10 @@ Vue.component('transaction-form',
 
             for (let i = 0; i < app.details.length; i++)
             {
-
-                if (app.details[i].taxExempt!=null) {
+                if (app.details[i].taxExempt != null) {
                     totalTaxExempt +=  parseFloat(new Number(app.details[i].taxExempt)).toFixed(2);
                 }
-
             }
-
             return totalTaxExempt;
         },
 
@@ -97,13 +94,8 @@ Vue.component('transaction-form',
             var totaltaxable = 0;
             for (let i = 0; i < app.details.length; i++)
             {
-
-
-
                 totaltaxable += parseFloat(app.details[i].taxable).toFixed(2);
-
             }
-
             return totaltaxable;
         },
 
@@ -169,19 +161,16 @@ Vue.component('transaction-form',
                 app.onPriceChange(app.details[i]);
             }
 
-
-
             if (app.type == 4 || app.type == 5)
             {
-
                 app.$children[0].selectText = data.customer;
                 app.$children[0].id = data.customer_id ;
             }
-            else {
+            else
+            {
                 app.$children[0].selectText = data.supplier;
                 app.$children[0].id = data.supplier_id ;
             }
-
 
             app.$parent.$parent.showList = false;
         },

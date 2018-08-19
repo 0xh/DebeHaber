@@ -1,13 +1,13 @@
 <?php
 
 /*
- * This file is part of Laravel Swap.
- *
- * (c) Florian Voutzinos <florian@voutzinos.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+* This file is part of Laravel Swap.
+*
+* (c) Florian Voutzinos <florian@voutzinos.com>
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
 
 return [
 
@@ -20,7 +20,9 @@ return [
     |
     | * cache_ttl: The cache ttl in seconds.
     */
-    'options' => [],
+    'options' => [
+        'cache_ttl' => 43200
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -62,8 +64,11 @@ return [
     |   ]
     |
     */
+
     'services' => [
-        'fixer' => ['access_key' => 'YOUR_KEY'],
+        'fixer' => [ 'access_key' => 'c4af33768c8901541982b888d5e058a0' ],
+        'forge' => [ 'api_key' => 'so9YwdMRy3xmKzgwcyI1whd6pZYvIVL3'],
+        'google' => true,
     ],
 
     /*
@@ -75,7 +80,7 @@ return [
     |
     | 'cache' => 'file'
     */
-    'cache' => null,
+    'cache' => 'file',
 
     /*
     |--------------------------------------------------------------------------
