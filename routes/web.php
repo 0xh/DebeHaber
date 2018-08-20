@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth'], function ()
         'impex-imports' => 'ImpexImportController',
 
         'inventories' => 'InventoryController',
-        'money-transfers' => 'MoneyTransferController',
+        'money-transfers' => 'AccountMovementController',
         'productions' => 'ProductionController',
         'fixed-assets' => 'FixedAssetController',
         'documents' => 'DocumentController'
@@ -70,7 +70,6 @@ Route::group(['middleware' => 'auth'], function ()
       Route::resources([
         'chart-versions' => 'ChartVersionController',
         'charts' => 'ChartController',
-        'movements' => 'AccountMovementController',
         'fixedasset' => 'FixedAssetController',
         'journals' => 'JournalController',
         'journal-templates' => 'JournalTemplateController',

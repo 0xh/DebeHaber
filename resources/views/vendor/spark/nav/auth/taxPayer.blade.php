@@ -197,6 +197,14 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item">
+                                    <a  href="{{ route('movements.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                        <i class="m-menu__link-icon la la-book"></i>
+                                        <span class="m-menu__link-text">
+                                            @lang('accounting.Movement')
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-menu__item">
                                     <a href="{{ route('money-transfers.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-money"></i>
                                         <span class="m-menu__link-text">
@@ -304,14 +312,6 @@
                                         <i class="m-menu__link-icon la la-paste"></i>
                                         <span class="m-menu__link-text m--font-metal">
                                             @lang('accounting.JournalTemplate')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
-                                    <a  href="{{ route('movements.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-book"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('accounting.Movement')
                                         </span>
                                     </a>
                                 </li>
