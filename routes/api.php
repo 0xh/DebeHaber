@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::post('cyclebudgetstore', 'CycleBudgetController@cyclebudgetstore');
                 Route::get('journal/ByCycleID/{id}', 'JournalController@getJournalsByCycleID');
                 Route::get('cyclebudget/ByCycleID/{id}', 'CycleBudgetController@getCycleBudgetsByCycleID');
+                  Route::get('movements/{skip}', 'AccountMovementController@GetMovement');
                 Route::prefix('chart')->group(function ()
                 {
                     Route::get('charts/{skip}', 'ChartController@getCharts');

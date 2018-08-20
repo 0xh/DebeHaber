@@ -250,7 +250,7 @@ class Chart extends Model
     */
     public function accountMovements()
     {
-        return $this->hasMany(AccountMovement::class);
+        return $this->hasMany(AccountMovement::class,'id','chart_id');
     }
 
     /**
