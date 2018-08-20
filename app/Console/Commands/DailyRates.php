@@ -59,7 +59,7 @@ class DailyRates extends Command
         {
             $fx = new CurrencyRate();
             $fx->currency_id = 2; //USD
-            $fx->date = Carbon::parse($arr['updated'])->startOfDay();
+            $fx->date = Carbon::parse($arr['updated'])->startOfDay()->addDay();
             $fx->buy_rate = $arr['dolarpy']['set']['compra'];
             $fx->sell_rate = $arr['dolarpy']['set']['venta'];
             $fx->save();

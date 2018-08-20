@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Taxpayer;
+use App\TaxpayerSetting;
 use App\Cycle;
 use App\Currency;
 use App\CurrencyRate;
@@ -23,10 +24,16 @@ class CurrencyRateController extends Controller
         return view('/configs/currencies/list');
     }
 
-    public function get_ratesByCurrency($taxPayerID, $currencyID, $date)
+    /**
+    * Gets the rates for a specific currency by Date. If rate doesn't exist,
+    * then it will search on the internet and create the rate for future use.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function get_ratesByCurrency($taxPayerID, $currencyID, $date = '')
     {
-        $taxPayer=Taxpayer::where('id',$taxPayerID)->first();
         $date = Carbon::parse($date) ?? Carbon::now();
+        $date = $date->toDateString();
 
         $currencyRate = CurrencyRate::whereDate('date', $date)
         ->where('currency_id', $currencyID)
@@ -42,24 +49,26 @@ class CurrencyRateController extends Controller
         {
             //swap fx
             $currCode = Currency::where('id', $currencyID)->select('code')->first()->code;
-            $currCompanyCode = $taxPayer->currency;
-            if ($currCompanyCode!=null) {
-                $rate = Swap::historical($currCode . '/' . $currCompanyCode, $date);
-            }
-            else {
-                $rate=1;
-            }
-            $currencyRate = new CurrencyRate();
-            $currencyRate->date = $date;
-            $currencyRate->currency_id = $currencyID;
-            $currencyRate->buy_rate = $rate;
-            $currencyRate->sell_rate = $rate;
-            $currencyRate->save();
+            $currCompanyCode = TaxpayerSetting::where('taxpayer_id', $taxPayerID)->select('currency')->first()->currency;
 
-            return response()->json($currencyRate);
+            if ($currCompanyCode != null && $currCode != null)
+            {
+                $str = 'USD/EUR';
+                //$str = $currCode . '/' . $currCompanyCode;
+                $rate = Swap::historical($str, Carbon::parse($date));
+
+                $currencyRate = new CurrencyRate();
+                $currencyRate->date = $date;
+                $currencyRate->currency_id = $currencyID;
+                $currencyRate->buy_rate = $rate->getValue();
+                $currencyRate->sell_rate = $rate->getValue();
+                $currencyRate->save();
+
+                return response()->json($currencyRate);
+            }
         }
 
-        return response()->json(1);
+        return response()->json(404);
     }
 
     public function get_Allrate()

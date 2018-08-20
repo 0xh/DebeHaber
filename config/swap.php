@@ -66,9 +66,9 @@ return [
     */
 
     'services' => [
-        'fixer' => [ 'access_key' => 'c4af33768c8901541982b888d5e058a0' ],
-        'forge' => [ 'api_key' => 'so9YwdMRy3xmKzgwcyI1whd6pZYvIVL3'],
-        'google' => true,
+        'fixer' => [ 'access_key' => '9bf6fda9ef4043bddb5d549a6e332c84' ],
+        // 'forge' => [ 'api_key' => 'so9YwdMRy3xmKzgwcyI1whd6pZYvIVL3'],
+        // 'google' => true,
     ],
 
     /*
