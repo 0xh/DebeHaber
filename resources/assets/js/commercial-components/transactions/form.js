@@ -267,7 +267,7 @@ Vue.component('transaction-form',
             var app = this;
             var url = '';
 
-            url = '/api/' + app.$parent.taxpayer + '/get_ratesByCurrency/' + app.currency_id + '/' + app.date;
+            url = '/api/' + app.$parent.taxpayer + '/get_rates/' + app.currency_id + '/' + app.date;
 
             if (app.transType == 4 || app.transType == 5)
             {

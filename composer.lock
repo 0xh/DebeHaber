@@ -1235,16 +1235,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.4",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3"
+                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/8790f594151ca6a2010c6218e09d96df67173ad3",
-                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/54859fabea8b3beecbb1a282888d5c990036b9e3",
+                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3",
                 "shasum": ""
             },
             "require": {
@@ -1288,7 +1288,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2018-04-10T10:11:19+00:00"
+            "time": "2018-08-16T20:49:45+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -2567,7 +2567,7 @@
             "dist": {
                 "type": "path",
                 "url": "./spark",
-                "reference": "89e7593c3919595b3146f4b2f5e45f6036926ee4",
+                "reference": "368de5bd46dd8c049158a9c7a3a2aa1e853602c7",
                 "shasum": null
             },
             "require": {
@@ -4437,12 +4437,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/countries.git",
-                "reference": "028b295dbd8b09384956e1c9fdb3e5eccdbae1da"
+                "reference": "df4a00d7567b412e9426e341c6aa5fa71b6fa15e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/countries/zipball/028b295dbd8b09384956e1c9fdb3e5eccdbae1da",
-                "reference": "028b295dbd8b09384956e1c9fdb3e5eccdbae1da",
+                "url": "https://api.github.com/repos/antonioribeiro/countries/zipball/df4a00d7567b412e9426e341c6aa5fa71b6fa15e",
+                "reference": "df4a00d7567b412e9426e341c6aa5fa71b6fa15e",
                 "shasum": ""
             },
             "require": {
@@ -4495,16 +4495,16 @@
         },
         {
             "name": "pragmarx/ia-arr",
-            "version": "v5.6.12",
+            "version": "v5.6.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/ia-arr.git",
-                "reference": "de495d1dbd5c1331314e130f4c58f837a6978838"
+                "reference": "4c0fd512616064822b6d50ca0e6bc8aa8eb3c067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/ia-arr/zipball/de495d1dbd5c1331314e130f4c58f837a6978838",
-                "reference": "de495d1dbd5c1331314e130f4c58f837a6978838",
+                "url": "https://api.github.com/repos/antonioribeiro/ia-arr/zipball/4c0fd512616064822b6d50ca0e6bc8aa8eb3c067",
+                "reference": "4c0fd512616064822b6d50ca0e6bc8aa8eb3c067",
                 "shasum": ""
             },
             "require": {
@@ -4557,20 +4557,20 @@
                 "laravel",
                 "pragmarx"
             ],
-            "time": "2018-03-15T21:30:18+00:00"
+            "time": "2018-08-19T20:20:32+00:00"
         },
         {
             "name": "pragmarx/ia-collection",
-            "version": "v5.6.12",
+            "version": "v5.6.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/ia-collection.git",
-                "reference": "0dfca0b93ea8cd55c067b474f9ab1e0272490e90"
+                "reference": "0625ac534a31fe91cfb1d48ab8d8cb31694034a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/ia-collection/zipball/0dfca0b93ea8cd55c067b474f9ab1e0272490e90",
-                "reference": "0dfca0b93ea8cd55c067b474f9ab1e0272490e90",
+                "url": "https://api.github.com/repos/antonioribeiro/ia-collection/zipball/0625ac534a31fe91cfb1d48ab8d8cb31694034a1",
+                "reference": "0625ac534a31fe91cfb1d48ab8d8cb31694034a1",
                 "shasum": ""
             },
             "require": {
@@ -4621,20 +4621,20 @@
                 "laravel",
                 "pragmarx"
             ],
-            "time": "2018-03-15T21:29:24+00:00"
+            "time": "2018-08-19T20:16:53+00:00"
         },
         {
             "name": "pragmarx/ia-str",
-            "version": "v5.6.12",
+            "version": "v5.6.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/ia-str.git",
-                "reference": "61eea1881a011202f6cff8370fdf12ea4a42249d"
+                "reference": "1572361ef0472404e3f3c53d9448a933fa86e33b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/ia-str/zipball/61eea1881a011202f6cff8370fdf12ea4a42249d",
-                "reference": "61eea1881a011202f6cff8370fdf12ea4a42249d",
+                "url": "https://api.github.com/repos/antonioribeiro/ia-str/zipball/1572361ef0472404e3f3c53d9448a933fa86e33b",
+                "reference": "1572361ef0472404e3f3c53d9448a933fa86e33b",
                 "shasum": ""
             },
             "require": {
@@ -4693,7 +4693,7 @@
                 "str",
                 "string"
             ],
-            "time": "2018-03-15T22:33:25+00:00"
+            "time": "2018-08-19T20:21:49+00:00"
         },
         {
             "name": "predis/predis",

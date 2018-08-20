@@ -82657,12 +82657,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-form', {
             var totalTaxExempt = new Number(0);
 
             for (var i = 0; i < app.details.length; i++) {
-
                 if (app.details[i].taxExempt != null) {
                     totalTaxExempt += parseFloat(new Number(app.details[i].taxExempt)).toFixed(2);
                 }
             }
-
             return totalTaxExempt;
         },
 
@@ -82670,10 +82668,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-form', {
             var app = this;
             var totaltaxable = 0;
             for (var i = 0; i < app.details.length; i++) {
-
                 totaltaxable += parseFloat(app.details[i].taxable).toFixed(2);
             }
-
             return totaltaxable;
         },
 
@@ -82733,7 +82729,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-form', {
             }
 
             if (app.type == 4 || app.type == 5) {
-
                 app.$children[0].selectText = data.customer;
                 app.$children[0].id = data.customer_id;
             } else {
@@ -82822,7 +82817,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-form', {
             var app = this;
             var url = '';
 
-            url = '/api/' + app.$parent.taxpayer + '/get_ratesByCurrency/' + app.currency_id + '/' + app.date;
+            url = '/api/' + app.$parent.taxpayer + '/get_rates/' + app.currency_id + '/' + app.date;
 
             if (app.transType == 4 || app.transType == 5) {
                 __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(url).then(function (_ref2) {
@@ -83828,7 +83823,6 @@ Vue.component('taxpayer-integration', {
         }
     },
     mounted: function mounted() {
-
         this.id = this.taxpayer[0].id;
         this.name = this.taxpayer[0].name;
         this.alias = this.taxpayer[0].alias;

@@ -171,6 +171,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\BinaryUuid\UuidServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        
         //Barryvdh\TranslationManager\ManagerServiceProvider::class,
     ],
 

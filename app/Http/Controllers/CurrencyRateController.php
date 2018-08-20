@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Taxpayer;
 use App\Cycle;
+use App\Currency;
 use App\CurrencyRate;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Swap\Laravel\Facades\Swap;
 use DB;
 
 class CurrencyRateController extends Controller
@@ -23,6 +25,7 @@ class CurrencyRateController extends Controller
 
     public function get_ratesByCurrency($taxPayerID, $currencyID, $date)
     {
+        $taxPayer=Taxpayer::where('id',$taxPayerID)->first();
         $date = Carbon::parse($date) ?? Carbon::now();
 
         $currencyRate = CurrencyRate::whereDate('date', $date)
@@ -38,10 +41,14 @@ class CurrencyRateController extends Controller
         else
         {
             //swap fx
-            $currCode = Currency::where('id', $currencyID)->select('code');
+            $currCode = Currency::where('id', $currencyID)->select('code')->first()->code;
             $currCompanyCode = $taxPayer->currency;
-            $rate = Swap::historical($currCode . '/' . $currCompanyCode, $date);
-
+            if ($currCompanyCode!=null) {
+                $rate = Swap::historical($currCode . '/' . $currCompanyCode, $date);
+            }
+            else {
+                $rate=1;
+            }
             $currencyRate = new CurrencyRate();
             $currencyRate->date = $date;
             $currencyRate->currency_id = $currencyID;
