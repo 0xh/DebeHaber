@@ -171,7 +171,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\BinaryUuid\UuidServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class
         //Barryvdh\TranslationManager\ManagerServiceProvider::class,
     ],
 
