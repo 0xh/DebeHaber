@@ -2567,7 +2567,7 @@
             "dist": {
                 "type": "path",
                 "url": "./spark",
-                "reference": "368de5bd46dd8c049158a9c7a3a2aa1e853602c7",
+                "reference": "89e7593c3919595b3146f4b2f5e45f6036926ee4",
                 "shasum": null
             },
             "require": {
