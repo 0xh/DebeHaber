@@ -62,4 +62,7 @@ return [
     'PurchaseByVAT' => 'Compras por IVA',
     'PurchaseBySuppliers' => 'Compras por Proveedor',
     'PurchaseByChart' => 'Compras por Tipo de Gasto',
+
+    'BuyRate' => 'Cotización de Compras',
+    'SellRate' => 'Cotización de Ventas'
 ];

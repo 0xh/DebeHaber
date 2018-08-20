@@ -21,7 +21,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('commercial.Buy Rate')
+                            @lang('commercial.BuyRate')
                         </label>
                         <div class="col-8">
                             <input type="text" class="form-control" v-model="buy_rate" />
@@ -31,7 +31,7 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('commercial.Sell Rate')
+                            @lang('commercial.SellRate')
                         </label>
                         <div class="col-8">
                             <input type="text" class="form-control" v-model="sell_rate" />
@@ -55,22 +55,22 @@
                 <div class="row">
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            @lang('global.Currency')
+                            @lang('commercial.Currency')
                         </span>
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 m--align-right">
                         <span class="m--font-boldest">
                             @lang('global.Date')
                         </span>
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 m--align-right">
                         <span class="m--font-boldest">
-                            @lang('accounting.BuyRate')
+                            @lang('commercial.BuyRate')
                         </span>
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 m--align-right">
                         <span class="m--font-boldest">
-                            @lang('accounting.SellRate')
+                            @lang('commercial.SellRate')
                         </span>
                     </div>
                     <div class="col-2">
@@ -87,13 +87,13 @@
                     <div class="col-2">
                         @{{ data.name }}
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 m--align-right">
                         @{{ new Date(data.date).toLocaleDateString() }}
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 m--align-right">
                         @{{ new Number(data.buy_rate).toLocaleString() }}
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 m--align-right">
                         @{{ new Number(data.sell_rate).toLocaleString() }}
                     </div>
 

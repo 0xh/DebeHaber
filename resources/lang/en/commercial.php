@@ -61,4 +61,7 @@ return [
     'PurchaseByVAT' =>'Purchases by VAT',
     'PurchaseBySuppliers' => 'Purchases by Supplier',
     'PurchaseByChart' => 'Purchases by Type of Expense',
+
+    'BuyRate' => 'Buy Rate',
+    'SellRate' => 'Sell Rate',
 ];
