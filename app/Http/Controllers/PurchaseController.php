@@ -104,6 +104,7 @@ class PurchaseController extends Controller
         */
         public function store(Request $request,Taxpayer $taxPayer)
         {
+            return response()->json("store",500);
             $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
             $transaction->supplier_id = $taxPayer->id;
             $transaction->supplier_id = $request->supplier_id;
@@ -125,7 +126,7 @@ class PurchaseController extends Controller
             $transaction->comment = $request->comment;
             $transaction->type = $request->type ?? 1;
             $transaction->save();
-return response()->json($transaction,500);
+
             foreach ($request->details as $detail)
             {
                 $transactionDetail = $detail['id'] == 0 ? new TransactionDetail() : TransactionDetail::where('id', $detail['id'])->first();
