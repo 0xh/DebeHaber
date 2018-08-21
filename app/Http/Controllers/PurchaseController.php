@@ -112,12 +112,12 @@ class PurchaseController extends Controller
 
             $transaction->rate = $request->rate;
             $transaction->payment_condition = $request->payment_condition;
-return response()->json($transaction,500);
+
             if ($request->chart_account_id > 0)
             {
                 $transaction->chart_account_id = $request->chart_account_id;
             }
-
+return response()->json($transaction,500);
             $transaction->date = $request->date;
             $transaction->number = $request->number;
             $transaction->code = $request->code;
