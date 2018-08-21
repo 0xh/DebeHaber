@@ -105,8 +105,11 @@ class PurchaseController extends Controller
         public function store(Request $request,Taxpayer $taxPayer)
         {
             $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
-            $transaction->supplier_id = $taxPayer->id;
-            $transaction->supplier_id = $request->supplier_id;
+            $transaction->customer_id = $taxPayer->id;
+            if ($request->supplier_id > 0)
+            {
+                $transaction->supplier_id = $request->supplier_id;
+            }
             $transaction->document_id = $request->document_id > 0 ? $request->document_id : null;
             $transaction->currency_id = $request->currency_id;
 
@@ -124,8 +127,9 @@ class PurchaseController extends Controller
             $transaction->code_expiry = $request->code_expiry;
             $transaction->comment = $request->comment;
             $transaction->type = $request->type ?? 1;
-            $transaction->save();
 
+            $transaction->save();
+        
             foreach ($request->details as $detail)
             {
                 $transactionDetail = $detail['id'] == 0 ? new TransactionDetail() : TransactionDetail::where('id', $detail['id'])->first();

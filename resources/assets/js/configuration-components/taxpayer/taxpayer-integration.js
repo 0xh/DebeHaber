@@ -104,7 +104,7 @@ Vue.component('taxpayer-integration',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
-          console.log(json);
+            console.log(json);
             $.ajax({
                 url: '/taxpayer-integration/' + json.id,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -126,6 +126,8 @@ Vue.component('taxpayer-integration',{
     },
     mounted: function mounted()
     {
+        console.log("asd");
+        console.log(this.taxpayer[0]);
         this.id = this.taxpayer[0].id;
         this.name = this.taxpayer[0].name;
         this.alias =  this.taxpayer[0].alias;
@@ -134,14 +136,14 @@ Vue.component('taxpayer-integration',{
         this.telephone = this.taxpayer[0].telephone;
         this.email = this.taxpayer[0].email;
 
-        this.setting_inventory = this.taxpayer[0].show_inventory;
-        this.setting_production = this.taxpayer[0].show_production;
-        this.setting_fixedasset = this.taxpayer[0].show_fixedasset;
+        this.setting_inventory = this.taxpayer[0].setting.show_inventory;
+        this.setting_production = this.taxpayer[0].setting.show_production;
+        this.setting_fixedasset = this.taxpayer[0].setting.show_fixedasset;
 
-        this.setting_regime = this.taxpayer[0].regime_type;
-        this.setting_is_company = this.taxpayer[0].is_company;
+        this.setting_regime = this.taxpayer[0].setting.regime_type;
+        this.setting_is_company = this.taxpayer[0].setting.is_company;
 
-        this.setting_agenttaxid = this.taxpayer[0].agent_taxid;
-        this.setting_agent = this.taxpayer[0].agent_name;
+        this.setting_agenttaxid = this.taxpayer[0].setting.agent_taxid;
+        this.setting_agent = this.taxpayer[0].setting.agent_name;
     }
 });
