@@ -117,13 +117,14 @@ class PurchaseController extends Controller
             {
                 $transaction->chart_account_id = $request->chart_account_id;
             }
-return response()->json($transaction,500);
+
             $transaction->date = $request->date;
             $transaction->number = $request->number;
             $transaction->code = $request->code;
             $transaction->code_expiry = $request->code_expiry;
             $transaction->comment = $request->comment;
             $transaction->type = $request->type ?? 1;
+            return response()->json($transaction,500);
             $transaction->save();
 
             foreach ($request->details as $detail)
