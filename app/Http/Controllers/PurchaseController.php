@@ -106,7 +106,7 @@ class PurchaseController extends Controller
         {
             return response()->json("store",500);
             $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
-            $transaction->supplier_id = $taxPayer->id;
+            $transaction->customer_id = $taxPayer->id;
             $transaction->supplier_id = $request->supplier_id;
             $transaction->document_id = $request->document_id > 0 ? $request->document_id : null;
             $transaction->currency_id = $request->currency_id;
