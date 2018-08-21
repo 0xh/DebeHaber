@@ -52,7 +52,7 @@
 @endsection
 
 @section('form')
-    <infinity taxpayer="{{ request()->route('taxPayer')->id}}"
+    <buefy taxpayer="{{ request()->route('taxPayer')->id}}"
         cycle="{{ request()->route('cycle')->id }}"
         baseurl="accounting/fixedasset/fixedassets" inline-template>
         <div>
@@ -63,5 +63,5 @@
                 @include('accounting/fixedasset/form')
             </div>
         </div>
-    </infinity>
+    </buefy>
 @endsection

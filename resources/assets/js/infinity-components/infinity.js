@@ -45,6 +45,7 @@ Vue.component('infinity',
         infiniteHandler($state)
         {
             var app = this;
+            console.log('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + app.skip + '');
             axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + app.skip + '',
             {
                 params:
@@ -95,7 +96,7 @@ Vue.component('infinity',
         },
         onDeleteAccount: function(data)
         {
-            
+
             this.fromid=data.id;
             this.fromname=data.name;
             this.isActive=true;

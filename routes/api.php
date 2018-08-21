@@ -85,7 +85,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         });
         Route::prefix('fixedasset')->group(function ()
         {
-          Route::get('fixedassets/{skip}', 'FixedAssetController@getFixedAsset');
+          Route::get('fixedassets', 'FixedAssetController@getFixedAsset');
           Route::get('fixedassets/by-id/{id}', 'FixedAssetController@getFixedAssetByID');
 
         });
