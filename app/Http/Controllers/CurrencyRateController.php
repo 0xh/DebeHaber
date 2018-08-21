@@ -53,8 +53,8 @@ class CurrencyRateController extends Controller
 
             if ($currCompanyCode != null && $currCode != null)
             {
-                $str = 'USD/EUR';
-                //$str = $currCode . '/' . $currCompanyCode;
+                //$str = 'USD/EUR';
+                $str = $currCode . '/' . $currCompanyCode;
                 $rate = Swap::historical($str, Carbon::parse($date));
 
                 $currencyRate = new CurrencyRate();
