@@ -39,12 +39,12 @@
     </div>
     <div class="col-5">
       <span class="m--font-bolder m--font-metal m--font-transform-u">
-        @{{ data.transaction.debit }}
+        @{{ data.debit }}
       </span>
     </div>
     <div class="col-5">
       <span class="m--font-bolder m--font-metal m--font-transform-u">
-        @{{ data.transaction.credit }}
+        @{{ data.credit }}
       </span>
     </div>
 
