@@ -37,7 +37,6 @@ return [
     * Available Value: 'deny', 'sameorigin', 'allow-from <uri>'
     */
 
-    // 'x-frame-options' => 'allow-from <js.stripe.com>',
     'x-frame-options' => 'sameorigin',
 
     /*
@@ -150,6 +149,7 @@ return [
 
         'script-src' => [
             'allow' => [
+                $protocol.'cdnjs.cloudflare.com/ajax/',
                 $protocol.'cdnjs.cloudflare.com/ajax/',
                 $protocol.'www.google-analytics.com/',
                 $protocol.'www.googletagmanager.com/',
