@@ -8,6 +8,7 @@ use App\Cycle;
 use App\Chart;
 use App\ChartVersion;
 use App\ChartAlias;
+use App\Http\Controllers\ChartController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -90,7 +91,8 @@ class FixedAssetController extends Controller
 
     $fixedAsset = FixedAsset::where('ref_id', $data['id'])->where('taxpayer_id', $taxPayer->id)->first() ?? new FixedAsset();
 
-    $fixedAsset->chart_id = $this->checkFixedAssetChart($taxPayer,$cycle)->id;
+    $ChartController= new ChartController();
+    $fixedAsset->chart_id = $ChartController->createIfNotExists_FixedAsset($taxPayer,$cycle)->id;
 
     $fixedAsset->taxpayer_id = $taxPayer->id;
     $fixedAsset->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
@@ -118,29 +120,5 @@ class FixedAssetController extends Controller
     return $fixedAsset != null ? $fixedAsset : null;
   }
 
-  public function checkFixedAssetChart(TaxPayer $taxPayer,Cycle $cycle)
-  {
-    $chart = Chart::My($taxPayer, $cycle)
-    ->where('type', 1)
-    ->where('sub_type', 9)
-    ->where('is_accountable', 1)
-    ->first();
 
-    if ($chart == null)
-    {
-      $chart = new Chart();
-      $chart->type = 1;
-      $chart->sub_type = 9;
-      $chart->chart_version_id = $cycle->chart_version_id;
-      $chart->country = $taxPayer->country;
-      $chart->taxpayer_id = $taxPayer->id;
-      $chart->is_accountable = true;
-      $chart->code = 'N/A';
-      $chart->name = $name;
-
-      $chart->save();
-      
-    }
-    return $chart;
-  }
 }
