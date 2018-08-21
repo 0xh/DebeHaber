@@ -81459,7 +81459,7 @@ Vue.component('buefy', {
     onLoad: function onLoad(page) {
       var _this = this;
 
-      axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/1?page=' + page).then(function (response) {
+      axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '?page=' + page).then(function (response) {
         _this.isLoading = false;
 
         _this.list = response.data.data;
@@ -84060,6 +84060,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('infinity', {
     methods: {
         infiniteHandler: function infiniteHandler($state) {
             var app = this;
+            console.log('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + app.skip + '');
             __WEBPACK_IMPORTED_MODULE_3_axios___default.a.get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + app.skip + '', {
                 params: {
                     page: app.list.length / 100 + 1

@@ -438,11 +438,13 @@ class ChartController extends Controller
 
         return $chart;
     }
-    public function createIfNotExists_FixedAsset(Taxpayer $taxPayer, Cycle $cycle)
+    public function createIfNotExists_FixedAsset(Taxpayer $taxPayer, Cycle $cycle,$assetGroup,$lifeSpan)
     {
         $chart = Chart::My($taxPayer, $cycle)
         ->where('type', 1)
         ->where('sub_type', 9)
+        ->where('name', $assetGroup)
+        ->where('asset_years', $lifeSpan)
         ->where('is_accountable', true)
         ->first();
 
@@ -456,7 +458,8 @@ class ChartController extends Controller
             $chart->sub_type = 9;
             $chart->is_accountable = true;
             $chart->code = 'N/A';
-            $chart->name = __('enum.FixedAsset');
+            $chart->name = $assetGroup;
+            $chart->asset_years = $lifeSpan;
             $chart->save();
         }
 

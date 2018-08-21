@@ -6,6 +6,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\Chart;
 use App\FixedAsset;
+use App\Http\Resources\FixedAssetResource;
 use Illuminate\Http\Request;
 
 class FixedAssetController extends Controller
@@ -21,12 +22,10 @@ class FixedAssetController extends Controller
         return view('commercial/fixed-assets')->with('charts',$charts);
     }
 
-    public function getFixedAsset(Taxpayer $taxPayer, Cycle $cycle,$skip)
+    public function getFixedAsset(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $fixedasset = FixedAsset::skip($skip)
-        ->take(100)
-        ->get();
-        return response()->json($fixedasset);
+        return FixedAssetResource::collection(FixedAsset::paginate(50));
+
     }
 
     public function getFixedAssetByID(Taxpayer $taxPayer, Cycle $cycle,$id)

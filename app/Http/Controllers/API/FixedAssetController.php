@@ -92,7 +92,8 @@ class FixedAssetController extends Controller
     $fixedAsset = FixedAsset::where('ref_id', $data['id'])->where('taxpayer_id', $taxPayer->id)->first() ?? new FixedAsset();
 
     $ChartController= new ChartController();
-    $fixedAsset->chart_id = $ChartController->createIfNotExists_FixedAsset($taxPayer,$cycle)->id;
+    //$fixedAsset->ref_id = $data['id'];
+    $fixedAsset->chart_id = $ChartController->createIfNotExists_FixedAsset($taxPayer,$cycle,$assetGroup,$lifeSpan)->id;
 
     $fixedAsset->taxpayer_id = $taxPayer->id;
     $fixedAsset->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
@@ -117,7 +118,7 @@ class FixedAssetController extends Controller
 
     $fixedAsset->save();
     //Return account movement if not null.
-    return $fixedAsset != null ? $fixedAsset : null;
+    return FixedAsset::find($fixedAsset->id)->with('chart')??null;
   }
 
 

@@ -34,7 +34,7 @@ Vue.component('buefy',
     {
 
       var app = this;
-console.log('/api/' + app.taxpayer + '/' + app.cycle + '/' +  app.baseurl + '/by-id/' + data);
+      console.log('/api/' + app.taxpayer + '/' + app.cycle + '/' +  app.baseurl + '/by-id/' + data);
       app.$parent.showList = false;
 
       $.ajax({
