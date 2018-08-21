@@ -124,9 +124,9 @@ class PurchaseController extends Controller
             $transaction->code_expiry = $request->code_expiry;
             $transaction->comment = $request->comment;
             $transaction->type = $request->type ?? 1;
-            return response()->json($transaction,500);
-            $transaction->save();
 
+            $transaction->save();
+return response()->json($transaction,500);
             foreach ($request->details as $detail)
             {
                 $transactionDetail = $detail['id'] == 0 ? new TransactionDetail() : TransactionDetail::where('id', $detail['id'])->first();
