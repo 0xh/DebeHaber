@@ -25,24 +25,24 @@
   </div>
 
   <div class="row m--margin-5" v-for="data in list">
-    <div class="col-2 m--align-left">
-      <span class="m-badge m-badge--info m-badge--wide m-badge--rounded">
-        <b>@{{ data.chart.name }}</b>
+    <div class="col-3 m--align-left">
+      <span class="m--font-bolder m--font-metal m--font-transform-u">
+        @{{ data.chart.name }}
       </span>
 
     </div>
 
-    <div class="col-5">
+    <div class="col-3">
       <span class="m--font-bolder m--font-metal m--font-transform-u">
         @{{ data.transaction.number }}
       </span>
     </div>
-    <div class="col-5">
+    <div class="col-2">
       <span class="m--font-bolder m--font-metal m--font-transform-u">
         @{{ data.debit }}
       </span>
     </div>
-    <div class="col-5">
+    <div class="col-2">
       <span class="m--font-bolder m--font-metal m--font-transform-u">
         @{{ data.credit }}
       </span>
