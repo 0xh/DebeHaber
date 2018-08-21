@@ -129,7 +129,7 @@ class PurchaseController extends Controller
             $transaction->type = $request->type ?? 1;
 
             $transaction->save();
-            return response()->json($transaction,500);
+        
             foreach ($request->details as $detail)
             {
                 $transactionDetail = $detail['id'] == 0 ? new TransactionDetail() : TransactionDetail::where('id', $detail['id'])->first();
