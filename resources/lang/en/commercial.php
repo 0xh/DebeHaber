@@ -30,7 +30,7 @@ return [
     'Credit' => 'Credit',
 
     'Inventory' => 'Inventory',
-    'MoneyTransfers' => 'Money Transfers',
+    'MoneyMovements' => 'Money Movements',
     'Productions' => 'Productions',
     'FixedAssets' => 'Fixed Assets',
 
@@ -61,7 +61,13 @@ return [
     'PurchaseByVAT' =>'Purchases by VAT',
     'PurchaseBySuppliers' => 'Purchases by Supplier',
     'PurchaseByChart' => 'Purchases by Type of Expense',
+    'PurchaseDate' => 'Purchase Date',
+    'PurchaseValue' => 'Purchase Value',
+    'CurrentValue' => 'Current Value',
+    'Serial' => 'Serial',
 
     'BuyRate' => 'Buy Rate',
     'SellRate' => 'Sell Rate',
+    'Expenses' => 'Expenses',
+    'Incomes' => 'Incomes'
 ];

@@ -9,12 +9,12 @@ class ChartAlias extends Model
     //
 
     /**
-     * Get the chart that owns the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    * Get the chart that owns the model.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
     public function chart()
     {
-        return $this->belongsTo(Chart::class, 'foreign_key', 'local_key');
+        return $this->belongsTo(Chart::class);
     }
 }

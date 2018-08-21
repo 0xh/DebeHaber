@@ -39,9 +39,8 @@
                     <div class="tab-pane active" id="commercial" role="tabpanel">
                         <div class="row">
                             <div class="col-6">
-                                <h3> @lang('commercial.Sales') </h3>
 
-                                <p class="lead"> Basic reports giving you information regarding your sales. </p>
+                                <p class="lead"> @lang('commercial.Sales') </p>
 
                                 <div class="m-widget4">
                                     <div class="m-widget4__item">
@@ -52,8 +51,7 @@
                                                 <a target="_blank" :href="'reports/sales/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.SalesBook')
                                                 </a>
-                                                <br>
-                                                <small>Basic list of sales invoices</small>
+                                                <small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -69,9 +67,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/sales-byVATs/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.SalesByVAT')
-                                                </a>
-                                                <br>
-                                                <small>List of invoices grouped by sales tax</small>
+                                                </a> <small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -88,9 +84,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/sales-byCustomers/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.SalesByCustomer')
-                                                </a>
-                                                <br>
-                                                <small>List of invoices grouped by customers</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -106,9 +100,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/credit_notes/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.CreditNotes')
-                                                </a>
-                                                <br>
-                                                <small>List of credit returns made</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -124,9 +116,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/account-receivable/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.AccountsReceivable')
-                                                </a>
-                                                <br>
-                                                <small>List of accounts receivables</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -139,8 +129,7 @@
                             </div>
                             <div class="col-6">
 
-                                <h3> @lang('commercial.Purchases') </h3>
-                                <p class="lead"> Basic reports giving you information regarding your purchases. </p>
+                                <p class="lead"> @lang('commercial.Purchases') </p>
 
                                 <div class="m-widget4">
                                     <div class="m-widget4__item">
@@ -150,9 +139,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/purchases/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.PurchaseBook')
-                                                </a>
-                                                <br>
-                                                <small>Simple list of purchase invoices</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -168,9 +155,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/purchases-byVAT/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.PurchaseByVAT')
-                                                </a>
-                                                <br>
-                                                <small>List of purchase invoices grouped by sales tax</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -186,9 +171,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/purchases-bySupplier/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.PurchaseBySuppliers')
-                                                </a>
-                                                <br>
-                                                <small>List of purchase invoices grouped by suppliers</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -204,9 +187,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/purchases-byChart/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.PurchaseByChart')
-                                                </a>
-                                                <br>
-                                                <small>List of purchase invoices grouped by suppliers</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -222,9 +203,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/debit_notes/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.DebitNotes')
-                                                </a>
-                                                <br>
-                                                <small>List of Debit Notes</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -239,9 +218,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/account-payable/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.AccountsPayable')
-                                                </a>
-                                                <br>
-                                                <small>List of accounts payable to suppliers</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -258,8 +235,10 @@
 
                         <div v-if="{{ request()->route('taxPayer')->country }} == PRY" class="row">
                             <div class="col-6">
-                                <h3> Paraguay </h3>
-                                <p class="lead"> Special reports from your country </p>
+
+                                <p class="lead"> <img src="/img/flags/{{ request()->route('taxPayer')->country }}.png" width="32" alt="{{ request()->route('taxPayer')->country }}">
+                                    Paraguay
+                                </p>
 
                                 <div class="m-widget4">
                                     @if (request()->route('taxPayer')->setting->is_company)
@@ -267,11 +246,7 @@
                                             <div class="m-widget4__info">
                                                 <img src="/img/icons/generate.svg" width="24" height="24" alt="">
                                                 <span class="m-widget4__text">
-                                                    <a :href="'reports/hechauka/generate_files/'+dateRange[0]+'/'+dateRange[1]">
-                                                        Hechauka
-                                                    </a>
-                                                    <br>
-                                                    <small>Download your files</small>
+                                                    <a :href="'reports/hechauka/generate_files/'+dateRange[0]+'/'+dateRange[1]">Hechauka</a> <small> <i>Download your files</i> </small>
                                                 </span>
                                             </div>
                                             <div class="m-widget4__ext">
@@ -286,9 +261,7 @@
                                                 <img src="/img/icons/generate.svg" width="24" height="24" alt="">
 
                                                 <span class="m-widget4__text">
-                                                    <a href="#">Aranduka</a>
-                                                    <br>
-                                                    <small>Download your files</small>
+                                                    <a href="#">Aranduka</a> <small> <i>Download your files</i> </small>
                                                 </span>
                                             </div>
                                             <div class="m-widget4__ext">
@@ -307,8 +280,7 @@
                     <div class="tab-pane" id="accounting" role="tabpanel">
                         <div class="row">
                             <div class="col-6">
-                                <h3> @lang('accounting.Journal') </h3>
-                                <p class="lead">  </p>
+                                <p class="lead"> @lang('accounting.Journal') </p>
 
                                 <div class="m-widget4">
 
@@ -319,9 +291,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/sub_ledger/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('accounting.SubLedger')
-                                                </a>
-                                                <br>
-                                                {{-- <small>List of Journal Related Reports</small> --}}
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -337,9 +307,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/ledger/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('accounting.Ledger')
-                                                </a>
-                                                <br>
-                                                {{-- <small>List of invoices grouped by sales tax</small> --}}
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -356,9 +324,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/ledger-byMonth/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('global.Month')])
-                                                </a>
-                                                <br>
-                                                <small></small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -375,9 +341,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/ledger-byMoneyAccounts/'+ this.$parent.cycles[0].start_date +'/'+dateRange[1]">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('enum.CashAccount')])
-                                                </a>
-                                                <br>
-                                                <small></small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -394,9 +358,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/ledger-byReceivables/'+ this.$parent.cycles[0].start_date +'/'+dateRange[1]">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('commercial.AccountsReceivable')])
-                                                </a>
-                                                <br>
-                                                <small></small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -413,9 +375,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/ledger-byPayables/'+ this.$parent.cycles[0].start_date +'/'+dateRange[1]">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('commercial.AccountsPayable')])
-                                                </a>
-                                                <br>
-                                                <small></small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -432,9 +392,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/ledger-byExpenses/'+ this.$parent.cycles[0].start_date +'/'+dateRange[1]">
                                                     @lang('accounting.LedgerOf', ['attribute' => __('commercial.Expenses')])
-                                                </a>
-                                                <br>
-                                                <small></small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -448,8 +406,7 @@
                             </div>
 
                             <div class="col-6">
-                                <h3> @lang('accounting.BalanceSheet') </h3>
-                                {{-- <p class="lead"> Basic reports giving you information regarding your purchases. </p> --}}
+                                <p class="lead"> @lang('accounting.BalanceSheet') </p>
 
                                 <div class="m-widget4">
                                     <div class="m-widget4__item">
@@ -459,9 +416,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/balance-sheet/' + this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
                                                     @lang('accounting.BalanceSheet')
-                                                </a>
-                                                <br>
-                                                {{-- <small>Simple list of purchase invoices</small> --}}
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -477,9 +432,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/balance-sheetComparative/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
                                                     @lang('accounting.BalanceSheetCompBy', ['attribute' => __('global.Month')])
-                                                </a>
-                                                <br>
-                                                {{-- <small>Simple list of purchase invoices</small> --}}
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -495,9 +448,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/balance-sheetComparativeYearly/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('accounting.BalanceSheetCompBy', ['attribute' => __('global.Year')])
-                                                </a>
-                                                <br>
-                                                {{-- <small>Simple list of purchase invoices</small> --}}
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
@@ -514,8 +465,7 @@
 
                         <div class="row">
                             <div class="col-6">
-                                <h3> @lang('general.General') </h3>
-                                <p class="lead"></p>
+                                <p class="lead"> @lang('global.General') </p>
 
                                 <div class="m-widget4">
                                     <div class="m-widget4__item">
@@ -525,9 +475,7 @@
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/chart-ofAccounts/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('accounting.ChartofAccounts')
-                                                </a>
-                                                <br>
-                                                <small>List of Journal Related Reports</small>
+                                                </a><small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">

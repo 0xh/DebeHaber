@@ -51,7 +51,8 @@ class CurrencyRateController extends Controller
             $currCode = Currency::where('id', $currencyID)->select('code')->first()->code;
             $currCompanyCode = TaxpayerSetting::where('taxpayer_id', $taxPayerID)->select('currency')->first()->currency;
 
-            if ($currCompanyCode != null && $currCode != null)
+            //check that CompanyCode, CurrencyCode, and that both aren't the same.
+            if ($currCompanyCode != null && $currCode != null && $currCompanyCode != $currCode)
             {
                 //$str = 'USD/EUR';
                 $str = $currCode . '/' . $currCompanyCode;

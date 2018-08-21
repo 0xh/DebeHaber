@@ -89,5 +89,8 @@ return [
     'Edit' => 'Edit',
     'Annul' => 'Annul',
     'Delete' => 'Delete',
-    'Approve' => 'Approve'
+    'Approve' => 'Approve',
+    'Configuration' => 'Configuration',
+    'Reference' => 'Reference',
+    'Quantity' => 'Quantity'
 ];

@@ -70,7 +70,6 @@ Route::group(['middleware' => 'auth'], function ()
       Route::resources([
         'chart-versions' => 'ChartVersionController',
         'charts' => 'ChartController',
-        'fixedasset' => 'FixedAssetController',
         'journals' => 'JournalController',
         'journal-templates' => 'JournalTemplateController',
         'journal-simulations' => 'JournalSimulationController'

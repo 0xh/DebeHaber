@@ -1,11 +1,35 @@
 .menu-name {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 html,
 body {
-  height: -webkit-max-content !important;
-  height: -moz-max-content !important;
-  height: max-content !important;
+    height: -webkit-max-content !important;
+    height: -moz-max-content !important;
+    height: max-content !important;
+    background-color: whitesmoke !important;
 }
 
+h1 {
+    font-family: Poppins, Roboto !important;
+}
+
+h2 {
+    font-family: Poppins, Roboto !important;
+}
+
+h3 {
+    font-family: Poppins, Roboto !important;
+}
+
+h4 {
+    font-family: Poppins, Roboto !important;
+}
+
+h5 {
+    font-family: Poppins, Roboto !important;
+}
+
+h6 {
+    font-family: Poppins, Roboto !important;
+}

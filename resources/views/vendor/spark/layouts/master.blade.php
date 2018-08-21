@@ -14,14 +14,13 @@
     <link href="/vendors/base/vendors.bundle.css" rel="stylesheet">
     <link href="/css/style.bundle.css" rel="stylesheet">
     <link href="/css/custom.css" rel="stylesheet">
-
     @yield('styles')
 
-    {{-- @if (config('app.debug'))
+    @if (config('app.debug'))
         <style>
-        body { background: url('/img/misc/beta128.jpg'); }
+        body { background-color: LightSteelBlue !important}
         </style>
-    @endif --}}
+    @endif
 
     <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
@@ -82,7 +81,7 @@
                                 <div class="m-subheader row">
                                     <div class="d-flex align-items-center col-9">
                                         <div class="mr-auto">
-                                            <h2 class="m-subheader__title m-subheader__title--separator m--font-boldest">
+                                            <h2 class="m--block-inline">
                                                 @yield('title')
                                             </h2>
                                             @if(request()->route('cycle') != null)
@@ -254,8 +253,9 @@
 
 
     <script src="/vendors/base/vendors.bundle.js"></script>
-    <script src="/js/scripts.bundle.js"></script>
     <script src="{{ mix('js/app.js') }}"></script>
+    <script src="/js/scripts.bundle.js"></script>
+
     @yield('script')
 </body>
 <!-- end::Body -->

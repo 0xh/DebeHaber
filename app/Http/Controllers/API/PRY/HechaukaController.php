@@ -27,7 +27,7 @@ class HechaukaController extends Controller
         //TODO: This function is wrong. It will take all files from a path.
         //$files = File::allFiles($path);
 
-        $zipname = 'Hechauka -' . $taxPayer->name . ' - ' . Carbon::now()->toDateTimeString() . '.zip';
+        $zipname = 'Hechauka | ' . $taxPayer->name . '-' . Carbon::now()->toDateTimeString() . '.zip';
 
         $zip = new ZipArchive;
         $zip->open($zipname, ZipArchive::CREATE);
@@ -37,7 +37,6 @@ class HechaukaController extends Controller
 
         $this->generateSales($startDate, $endDate, $taxPayer, $integration, $zip);
         $this->generatePurchases($startDate, $endDate, $taxPayer, $integration, $zip);
-        //dd($zip);
         $zip->close();
 
         return response()->download($zipname)->deleteFileAfterSend(true);

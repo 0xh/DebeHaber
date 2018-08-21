@@ -242,7 +242,10 @@ class ChartController extends Controller
         ->where(function ($q) use ($query)
         {
             $q->where('name', 'like', '%' . $query . '%')
-            ->orWhere('code', 'like', '%' . $query . '%');
+            ->orWhere('code', 'like', '%' . $query . '%')
+            ->orWhereHas('aliases', function($qw) use($query) {
+                $qw->where('name', 'like', '%' . $query . '%');
+            });
         })
         ->with('children:name')
         ->get();

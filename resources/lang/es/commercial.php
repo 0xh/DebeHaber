@@ -31,7 +31,7 @@ return [
     'Credit' => 'Crédito',
 
     'Inventory' => 'Inventario',
-    'MoneyTransfers' => 'Transferencia de Dinero',
+    'MoneyMovements' => 'Movimientos Monetarios',
     'Productions' => 'Producciones',
     'FixedAssets' => 'Activos Fijos',
 
@@ -62,7 +62,13 @@ return [
     'PurchaseByVAT' => 'Compras por IVA',
     'PurchaseBySuppliers' => 'Compras por Proveedor',
     'PurchaseByChart' => 'Compras por Tipo de Gasto',
+    'PurchaseDate' => 'Fecha de Compra',
+    'PurchaseValue' => 'Valor Original',
+    'CurrentValue' => 'Valor Actual',
+    'Serial' => 'Serie',
 
     'BuyRate' => 'Cotización de Compras',
-    'SellRate' => 'Cotización de Ventas'
+    'SellRate' => 'Cotización de Ventas',
+    'Expenses' => 'Egresos',
+    'Incomes' => 'Ingresos'
 ];

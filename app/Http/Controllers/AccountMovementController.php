@@ -17,11 +17,11 @@ class AccountMovementController extends Controller
 {
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return view('accounting/movement');
+        return view('commercial/money-movements');
     }
     public function GetMovement(Taxpayer $taxPayer, Cycle $cycle,$skip)
     {
-        $movements=AccountMovement::where('taxpayer_id',$taxPayer->id)
+        $movements = AccountMovement::where('taxpayer_id',$taxPayer->id)
         ->with('chart')
         ->with('transaction')
         ->skip($skip)
@@ -30,6 +30,4 @@ class AccountMovementController extends Controller
 
         return response()->json($movements);
     }
-
-
 }

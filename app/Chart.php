@@ -29,20 +29,6 @@ class Chart extends Model
         static::addGlobalScope(new ChartScope);
     }
 
-    //Brings all Cash and Bank accounts.
-    public function scopeMoneyAccounts($query)
-    {
-        return $query
-        ->where('type', 1)
-        ->where(function ($x)
-        {
-            $x
-            ->where('sub_type', 1)
-            ->orWhere('sub_type', 3);
-        })
-        ->where('is_accountable', 1);
-    }
-
     public function scopeMy($query, Taxpayer $taxPayer, Cycle $cycle)
     {
         $query->withoutGlobalScopes()->where(function($query) use ($taxPayer)
@@ -58,6 +44,21 @@ class Chart extends Model
         })
         ->where('charts.chart_version_id', $cycle->chart_version_id);
     }
+
+    //Brings all Cash and Bank accounts.
+    public function scopeMoneyAccounts($query)
+    {
+        return $query
+        ->where('type', 1)
+        ->where(function ($x)
+        {
+            $x
+            ->where('sub_type', 1)
+            ->orWhere('sub_type', 3);
+        })
+        ->where('is_accountable', 1);
+    }
+
 
     //Brings all Fixed Asset Type accounts into list.
     public function scopeFixedAssetGroups($query)
@@ -113,6 +114,7 @@ class Chart extends Model
             });
         });
     }
+
     public function scopeRevenuFromInventory($query)
     {
         return $query
@@ -221,6 +223,16 @@ class Chart extends Model
     public function partner()
     {
         return $this->belongsTo(Taxpayer::class, 'id', 'partner_id');
+    }
+
+    /**
+     * Get the aliases for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function aliases()
+    {
+        return $this->hasMany(ChartAlias::class);
     }
 
     /**

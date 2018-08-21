@@ -34,12 +34,12 @@
                 <div class="m-menu__subnav">
                     <ul class="m-menu__content">
                         <li class="m-menu__item">
-                            <h3 class="m-menu__heading m-menu__toggle">
+                            <p class="lead m-menu__heading m-menu__toggle">
                                 <span class="m-menu__link-text">
-                                    @lang('commercial.Income')
+                                    @lang('commercial.Incomes')
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </h3>
+                            </p>
                             <ul class="m-menu__inner">
                                 @if ($isCompany)
                                     <li class="m-menu__item">
@@ -87,12 +87,12 @@
                                     </li>
                                 @endif
 
-                                <h3 class="m-menu__heading m-menu__toggle">
+                                <p class="lead m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
                                         @lang('global.Reports')
                                     </span>
                                     <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                </h3>
+                                </p>
 
                                 <li class="m-menu__item">
                                     <a href="{{ route('reports.sales', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" target="_blank" class="m-menu__link ">
@@ -105,12 +105,12 @@
                             </ul>
                         </li>
                         <li class="m-menu__item">
-                            <h3 class="m-menu__heading m-menu__toggle">
+                            <p class="lead m-menu__heading m-menu__toggle">
                                 <span class="m-menu__link-text">
                                     @lang('commercial.Expenses')
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </h3>
+                            </p>
                             <ul class="m-menu__inner">
                                 @if ($isCompany)
                                     <li class="m-menu__item">
@@ -163,12 +163,12 @@
                                     </li>
                                 @endif
 
-                                <h3 class="m-menu__heading m-menu__toggle">
+                                <p class="lead m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
                                         @lang('global.Reports')
                                     </span>
                                     <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                </h3>
+                                </p>
 
                                 <li class="m-menu__item">
                                     <a href="{{ route('reports.purchases', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" target="_blank" class="m-menu__link ">
@@ -181,12 +181,12 @@
                             </ul>
                         </li>
                         <li class="m-menu__item">
-                            <h3 class="m-menu__heading m-menu__toggle">
+                            <p class="lead m-menu__heading m-menu__toggle">
                                 <span class="m-menu__link-text">
                                     @lang('commercial.General')
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </h3>
+                            </p>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item">
                                     <a href="{{ route('taxpayer.show', [request()->route('taxPayer')]) }}" class="m-menu__link ">
@@ -197,18 +197,10 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item">
-                                    <a  href="{{ route('money-transfers.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-book"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('accounting.Movement')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
                                     <a href="{{ route('money-transfers.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-money"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.MoneyTransfers')
+                                            @lang('commercial.MoneyMovements')
                                         </span>
                                     </a>
                                 </li>
@@ -292,12 +284,12 @@
                 <div class="m-menu__subnav">
                     <ul class="m-menu__content">
                         <li class="m-menu__item">
-                            <h3 class="m-menu__heading m-menu__toggle">
+                            <p class="lead m-menu__heading m-menu__toggle">
                                 <span class="m-menu__link-text">
                                     @lang('accounting.Accounting')
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </h3>
+                            </p>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item">
                                     <a  href="{{ route('journals.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
@@ -324,12 +316,12 @@
                                     </a>
                                 </li>
 
-                                <h3 class="m-menu__heading m-menu__toggle">
+                                <p class="lead m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
-                                        @lang('general.Configuration')
+                                        @lang('global.Configuration')
                                     </span>
                                     <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                </h3>
+                                </p>
 
                                 <li class="m-menu__item">
                                     <a  href="{{ route('charts.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
@@ -351,12 +343,12 @@
                             </ul>
                         </li>
                         <li class="m-menu__item">
-                            <h3 class="m-menu__heading m-menu__toggle">
+                            <p class="lead m-menu__heading m-menu__toggle">
                                 <span class="m-menu__link-text">
                                     @lang('global.Reports')
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </h3>
+                            </p>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item">
                                     <a href="{{ route('reports.subLedger', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" class="m-menu__link ">
