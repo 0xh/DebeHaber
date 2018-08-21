@@ -27,7 +27,7 @@ class AccountReceivableController extends Controller
         return view('/commercial/accounts-receivable')->with('charts',$chart);
     }
 
-    public function get_account_receivable(Taxpayer $taxPayer, Cycle $cycle, $skip)
+    public function get_account_receivable(Taxpayer $taxPayer, Cycle $cycle)
     {
         $transactions = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
@@ -56,9 +56,7 @@ class AccountReceivableController extends Controller
         )
         ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
         ->orderByRaw('max(transactions.number)', 'desc')
-        ->skip($skip)
-        ->take(100)
-        ->get();
+        ->paginate(50);
 
         return response()->json($transactions);
     }
