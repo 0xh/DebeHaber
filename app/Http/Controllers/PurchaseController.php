@@ -112,7 +112,7 @@ class PurchaseController extends Controller
 
             $transaction->rate = $request->rate;
             $transaction->payment_condition = $request->payment_condition;
-
+return response()->json($transaction,500);
             if ($request->chart_account_id > 0)
             {
                 $transaction->chart_account_id = $request->chart_account_id;
@@ -125,7 +125,7 @@ class PurchaseController extends Controller
             $transaction->comment = $request->comment;
             $transaction->type = $request->type ?? 1;
             $transaction->save();
-return response()->json($transaction,500);
+
             foreach ($request->details as $detail)
             {
                 $transactionDetail = $detail['id'] == 0 ? new TransactionDetail() : TransactionDetail::where('id', $detail['id'])->first();
