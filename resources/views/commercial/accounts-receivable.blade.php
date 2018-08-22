@@ -9,16 +9,6 @@
                 <div class="m-nav-grid__row">
                     <div class="m-nav-grid__item">
                         <img src="/img/icons/account-receivable.svg" alt="" width="64">
-                        {{-- <span class="m-nav-grid__text">
-                            <button @click="onCreate()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">
-                                <span>
-                                    <i class="la la-plus"></i>
-                                    <span>
-                                        @lang('commercial.ReceivePayment')
-                                    </span>
-                                </span>
-                            </button>
-                        </span> --}}
                     </div>
                 </div>
             </div>
@@ -68,15 +58,10 @@
 @endsection
 
 @section('form')
-    {{-- @php
-    $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
-    @endphp --}}
-    
-    <buefy :taxpayer="{{ request()->route('taxPayer')->id}}"
-              :cycle="{{ request()->route('cycle')->id }}"
-              baseurl="commercial/account_receivables"
-              inline-template>
-
+    <buefy taxpayer="{{ request()->route('taxPayer')->id }}"
+        cycle="{{ request()->route('cycle')->id }}"
+        baseurl="commercial/account_receivables"
+        inline-template>
         <div>
             <div v-if="$parent.showList">
                 @include('commercial/account-receivable/list')

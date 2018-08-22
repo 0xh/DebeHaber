@@ -8,6 +8,7 @@ use App\Transaction;
 use App\Taxpayer;
 use App\Cycle;
 use App\Chart;
+use App\Http\Resources\ModelResource;
 use Illuminate\Http\Request;
 use DB;
 
@@ -35,16 +36,15 @@ class AccountPayableController extends Controller
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('transactions.customer_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
-        ->whereBetween('transactions.date', [$cycle->start_date, $cycle->end_date])
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as id'),
         DB::raw('max(taxpayers.name) as Supplier'),
         DB::raw('max(taxpayers.taxid) as SupplierTaxID'),
-        DB::raw('max(currencies.code) as currency_code'),
-        DB::raw('max(transactions.payment_condition) as payment_condition'),
-        DB::raw('max(transactions.date) as date'),
-        DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as code_expiry'),
-        DB::raw('max(transactions.number) as number'),
+        DB::raw('max(currencies.code) as Currency'),
+        DB::raw('max(transactions.payment_condition) as PaymentCondition'),
+        DB::raw('max(transactions.date) as Date'),
+        DB::raw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY) as Expiry'),
+        DB::raw('max(transactions.number) as Number'),
         DB::raw('(select ifnull(sum(account_movements.debit * account_movements.rate), 0)  from account_movements where `transactions`.`id` = `account_movements`.`transaction_id`) as Paid'),
         DB::raw('sum(td.value * transactions.rate) as Value'),
         DB::raw('(sum(td.value * transactions.rate)
@@ -56,10 +56,9 @@ class AccountPayableController extends Controller
         )
         ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
         ->orderByRaw('max(transactions.number)', 'desc')
-        ->paginate(50);
+        ->paginate(100);
 
-
-        return response()->json($transactions);
+        return ModelResource::collection($transactions);
     }
 
     public function get_account_payableByID(Taxpayer $taxPayer, Cycle $cycle,$id)

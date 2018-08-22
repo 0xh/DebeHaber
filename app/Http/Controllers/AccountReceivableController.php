@@ -36,7 +36,6 @@ class AccountReceivableController extends Controller
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('transactions.supplier_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
-      //  ->whereBetween('transactions.date', [$cycle->start_date, $cycle->end_date])
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as id'),
         DB::raw('max(taxpayers.name) as Customer'),
@@ -58,13 +57,11 @@ class AccountReceivableController extends Controller
         ->orderByRaw('DATE_ADD(max(transactions.date), INTERVAL max(transactions.payment_condition) DAY)', 'desc')
         ->orderByRaw('max(transactions.number)', 'desc')
         ->paginate(100));
-
-        //return response()->json($transactions);
     }
 
     public function get_account_receivableByID(Taxpayer $taxPayer, Cycle $cycle,$id)
     {
-        $accountMovement =   $transactions = Transaction::MySales()
+        $accountMovement = $transactions = Transaction::MySales()
         ->join('taxpayers', 'taxpayers.id', 'transactions.customer_id')
         ->join('currencies', 'transactions.currency_id','currencies.id')
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')

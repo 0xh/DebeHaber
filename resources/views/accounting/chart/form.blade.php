@@ -134,7 +134,7 @@
                         <button v-on:click="onSave($data)" class="btn btn-primary">
                             @lang('global.Save')
                         </button>
-                        <button v-on:click="cancel()" class="btn btn-secondary">Cancel</button>
+                        <button v-on:click="onCancel()" class="btn btn-secondary">@lang('global.Cancel')</button>
                     </div>
                 </div>
             </div>

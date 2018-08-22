@@ -557,7 +557,6 @@ class ChartController extends Controller
 
         if (isset($fromChart) && isset($toChart))
         {
-
             CycleBudget::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             FixedAsset::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             ProductionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
@@ -590,5 +589,10 @@ class ChartController extends Controller
         }
 
         return response()->json('Chart not found', 404);
+    }
+
+    public function organizeChartCode(Taxpayer $taxPayer, Cycle $cycle)
+    {
+        
     }
 }
