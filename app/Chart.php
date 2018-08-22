@@ -226,16 +226,6 @@ class Chart extends Model
     }
 
     /**
-     * Get the aliases for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function aliases()
-    {
-        return $this->hasMany(ChartAlias::class);
-    }
-
-    /**
     * Get the fixedAssets for the model.
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany

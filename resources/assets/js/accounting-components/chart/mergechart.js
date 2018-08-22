@@ -12,6 +12,8 @@ Vue.component('mergechart',{
         return {
             id : 0,
             fromChartId : '',
+            fromChartName : '',
+            fromChartCode : '',
             toChartId : '',
             boolIncludeFutureReference : '',
         }
@@ -21,7 +23,7 @@ Vue.component('mergechart',{
     {
         //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
         //For updates code will be different and should use the ID's palced int he Json.
-        onSave: function(json)
+        onMerge: function(json)
         {
             var app = this;
             var api = null;
@@ -29,7 +31,7 @@ Vue.component('mergechart',{
             app.fromChartId = app.selectid;
             app.toChartId = app.$children[0].id;
 
-            if (this.fromChartId>0 && this.toChartId>0) {
+            if (this.fromChartId > 0 && this.toChartId > 0) {
                 $.ajax({
                     //charts/merge/{id}
                     url : '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/chart/merge/' +  app.fromChartId + '/' + app.toChartId,
@@ -40,29 +42,20 @@ Vue.component('mergechart',{
                     async : false,
                     success: function(data)
                     {
-                        //console.log(data);
-                        if (data == 200)
-                        {
-                            app.$swal('Chart Merged...');
-                        }
-                        else
-                        {
-                            app.$swal('Something went wrong, check logs...' + error);
-                        }
+                        app.$swal('Chart Merged...');
                     },
                     error: function(xhr, status, error)
                     {
-                        app.$swal('Something went wrong, check logs...' + error);
-                        console.log(xhr.responseText);
+                        app.$swal('Delete failed, please try to Merge and Delete' + error);
                     }
                 });
             }
 
         },
-        cancel: function()
-        {
-this.$parent.close();
 
+        onCancel: function()
+        {
+            this.$parent.close();
         }
     },
 

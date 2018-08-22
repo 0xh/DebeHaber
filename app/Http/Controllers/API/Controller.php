@@ -109,7 +109,7 @@ class Controller extends BaseController
         //Check if Chart Exists
         if (isset($costcenter))
         {
-            $chart=null;
+            $chart = null;
             //Type 1 = Service
             if ($costcenter == 1)
             {
@@ -119,6 +119,9 @@ class Controller extends BaseController
                     $chart = Chart::My($taxPayer, $cycle)
                     ->Incomes()
                     ->where('name', $name)
+                    ->orWhereHas('aliases', function($subQ) use($name) {
+                        $subQ->where('name', 'like', '%' . $name . '%');
+                    })
                     ->first();
 
                     if ($chart == null)
@@ -133,6 +136,9 @@ class Controller extends BaseController
                     $chart = Chart::My($taxPayer, $cycle)
                     ->Expenses()
                     ->where('name', $name)
+                    ->orWhereHas('aliases', function($subQ) use($name) {
+                        $subQ->where('name', 'like', '%' . $name . '%');
+                    })
                     ->first();
 
                     if ($chart == null)
@@ -152,6 +158,9 @@ class Controller extends BaseController
                     $chart = Chart::My($taxPayer, $cycle)
                     ->RevenuFromInventory()
                     ->where('name', $name)
+                    ->orWhereHas('aliases', function($subQ) use($name) {
+                        $subQ->where('name', 'like', '%' . $name . '%');
+                    })
                     ->first();
 
                     if ($chart == null)
@@ -167,6 +176,9 @@ class Controller extends BaseController
                     $chart = Chart::My($taxPayer, $cycle)
                     ->Inventories()
                     ->where('name', $name)
+                    ->orWhereHas('aliases', function($subQ) use($name) {
+                        $subQ->where('name', 'like', '%' . $name . '%');
+                    })
                     ->first();
 
                     if ($chart == null)
@@ -183,6 +195,9 @@ class Controller extends BaseController
                 $chart = Chart::My($taxPayer, $cycle)
                 ->fixedAssets()
                 ->where('name', $name)
+                ->orWhereHas('aliases', function($subQ) use($name) {
+                    $subQ->where('name', 'like', '%' . $name . '%');
+                })
                 ->first();
 
                 if ($chart == null)
@@ -289,12 +304,14 @@ class Controller extends BaseController
         //Check if Chart Exists
         if ($name != '')
         {
-
             //TODO Wrong, you need to specify taxpayerID or else you risk bringing other accounts not belonging to taxpayer.
             //I have done this already.
             $chart = Chart::My($taxPayer, $cycle)
             ->MoneyAccounts()
             ->where('name', $name)
+            ->orWhereHas('aliases', function($subQ) use($name) {
+                $subQ->where('name', 'like', '%' . $name . '%');
+            })
             ->first();
 
             if ($chart == null)

@@ -70,15 +70,49 @@
                 <!--begin::Form-->
                 <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator">
                     <div class="m-portlet__body">
+                        <img src="/img/icons/transfer.svg" width="128" height="128" alt="">
+
+                        <p class="lead">Transfer & Delete</p>
+
+                        <p>
+                            Since accounts are used in many locations,
+                            before deleting it is important to merge all transactions into a new account.
+                        </p>
+
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label">
-                                @lang('global.FromAccount'):
+                                @lang('global.From'):
                             </label>
+
+                            <div class="m-portlet col-4">
+
+                            </div>
+
                             <div class="col-lg-10">
-                                @{{selectid}} -> @{{selectname}}
+                                <b>
+
+                                </b>
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+
+                        <div class="row">
+                            <div class="m-portlet col-4">
+                                @{{selectname}}
+                            </div>
+                            <div class="m-portlet col-4">
+                                <i class="la la-right"></i>
+                            </div>
+                            <div class="m-portlet col-4">
+
+                            </div>
+                        </div>
+
+                        <b-switch v-model="justDelete" type="is-danger">
+                            <span v-if="justDelete">Just Delete</span>
+                            <span v-else>Transfer and Delete</span>
+                        </b-switch>
+
+                        <div v-if="justDelete == false" class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label">
                                 @lang('global.ToAccount'):
                             </label>
@@ -86,17 +120,16 @@
                                 <router-view name="SearchBoxAccount" url="/accounting/chart/get-accountable_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" ></router-view>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions m-form__actions--solid">
                         <div class="row">
-                            <div class="col-lg-2"></div>
+
                             <div class="col-lg-6">
                                 <button v-on:click="onSave($data)" class="btn btn-primary">
-                                    @lang('global.Save')
+                                    @lang('global.Transfer')
                                 </button>
                                 <button v-on:click="cancel()" class="btn btn-secondary">Cancel</button>
                             </div>

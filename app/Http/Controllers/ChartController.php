@@ -31,6 +31,22 @@ class ChartController extends Controller
         return view('accounting/chart');
     }
 
+    // All API related Queries.
+    public function getCharts(Taxpayer $taxPayer, Cycle $cycle,$skip)
+    {
+        $charts = Chart::orderBy('code')
+        ->skip($skip)
+        ->take(300)
+        ->get();
+        return response()->json($charts);
+    }
+
+    public function getChartsByID(Taxpayer $taxPayer, Cycle $cycle, $id)
+    {
+        $charts = Chart::where('id', $id)->get();
+        return response()->json($charts, 200);
+    }
+
     /**
     * Show the form for creating a new resource.
     *
@@ -139,22 +155,6 @@ class ChartController extends Controller
         //
     }
 
-    // All API related Queries.
-    public function getCharts(Taxpayer $taxPayer, Cycle $cycle,$skip)
-    {
-        $charts = Chart::orderBy('code')
-        ->skip($skip)
-        ->take(300)
-        ->get();
-        return response()->json($charts);
-    }
-
-    public function getChartsByID(Taxpayer $taxPayer, Cycle $cycle, $id)
-    {
-        $charts = Chart::where('id',$id)->get();
-        return response()->json($charts, 200);
-    }
-
     public function getAccountableCharts(Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = Chart::where('is_accountable', true)->orderBy('code')->get();
@@ -228,7 +228,10 @@ class ChartController extends Controller
         ->where(function ($q) use ($query)
         {
             $q->where('name', 'like', '%' . $query . '%')
-            ->orWhere('code', 'like', '%' . $query . '%');
+            ->orWhere('code', 'like', '%' . $query . '%')
+            ->orWhereHas('aliases', function($subQ) use($query) {
+                $subQ->where('name', 'like', '%' . $query . '%');
+            });
         })
         ->with('children:name')
         ->get();
@@ -243,8 +246,8 @@ class ChartController extends Controller
         {
             $q->where('name', 'like', '%' . $query . '%')
             ->orWhere('code', 'like', '%' . $query . '%')
-            ->orWhereHas('aliases', function($qw) use($query) {
-                $qw->where('name', 'like', '%' . $query . '%');
+            ->orWhereHas('aliases', function($subQ) use($query) {
+                $subQ->where('name', 'like', '%' . $query . '%');
             });
         })
         ->with('children:name')
@@ -438,37 +441,6 @@ class ChartController extends Controller
 
         return $chart;
     }
-    public function createIfNotExists_FixedAsset(Taxpayer $taxPayer, Cycle $cycle,$assetGroup,$lifeSpan)
-    {
-        $chart = Chart::My($taxPayer, $cycle)
-        ->where('type', 1)
-        ->where('sub_type', 9)
-        ->where('name', $assetGroup)
-        ->where('asset_years', $lifeSpan)
-        ->where('is_accountable', true)
-        ->first();
-
-        if (!isset($chart))
-        {
-            //if not, create specific.
-            $chart = new Chart();
-            $chart->taxpayer_id = $taxPayer->id;
-            $chart->chart_version_id = $cycle->chart_version_id;
-            $chart->type = 1;
-            $chart->sub_type = 9;
-            $chart->is_accountable = true;
-            $chart->code = 'N/A';
-            $chart->name = $assetGroup;
-            $chart->asset_years = $lifeSpan;
-            $chart->save();
-        }
-
-        return $chart;
-    }
-
-
-
-
 
     public function createIfNotExists_VATWithholdingPayables(Taxpayer $taxPayer, Cycle $cycle)
     {
@@ -495,9 +467,35 @@ class ChartController extends Controller
         return $chart;
     }
 
-    public function mergeChartsIndex(Taxpayer $taxPayer, Cycle $cycle, $id)
+    public function createIfNotExists_FixedAsset(Taxpayer $taxPayer, Cycle $cycle, $assetGroup, $lifeSpan)
     {
-        return view('accounting/chart-merge');
+        $chart = Chart::My($taxPayer, $cycle)
+        ->where('type', 1)
+        ->where('sub_type', 9)
+        ->where('is_accountable', true)
+        ->where('name', $assetGroup)
+        ->where('asset_years', $lifeSpan)
+        ->orWhereHas('aliases', function($subQ) use($assetGroup) {
+            $subQ->where('name', 'like', '%' . $assetGroup . '%');
+        })
+        ->first();
+
+        if (!isset($chart))
+        {
+            //if not, create specific.
+            $chart = new Chart();
+            $chart->taxpayer_id = $taxPayer->id;
+            $chart->chart_version_id = $cycle->chart_version_id;
+            $chart->type = 1;
+            $chart->sub_type = 9;
+            $chart->is_accountable = true;
+            $chart->name = $assetGroup;
+            $chart->asset_years = $lifeSpan;
+            $chart->code = 'N/A';
+            $chart->save();
+        }
+
+        return $chart;
     }
 
     public function mergeCharts(Taxpayer $taxPayer, Cycle $cycle, $fromChartId, $toChartId)
@@ -508,6 +506,7 @@ class ChartController extends Controller
 
         if (isset($fromChart) && isset($toChart))
         {
+
             CycleBudget::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             FixedAsset::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             ProductionDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
