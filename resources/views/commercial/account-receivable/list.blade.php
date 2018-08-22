@@ -1,71 +1,50 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<b-table :data="list" hoverable :loading="isLoading">
+    <template slot-scope="props">
+        <b-table-column field="Customer" label="@lang('commercial.Customer')">
 
-    <div>
-        <div class="row">
-            <div class="col-3">
-                <p class="m--font-boldest m--font-transform-u">@lang('commercial.Customer')</p>
-            </div>
-            <div class="col-2">
-                <p class="m--font-boldest m--font-transform-u">@lang('commercial.InvoiceNumber')</p>
-            </div>
-            <div class="col-1 m--font-boldest">
-                <p class="m--font-boldest m--font-transform-u">@lang('global.Deadline')</p>
-            </div>
-            <div class="col-2">
-                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Total')</p>
-            </div>
-            <div class="col-2 m--font-boldest">
-                <p class="m--align-right m--font-boldest m--font-transform-u">@lang('global.Balance')</p>
-            </div>
-            <div class="col-1">
-                <p class="m--align-center m--font-boldest m--font-transform-u">@lang('global.Actions')</p>
-            </div>
+              @{{ props.row.Customer }}
 
-        </div>
+        </b-table-column>
 
-        <div class="row m--margin-bottom-5" v-for="invoice in list">
-            <div class="col-3">
-                <p> <span class="m--font-bold">@{{ invoice.Customer }}</span> |  <em>@{{ invoice.CustomerTaxID }}</em> </p>
-            </div>
+        <b-table-column field="Number" label="@lang('commercial.InvoiceNumber')">
+            @{{ props.row.Number }}
 
-            <div class="col-2">
-                <p>
-                    @{{ invoice.Number }}
-                    {{-- | <small v-if="invoice.PaymentCondition > 0" class="m--font-bold m--font-brand"> @{{ invoice.Date }} </small> --}}
-                </p>
-            </div>
 
-            <div class="col-1">
-                <p v-if="invoice.Expiry < Today" class="m--font-bold m--font-danger">
-                    @{{ invoice.Expiry }}
-                </p>
-                <p v-else class="m--font-bold">
-                    @{{ invoice.Expiry }}
-                </p>
-            </div>
+        </b-table-column>
+        <b-table-column field="Date" label="@lang('commercial.InvoiceNumber')">
+            @{{ props.row.Date  }}
+        </b-table-column>
+        <b-table-column field="Expiry" label="@lang('commercial.InvoiceNumber')">
+            @{{ props.row.Expiry  }}
+        </b-table-column>
+        <b-table-column field="Value" label="@lang('commercial.InvoiceNumber')">
+            @{{ props.row.Value  }}
+        </b-table-column>
+        <b-table-column field="Balance" label="@lang('commercial.InvoiceNumber')">
+            @{{ props.row.Balance  }}
+        </b-table-column>
 
-            <div class="col-2">
-                <p class="m--font-bold m--align-right">
-                    @{{ invoice.Value.toLocaleString() }} <span class="m--font-primary">@{{ invoice.Currency }}</span>
-                </p>
-            </div>
 
-            <div class="col-2">
-                <p class="m--font-bold m--align-right">
-                    @{{ invoice.Balance.toLocaleString() }} <span class="m--font-primary">@{{ invoice.currency_code }}</span>
-                </p>
-            </div>
 
-            <div class="col-1">
-                <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
-                    <a class="m-btn btn btn-secondary">
-                        <i class="la la-check m--font-success"></i>
-                    </a>
-                    <a @click="onEdit(invoice.id)" class="m-btn btn btn-secondary"><i class="la la-money m--font-brand"></i> @lang('commercial.ReceivePayment')</a>
-                </div>
-            </div>
-        </div>
+        <b-table-column custom-key="actions" numeric>
 
-        @include('layouts/infinity-loading')
+            <a href="#" v-on:click="onEdit(props.row.ID)" class="btn btn-primary m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+                <i class="la la-pencil"></i>
+            </a>
 
-    </div>
+            <a href="#" v-on:click="onAnull(props.row)" class="btn btn-danger m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+                <i class="la la-close"></i>
+            </a>
+
+            <a href="#" v-on:click="onDelete(props.row)" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+                <i class="fa fa-trash"></i>
+            </a>
+
+        </b-table-column>
+    </template>
+
+
+</b-table>
+
+<b-pagination :total="meta.total" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>

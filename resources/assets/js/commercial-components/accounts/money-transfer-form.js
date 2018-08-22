@@ -8,8 +8,10 @@ Vue.component('money-transfer-form',
     {
         return {
             id: 0,
+            type:'',
             taxpayer_id: '',
-            chart_id: '',
+            from_chart_id: '',
+            to_chart_id: '',
             date: '',
             transaction_id: '',
             currency_id: '',
@@ -61,7 +63,8 @@ Vue.component('money-transfer-form',
 
             app.id = 0;
             app.taxpayer_id = null;
-            app.chart_id = null;
+            app.from_chart_id = null;
+            app.to_chart_id = null;
             app.date = null;
             app.transaction_id = null;
             app.currency_id = null;
@@ -71,14 +74,14 @@ Vue.component('money-transfer-form',
 
             if (isnew == false)
             {
-                app.$parent.showList = true;
+                app.$parent.$parent.showList = true;
             }
         },
 
         cancel()
         {
             var app = this;
-            app.$parent.showList = true;
+            app.$parent.$parent.showList = true;
         },
 
         getCurrencies: function(data)
@@ -109,7 +112,7 @@ Vue.component('money-transfer-form',
           {
               var app = this;
               $.ajax({
-                  url: '/api/' + this.taxpayer + '/get_rateByCurrency/' + app.currency_id + '/' + app.date  ,
+                  url: '/api/' + this.taxpayer + '/get_rates/' + app.currency_id + '/' + app.date  ,
                     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                   type: 'get',
                   dataType: 'json',
@@ -132,7 +135,8 @@ Vue.component('money-transfer-form',
             var app = this;
             app.id = data.id;
             app.taxpayer_id = data.taxpayer_id;
-            app.chart_id = data.chart_id;
+            app.from_chart_id = data.chart_id;
+            app.to_chart_id = data.chart_id;
             app.date = data.date;
             app.transaction_id = data.transaction_id;
             app.currency_id = data.currency_id;
@@ -145,7 +149,7 @@ Vue.component('money-transfer-form',
         {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get_money-accounts',
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get-money_accounts',
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'get',
                 dataType: 'json',

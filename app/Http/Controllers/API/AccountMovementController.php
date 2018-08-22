@@ -145,6 +145,7 @@ class AccountMovementController extends Controller
 
         //Get Payment Type. 0=Normal, 1=CreditNote, 2=VATWitholding
         $payentType = $data['PaymentType'];
+
         if ($payentType == 0)
         {
             $chartID = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);

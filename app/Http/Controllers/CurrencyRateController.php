@@ -69,7 +69,7 @@ class CurrencyRateController extends Controller
             }
         }
 
-        return response()->json(404);
+        return response()->json(1,500);
     }
 
     public function get_Allrate()

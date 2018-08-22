@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<account-receivable-form :trantype ="2" :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
+<money-transfer-form :taxpayer="{{ request()->route('taxPayer')->id}}" :cycle="{{request()->route('cycle')->id }}" inline-template>
     <div>
 
         <div>
@@ -9,27 +9,43 @@
                 <div class="col-6">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            Fecha de Fact.
+                            Type.
                         </label>
-                        <div class="col-8">
-                            <input type="date" class="form-control" v-model="date" />
+                        <div class="col-2">
+                            <input type="radio" name="type" value="0"  v-model="type" checked />Withdraw
+                        </div>
+                        <div class="col-2">
+                            <input type="radio" name="type" value="1"  v-model="type" />Credit
+                        </div>
+                        <div class="col-2">
+                            <input type="radio" name="type" value="2"  v-model="type" />Transfer
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
-                            Accounts
+                            From Accounts
                         </label>
 
                         <div class="col-8">
-                            <select required  v-model="chart_id" class="custom-select">
+                            <select required  v-model="from_chart_id" class="custom-select">
                                 <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
                             </select>
                         </div>
                     </div>
+                    <div class="form-group m-form__group row" v-if="type==2">
+                        <label for="example-text-input" class="col-4 col-form-label">
+                            To Accounts
+                        </label>
 
+                        <div class="col-8">
+                            <select required  v-model="to_chart_id" class="custom-select">
+                                <option v-for="item in charts" :value="item.id">@{{ item.name }}</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-6">
-                    <div class="form-group m-form__group row">
+                    <div class="form-group m-form__group row" v-if="type==0 || type==2">
                         <label for="example-text-input" class="col-4 col-form-label">
                             debit
                         </label>
@@ -39,7 +55,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="form-group m-form__group row" v-if="type==1 || type==2">
+                        <label for="example-text-input" class="col-4 col-form-label">
+                            credit
+                        </label>
+                        <div class="col-8">
+                            <div class="input-group">
+                                <input  type="number" class="form-control" v-model="credit" />
+                            </div>
+                        </div>
+                    </div>
+                   <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
                             Moneda
                         </label>
@@ -51,7 +77,7 @@
                                 <input type="text" class="form-control" v-model="rate" />
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
 
 
