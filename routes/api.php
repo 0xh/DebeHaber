@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth:api'], function ()
                 Route::post('cyclebudgetstore', 'CycleBudgetController@cyclebudgetstore');
                 Route::get('journal/ByCycleID/{id}', 'JournalController@getJournalsByCycleID');
                 Route::get('cyclebudget/ByCycleID/{id}', 'CycleBudgetController@getCycleBudgetsByCycleID');
+
                 Route::prefix('chart')->group(function ()
                 {
                     Route::get('charts/{skip}', 'ChartController@getCharts');
@@ -81,13 +82,16 @@ Route::group(['middleware' => 'auth:api'], function ()
                     Route::get('get-money_accounts', 'ChartController@getMoneyAccounts');
                     Route::get('get-parent_accounts/{frase}', 'ChartController@getParentAccount');
                     Route::post('merge/{fromChartId}/{toChartId}', 'ChartController@mergeCharts');
+                    Route::post('merge-check/{fromChartId}/', 'ChartController@checkMergeCharts');
                 });
+
                 Route::prefix('fixedasset')->group(function ()
                 {
                     Route::get('fixedassets/{skip}', 'FixedAssetController@getFixedAsset');
                     Route::get('fixedassets/by-id/{id}', 'FixedAssetController@getFixedAssetByID');
 
                 });
+
                 Route::prefix('journals')->group(function ()
                 {
                     Route::get('list', 'JournalController@getJournals');

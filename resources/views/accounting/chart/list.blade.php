@@ -76,7 +76,8 @@
 
                         <p>
                             Since accounts are used in many locations,
-                            before deleting it is important to merge all transactions into a new account.
+                            before deleting it is important to merge all transactions into a another account.
+                            Use this window to help guide
                         </p>
 
                         <div class="form-group m-form__group row">

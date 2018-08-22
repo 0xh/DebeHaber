@@ -498,11 +498,52 @@ class ChartController extends Controller
         return $chart;
     }
 
+    public function checkMergeCharts(Taxpayer $taxPayer, Cycle $cycle, $fromChartId)
+    {
+        //run validation on chart types and make sure a transfer can take place.
+        $fromChart = Chart::My($taxPayer, $cycle)->where('id', $fromChartId);
+
+        if (isset($fromChart))
+        {
+            $obj = null;
+
+            $others = CycleBudget::where('chart_id', $fromChartId)->count();
+            $others += ProductionDetail::where('chart_id', $fromChartId)->count();
+            $others += Inventory::where('chart_id', $fromChartId)->count();
+            $others += Chart::where('parent_id', $fromChartId)->count();
+
+            $fixedAssets = FixedAsset::where('chart_id', $fromChartId)->count();
+
+            //update all transaction money accounts
+            $commerce = Transaction::where('chart_account_id', $fromChartId)->count();
+            //update all transaction details and vats
+            $commerce += TransactionDetail::where('chart_id', $fromChartId)->count();
+            $commerce += TransactionDetail::where('chart_vat_id', $fromChartId)->count();
+
+            //update all account movements
+            $accountMovements += AccountMovement::where('chart_id', $fromChartId)->count();
+            //update all journal details
+            $journals = JournalDetail::where('chart_id', $fromChartId)->count();
+
+            $obj = [
+                'others' => $others,
+                'fixedAsset' => $fixedAssets,
+                'commerce' => $commerce,
+                'accountMovements' => $accountMovements,
+                'journals' => $journals
+            ];
+
+            return response()->json($obj, 200);
+        }
+
+        return response()->json('Chart not found', 404);
+    }
+
     public function mergeCharts(Taxpayer $taxPayer, Cycle $cycle, $fromChartId, $toChartId)
     {
         //run validation on chart types and make sure a transfer can take place.
-        $fromChart = Chart::find($fromChartId);
-        $toChart = Chart::find($toChartId);
+        $fromChart = Chart::My($taxPayer, $cycle)->where('id', $fromChartId);
+        $toChart = Chart::My($taxPayer, $cycle)->where('id', $toChartId);
 
         if (isset($fromChart) && isset($toChart))
         {
