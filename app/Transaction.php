@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\ModelStatus\HasStatuses;
 use RyanWeber\Mutators\Timezoned;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Transaction extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
     use HasStatuses, Timezoned;
 
     protected $timezoned = ['date', 'created_at', 'updated_at', 'deleted_at'];
@@ -29,6 +30,22 @@ class Transaction extends Model
         'code_expiry',
         'comment',
     ];
+
+    public function toSearchableArray()
+    {
+        return [
+            'customer_id' => $this->customer_id,
+            'supplier_id' => $this->supplier_id,
+            'currency_id' => $this->currency_id,
+            'rate' => $this->rate,
+            'payment_condition' => $this->payment_condition,
+            'date' => $this->date,
+            'number' => $this->number,
+            'code' => $this->code,
+            'code_expiry' => $this->code_expiry,
+            'comment' => $this->comment,
+        ];
+    }
 
     public function scopeMySales($query)
     {
