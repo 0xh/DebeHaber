@@ -50,7 +50,7 @@
 @endsection
 
 @section('form')
-    <infinity taxpayer="{{ request()->route('taxPayer')->id}}" cycle="{{ request()->route('cycle')->id }}" baseurl="commercial/fixed-asset/" inline-template>
+    <buefy taxpayer="{{ request()->route('taxPayer')->id}}" cycle="{{ request()->route('cycle')->id }}" baseurl="accounting/fixedasset/fixedassets" inline-template>
         <div>
             <div v-if="$parent.showList">
                 @include('commercial/fixed-asset/list')
@@ -59,5 +59,5 @@
                 @include('commercial/fixed-asset/form')
             </div>
         </div>
-    </infinity>
+    </buefy>
 @endsection

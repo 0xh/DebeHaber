@@ -30,7 +30,8 @@ class FixedAssetController extends Controller
 
     public function getFixedAssetByID(Taxpayer $taxPayer, Cycle $cycle,$id)
     {
-        $fixedasset = FixedAsset::where('id',$id)
+        $fixedasset = FixedAsset::with('chart')
+        ->where('id',$id)
         ->get();
         return response()->json($fixedasset);
     }

@@ -100,7 +100,7 @@ Vue.component('fixedasset',{
             app.current_value = data.current_value,
             app.quantity = data.quantity,
             app.sales_date = data.sales_date,
-            app.$children[0].selectText=data.name;
+            app.$children[0].selectText=data.chart.name;
         },
         onDelete: function(data)
         {

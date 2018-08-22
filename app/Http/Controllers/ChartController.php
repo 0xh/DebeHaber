@@ -256,6 +256,23 @@ class ChartController extends Controller
         return response()->json($charts);
     }
 
+    public function searchFixedAssetsCharts(Taxpayer $taxPayer, Cycle $cycle, $query)
+    {
+        $charts = Chart::FixedAssetGroups()
+        ->where(function ($q) use ($query)
+        {
+            $q->where('name', 'like', '%' . $query . '%')
+            ->orWhere('code', 'like', '%' . $query . '%')
+            ->orWhereHas('aliases', function($subQ) use($query) {
+                $subQ->where('name', 'like', '%' . $query . '%');
+            });
+        })
+        ->with('children:name')
+        ->get();
+
+        return response()->json($charts);
+    }
+
     public function createIfNotExists_CashAccounts(Taxpayer $taxPayer, Cycle $cycle, $chart_id)
     {
         //Check if CustomerID exists in Chart.

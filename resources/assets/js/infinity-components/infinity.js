@@ -44,8 +44,9 @@ Vue.component('infinity',
     {
         infiniteHandler($state)
         {
+        
             var app = this;
-            console.log('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + app.skip + '');
+
             axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + app.skip + '',
             {
                 params:
@@ -55,10 +56,12 @@ Vue.component('infinity',
             })
             .then(({ data }) =>
             {
+
                 if (data.length > 0)
                 {
                     for (let i = 0; i < data.length; i++)
                     {
+
                         app.list.push(data[i]);
                     }
 
