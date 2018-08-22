@@ -1,18 +1,15 @@
 <template>
     <div>
         <div class="input-group m-input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">
-                    <i class="fa fa-spinner fa-spin" v-if="loading"></i>
-                    <template v-else>
-                        <i class="fa fa-search" v-show="isEmpty"></i>
-                        <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
-                    </template>
+
+            <div v-if="selectText != ''" class="input-group-prepend">
+                <span class="input-group-text m--font-boldest">
+                    {{ selectText }}
                 </span>
             </div>
 
             <input type="text"
-            name ="contribuyente"
+            name ="chartOfAccounts"
             class="form-control m-input"
             placeholder=""
 
@@ -31,21 +28,22 @@
             @input="update"/>
 
             <div class="input-group-append">
-                <span class="input-group-text m--font-boldest" id="basic-addon1">
-                    {{ selectText }}
+                <span class="input-group-text" id="basic-addon1">
+                    <i v-if="loading" class="fa fa-spinner fa-spin"></i>
+                    <template v-else>
+                        <i class="fa fa-search" v-show="isEmpty"></i>
+                        <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
+                    </template>
                 </span>
             </div>
         </div>
-
-        <span class="m-form__help">
-            If this is a top level account, keep this field blank, or else please select it's parent.
-            <ul v-show="hasItems">
-                <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
-                    <span class="name" v-text="item.name"></span>
-                    <span class="screen-name" v-text="item.screen_name"></span>
-                </li>
-            </ul>
-        </span>
+        <ul v-show="hasItems">
+            <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
+                <span class="strong" v-text="item.code"></span>
+                <span>|</span>
+                <span class="name" v-text="item.name"></span>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -124,7 +122,7 @@ ul
 li
 {
     padding: 5px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid whitesmoke;
     cursor: pointer;
 }
 
@@ -148,7 +146,7 @@ span
 
 .active
 {
-    background-color: #3aa373;
+    background-color: #734cea;
 }
 
 .active span
@@ -156,14 +154,9 @@ span
     color: white;
 }
 
-.name
+.strong
 {
-    font-weight: 500;
-    font-size: 14px;
-}
-
-.screen-name
-{
+    font-weight: 800;
     font-style: italic;
 }
 </style>

@@ -83,7 +83,7 @@ Route::group(['middleware' => 'auth:api'], function ()
                     Route::get('get-money_accounts', 'ChartController@getMoneyAccounts');
                     Route::get('get-parent_accounts/{frase}', 'ChartController@getParentAccount');
                     Route::post('merge/{fromChartId}/{toChartId}', 'ChartController@mergeCharts');
-                    Route::post('merge-check/{fromChartId}/', 'ChartController@checkMergeCharts');
+                    Route::post('merge-check/{fromChartId}', 'ChartController@checkMergeCharts');
                 });
 
                 Route::prefix('fixedasset')->group(function ()

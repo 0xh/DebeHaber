@@ -55,4 +55,5 @@ return [
 
     'Revenue' => 'Revenue',
     'SalesReturns' => 'Sales Returns',
+    'VATWithHolding' => 'VAT Withholding',
 ];

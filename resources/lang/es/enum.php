@@ -54,4 +54,5 @@ return [
 
     'Revenue' => 'Ingresos',
     'SalesReturns' => 'Sales Returns',
+    'VATWithHolding' => 'Retención de IVA'
 ];

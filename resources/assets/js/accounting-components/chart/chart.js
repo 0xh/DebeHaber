@@ -46,7 +46,6 @@ Vue.component('chart',{
         //For updates code will be different and should use the ID's palced int he Json.
         onSave: function(json)
         {
-          console.log(json);
             var app = this;
             var api = null;
 
@@ -54,38 +53,32 @@ Vue.component('chart',{
 
             if (app.code == '')
             {
-                app.$swal('Please Check fields?',
-                'code',
-                'warning'
-            );
-            return;
-        }
-        if (app.name == '')
-        {
-            app.$swal('Please fill name...');
-            return;
-        }
-        if (app.type == 0)
-        {
-            app.$swal('Please Select Type...');
-            return;
-        }
-        if (app.is_accountable && app.sub_type == 0)
-        {
-            app.$swal('Please Select Sub Type...');
-            return;
-        }
-        $.ajax({
-            url : '',
-            headers : {'X-CSRF-TOKEN': CSRF_TOKEN},
-            type : 'post',
-            data : json,
-            dataType : 'json',
-            async : false,
-            success: function(data)
+                app.$swal('Please Check fields?', 'code', 'warning');
+                return;
+            }
+            if (app.name == '')
             {
-                console.log(data);
-                if (data == 200)
+                app.$swal('Please fill name...');
+                return;
+            }
+            if (app.type == 0)
+            {
+                app.$swal('Please Select Type...');
+                return;
+            }
+            if (app.is_accountable && app.sub_type == 0)
+            {
+                app.$swal('Please Select Sub Type...');
+                return;
+            }
+            $.ajax({
+                url : '',
+                headers : {'X-CSRF-TOKEN': CSRF_TOKEN},
+                type : 'post',
+                data : json,
+                dataType : 'json',
+                async : false,
+                success: function(data)
                 {
                     app.id = 0;
                     app.parent_id = null;
@@ -100,43 +93,37 @@ Vue.component('chart',{
                     app.coefficient = null;
                     app.asset_years = null;
                     app.$parent.$parent.showList = 1;
-                    //app.init();
-                }
-                else
+                },
+                error: function(xhr, status, error)
                 {
-                    alert('Something Went Wrong...')
+                    app.$swal('Something went wrong, check logs...' + error);
+                    console.log(xhr.responseText);
                 }
-            },
-            error: function(xhr, status, error)
-            {
-                app.$swal('Something went wrong, check logs...' + error);
-                console.log(xhr.responseText);
-            }
-        });
+            });
+        },
+
+        onEdit: function(data)
+        {
+
+            var app = this;
+            app.id = data.id;
+            app.parent_id = data.parent_id;
+            app.chart_version_id = data.chart_version_id;
+            app.country = data.country;
+            app.is_accountable = data.is_accountable;
+            app.code = data.code;
+            app.name = data.name;
+            app.level = data.level;
+            app.type = data.type;
+            app.sub_type = data.sub_type;
+            app.coefficient = data.coefficient;
+            app.asset_years =  data.asset_years;
+            app.$children[0].selectText=data.name;
+        }
     },
 
-    onEdit: function(data)
+    mounted: function mounted()
     {
-
-        var app = this;
-        app.id = data.id;
-        app.parent_id = data.parent_id;
-        app.chart_version_id = data.chart_version_id;
-        app.country = data.country;
-        app.is_accountable = data.is_accountable;
-        app.code = data.code;
-        app.name = data.name;
-        app.level = data.level;
-        app.type = data.type;
-        app.sub_type = data.sub_type;
-        app.coefficient = data.coefficient;
-        app.asset_years =  data.asset_years;
-        app.$children[0].selectText=data.name;
+        //    this.init();
     }
-},
-
-mounted: function mounted()
-{
-    //    this.init();
-}
 });

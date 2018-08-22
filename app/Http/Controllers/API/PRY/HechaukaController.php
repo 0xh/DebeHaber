@@ -270,6 +270,14 @@ class HechaukaController extends Controller
 
             $fileName = 'Hechauka Compras #' . $i . ' | ' . Carbon::now()->toDateTimeString() . '.txt';
 
+            $totalTotal10 = $data->sum('ValueInTen');
+            $totalVAT10 = round($totalTotal10 / 11);
+            $totalTaxable10 = ($totalTotal10 - $totalVAT10) ?? 0;
+
+            $totalTotal5 = $data->sum('ValueInFive');
+            $totalVAT5 = round($totalTotal5 / 21);
+            $totalTaxable5 = ($totalTotal5 - $totalVAT5) ?? 0;
+
             $header =
             /* 1 */ ' 1 ' .
             /* 2 */ " \t " . ($dateCode) .
@@ -283,7 +291,7 @@ class HechaukaController extends Controller
             /* 10 */ " \t " . ($agentTaxCode) .
             /* 11 */ " \t " . ($agentName) .
             /* 12 */ " \t " . ($data->count() ?? 0) .
-            /* 13 */ " \t " . (($data->sum('ValueInTen') ?? 0 ) + ($data->sum('ValueInFive') ?? 0) + ($data->sum('ValueInZero') ?? 0)).
+            /* 13 */ " \t " . ($totalTaxable10 + $totalTaxable5 + ($data->sum('ValueInZero') ?? 0)).
             /* 14 */ " \t " . ($integration->regime_type == 1 ? 'Si' : 'No' ) .
             /* 15 */ " \t " . "2 \r\n ";
 
@@ -320,10 +328,9 @@ class HechaukaController extends Controller
                 /* 11 */ " \t " . ($Taxable5) .
                 /* 12 */ " \t " . ($VAT5) .
                 /* 13 */ " \t " . ($row->ValueInZero) .
-                /* 14 */ //" \t " . $row->OperationType ?? 0 .
                 /* 14 */ " \t " . 0 .
                 /* 15 */ " \t " . ($row->PaymentCondition == 0 ? 1 : 2) .
-                /* 16 */ " \t " . ($row->PaymentCondition < 0 ? 1 : 0) . " \r\n ";
+                /* 16 */ " \t " . ($row->PaymentCondition > 0 ? 1 : 0) . " \r\n ";
             }
 
             //Maybe save to string variable frist, and then append at the end.

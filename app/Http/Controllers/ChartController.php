@@ -518,39 +518,32 @@ class ChartController extends Controller
     public function checkMergeCharts(Taxpayer $taxPayer, Cycle $cycle, $fromChartId)
     {
         //run validation on chart types and make sure a transfer can take place.
-        $fromChart = Chart::My($taxPayer, $cycle)->where('id', $fromChartId);
+        $fromChart = Chart::My($taxPayer, $cycle)->where('id', $fromChartId)->first();
 
         if (isset($fromChart))
         {
-            $obj = null;
+            $count = 0;
 
-            $others = CycleBudget::where('chart_id', $fromChartId)->count();
-            $others += ProductionDetail::where('chart_id', $fromChartId)->count();
-            $others += Inventory::where('chart_id', $fromChartId)->count();
-            $others += Chart::where('parent_id', $fromChartId)->count();
+            $count += CycleBudget::where('chart_id', $fromChartId)->count();
+            $count += ProductionDetail::where('chart_id', $fromChartId)->count();
+            $count += Inventory::where('chart_id', $fromChartId)->count();
+            $count += Chart::where('parent_id', $fromChartId)->count();
+            $count += FixedAsset::where('chart_id', $fromChartId)->count();
+            $count += Transaction::where('chart_account_id', $fromChartId)->count();
+            $count += TransactionDetail::where('chart_id', $fromChartId)->count();
+            $count += TransactionDetail::where('chart_vat_id', $fromChartId)->count();
+            $count += AccountMovement::where('chart_id', $fromChartId)->count();
+            $count += JournalDetail::where('chart_id', $fromChartId)->count();
 
-            $fixedAssets = FixedAsset::where('chart_id', $fromChartId)->count();
-
-            //update all transaction money accounts
-            $commerce = Transaction::where('chart_account_id', $fromChartId)->count();
-            //update all transaction details and vats
-            $commerce += TransactionDetail::where('chart_id', $fromChartId)->count();
-            $commerce += TransactionDetail::where('chart_vat_id', $fromChartId)->count();
-
-            //update all account movements
-            $accountMovements += AccountMovement::where('chart_id', $fromChartId)->count();
-            //update all journal details
-            $journals = JournalDetail::where('chart_id', $fromChartId)->count();
-
-            $obj = [
-                'others' => $others,
-                'fixedAsset' => $fixedAssets,
-                'commerce' => $commerce,
-                'accountMovements' => $accountMovements,
-                'journals' => $journals
-            ];
-
-            return response()->json($obj, 200);
+            if ($count > 0)
+            {
+                return response()->json('Unable to Delete. Relationships exists, try Merge.', 500);
+            }
+            else
+            {
+                $fromChart->forceDelete();
+                return response()->json('Ok', 200);
+            }
         }
 
         return response()->json('Chart not found', 404);

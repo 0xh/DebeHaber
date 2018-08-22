@@ -10,16 +10,14 @@ Vue.component('infinity',
     props: ['taxpayer', 'cycle', 'baseurl'],
     data() {
         return {
-            list: [],
-            selectedList :[],
-            total: 0,
-            skip: 0,
-            pageSize: 100,
-            search: '',
-            isActive:false,
-            fromid:0,
-            fromname:''
-
+            list : [],
+            selectedList : [],
+            total : 0,
+            skip : 0,
+            pageSize : 100,
+            search : '',
+            isActive : false,
+            item: [],
         }
     },
 
@@ -44,7 +42,7 @@ Vue.component('infinity',
     {
         infiniteHandler($state)
         {
-        
+
             var app = this;
 
             axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + app.skip + '',
@@ -97,16 +95,14 @@ Vue.component('infinity',
                 }
             });
         },
+
         onDeleteAccount: function(data)
         {
-
-            this.fromid=data.id;
-            this.fromname=data.name;
-            this.isActive=true;
-
-            //window.location.href =  "charts/merge/" + data.id
-
+            var app = this;
+            app.item = data;
+            app.isActive = true;
         },
+
         onDelete: function(data)
         {
             //SweetAlert message and confirmation.

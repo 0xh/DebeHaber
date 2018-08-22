@@ -9,7 +9,7 @@
             <div class="m-portlet__body">
                 <div class="form-group m-form__group row">
                     <label class="col-lg-2 col-form-label">
-                        @lang('global.BelongsTo'):
+                        @lang('global.BelongsTo')
                     </label>
                     <div class="col-lg-6">
                         <router-view name="SearchBoxAccount" url="/accounting/chart/get-parent_accounts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
@@ -18,13 +18,13 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row has-danger">
+                <div class="form-group m-form__group row">
                     <label class="col-lg-2 col-form-label">
-                        @lang('commercial.Account'):
+                        @lang('commercial.Account')
                     </label>
                     <div class="col-lg-6">
                         <div class="input-group">
-                            <div class="input-group-preappend">
+                            <div class="input-group-append">
                                 <input type="text" class="input-group-text" v-model="code" placeholder="@lang('global.Code')" aria-describedby="basic-addon2">
                             </div>
                             <input type="text" class="form-control m-input"  v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
