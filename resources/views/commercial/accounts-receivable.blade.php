@@ -68,10 +68,11 @@
 @endsection
 
 @section('form')
-    @php
+    {{-- @php
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
-    @endphp
-    <infinity :taxpayer="{{ request()->route('taxPayer')->id}}"
+    @endphp --}}
+    
+    <buefy :taxpayer="{{ request()->route('taxPayer')->id}}"
               :cycle="{{ request()->route('cycle')->id }}"
               baseurl="commercial/account_receivables"
               inline-template>
@@ -84,5 +85,5 @@
                 @include('commercial/account-receivable/form')
             </div>
         </div>
-    </infinity>
+    </buefy>
 @endsection

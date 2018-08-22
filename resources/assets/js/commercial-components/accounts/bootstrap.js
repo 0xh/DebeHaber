@@ -1,3 +1,3 @@
 require('./payments-form');
-require('./accounts-form');
+require('./money-transfer-form');
 require('./list');
