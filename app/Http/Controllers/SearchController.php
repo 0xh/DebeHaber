@@ -22,13 +22,15 @@ class SearchController extends Controller
 
         $taxPayers = $this->searchTaxPayers($taxPayer, $cycle, $q);
 
-        $foundItems = [
-            'purchases' => [$purchases],
-            'debits' => [$debits],
-            'sales' => [$sales],
-            'credits' => [$credits],
-            'taxPayers' => [$taxPayers]
-        ];
+        $foundItems = collect($purchases)
+        ->merge($debits)
+        ->merge($sales)
+        ->merge($credits)
+        ->merge($taxPayers);
+
+        //array_push($foundItems, $purchases, $debits, $sales, $credits, $taxPayers);
+
+        //ModelResource::collection($foundItems);
 
         return view('search')
         ->with('foundItems', $foundItems)

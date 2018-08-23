@@ -3,19 +3,15 @@
 @section('title', __('global.Dashboard',['team' => request()->route('taxPayer')->alias]))
 
 @section('stats')
-    <input type="text" name="" value="{{ $q }}">
+    <input type="text" class="col-12" name="" value="{{ $q }}">
 @endsection
 
 @section('content')
-    {{ $foundItems }}
 
-    <table>
-        {{-- @foreach ($foundItems->sales as $sales)
-            <tr>
-                <td>{{ $sales->number }}</td>
-                <td>{{ $sales->date }}</td>
-                <td>{{ $sales->currency }}</td>
-            </tr>
-        @endforeach --}}
-    </table>
+    @foreach ($foundItems as $results)
+        {{ $results->first() }}
+        <br>
+        <br>
+    @endforeach
+
 @endsection
