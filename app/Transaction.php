@@ -10,7 +10,7 @@ use Laravel\Scout\Searchable;
 
 class Transaction extends Model
 {
-    use SoftDeletes;//, Searchable;
+    use SoftDeletes, Searchable;
     use HasStatuses, Timezoned;
 
     protected $timezoned = ['date', 'created_at', 'updated_at', 'deleted_at'];
@@ -34,16 +34,17 @@ class Transaction extends Model
     public function toSearchableArray()
     {
         return [
+            'type' => $this->type,
             'customer' => $this->customer->name,
+            'customer_id' => $this->customer_id,
             'supplier' => $this->supplier->name,
+            'supplier_id' => $this->supplier_id,
             'currency' => $this->currency->name,
             'items' => $this->items->flatMap->name,
-            'rate' => $this->rate,
             'payment_condition' => $this->payment_condition,
             'date' => $this->date,
             'number' => $this->number,
             'code' => $this->code,
-            'code_expiry' => $this->code_expiry,
             'comment' => $this->comment,
         ];
     }
