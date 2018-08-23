@@ -146,7 +146,7 @@ Route::prefix('{taxPayer}')->group(function ()
             Route::get('account_payables/by-id/{id}', 'AccountPayableController@get_account_payableByID');
             Route::get('account_payables/get-charts', 'ChartController@getMoneyAccounts');
 
-            Route::get('money_movements/{skip}', 'AccountMovementController@GetMovement');
+            Route::get('money_movements', 'AccountMovementController@GetMovement');
             Route::get('money_movements/by-id/{id}', 'MoneyTransferController@get_money_transferByID');
 
             Route::get('inventories/{skip}', 'InventoryController@getInventories');

@@ -213,4 +213,10 @@ class Transaction extends Model
         return $this->hasMany(TransactionDetail::class)
         ->selectRaw('sum(value)');
     }
+
+    public function balance()
+    {
+        return $this->hasMany(AccountMovement::class)
+        ->selectRaw('sum(credit - debit)');
+    }
 }

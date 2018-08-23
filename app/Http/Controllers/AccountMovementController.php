@@ -9,6 +9,7 @@ use App\Cycle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use App\Http\Resources\ModelResource;
 use Carbon\Carbon;
 use DB;
 use Auth;
@@ -19,14 +20,12 @@ class AccountMovementController extends Controller
     {
         return view('commercial/money-movements');
     }
-    public function GetMovement(Taxpayer $taxPayer, Cycle $cycle,$skip)
+    public function GetMovement(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $movements = AccountMovement::where('taxpayer_id',$taxPayer->id)
+        return ModelResource::collection(AccountMovement::where('taxpayer_id',$taxPayer->id)
         ->with('chart')
         ->with('transaction')
-        ->skip($skip)
-        ->take(300)
-        ->get();;
+        ->paginate(100));
 
         return response()->json($movements);
     }
