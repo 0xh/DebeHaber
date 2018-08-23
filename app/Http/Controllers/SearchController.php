@@ -22,14 +22,12 @@ class SearchController extends Controller
 
         $taxPayers = $this->searchTaxPayers($taxPayer, $cycle, $q);
 
-dd($sales);
-
         $foundItems = [
-            'purchases' => $purchases,
-            'debits' => $debits,
-            'sales' => $sales,
-            'credits' => $credits,
-            'taxPayers' => $taxPayers
+            'purchases' => [$purchases],
+            'debits' => [$debits],
+            'sales' => [$sales],
+            'credits' => [$credits],
+            'taxPayers' => [$taxPayers]
         ];
 
         return view('search')
@@ -57,7 +55,7 @@ dd($sales);
     {
         return Transaction::search($q)
         ->where('supplier_id', $taxPayer->id)
-        // ->where('type', 4)
+        ->where('type', 4)
         ->get();
     }
 
