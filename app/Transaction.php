@@ -34,9 +34,10 @@ class Transaction extends Model
     public function toSearchableArray()
     {
         return [
-            'customer_id' => $this->customer_id,
-            'supplier_id' => $this->supplier_id,
-            'currency_id' => $this->currency_id,
+            'customer' => $this->customer->name,
+            'supplier' => $this->supplier->name,
+            'currency' => $this->currency->name,
+            'items' => $this->items->flatMap->name,
             'rate' => $this->rate,
             'payment_condition' => $this->payment_condition,
             'date' => $this->date,
@@ -195,6 +196,11 @@ class Transaction extends Model
     public function details()
     {
         return $this->hasMany(TransactionDetail::class);
+    }
+
+    public function items()
+    {
+        return $this->belongsToMany('App\Chart', 'transaction_details');
     }
 
     /**

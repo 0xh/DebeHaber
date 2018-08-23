@@ -49,6 +49,6 @@ class TransactionDetail extends Model
     */
     public function chart()
     {
-        return $this->hasMany(Chart::class);
+        return $this->belongsTo(Chart::class, 'id', 'chart_id');
     }
 }

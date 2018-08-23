@@ -115,17 +115,12 @@
                                         </div>
                                     </div>
                                     <div v-if="showList" class="m-input-icon m-input-icon--left m-input-icon--right m--pull-right col-3">
-                                        <input type="text" class="form-control m-input m-input--pill m-input--air" placeholder="@lang('global.Search')">
                                         <span class="m-input-icon__icon m-input-icon__icon--left">
                                             <span>
                                                 <i class="la la-search"></i>
                                             </span>
                                         </span>
-                                        <span class="m-input-icon__icon m-input-icon__icon--right">
-                                            <span>
-                                                <i class="la la-info-circle"></i>
-                                            </span>
-                                        </span>
+                                        <input type="text" class="form-control m-input m-input--pill m-input--air" placeholder="@lang('global.Search')">
                                     </div>
                                 </div>
                                 @hasSection('stats')

@@ -6,10 +6,9 @@ Vue.component('model',
     data() {
         return {
             showList : true,
-            cycle_id:0,
-            cycles:[],
-            showCycle:0
-
+            cycle_id : 0,
+            cycles : [],
+            showCycle : 0
         }
     },
 
@@ -19,6 +18,12 @@ Vue.component('model',
         {
             var app = this;
             app.showList = false;
+        },
+
+        onCancel()
+        {
+            var app = this;
+            app.showList = true;
         },
 
         onCreateCyclce()
@@ -57,11 +62,11 @@ Vue.component('model',
             axios.get('/api/' + app.taxpayer + '/get_cycle')
             .then(({ data }) =>
             {
-                console.log(data);
                 app.cycles = data;
             });
         }
     },
+
     mounted: function mounted()
     {
         var app = this;
