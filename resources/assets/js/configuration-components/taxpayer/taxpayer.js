@@ -80,6 +80,7 @@ Vue.component('taxpayer',{
 
       if (app.page == 3)
       {
+        console.log('save')
         this.onSave(json);
       }
 

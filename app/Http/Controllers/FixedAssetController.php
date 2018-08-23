@@ -24,7 +24,7 @@ class FixedAssetController extends Controller
 
     public function getFixedAsset(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return FixedAssetResource::collection(FixedAsset::paginate(50));
+        return FixedAssetResource::collection(FixedAsset::where('taxpayer_id', $taxPayer->id)->paginate(50));
 
     }
 

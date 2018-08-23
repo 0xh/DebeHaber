@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth:api'], function ()
 });
 
 Route::post('/transactions', 'API\TransactionController@start');
+Route::post('/payment', 'API\PaymentController@start');
 Route::post('/movement', 'API\AccountMovementController@start');
 Route::post('/fixedasset', 'API\FixedAssetController@start');
 Route::post('/check-key', 'API\Controller@checkAPI');
