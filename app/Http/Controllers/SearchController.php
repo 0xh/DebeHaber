@@ -22,51 +22,53 @@ class SearchController extends Controller
 
         $taxPayers = $this->searchTaxPayers($taxPayer, $cycle, $q);
 
-        $foundItems = collect($purchases)
-        ->merge($debits)
-        ->merge($sales)
-        ->merge($credits)
-        ->merge($taxPayers);
-
-        //array_push($foundItems, $purchases, $debits, $sales, $credits, $taxPayers);
-
-        //ModelResource::collection($foundItems);
-
         return view('search')
-        ->with('foundItems', $foundItems)
+        ->with('purchases', $purchases)
+        ->with('debits', $debits)
+        ->with('sales', $sales)
+        ->with('credits', $credits)
+        ->with('taxPayers', $taxPayers)
         ->with('q', $q);
     }
 
     public function searchPurchases(Taxpayer $taxPayer, Cycle $cycle, $q)
     {
-        return Transaction::search($q)
+        $results = Transaction::search($q)
         ->where('customer_id', $taxPayer->id)
         ->where('type', 2)
-        ->get();
+        ->paginate(25);
+
+        return ModelResource::collection($results->load('supplier'));
     }
 
     public function searchDebits(Taxpayer $taxPayer, Cycle $cycle, $q)
     {
-        return Transaction::search($q)
+        $results = Transaction::search($q)
         ->where('customer_id', $taxPayer->id)
         ->where('type', 3)
-        ->get();
+        ->paginate(25);
+
+        return ModelResource::collection($results->load('supplier'));
     }
 
     public function searchSales(Taxpayer $taxPayer, Cycle $cycle, $q)
     {
-        return Transaction::search($q)
+        $results = Transaction::search($q)
         ->where('supplier_id', $taxPayer->id)
         ->where('type', 4)
-        ->get();
+        ->paginate(25);
+
+        return ModelResource::collection($results->load('customer'));
     }
 
     public function searchCredits(Taxpayer $taxPayer, Cycle $cycle, $q)
     {
-        return Transaction::search($q)
+        $results = Transaction::search($q)
         ->where('supplier_id', $taxPayer->id)
-        ->where('type', 5)
-        ->get();
+        ->where('type', 4)
+        ->paginate(25);
+
+        return ModelResource::collection($results->load('customer'));
     }
 
     public function searchTaxPayers(Taxpayer $taxPayer, Cycle $cycle, $q)

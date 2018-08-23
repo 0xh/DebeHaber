@@ -36,8 +36,10 @@ class Transaction extends Model
         return [
             'type' => $this->type,
             'customer' => $this->customer->name,
+            'customer_tax_id' => $this->customer->taxid,
             'customer_id' => $this->customer_id,
             'supplier' => $this->supplier->name,
+            'supplier_tax_id' => $this->supplier->taxid,
             'supplier_id' => $this->supplier_id,
             'currency' => $this->currency->name,
             'items' => $this->items->flatMap->name,
@@ -209,10 +211,10 @@ class Transaction extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-    public function totals()
+    public function total()
     {
         return $this->hasMany(TransactionDetail::class)
-        ->selectRaw('sum(value)');
+        ->selectRaw('sum(value) as total');
     }
 
     public function balance()

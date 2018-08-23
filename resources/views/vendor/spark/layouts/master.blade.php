@@ -114,14 +114,14 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div v-if="showList" class="m-input-icon m-input-icon--left m-input-icon--right m--pull-right col-3">
+                                    {{-- <div v-if="showList" class="m-input-icon m-input-icon--left m-input-icon--right m--pull-right col-3">
                                         <span class="m-input-icon__icon m-input-icon__icon--left">
                                             <span>
                                                 <i class="la la-search"></i>
                                             </span>
                                         </span>
                                         <input type="text" class="form-control m-input m-input--pill m-input--air" placeholder="@lang('global.Search')">
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 @hasSection('stats')
                                     <div class="m-portlet">
