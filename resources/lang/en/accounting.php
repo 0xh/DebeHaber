@@ -44,5 +44,12 @@ return [
     'Credit' => 'Credit',
     'Debit' => 'Debit',
 
-
+    'descBankAccount' => 'A bank account can be a deposit account, credit card, current account, or any other type of account offered by a financial institution.',
+    'descPettyCash' => 'Petty cash is a small amount of cash on hand used for paying expenses too small to merit a check or transfer.',
+    'descPayrollAccount' => "A payroll account is a separate checking account that businesses use exclusively to pay employees. Payroll is such a large component of some businesses that it's easier and more secure to use a separate checking account for payroll instead of the main operating account.",
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
 ];

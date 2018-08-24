@@ -14,9 +14,9 @@
             </span>
             <span class="m-option__body m--font-metal">
                 @if ($value == 1)
-                    Assets are awsome. You should have more of these.
-                @else
-                    Liabilities are bad. Try having less of those.
+                    @lang('accounting.descBankAccount')
+                @elseif ($value == 3)
+                    @lang('accounting.descPettyCash')
                 @endif
             </span>
         </span>

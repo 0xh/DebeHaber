@@ -26,21 +26,30 @@ return [
     'ChartVersion' => 'Versión',
     'IsAccountable' => 'Es Imputable',
 
-    'Ledger' => 'Mayor',
+    'Ledger' => 'Maior',
     'SubLedger' => 'Diario',
-    'LedgerOf' => 'Mayor de :attribute',
+    'LedgerOf' => 'Maior de :attribute',
     'BalanceSheet' => 'Balance General',
     'BalanceSheet(Comparative)' => 'Balance General (Comparative)',
     'BalanceSheetCompBy' => 'Balance General (Comparado por :attribute)',
     'IncomeStatement' => 'Income Statement',
     'StatementofCashflows' => 'Flujo de Caja',
+    'Profit&Loss' => 'Estado de Ganancias y Pérdidas',
+
     'SalesBookComment' => 'Libro Ventas desde :startDate hasta :endDate',
     'PurchaseBookComment' => 'Libro Compras desde :startDate hasta :endDate',
     'CreditNoteComment' => 'Notas de Credito desde :startDate hasta :endDate',
     'DebitNoteComment' => 'Notas de Debito desde :startDate hasta :endDate',
+
     'Credit' => 'Debe',
     'Debit' => 'Haber',
 
-    'Profit&Loss' => 'Estado de Ganancias y Pérdidas',
-    'StatementOfCashFlows' => 'Estado de Flujos de Caja'
+    'descBankAccount' => 'Uma conta bancária pode ser uma conta de depósito, cartão de crédito, conta corrente ou qualquer outro tipo de conta oferecida por uma instituição financeira.',
+    'descPettyCash' => 'dinheiro em caixa é uma pequena quantidade de dinheiro na mão, utilizado para pagar despesas pequenas demais para merecer um cheque ou transferência.',
+    'descPayrollAccount' => 'Uma conta de folha de pagamento é uma conta corrente separada que as empresas usam exclusivamente para pagar funcionários. A folha de pagamento é um componente tão grande de algumas empresas que é mais fácil e mais seguro usar uma conta corrente separada para folha de pagamento em vez da conta operacional principal.',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
 ];

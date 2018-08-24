@@ -34,13 +34,22 @@ return [
     'BalanceSheetCompBy' => 'Balance General (Comparado por :attribute)',
     'IncomeStatement' => 'Income Statement',
     'StatementofCashflows' => 'Flujo de Caja',
+    'Profit&Loss' => 'Estado de Ganancias y Pérdidas',
+
     'SalesBookComment' => 'Libro Ventas desde :startDate hasta :endDate',
     'PurchaseBookComment' => 'Libro Compras desde :startDate hasta :endDate',
     'CreditNoteComment' => 'Notas de Credito desde :startDate hasta :endDate',
     'DebitNoteComment' => 'Notas de Debito desde :startDate hasta :endDate',
+
     'Credit' => 'Debe',
     'Debit' => 'Haber',
 
-    'Profit&Loss' => 'Estado de Ganancias y Pérdidas',
-    'StatementOfCashFlows' => 'Estado de Flujos de Caja'
+    'descBankAccount' => 'Una cuenta bancaria puede ser una cuenta de depósito, una tarjeta de crédito, una cuenta corriente o cualquier otro tipo de cuenta ofrecida por una institución financiera.',
+    'descPettyCash' => 'La caja chica es una pequeña cantidad de dinero en efectivo que se usa para pagar gastos demasiado pequeños para merecer un cheque o transferencia.',
+    'descPayrollAccount' => "Una cuenta de nómina es una cuenta de cheques separada que las empresas utilizan exclusivamente para pagar a los empleados. La nómina es un componente tan grande en algunas empresas que es más fácil y más seguro usar una cuenta de cheques separada para la nómina en lugar de la cuenta operativa principal.",
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
 ];
