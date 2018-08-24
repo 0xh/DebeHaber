@@ -75,7 +75,7 @@
         </div>
 
         <hr>
-        <h3>@lang('commercial.MakePayment')</h3>
+        <h3 class="title is-3">@lang('commercial.MakePayment')</h3>
         <div class="row">
             <div class="col-4">
                 <label for="example-text-input" class="col-4 col-form-label">

@@ -24,15 +24,15 @@
                     </tr>
                 </thead>
                 <tr class="group">
-                    <td colspan="3"><h6>{{ $groupedRows[0]->costCenter }}</h6></td>
+                    <td colspan="3"><h6 class="title is-6">{{ $groupedRows[0]->costCenter }}</h6></td>
                     <td></td>
                     <td></td>
-                    <td><h6>@lang('global.SubTotal')</h6></td>
-                    <td class="number"><h6>{{ number_format($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</h6></td>
-                    <td class="number"><h6>{{ number_format(($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</h6></td>
-                    <td class="number"><h6>{{ number_format($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</h6></td>
-                    <td class="number"><h6>{{ number_format(($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('vatValue')), 0, ',', '.') }}</h6></td>
-                    <td class="number"><h6>{{ number_format($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.00)->sum('vatValue'), 0, ',', '.') }}</h6></td>
+                    <td><h6 class="title is-6">@lang('global.SubTotal')</h6></td>
+                    <td class="number"><h6 class="title is-6">{{ number_format($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue'), 0, ',', '.') }}</h6></td>
+                    <td class="number"><h6 class="title is-6">{{ number_format(($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.1)->sum('vatValue')), 0, ',', '.') }}</h6></td>
+                    <td class="number"><h6 class="title is-6">{{ number_format($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('vatValue'), 0, ',', '.') }}</h6></td>
+                    <td class="number"><h6 class="title is-6">{{ number_format(($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('localCurrencyValue') - $groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.05)->sum('vatValue')), 0, ',', '.') }}</h6></td>
+                    <td class="number"><h6 class="title is-6">{{ number_format($groupedRows->where('status', '!=', 3)->where('coefficient', '=', 0.00)->sum('vatValue'), 0, ',', '.') }}</h6></td>
                     <td class="number"><b>{{ number_format($groupedRows->where('status', '!=', 3)->sum('localCurrencyValue'), 0, ',', '.') }}</b></td>
                 </tr>
                 @foreach ($groupedRows->groupBy('salesID') as $row)

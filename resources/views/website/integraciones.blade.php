@@ -6,7 +6,7 @@
     <section class="section features reasons bg-6 alpha-6">
         <div class="container">
             <div class="section-heading text-center">
-                <h1>Integración de otros Sistemas de Gestión con el DebeHaber</h1>
+                <h1 class="title is-1">Integración de otros Sistemas de Gestión con el DebeHaber</h1>
                 <br>
                 <p class="lead">
                     La integración de sistemas es la posibilidad que posee una aplicación de poder juntar datos de diferentes fuentes
@@ -20,7 +20,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto order-md-2">
-                    <h2>Reducción de tiempo en la carga de Datos.</h2>
+                    <h2 class="title is-2">Reducción de tiempo en la carga de Datos.</h2>
 
                     <p class="lead">La integración de datos permite agilizar los tiempos de carga.</p>
                     <p>
@@ -41,7 +41,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto">
-                    <h2>Prevención de errores de carga.</h2>
+                    <h2 class="title is-2">Prevención de errores de carga.</h2>
                     <p class="lead">Los datos son cargados por el sistema, evitando el error humano.</p>
 
                     <p>
@@ -62,7 +62,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto order-md-2">
-                    <h2>Compatibilidad con otros Sistemas de Gestión</h2>
+                    <h2 class="title is-2">Compatibilidad con otros Sistemas de Gestión</h2>
 
                     <p class="lead">
                         Cualquier sistema de gestión puede ser integrado fácilmente con el DebeHaber.
@@ -86,7 +86,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
               <div class="col-10 col-lg-4 mx-auto">
-                  <h2>Autenticación OAuth para intercambio de Datos.</h2>
+                  <h2 class="title is-2">Autenticación OAuth para intercambio de Datos.</h2>
 
                   <p>OAuth es un protocolo abierto, que permite autorización segura de una API de modo estándar y simple para aplicaciones de escritorio, móviles y web.</p>
 

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="page-header mb-4">
-        <h1>Logs</h1>
+        <h1 class="title is-1">Logs</h1>
     </div>
 
     <div class="table-responsive">

@@ -145,7 +145,7 @@
 
     <div class="row">
         <div class="four columns">
-            <h5><b>@yield('reportName')</b></h5>
+            <h5 class="title is-5"><b>@yield('reportName')</b></h5>
         </div>
 
         {{ csrf_field() }}

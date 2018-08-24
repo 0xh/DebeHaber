@@ -12,7 +12,7 @@
 
             <div class="row">
                 <div class="col-sm-4">
-                    <h4>Planes y precios <span class="bold block">accesibles</span></h4>
+                    <h4 class="title is-4">Planes y precios <span class="bold block">accesibles</span></h4>
                     <p>Porque cada empresa es diferente, tenemos diferentes planes que se adaptan a sus necesidades.</p>
 
                     <hr class="my-5">
@@ -24,8 +24,8 @@
                 <div class="col-sm-4">
                     <div class="pricing-plan">
                         <!-- <i class="icon fa-user"></i> -->
-                        <center><h2>Plan <span class="bold">Básico</span></h2></center>
-                        <h2><center><span class="bold">Gratis</span></center></h2>
+                        <center><h2 class="title is-2">Plan <span class="bold">Básico</span></h2></center>
+                        <h2 class="title is-2"><center><span class="bold">Gratis</span></center></h2>
                         <center><p>Para contadores independientes</p></center>
 
                         <div class="pricing-details text-center">
@@ -107,13 +107,13 @@
     <section class="pricing">
         <div class="container">
             <div class="section-heading text-center">
-                <h2>Regístrese y utilice DebeHaber Gratis!!</h2>
+                <h2 class="title is-2">Regístrese y utilice DebeHaber Gratis!!</h2>
             </div>
 
             <div class="border">
                 <div class="row py-5">
                     <div class="col-sm-5 m-auto">
-                        <h4>Beneficios del DebeHaber</h4>
+                        <h4 class="title is-4">Beneficios del DebeHaber</h4>
 
                         <ul class="list list-unstyled list-features">
                             <li><i class="font-regular icon lnr-magic-wand"></i>Comparta los datos con su Contador.</li>
@@ -125,7 +125,7 @@
                     </div>
 
                     <div class="col-sm-5 m-auto text-center">
-                        <h4>Empiece a utilizar DebeHaber Gratis.</h4>
+                        <h4 class="title is-4">Empiece a utilizar DebeHaber Gratis.</h4>
 
                         <p class="">
                             <span class="price font-xl">0 Gs.</span>

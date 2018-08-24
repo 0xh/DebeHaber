@@ -28,6 +28,9 @@ return [
 
     'Cash' => 'Cash',
     'Credit' => 'Credit',
+    'Transfer' => 'Transfer',
+    'Withdrawal' => 'Withdrawal',
+    'Deposit' => 'Deposit',
 
     'Inventory' => 'Inventory',
     'MoneyMovements' => 'Money Movements',
@@ -69,5 +72,5 @@ return [
     'BuyRate' => 'Buy Rate',
     'SellRate' => 'Sell Rate',
     'Expenses' => 'Expenses',
-    'Incomes' => 'Incomes'
+    'Incomes' => 'Incomes',
 ];

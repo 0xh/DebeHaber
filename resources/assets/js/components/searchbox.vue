@@ -3,7 +3,7 @@
 
         <b-modal :active.sync="showModal" :width="640" scroll="keep">
             <div class="modal-header">
-                <h2>Crear Contribuyente</h2>
+                <h2 class="title is-2">Crear Contribuyente</h2>
                 <button type="button" @click="showModal = false" class="close" data-dismiss="modal" aria-label="Close" >
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -61,8 +61,8 @@
                         <input type="text" v-model="telephone"/>
                     </div>
                 </div>
-                <div class="form-group">
 
+                <div class="form-group">
                     <div class="col-sm-7">
                         <button type="submit" data-dismiss="modal" class="btn btn-success" v-on:click="onSave()">
                             Guardar
@@ -75,39 +75,42 @@
             </div>
         </b-modal>
 
+
         <div class="input-group m-input-group">
-            <div class="input-group-prepend">
+
+            <div v-if="selectText != ''" class="input-group-prepend">
+                <span class="input-group-text m--font-boldest">
+                    {{ selectText }}
+                </span>
+            </div>
+
+            <input type="text" name ="taxpayer"
+            class="form-control m-input"
+            placeholder="Buscar"
+            autocomplete="off" v-shortkey.once="['ctrl', 'n']"
+            @shortkey="showModal = true" v-model="query"
+            @keydown.down="down" @keydown.up="up"
+            @keydown.enter="hit" @keydown.esc="reset"
+            @blur="reset" @input="update"/>
+
+            <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon1">
-                    <i class="fa fa-spinner fa-spin" v-if="loading"></i>
+                    <i v-if="loading" class="fa fa-spinner fa-spin"></i>
                     <template v-else>
                         <i class="fa fa-search" v-show="isEmpty"></i>
                         <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
                     </template>
                 </span>
             </div>
-
-            <input type="text" name ="contribuyente" class="form-control m-input" placeholder="Buscar" aria-describedby="basic-addon2"
-            autocomplete="off" v-shortkey.once="['ctrl', 'n']" @shortkey="showModal = true" v-model="query"
-            @keydown.down="down" @keydown.up="up" @keydown.enter="hit" @keydown.esc="reset"
-            @blur="reset" @input="update"/>
-
-            <div class="input-group-append">
-                <span class="input-group-text m--font-boldest" id="basic-addon1">
-                    <a class="btn-icon-only" @click="showModal = true">
-                        <i class="la la-plus"></i>
-                    </a>
-                    @{{ selectText }}
-                </span>
-            </div>
         </div>
-        <span class="m-form__help">
-            <ul v-show="hasItems">
-                <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
-                    <span class="name" v-text="item.name"></span>
-                    <span class="screen-name" v-text="item.screen_name"></span>
-                </li>
-            </ul>
-        </span>
+
+        <ul v-show="hasItems">
+            <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
+                <span class="strong" v-text="item.name"></span>
+                <span>|</span>
+                <span v-text="item.taxid"></span>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -203,9 +206,11 @@ export default {
                     }
                 });
             }
-        },mounted: function mounted() {
-            console.log(this.country);
-            }
+        },
+        mounted: function mounted()
+        {
+            // console.log(this.country);
+        }
     }
     </script>
 
@@ -238,7 +243,7 @@ export default {
     li
     {
         padding: 5px;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid whitesmoke;
         cursor: pointer;
     }
 
@@ -262,7 +267,7 @@ export default {
 
     .active
     {
-        background-color: #3aa373;
+        background-color: #734cea;
     }
 
     .active span
@@ -270,14 +275,9 @@ export default {
         color: white;
     }
 
-    .name
+    .strong
     {
-        font-weight: 500;
-        font-size: 14px;
-    }
-
-    .screen-name
-    {
+        font-weight: 800;
         font-style: italic;
     }
     </style>

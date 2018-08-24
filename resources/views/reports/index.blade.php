@@ -151,7 +151,6 @@
                                     <div class="m-widget4__item">
                                         <div class="m-widget4__info">
                                             <img src="/img/icons/purchase.svg" width="24" height="24" alt="">
-
                                             <span class="m-widget4__text">
                                                 <a target="_blank" :href="'reports/purchases-byVAT/'+dateRange[0]+'/'+dateRange[1]">
                                                     @lang('commercial.PurchaseByVAT')

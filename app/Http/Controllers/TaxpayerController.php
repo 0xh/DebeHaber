@@ -206,7 +206,6 @@ class TaxpayerController extends Controller
     */
     public function show($taxPayer)
     {
-
         $taxPayer = Taxpayer::where('taxpayers.id',$taxPayer)
         ->with('setting')
         ->with('integrations')
@@ -241,13 +240,8 @@ class TaxpayerController extends Controller
     */
     public function update(Request $request, Taxpayer $taxPayer)
     {
-        //$taxPayer = Taxpayer::find($taxPayer);
-
         if (isset($taxPayer))
         {
-            //$taxPayer->name = $request->name;
-            //$taxPayer->taxid = $request->taxid > 0 ? $request->taxid : 0 ;
-            //$taxPayer->code = $request->code;
             $taxPayer->alias = $request->alias;
             $taxPayer->address = $request->address;
             $taxPayer->telephone = $request->telephone;
@@ -300,12 +294,12 @@ class TaxpayerController extends Controller
 
     public function showDashboard(Taxpayer $taxPayer, Cycle $cycle)
     {
-        $chartsAccountable = 1;//Chart::where('is_accountable', true)->pluck('type', 'sub_type')->get();
-        $chartFixedAssets = 1;//$chartsAccountable->where('type', 1)->where('sub_type', 9)->count();
-        $chartMoneyAccounts = 1;//$chartsAccountable->where('type', 1)->where('sub_type', 1)->count();
-        $chartExpenses = 1;//$chartsAccountable->where('type', 5)->count();
-        $chartInventories = 1;//$chartsAccountable->where('type', 1)->where('sub_type', 8)->count();
-        $chartIncomes = 1;//$chartsAccountable->where('type', 4)->count();
+        $chartsAccountable = 1; //Chart::where('is_accountable', true)->pluck('type', 'sub_type')->get();
+        $chartFixedAssets = 1; //$chartsAccountable->where('type', 1)->where('sub_type', 9)->count();
+        $chartMoneyAccounts = 1; //$chartsAccountable->where('type', 1)->where('sub_type', 1)->count();
+        $chartExpenses = 1; //$chartsAccountable->where('type', 5)->count();
+        $chartInventories = 1; //$chartsAccountable->where('type', 1)->where('sub_type', 8)->count();
+        $chartIncomes = 1; //$chartsAccountable->where('type', 4)->count();
 
         $totalSales = Transaction::MySales()
         ->whereBetween('date', [new Carbon('first day of last month'), new Carbon('last day of last month')])

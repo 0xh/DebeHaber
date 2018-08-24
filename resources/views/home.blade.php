@@ -74,7 +74,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                             <img src="/img/icons/teams.svg" class="" alt="" width="135">
                         </div>
                         <div class="col-9">
-                            <h3>Pending Approvals</h3>
+                            <h3 class="title is-3">Pending Approvals</h3>
                             <p>The following teams are requesting access to taxpayers of which <span class="m--font-bold">{{ $currentTeam }}</span> is the owner. Make sure you approve only those teams that have the correct role so that their association with your taxpayer is limited to only those features. For more info on that, click here...</p>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ $currentTeam = Auth::user()->currentTeam->name;
                         <img src="/img/icons/invitation.svg" class="" alt="" width="135">
                     </div>
                     <div class="col-9">
-                        <h3>Invitar Alquien</h3>
+                        <h3 class="title is-3">Invitar Alquien</h3>
                         <table class="m-table">
                             <thead>
                                 <tr>

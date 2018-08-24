@@ -8,7 +8,7 @@
                 <thead>
                     <tr>
                         <td colspan="2">
-                            <h6>
+                            <h6 class="title is-6">
                                 @if ($groupedRows->first()->type == '1')
                                     @lang('enum.Assets')
                                 @elseif ($groupedRows->first()->type == '2')

@@ -4,7 +4,7 @@
 <account-form :trantype ="2" :charts=" {{ $charts }}" inline-template>
     <div>
         <div class="">
-            <h4>@lang('commercial.Sales')</h4>
+            <h4 class="title is-4">@lang('commercial.Sales')</h4>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group m-form__group row">
@@ -77,7 +77,7 @@
         </div>
 
         <hr>
-        <h3>@lang('commercial.ReceivePayment')</h3>
+        <h3 class="title is-3">@lang('commercial.ReceivePayment')</h3>
         <div class="row">
             <div class="col-4">
                 <label for="example-text-input" class="col-4 col-form-label">

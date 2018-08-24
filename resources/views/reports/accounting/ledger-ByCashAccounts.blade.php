@@ -19,7 +19,7 @@
             @foreach ($data->groupBy('chartType') as $groupedByType)
                 <tr>
                     <td colspan="2">
-                        <h6>{{ \App\Enums\ChartTypeEnum::labels()[$groupedByType->first()->chartType] }}</h6>
+                        <h6 class="title is-6">{{ \App\Enums\ChartTypeEnum::labels()[$groupedByType->first()->chartType] }}</h6>
                     </td>
                 </tr>
 

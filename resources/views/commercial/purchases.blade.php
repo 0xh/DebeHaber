@@ -9,7 +9,7 @@
                 <div class="m-nav-grid__row">
                     <div class="m-nav-grid__item">
                         <img src="/img/icons/purchase.svg" alt="" width="64">
-                        {{-- <h3>@lang('commercial.PurchaseBook')</h3> --}}
+                        {{-- <h3 class="title is-3">@lang('commercial.PurchaseBook')</h3> --}}
                         {{-- <hr> --}}
                         <span class="m-nav-grid__text">
                             <button @click="onCreate()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">

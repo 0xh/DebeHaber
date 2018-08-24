@@ -37,7 +37,7 @@
                                 </div>
 
                                 <div class="m-widget6__item">
-                                    <h6>@lang('global.Teams')</h6>
+                                    <h6 class="title is-6">@lang('global.Teams')</h6>
 
                                     <span class="m-widget6__text">
                                         @{{ $parent.currentTeam.name }}
@@ -113,7 +113,7 @@
                                             <div class="form-group m-form__group">
 
                                                 <div class="m-form__heading">
-                                                    <h2>
+                                                    <h2 class="title is-2">
                                                         <i class="la la-briefcase"></i>
                                                         @lang('global.Taxpayer')
                                                     </h2>
@@ -205,7 +205,7 @@
                                     <div class="col-xl-11 offset-xl-1">
                                         <div class="m-form__section m-form__section--first">
                                             <div class="m-form__heading">
-                                                <h2>
+                                                <h2 class="title is-2">
                                                     @lang('global.ProfileAndSettings')
                                                 </h2>
                                             </div>

@@ -156,7 +156,7 @@
                                             <div class="col-xl-11 offset-xl-1">
                                                 <div class="m-form__section m-form__section--first">
                                                     <div class="m-form__heading">
-                                                        <h3>
+                                                        <h3 class="title is-3">
                                                             @lang('global.Create', ['model' => __('global.Taxpayer')])
                                                         </h3>
                                                     </div>
@@ -258,7 +258,7 @@
                                             <div class="col-xl-11 offset-xl-1">
                                                 <div class="m-form__section m-form__section--first">
                                                     <div class="m-form__heading">
-                                                        <h2>
+                                                        <h2 class="title is-2">
                                                             @lang('global.ProfileAndSettings')
                                                         </h2>
                                                     </div>

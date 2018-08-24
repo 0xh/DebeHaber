@@ -6,8 +6,8 @@
 <section class="section features reasons bg-6 alpha-6">
     <div class="container">
         <div class="section-heading text-center">
-            <h2>Sistema de Contabilidad Online</h2>
-            <h4>Agil. Rápido. Seguro.</h4>
+            <h2 class="title is-2">Sistema de Contabilidad Online</h2>
+            <h4 class="title is-4">Agil. Rápido. Seguro.</h4>
             <p class="lead">Existen dos tipos de sistemas contables, la que estan en la nube como DebeHaber, y otras que no.
                 Sistemas que no estan en la nube trabajan como silos (son cerrados). No se pueden integrar con otros sistemas y solo se puede acceder desde un lugar.
                 DebeHaber, al estar en la nube, esta abierto a más posibilidades. Podes acceder desde cualquier lugar o dispositivo (computadora, notebook, tablet, o celular).

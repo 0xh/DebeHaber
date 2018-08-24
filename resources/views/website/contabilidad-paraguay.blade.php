@@ -6,7 +6,7 @@
     <section class="section features reasons bg-6 alpha-6">
         <div class="container">
             <div class="section-heading text-center">
-                <h1>Sistema Contable para Paraguay</h1>
+                <h1 class="title is-1">Sistema Contable para Paraguay</h1>
                 <br>
                 <p class="lead">
                     DebeHaber es un software contable on-line para Paraguay, nuestro sistema contable se encuentra actualizado con las últimas
@@ -20,7 +20,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto order-md-2">
-                    <h2>Reporte de Hechauka</h2>
+                    <h2 class="title is-2">Reporte de Hechauka</h2>
 
                     <p class="lead">Con el debehaber usted puede generar su reporte de Hechauka de manera automática.</p>
                     <p>
@@ -41,7 +41,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto">
-                    <h2>Libro de Ventas y Compras</h2>
+                    <h2 class="title is-2">Libro de Ventas y Compras</h2>
                     <p class="lead">Con el debehaber usted puede generar su reporte de Hechauka de manera automática.</p>
 
                     <p>
@@ -62,7 +62,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto order-md-2">
-                    <h2>Generación de Asientos Automáticos</h2>
+                    <h2 class="title is-2">Generación de Asientos Automáticos</h2>
 
                     <p class="lead">
                         Con el DebeHaber usted puede generar los asientos de todas sus ventas y compras con un solo click,
@@ -87,7 +87,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto">
-                    <h2>Dashboard de Estadísticas</h2>
+                    <h2 class="title is-2">Dashboard de Estadísticas</h2>
                     <p class="lead">
                         Estádisticas del estado contable me su empresa en tiempo real.
                     </p>

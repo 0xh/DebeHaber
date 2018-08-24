@@ -81,7 +81,7 @@
                                 <div class="m-subheader row">
                                     <div class="d-flex align-items-center col-9">
                                         <div class="mr-auto">
-                                            <h2 class="m--block-inline">
+                                            <h2 class="m--block-inline title is-2">
                                                 @yield('title')
                                             </h2>
                                             @if(request()->route('cycle') != null)

@@ -15,7 +15,7 @@
                             <section class="section contact">
                             <div class="container">
                                 <div class="section-heading">
-                                    <h2>Escríbenos</h2>
+                                    <h2 class="title is-2">Escríbenos</h2>
                                     <p class="lead">Estamos aquí para ayudarle, escríbanos utilizando el formulario de abajo.</p>
                                 </div>
 

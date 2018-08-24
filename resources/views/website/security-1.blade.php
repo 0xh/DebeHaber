@@ -6,7 +6,7 @@
     <section class="section features reasons bg-6 alpha-6">
         <div class="container">
             <div class="section-heading text-center">
-                <h1>Su Contabilidad esta Seguro</h1>
+                <h1 class="title is-1">Su Contabilidad esta Seguro</h1>
                 <br>
                 <p class="lead">
                     DebeHaber es un software contable que utiliza algunas de las politicas de seguridad usadas en los estandares mas seguros del mundo.
@@ -20,7 +20,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto order-md-2">
-                    <h2>Sus Datos Asegurados</h2>
+                    <h2 class="title is-2">Sus Datos Asegurados</h2>
 
                     <p class="lead">DebeHaber se almacena en los mismos data centers que su cuenta de <i>gmail</i>.</p>
                     <p>
@@ -43,7 +43,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto">
-                    <h2>Transacciones via OAuth 2</h2>
+                    <h2 class="title is-2">Transacciones via OAuth 2</h2>
                     <p class="lead">OAuth2 es un estandard internacional de integración utilizado por Amazon, Bancos, Google, PayPal, y muchos otros.</p>
 
                     <p>
@@ -68,7 +68,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto order-md-2">
-                    <h2>Comunicación Cifrada con SSL</h2>
+                    <h2 class="title is-2">Comunicación Cifrada con SSL</h2>
 
                     <p class="lead">
                         SSL permite una comunicación encriptada entre su navegador y el sistema contable DebeHaber.
@@ -93,7 +93,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto">
-                    <h2>Seguridad contra CSRF</h2>
+                    <h2 class="title is-2">Seguridad contra CSRF</h2>
 
                     <p class="lead">
                         CSRF es un tipo de ataque que falsifica los datos.
@@ -125,7 +125,7 @@
         <div class="container-wide">
             <div class="row align-items-center text-center text-lg-left">
                 <div class="col-10 col-lg-4 mx-auto order-md-2">
-                    <h2>Seguridad contra SQL Injection</h2>
+                    <h2 class="title is-2">Seguridad contra SQL Injection</h2>
 
                     <p>
                         Uno de los ataques mas comunes en apliciones o sitios web es la injección SQL.

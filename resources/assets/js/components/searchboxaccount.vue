@@ -41,7 +41,7 @@
             <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
                 <span class="strong" v-text="item.code"></span>
                 <span>|</span>
-                <span class="name" v-text="item.name"></span>
+                <span v-text="item.name"></span>
             </li>
         </ul>
     </div>

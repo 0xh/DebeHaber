@@ -3,7 +3,7 @@
 
 @section('data')
 
-    <h6>
+    <h6 class="title is-6">
         Balance Comparativo de <strong>Activos</strong>
         <br>
         <small>Saldo {{ number_format($data->where('chart_type', 1)->first()->currentBalance, 0, ',', '.') }} PYG</small>
@@ -82,7 +82,7 @@
 
     <hr>
 
-    <h6>
+    <h6 class="title is-6">
         Balance Comparativo de <strong>Passivos</strong>
         <br>
         <small>Saldo {{ number_format($data->where('chart_type', 2)->first()->currentBalance * -1, 0, ',', '.') }} PYG</small>
@@ -159,7 +159,7 @@
 
     <hr>
 
-    <h6>
+    <h6 class="title is-6">
         Balance Comparativo de <strong>Patrimonio Neto</strong>
         <br>
         <small>Saldo {{ number_format($data->where('chart_type', 3)->first()->currentBalance, 0, ',', '.') }} PYG</small>

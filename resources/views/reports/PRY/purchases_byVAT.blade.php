@@ -25,7 +25,7 @@
                 </thead>
                 <tr class="group">
                     <td colspan="3">
-                        <h6>{{ $groupedRows->first()->coefficient * 100 }} %</h6>
+                        <h6 class="title is-6">{{ $groupedRows->first()->coefficient * 100 }} %</h6>
                     </td>
                     <td></td>
                     <td></td>

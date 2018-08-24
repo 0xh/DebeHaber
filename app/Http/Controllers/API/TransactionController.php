@@ -45,17 +45,16 @@ class TransactionController extends Controller
                 foreach ($chunkedData->groupBy(function($q) { return Carbon::parse($q->Date)->format('Y'); }) as $groupedRow)
                 {
                     //check and create cycle
-                    $oneDate = Carbon::parse($groupedRow->first()->Date);
+                    $firstDate = Carbon::parse($groupedRow->first()->Date);
 
                     //No need to run this query for each invoice, just check if the date is in between.
-                    $cycle = Cycle::where('start_date', '<=', $oneDate)
-                    ->where('end_date', '>=', $oneDate)
+                    $cycle = Cycle::where('start_date', '<=', $firstDate)
+                    ->where('end_date', '>=', $firstDate)
                     ->where('taxpayer_id', $taxPayer->id)
                     ->first();
 
                     if (!isset($cycle))
                     {
-                        $current_date = Carbon::now();
                         $version = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
 
                         if (!isset($version))
@@ -68,9 +67,9 @@ class TransactionController extends Controller
 
                         $cycle = new Cycle();
                         $cycle->chart_version_id = $version->id;
-                        $cycle->year = $current_date->year;
-                        $cycle->start_date = new Carbon('first day of January ' . $this->convert_date($chunkedData['Date'])->year);
-                        $cycle->end_date = new Carbon('last day of December ' . $this->convert_date($chunkedData['Date'])->year);
+                        $cycle->year = $firstDate->year;
+                        $cycle->start_date = new Carbon('first day of January ' . $firstDate->year);
+                        $cycle->end_date = new Carbon('last day of December ' . $firstDate->year);
                         $cycle->taxpayer_id = $taxPayer->id;
                         $cycle->save();
                     }
@@ -82,14 +81,13 @@ class TransactionController extends Controller
 
                     try
                     {
-                        $filteredData = $chunkedData->where(function($q) use($currentDate) {  $q->where('Date', Carbon::parse($currentDate)->format('Y')); })->get();
+                        $filteredData = $chunkedData->where(function($q) use($firstDate) {  $q->where('Date', $firstDate->year); })->get();
                         $transaction = $this->processTransaction($chunkedData->where('Date'), $taxPayer, $cycle);
                         $transactionData[$i] = $transaction;
                     }
                     catch (\Exception $e)
                     {
-                        //Write items that don't insert into a variable and send back to ERP.
-                        //Do Nothing
+                        return response()->json("Server Error: " . $e, 500);
                     }
                 }
             }

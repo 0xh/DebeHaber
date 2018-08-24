@@ -29,6 +29,9 @@ return [
 
     'Cash' => 'Contado',
     'Credit' => 'Crédito',
+    'Transfer' => 'Transferir',
+    'Withdrawal' => 'Retirar',
+    'Deposit' => 'Depositar',
 
     'Inventory' => 'Inventario',
     'MoneyMovements' => 'Movimientos Monetarios',
