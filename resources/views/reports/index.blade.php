@@ -38,7 +38,7 @@
                     {{-- Commercial Reports --}}
                     <div class="tab-pane active" id="commercial" role="tabpanel">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-xl-6 col-sm-12">
 
                                 <p class="lead"> @lang('commercial.Sales') </p>
 
@@ -127,7 +127,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-xl-6 col-sm-12">
 
                                 <p class="lead"> @lang('commercial.Purchases') </p>
 
@@ -157,6 +157,11 @@
                                                     @lang('commercial.PurchaseByVAT')
                                                 </a><small> <i>Download your files</i> </small>
                                             </span>
+                                        </div>
+                                        <div class="m-widget4__ext">
+                                            <a :href="'reports/purchases-byVAT/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-eye m--font-info"></i>
+                                            </a>
                                         </div>
                                         <div class="m-widget4__ext">
                                             <a :href="'reports/purchases-byVAT/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
@@ -234,7 +239,7 @@
                         <hr>
 
                         <div v-if="{{ request()->route('taxPayer')->country }} == PRY" class="row">
-                            <div class="col-6">
+                            <div class="col-xl-6 col-sm-12">
 
                                 <p class="lead"> <img src="/img/flags/{{ request()->route('taxPayer')->country }}.png" width="32" alt="{{ request()->route('taxPayer')->country }}">
                                     Paraguay
@@ -279,7 +284,7 @@
                     {{-- Accounting Reports --}}
                     <div class="tab-pane" id="accounting" role="tabpanel">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-xl-6 col-sm-12">
                                 <p class="lead"> @lang('accounting.Journal') </p>
 
                                 <div class="m-widget4">
@@ -405,7 +410,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-xl-6 col-sm-12">
                                 <p class="lead"> @lang('accounting.BalanceSheet') </p>
 
                                 <div class="m-widget4">
@@ -452,6 +457,11 @@
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
+                                            <a :href="'reports/balance-sheetComparativeYearly/'+dateRange[0]+'/'+dateRange[1]" class="m-widget4__icon">
+                                                <i class="la la-eye m--font-info"></i>
+                                            </a>
+                                        </div>
+                                        <div class="m-widget4__ext">
                                             <a :href="'reports/balance-sheetComparativeYearly/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
@@ -464,7 +474,7 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-xl-6 col-sm-12">
                                 <p class="lead"> @lang('global.General') </p>
 
                                 <div class="m-widget4">
