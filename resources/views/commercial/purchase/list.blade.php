@@ -2,13 +2,13 @@
 
     <b-table :data="list" hoverable :loading="isLoading">
         <template slot-scope="props">
-            <b-table-column field="Date" label="@lang('global.Date')">
+            <b-table-column field="Date" label="@lang('global.Date')" sortable>
                 <small>
                     @{{ new Date(props.row.Date).toLocaleDateString() }}
                 </small>
             </b-table-column>
 
-            <b-table-column field="Customer" label="@lang('commercial.Supplier')">
+            <b-table-column field="Customer" label="@lang('commercial.Supplier')" sortable>
                 @{{ props.row.Supplier }}
 
                 <small class="m--font-metal">
@@ -16,13 +16,13 @@
                 </small>
             </b-table-column>
 
-            <b-table-column field="Number" label="@lang('commercial.InvoiceNumber')">
+            <b-table-column field="Number" label="@lang('commercial.InvoiceNumber')" sortable>
                 @{{ props.row.Number }}
                 <small v-if="props.row.PaymentCondition > 0" class="m--font-bold m--font-info"> Credit </small>
                 <small v-else class="m--font-bold m--font-success"> Cash</small>
             </b-table-column>
 
-            <b-table-column field="Value" label="@lang('global.Total')" numeric>
+            <b-table-column field="Value" label="@lang('global.Total')" numeric sortable>
                 @{{ new Number(props.row.Value).toLocaleString() }}
                 <small class="m--font-brand">
                     @{{ props.row.Currency }}

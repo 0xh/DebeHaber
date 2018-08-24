@@ -50,10 +50,10 @@ Vue.component('model',
             app.showCycle = 4;
         },
 
-        cyclechange()
+        changeCycle(cycleID)
         {
             var app = this;
-            window.location.href = '/taxpayer/' + app.taxpayer + '/'+ app.cycle_id +'/stats/';
+            window.location.href = '/taxpayer/' + app.taxpayer + '/'+ cycleID +'/stats/';
         },
 
         init: function (data)

@@ -25,20 +25,21 @@ class AccountMovementController extends Controller
         return ModelResource::collection(AccountMovement::where('taxpayer_id',$taxPayer->id)
         ->with('chart')
         ->with('transaction')
+        ->with('currency')
         ->paginate(100));
 
         return response()->json($movements);
     }
     public function store(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
-        if ($request->type!=2) {
-
-
+        if ($request->type != 2)
+        {
             $accountMovement = new AccountMovement();
             $accountMovement->taxpayer_id = $request->taxpayer_id;
             $accountMovement->chart_id = $request->from_chart_id ;
             $accountMovement->date =  Carbon::now();;
-            if ($request->type==0)
+
+            if ($request->type == 0)
             {
                 $accountMovement->debit = $request->debit != '' ? $request->debit : 0;
             }
@@ -49,12 +50,12 @@ class AccountMovementController extends Controller
 
             $accountMovement->currency_id = $request->currency_id;
             $accountMovement->rate = 1;
-
             $accountMovement->comment = $request->comment;
 
             $accountMovement->save();
         }
-        else {
+        else
+        {
             $fromAccountMovement = new AccountMovement();
             $fromAccountMovement->taxpayer_id = $request->taxpayer_id;
             $fromAccountMovement->chart_id = $request->from_chart_id ;
@@ -76,6 +77,6 @@ class AccountMovementController extends Controller
             $toAccountMovement->save();
         }
 
-        return response()->json('ok', 200);
+        return response()->json('Ok', 200);
     }
 }

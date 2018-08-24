@@ -1,13 +1,13 @@
 <b-table :data="list" hoverable :loading="isLoading">
     <template slot-scope="props">
-        <b-table-column label="@lang('commercial.Supplier')">
+        <b-table-column label="@lang('commercial.Supplier')" sortable>
             @{{ props.row.Supplier }}
         </b-table-column>
 
-        <b-table-column field="Number" label="@lang('commercial.InvoiceNumber')">
+        <b-table-column field="Number" label="@lang('commercial.InvoiceNumber')" sortable>
             @{{ props.row.Number }}
         </b-table-column>
-        <b-table-column field="Expiry" numeric label="@lang('global.Deadline')">
+        <b-table-column field="Expiry" numeric label="@lang('global.Deadline')" sortable>
             @{{ new Date(props.row.Expiry).toLocaleDateString() }}
         </b-table-column>
         <b-table-column field="Currency">
@@ -15,10 +15,10 @@
                 @{{ props.row.Currency }}
             </span>
         </b-table-column>
-        <b-table-column field="Value" numeric label="@lang('global.Total')">
+        <b-table-column field="Value" numeric label="@lang('global.Total')" sortable>
             @{{ new Number(props.row.Value).toLocaleString() }}
         </b-table-column>
-        <b-table-column field="Balance" numeric label="@lang('global.Balance')">
+        <b-table-column field="Balance" numeric label="@lang('global.Balance')" sortable>
             @{{ new Number(props.row.Balance).toLocaleString() }}
         </b-table-column>
 

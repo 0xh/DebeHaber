@@ -81,9 +81,9 @@
                                 <div class="m-subheader row">
                                     <div class="d-flex align-items-center col-9">
                                         <div class="mr-auto">
-                                            <h2 class="m--block-inline title is-2">
+                                            <h4 class="m--block-inline title is-4">
                                                 @yield('title')
-                                            </h2>
+                                            </h4>
                                             @if(request()->route('cycle') != null)
                                                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                                                     <li class="m-nav__item m-nav__item--home">
@@ -106,152 +106,161 @@
                                                         /
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <select v-model="cycle_id" required class="custom-select" @change="cyclechange()">
+                                                        <b-dropdown hoverable>
+                                                            <button class="button is-info" slot="trigger">
+                                                                <span>{{request()->route('cycle')->year}}</span>
+                                                                <b-icon icon="angle-down"></b-icon>
+                                                            </button>
+
+                                                            <b-dropdown-item v-for="cycle in cycles" @click="changeCycle(cycle.id)">@{{ cycle.year }}</b-dropdown-item>
+                                                        </b-dropdown>
+
+                                                        {{-- <select v-model="cycle_id" required class="custom-select" @change="cyclechange()">
                                                             <option v-for="cycle in cycles" :value="cycle.id">@{{ cycle.year }}</option>
-                                                        </select>
+                                                        </select> --}}
                                                     </li>
                                                 </ul>
                                             @endif
                                         </div>
                                     </div>
                                     {{-- <div v-if="showList" class="m-input-icon m-input-icon--left m-input-icon--right m--pull-right col-3">
-                                        <span class="m-input-icon__icon m-input-icon__icon--left">
-                                            <span>
-                                                <i class="la la-search"></i>
-                                            </span>
-                                        </span>
-                                        <input type="text" class="form-control m-input m-input--pill m-input--air" placeholder="@lang('global.Search')">
-                                    </div> --}}
-                                </div>
-                                @hasSection('stats')
-                                    <div class="m-portlet">
-                                        <div class="m-portlet__body  m-portlet__body--no-padding">
-                                            @yield('stats')
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @yield('layout')
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                    <i class="la la-search"></i>
+                                </span>
+                            </span>
+                            <input type="text" class="form-control m-input m-input--pill m-input--air" placeholder="@lang('global.Search')">
+                        </div> --}}
+                    </div>
+                    @hasSection('stats')
+                        <div class="m-portlet">
+                            <div class="m-portlet__body  m-portlet__body--no-padding">
+                                @yield('stats')
                             </div>
-                        </model>
+                        </div>
                     @endif
 
-                    @if (Auth::check())
-                        @include('spark::modals.notifications')
-                        @include('spark::modals.session-expired')
-                    @endif
+                    @yield('layout')
                 </div>
-            </div>
-        </div>
-        <!-- end:: Body -->
+            </model>
+        @endif
 
-        <!-- begin::Footer -->
-        <footer class="m-grid__item  m-footer ">
-            <div class="m-container m-container--responsive m-container--xxl m-container--full-height">
-                <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
-                    <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
-                        <span class="m-footer__copyright">
-                            {{ date("Y") }} &copy; @lang('global.DebeHaberBy')
-                            <a href="https://www.cognitivo.in" class="m-link">
-                                Cognitivo Paraguay SA
-                            </a>
-                        </span>
-                    </div>
-                    <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
-                        <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
-                            <li class="m-nav__item">
-                                <a href="#" target="_blank" class="m-nav__link">
-                                    <span class="m-nav__link-text">
-                                        @lang('global.PrivacyPolicy')
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="#" target="_blank" class="m-nav__link">
-                                    <span class="m-nav__link-text">
-                                        @lang('global.TermsConditions')
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="https://developer.debehaber.com" target="_blank" class="m-nav__link">
-                                    <span class="m-nav__link-text">
-                                        @lang('global.DeveloperPlatform')
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="https://blog.debehaber.com" target="_blank" class="m-nav__link">
-                                    <span class="m-nav__link-text m--font-info">
-                                        Blog
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="https://support.debehaber.com" target="_blank" class="m-nav__link">
-                                    <span class="m-nav__link-text m--font-danger">
-                                        @lang('global.Support')
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end::Footer -->
-
-        <!-- begin::Scroll Top -->
-        <div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
-            <i class="la la-arrow-up"></i>
-        </div>
-        <!-- end::Scroll Top -->
-        <ul class="m-nav-sticky">
-            @if (request()->route('taxPayer'))
-                <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.SalesBook')" data-placement="left">
-                    <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
-                        <i class="la la-paper-plane"></i>
-                    </a>
-                </li>
-                <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.PurchaseBook')" data-placement="left">
-                    <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
-                        <i class="la la-shopping-cart"></i>
-                    </a>
-                </li>
-
-                <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('accounting.Journal')" data-placement="left">
-                    <a href="{{ route('journals.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
-                        <i class="la la-list"></i>
-                    </a>
-                </li>
-
-                <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Reports')" data-placement="left">
-                    <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
-                        <i class="la la-pie-chart"></i>
-                    </a>
-                </li>
-            @endif
-            <hr>
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Tickets" data-placement="left">
-                <a href="https://support.debehaber.com/ticket/" target="_blank">
-                    <i class="la la-envelope m--font-primary"></i>
-                </a>
-            </li>
-            <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Support')" data-placement="left">
-                <a href="https://support.debehaber.com" target="_blank">
-                    <i class="la la-life-ring m--font-primary"></i>
-                </a>
-            </li>
-        </ul>
-        <!-- begin::Quick Nav -->
+        @if (Auth::check())
+            @include('spark::modals.notifications')
+            @include('spark::modals.session-expired')
+        @endif
     </div>
+</div>
+</div>
+<!-- end:: Body -->
+
+<!-- begin::Footer -->
+<footer class="m-grid__item  m-footer ">
+    <div class="m-container m-container--responsive m-container--xxl m-container--full-height">
+        <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+            <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
+                <span class="m-footer__copyright">
+                    {{ date("Y") }} &copy; @lang('global.DebeHaberBy')
+                    <a href="https://www.cognitivo.in" class="m-link">
+                        Cognitivo Paraguay SA
+                    </a>
+                </span>
+            </div>
+            <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
+                    <li class="m-nav__item">
+                        <a href="#" target="_blank" class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                @lang('global.PrivacyPolicy')
+                            </span>
+                        </a>
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="#" target="_blank" class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                @lang('global.TermsConditions')
+                            </span>
+                        </a>
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="https://developer.debehaber.com" target="_blank" class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                @lang('global.DeveloperPlatform')
+                            </span>
+                        </a>
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="https://blog.debehaber.com" target="_blank" class="m-nav__link">
+                            <span class="m-nav__link-text m--font-info">
+                                Blog
+                            </span>
+                        </a>
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="https://support.debehaber.com" target="_blank" class="m-nav__link">
+                            <span class="m-nav__link-text m--font-danger">
+                                @lang('global.Support')
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end::Footer -->
+
+<!-- begin::Scroll Top -->
+<div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
+    <i class="la la-arrow-up"></i>
+</div>
+<!-- end::Scroll Top -->
+<ul class="m-nav-sticky">
+    @if (request()->route('taxPayer'))
+        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.SalesBook')" data-placement="left">
+            <a href="{{ route('sales.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                <i class="la la-paper-plane"></i>
+            </a>
+        </li>
+        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('commercial.PurchaseBook')" data-placement="left">
+            <a href="{{ route('purchases.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                <i class="la la-shopping-cart"></i>
+            </a>
+        </li>
+
+        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('accounting.Journal')" data-placement="left">
+            <a href="{{ route('journals.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                <i class="la la-list"></i>
+            </a>
+        </li>
+
+        <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Reports')" data-placement="left">
+            <a href="{{ route('reports.index', [request()->route('taxPayer'), request()->route('cycle')]) }}">
+                <i class="la la-pie-chart"></i>
+            </a>
+        </li>
+    @endif
+    <hr>
+    <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="Tickets" data-placement="left">
+        <a href="https://support.debehaber.com/ticket/" target="_blank">
+            <i class="la la-envelope m--font-primary"></i>
+        </a>
+    </li>
+    <li class="m-nav-sticky__item" data-toggle="m-tooltip" title="@lang('global.Support')" data-placement="left">
+        <a href="https://support.debehaber.com" target="_blank">
+            <i class="la la-life-ring m--font-primary"></i>
+        </a>
+    </li>
+</ul>
+<!-- begin::Quick Nav -->
+</div>
 
 
-    <script src="/vendors/base/vendors.bundle.js"></script>
-    <script src="{{ mix('js/app.js') }}"></script>
-    <script src="/js/scripts.bundle.js"></script>
+<script src="/vendors/base/vendors.bundle.js"></script>
+<script src="{{ mix('js/app.js') }}"></script>
+<script src="/js/scripts.bundle.js"></script>
 
-    @yield('script')
+@yield('script')
 </body>
 <!-- end::Body -->
 </html>

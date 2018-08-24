@@ -1,4 +1,4 @@
-<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <div>
     <div class="row">
         <div class="col-2">

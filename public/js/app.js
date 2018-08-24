@@ -81342,8 +81342,6 @@ var store = new __WEBPACK_IMPORTED_MODULE_5_vuex__["a" /* default */].Store();
 __WEBPACK_IMPORTED_MODULE_4_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_12_buefy_src_components_icon__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_12_buefy_src_components_icon__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_10_buefy___default.a, {
     defaultIconPack: 'fas'
-
-    // ...
 });
 __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_6_vuex_i18n__["a" /* default */].plugin, store);
 __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_8_vuebars__["a" /* default */]);
@@ -84166,9 +84164,9 @@ Vue.component('model', {
             var app = this;
             app.showCycle = 4;
         },
-        cyclechange: function cyclechange() {
+        changeCycle: function changeCycle(cycleID) {
             var app = this;
-            window.location.href = '/taxpayer/' + app.taxpayer + '/' + app.cycle_id + '/stats/';
+            window.location.href = '/taxpayer/' + app.taxpayer + '/' + cycleID + '/stats/';
         },
 
 
