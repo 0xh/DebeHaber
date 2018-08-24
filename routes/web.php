@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function ()
                 'impex-imports' => 'ImpexImportController',
 
                 'inventories' => 'InventoryController',
-                'money-transfers' => 'AccountMovementController',
+                'money_movements' => 'AccountMovementController',
                 'productions' => 'ProductionController',
                 'fixed-assets' => 'FixedAssetController',
                 'documents' => 'DocumentController'

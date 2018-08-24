@@ -36,7 +36,6 @@ class AccountReceivableController extends Controller
         ->join('transaction_details as td', 'td.transaction_id', 'transactions.id')
         ->where('transactions.supplier_id', $taxPayer->id)
         ->where('transactions.payment_condition', '>', 0)
-
         ->groupBy('transactions.id')
         ->select(DB::raw('max(transactions.id) as id'),
         DB::raw('max(taxpayers.name) as Customer'),

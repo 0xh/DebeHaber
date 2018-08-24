@@ -7,7 +7,7 @@ use Laravel\Scout\Searchable;
 
 class Taxpayer extends Model
 {
-    use Searchable;
+    //use Searchable;
 
     protected $fillable = [
         'name',

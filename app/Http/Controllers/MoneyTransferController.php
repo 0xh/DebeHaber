@@ -42,7 +42,7 @@ class MoneyTransferController extends Controller
 
     public function get_money_transferByID(Taxpayer $taxPayer, Cycle $cycle, $transferID)
     {
-        $movement = AccountMovement::find($transferID);
+        $movement = AccountMovement::where('id',$transferID)->get();
         return response()->json($movement);
     }
 

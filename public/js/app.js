@@ -81480,6 +81480,7 @@ Vue.component('buefy', {
                 dataType: 'json',
                 async: true,
                 success: function success(data) {
+                    console.log(data);
                     app.$children[0].onEdit(data[0]);
                 },
                 error: function error(xhr, status, _error) {
@@ -91338,7 +91339,7 @@ module.exports = {
         /**
          * Get the current billing address from the subscribe form.
          *
-         * This used primarily for wathcing.
+         * This used primarily for watching.
          */
         currentBillingAddress: function currentBillingAddress() {
             return this.form.address + this.form.address_line_2 + this.form.city + this.form.state + this.form.zip + this.form.country + this.form.vat_id;

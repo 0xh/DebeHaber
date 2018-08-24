@@ -64,8 +64,8 @@ class TransactionController extends Controller
                     $cycle = new Cycle();
                     $cycle->chart_version_id = $version->id;
                     $cycle->year = $current_date->year;
-                    $cycle->start_date = new Carbon('first day of January');
-                    $cycle->end_date = new Carbon('last day of December');
+                    $cycle->start_date = new Carbon('first day of January ' . $this->convert_date($chunkedData['Date'])->year);
+                    $cycle->end_date = new Carbon('last day of December ' . $this->convert_date($chunkedData['Date'])->year);
                     $cycle->taxpayer_id = $taxPayer->id;
                     $cycle->save();
                 }
@@ -162,7 +162,7 @@ class TransactionController extends Controller
         {
             foreach ($detailByVAT->groupBy('Type') as $groupedRows)
             {
-            
+
                 $detail = new TransactionDetail();
                 $detail->transaction_id = $transaction_id;
 
