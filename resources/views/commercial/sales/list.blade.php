@@ -24,9 +24,9 @@
 
             <b-table-column field="Value" label="@lang('global.Total')" numeric>
                 @{{ new Number(props.row.Value).toLocaleString() }}
-                <small class="m--font-brand">
+                <span class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
                     @{{ props.row.Currency }}
-                </small>
+                </span>
             </b-table-column>
 
             <b-table-column custom-key="actions" numeric>
@@ -48,6 +48,5 @@
 
         @include('layouts/infinity-loading')
     </b-table>
-
-    <b-pagination :total="meta.total" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>
+    <b-pagination :total="meta.total" order="is-centered" :rounded="true" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>
 </div>

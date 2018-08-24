@@ -47,46 +47,45 @@
                 </div>
                 <div class="m-stack__item m-stack__item--right">
                     <!-- BEGIN: Topbar -->
-                    <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
-                        <div class="m-stack__item m-stack__item--middle m-dropdown m-dropdown--arrow m-dropdown--large m-dropdown--mobile-full-width m-dropdown--align-right m-dropdown--skin-light m-header-search m-header-search--expandable m-header-search--skin-light" id="m_quicksearch" m-quicksearch-mode="default" m-dropdown-persistent="1">
-                            <!--BEGIN: Search Form -->
-                            {{-- <form class="m-header-search__form"> --}}
-                                <div class="m-header-search__wrapper">
-                                    <span class="m-header-search__icon-search" id="m_quicksearch_search">
-                                        <i class="flaticon-search"></i>
-                                    </span>
-                                    <span class="m-header-search__input-wrapper">
-                                        <input autocomplete="off" type="text" name="q" class="m-header-search__input" value="" placeholder="@lang('global.Search')" id="m_quicksearch_input">
-                                    </span>
-                                    <span class="m-header-search__icon-close" id="m_quicksearch_close">
-                                        <i class="la la-remove"></i>
-                                    </span>
-                                    <span class="m-header-search__icon-cancel" id="m_quicksearch_cancel">
-                                        <i class="la la-remove"></i>
-                                    </span>
-                                </div>
-                            {{-- </form> --}}
-                            
-                            <div class="m-dropdown__wrapper" style="z-index: 101;">
-                                <div class="m-dropdown__arrow m-dropdown__arrow--center"></div>
-                                <div class="m-dropdown__inner">
-                                    <div class="m-dropdown__body">
-                                        <div class="m-dropdown__scrollable m-scrollable m-scroller ps" data-scrollable="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
-                                            <div class="m-dropdown__content m-list-search m-list-search--skin-light"></div>
-                                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
+                        <div class="m-stack__item m-topbar__nav-wrapper">
+                            <ul class="m-topbar__nav m-nav m-nav--inline">
+
+                                <li class="m-nav__item m-nav__item--focus m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light m-list-search m-list-search--skin-light" m-dropdown-toggle="click" m-dropdown-persistent="1" id="m_quicksearch" m-quicksearch-mode="dropdown" aria-expanded="true">
+
+                                    <a href="#" class="m-nav__link m-dropdown__toggle">
+                                        <span class="m-nav__link-icon"><span class="m-nav__link-icon-wrapper"><i class="flaticon-search-1"></i></span></span>
+                                    </a>
+
+                                    <div class="m-dropdown__wrapper" style="z-index: 101;">
+                                        <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
+                                        <div class="m-dropdown__inner ">
+                                            <div class="m-dropdown__header">
+                                                <form class="m-list-search__form">
+                                                    <div class="m-list-search__form-wrapper">
+                                                        <span class="m-list-search__form-input-wrapper">
+                                                            <input autocomplete="off" type="text" name="q" class="m-list-search__form-input" value="" placeholder="Search...">
+                                                        </span>
+                                                        <span class="m-list-search__form-icon-close" id="m_quicksearch_close" style="visibility: visible;">
+                                                            <i class="la la-remove"></i>
+                                                        </span>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <div class="ps__rail-y" style="top: 0px; right: 4px;">
-                                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                            <div class="m-dropdown__body">
+                                                <div class="m-dropdown__scrollable m-scrollable m-scroller ps" data-scrollable="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
+                                                    <div class="m-dropdown__content"></div>
+                                                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps__rail-y" style="top: 0px; right: 4px;">
+                                                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!--BEGIN: END Results -->
-                        </div>
-                        <div class="m-stack__item m-topbar__nav-wrapper">
-                            <ul class="m-topbar__nav m-nav m-nav--inline">
+                                </li>
 
                                 <li class="m-nav__item m-nav__item--accent m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width" m-dropdown-toggle="click" m-dropdown-persistent="1">
                                     <a href="#" @click="showNotifications" class="m-nav__link m-dropdown__toggle">
