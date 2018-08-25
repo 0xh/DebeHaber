@@ -24,6 +24,7 @@ return [
     'AccountsPayable' => 'Cuentas por Pagar',
     'DebitNotes' => 'Notas de Debito',
     'Imports' => 'Importaciones',
+    'InternationalCommerce' => 'Comércio internacional',
     'SalesVAT' => 'Libro IVA Ventas',
     'PurchaseVAT' => 'Libro IVA Compras',
 

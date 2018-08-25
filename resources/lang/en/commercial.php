@@ -23,6 +23,7 @@ return [
     'AccountsPayable' => 'Accounts Payable',
     'DebitNotes' => 'Debit Notes',
     'Imports' => 'Imports',
+    'InternationalCommerce' => 'International Commerce',
     'SalesVAT' => 'Sales VAT',
     'PurchaseVAT' => 'Purchase VAT',
 

@@ -1,6 +1,6 @@
 @extends('spark::layouts.form')
 
-@section('title', __('accounting.AccountingCycle'))
+@section('title', __('accounting.OpeningBalance'))
 
 @section('stats')
     <div v-if="showList" class="row m-row--no-padding m-row--col-separator-xl">
@@ -8,18 +8,9 @@
             <div class="m-nav-grid m-nav-grid--skin-light">
                 <div class="m-nav-grid__row">
                     <div class="m-nav-grid__item">
-                        <img src="/img/icons/cycle.svg" alt="" width="64">
-                        {{-- <h3 class="title is-3">@lang('commercial.SalesBook')</h3> --}}
-                        <span class="m-nav-grid__text">
-                            <button @click="onCreateCyclce()" class="btn btn-outline-primary m-btn m-btn--icon m-btn--outline-2x">
-                                <span>
-                                    <i class="la la-plus"></i>
-                                    <span>
-                                        @lang('accounting.AccountingCycle')
-                                    </span>
-                                </span>
-                            </button>
-                        </span>
+                        <figure class="image is-64x64">
+                            <img src="/img/icons/budget.svg" width="64">
+                        </figure>
                     </div>
                 </div>
             </div>
@@ -105,19 +96,59 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 @endsection
 
 @section('form')
-    <cycle :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" :cycles="{{ $cycles }}" :versions="{{ $versions }}" inline-template>
+
+    <div class="m-form__heading">
+        <h3 class="m-form__heading-title">Budget Information</h3>
+    </div>
+    <div>
         <div>
-            <div v-if="$parent.showCycle === 1">
-                @include('accounting/cycle/form')
+            <button v-on:click="onCycleBudgetSave($data)" class="btn btn-primary">
+                @lang('global.Save')
+            </button>
+            <div class="row">
+                <div class="col-2">
+                    <span class="m--font-boldest">
+                        @lang('global.Code')
+                    </span>
+                </div>
+                <div class="col-4">
+                    <span class="m--font-boldest">
+                        @lang('accounting.ChartofAccounts')
+                    </span>
+                </div>
+                <div class="col-3">
+                    <span class="m--font-boldest">
+                        @lang('accounting.Debit')
+                    </span>
+                </div>
+                <div class="col-3">
+                    <span class="m--font-boldest">
+                        @lang('accounting.Credit')
+                    </span>
+                </div>
             </div>
-            <div v-else>
-                @include('accounting/cycle/list')
+            <hr>
+            <div class="row m--margin-bottom-10" v-for="data in budgetchart">
+                <div class="col-2 m--align-right">
+                    @{{ data.code }}
+                </div>
+                <div class="col-4">
+                    @{{ data.name }}
+                </div>
+                <div v-if="data.is_accountable" class="col-3">
+                    <input type="number" v-model="data.debit">
+                </div>
+                <div v-if="data.is_accountable" class="col-3">
+                    <input type="number" v-model="data.credit">
+                </div>
             </div>
         </div>
-    </cycle>
+    </div>
+
 @endsection

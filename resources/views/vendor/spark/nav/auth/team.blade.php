@@ -3,9 +3,11 @@
         <li class="m-menu__item m-menu__item--rel">
             <a href="{{ route('hello') }}" class="m-menu__link m-menu__toggle">
                 <span class="m-menu__item-here"></span>
-                <i class="m-menu__link-icon la la-dashboard"></i>
-                <span class="m-menu__link-text">
-                    @lang('teams.team')
+                <i class="m-menu__link-icon la la-home"></i>
+                <span class="m-menu__link-text" v-for="team in teams">
+                    <span v-if="user.current_team_id == team.id">
+                        @{{ team.name }}
+                    </span>
                 </span>
             </a>
         </li>

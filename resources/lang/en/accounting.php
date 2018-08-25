@@ -20,7 +20,7 @@ return [
     'JournalSimulation' => 'Journal Simulation',
     'ChartofAccounts' => 'Chart of Accounts',
     'AccountingCycle' => 'Accounting Cycle',
-    'AccountingBudget' => 'Accounting Budget',
+    'AnnualBudget' => 'Annual Budget',
     'OpeningBalance' => 'Opening Balance',
     'ClosingBalance' => 'Closing Balance',
     'ChartVersion' => 'Chart Version',

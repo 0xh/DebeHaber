@@ -80714,7 +80714,7 @@ Vue.component('cycle', {
             });
         },
 
-        onJournalSave: function onJournalSave(json) {
+        saveOpeningBalance: function saveOpeningBalance() {
             var app = this;
             var api = null;
 
@@ -80722,7 +80722,7 @@ Vue.component('cycle', {
                 method: 'post',
                 url: '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/opening_balance',
                 responseType: 'json',
-                data: app.openingbalance
+                data: this.opening_balance
             }).then(function (response) {
                 app.$parent.showCycle = 0;
             }).catch(function (error) {

@@ -33,7 +33,7 @@ class JournalDetail extends Model
     */
     public function journal()
     {
-        return $this->belongsTo(Journal::class, 'id', 'journal_id');
+        return $this->belongsTo(Journal::class, 'journal_id', 'id');
     }
 
 

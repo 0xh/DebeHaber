@@ -92,5 +92,8 @@ return [
     'Approve' => 'Approve',
     'Configuration' => 'Configuration',
     'Reference' => 'Reference',
-    'Quantity' => 'Quantity'
+    'Quantity' => 'Quantity',
+
+    'Transactions' => 'Transactions',
+    'Modules' => 'Modules',
 ];

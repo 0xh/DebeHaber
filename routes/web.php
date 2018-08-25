@@ -67,13 +67,16 @@ Route::group(['middleware' => 'auth'], function ()
         Route::prefix('/accounting')->group(function ()
         {
             Route::resources([
+                'budget' => 'BudgetController',
+                'closing-balance' => 'ClosingBalanceController',
+                'opening-balance' => 'OpeningBalanceController',
                 'chart-versions' => 'ChartVersionController',
                 'charts' => 'ChartController',
                 'journals' => 'JournalController',
                 'journal-templates' => 'JournalTemplateController',
                 'journal-simulations' => 'JournalSimulationController'
             ]);
-            // Route::get('generate-journals/{$startDate}/{$endDate}', 'JournalController@generateJournalsByRange')->name('journals.generate');
+
             Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
             Route::get('charts/merge/{id}', 'ChartController@mergeChartsIndex')->name('charts.merge');
         });

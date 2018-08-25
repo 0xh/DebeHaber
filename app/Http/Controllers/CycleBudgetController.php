@@ -36,12 +36,7 @@ class CycleBudgetController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function cyclebudgetstore(Request $request, Taxpayer $taxPayer, Cycle $cycle)
+    public function store(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = collect($request);
 
@@ -53,7 +48,7 @@ class CycleBudgetController extends Controller
                 $cyclebudget = CycleBudget::where('chart_id', $detail['chart_id'])->where('cycle_id', $cycle->id)->first() ?? new CycleBudget();
 
                 $cyclebudget->cycle_id = $cycle->id;
-                $cyclebudget->chart_id = $detail['chart_id'];
+                $cyclebudget->chart_id = $detail['id'];
                 $cyclebudget->debit = $detail['debit'];
                 $cyclebudget->credit = $detail['credit'];
                 $cyclebudget->comment = $cycle->year . ' - ' . __('accounting.AccountingBudget');
@@ -61,10 +56,10 @@ class CycleBudgetController extends Controller
             }
         }
 
-        return response()->json('ok', 200);
+        return response()->json('Ok', 200);
     }
 
-    public function getCycleBudgetsByCycleID (Request $request,Taxpayer $taxPayer, Cycle $cycle, $cycleID)
+    public function getCycleBudgetsByCycleID (Request $request, Taxpayer $taxPayer, Cycle $cycle, $cycleID)
     {
         $cyclebudget = CycleBudget::join('charts', 'cycle_budgets.chart_id', 'charts.id')
         ->where('cycle_id', $cycleID)

@@ -89,5 +89,8 @@ return [
     'Approve' => 'Aprobar',
     'Configuration' => 'Configuração',
     'Reference' => 'Referencia',
-    'Quantity' => 'Cuantidade'
+    'Quantity' => 'Cuantidade',
+
+    'Transactions' => 'Transactions',
+    'Modules' => 'Modules'
 ];
