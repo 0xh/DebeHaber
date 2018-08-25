@@ -89,11 +89,10 @@ class JournalController extends Controller
         return response()->json('ok');
     }
 
-    public function journalstore(Request $request,Taxpayer $taxPayer, Cycle $cycle)
+    public function storeOpeningBalance(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
         //return response()->json($request[0]['debit'],500);
-        $journal =  Journal::where('is_first', true)->where('cycle_id',$cycle->id)->count() == 0 ?
-        new Journal() : Journal::where('is_first', true)->first();
+        $journal =  Journal::where('is_first', true)->where('cycle_id',$cycle->id)->first() ?? new Journal();
 
         $journal->date = $cycle->start_date;
         $journal->comment = $cycle->year . '- Opening Balance';
@@ -101,26 +100,26 @@ class JournalController extends Controller
         $journal->cycle_id = $cycle->id;
         $journal->save();
 
-        $charts = collect($request);
+        $details = collect($request)->where('is_accountable', '=', 1);
 
-        foreach ($charts->where('is_accountable',true) as $detail)
+        foreach ($details as $detail)
         {
-
-            if (isset($detail['id']) && JournalDetail::where('id', $detail['id'])->count()>0) {
-                $journalDetail=JournalDetail::where('id', $detail['id'])->first() ;
-            }
-            else {
-                $journalDetail=new JournalDetail();
-            }
+            // JournalDetail::where('id', $detail->journal_id)->first() ??
+            $journalDetail = new JournalDetail();
 
             $journalDetail->journal_id = $journal->id;
-            $journalDetail->chart_id = $detail['chart_id'];
-            $journalDetail->debit = $detail['debit'];
-            $journalDetail->credit = $detail['credit'];
-            $journalDetail->save();
+            $journalDetail->chart_id = $detail['id'];
+            $journalDetail->debit = $detail['debit'] ?? 0;
+            $journalDetail->credit = $detail['credit'] ?? 0;
+
+            //Save only if there are values ot be saved. avoid saving blank values.
+            if ($journalDetail->debit > 0 || $journalDetail->credit > 0)
+            {
+                $journalDetail->save();
+            }
         }
 
-        return response()->json('ok',200);
+        return response()->json('Ok', 200);
     }
 
     public function getJournalsByCycleID(Request $request, Taxpayer $taxPayer, Cycle $cycle, $id)
@@ -187,8 +186,7 @@ class JournalController extends Controller
 
     public function generateJournalsByRange(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate)
     {
-
         GenerateJournal::dispatch($taxPayer, $cycle, $startDate, $endDate);
-        //return back();
+        return back();
     }
 }

@@ -44,6 +44,12 @@ return [
     'Credit' => 'Credit',
     'Debit' => 'Debit',
 
+    "descAsset" => "Resources owned or controlled by an entity. Assets include petty cash, bank accounts, real estate, inventory, prepaid expenses, goodwill, and accounts receivable.",
+    "descLiability" => "Obligations of an entity, such as accounts payable, bank loans, bonds payable, and accrued expenses.",
+    "descEquity" => "Equity accounts include common stock, paid-in capital, and retained earnings.",
+    "descRevenue" => "All the taxpayer's earnings. Common examples include sales, service revenue and interest income.",
+    "descExpense" => "Taxpayer's expenditures. Common examples are utilities, rents, depreciation, interest, and insurance.",
+
     'descBankAccount' => 'A bank account can be a deposit account, credit card, current account, or any other type of account offered by a financial institution.',
     'descPettyCash' => 'Petty cash is a small amount of cash on hand used for paying expenses too small to merit a check or transfer.',
     'descPayrollAccount' => "A payroll account is a separate checking account that businesses use exclusively to pay employees. Payroll is such a large component of some businesses that it's easier and more secure to use a separate checking account for payroll instead of the main operating account.",

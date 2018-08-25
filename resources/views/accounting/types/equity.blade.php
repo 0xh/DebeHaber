@@ -15,7 +15,7 @@
                 </span>
             </span>
             <span class="m-option__body m--font-metal">
-                @lang('enum.descEquity')
+                @lang('accounting.descEquity')
             </span>
         </span>
     </label>

@@ -80,7 +80,7 @@ Route::prefix('{taxPayer}')->group(function ()
             Route::get('journals', 'JournalController@getJournals');
             Route::get('journal/ByID/{id}', 'JournalController@getJournalsByID');
             Route::get('delete_journalByID/{id}', 'JournalController@getJournalsByID');
-            Route::post('journalstore', 'JournalController@journalstore');
+            Route::post('opening_balance', 'JournalController@storeOpeningBalance');
             Route::post('cyclebudgetstore', 'CycleBudgetController@cyclebudgetstore');
             Route::get('journal/ByCycleID/{id}', 'JournalController@getJournalsByCycleID');
             Route::get('cyclebudget/ByCycleID/{id}', 'CycleBudgetController@getCycleBudgetsByCycleID');

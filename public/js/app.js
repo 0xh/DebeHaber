@@ -80672,7 +80672,7 @@ __webpack_require__("./resources/assets/js/accounting-components/cycle/cycle.js"
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('cycle', {
-    props: ['taxpayer', 'cycle', 'cycles', 'versions', 'charts', 'budgetchart', 'budgets'],
+    props: ['taxpayer', 'cycle', 'cycles', 'versions', 'charts', 'budgetchart', 'budgets', 'opening_balance'],
     data: function data() {
         return {
             id: 0,
@@ -80683,7 +80683,8 @@ Vue.component('cycle', {
             list: [],
             chartversions: [],
             chartlist: [],
-            budgetlist: []
+            budgetlist: [],
+            openingbalance: []
         };
     },
 
@@ -80700,53 +80701,17 @@ Vue.component('cycle', {
                 url: '/taxpayer/' + app.taxpayer + '/' + app.cycle + '/cycles/store',
                 responseType: 'json',
                 data: json
-
             }).then(function (response) {
-
-                if (response.data == 'ok') {
-                    app.id = 0;
-                    app.chart_version_id = null;
-                    app.year = null;
-                    app.start_date = null;
-                    app.end_date = null;
-                    app.$parent.showCycle = 0;
-                    app.init();
-                } else {
-                    console.log(response);
-                    alert('Something went Wrong...');
-                }
+                app.id = 0;
+                app.chart_version_id = null;
+                app.year = null;
+                app.start_date = null;
+                app.end_date = null;
+                app.$parent.showCycle = 0;
+                app.init();
             }).catch(function (error) {
                 console.log(error);
             });
-            // $.ajax({
-            //     url: '',
-            //     headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
-            //     type: 'post',
-            //     data:json,
-            //     dataType: 'json',
-            //     async: false,
-            //     success: function(data)
-            //     {
-            //
-            //         if (data == 'ok') {
-            //             app.id = 0;
-            //             app.chart_version_id = null;
-            //             app.year = null ;
-            //             app.start_date = null;
-            //             app.end_date = null;
-            //             app.init();
-            //         }
-            //         else {
-            //             alert('Something Went Wrong...')
-            //         }
-            //
-            //
-            //     },
-            //     error: function(xhr, status, error)
-            //     {
-            //         console.log(xhr.responseText);
-            //     }
-            // });
         },
 
         onJournalSave: function onJournalSave(json) {
@@ -80755,23 +80720,16 @@ Vue.component('cycle', {
 
             axios({
                 method: 'post',
-                url: '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/journalstore',
+                url: '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/opening_balance',
                 responseType: 'json',
-                data: app.chartlist
-
+                data: app.openingbalance
             }).then(function (response) {
-
-                if (response.data == 'ok') {
-
-                    app.$parent.showCycle = 0;
-                } else {
-
-                    alert('Something went Wrong...');
-                }
+                app.$parent.showCycle = 0;
             }).catch(function (error) {
                 console.log(error.response);
             });
         },
+
         onCycleBudgetSave: function onCycleBudgetSave(json) {
             var app = this;
 
@@ -80782,24 +80740,18 @@ Vue.component('cycle', {
                 data: app.budgetlist
 
             }).then(function (response) {
-
-                if (response.data == 'ok') {
-                    for (var i = 0; i < app.budgetlist.length; i++) {
-
-                        app.budgetlist[i].credit = 0;
-                        app.budgetlist[i].debit = 0;
-                    }
-                    app.$parent.showCycle = 0;
-                } else {
-                    console.log(response);
-                    alert('Something went Wrong...');
+                for (var i = 0; i < app.budgetlist.length; i++) {
+                    app.budgetlist[i].credit = 0;
+                    app.budgetlist[i].debit = 0;
                 }
+                app.$parent.showCycle = 0;
             }).catch(function (error) {
                 console.log(error.response);
+                alert('Something went Wrong...');
             });
         },
-        onEdit: function onEdit(data) {
 
+        onEdit: function onEdit(data) {
             var app = this;
 
             app.id = data.id;
@@ -80822,7 +80774,6 @@ Vue.component('cycle', {
             axios.get('/api/' + app.taxpayer + '/' + app.cycle + '/accounting/journal/ByCycleID/' + data.id).then(function (_ref) {
                 var data = _ref.data;
 
-                console.log(data.length);
                 if (data.length > 0) {
                     app.chartlist = [];
                 } else {
@@ -80849,6 +80800,7 @@ Vue.component('cycle', {
             app.chartlist = app.charts;
             app.budgetlist = app.budgetchart;
             app.chartversions = app.versions;
+            app.openingbalance = app.opening_balance;
         }
     },
 

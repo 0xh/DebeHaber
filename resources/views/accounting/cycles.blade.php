@@ -51,7 +51,9 @@
                 <div class="m-widget4 m-widget4--chart-bottom">
                     <div class="m-widget4__item">
                         <div class="m-widget4__img">
-                            <img src="/img/icons/opening.svg" width="42">
+                            <figure class="image is-48x48">
+                                <img src="/img/icons/opening.svg" width="48">
+                            </figure>
                         </div>
                         <div class="m-widget4__info">
                             <span class="m-widget4__title">
@@ -67,7 +69,9 @@
                     </div>
                     <div class="m-widget4__item">
                         <div class="m-widget4__img">
-                            <img src="/img/icons/closing.svg" width="42">
+                            <figure class="image is-48x48">
+                                <img src="/img/icons/closing.svg" width="48">
+                            </figure>
                         </div>
                         <div class="m-widget4__info">
                             <span class="m-widget4__title">
@@ -83,7 +87,9 @@
                     </div>
                     <div class="m-widget4__item">
                         <div class="m-widget4__img">
-                            <img src="/img/icons/budget.svg" width="42">
+                            <figure class="image is-48x48">
+                                <img src="/img/icons/budget.svg" width="48">
+                            </figure>
                         </div>
                         <div class="m-widget4__info">
                             <span class="m-widget4__title">
@@ -109,9 +115,9 @@
     <cycle :taxpayer="{{ request()->route('taxPayer')->id }}"
         :cycle="{{ request()->route('cycle')->id }}"
         :cycles="{{ $cycles }}"
-        :charts="{{ $charts }}"
+        :opening_balance="{{ $openingBalance }}"
         :budgetchart="{{ $charts }}"
-            :budgets="{{ $budgets }}"
+        :budgets="{{ $budgets }}"
         :versions="{{ $versions }}"
         inline-template>
         <div>

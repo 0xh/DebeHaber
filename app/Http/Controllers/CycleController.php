@@ -7,6 +7,7 @@ use App\Taxpayer;
 use App\Cycle;
 use App\Chart;
 use App\CycleBudget;
+use App\Journal;
 use Illuminate\Http\Request;
 use DB;
 
@@ -31,17 +32,32 @@ class CycleController extends Controller
 
         $versions = ChartVersion::My($taxPayer)->get();
 
-        $charts = Chart::select(DB::raw('0 as id'),
-        'id as chart_id',
-        'code',
-        'name',
-        'type',
-        'sub_type',
-        'is_accountable',
-        DB::raw('0 as debit'),
-        DB::raw('0 as credit'))
+        //get the journals used as opening balance; is_first = true.
+        $journals = Journal::where('cycle_id', $cycle->id)->where('is_first', 1)->with('details')->get();
+
+        //get list of charts.
+        $charts =  Chart::My($taxPayer, $cycle)
+        ->select('id as id', 'code', 'name', 'type', 'sub_type', 'is_accountable', DB::raw('null as debit'), DB::raw('null as credit'), DB::raw('null as journal_id'))
         ->orderBy('code')
         ->get();
+
+        if (isset($journals->details))
+        {
+            // Loop through Journal entries and add to chart balance
+            foreach ($journals->details->groupBy('chart_id') as $journalGrouped)
+            {
+                $chart = $charts->where('id', $journalGrouped->first()->chart_id)->first();
+                if ($chart)
+                {
+                    $chart->id = $journalGrouped->first()->id;
+                    $chart->debit = $journalGrouped->sum('debit');
+                    $chart->credit = $journalGrouped->sum('credit');
+                }
+            }
+        }
+
+        $openingBalance = $charts->sortBy('type')->sortBy('code');
+
 
         $budgets = CycleBudget::where('cycle_id', $cycle->id)->get();
 
@@ -49,7 +65,8 @@ class CycleController extends Controller
         ->with('cycles', $cycles)
         ->with('budgets', $budgets)
         ->with('versions', $versions)
-        ->with('charts', $charts);
+        ->with('charts', $charts)
+        ->with('openingBalance', $openingBalance);
     }
 
     public function get_cycle($taxPayerID)
@@ -86,6 +103,7 @@ class CycleController extends Controller
     */
     public function store(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
+
         if ($request->id == 0)
         {
             $cycle = new Cycle();

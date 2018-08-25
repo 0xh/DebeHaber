@@ -44,6 +44,12 @@ return [
     'Credit' => 'Debe',
     'Debit' => 'Haber',
 
+    "descAsset" => "Recursos detidos ou controlados por uma entidade. Os ativos incluem caixa, contas bancárias, imóveis, estoque, despesas antecipadas, ágio e contas a receber.",
+    "descLiability" => "Obrigações de uma entidade, tais contas a pagar, empréstimos bancários, obrigações pagáveis e despesas acumuladas.",
+    "descEquity" => "As contas patrimoniais incluem ações ordinárias, capital integralizado e lucros acumulados.",
+    "descRevenue" => "Todos os ganhos do contribuinte. Exemplos comuns incluem vendas, receita de serviços e receita de juros.",
+    "descExpense" => "Despesas do contribuinte. Exemplos comuns são utilitários, aluguéis, depreciação, juros e seguros.",
+
     'descBankAccount' => 'Uma conta bancária pode ser uma conta de depósito, cartão de crédito, conta corrente ou qualquer outro tipo de conta oferecida por uma instituição financeira.',
     'descPettyCash' => 'dinheiro em caixa é uma pequena quantidade de dinheiro na mão, utilizado para pagar despesas pequenas demais para merecer um cheque ou transferência.',
     'descPayrollAccount' => 'Uma conta de folha de pagamento é uma conta corrente separada que as empresas usam exclusivamente para pagar funcionários. A folha de pagamento é um componente tão grande de algumas empresas que é mais fácil e mais seguro usar uma conta corrente separada para folha de pagamento em vez da conta operacional principal.',

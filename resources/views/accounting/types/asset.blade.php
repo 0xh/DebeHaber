@@ -19,7 +19,7 @@
                 </span>
             </span>
             <span class="m-option__body m--font-metal">
-                @lang('enum.descAsset')
+                @lang('accounting.descAsset')
             </span>
         </span>
     </label>

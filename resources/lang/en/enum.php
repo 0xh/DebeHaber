@@ -8,12 +8,6 @@ return [
     'Revenues' => 'Revenues',
     'Expenses' => 'Expenses',
 
-    'descAsset' => 'Include anything you own that has value, like buildings, land, equipments, vehicles, valuables, and inventory',
-    'descLiability' => 'Include bank loans, mortgages, personal loans and promissory notes, income tax payments due, payroll taxes due, and accounts payable',
-    'descEquity' => 'Represent the residual equity (in simple terms, assets minus liabilities)',
-    'descRevenue' => 'Represent your earnings. Common examples include sales, service revenue and interest income',
-    'descExpense' => 'Represent your expenditures. Common examples are utilities, rents, depreciation, interest, and insurance',
-
     //Chart of Account = Sub Types
     'CashAccount' => 'Cash Account',
     'BankAccount' => 'Bank Account',
