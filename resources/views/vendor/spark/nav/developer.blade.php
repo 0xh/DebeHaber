@@ -1,18 +1,18 @@
 
 <li class="m-nav__section m--hide">
     <span class="m-nav__section-text">
-        {{__('Developer')}}
+        Back End
     </span>
 </li>
 
 <!-- Kiosk -->
 <li class="m-nav__item">
     <a href="/spark/kiosk" class="m-nav__link">
-        <i class="m-nav__link-icon la la-cloud"></i>
+        <i class="m-nav__link-icon la la-eye"></i>
         <span class="m-nav__link-title">
             <span class="m-nav__link-wrap">
                 <span class="m-nav__link-text">
-                    {{__('Kiosk')}}
+                    Admin Panel
                 </span>
             </span>
         </span>

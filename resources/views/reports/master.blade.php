@@ -51,7 +51,7 @@
     thead
     {
         border-bottom: 2px solid black !important;
-        background-color: rgba(0,0,0, 0.01);
+        background-color: whitesmoke;
         color:black;
     }
 
@@ -62,10 +62,10 @@
         text-transform: uppercase;
     }
 
-    tr:nth-child(even)
+    /* tr:nth-child(even)
     {
         background-color: #f1f1f1;
-    }
+    } */
 
     td
     {

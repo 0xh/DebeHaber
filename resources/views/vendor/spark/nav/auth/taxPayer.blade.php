@@ -299,23 +299,7 @@
                                         </span>
                                     </a>
                                 </li>
-                                {{-- <li class="m-menu__item">
-                                    <a href="" disabled class="m-menu__link">
-                                        <i class="m-menu__link-icon la la-paste"></i>
-                                        <span class="m-menu__link-text m--font-metal">
-                                            @lang('accounting.JournalTemplate')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
-                                    <a href="" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-gamepad"></i>
-                                        <span class="m-menu__link-text m--font-metal">
-                                            @lang('accounting.JournalSimulation')
-                                        </span>
-                                    </a>
-                                </li> --}}
-                                
+
                                 <p class="lead m-menu__heading m-menu__toggle">
                                     <span class="m-menu__link-text">
                                         @lang('global.Configuration')
@@ -340,14 +324,21 @@
                                         </span>
                                     </a>
                                 </li>
-                            </ul>
-                            <p class="lead m-menu__heading m-menu__toggle">
-                                <span class="m-menu__link-text">
-                                    @lang('global.Reports')
-                                </span>
-                                <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </p>
-                            <ul class="m-menu__inner">
+                                <li class="m-menu__item">
+                                    <a href="{{ route('budget.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                        <i class="m-menu__link-icon la la-map"></i>
+                                        <span class="m-menu__link-text">
+                                            @lang('accounting.AnnualBudget')
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <p class="lead m-menu__heading m-menu__toggle">
+                                    <span class="m-menu__link-text">
+                                        @lang('global.Reports')
+                                    </span>
+                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                </p>
                                 <li class="m-menu__item">
                                     <a href="{{ route('reports.subLedger', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon flaticon-graphic-1"></i>
@@ -375,16 +366,8 @@
                             </p>
                             <ul class="m-menu__inner">
                                 <li class="m-menu__item">
-                                    <a href="{{ route('budget.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon flaticon-route"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('accounting.AnnualBudget')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
                                     <a href="{{ route('opening-balance.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon la la-flag"></i>
+                                        <i class="m-menu__link-icon la la-flag-o"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.OpeningBalance')
                                         </span>
@@ -395,6 +378,30 @@
                                         <i class="m-menu__link-icon la la-balance-scale"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.BalanceSheet')
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-menu__item">
+                                    <a href="{{ route('closing-balance.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                        <i class="m-menu__link-icon la la-leaf"></i>
+                                        <span class="m-menu__link-text">
+                                            @lang('accounting.IncomeStatement')
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-menu__item">
+                                    <a href="{{ route('closing-balance.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                        <i class="m-menu__link-icon la la-line-chart"></i>
+                                        <span class="m-menu__link-text">
+                                            @lang('accounting.StatementCashFlows')
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-menu__item">
+                                    <a href="{{ route('closing-balance.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                        <i class="m-menu__link-icon la la-key"></i>
+                                        <span class="m-menu__link-text">
+                                            @lang('enum.StatementRetainedEarnings')
                                         </span>
                                     </a>
                                 </li>

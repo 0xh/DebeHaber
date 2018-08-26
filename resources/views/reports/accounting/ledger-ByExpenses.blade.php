@@ -10,6 +10,7 @@
                 <tr>
                     <th>@lang('global.Code')</th>
                     <th>@lang('accounting.Accounts')</th>
+                    <th class="number">@lang('accounting.OpeningBalance')</th>
 
                     @foreach ($period as $month)
                         <th class="number">{{ $month->format('M-Y') }}</th>
@@ -46,8 +47,11 @@
                             <td>{{ $groupedRow->first()->chartName }}</td>
 
                             @php
-                            $prevRunningTotal = 0;
+                            $openningBalance = $groupedRow->where('is_first', '=', 1);
+                            $prevRunningTotal = $openningBalance->sum(function ($data) { return $data->credit - $data->debit; }) ?? 0;
                             @endphp
+
+                            <td class="number">{{ $prevRunningTotal }}</td>
 
                             @foreach ($period as $month)
 
