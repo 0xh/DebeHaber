@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function ()
                 'fixed-assets' => 'FixedAssetController',
                 'documents' => 'DocumentController'
             ]);
+
             Route::get('sales/anull/{transactionID}', 'SalesController@anull');
         });
 
@@ -76,6 +77,11 @@ Route::group(['middleware' => 'auth'], function ()
                 'journal-templates' => 'JournalTemplateController',
                 'journal-simulations' => 'JournalSimulationController'
             ]);
+
+            Route::get('balance-sheet', 'BalanceSheetController@index')->name('balance-sheet.index');
+            Route::get('income-statement', 'IncomeStatementController@index')->name('income-statement.index');
+            Route::get('cash-flows', 'CashFlowController@index')->name('cash-flows.index');
+            Route::get('retained-earnings', 'CashFlowController@index')->name('retained-earnings.index');
 
             Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
             Route::get('charts/merge/{id}', 'ChartController@mergeChartsIndex')->name('charts.merge');

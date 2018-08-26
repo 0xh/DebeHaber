@@ -33,7 +33,8 @@ return [
     'BalanceSheet(Comparative)' => 'Balance Sheet (Comparative)',
     'BalanceSheetCompBy' => 'Balance Sheet (Compared by :attribute)',
     'IncomeStatement' => 'Income Statement',
-    'StatementofCashflows' => 'Statement of Cashflows',
+    'StatementCashFlows' => 'Statement of Cash Flows',
+    'StatementRetainedEarnings' => 'Statement of Retained Earnings',
     'Profit&Loss' => 'Statement of Profits and Losses',
 
     'SalesBookComment' => 'Sales Book from :startDate til :endDate',

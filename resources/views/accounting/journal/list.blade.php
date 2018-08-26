@@ -4,25 +4,32 @@
     {{-- @details-open="(row, index) => $toast.open(`Expanded ${row.comment}`)" --}}
     <b-table :data="list" hoverable detailed detail-key="id">
         <template slot-scope="props">
-            <b-table-column field="id" label="ID">
-                @{{ props.row.uuid }} | @{{ props.row.date }}
+            <b-table-column field="id" label="@lang('global.Date')">
+                @{{ new Date(props.row.date).toLocaleDateString() }}
             </b-table-column>
 
-            <b-table-column field="number" label="Number">
+            <b-table-column field="number" label="@lang('global.Number')">
                 @{{ props.row.number }}
             </b-table-column>
 
-            <b-table-column field="comment" label="Comment">
+            <b-table-column field="comment" label="@lang('global.Comment')">
                 @{{ props.row.comment }}
             </b-table-column>
 
+            <b-table-column field="comment" label="@lang('global.Total')">
+                @{{ props.row.total }}
+            </b-table-column>
+
             <b-table-column custom-key="actions">
-                <button v-on:click="onEdit(props.row.uuid)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" data-original-title="Delete">
-                    <i class="la la-pencil m--font-brand"></i>
+
+                <button v-on:click="onEdit(props.row.uuid)" type="button" class="btn btn-sm btn-info js-tooltip-enabled" data-toggle="tooltip" data-original-title="Edit">
+                    <i class="fa fa-pen"></i>
                 </button>
-                <button v-on:click="onDelete(props.row)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" data-original-title="Delete">
+
+                <button v-on:click="onDelete(props.row)" type="button" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" data-original-title="Delete">
                     <i class="fa fa-trash"></i>
                 </button>
+
             </b-table-column>
         </template>
 
@@ -30,16 +37,33 @@
             <div class="media-content">
                 <div class="content">
                     <div class="row" v-for="detail in props.row.details">
-                        <div class="col-8">
-                            <p v-if="detail.chart !=null"> @{{ detail.chart.code }} | <span class="m--font-bold">@{{ detail.chart.name }}</span> </p>
+                        <div class="col-2">
+                            <span v-if="detail.chart.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
+                                <b>@{{ detail.chart.code }}</b>
+                            </span>
+                            <span v-else-if="detail.chart.type == 2" class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
+                                <b>@{{ detail.chart.code }}</b>
+                            </span>
+                            <span v-else-if="detail.chart.type == 3" class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
+                                <b>@{{ detail.chart.code }}</b>
+                            </span>
+                            <span v-else-if="detail.chart.type == 4" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
+                                <b>@{{ detail.chart.code }}</b>
+                            </span>
+                            <span v-else-if="detail.chart.type == 5" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
+                                <b>@{{ detail.chart.code }}</b>
+                            </span>
+                        </div>
+                        <div class="col-6">
+                            <p v-if="detail.chart !=null"> <span class="m--font-bold">@{{ detail.chart.name }}</span> </p>
                         </div>
                         <div class="col-2 m--align-right">
                             <p v-if="detail.credit > 0" class="m--font-bold "> @{{ new Number(detail.credit).toLocaleString() }} </p>
-                            <p v-else class="m--font-metal"> - </p>
+                            <p v-else class="m--font-metal"> 0 </p>
                         </div>
                         <div class="col-2 m--align-right">
                             <p v-if="detail.debit > 0" class="m--font-bold "> @{{ new Number(detail.debit).toLocaleString() }} </p>
-                            <p v-else class="m--font-metal"> - </p>
+                            <p v-else class="m--font-metal"> 0 </p>
                         </div>
                     </div>
                 </div>

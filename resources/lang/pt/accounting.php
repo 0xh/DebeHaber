@@ -33,7 +33,8 @@ return [
     'BalanceSheet(Comparative)' => 'Balance General (Comparative)',
     'BalanceSheetCompBy' => 'Balance General (Comparado por :attribute)',
     'IncomeStatement' => 'Income Statement',
-    'StatementofCashflows' => 'Flujo de Caja',
+    'StatementCashFlows' => 'Flujo de Caja',
+    'StatementRetainedEarnings' => 'Declaração de Lucros Acumulados',
     'Profit&Loss' => 'Estado de Ganancias y Pérdidas',
 
     'SalesBookComment' => 'Libro Ventas desde :startDate hasta :endDate',

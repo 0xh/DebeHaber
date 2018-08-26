@@ -374,7 +374,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item">
-                                    <a href="{{ route('closing-balance.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                    <a href="{{ route('balance-sheet.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-balance-scale"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.BalanceSheet')
@@ -382,7 +382,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item">
-                                    <a href="{{ route('closing-balance.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                    <a href="{{ route('income-statement.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-leaf"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.IncomeStatement')
@@ -390,7 +390,7 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item">
-                                    <a href="{{ route('closing-balance.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                    <a href="{{ route('cash-flows.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-line-chart"></i>
                                         <span class="m-menu__link-text">
                                             @lang('accounting.StatementCashFlows')
@@ -398,10 +398,10 @@
                                     </a>
                                 </li>
                                 <li class="m-menu__item">
-                                    <a href="{{ route('closing-balance.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
+                                    <a href="{{ route('retained-earnings.index', [request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-key"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('enum.StatementRetainedEarnings')
+                                            @lang('accounting.StatementRetainedEarnings')
                                         </span>
                                     </a>
                                 </li>
@@ -413,38 +413,31 @@
                                         </span>
                                     </a>
                                 </li>
-                            </ul>
-                            <p class="lead m-menu__heading m-menu__toggle">
-                                <span class="m-menu__link-text">
-                                    @lang('global.Reports')
-                                </span>
-                                <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </p>
-                            <ul class="m-menu__inner">
-                                <li class="m-menu__item">
-                                    <a  href="{{ route('reports.balanceSheet', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" class="m-menu__link ">
-                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('accounting.BalanceSheet')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
-                                    <a class="m-menu__link ">
-                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('accounting.IncomeStatement')
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="m-menu__item">
-                                    <a class="m-menu__link ">
-                                        <i class="m-menu__link-icon flaticon-graphic-1"></i>
-                                        <span class="m-menu__link-text">
-                                            @lang('accounting.StatementofCashflows')
-                                        </span>
-                                    </a>
-                                </li>
+
+                                <p class="lead m-menu__heading m-menu__toggle">
+                                    <span class="m-menu__link-text">
+                                        @lang('global.Reports')
+                                    </span>
+                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                </p>
+                                <ul class="m-menu__inner">
+                                    <li class="m-menu__item">
+                                        <a  href="{{ route('reports.balanceSheet', [request()->route('taxPayer'), request()->route('cycle'), $startDate, $endDate]) }}" class="m-menu__link ">
+                                            <i class="m-menu__link-icon flaticon-graphic-1"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('accounting.BalanceSheet')
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item">
+                                        <a class="m-menu__link ">
+                                            <i class="m-menu__link-icon flaticon-graphic-1"></i>
+                                            <span class="m-menu__link-text">
+                                                @lang('accounting.IncomeStatement')
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </ul>
                         </li>
                     </ul>
