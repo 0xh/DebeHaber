@@ -23,8 +23,9 @@ Route::prefix('{country}')->group(function ()
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
-
+    //doesn't work. don't know why.
 });
+
 
 Route::post('/transactions', 'API\TransactionController@start');
 Route::post('/payment', 'API\PaymentController@start');
@@ -80,30 +81,23 @@ Route::prefix('{taxPayer}')->group(function ()
             Route::get('journals', 'JournalController@getJournals');
             Route::get('journal/ByID/{id}', 'JournalController@getJournalsByID');
             Route::get('delete_journalByID/{id}', 'JournalController@getJournalsByID');
-            Route::post('opening_balance', 'JournalController@storeOpeningBalance');
-            Route::post('cyclebudgetstore', 'CycleBudgetController@cyclebudgetstore');
             Route::get('journal/ByCycleID/{id}', 'JournalController@getJournalsByCycleID');
-            Route::get('cyclebudget/ByCycleID/{id}', 'CycleBudgetController@getCycleBudgetsByCycleID');
+
+            Route::get('opening_balance', 'OpeningBalanceController@getOpeningBalance');
+            Route::post('opening_balance', 'OpeningBalanceController@store');
 
             Route::prefix('chart')->group(function ()
             {
                 Route::get('charts/{skip}', 'ChartController@getCharts');
                 Route::get('charts/by-id/{id}', 'ChartController@getChartsByID');
-                Route::get('get-fixedasset_charts', 'ChartController@getFixedAssets');
-                Route::get('get-fixedasset_charts/{frase}', 'ChartController@searchFixedAssetsCharts');
-                Route::get('get-accountable_charts', 'ChartController@getAccountableCharts');
-                Route::get('get-accountable_charts/{frase}', 'ChartController@searchAccountableCharts');
+                Route::get('get-fixedasset', 'ChartController@getFixedAssets');
+                Route::get('get-fixedasset/{frase}', 'ChartController@searchFixedAssetsCharts');
+                Route::get('get-accountables', 'ChartController@getAccountableCharts');
+                Route::get('get-accountables/{frase}', 'ChartController@searchAccountableCharts');
                 Route::get('get-money_accounts', 'ChartController@getMoneyAccounts');
                 Route::get('get-parent_accounts/{frase}', 'ChartController@getParentAccount');
                 Route::post('merge/{fromChartId}/{toChartId}', 'ChartController@mergeCharts');
                 Route::post('merge-check/{fromChartId}', 'ChartController@checkMergeCharts');
-            });
-
-            Route::prefix('fixedasset')->group(function ()
-            {
-                Route::get('fixedassets', 'FixedAssetController@getFixedAsset');
-                Route::get('fixedassets/by-id/{id}', 'FixedAssetController@getFixedAssetByID');
-
             });
 
             Route::prefix('journals')->group(function ()
@@ -151,8 +145,11 @@ Route::prefix('{taxPayer}')->group(function ()
 
             Route::get('inventories/{skip}', 'InventoryController@getInventories');
             Route::post('inventories/get_InventoryChartType', 'InventoryController@get_InventoryChartType');
-            Route::post('inventories/Calulate_sales', 'InventoryController@Calulate_sales');
-            Route::post('inventories/Calulate_InvenotryValue', 'InventoryController@Calulate_InvenotryValue');
+            Route::post('inventories/calc-revenue', 'InventoryController@Calulate_sales');
+            Route::post('inventories/calc-inventory', 'InventoryController@Calulate_InvenotryValue');
+
+            Route::get('fixed-assets', 'FixedAssetController@getFixedAsset');
+            Route::get('fixed-assets/by-id/{id}', 'FixedAssetController@getFixedAssetByID');
         });
     });
 
@@ -162,12 +159,6 @@ Route::prefix('{taxPayer}')->group(function ()
         Route::get('/hechauka/{startDate}/{endDate}', 'API\PRY\HechukaController@getHechauka');
     });
 });
-
-Route::get('users', function()
-{
-    return['username' => 'tao'];
-});
-
 
 Route::get('create-test-token', function() {
     $user = \App\User::find(1);

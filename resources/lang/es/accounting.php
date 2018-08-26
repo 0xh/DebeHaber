@@ -42,6 +42,9 @@ return [
     'CreditNoteComment' => 'Notas de Credito desde :startDate hasta :endDate',
     'DebitNoteComment' => 'Notas de Debito desde :startDate hasta :endDate',
 
+    'Coefficient' => 'Coeficiente',
+    'LifeSpan' => 'Vida Útil',
+
     'Credit' => 'Debe',
     'Debit' => 'Haber',
 

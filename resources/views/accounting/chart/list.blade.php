@@ -118,7 +118,7 @@
                             @lang('global.ToAccount')
                         </label>
                         <div class="col-8 m--align-left">
-                            <router-view name="SearchBoxAccount" url="/accounting/chart/get-accountable_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" ></router-view>
+                            <router-view name="SearchBoxAccount" url="/accounting/chart/get-accountables/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" ></router-view>
                         </div>
                     </div>
                 </div>

@@ -37,66 +37,62 @@
         </div>
 
         <div class="col-md-12 col-lg-4 col-xl-4">
-
-            <div  class="container">
-                <div class="m-widget4 m-widget4--chart-bottom">
-                    <div class="m-widget4__item">
-                        <div class="m-widget4__img">
-                            <figure class="image is-48x48">
-                                <img src="/img/icons/opening.svg" width="48">
-                            </figure>
-                        </div>
-                        <div class="m-widget4__info m--bg-metal">
-                            <span class="m-widget4__title">
-                                <a href="#" @click="onOpeningBalance()">
-                                    @lang('accounting.OpeningBalance')
-                                </a>
-                            </span>
-                            <br>
-                            <span class="m-widget4__sub">
-                                Create an opening balance
-                            </span>
-                        </div>
+            <div class="m-widget4">
+                <div class="m-widget4__item m--margin-10">
+                    <div class="m-widget4__img">
+                        <figure class="image is-48x48">
+                            <img src="/img/icons/opening.svg" width="48">
+                        </figure>
                     </div>
-                    <div class="m-widget4__item">
-                        <div class="m-widget4__img">
-                            <figure class="image is-48x48">
-                                <img src="/img/icons/closing.svg" width="48">
-                            </figure>
-                        </div>
-                        <div class="m-widget4__info">
-                            <span class="m-widget4__title">
-                                <a href="#" @click="onClosingBalance()">
-                                    @lang('accounting.ClosingBalance')
-                                </a>
-                            </span>
-                            <br>
-                            <span class="m-widget4__sub">
-                                Create a closing balance
-                            </span>
-                        </div>
+                    <div class="m-widget4__info">
+                        <span class="m-widget4__title">
+                            <a href="#" @click="onOpeningBalance()">
+                                @lang('accounting.OpeningBalance')
+                            </a>
+                        </span>
+                        <br>
+                        <span class="m-widget4__sub">
+                            Create an opening balance
+                        </span>
                     </div>
-                    <div class="m-widget4__item">
-                        <div class="m-widget4__img">
-                            <figure class="image is-48x48">
-                                <img src="/img/icons/budget.svg" width="48">
-                            </figure>
-                        </div>
-                        <div class="m-widget4__info">
-                            <span class="m-widget4__title">
-                                <a href="#" @click="onCycleBudget()">
-                                    @lang('accounting.AccountingBudget')
-                                </a>
-                            </span>
-                            <br>
-                            <span class="m-widget4__sub">
-                                State your budget for the year
-                            </span>
-                        </div>
+                </div>
+                <div class="m-widget4__item m--margin-10">
+                    <div class="m-widget4__img">
+                        <figure class="image is-48x48">
+                            <img src="/img/icons/closing.svg" width="48">
+                        </figure>
+                    </div>
+                    <div class="m-widget4__info">
+                        <span class="m-widget4__title">
+                            <a href="#" @click="onClosingBalance()">
+                                @lang('accounting.ClosingBalance')
+                            </a>
+                        </span>
+                        <br>
+                        <span class="m-widget4__sub">
+                            Create a closing balance
+                        </span>
+                    </div>
+                </div>
+                <div class="m-widget4__item m--margin-10">
+                    <div class="m-widget4__img">
+                        <figure class="image is-48x48">
+                            <img src="/img/icons/budget.svg" width="48">
+                        </figure>
+                    </div>
+                    <div class="m-widget4__info">
+                        <span class="m-widget4__title">
+                            <a href="#" @click="onCycleBudget()">
+                                @lang('accounting.AnnualBudget')
+                            </a>
+                        </span>
+                        <br>
+                        <span class="m-widget4__sub">
+                            State your budget for the year
+                        </span>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

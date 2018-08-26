@@ -81077,7 +81077,7 @@ Vue.component('journal-form', {
         getAccounts: function getAccounts(data) {
             var app = this;
             $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get-accountable_charts',
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/accounting/chart/get-accountables',
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'get',
                 dataType: 'json',
@@ -81105,9 +81105,7 @@ Vue.component('journal-form', {
 /***/ "./resources/assets/js/accounting-components/journal/list.js":
 /***/ (function(module, exports) {
 
-var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 Vue.component('journals-list', {
-
     props: ['taxpayer', 'cycle'],
     data: function data() {
         return {
@@ -82306,112 +82304,106 @@ __webpack_require__("./resources/assets/js/commercial-components/inventories/for
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 Vue.component('inventory-form', {
-  props: ['taxpayer', 'cycle', 'charts'],
-  data: function data() {
-    return {
-      id: 0,
-      start_date: '',
-      end_date: '',
-      chart_id: '',
-      inventory_value: '',
-      sales_value: '',
-      cost_value: '',
-      margin: '',
-      selectcharttype: [],
-      chartincome: '',
-      charttypes: []
+    props: ['taxpayer', 'cycle', 'charts'],
+    data: function data() {
+        return {
+            id: 0,
+            start_date: '',
+            end_date: '',
+            chart_id: '',
+            inventory_value: '',
+            sales_value: '',
+            cost_value: '',
+            margin: '',
+            selectcharttype: [],
+            chartincome: '',
+            charttypes: []
+        };
+    },
 
-    };
-  },
 
+    methods: {
+        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+        //For updates code will be different and should use the ID's palced int he Json.
+        onSave: function onSave(json) {
+            var app = this;
 
-  methods: {
-    //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
-    //For updates code will be different and should use the ID's palced int he Json.
-    onSave: function onSave(json) {
-      var app = this;
-
-      $.ajax({
-        url: '',
-        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-        type: 'post',
-        data: json,
-        dataType: 'json',
-        async: false,
-        success: function success(data) {
-          if (data == 'ok') {
-            app.onReset();
-          } else {
-            alert('Something Went Wrong...');
-          }
+            $.ajax({
+                url: '',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    app.onReset();
+                },
+                error: function error(xhr, status, _error) {
+                    console.log(xhr.responseText);
+                }
+            });
         },
-        error: function error(xhr, status, _error) {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    getChartTypes: function getChartTypes(json) {
-      var app = this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/inventories/get_InventoryChartType/',
-        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-        type: 'post',
-        data: json,
-        dataType: 'json',
-        async: false,
-        success: function success(data) {
-          app.charttypes = [];
-          console.log(data);
-          for (var i = 0; i < data.length; i++) {
-            app.charttypes.push({ name: data[i]['name'], id: data[i]['id'] });
-          }
+        getChartTypes: function getChartTypes(json) {
+            var app = this;
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/inventories/get_InventoryChartType/',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    app.charttypes = [];
+                    for (var i = 0; i < data.length; i++) {
+                        app.charttypes.push({ name: data[i]['name'], id: data[i]['id'] });
+                    }
+                },
+                error: function error(xhr, status, _error2) {
+                    console.log(xhr.responseText);
+                }
+            });
         },
-        error: function error(xhr, status, _error2) {
-          console.log(xhr.responseText);
-        }
-      });
-    },
-    calculateCost: function calculateCost() {
-      var app = this;
-      app.cost_value = app.sales_value * (1 - app.margin);
-    },
-    onCalculate: function onCalculate(json) {
-      var app = this;
-      $.ajax({
-        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/inventories/Calulate_sales/',
-        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-        type: 'post',
-        data: json,
-        dataType: 'json',
-        async: false,
-        success: function success(data) {
-          // TODO: Abhi Please check this i m not sure abouto calculate this calcution
-          app.sales_value = data[0].sales_cost;
-          app.cost_value = data[0].cost_value;
-          app.margin = (app.sales_value - app.cost_value) / app.sales_value;
+        calculateCost: function calculateCost() {
+            var app = this;
+            app.cost_value = app.sales_value * (1 - app.margin);
         },
-        error: function error(xhr, status, _error3) {
-          console.log(xhr.responseText);
+        onCalculate: function onCalculate(json) {
+            var app = this;
+            $.ajax({
+                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial/inventories/calc-revenue/',
+                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                type: 'post',
+                data: json,
+                dataType: 'json',
+                async: false,
+                success: function success(data) {
+                    // TODO: Abhi Please check this i m not sure abouto calculate this calcution
+                    app.sales_value = data[0].sales_cost;
+                    app.cost_value = data[0].cost_value;
+                    app.margin = (app.sales_value - app.cost_value) / app.sales_value;
+                },
+                error: function error(xhr, status, _error3) {
+                    console.log(xhr.responseText);
+                }
+            });
+        },
+
+        onReset: function onReset() {
+            var app = this;
+            app.id = 0, app.code = '', app.number = '', app.date = '';
+
+            app.$parent.$parent.showList = 1;
+        },
+
+        cancel: function cancel() {
+            var app = this;
+            app.$parent.$parent.showList = 1;
         }
-      });
     },
 
-    onReset: function onReset() {
-      var app = this;
-      app.id = 0, app.code = '', app.number = '', app.date = '';
-
-      app.$parent.$parent.showList = 1;
-    },
-
-    cancel: function cancel() {
-      var app = this;
-      app.$parent.$parent.showList = 1;
+    mounted: function mounted() {
+        this.getChartTypes();
     }
-  },
-
-  mounted: function mounted() {
-    this.getChartTypes();
-  }
 });
 
 /***/ }),

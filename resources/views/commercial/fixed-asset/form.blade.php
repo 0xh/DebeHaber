@@ -7,14 +7,13 @@
         <!--begin::Form-->
         <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator">
             <div class="m-portlet__body">
-                <div class="form-group m-form__group row">
-                    <label class="col-lg-2 col-form-label">
-                        @lang('global.Charts'):
-                    </label>
-                    <div class="col-lg-6">
-                        <router-view name="SearchBoxAccount" url="/accounting/chart/get-fixedasset_charts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
 
-                        </router-view>
+                <div class="form-group m-form__group row">
+                    <label for="example-text-input" class="col-4 col-form-label">
+                        @lang('commercial.Account')
+                    </label>
+                    <div class="col-8">
+                        <router-view name="SearchBoxAccount" url="/accounting/chart/get-fixed-assets/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}"></router-view>
                     </div>
                 </div>
 
@@ -94,7 +93,7 @@
                         <button v-on:click="onSave($data)" class="btn btn-primary">
                             @lang('global.Save')
                         </button>
-                        <button v-on:click="cancel()" class="btn btn-secondary">Cancel</button>
+                        <button v-on:click="onCancel()" class="btn btn-secondary">@lang('global.Cancel')</button>
                     </div>
                 </div>
             </div>

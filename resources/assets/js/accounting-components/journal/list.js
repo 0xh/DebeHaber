@@ -1,17 +1,13 @@
-var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-Vue.component('journals-list',{
-
+Vue.component('journals-list', {
     props: ['taxpayer','cycle'],
     data(){
         return {
             data: [
-
             ],
             query: {}
         };
     },
     methods: {
-
         init(){
             var app = this;
             $.ajax({

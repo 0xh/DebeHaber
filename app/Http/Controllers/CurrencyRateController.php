@@ -69,7 +69,7 @@ class CurrencyRateController extends Controller
             }
         }
 
-        return response()->json(1,500);
+        return response()->json(1);
     }
 
     public function get_Allrate()
@@ -105,7 +105,7 @@ class CurrencyRateController extends Controller
         $currencyrate->sell_rate = $request->sell_rate;
         $currencyrate->save();
 
-        return response()->json('ok');
+        return response()->json('Ok', 200);
     }
 
     /**
