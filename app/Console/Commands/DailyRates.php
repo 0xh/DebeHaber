@@ -49,7 +49,7 @@ class DailyRates extends Command
         $arr = json_decode($response->getBody(), true);
 
         //Get updated date
-        $fx = CurrencyRate::whereDate('date', '=', Carbon::parse($arr['updated']->toDateString())->toDateString())
+        $fx = CurrencyRate::whereDate('date', '=', Carbon::parse($arr['updated'])->startOfDay()->addDay()->toDateString())
         ->where('currency_id', 2)
         ->first();
 
