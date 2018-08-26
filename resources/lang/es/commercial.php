@@ -54,7 +54,7 @@ return [
     'Document' => 'Documentp',
     'InvoiceNumber' => 'Número de Factura',
     'Currency' => 'Moneda',
-    'Rate' => 'Cotización',
+    'ExchangeRates' => 'Cotización de Monedas',
     'Total' => 'Total',
     'Detail' => 'Detalle',
     'General' => 'General',

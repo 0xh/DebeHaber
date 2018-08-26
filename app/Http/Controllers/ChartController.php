@@ -13,8 +13,6 @@ use App\Transaction;
 use App\TransactionDetail;
 use App\AccountMovement;
 use App\JournalDetail;
-use App\JournalTemplateDetail;
-use App\JournalSimDetail;
 use App\ProductionDetail;
 use App\Enums\ChartTypeEnum;
 use Illuminate\Http\Request;
@@ -492,9 +490,9 @@ class ChartController extends Controller
         ->where('is_accountable', true)
         ->where('name', $assetGroup)
         ->where('asset_years', $lifeSpan)
-        ->orWhereHas('aliases', function($subQ) use($assetGroup) {
-            $subQ->where('name', 'like', '%' . $assetGroup . '%');
-        })
+        // ->orWhereHas('aliases', function($subQ) use($assetGroup) {
+        //     $subQ->where('name', 'like', '%' . $assetGroup . '%');
+        // })
         ->first();
 
         if (!isset($chart))
@@ -537,7 +535,7 @@ class ChartController extends Controller
 
             if ($count > 0)
             {
-                return response()->json('Unable to Delete. Relationships exists, try Merge.', 500);
+                return response()->json('Unable to Delete. Total of ' . $count . ' relationships exists, try Merge.', 500);
             }
             else
             {
@@ -571,8 +569,6 @@ class ChartController extends Controller
             AccountMovement::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             //update all journal details
             JournalDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-            //JournalTemplateDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
-            //JournalSimDetail::where('chart_id', $fromChartId)->update(['chart_id' => $toChartId]);
             //Fix all parents
             Chart::where('parent_id', $fromChartId)->update(['parent_id' => $toChartId]);
 
@@ -593,6 +589,6 @@ class ChartController extends Controller
 
     public function organizeChartCode(Taxpayer $taxPayer, Cycle $cycle)
     {
-        
+
     }
 }

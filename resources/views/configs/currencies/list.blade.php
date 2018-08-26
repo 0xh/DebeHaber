@@ -1,6 +1,6 @@
 @extends('spark::layouts.form')
 
-@section('title',  __('accounting.Documents'))
+@section('title',  __('commercial.ExchangeRates'))
 
 @section('form')
     <currency taxpayer="{{ request()->route('taxPayer')->id}}" cycle="{{ request()->route('cycle')->id }}" inline-template>

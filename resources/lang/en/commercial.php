@@ -53,7 +53,7 @@ return [
     'Document' => 'Document',
     'InvoiceNumber' => 'Invoice Number',
     'Currency' => 'Currency',
-    'Rate' => 'Rate',
+    'ExchangeRates' => 'Exchange Rates',
     'Total' => 'Total',
     'Detail' => 'Detail',
     'General' => 'General',

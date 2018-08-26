@@ -250,7 +250,7 @@
                                     <a href="{{ route('CurrencyRate.index',[request()->route('taxPayer'), request()->route('cycle')]) }}" class="m-menu__link ">
                                         <i class="m-menu__link-icon la la-globe"></i>
                                         <span class="m-menu__link-text">
-                                            @lang('commercial.Rate')
+                                            @lang('commercial.ExchangeRates')
                                         </span>
                                     </a>
                                 </li>
