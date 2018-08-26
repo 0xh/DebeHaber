@@ -16,8 +16,11 @@
                 @{{ props.row.comment }}
             </b-table-column>
 
-            <b-table-column field="comment" label="@lang('global.Total')">
-                @{{ props.row.total }}
+            <b-table-column field="comment" numeric label="@lang('commercial.Value')">
+                @{{ new Number(props.row.details.reduce((a,b) => a + Number(b.credit), 0)).toLocaleString() }}
+            </b-table-column>
+            <b-table-column field="comment" numeric label="@lang('commercial.Value')">
+                @{{ new Number(props.row.details.reduce((a,b) => a + Number(b.debit), 0)).toLocaleString() }}
             </b-table-column>
 
             <b-table-column custom-key="actions">
@@ -36,8 +39,22 @@
         <template slot="detail" slot-scope="props">
             <div class="media-content">
                 <div class="content">
+                    <div class="row">
+                        <div class="col-2 m--align-right">
+
+                        </div>
+                        <div class="col-6">
+                            Account
+                        </div>
+                        <div class="col-2 m--align-right">
+                            Credit
+                        </div>
+                        <div class="col-2 m--align-right">
+                            Debit
+                        </div>
+                    </div>
                     <div class="row" v-for="detail in props.row.details">
-                        <div class="col-2">
+                        <div class="col-2 m--align-right">
                             <span v-if="detail.chart.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
                                 <b>@{{ detail.chart.code }}</b>
                             </span>

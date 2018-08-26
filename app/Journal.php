@@ -47,7 +47,7 @@ class Journal extends Model
     */
     public function details()
     {
-        return $this->hasMany(JournalDetail::class, 'journal_id', 'id');
+        return $this->hasMany(JournalDetail::class, 'journal_id', 'id')->orderBy('credit', 'desc');
     }
 
     public function transactions()
@@ -93,5 +93,16 @@ class Journal extends Model
     public function accountMovements()
     {
         return $this->hasMany(JournalAccountMovement::class);
+    }
+
+    /**
+    * Get only the total value from details.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function total()
+    {
+        return $this->hasMany(JournalDetail::class)
+        ->selectRaw('sum(credit) as total');
     }
 }
