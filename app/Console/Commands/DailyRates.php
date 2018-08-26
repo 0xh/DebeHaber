@@ -47,9 +47,9 @@ class DailyRates extends Command
         $client = new Client(['base_uri' => 'https://dolar.melizeche.com/']);
         $response = $client->request('GET', 'api/1.0/');
         $arr = json_decode($response->getBody(), true);
-
+        $dateRate = Carbon::parse($arr['updated'])->startOfDay()->addDay()->toDateString();
         //Get updated date
-        $fx = CurrencyRate::whereDate('date', '=', Carbon::parse($arr['updated'])->startOfDay()->addDay()->toDateString())
+        $fx = CurrencyRate::whereDate('date', '=', $date)
         ->where('currency_id', 2)
         ->first();
 
@@ -59,7 +59,7 @@ class DailyRates extends Command
         {
             $fx = new CurrencyRate();
             $fx->currency_id = 2; //USD
-            $fx->date = Carbon::parse($arr['updated'])->startOfDay()->addDay();
+            $fx->date = $dateRate;
             $fx->buy_rate = $arr['dolarpy']['set']['compra'];
             $fx->sell_rate = $arr['dolarpy']['set']['venta'];
             $fx->save();
