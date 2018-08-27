@@ -110,7 +110,7 @@ class DebitNoteController extends Controller
         $transaction->comment = $request->comment;
 
         $transaction->type = $request->type ?? 3;
-        return response()->json($transaction->type,500);
+        //return response()->json($transaction->type,500);
         $transaction->save();
 
         foreach ($request->details as $detail)
