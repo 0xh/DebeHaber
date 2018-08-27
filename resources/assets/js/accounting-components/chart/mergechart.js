@@ -76,7 +76,7 @@ Vue.component('mergechart',{
                     },
                     error: function(xhr, status, error)
                     {
-                        app.$swal('Delete & Merge failed. Please check with support.' + error);
+                        app.$swal('Delete & Merge failed. Please check with support.' + error.response);
                     }
                 });
             }
