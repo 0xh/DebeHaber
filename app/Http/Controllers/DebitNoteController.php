@@ -89,7 +89,7 @@ class DebitNoteController extends Controller
         {
             $transaction->supplier_id = $request->supplier_id;
         }
-        return response()->json($request->supplier_id,500);
+    
         if ($request->document_id > 0)
         {
             $transaction->document_id = $request->document_id;

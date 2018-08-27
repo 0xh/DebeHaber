@@ -216,7 +216,7 @@ Vue.component('transaction-form',
             var app = this;
             var api = null;
             //app.type = app.trantype;
-            console.log(app.type);
+            
             if (this.$children[0] != null) {
                 if (app.type == 4 || app.type == 5)
                 {
