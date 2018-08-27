@@ -91,7 +91,7 @@ Route::prefix('{taxPayer}')->group(function ()
                 Route::get('charts/{skip}', 'ChartController@getCharts');
                 Route::get('charts/by-id/{id}', 'ChartController@getChartsByID');
                 Route::get('get-fixedasset', 'ChartController@getFixedAssets');
-                Route::get('get-fixedasset/{frase}', 'ChartController@searchFixedAssetsCharts');
+                Route::get('get-fixed-assets/{frase}', 'ChartController@searchFixedAssetsCharts');
                 Route::get('get-accountables', 'ChartController@getAccountableCharts');
                 Route::get('get-accountables/{frase}', 'ChartController@searchAccountableCharts');
                 Route::get('get-money_accounts', 'ChartController@getMoneyAccounts');

@@ -45,6 +45,9 @@ Vue.component('fixedasset',{
         {
             var app = this;
             var api = null;
+            if (app.chart_id == '' || app.chart_id <= 0) {
+                app.chart_id=app.$children[0].id;
+            }
 
             $.ajax({
                 url : '',
@@ -56,7 +59,7 @@ Vue.component('fixedasset',{
                 success: function(data)
                 {
                     console.log(data);
-                    if (data == 'ok')
+                    if (data == 'Ok')
                     {
                         app.id = 0;
                         app.chart_id = null,
