@@ -78,7 +78,7 @@ class CreditNoteController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request,Taxpayer $taxPayer)
+    public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
         if ($request->id == 0)
         {

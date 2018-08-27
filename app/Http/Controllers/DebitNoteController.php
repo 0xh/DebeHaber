@@ -80,7 +80,7 @@ class DebitNoteController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request,Taxpayer $taxPayer)
+    public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
         $Transaction = Transaction::where('id', $request->id)->first() ?? new Transaction();
         $Transaction->customer_id = $taxPayer->id;

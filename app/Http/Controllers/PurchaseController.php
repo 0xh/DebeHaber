@@ -102,7 +102,7 @@ class PurchaseController extends Controller
         * @param  \Illuminate\Http\Request  $request
         * @return \Illuminate\Http\Response
         */
-        public function store(Request $request,Taxpayer $taxPayer)
+        public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
         {
             $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
             $transaction->customer_id = $taxPayer->id;
@@ -129,7 +129,7 @@ class PurchaseController extends Controller
             $transaction->type = $request->type ?? 1;
 
             $transaction->save();
-        
+
             foreach ($request->details as $detail)
             {
                 $transactionDetail = $detail['id'] == 0 ? new TransactionDetail() : TransactionDetail::where('id', $detail['id'])->first();
