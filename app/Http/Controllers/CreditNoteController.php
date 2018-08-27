@@ -90,14 +90,14 @@ class CreditNoteController extends Controller
         }
 
         $Transaction->customer_id = $request->customer_id;
-        $Transaction->customer_id = $taxPayer->id;
+        $Transaction->supplier_id = $taxPayer->id;
         if ($request->document_id > 0)
         {
             $Transaction->document_id = $request->document_id;
         }
 
         $Transaction->currency_id = $request->currency_id;
-        $Transaction->rate = $request->rate;
+        $Transaction->rate = $request->rate??1;
         $Transaction->payment_condition = $request->payment_condition;
         if ($request->chart_account_id > 0)
         {
