@@ -84,32 +84,31 @@ class DebitNoteController extends Controller
     {
 
         $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
-        return response()->json($request->id ,500);
-        $Transaction->customer_id = $taxPayer->id;
+        $transaction->customer_id = $taxPayer->id;
         if ($request->supplier_id > 0)
         {
-            $Transaction->supplier_id = $request->supplier_id;
+            $transaction->supplier_id = $request->supplier_id;
         }
         if ($request->document_id > 0)
         {
-            $Transaction->document_id = $request->document_id;
+            $transaction->document_id = $request->document_id;
         }
 
-        $Transaction->currency_id = $request->currency_id;
-        $Transaction->rate = $request->rate;
-        $Transaction->payment_condition = $request->payment_condition;
+        $transaction->currency_id = $request->currency_id;
+        $transaction->rate = $request->rate;
+        $transaction->payment_condition = $request->payment_condition;
         if ($request->chart_account_id > 0)
         {
-            $Transaction->chart_account_id = $request->chart_account_id;
+            $transaction->chart_account_id = $request->chart_account_id;
         }
-        $Transaction->date = $request->date;
-        $Transaction->number = $request->number;
-        $Transaction->code = $request->code;
-        $Transaction->code_expiry = $request->code_expiry;
-        $Transaction->comment = $request->comment;
+        $transaction->date = $request->date;
+        $transaction->number = $request->number;
+        $transaction->code = $request->code;
+        $transaction->code_expiry = $request->code_expiry;
+        $transaction->comment = $request->comment;
 
-        $Transaction->type = $request->type ?? 3;
-        $Transaction->save();
+        $transaction->type = $request->type ?? 3;
+        $transaction->save();
 
         foreach ($request->details as $detail)
         {
@@ -122,7 +121,7 @@ class DebitNoteController extends Controller
                 $TransactionDetail = TransactionDetail::where('id',$detail['id'])->first();
             }
 
-            $TransactionDetail->transaction_id = $Transaction->id;
+            $TransactionDetail->transaction_id = $transaction->id;
             $TransactionDetail->chart_id = $detail['chart_id'];
             $TransactionDetail->chart_vat_id = $detail['chart_vat_id'];
             $TransactionDetail->value = $detail['value'];
