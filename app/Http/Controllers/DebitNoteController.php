@@ -84,7 +84,7 @@ class DebitNoteController extends Controller
     {
 
         $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
-        return response()->json($transaction,500);
+        return response()->json($request->id ,500);
         $Transaction->customer_id = $taxPayer->id;
         if ($request->supplier_id > 0)
         {
