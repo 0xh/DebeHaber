@@ -93,7 +93,7 @@ class DebitNoteController extends Controller
         {
             $transaction->document_id = $request->document_id;
         }
-
+return response()->json($transaction,500);
         $transaction->currency_id = $request->currency_id;
         $transaction->rate = $request->rate;
         $transaction->payment_condition = $request->payment_condition;
@@ -109,7 +109,7 @@ class DebitNoteController extends Controller
 
         $transaction->type = $request->type ?? 3;
         $transaction->save();
-return response()->json($transaction,500);
+
         foreach ($request->details as $detail)
         {
             if ($detail['id'] == 0)
