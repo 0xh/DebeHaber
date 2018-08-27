@@ -108,8 +108,9 @@ class DebitNoteController extends Controller
         $transaction->code = $request->code;
         $transaction->code_expiry = $request->code_expiry;
         $transaction->comment = $request->comment;
-    return response()->json($transaction,500);
+
         $transaction->type = $request->type ?? 3;
+        return response()->json($transaction->type,500);
         $transaction->save();
 
         foreach ($request->details as $detail)
