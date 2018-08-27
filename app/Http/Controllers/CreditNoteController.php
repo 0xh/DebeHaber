@@ -111,9 +111,9 @@ class CreditNoteController extends Controller
         $Transaction->comment = $request->comment;
 
         $Transaction->type = $request->type ?? 5;
-        return response()->json($Transaction,500);
-        $Transaction->save();
 
+        $Transaction->save();
+return response()->json($Transaction,500);
         foreach ($request->details as $detail)
         {
             if ($detail['id'] == 0)
