@@ -549,6 +549,7 @@ class ChartController extends Controller
 
     public function mergeCharts(Taxpayer $taxPayer, Cycle $cycle, $fromChartId, $toChartId)
     {
+      dd($fromChartId);
         //run validation on chart types and make sure a transfer can take place.
         $fromChart = Chart::My($taxPayer, $cycle)->where('id', $fromChartId);
         $toChart = Chart::My($taxPayer, $cycle)->where('id', $toChartId);
