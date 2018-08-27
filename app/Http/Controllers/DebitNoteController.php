@@ -82,10 +82,13 @@ class DebitNoteController extends Controller
     */
     public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
-        $Transaction = Transaction::where('id', $request->id)->first() ?? new Transaction();
-        $Transaction->customer_id = $taxPayer->id;
-        $Transaction->supplier_id = $request->supplier_id;
 
+        $transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
+        $Transaction->customer_id = $taxPayer->id;
+        if ($request->supplier_id > 0)
+        {
+            $Transaction->supplier_id = $request->supplier_id;
+        }
         if ($request->document_id > 0)
         {
             $Transaction->document_id = $request->document_id;
