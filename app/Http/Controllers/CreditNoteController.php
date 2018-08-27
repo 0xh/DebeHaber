@@ -80,15 +80,8 @@ class CreditNoteController extends Controller
     */
     public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
-        if ($request->id == 0)
-        {
-            $Transaction = new Transaction();
-        }
-        else
-        {
-            $Transaction = Transaction::where('id', $request->id)->first();
-        }
-
+        $Transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
+        return response()->json($request->customer_id,500);
         $Transaction->customer_id = $request->customer_id;
         $Transaction->supplier_id = $taxPayer->id;
         if ($request->document_id > 0)
@@ -113,7 +106,7 @@ class CreditNoteController extends Controller
         $Transaction->type = $request->type ?? 5;
 
         $Transaction->save();
-return response()->json($Transaction,500);
+
         foreach ($request->details as $detail)
         {
             if ($detail['id'] == 0)
@@ -179,7 +172,7 @@ return response()->json($Transaction,500);
         try
         {
             AccountMovement::where('transaction_id', $transaction->id)->delete();
-          //  JournalTransaction::where('transaction_id', $transaction->id)->delete();
+            //  JournalTransaction::where('transaction_id', $transaction->id)->delete();
             $transaction->delete();
 
             return response()->json('ok', 200);
