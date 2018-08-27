@@ -549,7 +549,7 @@ class ChartController extends Controller
 
     public function mergeCharts(Taxpayer $taxPayer, Cycle $cycle, $fromChartId, $toChartId)
     {
-      dd($fromChartId);
+
         //run validation on chart types and make sure a transfer can take place.
         $fromChart = Chart::My($taxPayer, $cycle)->where('id', $fromChartId);
         $toChart = Chart::My($taxPayer, $cycle)->where('id', $toChartId);
@@ -575,8 +575,8 @@ class ChartController extends Controller
 
             //add alias to new chart
             $alias = new ChartAlias();
-            $alias->chart_id = $toChart->id;
-            $alias->name = $fromChart->name;
+            $alias->chart_id = $toChartId;
+            $alias->name = $fromChart->first()->name;
             $alias->save();
 
             //delete $fromCharts
