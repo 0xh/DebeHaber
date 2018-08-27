@@ -341,8 +341,9 @@ class SalesController extends Controller
         DB::raw('sum(transaction_details.value) as total'))
         ->get();
 
+        $vatAccounts = $detailAccounts->where('coefficient', '>', 0);
         //run code for credit sales (insert detail into journal)
-        foreach($detailAccounts->where('coefficient', '>', 0)->groupBy('chart_vat_id') as $groupedRow)
+        foreach($vatAccounts->groupBy('chart_vat_id') as $groupedRow)
         {
             $groupTotal = $groupedRow->sum('total');
             $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
@@ -360,9 +361,9 @@ class SalesController extends Controller
             $value = 0;
 
             //Discount Vat Value for these items.
-            foreach($groupedRow->groupBy('coefficient') as $row)
+            foreach($groupedRow->groupBy('coefficient') as $subRow)
             {
-                $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate;
+                $value += ($subRow->sum('total') / (1 + $subRow->first()->coefficient)) * $subRow->first()->rate;
             }
 
             $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new \App\JournalDetail();

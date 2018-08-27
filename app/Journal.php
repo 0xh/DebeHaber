@@ -107,9 +107,9 @@ class Journal extends Model
         ->selectRaw('sum(credit) as total');
     }
 
-    public function scopeJournals($startDate,$endDate,$cycleID)
+    public function scopeEntries($query, $startDate, $endDate, $cycleID)
     {
-      return $this->join('journal_details', 'journals.id', 'journal_details.journal_id')
+      return $query->join('journal_details', 'journals.id', 'journal_details.journal_id')
       ->join('charts', 'charts.id', 'journal_details.chart_id')
       ->select('journals.id',
       'journals.date',

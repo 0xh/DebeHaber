@@ -1,31 +1,34 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Accounting;
+
 use App\Journal;
 use App\TaxPayer;
 use App\Cycle;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class AccountingController extends Controller
+class BalanceSheetController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexBalanceSheet(Taxpayer $taxPayer,Cycle $cycle)
-    {
-            $journals=Journal::Journals($cycle->start_date, $cycle->end_date,$cycle->id)->whereIn('chartType',[1,2,3])->get();
-          $period = CarbonPeriod::create($startDate, '1 month', $endDate);
-          return view('adjustment/balance-sheet')
-          ->with('period',$period)
-           ->with('journals',$journals);
-    }
-    public function getBalanceSheet()
-    {
+     public function index(Taxpayer $taxPayer, Cycle $cycle)
+     {
+         $journals = Journal::Entries($cycle->start_date, $cycle->end_date, $cycle->id)
+         ->whereIn('charts.type', [1,2,3])
+         ->get();
 
-        return response()->json($journals);
-    }
+         $period = CarbonPeriod::create($cycle->start_date, '1 month', $cycle->end_date);
+
+         return view('accounting/adjustment/balance-sheet')
+         ->with('period', $period)
+         ->with('journals', $journals);
+     }
 
     /**
      * Show the form for creating a new resource.

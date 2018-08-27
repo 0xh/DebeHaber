@@ -69,21 +69,22 @@ Route::group(['middleware' => 'auth'], function ()
         {
             Route::resources([
                 'budget' => 'BudgetController',
+
                 'closing-balance' => 'ClosingBalanceController',
                 'opening-balance' => 'OpeningBalanceController',
+
                 'chart-versions' => 'ChartVersionController',
                 'charts' => 'ChartController',
+
                 'journals' => 'JournalController',
                 'journal-templates' => 'JournalTemplateController',
-                'journal-simulations' => 'JournalSimulationController'
+                'journal-simulations' => 'JournalSimulationController',
 
+                'balance-sheet' => 'Accounting\BalanceSheetController',
+                'income-statement' => 'IncomeStatementController',
+                'retained-earnings' => 'RetainedEarningController',
+                'cash-flows' => 'CashFlowController',
             ]);
-
-
-            Route::get('balance-sheet', 'AccountingController@indexBalanceSheet')->name('balance-sheet.index');
-            Route::get('income-statement', 'IncomeStatementController@index')->name('income-statement.index');
-            Route::get('cash-flows', 'CashFlowController@index')->name('cash-flows.index');
-            Route::get('retained-earnings', 'CashFlowController@index')->name('retained-earnings.index');
 
             Route::get('journals-by-charts', 'JournalController@indexByCharts')->name('journals.ByCharts');
             Route::get('charts/merge/{id}', 'ChartController@mergeChartsIndex')->name('charts.merge');
