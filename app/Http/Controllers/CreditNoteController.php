@@ -81,7 +81,7 @@ class CreditNoteController extends Controller
     public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
         $Transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
-        return response()->json($request->customer_id,500);
+        
         $Transaction->customer_id = $request->customer_id;
         $Transaction->supplier_id = $taxPayer->id;
         if ($request->document_id > 0)
