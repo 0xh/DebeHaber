@@ -30,7 +30,7 @@ Vue.component('mergechart',{
             if (this.chart2delete.id > 0) {
                 $.ajax({
                     //charts/merge/{id}
-                    url : '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/chart/merge-check/' +  this.chart2delete.id + '/',
+                    url : '/api/' + app.taxpayer + '/' + app.cycle + '/accounting/chart/merge-check/' +  this.chart2delete.id ,
                     headers : {'X-CSRF-TOKEN': CSRF_TOKEN},
                     type : 'post',
                     data : json,
