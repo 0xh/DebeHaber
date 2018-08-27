@@ -80457,6 +80457,59 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/accounting-components/adjustment/adjustment.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_sweetalert__ = __webpack_require__("./node_modules/vue-sweetalert/build/vue-sweetalert.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_sweetalert__);
+
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_sweetalert___default.a);
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('adjustment', {
+
+    props: ['taxpayer', 'cycle'],
+    data: function data() {
+        return {
+            Journals: []
+
+        };
+    },
+
+
+    methods: {
+        getJournal: function getJournal(json) {
+            var app = this;
+            axios.get('/api/' + app.taxpayer + '/' + app.cycle + '/accounting/journal').then(function (_ref) {
+                var data = _ref.data;
+
+                app.Journals = data;
+            });
+        }
+
+    },
+
+    mounted: function mounted() {
+        this.getJournal();
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/accounting-components/adjustment/bootstrap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/accounting-components/adjustment/adjustment.js");
+
+/***/ }),
+
 /***/ "./resources/assets/js/accounting-components/chart/bootstrap.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -82996,6 +83049,7 @@ __webpack_require__("./resources/assets/js/model-components/bootstrap.js");
 __webpack_require__("./resources/assets/js/infinity-components/bootstrap.js");
 __webpack_require__("./resources/assets/js/buefy-components/bootstrap.js");
 //Accounting
+__webpack_require__("./resources/assets/js/accounting-components/adjustment/bootstrap.js");
 __webpack_require__("./resources/assets/js/accounting-components/chart/bootstrap.js");
 __webpack_require__("./resources/assets/js/accounting-components/fixedasset/bootstrap.js");
 __webpack_require__("./resources/assets/js/accounting-components/cycle/bootstrap.js");

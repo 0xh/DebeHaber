@@ -13,6 +13,7 @@ use App\JournalProduction;
 use App\JournalTransaction;
 use App\JournalAccountMovement;
 use App\JournalSim;
+use Carbon\Carbon;
 
 class Journal extends Model
 {
@@ -104,5 +105,24 @@ class Journal extends Model
     {
         return $this->hasMany(JournalDetail::class)
         ->selectRaw('sum(credit) as total');
+    }
+
+    public function scopeJournals($startDate,$endDate,$cycleID)
+    {
+      return $this->join('journal_details', 'journals.id', 'journal_details.journal_id')
+      ->join('charts', 'charts.id', 'journal_details.chart_id')
+      ->select('journals.id',
+      'journals.date',
+      'journals.comment',
+      'journals.number',
+      'journal_details.debit',
+      'journal_details.credit',
+      'charts.id as chart_id',
+      'charts.name as chartName',
+      'charts.code as chartCode',
+      'charts.type as chartType',
+      'charts.sub_type as chartSubType')
+      ->whereBetween('journals.date', array($startDate, $endDate))
+      ->where('cycle_id', $cycleID);
     }
 }

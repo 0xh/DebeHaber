@@ -76,9 +76,11 @@ Route::group(['middleware' => 'auth'], function ()
                 'journals' => 'JournalController',
                 'journal-templates' => 'JournalTemplateController',
                 'journal-simulations' => 'JournalSimulationController'
+
             ]);
 
-            Route::get('balance-sheet', 'BalanceSheetController@index')->name('balance-sheet.index');
+
+            Route::get('balance-sheet', 'AccountingController@indexBalanceSheet')->name('balance-sheet.index');
             Route::get('income-statement', 'IncomeStatementController@index')->name('income-statement.index');
             Route::get('cash-flows', 'CashFlowController@index')->name('cash-flows.index');
             Route::get('retained-earnings', 'CashFlowController@index')->name('retained-earnings.index');

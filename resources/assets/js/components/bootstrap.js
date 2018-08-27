@@ -14,6 +14,7 @@ require('./../model-components/bootstrap');
 require('./../infinity-components/bootstrap');
 require('./../buefy-components/bootstrap');
 //Accounting
+require('./../accounting-components/adjustment/bootstrap');
 require('./../accounting-components/chart/bootstrap');
 require('./../accounting-components/fixedasset/bootstrap');
 require('./../accounting-components/cycle/bootstrap');
