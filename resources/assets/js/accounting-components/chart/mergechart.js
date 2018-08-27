@@ -55,7 +55,7 @@ Vue.component('mergechart',{
         {
             var app = this;
             var api = null;
-
+            console.log('asd');
             //app.fromChartId = app.selectid;
             //app.toChartId = app.$children[0].id;
 
