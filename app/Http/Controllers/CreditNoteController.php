@@ -109,8 +109,9 @@ class CreditNoteController extends Controller
         $Transaction->code = $request->code;
         $Transaction->code_expiry = $request->code_expiry;
         $Transaction->comment = $request->comment;
-return response()->json($Transaction,500);
+
         $Transaction->type = $request->type ?? 5;
+        return response()->json($Transaction,500);
         $Transaction->save();
 
         foreach ($request->details as $detail)
