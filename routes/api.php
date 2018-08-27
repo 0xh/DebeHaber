@@ -88,7 +88,7 @@ Route::prefix('{taxPayer}')->group(function ()
 
             Route::prefix('chart')->group(function ()
             {
-                Route::get('charts/{skip}', 'ChartController@getCharts');
+                Route::get('charts', 'ChartController@getCharts');
                 Route::get('charts/by-id/{id}', 'ChartController@getChartsByID');
                 Route::get('get-fixedasset', 'ChartController@getFixedAssets');
                 Route::get('get-fixed-assets/{frase}', 'ChartController@searchFixedAssetsCharts');

@@ -74,7 +74,7 @@
     $defaultCurrency = Config::get('countries.' . request()->route('taxPayer')->country . '.default-currency');
     @endphp
 
-    <infinity taxpayer="{{ request()->route('taxPayer')->id}}" cycle="{{ request()->route('cycle')->id }}"
+    <buefy taxpayer="{{ request()->route('taxPayer')->id}}" cycle="{{ request()->route('cycle')->id }}"
       baseurl="accounting/chart/charts" inline-template>
         <div>
             <div v-if="$parent.showList">
@@ -84,5 +84,5 @@
                 @include('accounting/chart/form')
             </div>
         </div>
-    </infinity>
+    </buefy>
 @endsection

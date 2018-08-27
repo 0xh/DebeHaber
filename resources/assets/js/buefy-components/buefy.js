@@ -8,7 +8,8 @@ Vue.component('buefy',
             list: [],
             item: [],
             meta: [{total:0}],
-            isLoading: true
+            isLoading: true,
+            isActive : false,
         };
     },
 
@@ -44,7 +45,7 @@ Vue.component('buefy',
                 async: true,
                 success: function(data)
                 {
-                  console.log(data);
+                    console.log(data);
                     app.$children[0].onEdit(data[0]);
                 },
                 error: function(xhr, status, error)
@@ -102,6 +103,12 @@ Vue.component('buefy',
                     console.log(xhr.responseText);
                 }
             });
+        },
+        onDeleteAccount: function(data)
+        {
+            var app = this;
+            app.item = data;
+            app.isActive = true;
         },
     },
 
