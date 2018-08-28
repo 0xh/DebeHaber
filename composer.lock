@@ -2524,16 +2524,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.34",
+            "version": "v5.6.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "66c9cf8119b422b71273271db1f12e20d74ad49b"
+                "reference": "02abbe2091404ebe032a6d5a83075031b7072ebe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/66c9cf8119b422b71273271db1f12e20d74ad49b",
-                "reference": "66c9cf8119b422b71273271db1f12e20d74ad49b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/02abbe2091404ebe032a6d5a83075031b7072ebe",
+                "reference": "02abbe2091404ebe032a6d5a83075031b7072ebe",
                 "shasum": ""
             },
             "require": {
@@ -2659,7 +2659,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-08-21T13:44:37+00:00"
+            "time": "2018-08-27T13:18:24+00:00"
         },
         {
             "name": "laravel/passport",
@@ -8721,16 +8721,16 @@
         },
         {
             "name": "symfony/thanks",
-            "version": "v1.0.8",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/thanks.git",
-                "reference": "ca74c76a2a43aaa491e7a524fd235e094b1129b5"
+                "reference": "9474a631b52737c623b6aeba22f00bbc003251da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/thanks/zipball/ca74c76a2a43aaa491e7a524fd235e094b1129b5",
-                "reference": "ca74c76a2a43aaa491e7a524fd235e094b1129b5",
+                "url": "https://api.github.com/repos/symfony/thanks/zipball/9474a631b52737c623b6aeba22f00bbc003251da",
+                "reference": "9474a631b52737c623b6aeba22f00bbc003251da",
                 "shasum": ""
             },
             "require": {
@@ -8760,7 +8760,7 @@
                 }
             ],
             "description": "Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers (not limited to Symfony components)!",
-            "time": "2018-08-05T16:46:52+00:00"
+            "time": "2018-08-24T14:08:13+00:00"
         },
         {
             "name": "theseer/tokenizer",

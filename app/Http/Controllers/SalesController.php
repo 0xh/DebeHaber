@@ -295,11 +295,10 @@ class SalesController extends Controller
 
             $value = $row->total * $row->rate;
 
-            $detail = new \App\JournalDetail();
+            $detail = $journal->details->where('chart_id', $accountChartID)->first() ?? new \App\JournalDetail();
             $detail->debit = 0;
-            $detail->credit = $value;
+            $detail->credit += $value;
             $detail->chart_id = $accountChartID;
-            $detail->journal_id = $journal->id;
             $journal->details()->save($detail);
         }
 
@@ -341,15 +340,16 @@ class SalesController extends Controller
         DB::raw('sum(transaction_details.value) as total'))
         ->get();
 
-        $vatAccounts = $detailAccounts->where('coefficient', '>', 0);
+        // $vatAccounts = $detailAccounts->where('coefficient', '>', 0);
+
         //run code for credit sales (insert detail into journal)
-        foreach($vatAccounts->groupBy('chart_vat_id') as $groupedRow)
+        foreach($detailAccounts->groupBy('chart_vat_id') as $groupedRow)
         {
             $groupTotal = $groupedRow->sum('total');
-            $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
+            $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient)));
 
-            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_vat_id)->first() ?? new \App\JournalDetail();
-            $detail->debit += $value;
+            $detail = new \App\JournalDetail();
+            $detail->debit += $value * $groupedRow->first()->rate;
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_vat_id;
             $journal->details()->save($detail);
@@ -361,12 +361,12 @@ class SalesController extends Controller
             $value = 0;
 
             //Discount Vat Value for these items.
-            foreach($groupedRow->groupBy('coefficient') as $subRow)
+            foreach($groupedRow->groupBy('chart_vat_id') as $subRow)
             {
                 $value += ($subRow->sum('total') / (1 + $subRow->first()->coefficient)) * $subRow->first()->rate;
             }
 
-            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new \App\JournalDetail();
+            $detail = new \App\JournalDetail();
             $detail->debit += $value;
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_id;

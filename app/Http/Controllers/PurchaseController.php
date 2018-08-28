@@ -257,9 +257,9 @@ class PurchaseController extends Controller
                 $accountChartID = $row->chart_account_id ?? $ChartController->createIfNotExists_CashAccounts($taxPayer, $cycle, $row->chart_account_id)->id;
                 $value = $row->total * $row->rate;
 
-                $detail = new \App\JournalDetail();
+                $detail = $journal->details->where('chart_id', $accountChartID)->first() ?? new \App\JournalDetail();
                 $detail->credit = 0;
-                $detail->debit = $value;
+                $detail->debit += $value;
                 $detail->chart_id = $accountChartID;
                 $journal->details()->save($detail);
             }
