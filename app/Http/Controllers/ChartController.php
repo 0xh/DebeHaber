@@ -151,6 +151,27 @@ class ChartController extends Controller
     {
         //
     }
+    
+    // public function get_chart($country, $queryString)
+    // {
+    //     //this function allows fuzzy search and add importance to certain fields.
+    //     $taxPayers = Chart::search($queryString,
+    //     function (\Elasticsearch\Client $client, $query, $params) {
+    //         $params['body']['query'] = [
+    //             'multi_match' => [
+    //                 'query' => $query,
+    //                 'fuzziness' => 'AUTO',
+    //                 'fields' => ['taxid', 'alias^3', 'name'],
+    //             ],
+    //         ];
+    //
+    //         return $client->search($params);
+    //     })
+    //     ->take(25)
+    //     ->get();
+    //
+    //     return response()->json($taxPayers);
+    // }
 
     public function getAccountableCharts(Taxpayer $taxPayer, Cycle $cycle)
     {

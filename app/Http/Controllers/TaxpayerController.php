@@ -28,10 +28,21 @@ class TaxpayerController extends Controller
 
     }
 
-    public function get_taxpayer($country, $query)
+    public function get_taxpayer($country, $queryString)
     {
-        $taxPayers = Taxpayer::search($query)
-        //->where('country', $country)
+        //this function allows fuzzy search and add importance to certain fields.
+        $taxPayers = Taxpayer::search($queryString,
+        function (\Elasticsearch\Client $client, $query, $params) {
+            $params['body']['query'] = [
+                'multi_match' => [
+                    'query' => $query,
+                    'fuzziness' => 'AUTO',
+                    'fields' => ['taxid', 'alias^3', 'name'],
+                ],
+            ];
+
+            return $client->search($params);
+        })
         ->take(25)
         ->get();
 

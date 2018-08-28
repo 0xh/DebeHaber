@@ -343,33 +343,33 @@ class SalesController extends Controller
         // $vatAccounts = $detailAccounts->where('coefficient', '>', 0);
 
         //run code for credit sales (insert detail into journal)
-        foreach($detailAccounts->groupBy('chart_vat_id') as $groupedRow)
+        foreach($detailAccounts as $row)
         {
-            $groupTotal = $groupedRow->sum('total');
-            $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient)));
-
+            //$groupTotal = $groupedRow->sum('total');
+            $value = ($row->total - ($row->total / (1 + $row->coefficient)));
+            //$journal->details->where('chart_id', $row->chart_vat_id)->first() ??
             $detail = new \App\JournalDetail();
-            $detail->debit += $value * $groupedRow->first()->rate;
+            $detail->debit += $value * $row->rate;
             $detail->credit = 0;
-            $detail->chart_id = $groupedRow->first()->chart_vat_id;
+            $detail->chart_id = $row->chart_vat_id;
             $journal->details()->save($detail);
         }
 
         //run code for credit sales (insert detail into journal)
-        foreach($detailAccounts->groupBy('chart_id') as $groupedRow)
+        foreach($detailAccounts as $row)
         {
             $value = 0;
 
             //Discount Vat Value for these items.
-            foreach($groupedRow->groupBy('chart_vat_id') as $subRow)
-            {
-                $value += ($subRow->sum('total') / (1 + $subRow->first()->coefficient)) * $subRow->first()->rate;
-            }
-
+            //foreach($row->groupBy('chart_vat_id') as $subRow)
+            //{
+                $value += ($row->total / (1 + $row->coefficient)) * $row->rate;
+            //}
+            // $journal->details->where('chart_id', $row->chart_id)->first() ?? 
             $detail = new \App\JournalDetail();
             $detail->debit += $value;
             $detail->credit = 0;
-            $detail->chart_id = $groupedRow->first()->chart_id;
+            $detail->chart_id = $row->chart_id;
             $journal->details()->save($detail);
         }
     }

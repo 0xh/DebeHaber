@@ -25,9 +25,10 @@
 
             <b-table-column custom-key="actions">
 
-                <button v-on:click="onEdit(props.row.uuid)" type="button" class="btn btn-sm btn-info js-tooltip-enabled" data-toggle="tooltip" data-original-title="Edit">
+                <button v-if="props.row.is_automatic == false" v-on:click="onEdit(props.row.uuid)" type="button" class="btn btn-sm btn-info js-tooltip-enabled" data-toggle="tooltip" data-original-title="Edit">
                     <i class="fa fa-pen"></i>
                 </button>
+                <button v-else v-on:click="onFinalize(props.row.uuid)"><i class="fa fa-check"></i></button>
 
                 <button v-on:click="onDelete(props.row)" type="button" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" data-original-title="Delete">
                     <i class="fa fa-trash"></i>
