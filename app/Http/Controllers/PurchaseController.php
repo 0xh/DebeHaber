@@ -262,6 +262,7 @@ class PurchaseController extends Controller
                 $detail->debit += $value;
                 $detail->chart_id = $accountChartID;
                 $journal->details()->save($detail);
+                $journal->load('details');
             }
 
             //2nd Query: Sales Transactions done in Credit. Must affect customer credit account.
@@ -286,6 +287,7 @@ class PurchaseController extends Controller
                 $detail->debit += $value;
                 $detail->chart_id = $supplierChartID;
                 $journal->details()->save($detail);
+                $journal->load('details');
             }
 
             //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
@@ -310,6 +312,7 @@ class PurchaseController extends Controller
                 $detail->debit = 0;
                 $detail->chart_id = $row->chart_vat_id;
                 $journal->details()->save($detail);
+                $journal->load('details');
             }
 
             //run code for credit sales (insert detail into journal)
@@ -324,6 +327,7 @@ class PurchaseController extends Controller
                 $detail->debit = 0;
                 $detail->chart_id = $row->chart_id;
                 $journal->details()->save($detail);
+                $journal->load('details');
             }
         }
     }

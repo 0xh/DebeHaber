@@ -81,7 +81,7 @@ class CreditNoteController extends Controller
     public function store(Request $request,Taxpayer $taxPayer,Cycle $cycle)
     {
         $Transaction = $request->id == 0 ? new Transaction() : Transaction::where('id', $request->id)->first();
-        
+
         $Transaction->customer_id = $request->customer_id;
         $Transaction->supplier_id = $taxPayer->id;
         if ($request->document_id > 0)
@@ -240,6 +240,7 @@ class CreditNoteController extends Controller
             $detail->debit += $value;
             $detail->chart_id = $customerChartID;
             $journal->details()->save($detail);
+            $journal->load('details');
         }
 
         //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
@@ -265,6 +266,7 @@ class CreditNoteController extends Controller
             $detail->debit = 0;
             $detail->chart_id = $groupedRow->first()->chart_vat_id;
             $journal->details()->save($detail);
+            $journal->load('details');
         }
 
         //run code for credit purchase (insert detail into journal)
@@ -283,6 +285,7 @@ class CreditNoteController extends Controller
             $detail->debit = 0;
             $detail->chart_id = $groupedRow->first()->chart_id;
             $journal->details()->save($detail);
+            $journal->load('details');
         }
     }
 }

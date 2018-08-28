@@ -110,7 +110,7 @@ class DebitNoteController extends Controller
         $transaction->comment = $request->comment;
 
         $transaction->type = $request->type ?? 3;
-        
+
         $transaction->save();
 
         foreach ($request->details as $detail)
@@ -248,6 +248,7 @@ class DebitNoteController extends Controller
             $detail->credit += $value;
             $detail->chart_id = $supplierChartID;
             $journal->details()->save($detail);
+            $journal->load('details');
         }
 
         //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
@@ -273,6 +274,7 @@ class DebitNoteController extends Controller
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_vat_id;
             $journal->details()->save($detail);
+            $journal->load('details');
         }
 
         //run code for credit purchase (insert detail into journal)
@@ -291,6 +293,7 @@ class DebitNoteController extends Controller
             $detail->credit = 0;
             $detail->chart_id = $groupedRow->first()->chart_id;
             $journal->details()->save($detail);
+            $journal->load('details');
         }
     }
 }
