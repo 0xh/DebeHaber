@@ -30,77 +30,89 @@ class TransactionController extends Controller
     $cycle = null;
 
     //Process Transaction by 100 to speed up but not overload.
-    for ($i = 0; $i < 100 ; $i++)
+    //  for ($i = 0; $i < 100 ; $i++)
+    //  {
+    $chunkedData = $request;
+
+    if (isset($chunkedData))
     {
-      $chunkedData = $request[$i];
 
-      if (isset($chunkedData))
+
+      $data=collect($chunkedData);
+
+      $groupData=$data->groupBy(function($q) { return Carbon::parse($q["Date"])->format('Y'); });
+
+      //groupby function group by year.
+      foreach ($groupData as $groupedRow)
       {
-        if ($chunkedData['Type'] == 4 || $chunkedData['Type'] == 5)
-        { $taxPayer = $this->checkTaxPayer($chunkedData['SupplierTaxID'], $chunkedData['SupplierName']); }
-        else if($chunkedData['Type'] == 3 || $chunkedData['Type'] == 1)
-        { $taxPayer = $this->checkTaxPayer($chunkedData['CustomerTaxID'], $chunkedData['CustomerName']); }
-        $chunkedData=collect($chunkedData);
 
-        $chunkedData=$chunkedData->get()->groupBy(function($q) { return Carbon::parse($q->Date)->format('Y'); });
-        dd($chunkedData);
-        //groupby function group by year.
-        foreach ($chunkedData as $groupedRow)
+        if ($groupedRow->first()['Type'] == 4 || $groupedRow->first()['Type'] == 5)
+        { $taxPayer = $this->checkTaxPayer($groupedRow->first()['SupplierTaxID'], $groupedRow->first()['SupplierName']); }
+        else if($groupedRow->first()['Type'] == 3 || $groupedRow->first()['Type'] == 1)
+        { $taxPayer = $this->checkTaxPayer($groupedRow->first()['CustomerTaxID'], $groupedRow->first()['CustomerName']); }
+
+        //check and create cycle
+        $firstDate = Carbon::parse($groupedRow->first()["Date"]);
+
+        //No need to run this query for each invoice, just check if the date is in between.
+        $cycle = Cycle::where('start_date', '<=', $firstDate)
+        ->where('end_date', '>=', $firstDate)
+        ->where('taxpayer_id', $taxPayer->id)
+        ->first();
+
+        if (!isset($cycle))
         {
-          //check and create cycle
-          $firstDate = Carbon::parse($groupedRow->first()->Date);
+          $version = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
 
-          //No need to run this query for each invoice, just check if the date is in between.
-          $cycle = Cycle::where('start_date', '<=', $firstDate)
-          ->where('end_date', '>=', $firstDate)
-          ->where('taxpayer_id', $taxPayer->id)
-          ->first();
-
-          if (!isset($cycle))
+          if (!isset($version))
           {
-            $version = ChartVersion::where('taxpayer_id', $taxPayer->id)->first();
-
-            if (!isset($version))
-            {
-              $version = new ChartVersion();
-              $version->taxpayer_id = $taxPayer->id;
-              $version->name = 'Version Automatica';
-              $version->save();
-            }
-
-            $cycle = new Cycle();
-            $cycle->chart_version_id = $version->id;
-            $cycle->year = $firstDate->year;
-            $cycle->start_date = new Carbon('first day of January ' . $firstDate->year);
-            $cycle->end_date = new Carbon('last day of December ' . $firstDate->year);
-            $cycle->taxpayer_id = $taxPayer->id;
-            $cycle->save();
-          }
-          else
-          {
-            $startDate = $cycle->start_date;
-            $endDate = $cycle->end_date;
+            $version = new ChartVersion();
+            $version->taxpayer_id = $taxPayer->id;
+            $version->name = 'Version Automatica';
+            $version->save();
           }
 
-          try
+          $cycle = new Cycle();
+          $cycle->chart_version_id = $version->id;
+          $cycle->year = $firstDate->year;
+          $cycle->start_date = new Carbon('first day of January ' . $firstDate->year);
+          $cycle->end_date = new Carbon('last day of December ' . $firstDate->year);
+          $cycle->taxpayer_id = $taxPayer->id;
+          $cycle->save();
+        }
+        else
+        {
+          $startDate = $cycle->start_date;
+          $endDate = $cycle->end_date;
+        }
+
+        try
+        {
+
+          foreach ($groupedRow as $data)
           {
-            $filteredData = $chunkedData->where(function($q) use($firstDate) {  $q->where('Date', $firstDate->year); })->get();
-            $transaction = $this->processTransaction($chunkedData->where('Date'), $taxPayer, $cycle);
+
+            $transaction = $this->processTransaction($data,$taxPayer, $cycle);
             $transactionData[$i] = $transaction;
           }
-          catch (\Exception $e)
-          {
-            return response()->json("Server Error: " . $e, 500);
-          }
+
+
+        }
+        catch (\Exception $e)
+        {
+          return response()->json("Server Error: " . $e, 500);
         }
       }
     }
+    //  }
 
     return response()->json($transactionData);
   }
 
   public function processTransaction($data, Taxpayer $taxPayer, Cycle $cycle)
   {
+
+
     //TODO. There should be logic that checks if RefID for this Taxpayer is already int the system. If so, then only update, or else create.
     //Im not too happy with this code since it will call db every time there is a new invoice. Maybe there is a better way, or simply remove this part and insert it again.
     $transaction = new Transaction();
