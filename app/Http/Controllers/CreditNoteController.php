@@ -234,13 +234,13 @@ class CreditNoteController extends Controller
         {
             $customerChartID = $ChartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $row->customer_id)->id;
             $value = $row->total * $row->rate;
-
-            $detail = $journal->details->where('chart_id', $customerChartID)->first() ?? new \App\JournalDetail();
+            $detail = $journal->details()->firstOrNew(['chart_id' => $customerChartID]);
+            //$detail = $journal->details->where('chart_id', $customerChartID)->first() ?? new \App\JournalDetail();
             $detail->credit = 0;
             $detail->debit += $value;
             $detail->chart_id = $customerChartID;
             $journal->details()->save($detail);
-            $journal->load('details');
+            //  $journal->load('details');
         }
 
         //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
@@ -260,13 +260,13 @@ class CreditNoteController extends Controller
         {
             $groupTotal = $groupedRow->sum('total');
             $value = ($groupTotal - ($groupTotal / (1 + $groupedRow->first()->coefficient))) * $groupedRow->first()->rate;
-
-            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_vat_id)->first() ?? new \App\JournalDetail();
+            $detail = $journal->details()->firstOrNew(['chart_id' => $groupedRow->first()->chart_vat_id]);
+            //$detail = $journal->details->where('chart_id', $groupedRow->first()->chart_vat_id)->first() ?? new \App\JournalDetail();
             $detail->credit += $value;
             $detail->debit = 0;
             $detail->chart_id = $groupedRow->first()->chart_vat_id;
             $journal->details()->save($detail);
-            $journal->load('details');
+            //$journal->load('details');
         }
 
         //run code for credit purchase (insert detail into journal)
@@ -279,13 +279,13 @@ class CreditNoteController extends Controller
             {
                 $value += ($row->sum('total') / (1 + $row->first()->coefficient)) * $row->first()->rate;
             }
-
-            $detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new \App\JournalDetail();
+            $detail = $journal->details()->firstOrNew(['chart_id' => $groupedRow->first()->chart_id]);
+            //$detail = $journal->details->where('chart_id', $groupedRow->first()->chart_id)->first() ?? new \App\JournalDetail();
             $detail->credit += $value;
             $detail->debit = 0;
             $detail->chart_id = $groupedRow->first()->chart_id;
             $journal->details()->save($detail);
-            $journal->load('details');
+            //$journal->load('details');
         }
     }
 }
