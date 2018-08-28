@@ -88,12 +88,13 @@ class TransactionController extends Controller
 
         try
         {
-
+          $i=0;
           foreach ($groupedRow as $data)
           {
 
             $transaction = $this->processTransaction($data,$taxPayer, $cycle);
             $transactionData[$i] = $transaction;
+            $i=$i+1;
           }
 
 
