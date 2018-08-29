@@ -55,6 +55,16 @@ class User extends SparkUser
     ];
 
     /**
+     * Get the taxPayers for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function taxPayers()
+    {
+        return $this->hasManyThrough('App\TaxpayerIntegration', 'App\Team');
+    }
+
+    /**
      * Get the taxPayerFavs for the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

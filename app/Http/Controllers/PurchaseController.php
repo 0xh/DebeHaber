@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\AccountMovement;
-//use App\JournalTransaction;
 use App\Taxpayer;
 use App\Cycle;
 use App\Chart;
@@ -140,7 +139,7 @@ class PurchaseController extends Controller
                 $transactionDetail->save();
             }
 
-            return response()->json('ok', 200);
+            return response()->json('Ok', 200);
         }
 
         /**
@@ -281,14 +280,10 @@ class PurchaseController extends Controller
                 $supplierChartID = $ChartController->createIfNotExists_AccountsPayable($taxPayer, $cycle, $row->supplier_id)->id;
                 $value = $row->total * $row->rate;
 
-                //TODO, not working properly as its checking the journal, but we are not attaching the detail to the journal.
                 $detail = $journal->details()->firstOrNew(['chart_id' => $supplierChartID]);
-                //  $detail = $journal->details->where('chart_id', $supplierChartID)->first() ?? new \App\JournalDetail();
-                $detail->credit = 0;
                 $detail->debit += $value;
                 $detail->chart_id = $supplierChartID;
                 $journal->details()->save($detail);
-                //$journal->load('details');
             }
 
             //one detail query, to avoid being heavy for db. Group by fx rate, vat, and item type.
@@ -304,32 +299,19 @@ class PurchaseController extends Controller
             ->get();
 
             //run code for credit sales (insert detail into journal)
-            foreach($detailAccounts as $row)
+            foreach($detailAccounts->where('coefficient', '>', 0) as $row)
             {
-                $value = ($row->total - ($row->total / (1 + $row->coefficient))) * $row->rate;
-                //
                 $detail = $journal->details()->firstOrNew(['chart_id' => $row->chart_vat_id]);
-                //$detail = $journal->details->where('chart_id', $row->chart_vat_id)->first() ?? new \App\JournalDetail();
-                $detail->credit += $value;
-                $detail->debit = 0;
-                $detail->chart_id = $row->chart_vat_id;
+                $detail->credit += ($row->total - ($row->total / (1 + $row->coefficient))) * $row->rate;
                 $journal->details()->save($detail);
-                //$journal->load('details');
             }
 
             //run code for credit sales (insert detail into journal)
             foreach($detailAccounts as $row)
             {
-                $value = 0;
-
-                $value += ($row->total / (1 + $row->coefficient)) * $row->rate;
                 $detail = $journal->details()->firstOrNew(['chart_id' => $row->chart_id]);
-                //$detail = $journal->details->where('chart_id', $row->chart_id)->first() ?? new \App\JournalDetail();
-                $detail->credit += $value;
-                $detail->debit = 0;
-                $detail->chart_id = $row->chart_id;
+                $detail->credit += ($row->total / (1 + $row->coefficient)) * $row->rate;;
                 $journal->details()->save($detail);
-                //    $journal->load('details');
             }
         }
     }

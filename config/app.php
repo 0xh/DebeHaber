@@ -163,6 +163,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Hootlex\Friendships\FriendshipsServiceProvider::class,
         MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
