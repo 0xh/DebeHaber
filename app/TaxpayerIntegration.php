@@ -21,7 +21,7 @@ class TaxpayerIntegration extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function taxpayer()
+    public function taxPayer()
     {
         return $this->belongsTo(Taxpayer::class);
     }
