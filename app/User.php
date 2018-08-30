@@ -7,6 +7,7 @@ use Laravel\Spark\CanJoinTeams;
 use Laravel\Spark\User as SparkUser;
 use Hootlex\Friendships\Traits\Friendable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\JournalGenerated;
 
 class User extends SparkUser
 {
@@ -21,6 +22,8 @@ class User extends SparkUser
         'name',
         'email',
     ];
+
+    // $user->notify(new InvoicePaid($invoice));
 
     /**
      * The attributes excluded from the model's JSON form.

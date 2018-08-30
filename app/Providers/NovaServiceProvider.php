@@ -58,7 +58,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Help,
+            // new Help,
+            new \Wilburpowery\RoutesCached\RoutesCached,
         ];
     }
 

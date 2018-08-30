@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e4e55c82ba8db0d89a8bb0054a06de5",
+    "content-hash": "32c6c5e587b4701819ab5b62613aa4d3",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -7058,6 +7058,55 @@
             "time": "2018-04-22T02:42:44+00:00"
         },
         {
+            "name": "themsaid/nova-cashier-manager",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/themsaid/nova-cashier-manager.git",
+                "reference": "3aa4f6002847df1fe31ad25caa7050788f3fbc60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/themsaid/nova-cashier-manager/zipball/3aa4f6002847df1fe31ad25caa7050788f3fbc60",
+                "reference": "3aa4f6002847df1fe31ad25caa7050788f3fbc60",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Themsaid\\CashierTool\\CashierToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Themsaid\\CashierTool\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Said",
+                    "email": "mohamed@laravel.com"
+                }
+            ],
+            "description": "Managing Stripe subscriptions inside the incredible Laravel Nova admin panel.",
+            "keywords": [
+                "cashier",
+                "laravel",
+                "nova",
+                "stripe"
+            ],
+            "time": "2018-08-26T07:07:30+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.1",
             "source": {
@@ -7201,6 +7250,47 @@
                 "remember"
             ],
             "time": "2017-12-21T01:09:18+00:00"
+        },
+        {
+            "name": "wilburpowery/routes-cached",
+            "version": "0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wilburpowery/RoutesCached.git",
+                "reference": "c449698c37fb027fb5c3c34a7e1a9797840f4056"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wilburpowery/RoutesCached/zipball/c449698c37fb027fb5c3c34a7e1a9797840f4056",
+                "reference": "c449698c37fb027fb5c3c34a7e1a9797840f4056",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Wilburpowery\\RoutesCached\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wilburpowery\\RoutesCached\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova card.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2018-08-26T01:37:38+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

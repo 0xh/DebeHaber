@@ -60,6 +60,8 @@ class User extends Resource
             ->onlyOnForms()
             ->creationRules('required', 'string', 'min:6')
             ->updateRules('nullable', 'string', 'min:6'),
+
+            // CashierResourceTool::make()->onlyOnDetail(),
         ];
     }
 
