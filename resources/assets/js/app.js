@@ -21,6 +21,7 @@ import VueRouter from 'vue-router';
 import SearchBoxTaxPayer from './components/search-taxpayer.vue';
 import SearchBox from './components/searchbox.vue';
 import SearchBoxAccount from './components/searchboxaccount.vue';
+import sbxTaxpayer from './components/sbxTaxpayer.vue';
 import Vue from 'vue';
 
 // import ElementUI from 'element-ui';

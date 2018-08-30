@@ -11,12 +11,13 @@
 |
 */
 
-Route::get('/', 'WelcomeController@show');
+Route::get('/', 'HomeController@show')->name('home');
 
 //No Team, maybe Team. No taxpayer selected
-Route::get('/home', 'HomeController@show')->name('hello');
+// Route::get('/home', 'HomeController@show')->name('hello');
 Route::get('/teamAccept/{integrationID}/{type}', 'HomeController@teamAccept')->name('Accept');
 Route::get('/teamReject', 'HomeController@teamReject')->name('Reject');
+
 Route::group(['middleware' => 'auth'], function ()
 {
     Route::put('taxpayer-integration/{taxPayerIntegration}', 'TaxpayerIntegrationController@update');

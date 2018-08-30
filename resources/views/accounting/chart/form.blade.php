@@ -12,9 +12,7 @@
                         @lang('global.BelongsTo')
                     </label>
                     <div class="col-lg-6">
-                        <router-view name="SearchBoxAccount" url="/accounting/chart/get-parent_accounts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" >
-
-                        </router-view>
+                        <router-view name="SearchBoxAccount" url="/accounting/chart/get-parent_accounts/" :cycle="{{ request()->route('cycle')->id }}" :current_company="{{ request()->route('taxPayer')->id }}" ></router-view>
                     </div>
                 </div>
 
@@ -27,7 +25,7 @@
                             <div class="input-group-append">
                                 <input type="text" class="input-group-text" v-model="code" placeholder="@lang('global.Code')" aria-describedby="basic-addon2">
                             </div>
-                            <input type="text" class="form-control m-input"  v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control m-input" v-model="name" placeholder="@lang('global.Name')" aria-describedby="basic-addon2">
                         </div>
                         <span class="m-form__help">Create an account code (number) and give it a name for easy identification</span>
                     </div>
@@ -37,7 +35,7 @@
 
                 <div class="form-group m-form__group row">
                     <label class="col-lg-2 col-form-label">
-                        @lang('global.Type'):
+                        @lang('global.Type')
                     </label>
                     <div class="col-10">
                         <div class="row">
@@ -59,7 +57,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-lg-2 col-form-label">
-                        @lang('accounting.IsAccountable'):
+                        @lang('accounting.IsAccountable')
                     </label>
                     <div class="col-10">
                         <span class="m-switch m-switch--outline m-switch--icon m-switch--brand">
@@ -71,9 +69,9 @@
                     </div>
                 </div>
 
-                <div v-if="is_accountable" class="m-form__group m-form__group--last form-group row">
+                <div v-if="is_accountable" class="form-group m-form__group row">
                     <label class="col-lg-2 col-form-label">
-                        @lang('global.SubType'):
+                        @lang('global.SubType')
                     </label>
                     <div class="col-10">
                         <div class="row">
@@ -105,10 +103,26 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="(sub_type === 9 || sub_type === '9')">
+                <div v-if="(type === 1 || type === '1') && (sub_type === 5 || sub_type === '5')" class="form-group m-form__group row">
+                    <label class="col-lg-2 col-form-label">
+                        @lang('commercial.Customer')
+                    </label>
+                    <div class="col-10">
+                        <router-view name="SearchBox" :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" country="{{ request()->route('taxPayer')->country}}"></router-view>
+                    </div>
+                </div>
+                <div v-if="(type === 2 || type === '2') && (sub_type === 1 || sub_type === '1')" class="form-group m-form__group row">
+                    <label class="col-lg-2 col-form-label">
+                        @lang('commercial.Supplier')
+                    </label>
+                    <div class="col-10">
+                        <router-view name="SearchBox" :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" country="{{ request()->route('taxPayer')->country}}"></router-view>
+                    </div>
+                </div>
+                <div v-if="(type === 1 || type === '1') && (sub_type === 9 || sub_type === '9')">
                     <div class="form-group m-form__group row">
                         <label class="col-lg-2 col-form-label">
-                            @lang('accounting.Coefficient'):
+                            @lang('accounting.Coefficient')
                         </label>
                         <div class="col-10">
                             <input type="number" v-model="coefficient" name="">
@@ -116,7 +130,7 @@
                     </div>
                     <div class="form-group m-form__group row">
                         <label class="col-lg-2 col-form-label">
-                            @lang('accounting.LifeSpan'):
+                            @lang('accounting.LifeSpan')
                         </label>
                         <div class="col-10">
                             <input type="number" v-model="asset_years" name="">
@@ -132,6 +146,7 @@
                     <div class="col-lg-2"></div>
                     <div class="col-lg-6">
                         <button v-on:click="onSave($data)" class="btn btn-primary">
+                            <i class="fa fa-disk"></i>
                             @lang('global.Save')
                         </button>
                         <button v-on:click="onCancel()" class="btn btn-secondary">@lang('global.Cancel')</button>

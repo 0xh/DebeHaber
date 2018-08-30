@@ -256,7 +256,7 @@
                                 </li>
 
                                 <li class="m-menu__item">
-                                    <a href="{{ route('hello') }}" class="m-menu__link">
+                                    <a href="{{ route('home') }}" class="m-menu__link">
                                         <i class="m-menu__link-icon la la-refresh m--font-danger"></i>
                                         <span class="m-menu__link-text m--font-danger">
                                             @lang('commercial.Change Taxpayer')

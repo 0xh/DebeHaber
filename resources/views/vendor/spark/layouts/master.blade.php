@@ -87,7 +87,7 @@
                                         @if(request()->route('cycle') != null)
                                             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline m--align-right">
                                                 <li class="m-nav__item m-nav__item--home">
-                                                    <a href="{{ route('hello') }}" class="m-nav__link m-nav__link--icon m--font-info">
+                                                    <a href="{{ route('home') }}" class="m-nav__link m-nav__link--icon m--font-info">
                                                         <i class="la la-home"></i>
                                                         @lang('global.Dashboard',['team' => Auth::user()->currentTeam->name])
                                                     </a>

@@ -59,6 +59,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             // new Help,
+            new \Nickfairchild\AtAGlance\AtAGlance,
             new \Wilburpowery\RoutesCached\RoutesCached,
         ];
     }

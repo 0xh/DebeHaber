@@ -27,6 +27,11 @@ class HomeController extends Controller
     {
         $user = Auth()->user();
 
+        if (isset($user) == false)
+        {
+            return view('welcome');
+        }
+
         $taxPayerIntegrations = TaxpayerIntegration::MyTaxPayers($user->current_team->id)
         ->whereIn('status', [1, 2])
         ->with('taxpayer')
