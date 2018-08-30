@@ -51,7 +51,6 @@ class Taxpayer extends Resource
             Text::make('Code')->sortable(),
             Text::make('Name')->sortable(),
             Text::make('Country')->sortable(),
-
         ];
     }
 

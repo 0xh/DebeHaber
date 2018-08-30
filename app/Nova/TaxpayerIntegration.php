@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Illuminate\Http\Request;
@@ -32,7 +33,6 @@ class TaxpayerIntegration extends Resource
     */
     public static $search = [
         'id',
-        'taxpayer'
     ];
 
     /**
