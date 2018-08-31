@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+// use Laravel\Nova\Fields\HasMany;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -51,6 +52,8 @@ class Taxpayer extends Resource
             Text::make('Code')->sortable(),
             Text::make('Name')->sortable(),
             Text::make('Country')->sortable(),
+
+            // HasMany::make('Transactions'),
         ];
     }
 

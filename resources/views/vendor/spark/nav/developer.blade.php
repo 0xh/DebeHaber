@@ -7,7 +7,7 @@
 
 <!-- Kiosk -->
 <li class="m-nav__item">
-    <a href="/nav" class="m-nav__link">
+    <a href="/nova" target="_blank" class="m-nav__link">
         <i class="m-nav__link-icon la la-file-code-o"></i>
         <span class="m-nav__link-title">
             <span class="m-nav__link-wrap">
@@ -20,7 +20,7 @@
 </li>
 
 <li class="m-nav__item">
-    <a href="/spark/kiosk" class="m-nav__link">
+    <a href="/spark/kiosk" target="_blank" class="m-nav__link">
         <i class="m-nav__link-icon la la-file-code-o"></i>
         <span class="m-nav__link-title">
             <span class="m-nav__link-wrap">
@@ -33,7 +33,7 @@
 </li>
 
 <li class="m-nav__item">
-    <a href="/dev/log-viewer" class="m-nav__link">
+    <a href="/dev/log-viewer/logs" target="_blank" class="m-nav__link">
         <i class="m-nav__link-icon la la-file-code-o"></i>
         <span class="m-nav__link-title">
             <span class="m-nav__link-wrap">
