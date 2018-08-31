@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\AccountMovement;
-use App\TaxPayer;
+use App\Taxpayer;
 use App\Cycle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

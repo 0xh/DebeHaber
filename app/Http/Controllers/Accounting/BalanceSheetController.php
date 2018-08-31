@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Journal;
-use App\TaxPayer;
+use App\Taxpayer;
 use App\Cycle;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
