@@ -4,9 +4,9 @@
     :has-unread-announcements="hasUnreadAnnouncements"
     :loading-notifications="loadingNotifications" inline-template>
 
-    <div>
-        <div class="modal docked docked-right" id="modal-notifications" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+    <b-modal :active.sync="$parent.showingNotificationPanel">
+        {{-- <div class="docked docked-right" id="modal-notifications" tabindex="-1" role="dialog"> --}}
+            {{-- <div class="modal-dialog"> --}}
                 <div class="modal-content">
                     <div class="modal-header text-center">
                         <div class="btn-group">
@@ -80,27 +80,22 @@
                             <div class="notification" v-for="announcement in notifications.announcements">
 
                                 <!-- Notification Icon -->
-                                <figure>
-                                    <img :src="announcement.creator.photo_url" class="spark-profile-photo">
-                                </figure>
+
 
                                 <!-- Announcement -->
                                 <div class="notification-content">
-                                    <div class="meta">
-                                        <p class="title">@{{ announcement.creator.name }}</p>
-
-                                        <div class="date">
-                                            @{{ announcement.created_at | relative }}
-                                        </div>
-                                    </div>
-
                                     <div class="notification-body" v-html="announcement.parsed_body"></div>
 
                                     <!-- Announcement Action -->
                                     <a :href="announcement.action_url" class="btn btn-primary" v-if="announcement.action_text">
-                                        @{{ announcement.action_text }}
+                                        <p class="lead">
+                                            @{{ announcement.action_text }}
+                                        </p>
                                     </a>
-
+                                    <small>
+                                        @{{ announcement.created_at | relative }} | <i>DebeHaber</i>
+                                        {{-- <i>@{{ announcement.creator.name }}</i> --}}
+                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -108,10 +103,10 @@
 
                     <!-- Modal Actions -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{__('Close')}}</button>
+                        <button type="button" @click="$parent.showingNotificationPanel = false" class="btn btn-default" data-dismiss="modal">{{__('Close')}}</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            {{-- </div> --}}
+        {{-- </div> --}}
+    </b-modal>
 </spark-notifications>

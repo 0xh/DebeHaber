@@ -18,7 +18,7 @@ module.exports = {
         user: Spark.state.user,
         teams: Spark.state.teams,
         currentTeam: Spark.state.currentTeam,
-
+        showingNotificationPanel: false,
         loadingNotifications: false,
         notifications: null,
 

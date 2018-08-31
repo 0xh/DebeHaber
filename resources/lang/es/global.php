@@ -95,5 +95,6 @@ return [
     'Quantity' => 'Cantidad',
 
     'Transactions' => 'Transactions',
-    'Modules' => 'Módulos'
+    'Modules' => 'Módulos',
+    'Shortcuts' => 'Atajos',
 ];

@@ -96,4 +96,5 @@ return [
 
     'Transactions' => 'Transactions',
     'Modules' => 'Modules',
+    'Shortcuts' => 'Shortcuts',
 ];
