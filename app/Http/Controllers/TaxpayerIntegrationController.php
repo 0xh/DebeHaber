@@ -75,11 +75,11 @@ class TaxpayerIntegrationController extends Controller
   public function update(Request $request, $taxPayerIntegration)
   {
 
-    $taxPayerIntegration=taxPayerIntegration::where('taxpayer_id',$taxPayerIntegration)->first();
-        
+    $taxPayerIntegration = taxPayerIntegration::where('taxpayer_id',$taxPayerIntegration)->first();
+
     if (isset($taxPayerIntegration))
     {
-      $taxPayer = TaxPayer::where('id', $taxPayerIntegration->taxpayer_id)->with('setting')->first();
+      $taxPayer = Taxpayer::where('id', $taxPayerIntegration->taxpayer_id)->with('setting')->first();
 
       if (isset($taxPayer))
       {

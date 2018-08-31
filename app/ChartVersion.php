@@ -25,7 +25,7 @@ class ChartVersion extends Model
      */
     public function taxPayer()
     {
-        return $this->belongsTo(TaxPayer::class);
+        return $this->belongsTo(Taxpayer::class);
     }
 
     /**
