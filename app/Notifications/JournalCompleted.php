@@ -12,7 +12,7 @@ use Laravel\Spark\Notifications\SparkNotification;
 class JournalCompleted extends Notification
 {
     use Queueable;
-
+    
     /**
      * Create a new notification instance.
      *
@@ -53,7 +53,7 @@ class JournalCompleted extends Notification
         return (new SparkNotification)
                       ->action('View Task', '/link/to/task')
                       ->icon('la-users')
-                      ->body('A team member completed a task!');
+                      ->body('Journal transactions have been generated successfully.');
     }
 
     /**

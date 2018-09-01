@@ -4,86 +4,80 @@
 :has-unread-announcements="hasUnreadAnnouncements"
 :loading-notifications="loadingNotifications" inline-template>
 
-<b-modal :active.sync="$parent.showingNotificationPanel" canCancel scroll="keep">
-    <div class="modal-content" class="m--margin-50">
-        <div class="modal-header text-center">
-            <div class="btn-group">
-                <button class="btn btn-light" :class="{'active': showingNotifications}" @click="showNotifications" style="width: 50%;">
-                    <i class="fa fa-circle text-danger p-l-xs" v-if="hasUnreadNotifications"></i> {{__('Notifications')}}
-                </button>
+<div v-if="$parent.showingNotificationPanel" class="m-quick-sidebar m-quick-sidebar--tabbed m-quick-sidebar--skin-light m-quick-sidebar--on" style="">
+    <div class="m-quick-sidebar__content">
+        <span @click="$parent.showingNotificationPanel = false" class="m-quick-sidebar__close">
+            <i class="la la-close"></i>
+        </span>
 
-                <button class="btn btn-light" :class="{'active': showingAnnouncements}" @click="showAnnouncements" style="width: 50%;">
-                    <i class="fa fa-circle text-danger p-l-xs" v-if="hasUnreadAnnouncements"></i> {{__('Announcements')}}
-                </button>
-            </div>
-        </div>
-
-        <div class="modal-body">
-            <!-- Informational Messages -->
-            <div class="notification-container" v-if="loadingNotifications">
-                <i class="fa fa-btn fa-spinner fa-spin"></i> {{__('Loading Notifications')}}
-            </div>
-
-            <div class="notification-container" v-if=" ! loadingNotifications && activeNotifications.length == 0">
-                <div class="alert alert-warning m-b-none">
-                    {{__('We don\'t have anything to show you right now! But when we do, we\'ll be sure to let you know. Talk to you soon!')}}
-                </div>
-            </div>
-
-            <!-- List Of Notifications -->
-            <div class="notification-container" v-if="showingNotifications && hasNotifications">
-                <div class="notification" v-for="notification in notifications.notifications">
-
-                    <!-- Notification -->
-                    <div class="notification-content">
-                        <div class="notification-content">
-                            <div class="notification-body" v-html="notification.parsed_body"></div>
-
-                            <!-- Announcement Action -->
-                            <a :href="notification.action_url" v-if="notification.action_text">
-                                @{{ notification.action_text }}
-                            </a>
-
-                            <small>
-                                @{{ notification.created_at | relative }} | <i>{{ Spark::product() }}</i>
-                            </small>
+        <b-tabs>
+            <b-tab-item label="{{ __('Notifications') }}">
+                <div class="m-list-timeline m-scrollable ps ps--active-y">
+                    <div class="m-list-timeline__group">
+                        <div class="m-list-timeline__heading">
+                            {{ __('Messeges') }}
+                        </div>
+                        <div class="m-timeline-3">
+                            <div class="m-timeline-3__items" v-for="notification in notifications.notifications">
+                                <div class="m-timeline-3__item m-timeline-3__item--info">
+                                    <span class="m-timeline-3__item-time">
+                                        <p class="small">@{{ notification.created_at | relative }}</p>
+                                    </span>
+                                    <div class="m-timeline-3__item-desc">
+                                        <span class="m-timeline-3__item-text">
+                                            <p class="small">
+                                                @{{ notification.body }}
+                                                <a v-if="notification.action_text" :href="notification.action_url">More Info</a>
+                                            </p>
+                                        </span>
+                                        {{-- <br> --}}
+                                        <span class="m-timeline-3__item-user-name">
+                                            <a href="#" class="m-link m-link--metal m-timeline-3__item-link">
+                                                By DebeHaber
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- List Of Announcements -->
-            <div class="notification-container" v-if="showingAnnouncements && hasAnnouncements">
-                <div class="notification" v-for="announcement in notifications.announcements">
-                    <!-- Notification Icon -->
-
-
-                    <!-- Announcement -->
-                    <div class="notification-content">
-                        <div class="notification-body" v-html="announcement.parsed_body"></div>
-
-                        <!-- Announcement Action -->
-                        <a :href="announcement.action_url" class="btn btn-primary" v-if="announcement.action_text">
-                            <p class="lead">
-                                @{{ announcement.action_text }}
-                            </p>
-                        </a>
-                        <small>
-                            @{{ announcement.created_at | relative }} | <i>{{ Spark::product() }}</i>
-                            {{-- <i>@{{ announcement.creator.name }}</i> --}}
-                        </small>
+                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    </div>
+                    <div class="ps__rail-y" style="top: 0px; right: 4px; height: 349px;">
+                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 118px;"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Modal Actions -->
-        {{-- <div class="modal-footer"> --}}
-        <button type="button" @click="$parent.showingNotificationPanel = false" class="btn btn-default" data-dismiss="modal">
-            {{__('Close')}}
-        </button>
-        {{-- </div> --}}
-    </div>
-</b-modal>
+            </b-tab-item>
 
+            <b-tab-item label="{{ __('Announcements') }}">
+                <div class="m-list-timeline m-scrollable ps ps--active-y">
+                    <div class="m-list-timeline__group">
+                        <div class="m-list-timeline__heading">
+                            {{ __('Team') }} DebeHaber,
+                        </div>
+                        <div class="m-list-timeline__items">
+                            <div class="m-list-timeline__item" v-for="announcement in notifications.announcements">
+                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
+                                <span class="m-list-timeline__text">
+                                    <p>@{{ announcement.body }}</p>
+                                    <a v-if="announcement.action_text" :href="announcement.action_url">
+                                        More Info
+                                    </a>
+                                </span>
+                                <span class="m-list-timeline__time">@{{ announcement.created_at | relative }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    </div>
+                    <div class="ps__rail-y" style="top: 0px; right: 4px; height: 349px;">
+                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 118px;"></div>
+                    </div>
+                </div>
+            </b-tab-item>
+        </b-tabs>
+    </div>
+</div>
 </spark-notifications>

@@ -90,7 +90,6 @@
                                 <li class="m-nav__item m-nav__item--accent m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width" m-dropdown-toggle="click" m-dropdown-persistent="1">
                                     <a href="#" @click="$parent.showingNotificationPanel = true" class="m-nav__link m-dropdown__toggle">
                                         <span v-if="unreadAnnouncementsCount > 0 || unreadNotificationsCount > 0" class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger m-animate-blink"></span>
-
                                         <span class="m-nav__link-icon">
                                             <span v-if="unreadAnnouncementsCount > 0 || unreadNotificationsCount > 0" class="m-nav__link-icon m-nav__link-icon-wrapper m-animate-shake">
                                                 <i class="flaticon-music-2 m--font-danger"></i>
