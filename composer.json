@@ -15,6 +15,7 @@
         "beyondcode/laravel-confirm-email": "^1.4",
         "beyondcode/laravel-self-diagnosis": "^0.4.1",
         "beyondcode/nova-tinker-tool": "^0.0.1",
+        "browner12/helpers": "^2.1",
         "bugsnag/bugsnag-laravel": "^2.0",
         "consoletvs/charts": "6.*",
         "davidpiesse/nova-maintenance-mode": "^0.0.4",
