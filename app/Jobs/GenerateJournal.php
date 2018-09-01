@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use Illuminate\Support\Facades\Auth;
+
 use DB;
 use App\Inventory;
 use App\AccountMovement;
@@ -17,13 +19,13 @@ use App\Http\Controllers\ChartController;
 use Illuminate\Http\Request;
 use App\Http\Resources\JournalCollection;
 
+use App\Notifications\JournalCompleted;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-
-use Illuminate\Log\Logger;
 
 class GenerateJournal implements ShouldQueue
 {
@@ -56,6 +58,8 @@ class GenerateJournal implements ShouldQueue
     public function handle()
     {
         $this->generateByMonth();
+
+        Auth::user()->notify(new JournalCompleted);
     }
 
     /**
@@ -139,19 +143,9 @@ class GenerateJournal implements ShouldQueue
                 $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
             }
 
-            // /*
-            // Accounts Payables
-            // */
-            // if (AccountMovement::MyDebitNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
-            // {
-            //     $controller = new AccountsRecievableController();
-            //     $controller->generate_Journals($startDate, $endDate, $this->taxPayer);
-            // }
-
             $currentDate = $endDate->addDay();
         }
     }
-
 
     public function generate_fromAccountsPayables($startDate, $endDate)
     {

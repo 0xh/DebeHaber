@@ -10,25 +10,20 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('', 'HomeController@show')->name('home');
 
-Route::get('/', 'HomeController@show')->name('home');
-
-//No Team, maybe Team. No taxpayer selected
-// Route::get('/home', 'HomeController@show')->name('hello');
-Route::get('/teamAccept/{integrationID}/{type}', 'HomeController@teamAccept')->name('Accept');
-Route::get('/teamReject', 'HomeController@teamReject')->name('Reject');
+Route::get('/accept-team/{integrationID}/{type}', 'HomeController@teamAccept')->name('Accept');
+Route::get('/reject-team', 'HomeController@teamReject')->name('Reject');
 
 Route::group(['middleware' => 'auth'], function ()
 {
     Route::put('taxpayer-integration/{taxPayerIntegration}', 'TaxpayerIntegrationController@update');
     //Taxpayer Resource, CRUD
     Route::resource('taxpayer', 'TaxpayerController');
-
     //Takes the TaxPayer and puts it into the route passing it to Dashboard.
     Route::get('selectTaxPayer/{taxPayer}', 'TaxpayerController@selectTaxpayer')->name('selectTaxPayer');
-
     // ['middleware' => 'security'],
-    Route::prefix('taxpayer/{taxPayer}/{cycle}')->group(function ()
+    Route::prefix('{taxPayer}/{cycle}')->group(function ()
     {
         Route::get('search/{q}', 'SearchController@search');
 

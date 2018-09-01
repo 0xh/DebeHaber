@@ -6,8 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Laravel\Spark\Notifications\SparkChannel;
+use Laravel\Spark\Notifications\SparkNotification;
 
-class JournalGenerated extends Notification implements ShouldQueue
+class JournalCompleted extends Notification
 {
     use Queueable;
 
@@ -29,7 +31,7 @@ class JournalGenerated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return [SparkChannel::class];
     }
 
     /**
@@ -44,6 +46,14 @@ class JournalGenerated extends Notification implements ShouldQueue
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
+    }
+
+    public function toSpark($notifiable)
+    {
+        return (new SparkNotification)
+                      ->action('View Task', '/link/to/task')
+                      ->icon('la-users')
+                      ->body('A team member completed a task!');
     }
 
     /**

@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\JournalCollection;
 use Illuminate\Support\Facades\Log;
 
+use Laravel\Spark\Contracts\Repositories\NotificationRepository;
 
 class JournalController extends Controller
 {

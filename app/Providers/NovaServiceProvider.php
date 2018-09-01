@@ -72,7 +72,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new \Beyondcode\TinkerTool\Tinker(),
             new \Davidpiesse\NovaMaintenanceMode\Tool(),
         ];
     }
