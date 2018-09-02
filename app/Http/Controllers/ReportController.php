@@ -300,6 +300,53 @@ class ReportController extends Controller
         }
     }
 
+    public function balanceByMonth(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
+    {
+        if (isset($taxPayer))
+        {
+            $journals = $this->journalQuery($taxPayer, $cycle->id, $startDate, $endDate)->whereIn('type', [1,2,3])->sortBy('chartName');
+            $charts = $this->chartQuery($taxPayer, $cycle, $startDate, $endDate);
+            $period = CarbonPeriod::create($startDate, '1 month', $endDate);
+
+            // Loop through Journal entries and add to chart balance
+            foreach ($journals->groupBy('chart_id') as $journalGrouped)
+            {
+                $chart = $charts->where('id', $journalGrouped->first()->chart_id)->first();
+
+                if ($chart != null)
+                {
+                    $chart->balance = $journalGrouped->sum('credit') - $journalGrouped->sum('debit');
+                }
+            }
+
+            foreach ($charts as $chart)
+            {
+                $parentchart = $charts->where('id',$chart->parent_id)->first();
+                if (isset($parentchart))
+                {
+                    $parentchart->balance = $parentchart->balance + $chart->balance;
+                }
+            }
+
+            $data = $charts->sortBy('type')->sortBy('code');
+
+            if ($e == 'e')
+            {
+                return Excel::download(new View2Excel('reports.accounting.balance-byMonth',
+                ['data' => $data, 'header' => $taxPayer, 'strDate' => $startDate, 'endDate' => $endDate]), __('accounting.BalanceSheet') . ' | ' . $startDate . '-' . $endDate . '.xls');
+            }
+            else
+            {
+                return view('reports/accounting/balance-byMonth')
+                ->with('header', $taxPayer)
+                ->with('data', $data)
+                ->with('strDate', $startDate)
+                ->with('endDate', $endDate)
+                ->with('period', $period);
+            }
+        }
+    }
+
     public function balanceComparative(Taxpayer $taxPayer, Cycle $cycle, $startDate, $endDate, $e = '')
     {
         if (isset($taxPayer))

@@ -122,6 +122,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('ledger-byExpenses/{strDate}/{endDate}/{e?}', 'ReportController@ledgerByExpenses');
 
             Route::get('balance-sheet/{strDate}/{endDate}/', 'ReportController@balanceSheet')->name('reports.balanceSheet');
+            Route::get('balance-byMonth/{strDate}/{endDate}/', 'ReportController@balanceByMonth')->name('reports.balanceByMonth');
         });
     });
 });

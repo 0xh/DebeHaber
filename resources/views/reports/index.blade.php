@@ -429,22 +429,25 @@
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
                                         <div class="m-widget4__info">
                                             <img src="/img/icons/balance.svg" width="24" height="24" alt="">
 
                                             <span class="m-widget4__text">
-                                                <a target="_blank" :href="'reports/balance-sheetComparative/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
+                                                <a target="_blank" :href="'reports/balance-byMonth/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date">
                                                     @lang('accounting.BalanceSheetCompBy', ['attribute' => __('global.Month')])
-                                                </a><small> <i>Download your files</i> </small>
+                                                </a>
+                                                <small> <i>Download your files</i> </small>
                                             </span>
                                         </div>
                                         <div class="m-widget4__ext">
-                                            <a :href="'reports/balance-sheetComparative/'+dateRange[0]+'/'+dateRange[1] +'/e'" class="m-widget4__icon">
+                                            <a :href="'reports/balance-byMonth/'+ this.$parent.cycles[0].start_date +'/'+ this.$parent.cycles[0].end_date +'/e'" class="m-widget4__icon">
                                                 <i class="la la-file-excel-o m--font-success"></i>
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="m-widget4__item">
                                         <div class="m-widget4__info">
                                             <img src="/img/icons/balance.svg" width="24" height="24" alt="">

@@ -16,25 +16,29 @@
                     @endforeach
                 </tr>
             </thead>
-            @foreach ($data->groupBy('chartType') as $groupedByType)
+            @foreach ($data->groupBy('type') as $groupedByType)
                 <tr>
                     <td colspan="2">
-                        <h6 class="title is-6">{{ \App\Enums\ChartTypeEnum::labels()[$groupedByType->first()->chartType] }}</h6>
+                        @if (in_array($groupedByType->first()->type, [1,2,3,4,5]))
+                            <h6 class="title is-6">{{ \App\Enums\ChartTypeEnum::labels()[$groupedByType->first()->type] }}</h6>
+                        @else
+                            <b>Special</b>
+                        @endif
                     </td>
                 </tr>
 
                 @foreach ($groupedByType->groupBy('chartSubType') as $groupedBySubType)
                     <tr>
                         <td colspan="3">
-                            @if ($groupedBySubType->first()->chartType == '1')
+                            @if ($groupedBySubType->first()->type == '1')
                                 <b>{{ \App\Enums\ChartAssetTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
-                            @elseif ($groupedBySubType->first()->chartType == '2')
+                            @elseif ($groupedBySubType->first()->type == '2')
                                 <b>{{ \App\Enums\ChartLiabilityTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
-                            @elseif ($groupedBySubType->first()->chartType == '3')
+                            @elseif ($groupedBySubType->first()->type == '3')
                                 <b>{{ \App\Enums\ChartEquityTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
-                            @elseif ($groupedBySubType->first()->chartType == '4')
+                            @elseif ($groupedBySubType->first()->type == '4')
                                 <b>{{ \App\Enums\ChartRevenueTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
-                            @elseif ($groupedBySubType->first()->chartType == '5')
+                            @elseif ($groupedBySubType->first()->type == '5')
                                 <b>{{ \App\Enums\ChartExpenseTypeEnum::labels()[$groupedBySubType->first()->chartSubType ?? 1] }}</b>
                             @endif
                         </td>
