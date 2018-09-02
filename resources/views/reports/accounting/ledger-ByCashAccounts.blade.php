@@ -62,10 +62,10 @@
 
                                 <td class="number">
                                     @if ($runningTotal > $prevRunningTotal && $prevRunningTotal != 0)
-                                        <span style="color:limegreen">{{ number_format(($runningTotal / $prevRunningTotal) * 100, 0, ',', '.') }}%</span>
+                                        <span style="color:limegreen">{{ number2Human($runningTotal - $prevRunningTotal) }}</span>
                                         &nbsp;
                                     @elseif ($runningTotal < $prevRunningTotal && $prevRunningTotal != 0)
-                                        <span style="color:red">[{{ number_format(($runningTotal / $prevRunningTotal) * 100, 0, ',', '.') }}%]</span>
+                                        <span style="color:red">[{{ number2Human($runningTotal - $prevRunningTotal) }}]</span>
                                         &nbsp;
                                     @endif
 

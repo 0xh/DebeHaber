@@ -1,17 +1,19 @@
 <?php
 
-if (!function_exists('DummyFunction')) {
+if (!function_exists('number2Human')) {
 
     /**
-     * description
-     *
-     * @param
-     * @return
-     */
+    * description
+    *
+    * @param
+    * @return
+    */
     // Converts a number into a short version, eg: 1000 -> 1k
     // Based on: http://stackoverflow.com/a/4371114
-    function glob( $n, $precision = 1 )
+    function number2Human( $n, $precision = 1 )
     {
+        $n = abs($n);
+        
         if ($n < 900) {
             // 0 - 900
             $n_format = number_format($n, $precision);
