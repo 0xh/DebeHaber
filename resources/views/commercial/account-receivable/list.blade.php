@@ -23,7 +23,7 @@
         </b-table-column>
 
         <b-table-column custom-key="actions" numeric>
-            <a href="#" v-on:click="onEdit(props.row)" class="btn btn-outline-primary btn-sm m-btn m-btn--icon">
+            <a href="#" v-on:click="onEdit(props.row.id)" class="btn btn-outline-primary btn-sm m-btn m-btn--icon">
                 <i class="la la-money"></i> @lang('commercial.ReceivePayment')
             </a>
         </b-table-column>
