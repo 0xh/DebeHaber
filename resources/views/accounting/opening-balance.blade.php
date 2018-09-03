@@ -3,7 +3,7 @@
 @section('title', __('accounting.OpeningBalance'))
 
 @section('stats')
-    <div v-if="showList" class="row m-row--no-padding m-row--col-separator-xl">
+    <div class="row m-row--no-padding m-row--col-separator-xl">
         <div class="col-md-12 col-lg-4 col-xl-4">
             <div class="m-nav-grid m-nav-grid--skin-light">
                 <div class="m-nav-grid__row">
@@ -104,73 +104,76 @@
     </div>
 
     <div>
-        <button v-on:click="saveOpeningBalance()" class="btn btn-primary">
-            @lang('global.Save')
-        </button>
+        <buefy taxpayer="{{ request()->route('taxPayer')->id }}" cycle="{{ request()->route('cycle')->id }}" baseurl="accounting/opening_balance" inline-template>
+            <div>
+                <button v-on:click="saveOpeningClosingBalance($data.data)" class="btn btn-primary">
+                    @lang('global.Save')
+                </button>
+                <div class="row">
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('global.Code')
+                        </span>
+                    </div>
+                    <div class="col-6">
+                        <span class="m--font-boldest">
+                            @lang('commercial.Account')
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('accounting.Debit')
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('accounting.Credit')
+                        </span>
+                    </div>
+                </div>
 
-        <div class="row">
-            <div class="col-2">
-                <span class="m--font-boldest">
-                    @lang('global.Code')
-                </span>
-            </div>
-            <div class="col-6">
-                <span class="m--font-boldest">
-                    @lang('commercial.Account')
-                </span>
-            </div>
-            <div class="col-2">
-                <span class="m--font-boldest">
-                    @lang('accounting.Debit')
-                </span>
-            </div>
-            <div class="col-2">
-                <span class="m--font-boldest">
-                    @lang('accounting.Credit')
-                </span>
-            </div>
-        </div>
+                <hr>
 
-        <hr>
+                <div class="row m--margin-bottom-10" v-for="balance in data">
+                    <div class="col-1">
+                        @{{ balance.id }}
+                    </div>
+                    <div class="col-2 m--align-left">
+                        <span v-if="balance.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
+                            <b>@{{ balance.code }}</b>
+                        </span>
+                        <span v-else-if="balance.type == 2" class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
+                            <b>@{{ balance.code }}</b>
+                        </span>
+                        <span v-else-if="balance.type == 3" class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
+                            <b>@{{ balance.code }}</b>
+                        </span>
+                        <span v-else-if="balance.type == 4" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
+                            <b>@{{ balance.code }}</b>
+                        </span>
+                        <span v-else-if="balance.type == 5" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
+                            <b>@{{ balance.code }}</b>
+                        </span>
+                        <span v-else class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
+                            <b>@{{ balance.code }}</b>
+                        </span>
+                    </div>
+                    <div class="col-5">
+                        @{{ balance.name }}
+                    </div>
+                    <div v-if="balance.is_accountable" class="col-2">
+                        <b-input placeholder="@lang('accounting.Debit')" v-model="balance.debit" type="number" min="0"></b-input>
+                    </div>
+                    <div v-if="balance.is_accountable" class="col-2">
+                        <b-input placeholder="@lang('accounting.Credit')" v-model="balance.credit" type="number" min="0"></b-input>
+                    </div>
+                </div>
 
-        <div class="row m--margin-bottom-10" v-for="balance in opening_balance">
-            <div class="col-1">
-                @{{ balance.id }}
+                <button v-on:click="saveOpeningClosingBalance($data.data)" class="btn btn-primary">
+                    @lang('global.Save')
+                </button>
             </div>
-            <div class="col-2 m--align-left">
-                <span v-if="balance.type == 1" class="m-badge m-badge--info m-badge--wide m-badge--rounded">
-                    <b>@{{ balance.code }}</b>
-                </span>
-                <span v-else-if="balance.type == 2" class="m-badge m-badge--brand m-badge--wide m-badge--rounded">
-                    <b>@{{ balance.code }}</b>
-                </span>
-                <span v-else-if="balance.type == 3" class="m-badge m-badge--warning m-badge--wide m-badge--rounded">
-                    <b>@{{ balance.code }}</b>
-                </span>
-                <span v-else-if="balance.type == 4" class="m-badge m-badge--success m-badge--wide m-badge--rounded">
-                    <b>@{{ balance.code }}</b>
-                </span>
-                <span v-else-if="balance.type == 5" class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
-                    <b>@{{ balance.code }}</b>
-                </span>
-                <span v-else class="m-badge m-badge--metal m-badge--wide m-badge--rounded">
-                    <b>@{{ balance.code }}</b>
-                </span>
-            </div>
-            <div class="col-5">
-                @{{ balance.name }}
-            </div>
-            <div v-if="balance.is_accountable" class="col-2">
-                <b-input placeholder="@lang('accounting.Debit')" v-model="balance.debit" type="number" min="0"></b-input>
-            </div>
-            <div v-if="balance.is_accountable" class="col-2">
-                <b-input placeholder="@lang('accounting.Credit')" v-model="balance.credit" type="number" min="0"></b-input>
-            </div>
-        </div>
-
-        <button v-on:click="saveOpeningBalance()" class="btn btn-primary">
-            @lang('global.Save')
-        </button>
+        </buefy>
     </div>
 
 @endsection

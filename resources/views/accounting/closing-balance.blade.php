@@ -3,7 +3,7 @@
 @section('title', __('accounting.OpeningBalance'))
 
 @section('stats')
-    
+
     <div v-if="showList" class="row m-row--no-padding m-row--col-separator-xl">
         <div class="col-md-12 col-lg-4 col-xl-4">
             <div class="m-nav-grid m-nav-grid--skin-light">
@@ -47,7 +47,7 @@
                                 <img src="/img/icons/opening.svg" width="48">
                             </figure>
                         </div>
-                        <div class="m-widget4__info m--bg-metal">
+                        <div class="m-widget4__title">
                             <span class="m-widget4__title">
                                 <a href="#" @click="onOpeningBalance()">
                                     @lang('accounting.OpeningBalance')
@@ -109,7 +109,9 @@
     </div>
 
     <div>
-        <button v-on:click="saveOpeningBalance()" class="btn btn-primary">
+      <buefy taxpayer="{{ request()->route('taxPayer')->id }}" cycle="{{ request()->route('cycle')->id }}" baseurl="accounting/closing_balance" inline-template>
+              <div>
+        <button v-on:click="saveOpeningClosingBalance($data.data)" class="btn btn-primary">
             @lang('global.Save')
         </button>
 
@@ -138,7 +140,7 @@
 
         <hr>
 
-        <div class="row m--margin-bottom-10" v-for="balance in opening_balance">
+        <div class="row m--margin-bottom-10" v-for="balance in data">
             <div class="col-1">
                 @{{ balance.id }}
             </div>
@@ -173,9 +175,11 @@
             </div>
         </div>
 
-        <button v-on:click="saveOpeningBalance()" class="btn btn-primary">
+        <button v-on:click="saveOpeningClosingBalance($data.data)" class="btn btn-primary">
             @lang('global.Save')
         </button>
+      </div>
+    </buefy>
     </div>
 
 @endsection

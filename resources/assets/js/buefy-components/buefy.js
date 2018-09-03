@@ -10,6 +10,7 @@ Vue.component('buefy',
             meta: [{total:0}],
             isLoading: true,
             isActive : false,
+            data :[]
         };
     },
 
@@ -19,9 +20,11 @@ Vue.component('buefy',
             axios
             .get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '?page=' + page)
             .then(response => {
+
                 this.isLoading = false;
                 this.list = response.data.data;
                 this.meta = response.data.meta;
+                this.data = response.data;
             }).catch(error => {
                 this.isLoading = false;
             });
@@ -36,7 +39,7 @@ Vue.component('buefy',
         {
             var app = this;
             app.$parent.showList = false;
-            
+
             $.ajax({
                 url: '/api/' + app.taxpayer + '/' + app.cycle + '/' +  app.baseurl + '/by-id/' + data,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -110,6 +113,32 @@ Vue.component('buefy',
             app.item = data;
             app.isActive = true;
         },
+        saveOpeningClosingBalance : function(json)
+        {
+            var app=this;
+            axios({
+                method: 'post',
+                url: '',
+                responseType: 'json',
+                data: json
+            }).then(function (response)
+            {
+                if (response.status = 200 )
+                {
+                    var app = this;
+                    app.onLoad(0);
+                }
+                else
+                {
+                    alert('Something Went Wrong...')
+                }
+            })
+            .catch(function (error)
+            {
+              console.log(error);
+                console.log(error.response);
+            });
+        }
     },
 
     mounted: function mounted()

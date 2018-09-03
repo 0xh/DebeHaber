@@ -86,6 +86,9 @@ Route::prefix('{taxPayer}')->group(function ()
       Route::get('opening_balance', 'OpeningBalanceController@getOpeningBalance');
       Route::post('opening_balance', 'OpeningBalanceController@store');
 
+      Route::get('closing_balance', 'ClosingBalanceController@getClosingBalance');
+      Route::post('closing_balance', 'ClosingBalanceController@store');
+
       Route::prefix('chart')->group(function ()
       {
         Route::get('charts', 'ChartController@getCharts');

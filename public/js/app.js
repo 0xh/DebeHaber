@@ -80925,6 +80925,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('chart', {
             var api = null;
 
             app.parent_id = app.$children[0].id;
+            //app.partner_id = app.$children[1].id;
 
             if (app.code == '') {
                 app.$swal('Please Check fields?', 'code', 'warning');
@@ -81731,6 +81732,8 @@ __webpack_require__("./resources/assets/js/buefy-components/buefy.js");
 /***/ "./resources/assets/js/buefy-components/buefy.js":
 /***/ (function(module, exports) {
 
+var _methods;
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -81743,19 +81746,22 @@ Vue.component('buefy', {
             item: [],
             meta: [{ total: 0 }],
             isLoading: true,
-            isActive: false
+            isActive: false,
+            data: []
         };
     },
 
 
-    methods: _defineProperty({
+    methods: (_methods = {
         onLoad: function onLoad(page) {
             var _this = this;
 
             axios.get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '?page=' + page).then(function (response) {
+
                 _this.isLoading = false;
                 _this.list = response.data.data;
                 _this.meta = response.data.meta;
+                _this.data = response.data;
             }).catch(function (error) {
                 _this.isLoading = false;
             });
@@ -81827,11 +81833,29 @@ Vue.component('buefy', {
                 }
             });
         }
-    }, 'onDeleteAccount', function onDeleteAccount(data) {
+    }, _defineProperty(_methods, 'onDeleteAccount', function onDeleteAccount(data) {
         var app = this;
         app.item = data;
         app.isActive = true;
-    }),
+    }), _defineProperty(_methods, 'saveOpeningClosingBalance', function saveOpeningClosingBalance(json) {
+        var app = this;
+        axios({
+            method: 'post',
+            url: '',
+            responseType: 'json',
+            data: json
+        }).then(function (response) {
+            if (response.status = 200) {
+                var app = this;
+                app.onLoad(0);
+            } else {
+                alert('Something Went Wrong...');
+            }
+        }).catch(function (error) {
+            console.log(error);
+            console.log(error.response);
+        });
+    }), _methods),
 
     mounted: function mounted() {
         var app = this;
