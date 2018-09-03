@@ -12,6 +12,7 @@ Vue.component('chart',{
         return {
             id : 0,
             parent_id : '',
+            partner_id:'',
             chart_version_id : '',
             country : '',
             is_accountable : '',
