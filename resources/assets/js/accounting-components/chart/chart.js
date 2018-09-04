@@ -122,8 +122,13 @@ Vue.component('chart',{
       app.coefficient = data.coefficient;
       app.asset_years =  data.asset_years;
       app.partner_id=data.partner_id;
-      app.$children[0].selectText=data.name;
-      //app.$children[1].selectText=data.partner.name;
+      if (app.$children[0]!=null) {
+        app.$children[0].selectText=data.name;
+      }
+      if (app.$children[1]!=null) {
+        app.$children[1].selectText=data.partner.name;
+      }
+
 
     }
   },

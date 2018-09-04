@@ -28,7 +28,6 @@ class AccountMovementController extends Controller
             ->with('chart')
             ->with('transaction')
             ->with('currency')
-            ->orderBy('date', 'desc')
             ->paginate(100)
         );
     }
