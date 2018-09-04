@@ -102,6 +102,7 @@ class ChartController extends Controller
 
         $chart->code = $request->code;
         $chart->name = $request->name;
+            $chart->partner_id = $request->partner_id;
         $chart->save();
 
         return response()->json(200);
