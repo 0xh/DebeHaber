@@ -5,43 +5,43 @@
     <div>
         <div class="">
             <p class="lead m--font-boldest m--font-transform-u">@lang('commercial.Purchase')</p>
+
             <div class="row">
-                <div class="col-4">
+                <div class="col-5">
                     <div class="form-group m-form__group row">
-                        <label for="example-text-input" class="col-4 col-form-label">
+                        <label class="col-5 col-form-label">
                             @lang('commercial.Supplier')
                         </label>
-                        <div class="col-8">
-                            @{{ Supplier }}
-                            {{-- <input type="date" class="form-control" v-model="date" /> --}}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="form-group m-form__group row">
-                        <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('global.InvoiceDate')
+                        <label class="col-7 col-form-label">
+                            <b> @{{ Supplier }} </b>
                         </label>
-                        <div class="col-8">
-                            @{{ new Date(date).toLocaleDateString() }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="form-group m-form__group row">
-                        <label for="example-text-input" class="col-4 col-form-label">
-                            @lang('global.Due')
-                        </label>
-                        <div class="col-8">
-                            <p>
-                                @{{ new Number(Value).toLocaleString() }} <span class="m--font-primary">@{{ Currency }}</span>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <div class="col-4">
+                <label class="col-5 col-form-label">
+                    @lang('global.Date')
+                </label>
+
+                <div class="col-7 m--align-left">
+                    <label>
+                        @lang('global.InvoiceDate'):
+                        <b> @{{ new Date(date).toLocaleDateString() }} </b>
+                    </label>
+                    |
+                    <label>
+                        @lang('global.Deadline'):
+                        <span>
+                            <b> @{{ new Date(code_expiry).toLocaleDateString() }} </b>
+                            <span v-if="code_expiry >= Date.now()" class="m-badge m-badge--danger m-badge--wide"> @{{ code_expiry | relative }} </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-5">
                     <div class="form-group m-form__group row">
                         <label for="example-text-input" class="col-4 col-form-label">
                             @lang('commercial.InvoiceNumber')
@@ -75,7 +75,10 @@
         </div>
 
         <hr>
-        <h3 class="title is-3">@lang('commercial.MakePayment')</h3>
+        <h3 class="title is-3">
+            @lang('commercial.MakePayment')
+        </h3>
+
         <div class="row">
             <div class="col-4">
                 <label for="example-text-input" class="col-4 col-form-label">
