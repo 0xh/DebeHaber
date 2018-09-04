@@ -17,6 +17,7 @@ Vue.component('buefy',
     methods: {
         onLoad(page)
         {
+          console.log(page);
             axios
             .get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '?page=' + page)
             .then(response => {
