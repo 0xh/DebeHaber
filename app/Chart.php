@@ -222,7 +222,7 @@ class Chart extends Model
     */
     public function partner()
     {
-        return $this->belongsTo(Taxpayer::class, 'id', 'partner_id');
+        return $this->belongsTo(Taxpayer::class, 'partner_id', 'id');
     }
 
     /**

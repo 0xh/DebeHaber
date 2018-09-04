@@ -40,7 +40,7 @@ class ChartController extends Controller
 
     public function getChartsByID(Taxpayer $taxPayer, Cycle $cycle, $id)
     {
-        $charts = Chart::where('id', $id)->get();
+        $charts = Chart::where('id', $id)->with('partner')->get();
         return response()->json($charts, 200);
     }
 
@@ -102,6 +102,7 @@ class ChartController extends Controller
 
         $chart->code = $request->code;
         $chart->name = $request->name;
+            $chart->partner_id = $request->partner_id;
         $chart->save();
 
         return response()->json(200);
@@ -151,7 +152,7 @@ class ChartController extends Controller
     {
         //
     }
-    
+
     // public function get_chart($country, $queryString)
     // {
     //     //this function allows fuzzy search and add importance to certain fields.
