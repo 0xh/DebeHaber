@@ -24,11 +24,12 @@ class AccountMovementController extends Controller
     public function GetMovement(Taxpayer $taxPayer, Cycle $cycle)
     {
         return ModelResource::collection(
-            AccountMovement::where('taxpayer_id',$taxPayer->id)
-            ->with('chart')
-            ->with('transaction')
+            AccountMovement::
+            //orderBy('id', 'desc')
+            with('chart')
+            ->with('transaction:id,type,journal_id,customer_id,supplier_id,document_type,document_id,currency_id,rate,payment_condition,chart_account_id,number,code,code_expiry,is_deductible,comment')
             ->with('currency')
-            ->orderBy('date', 'DESC')
+
             ->paginate(100)
         );
     }
