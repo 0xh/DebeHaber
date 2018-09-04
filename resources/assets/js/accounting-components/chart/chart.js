@@ -109,6 +109,8 @@ Vue.component('chart',{
     {
 
       var app = this;
+      app.type = data.type;
+      app.sub_type = data.sub_type;
       app.id = data.id;
       app.parent_id = data.parent_id;
       app.chart_version_id = data.chart_version_id;
@@ -117,8 +119,6 @@ Vue.component('chart',{
       app.code = data.code;
       app.name = data.name;
       app.level = data.level;
-      app.type = data.type;
-      app.sub_type = data.sub_type;
       app.coefficient = data.coefficient;
       app.asset_years =  data.asset_years;
       app.partner_id=data.partner_id;
