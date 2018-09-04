@@ -25,8 +25,8 @@ class AccountMovementController extends Controller
     {
         return ModelResource::collection(
             AccountMovement::
-            //orderBy('id', 'desc')
-            with('chart')
+            orderBy('id', 'desc')
+            ->with('chart')
             ->with('transaction:id,type,journal_id,customer_id,supplier_id,document_type,document_id,currency_id,rate,payment_condition,chart_account_id,number,code,code_expiry,is_deductible,comment')
             ->with('currency')
 
