@@ -12,6 +12,9 @@ use App\Http\Controllers\SalesController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DebitNoteController;
+use App\Http\Controllers\AccountPayableController;
+use App\Http\Controllers\AccountReceivableController;
+use App\Http\Controllers\AccountMovementController;
 use App\Taxpayer;
 use App\Cycle;
 use Carbon\Carbon;
@@ -80,7 +83,7 @@ class GenerateJournal implements ShouldQueue
             $dayStartDate = Carbon::parse($currentDate->startOfDay());
             $dayEndDate = Carbon::parse($currentDate->endOfDay());
 
-            $this->query_Sales($this->taxPayer, $this->cycle, $dayStartDate, $dayEndDate);
+            $this->generateJournals($startDate, $endDate);
 
             //Finally add a month to go into next cycle
             $currentDate = $currentDate->addDays(1);
@@ -96,8 +99,6 @@ class GenerateJournal implements ShouldQueue
         $currentDate = Carbon::parse($this->startDate)->startOfMonth();
         $endDate = Carbon::parse($this->endDate)->endOfMonth();
 
-        //Log::info('start date: ' .$currentDate. ', end date: ' .$endDate);
-
         //Number of weeks helps with the for loop
         $numberOfMonths = $currentDate->diffInMonths($endDate);
 
@@ -107,133 +108,57 @@ class GenerateJournal implements ShouldQueue
             $startDate = Carbon::parse($currentDate->startOfMonth());
             $endDate = Carbon::parse($currentDate->endOfMonth());
 
-            /*
-            Sales Invoices
-            */
-            if (Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
-            {
-                $controller = new SalesController();
-                $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
-            }
-
-            /*
-            Purchase Invoices
-            */
-            if (Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
-            {
-                $controller = new PurchaseController();
-                $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
-            }
-
-            /*
-            Credit Notes
-            */
-            if (Transaction::MyCreditNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
-            {
-                $controller = new CreditNoteController();
-                $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
-            }
-
-            /*
-            Debit Notes
-            */
-            if (Transaction::MyDebitNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
-            {
-                $controller = new DebitNoteController();
-                $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
-            }
+            $this->generateJournals($startDate, $endDate);
 
             $currentDate = $endDate->addDay();
         }
     }
 
-    public function generate_fromAccountsPayables($startDate, $endDate)
+    public function generateJournals($startDate, $endDate)
     {
-        //Create chart controller we might need it further in the code to lookup charts.
-        $ChartController = new ChartController();
-
-        //get sum of all transactions divided by exchange rate.
-        $journal = new Journal();
-        $journal->cycle_id = $this->cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        $journal->date = $accMovements->last()->date; //
-        $journal->comment = $comment;
-        $journal->save();
-
-        //Affect all Cash Sales and uses Cash Accounts
-        foreach ($accMovements->groupBy('chart_id') as $groupedByAccount)
+        /*
+        Sales Invoices
+        */
+        if (Transaction::MySalesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
         {
-            $value = 0;
-
-            //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
-            foreach ($groupedByAccount->groupBy('rate') as $groupedByRate)
-            {
-                $value += $groupedByRate->sum('debit') * $groupedByRate->first()->rate;
-            }
-
-            if ($value > 0)
-            {
-                //Check for Cash Account used.
-                $chart = $ChartController->createIfNotExists_CashAccounts($this->taxPayer, $this->cycle, $groupedByAccount->first()->chart_id);
-
-                $detail = new JournalDetail();
-                $detail->debit = $value;
-                $detail->credit = 0;
-                $detail->chart_id = $chart->id;
-                $detail->journal_id = $journal->id;
-                $detail->save();
-            }
+            $controller = new SalesController();
+            $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
         }
 
-        //Affect all Cash Sales and uses Cash Accounts
-        foreach ($accMovements->transaction->groupBy('supplier_id') as $groupedByInvoice)
+        /*
+        Purchase Invoices
+        */
+        if (Transaction::MyPurchasesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
         {
-            $value = 0;
-
-            //calculate value by currency. fx. TODO, Include Rounding depending on Main Curreny from Taxpayer Country.
-            foreach ($groupedByInvoice->groupBy('rate') as $groupedByRate)
-            {
-                $value += $groupedByRate->sum('debit') * $groupedByRate->first()->rate;
-            }
-
-            if ($value > 0)
-            {
-                //Check for Account Receivables used.
-                $chart = $ChartController->createIfNotExists_AccountsReceivables($this->taxPayer, $this->cycle, $groupedByInvoice->first()->supplier_id);
-
-                $detail = new JournalDetail();
-                $detail->debit = 0;
-                $detail->credit = $value;
-                $detail->chart_id = $chart->id;
-                $detail->journal_id = $journal->id;
-                $detail->save();
-            }
+            $controller = new PurchaseController();
+            $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
         }
 
-        foreach ($accMovements as $mov)
+        /*
+        Credit Notes
+        */
+        if (Transaction::MyCreditNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
         {
-            $mov->setStatus('Accounted');
-
-            $journalAccountMovement = new JournalAccountMovement();
-            $journalAccountMovement->journal_id = $journal->id;
-            $journalAccountMovement->account_movement_id = $mov->id;
-            $journalAccountMovement->save();
+            $controller = new CreditNoteController();
+            $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
         }
-    }
 
-    public function generate_fromMoneyTransfers($startDate, $endDate)
-    {
-        // //Make Journal
-        // $journal = new Journal();
-        // $journal->cycle_id = $cycle->id; //TODO: Change this for specific cycle that is in range with transactions
-        // $journal->date = $transactions->last()->date;
-        // $journal->comment = __('PurchaseBookComment', [$transactions->first()->date, $transactions->last()->date]);
-        // $journal->save();
-        //
-        // //Find
-    }
+        /*
+        Debit Notes
+        */
+        if (Transaction::MyDebitNotesForJournals($startDate, $endDate, $this->taxPayer->id)->count() > 0)
+        {
+            $controller = new DebitNoteController();
+            $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
+        }
 
-    public function generate_fromProductions()
-    {
-
+        /*
+        Accounts Payable
+        */
+        if (AccountMovement::My($startDate, $endDate, $this->taxPayer->id)->count() > 0)
+        {
+            $controller = new AccountMovementController();
+            $controller->generate_Journals($startDate, $endDate, $this->taxPayer, $this->cycle);
+        }
     }
 }

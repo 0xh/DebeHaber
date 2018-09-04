@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStatus\HasStatuses;
-use App\Scopes\AccountMovementScope;
+use App\Scopes\TaxpayerScope;
 
 class AccountMovement extends Model
 {
@@ -13,8 +13,9 @@ class AccountMovement extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope(new AccountMovementScope);
+        static::addGlobalScope(new TaxpayerScope);
     }
+
     public function scopeMyAccountReceivablesForJournals($query, $startDate, $endDate, $taxPayerID)
     {
         return $query->whereHas('transaction', function ($q) use($taxPayerID)
