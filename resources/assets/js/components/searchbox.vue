@@ -152,7 +152,7 @@ export default {
 
       app.selectText = item.name + ' | ' + item.taxid;
       app.id = item.id;
-      app.$emit('clicked', item.id);
+      this.$emit('clicked', item.id);
       $.ajax(
         {
           url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial'  + this.url,
