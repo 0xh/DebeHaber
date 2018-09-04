@@ -27,7 +27,7 @@ class AccountMovementController extends Controller
             AccountMovement::
             orderBy('date', 'DESC')
             ->with('chart')
-            ->with('transaction:number,code,code_expiry,is_deductible,comment')
+            ->with('transaction:id,number,code,code_expiry,is_deductible,comment')
             ->with('currency')
 
             ->paginate(100)
