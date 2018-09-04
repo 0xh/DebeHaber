@@ -123,6 +123,7 @@ Vue.component('chart',{
       app.asset_years =  data.asset_years;
       app.partner_id=data.partner_id;
       app.$children[0].selectText=data.name;
+      console.log(app);
       app.$children[1].selectText=data.partner.name;
 
     }
