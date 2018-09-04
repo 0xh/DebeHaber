@@ -125,7 +125,7 @@ Vue.prototype.$http = Axios
 
 export default {
   extends: VueTypeahead,
-  props: ['taxpayer','url', 'cycle', 'country'],
+  props: ['taxpayer','url', 'cycle', 'country','name'],
   data () {
     return {
       showModal:false,
@@ -209,7 +209,10 @@ export default {
     },
     mounted: function mounted()
     {
-      // console.log(this.country);
+      if (app.name!='') {
+          app.selectText = app.name ;
+      }
+
     }
   }
   </script>
