@@ -43,9 +43,7 @@ Vue.component('chart',{
 
   methods:
   {
-    onClickChild (value) {
-      console.log(value); // someValue
-    },
+
     //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
     //For updates code will be different and should use the ID's palced int he Json.
     onSave: function(json)
@@ -54,7 +52,7 @@ Vue.component('chart',{
       var api = null;
 
       app.parent_id = app.$children[0].id;
-      //app.partner_id = app.$children[1].id;
+      app.partner_id = app.$children[1].id;
 
       if (app.code == '')
       {

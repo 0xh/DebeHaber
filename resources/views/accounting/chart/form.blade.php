@@ -1,7 +1,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<chart :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" v-on:clicked="console.log('asd')" inline-template>
+<chart :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}"  inline-template>
     <div>
 
         <!--begin::Form-->

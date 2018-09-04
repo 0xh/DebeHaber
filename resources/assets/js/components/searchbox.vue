@@ -152,7 +152,7 @@ export default {
 
       app.selectText = item.name + ' | ' + item.taxid;
       app.id = item.id;
-      this.$emit('clicked', item.id);
+
       $.ajax(
         {
           url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial'  + this.url,
@@ -175,7 +175,7 @@ export default {
           },
           error: function(xhr, status, error)
           {
-            console.log(xhr.responseText);
+            //console.log(xhr.responseText);
           }
         });
       },
