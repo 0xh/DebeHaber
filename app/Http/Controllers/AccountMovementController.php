@@ -20,17 +20,20 @@ class AccountMovementController extends Controller
     {
         return view('commercial/money-movements');
     }
+
     public function GetMovement(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return ModelResource::collection(AccountMovement::where('taxpayer_id',$taxPayer->id)
-        ->with('chart')
-        ->with('transaction')
-        ->with('currency')
-        ->paginate(100));
-
-        return response()->json($movements);
+        return ModelResource::collection(
+            AccountMovement::where('taxpayer_id',$taxPayer->id)
+            ->with('chart')
+            ->with('transaction')
+            ->with('currency')
+            ->orderBy('date', 'desc')
+            ->paginate(100)
+        );
     }
-    public function store(Request $request,Taxpayer $taxPayer, Cycle $cycle)
+
+    public function store(Request $request, Taxpayer $taxPayer, Cycle $cycle)
     {
         if ($request->type != 2)
         {
@@ -39,17 +42,15 @@ class AccountMovementController extends Controller
             $accountMovement->chart_id = $request->from_chart_id ;
             $accountMovement->date =  Carbon::now();;
 
-            if ($request->type == 0)
-            {
-                $accountMovement->debit = $request->debit != '' ? $request->debit : 0;
-            }
-            else
-            {
-                $accountMovement->credit = $request->credit != '' ? $request->credit : 0;
-            }
+            $accountMovement->debit = $request->debit ?? 0;
+            $accountMovement->credit = $request->credit ?? 0;
+            // if ($request->type == 0)
+            // { $accountMovement->debit = $request->debit ?? 0; }
+            // else
+            // { $accountMovement->credit = $request->credit ?? 0; }
 
             $accountMovement->currency_id = $request->currency_id;
-            $accountMovement->rate = 1;
+            $accountMovement->rate = $request->rate ?? 1;
             $accountMovement->comment = $request->comment;
 
             $accountMovement->save();
@@ -60,9 +61,9 @@ class AccountMovementController extends Controller
             $fromAccountMovement->taxpayer_id = $request->taxpayer_id;
             $fromAccountMovement->chart_id = $request->from_chart_id ;
             $fromAccountMovement->date =  Carbon::now();;
-            $fromAccountMovement->debit = $request->debit != '' ? $request->debit : 0;
+            $fromAccountMovement->debit = $request->debit ?? 0;
             $fromAccountMovement->currency_id = $request->currency_id;
-            $fromAccountMovement->rate = 1;
+            $fromAccountMovement->rate = $request->rate ?? 1;
             $fromAccountMovement->comment = $request->comment;
             $fromAccountMovement->save();
 
@@ -70,9 +71,9 @@ class AccountMovementController extends Controller
             $toAccountMovement->taxpayer_id = $request->taxpayer_id;
             $toAccountMovement->chart_id = $request->to_chart_id ;
             $toAccountMovement->date =  Carbon::now();;
-            $toAccountMovement->credit = $request->credit != '' ? $request->credit : 0;
+            $toAccountMovement->credit = $request->credit ?? 0;
             $toAccountMovement->currency_id = $request->currency_id;
-            $toAccountMovement->rate = 1;
+            $toAccountMovement->rate = $request->rate ?? 1;
             $toAccountMovement->comment = $request->comment;
             $toAccountMovement->save();
         }

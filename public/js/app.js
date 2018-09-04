@@ -3214,84 +3214,84 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$http = __WEBPACK_IMPORTED_MODULE_2_axios___default.a;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    extends: __WEBPACK_IMPORTED_MODULE_0_vue_typeahead___default.a,
-    props: ['taxpayer', 'url', 'cycle', 'country'],
-    data: function data() {
-        return {
-            showModal: false,
-            name: '',
-            taxid: '',
-            address: '',
-            email: '',
-            code: '',
-            telephone: '',
-            src: '/api/' + this.country + '/get_taxpayers/',
-            limit: 15,
-            minChars: 3,
-            queryParamName: '',
-            selectText: 'Favor Elegir',
-            id: ''
-        };
-    },
+  extends: __WEBPACK_IMPORTED_MODULE_0_vue_typeahead___default.a,
+  props: ['taxpayer', 'url', 'cycle', 'country'],
+  data: function data() {
+    return {
+      showModal: false,
+      name: '',
+      taxid: '',
+      address: '',
+      email: '',
+      code: '',
+      telephone: '',
+      src: '/api/' + this.country + '/get_taxpayers/',
+      limit: 15,
+      minChars: 3,
+      queryParamName: '',
+      selectText: 'Favor Elegir',
+      id: ''
+    };
+  },
 
 
-    methods: {
-        onHit: function onHit(item) {
-            var app = this;
+  methods: {
+    onHit: function onHit(item) {
+      var app = this;
 
-            app.selectText = item.name + ' | ' + item.taxid;
-            app.id = item.id;
+      app.selectText = item.name + ' | ' + item.taxid;
+      app.id = item.id;
 
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial' + this.url,
-                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-                type: 'get',
-                dataType: 'json',
-                async: false,
-                success: function success(data) {
-                    app.$parent.code = data.code;
-                    app.$parent.code_expiry = data.code_expiry;
-                    app.$parent.currency_id = data.currency_id;
-                    app.$parent.payment_condition = data.payment_condition;
-                    app.$parent.chart_account_id = data.chart_account_id;
-                    if (data.details != null) {
-                        if (data.details[0] != null) {
-                            app.$parent.details.push({ id: 0, value: 0, chart_vat_id: data.details[0].chart_vat_id, chart_id: data.details[0].chart_id, vat: 0, totalvat: 0, withoutvat: 0 });
-                        }
-                    }
-                },
-                error: function error(xhr, status, _error) {
-                    console.log(xhr.responseText);
-                }
-            });
+      $.ajax({
+        url: '/api/' + this.taxpayer + '/' + this.cycle + '/commercial' + this.url,
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+        type: 'get',
+        dataType: 'json',
+        async: false,
+        success: function success(data) {
+          app.$parent.code = data.code;
+          app.$parent.code_expiry = data.code_expiry;
+          app.$parent.currency_id = data.currency_id;
+          app.$parent.payment_condition = data.payment_condition;
+          app.$parent.chart_account_id = data.chart_account_id;
+          if (data.details != null) {
+            if (data.details[0] != null) {
+              app.$parent.details.push({ id: 0, value: 0, chart_vat_id: data.details[0].chart_vat_id, chart_id: data.details[0].chart_id, vat: 0, totalvat: 0, withoutvat: 0 });
+            }
+          }
         },
-        onSave: function onSave() {
-            $.ajax({
-                url: '/api/' + this.taxpayer + '/store-taxpayer',
-                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-                type: 'post',
-                data: {
-                    name: this.name,
-                    code: this.code,
-                    taxid: this.taxid,
-                    address: this.address,
-                    email: this.email,
-                    telephone: this.telephone
-                },
-                dataType: 'json',
-                async: false,
-                success: function success(data) {
-                    //console.log(data);
-                },
-                error: function error(xhr, status, _error2) {
-                    console.log(xhr.responseText);
-                }
-            });
+        error: function error(xhr, status, _error) {
+          //console.log(xhr.responseText);
         }
+      });
     },
-    mounted: function mounted() {
-        // console.log(this.country);
+    onSave: function onSave() {
+      $.ajax({
+        url: '/api/' + this.taxpayer + '/store-taxpayer',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+        type: 'post',
+        data: {
+          name: this.name,
+          code: this.code,
+          taxid: this.taxid,
+          address: this.address,
+          email: this.email,
+          telephone: this.telephone
+        },
+        dataType: 'json',
+        async: false,
+        success: function success(data) {
+          //console.log(data);
+        },
+        error: function error(xhr, status, _error2) {
+          console.log(xhr.responseText);
+        }
+      });
     }
+  },
+  mounted: function mounted() {
+    // console.log(this.country);
+  }
 });
 
 /***/ }),
@@ -9353,7 +9353,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.fa-times[data-v-09019d9c]\n{\n    cursor: pointer;\n}\ni[data-v-09019d9c]\n{\n    float: right;\n    position: relative;\n    opacity: 0.4;\n}\nul[data-v-09019d9c]\n{\n    position: absolute;\n    padding: 0;\n    min-width: 100%;\n    background-color: #fff;\n    list-style: none;\n    border-radius: 4px;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0, 0.25);\n            box-shadow: 0 0 10px rgba(0,0,0, 0.25);\n    z-index: 1000;\n}\nli[data-v-09019d9c]\n{\n    padding: 5px;\n    border-bottom: 1px solid whitesmoke;\n    cursor: pointer;\n}\nli[data-v-09019d9c]:first-child\n{\n    border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n}\nli[data-v-09019d9c]:last-child\n{\n    border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    border-bottom: 0;\n}\nspan[data-v-09019d9c]\n{\n    color: #2c3e50;\n}\n.active[data-v-09019d9c]\n{\n    background-color: #734cea;\n}\n.active span[data-v-09019d9c]\n{\n    color: white;\n}\n.strong[data-v-09019d9c]\n{\n    font-weight: 800;\n    font-style: italic;\n}\n", ""]);
+exports.push([module.i, "\n.fa-times[data-v-09019d9c]\n{\n  cursor: pointer;\n}\ni[data-v-09019d9c]\n{\n  float: right;\n  position: relative;\n  opacity: 0.4;\n}\nul[data-v-09019d9c]\n{\n  position: absolute;\n  padding: 0;\n  min-width: 100%;\n  background-color: #fff;\n  list-style: none;\n  border-radius: 4px;\n  -webkit-box-shadow: 0 0 10px rgba(0,0,0, 0.25);\n          box-shadow: 0 0 10px rgba(0,0,0, 0.25);\n  z-index: 1000;\n}\nli[data-v-09019d9c]\n{\n  padding: 5px;\n  border-bottom: 1px solid whitesmoke;\n  cursor: pointer;\n}\nli[data-v-09019d9c]:first-child\n{\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px;\n}\nli[data-v-09019d9c]:last-child\n{\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px;\n  border-bottom: 0;\n}\nspan[data-v-09019d9c]\n{\n  color: #2c3e50;\n}\n.active[data-v-09019d9c]\n{\n  background-color: #734cea;\n}\n.active span[data-v-09019d9c]\n{\n  color: white;\n}\n.strong[data-v-09019d9c]\n{\n  font-weight: 800;\n  font-style: italic;\n}\n", ""]);
 
 // exports
 
@@ -61876,7 +61876,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-group m-form__group row" }, [
               _c("label", { staticClass: "col-lg-3 col-form-label" }, [
-                _vm._v("\n                    Nombre\n                ")
+                _vm._v("\n          Nombre\n        ")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-7" }, [
@@ -61905,7 +61905,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group m-form__group row" }, [
               _c("label", { staticClass: "col-lg-3 col-form-label" }, [
-                _vm._v("\n                    Code\n                ")
+                _vm._v("\n          Code\n        ")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-7" }, [
@@ -61934,7 +61934,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group m-form__group row" }, [
               _c("label", { staticClass: "col-lg-3 col-form-label" }, [
-                _vm._v("\n                    RUC\n                ")
+                _vm._v("\n          RUC\n        ")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-7" }, [
@@ -61963,7 +61963,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group m-form__group row" }, [
               _c("label", { staticClass: "col-lg-3 col-form-label" }, [
-                _vm._v("\n                    Dirección\n                ")
+                _vm._v("\n          Dirección\n        ")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-7" }, [
@@ -61991,7 +61991,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group m-form__group row" }, [
               _c("label", { staticClass: "col-lg-3 col-form-label" }, [
-                _vm._v("\n                    Correo\n                ")
+                _vm._v("\n          Correo\n        ")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-7" }, [
@@ -62020,7 +62020,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group m-form__group row" }, [
               _c("label", { staticClass: "col-lg-3 col-form-label" }, [
-                _vm._v("\n                    Teléfono\n                ")
+                _vm._v("\n          Teléfono\n        ")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-7" }, [
@@ -62060,11 +62060,7 @@ var render = function() {
                       }
                     }
                   },
-                  [
-                    _vm._v(
-                      "\n                        Guardar\n                    "
-                    )
-                  ]
+                  [_vm._v("\n            Guardar\n          ")]
                 )
               ])
             ])
@@ -62092,11 +62088,7 @@ var render = function() {
         _vm.selectText != ""
           ? _c("div", { staticClass: "input-group-prepend" }, [
               _c("span", { staticClass: "input-group-text m--font-boldest" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.selectText) +
-                    "\n            "
-                )
+                _vm._v("\n        " + _vm._s(_vm.selectText) + "\n      ")
               ])
             ])
           : _vm._e(),
@@ -80883,118 +80875,122 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('chart', {
 
-    props: ['taxpayer', 'cycle'],
-    data: function data() {
-        return {
-            id: 0,
-            parent_id: '',
-            partner_id: '',
-            chart_version_id: '',
-            country: '',
-            is_accountable: '',
-            code: '',
-            name: '',
-            level: '',
-            type: '',
-            sub_type: '',
-            coefficient: 0,
-            asset_years: 0,
-            canChange: true,
-            list: [
-                // id:0
-                // chart_version_id
-                // chart_version_name
-                // country
-                // is_accountable
-                // code
-                // name
-                // level
-                // type
-                // sub_type
-            ],
-            chartversions: [],
-            accounts: []
-        };
-    },
+  props: ['taxpayer', 'cycle'],
+  data: function data() {
+    return {
+      id: 0,
+      parent_id: '',
+      partner_id: '',
+      chart_version_id: '',
+      country: '',
+      is_accountable: '',
+      code: '',
+      name: '',
+      level: '',
+      type: '',
+      sub_type: '',
+      coefficient: 0,
+      asset_years: 0,
+      canChange: true,
+      list: [
+        // id:0
+        // chart_version_id
+        // chart_version_name
+        // country
+        // is_accountable
+        // code
+        // name
+        // level
+        // type
+        // sub_type
+      ],
+      chartversions: [],
+      accounts: []
+    };
+  },
 
 
-    methods: {
-        //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
-        //For updates code will be different and should use the ID's palced int he Json.
-        onSave: function onSave(json) {
-            var app = this;
-            var api = null;
+  methods: {
 
-            app.parent_id = app.$children[0].id;
-            //app.partner_id = app.$children[1].id;
+    //Takes Json and uploads it into Sales INvoice API for inserting. Since this is a new, it should directly insert without checking.
+    //For updates code will be different and should use the ID's palced int he Json.
+    onSave: function onSave(json) {
+      var app = this;
+      var api = null;
 
-            if (app.code == '') {
-                app.$swal('Please Check fields?', 'code', 'warning');
-                return;
-            }
-            if (app.name == '') {
-                app.$swal('Please fill name...');
-                return;
-            }
-            if (app.type == 0) {
-                app.$swal('Please Select Type...');
-                return;
-            }
-            if (app.is_accountable && app.sub_type == 0) {
-                app.$swal('Please Select Sub Type...');
-                return;
-            }
-            $.ajax({
-                url: '',
-                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
-                type: 'post',
-                data: json,
-                dataType: 'json',
-                async: false,
-                success: function success(data) {
-                    app.id = 0;
-                    app.parent_id = null;
-                    app.chart_version_id = null;
-                    app.country = null;
-                    app.is_accountable = null;
-                    app.code = null;
-                    app.name = null;
-                    app.level = null;
-                    app.type = null;
-                    app.sub_type = null;
-                    app.coefficient = null;
-                    app.asset_years = null;
-                    app.$parent.$parent.showList = 1;
-                },
-                error: function error(xhr, status, _error) {
-                    app.$swal('Something went wrong, check logs...' + _error);
-                    console.log(xhr.responseText);
-                }
-            });
+      app.parent_id = app.$children[0].id;
+      app.partner_id = app.$children[1].id;
+      console.log(app.$children[1]);
+      if (app.code == '') {
+        app.$swal('Please Check fields?', 'code', 'warning');
+        return;
+      }
+      if (app.name == '') {
+        app.$swal('Please fill name...');
+        return;
+      }
+      if (app.type == 0) {
+        app.$swal('Please Select Type...');
+        return;
+      }
+      if (app.is_accountable && app.sub_type == 0) {
+        app.$swal('Please Select Sub Type...');
+        return;
+      }
+      $.ajax({
+        url: '',
+        headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+        type: 'post',
+        data: json,
+        dataType: 'json',
+        async: false,
+        success: function success(data) {
+          app.id = 0;
+          app.parent_id = null;
+          app.chart_version_id = null;
+          app.country = null;
+          app.is_accountable = null;
+          app.code = null;
+          app.name = null;
+          app.level = null;
+          app.type = null;
+          app.sub_type = null;
+          app.coefficient = null;
+          app.asset_years = null;
+          app.$parent.$parent.showList = 1;
         },
-
-        onEdit: function onEdit(data) {
-
-            var app = this;
-            app.id = data.id;
-            app.parent_id = data.parent_id;
-            app.chart_version_id = data.chart_version_id;
-            app.country = data.country;
-            app.is_accountable = data.is_accountable;
-            app.code = data.code;
-            app.name = data.name;
-            app.level = data.level;
-            app.type = data.type;
-            app.sub_type = data.sub_type;
-            app.coefficient = data.coefficient;
-            app.asset_years = data.asset_years;
-            app.$children[0].selectText = data.name;
+        error: function error(xhr, status, _error) {
+          app.$swal('Something went wrong, check logs...' + _error);
+          console.log(xhr.responseText);
         }
+      });
     },
 
-    mounted: function mounted() {
-        //    this.init();
+    onEdit: function onEdit(data) {
+
+      var app = this;
+      app.type = data.type;
+      app.sub_type = data.sub_type;
+      app.id = data.id;
+      app.parent_id = data.parent_id;
+      app.chart_version_id = data.chart_version_id;
+      app.country = data.country;
+      app.is_accountable = data.is_accountable;
+      app.code = data.code;
+      app.name = data.name;
+      app.level = data.level;
+      app.coefficient = data.coefficient;
+      app.asset_years = data.asset_years;
+      app.partner_id = data.partner_id;
+      app.$children[0].selectText = data.name;
+      console.log(this.$children[1]);
+      app.$children[1].selectText = data.partner.name;
     }
+  },
+
+  mounted: function mounted() {
+    //    this.init();
+  }
 });
 
 /***/ }),
