@@ -53,7 +53,7 @@ Vue.component('chart',{
 
       app.parent_id = app.$children[0].id;
       app.partner_id = app.$children[1].id;
-
+      console.log(pp.$children[1])
       if (app.code == '')
       {
         app.$swal('Please Check fields?', 'code', 'warning');
