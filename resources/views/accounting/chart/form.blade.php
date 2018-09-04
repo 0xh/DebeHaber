@@ -108,7 +108,7 @@
                         @lang('commercial.Customer')
                     </label>
                     <div class="col-10">
-                        <router-view name="SearchBox" @partner_id="id" :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" country="{{ request()->route('taxPayer')->country}}"></router-view>
+                        <router-view name="SearchBox" v-on:click="$emit('parent_id', 0.1)"  :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" country="{{ request()->route('taxPayer')->country}}"></router-view>
                     </div>
                 </div>
                 <div v-if="(type === 2 || type === '2') && (sub_type === 1 || sub_type === '1')" class="form-group m-form__group row">
@@ -116,7 +116,7 @@
                         @lang('commercial.Supplier')
                     </label>
                     <div class="col-10">
-                        <router-view name="SearchBox" v-bind:partner_id="id"  :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" country="{{ request()->route('taxPayer')->country}}"></router-view>
+                        <router-view name="SearchBox"   :taxpayer="{{ request()->route('taxPayer')->id }}" :cycle="{{ request()->route('cycle')->id }}" country="{{ request()->route('taxPayer')->country}}"></router-view>
                     </div>
                 </div>
                 <div v-if="(type === 1 || type === '1') && (sub_type === 9 || sub_type === '9')">
