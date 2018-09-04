@@ -10,7 +10,7 @@
       </b-table-column>
 
       <b-table-column field="number" label="@lang('commercial.InvoiceNumber')" sortable>
-        @{{ props.row.transaction.number }}
+        @{{ props.row.transaction!=null?props.row.transaction.number:"" }}
       </b-table-column>
 
       <b-table-column field="debit" label="@lang('accounting.Debit')" numeric sortable>
