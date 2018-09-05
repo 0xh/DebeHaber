@@ -71,6 +71,7 @@ class FixedAssetController extends Controller
 
         try
         {
+
           $fixedAsset = $this->insertFixedAsset($chunkedData, $taxPayer,$cycle);
 
           $movementData[$i] = $fixedAsset;
@@ -93,9 +94,11 @@ class FixedAssetController extends Controller
 
     $ChartController= new ChartController();
     //$fixedAsset->ref_id = $data['id'];
-    $fixedAsset->chart_id = $ChartController->createIfNotExists_FixedAsset($taxPayer,$cycle,$assetGroup,$lifeSpan)->id;
+
+    $fixedAsset->chart_id = $ChartController->createIfNotExists_FixedAsset($taxPayer,$cycle,$data['AssetGroup'],$data['LifeSpan'])->id;
 
     $fixedAsset->taxpayer_id = $taxPayer->id;
+
     $fixedAsset->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
 
     // if ($data['CurrencyRate'] ==  '' )
@@ -118,7 +121,7 @@ class FixedAssetController extends Controller
 
     $fixedAsset->save();
     //Return account movement if not null.
-    return FixedAsset::find($fixedAsset->id)->with('chart')??null;
+    return FixedAsset::where('id',$fixedAsset->id)->with('chart')->first()??null;
   }
 
 
