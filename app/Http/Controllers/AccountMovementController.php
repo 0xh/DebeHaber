@@ -29,7 +29,7 @@ class AccountMovementController extends Controller
             ->with('chart')
             ->with('transaction:id,number,code,code_expiry,is_deductible,comment')
             ->with('currency')
-            ->paginate(100)
+            ->paginate(100000000)
         );
     }
 
