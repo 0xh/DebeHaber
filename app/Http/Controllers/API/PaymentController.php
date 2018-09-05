@@ -107,7 +107,7 @@ class PaymentController extends Controller
             ->where('number', $data['Number'])
             ->whereIn('type', [1, 2])
             ->first();
-            dd($transaction);
+
             if ($transaction != null)
             {
 
@@ -127,7 +127,7 @@ class PaymentController extends Controller
 
             if ($transaction != null)
             {
-                dd($transaction);
+            
                 $accMovement = $this->processPayments($data, $taxPayer, $transaction, $cycle);
             }
         }
