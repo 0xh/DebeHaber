@@ -87,6 +87,7 @@ class AccountMovementController extends Controller
         if ($queryAccountPayables->where('journal_id', '!=', null)->count() > 0)
         {
             $arrJournalIDs = $queryAccountPayables->where('journal_id', '!=', null)->pluck('journal_id');
+
             //## Important! Null all references of Journal in Transactions.
             AccountMovement::whereIn('journal_id', [$arrJournalIDs])
             ->update(['journal_id' => null]);
