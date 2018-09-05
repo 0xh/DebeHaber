@@ -105,9 +105,9 @@ class PaymentController extends Controller
             $transaction = Transaction::where('supplier_id', $supplier->id)
             ->where('customer_id', $customer->id)
             ->where('number', $data['Number'])
-            //->whereIn('type', [1, 2])
+            ->whereIn('type', [1, 2])
             ->first();
-            dd($customer->id);
+            dd($transaction);
             if ($transaction != null)
             {
 
