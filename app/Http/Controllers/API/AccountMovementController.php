@@ -120,8 +120,8 @@ class AccountMovementController extends Controller
 
     $accMovement->date = $this->convert_date($data['Date']);
     //based on invoice type choose if its credit or debit.
-    $accMovement->credit =  $data['Credit'] ;
-    $accMovement->debit =  $data['Debit'] ;
+    $accMovement->credit =  $data['Credit'];
+    $accMovement->debit =  $data['Debit'];
 
     $accMovement->comment = $data['Comment'];
 
