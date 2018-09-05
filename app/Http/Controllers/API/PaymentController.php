@@ -107,7 +107,7 @@ class PaymentController extends Controller
             ->where('number', $data['Number'])
             ->whereIn('type', [1, 2])
             ->first();
-            dd($customer);
+            dd($transaction);
             if ($transaction != null)
             {
 
