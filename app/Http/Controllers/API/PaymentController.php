@@ -113,6 +113,10 @@ class PaymentController extends Controller
 
                 $accMovement = $this->processPayments($data, $taxPayer, $transaction, $cycle);
             }
+            else {
+                $accMovement = $this->processPaymentsWithoutTransaction($data, $taxPayer, $supplier, $cycle);
+
+            }
         }
         else if ($data['Type'] == 2) //Payment Received (Account Receivables)
         {
@@ -127,8 +131,12 @@ class PaymentController extends Controller
 
             if ($transaction != null)
             {
-            
+
                 $accMovement = $this->processPayments($data, $taxPayer, $transaction, $cycle);
+            }
+            else {
+                $accMovement = $this->processPaymentsWithoutTransaction($data, $taxPayer, $customer, $cycle);
+
             }
         }
         else //simple Transfer. From one account to another.
@@ -184,6 +192,70 @@ class PaymentController extends Controller
 
         $accMovement->taxpayer_id = $taxPayer->id;
         $accMovement->transaction_id = $invoice->id;
+        $accMovement->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
+
+        //Check currency rate based on date. if nothing found use default from api. TODO this should be updated to buy and sell rates.
+        if ($data['CurrencyRate'] ==  '' )
+        { $accMovement->rate = $this->checkCurrencyRate($accMovement->currency_id, $taxPayer, $data['Date']) ?? 1; }
+        else
+        { $accMovement->rate = $data['CurrencyRate'] ?? 1; }
+
+        $accMovement->date = $this->convert_date($data['Date']);
+        //based on invoice type choose if its credit or debit.
+        $accMovement->credit = $invoice->type == 4 ?  $data['Credit'] : 0;
+        $accMovement->debit = ($invoice->type == 1 || $invoice->type == 2) ?  $data['Debit'] : 0;
+
+        $accMovement->comment = $data['Comment'];
+
+        $accMovement->save();
+
+        return $accMovement;
+    }
+
+    public function processPaymentsWithoutTransaction($data, $taxPayer,$partner, $cycle)
+    {
+
+        $accMovement = new AccountMovement();
+
+        //Get Payment Type. 0=Normal, 1=CreditNote, 2=VATWitholding
+        $payentType = $data['PaymentType'];
+
+        if ($payentType == 0)
+        {
+            $chartID = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
+        }
+        else if ($payentType == 1)
+        {
+            $chartController = new ChartController();
+            //get accounts pending for customers and suppliers
+            if ($data['Type'] == 1)
+            {
+                $chartID = $chartController->createIfNotExists_AccountsReceivables($taxPayer, $cycle, $invoice->customer_id);
+            }
+            else
+            {
+                $chartID = $chartController->createIfNotExists_AccountsPayable($taxPayer, $cycle, $invoice->supplier_id);
+            }
+        }
+        else if ($payentType == 2)
+        {
+            $chartController = new ChartController();
+            //get accounts pending for customers and suppliers
+            if ($data['Type'] == 1)
+            {
+                $chartID = $chartController->createIfNotExists_VATWithholdingReceivables($taxPayer, $cycle);
+            }
+            else
+            {
+                $chartID = $chartController->createIfNotExists_VATWithholdingPayables($taxPayer, $cycle);
+            }
+        }
+
+
+        $accMovement->chart_id = $chartID;
+
+        $accMovement->taxpayer_id = $taxPayer->id;
+        $accMovement->partner_id = $partner->id;
         $accMovement->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
 
         //Check currency rate based on date. if nothing found use default from api. TODO this should be updated to buy and sell rates.
