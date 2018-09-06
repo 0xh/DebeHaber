@@ -89,7 +89,7 @@ class PaymentController extends Controller
         }
       }
     }
-   $movements=AccountMovement::whereIn('id',$movementData)->get();
+   $movements=AccountMovement::withoutGlobalScopes()->whereIn('id',$movementData)->get();
     return response()->json($movements);
   }
 
