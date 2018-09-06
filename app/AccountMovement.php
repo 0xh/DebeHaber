@@ -16,34 +16,11 @@ class AccountMovement extends Model
         static::addGlobalScope(new TaxpayerScope);
     }
 
-    public function scopeMyAccountReceivablesForJournals($query, $startDate, $endDate, $taxPayerID)
+    public function scopeMy($query, $startDate, $endDate, $taxPayerID)
     {
-        return $query->whereHas('transaction', function ($q) use($taxPayerID)
-        {
-            $q->where('supplier_id', $taxPayerID)
-            ->where('payment_condition', '>', 0);
-        })
-        ->with('transaction:customer_id,number')
-        ->whereBetween('date', [$startDate, $endDate])
-        ->where('taxpayer_id', $taxPayerID);
-    }
-
-    /*
-    Gets the account payables where payment_condition is greater than 0.
-    */
-    public function scopeMyAccountPayablesForJournals($query, $startDate, $endDate, $taxPayerID)
-    {
-        //TODO change query to focus on transaction with whereHas('AccountMovement')
-        //this will allow to focus more on the sum of payments made, instead of each payment made in the time frame.
-
-        return $query->whereHas('transaction', function ($q) use($taxPayerID)
-        {
-            $q->where('customer_id', $taxPayerID)
-            ->where('payment_condition', '>', 0);
-        })
-        ->with('transaction:supplier_id,number')
-        ->whereBetween('date', [$startDate, $endDate])
-        ->where('taxpayer_id', $taxPayerID);
+        return $query->where('taxpayer_id', $taxPayerID)
+        ->withoutGlobalScopes()
+        ->with('transaction');
     }
 
     /**
