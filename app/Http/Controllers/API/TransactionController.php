@@ -137,7 +137,7 @@ class TransactionController extends Controller
 
     $transaction->customer_id = $customer->id;
     $transaction->supplier_id = $supplier->id;
-
+    $transaction->ref_id = $data['id'];
     //TODO, this is not enough. Remove Cycle, and exchange that for Invoice Date. Since this will tell you better the exchange rate for that day.
     $transaction->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
 

@@ -46,7 +46,7 @@
             </b-table-column>
         </template>
 
-      
+
     </b-table>
     <b-pagination :total="meta.total" order="is-centered" :rounded="true" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>
 </div>

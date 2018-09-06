@@ -74,7 +74,7 @@ class FixedAssetController extends Controller
 
           $fixedAsset = $this->insertFixedAsset($chunkedData, $taxPayer,$cycle);
 
-          $movementData[$i] = $fixedAsset;
+          $movementData[$i] = $fixedAsset->id;
         }
         catch (\Exception $e)
         {
@@ -84,7 +84,9 @@ class FixedAssetController extends Controller
       }
     }
 
-    return response()->json($movementData);
+    $assets=FixedAsset::whereIn('id',$movementData)->with('chart')->get();
+  //  dd($assets);
+    return response()->json($assets);
   }
 
   public function insertFixedAsset($data, Taxpayer $taxPayer,Cycle $cycle)
@@ -93,7 +95,7 @@ class FixedAssetController extends Controller
     $fixedAsset = FixedAsset::where('ref_id', $data['id'])->where('taxpayer_id', $taxPayer->id)->first() ?? new FixedAsset();
 
     $ChartController= new ChartController();
-    //$fixedAsset->ref_id = $data['id'];
+    $fixedAsset->ref_id = $data['id'];
 
     $fixedAsset->chart_id = $ChartController->createIfNotExists_FixedAsset($taxPayer,$cycle,$data['AssetGroup'],$data['LifeSpan'])->id;
 
@@ -120,8 +122,9 @@ class FixedAssetController extends Controller
     $fixedAsset->sync_date = Carbon::now();
 
     $fixedAsset->save();
+
     //Return account movement if not null.
-    return FixedAsset::where('id',$fixedAsset->id)->with('chart')->first()??null;
+    return $fixedAsset;
   }
 
 
