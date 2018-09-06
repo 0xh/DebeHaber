@@ -80,7 +80,7 @@ class PaymentController extends Controller
         {
 
           $accMovement = $this->processTransaction($chunkedData, $taxPayer, $cycle);
-          $movementData[$i] = $accMovement;
+          $movementData[$i] = $accMovement->id;
         }
         catch (\Exception $e)
         {
@@ -89,8 +89,8 @@ class PaymentController extends Controller
         }
       }
     }
-
-    return response()->json($movementData);
+    $movement=AccountMovement::withoutGlobalScopes()->whereIn('id',$movementData)->get();
+    return response()->json($movement);
   }
 
   public function processTransaction($data, Taxpayer $taxPayer, Cycle $cycle)
@@ -266,8 +266,8 @@ class PaymentController extends Controller
 
     $accMovement->date = $this->convert_date($data['Date']);
     //based on invoice type choose if its credit or debit.
-    $accMovement->credit = $invoice->type == 4 ?  $data['Credit'] : 0;
-    $accMovement->debit = ($invoice->type == 1 || $invoice->type == 2) ?  $data['Debit'] : 0;
+    $accMovement->credit = $data['Credit'];
+    $accMovement->debit = $data['Debit'] ;
 
     $accMovement->comment = $data['Comment'];
 
