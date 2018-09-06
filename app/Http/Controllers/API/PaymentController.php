@@ -80,7 +80,7 @@ class PaymentController extends Controller
         {
 
           $accMovement = $this->processTransaction($chunkedData, $taxPayer, $cycle);
-          $movementData[$i] = $accMovement->id;
+          $movementData[$i] = $accMovement;
         }
         catch (\Exception $e)
         {
@@ -89,8 +89,8 @@ class PaymentController extends Controller
         }
       }
     }
-   $movements=AccountMovement::withoutGlobalScopes()->whereIn('id',$movementData)->get();
-    return response()->json($movements);
+
+    return response()->json($movementData);
   }
 
   public function processTransaction($data, Taxpayer $taxPayer, Cycle $cycle)
@@ -145,7 +145,7 @@ class PaymentController extends Controller
     }
 
     //Return account movement if not null.
-    return $accMovement;
+    return $accMovement != null ? $accMovement : null;
   }
 
   public function processPayments($data, $taxPayer, $invoice, $cycle,$partner)
