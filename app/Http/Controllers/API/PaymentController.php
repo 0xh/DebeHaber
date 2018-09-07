@@ -24,7 +24,7 @@ class PaymentController extends Controller
 {
   public function start(Request $request)
   {
-    $movementData = array();
+
 
     $startDate = '';
     $endDate = '';
@@ -80,7 +80,7 @@ class PaymentController extends Controller
         {
 
           $accMovement = $this->processTransaction($chunkedData, $taxPayer, $cycle);
-          $movementData[$i] = $accMovement;
+          $request[$i] = $accMovement;
         }
         catch (\Exception $e)
         {
@@ -89,8 +89,7 @@ class PaymentController extends Controller
         }
       }
     }
-    dd($movementData);
-    return response()->json($movementData);
+    return response()->json($request);
   }
 
   public function processTransaction($data, Taxpayer $taxPayer, Cycle $cycle)
@@ -117,6 +116,7 @@ class PaymentController extends Controller
         $accMovement = $this->processPaymentsWithoutTransaction($data, $taxPayer, $supplier, $cycle);
 
       }
+
     }
     else if ($data['Type'] == 2) //Payment Received (Account Receivables)
     {
@@ -143,7 +143,9 @@ class PaymentController extends Controller
     {
       $accMovement = processMovement($data, $taxPayer);
     }
+
     $data['cloud_id']=$accMovement->id;
+
     //Return account movement if not null.
     return $data;
   }
@@ -187,7 +189,7 @@ class PaymentController extends Controller
       }
     }
 
-    $accMovement->ref_id = $data['id'];
+
     $accMovement->chart_id = $chartID;
     $accMovement->partner_id = $partner->id;
     $accMovement->taxpayer_id = $taxPayer->id;
@@ -208,6 +210,7 @@ class PaymentController extends Controller
     $accMovement->comment = $data['Comment'];
 
     $accMovement->save();
+
 
     return $accMovement;
   }
@@ -253,7 +256,7 @@ class PaymentController extends Controller
 
 
     $accMovement->chart_id = $chartID;
-    $accMovement->ref_id = $data['id'];
+
     $accMovement->taxpayer_id = $taxPayer->id;
     $accMovement->partner_id = $partner->id;
     $accMovement->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
@@ -290,7 +293,7 @@ class PaymentController extends Controller
     { $accMovement->rate = $this->checkCurrencyRate($accMovement->currency_id, $taxPayer, $data['Date']) ?? 1; }
     else
     { $accMovement->rate = $data['CurrencyRate'] ?? 1; }
-    $accMovement->ref_id = $data['id'];
+
     $accMovement->date = $this->convert_date($data['Date']);
     $accMovement->credit = $data['Credit'] ?? 0;
     $accMovement->debit = $data['Debit'] ?? 0;

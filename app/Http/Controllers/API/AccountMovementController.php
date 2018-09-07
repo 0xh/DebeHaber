@@ -107,7 +107,7 @@ class AccountMovementController extends Controller
     $chartID = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
 
     $accMovement->chart_id = $chartID;
-    $accMovement->ref_id = $data['id'];
+
     $accMovement->taxpayer_id = $taxPayer->id;
 
     $accMovement->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
@@ -135,7 +135,7 @@ class AccountMovementController extends Controller
   public function processMovement($taxPayer, $data)
   {
     $accMovement = new AccountMovement();
-    $accMovement->ref_id = $data['id'];
+  
     $accMovement->chart_id = $this->checkChartAccount($data['AccountName'], $taxPayer, $cycle);
     $accMovement->taxpayer_id = $taxPayer->id;
     $accMovement->currency_id = $this->checkCurrency($data['CurrencyCode'], $taxPayer);
