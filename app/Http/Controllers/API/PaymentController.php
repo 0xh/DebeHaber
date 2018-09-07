@@ -89,8 +89,8 @@ class PaymentController extends Controller
         }
       }
     }
-    $movement=AccountMovement::withoutGlobalScopes()->whereIn('id',$movementData)->get();
-    return response()->json($movement);
+
+    return response()->json($movementData);
   }
 
   public function processTransaction($data, Taxpayer $taxPayer, Cycle $cycle)
@@ -143,9 +143,9 @@ class PaymentController extends Controller
     {
       $accMovement = processMovement($data, $taxPayer);
     }
-
+    $data['cloud_id']=$accMovement->id;
     //Return account movement if not null.
-    return $accMovement != null ? $accMovement : null;
+    return $data;
   }
 
   public function processPayments($data, $taxPayer, $invoice, $cycle,$partner)

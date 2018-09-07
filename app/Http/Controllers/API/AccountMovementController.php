@@ -95,9 +95,9 @@ class AccountMovementController extends Controller
   {
 
     $accMovement = $this->processPayments($data, $taxPayer, $cycle);
-
+    $data['cloud_id']=$accMovement->id;
     //Return account movement if not null.
-    return $accMovement != null ? $accMovement : null;
+    return $data;
   }
 
   public function processPayments($data, $taxPayer, $cycle)
