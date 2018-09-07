@@ -89,7 +89,7 @@ class PaymentController extends Controller
         }
       }
     }
-
+    dd($movementData);
     return response()->json($movementData);
   }
 
