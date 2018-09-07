@@ -80,7 +80,7 @@ class PaymentController extends Controller
         {
 
           $accMovement = $this->processTransaction($chunkedData, $taxPayer, $cycle);
-          $movementData[$i] = $accMovement->id;
+          $movementData[$i] = $accMovement;
         }
         catch (\Exception $e)
         {
@@ -89,7 +89,7 @@ class PaymentController extends Controller
         }
       }
     }
-    dd($movementData);
+  
     return response()->json($movementData);
   }
 
