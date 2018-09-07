@@ -21,7 +21,7 @@ class AccountMovementController extends Controller
         return view('commercial/money-movements');
     }
 
-    public function GetMovement(Taxpayer $taxPayer, Cycle $cycle)
+    public function getMovement(Taxpayer $taxPayer, Cycle $cycle)
     {
         return ModelResource::collection(
             AccountMovement::
@@ -29,7 +29,7 @@ class AccountMovementController extends Controller
             ->with('chart')
             ->with('transaction:id,number,code,code_expiry,is_deductible,comment')
             ->with('currency')
-            ->paginate(100000000)
+            ->paginate(100)
         );
     }
 
@@ -81,12 +81,11 @@ class AccountMovementController extends Controller
     {
         \DB::connection()->disableQueryLog();
 
-        $queryAccountPayables = AccountMovement::My($startDate, $endDate, $taxPayer->id)
-        ->get();
+        $queryAccountPayables = AccountMovement::My($startDate, $endDate, $taxPayer->id);
 
         if ($queryAccountPayables->where('journal_id', '!=', null)->count() > 0)
         {
-            $arrJournalIDs = $queryAccountPayables->where('journal_id', '!=', null)->pluck('journal_id');
+            $arrJournalIDs = $queryAccountPayables->where('journal_id', '!=', null)->pluck('journal_id')->get();
 
             //## Important! Null all references of Journal in Transactions.
             AccountMovement::whereIn('journal_id', [$arrJournalIDs])
@@ -110,14 +109,14 @@ class AccountMovementController extends Controller
 
         //Assign all transactions the new journal_id.
         //No need for If Count > 0, because if it was 0, it would not have gone in this function.
-        AccountMovement::whereIn('id', $queryAccountPayables->pluck('id'))
+        AccountMovement::whereIn('id', $queryAccountPayables->pluck('id')->get())
         ->update(['journal_id' => $journal->id]);
 
         $chartController= new ChartController();
 
         //1st Query: Sales Transactions done in Credit. Must affect customer credit account.
         $listOfPays = AccountMovement::My($startDate, $endDate, $taxPayer->id)
-        ->groupBy('rate', 'supplier_id')
+        ->groupBy('rate', 'chart_id')
         ->select(DB::raw('max(rate) as rate'),
         DB::raw('max(supplier_id) as supplier_id'),
         DB::raw('sum(debit) as debit'),
