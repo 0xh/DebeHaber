@@ -8,24 +8,13 @@
 
 @section('content')
 
-{{ $sales }}
-
     <table>
         <tr>
             <th>Customer</th>
             <th>Supplier</th>
             <th>Total</th>
         </tr>
-        @foreach ($sales as $sale)
-            <tr>
-                {{-- <td>{{ $sale->customer }}</td> --}}
-                {{-- <td>{{ $sale->supplier }}</td> --}}
-                {{-- <td>{{ $sale->total }}</td> --}}
-            </tr>
-        @endforeach
     </table>
-
-    {{ $taxPayers }}
 
 
     <table class="m-table">

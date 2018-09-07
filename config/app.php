@@ -151,7 +151,16 @@ return [
         /*
         * Package Service Providers...
         */
-
+        Hootlex\Friendships\FriendshipsServiceProvider::class,
+        MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+        ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Spatie\BinaryUuid\UuidServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+        Kordy\Ticketit\TicketitServiceProvider::class,
+        
         /*
         * Application Service Providers...
         */
@@ -165,15 +174,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Hootlex\Friendships\FriendshipsServiceProvider::class,
-        MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
-        Laravel\Scout\ScoutServiceProvider::class,
-        ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Spatie\BinaryUuid\UuidServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class
-        //Barryvdh\TranslationManager\ManagerServiceProvider::class,
     ],
 
     /*
