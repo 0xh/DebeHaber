@@ -216,7 +216,7 @@ Vue.component('transaction-form',
             var app = this;
             var api = null;
             //app.type = app.trantype;
-            
+
             if (this.$children[0] != null) {
                 if (app.type == 4 || app.type == 5)
                 {
@@ -268,7 +268,6 @@ Vue.component('transaction-form',
             var url = '';
 
             url = '/api/' + app.$parent.taxpayer + '/get_rates/' + app.currency_id + '/' + app.date;
-
             if (app.transType == 4 || app.transType == 5)
             {
                 axios.get(url).then(({ data }) => { app.rate = data.buy_rate; });
