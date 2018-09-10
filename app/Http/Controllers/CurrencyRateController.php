@@ -32,8 +32,11 @@ class CurrencyRateController extends Controller
     */
     public function get_ratesByCurrency($taxPayerID, $currencyID, $date = '')
     {
-        $date = Carbon::parse($date) ?? Carbon::now();
-        $date = $date->toDateString();
+        if (!isset($date)) {
+          $date = Carbon::now();
+          $date = $date->toDateString();
+        }
+
 
         $currencyRate = CurrencyRate::whereDate('date', $date)
         ->where('currency_id', $currencyID)
