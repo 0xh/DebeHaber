@@ -33,11 +33,15 @@ class CurrencyRateController extends Controller
     public function get_ratesByCurrency($taxPayerID, $currencyID, $date)
     {
         $date = Carbon::parse($date) ?? Carbon::now();
-        $currencyRate = CurrencyRate::whereDay('date', '=', $date->day)
+
+        $currencyRate = CurrencyRate::where('currency_id', $currencyID)
+        ->whereDay('date', '=', $date->day)
         ->whereMonth('date', '=', $date->month)
         ->whereYear('date', '=', $date->year)
-        ->where('currency_id', $currencyID)
-        ->orWhere('taxpayer_id', $taxPayerID)
+        ->where(function ($q) use($taxPayerID) {
+            $q->where('taxpayer_id', $taxPayerID)
+            ->orWhereNull('taxpayer_id');
+        })
         ->orderBy('taxpayer_id')
         ->first();
 
@@ -69,7 +73,14 @@ class CurrencyRateController extends Controller
             }
         }
 
-        return response()->json(1);
+        //Create object, but do not store data.
+        $currencyRate = new CurrencyRate();
+        $currencyRate->date = $date;
+        $currencyRate->currency_id = $currencyID;
+        $currencyRate->buy_rate = 1;
+        $currencyRate->sell_rate = 1;
+
+        return response()->json($currencyRate);
     }
 
     public function get_Allrate()
