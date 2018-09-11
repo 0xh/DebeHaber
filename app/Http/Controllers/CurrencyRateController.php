@@ -39,8 +39,8 @@ class CurrencyRateController extends Controller
         ->whereMonth('date', '=', $date->month)
         ->whereYear('date', '=', $date->year)
         ->where(function ($q) use($taxPayerID) {
-            $q->where('taxpayer_id', $taxPayerID)
-            ->orWhereNull('taxpayer_id');
+            $q->whereNull('taxpayer_id')
+            ->orWhere('taxpayer_id', $taxPayerID);
         })
         ->orderBy('taxpayer_id')
         ->first();
