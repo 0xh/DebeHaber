@@ -77,7 +77,7 @@
                     </div>
                     <div class="col-2">
                         <span class="m--font-boldest">
-                            @lang('global.Action')
+                            @lang('global.Actions')
                         </span>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                     </div>
 
                     <div class="col-2">
-                        <button v-on:click="onEdit(data)" class="btn btn-outline-pencil m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+                        <button v-if="data.taxpayer_id != null" v-on:click="onEdit(data)" class="btn btn-outline-pencil m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
                             <i class="la la-pencil"></i>
                         </button>
                     </div>
