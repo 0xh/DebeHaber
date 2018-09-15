@@ -526,7 +526,7 @@ class ChartController extends Controller
             $chart->type = 1;
             $chart->sub_type = 9;
             $chart->is_accountable = true;
-            $chart->name = $assetGroup;
+            $chart->name = $assetGroup ?? __('enum.FixedAssets');
             $chart->asset_years = $lifeSpan;
             $chart->code = 'N/A';
             $chart->save();

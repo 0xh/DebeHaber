@@ -19,13 +19,12 @@ class FixedAssetController extends Controller
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
         $charts = Chart::FixedAssetGroups()->get();
-        return view('commercial/fixed-assets')->with('charts',$charts);
+        return view('commercial/fixed-assets')->with('charts', $charts);
     }
 
     public function getFixedAsset(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return FixedAssetResource::collection(FixedAsset::where('taxpayer_id', $taxPayer->id)->paginate(50));
-
+        return FixedAssetResource::collection(FixedAsset::where('taxpayer_id', $taxPayer->id)->with('chart')->paginate(50));
     }
 
     public function getFixedAssetByID(Taxpayer $taxPayer, Cycle $cycle,$id)

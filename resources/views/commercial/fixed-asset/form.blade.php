@@ -63,6 +63,7 @@
                         @lang('commercial.PurchaseValue')
                     </label>
                     <div class="col-8">
+
                         <input type="text" class="form-control" v-model="purchase_value" />
                     </div>
                 </div>

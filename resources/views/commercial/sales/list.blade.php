@@ -1,5 +1,4 @@
 <div>
-
     <b-table :data="list" hoverable :loading="isLoading">
         <template slot-scope="props">
             <b-table-column field="Date" label="@lang('global.Date')" sortable>
@@ -45,8 +44,7 @@
 
             </b-table-column>
         </template>
-
-
     </b-table>
+
     <b-pagination :total="meta.total" order="is-centered" :rounded="true" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>
 </div>

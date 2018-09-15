@@ -1,46 +1,40 @@
 
 <div>
-    <div class="row">
-        <div class="col-2">
-            <p class="m--align-right m--font-boldest m--font-transform-u">@lang('commercial.PurchaseDate')</p>
-        </div>
-        <div class="col-2 m--font-boldest">
-            <p class="m--font-boldest m--font-transform-u">@lang('accounting.ChartofAccounts')</p>
-        </div>
-        <div class="col-2">
-            <p class="m--font-boldest m--font-transform-u">@lang('global.Quantity')</p>
-        </div>
-        <div class="col-4">
-            <p class="m--font-boldest m--font-transform-u">@lang('commercial.FixedAssets')</p>
-        </div>
+    <b-table :data="list" hoverable :loading="isLoading">
+        <template slot-scope="props">
+            <b-table-column field="purchase_date" label="@lang('commercial.PurchaseDate')" numeric sortable>
+                <small>
+                    @{{ new Date(props.row.purchase_date).toLocaleDateString() }}
+                </small>
+            </b-table-column>
 
-        <div class="col-2">
-            <p class="m--align-center m--font-boldest m--font-transform-u">@lang('commercial.PurchaseValue')</p>
-        </div>
-    </div>
+            <b-table-column field="chart" label="@lang('accounting.ChartofAccounts')" sortable>
+                @{{ props.row.chart.id }}
 
-    <div class="row m--margin-bottom-5" v-for="asset in list">
-        <div class="col-2">
-            <p class="m--font-bold m--align-right"> @{{ asset.purchase_date}} </p>
-        </div>
-        <div class="col-1">
-            <p> @{{ asset.chart }} </p>
-        </div>
-        <div class="col-5">
-            <p> @{{ asset.quantity}} </p>
-        </div>
-        <div class="col-2">
-            <p> @{{ asset.name}} </p>
-        </div>
-        <div class="col-2">
-            <p class="m--font-bold m--align-right"> @{{ asset.purchase_value}} </p>
-        </div>
-        <div class="col-1">
-            <div class="m-btn-group btn-group-sm m-btn-group--pill btn-group" role="group" aria-label="...">
-                <a class="m-btn btn btn-secondary"><i class="la la-check m--font-success"></i></a>
-                <a @click="onEdit(asset.id)" class="m-btn btn btn-secondary"><i class="la la-pencil m--font-brand"></i></a>
-            </div>
-        </div>
-    </div>
-    @include('layouts/infinity-loading')
+                <small class="m--font-metal">
+                    @{{ props.row.chart.code }}
+                </small>
+            </b-table-column>
+
+            <b-table-column field="name" width="512" label="@lang('commercial.FixedAssets')" sortable>
+                @{{ props.row.name }}
+            </b-table-column>
+
+            <b-table-column field="quantity" label="@lang('global.Quantity')" numeric sortable>
+                @{{ new Number(props.row.quantity).toLocaleString() }}
+            </b-table-column>
+
+            <b-table-column field="purchase_value" label="@lang('commercial.PurchaseValue')" numeric sortable>
+                @{{ new Number(props.row.purchase_value).toLocaleString() }}
+            </b-table-column>
+
+            <b-table-column custom-key="actions" numeric>
+                <a v-on:click="onEdit(props.row.id)" class="m--font-metal" href="#">
+                    <i class="fa fa-pencil-alt"></i>
+                </a>
+            </b-table-column>
+        </template>
+    </b-table>
+
+    <b-pagination :total="meta.total" order="is-centered" :rounded="true" :current.sync="meta.current_page" :simple="false" :per-page="meta.per_page" @change="pageChange"> </b-pagination>
 </div>
