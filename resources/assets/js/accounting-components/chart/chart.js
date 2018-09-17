@@ -52,7 +52,10 @@ Vue.component('chart',{
       var api = null;
 
       app.parent_id = app.$children[0].id;
-      app.partner_id = app.$children[1].id;
+      if (app.$children[1]!=null) {
+        app.partner_id = app.$children[1].id;
+      }
+
       console.log(app.$children[1])
       if (app.code == '')
       {

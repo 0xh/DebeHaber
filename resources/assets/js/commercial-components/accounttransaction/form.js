@@ -92,6 +92,7 @@ Vue.component('account-form',
             if (isnew == false)
             {
                 app.$parent.$parent.showList = true;
+                app.$parent.onLoad(1);
             }
         },
 
@@ -120,6 +121,7 @@ Vue.component('account-form',
             {
                 if (response.status = 200 )
                 {
+                    alert('success...')
                     app.onReset(isnew);
                 }
                 else

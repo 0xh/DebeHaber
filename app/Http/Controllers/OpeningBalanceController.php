@@ -85,20 +85,23 @@ class OpeningBalanceController extends Controller
         foreach ($details as $detail)
         {
             // JournalDetail::where('id', $detail->journal_id)->first() ??
-            $journalDetail = new JournalDetail();
 
-            $journalDetail->journal_id = $journal->id;
-            $journalDetail->chart_id = $detail['id'];
-            $journalDetail->debit = $detail['debit'] ?? 0;
-            $journalDetail->credit = $detail['credit'] ?? 0;
+            if ($detail['id']>0) {
+                $journalDetail = new JournalDetail();
+                $journalDetail->journal_id = $journal->id;
+                $journalDetail->chart_id = $detail['id'];
+                $journalDetail->debit = $detail['debit'] ?? 0;
+                $journalDetail->credit = $detail['credit'] ?? 0;
 
-            //Save only if there are values ot be saved. avoid saving blank values.
-            if ($journalDetail->debit > 0 || $journalDetail->credit > 0)
-            {
-                $journalDetail->save();
+                //Save only if there are values ot be saved. avoid saving blank values.
+                if ($journalDetail->debit > 0 || $journalDetail->credit > 0)
+                {
+                    $journalDetail->save();
+                }
             }
+
         }
 
-        return response()->json('Ok', 200);
+        return response()->json("Ok", 200);
     }
 }

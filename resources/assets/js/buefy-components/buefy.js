@@ -67,8 +67,9 @@ Vue.component('buefy',
         onDelete: function(data)
         {
             var app = this;
+
             $.ajax({
-                url: '/taxpayer/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + data.ID,
+                url: '/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + data.ID,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
                 type: 'delete',
                 dataType: 'json',
@@ -124,10 +125,14 @@ Vue.component('buefy',
                 data: json
             }).then(function (response)
             {
+
                 if (response.status = 200 )
                 {
-                    var app = this;
+
+                    
+
                     app.onLoad(0);
+                    alert("Save Success...")
                 }
                 else
                 {

@@ -80917,7 +80917,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('chart', {
       var api = null;
 
       app.parent_id = app.$children[0].id;
-      app.partner_id = app.$children[1].id;
+      if (app.$children[1] != null) {
+        app.partner_id = app.$children[1].id;
+      }
+
       console.log(app.$children[1]);
       if (app.code == '') {
         app.$swal('Please Check fields?', 'code', 'warning');
@@ -81797,8 +81800,9 @@ Vue.component('buefy', {
         },
         onDelete: function onDelete(data) {
             var app = this;
+
             $.ajax({
-                url: '/taxpayer/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + data.ID,
+                url: '/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '/' + data.ID,
                 headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
                 type: 'delete',
                 dataType: 'json',
@@ -81844,9 +81848,11 @@ Vue.component('buefy', {
             responseType: 'json',
             data: json
         }).then(function (response) {
+
             if (response.status = 200) {
-                var app = this;
+
                 app.onLoad(0);
+                alert("Save Success...");
             } else {
                 alert('Something Went Wrong...');
             }
@@ -82563,6 +82569,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('account-form', {
 
             if (isnew == false) {
                 app.$parent.$parent.showList = true;
+                app.$parent.onLoad(1);
             }
         },
 
@@ -82586,6 +82593,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('account-form', {
 
             }).then(function (response) {
                 if (response.status = 200) {
+                    alert('success...');
                     app.onReset(isnew);
                 } else {
                     alert('Something Went Wrong...');

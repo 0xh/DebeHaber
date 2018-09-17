@@ -9,7 +9,7 @@ use App\Cycle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use App\Http\Resources\ModelResource;
+use App\Http\Resources\AccountMovementResource;
 use Carbon\Carbon;
 use DB;
 use Auth;
@@ -23,7 +23,7 @@ class AccountMovementController extends Controller
 
     public function getMovement(Taxpayer $taxPayer, Cycle $cycle)
     {
-        return ModelResource::collection(
+        return AccountMovementResource::collection(
             AccountMovement::
             orderBy('date', 'DESC')
             ->with('chart')
@@ -185,5 +185,20 @@ class AccountMovementController extends Controller
         }
 
         //End of Code
+    }
+
+    public function destroy(Taxpayer $taxPayer, Cycle $cycle,$ID)
+    {
+        try
+        {
+            //TODO: Run Tests to make sure it deletes all journals related to transaction
+            AccountMovement::where('id', $ID)->delete();
+            
+            return response()->json('Ok', 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json($e, 500);
+        }
     }
 }
