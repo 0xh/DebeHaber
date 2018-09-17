@@ -8,7 +8,7 @@
                 <div class="intro-img">
                     <img src="{{asset('/img/create-team.svg')}}" class="h-90">
                 </div>
-                <h4 class="title is-4">
+                <h4>
                     {{__('teams.wheres_your_team')}}
                 </h4>
                 <p class="intro-copy">

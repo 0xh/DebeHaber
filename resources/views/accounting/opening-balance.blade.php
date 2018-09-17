@@ -120,14 +120,16 @@
                             @lang('commercial.Account')
                         </span>
                     </div>
-                    <div class="col-2">
-                        <span class="m--font-boldest">
-                            @lang('accounting.Debit')
-                        </span>
-                    </div>
+
                     <div class="col-2">
                         <span class="m--font-boldest">
                             @lang('accounting.Credit')
+                        </span>
+                    </div>
+
+                    <div class="col-2">
+                        <span class="m--font-boldest">
+                            @lang('accounting.Debit')
                         </span>
                     </div>
                 </div>
@@ -158,14 +160,17 @@
                             <b>@{{ balance.code }}</b>
                         </span>
                     </div>
+
                     <div class="col-5">
                         @{{ balance.name }}
                     </div>
-                    <div v-if="balance.is_accountable" class="col-2">
-                        <b-input placeholder="@lang('accounting.Debit')" v-model="balance.debit" type="number" min="0"></b-input>
-                    </div>
+
                     <div v-if="balance.is_accountable" class="col-2">
                         <b-input placeholder="@lang('accounting.Credit')" v-model="balance.credit" type="number" min="0"></b-input>
+                    </div>
+
+                    <div v-if="balance.is_accountable" class="col-2">
+                        <b-input placeholder="@lang('accounting.Debit')" v-model="balance.debit" type="number" min="0"></b-input>
                     </div>
                 </div>
 
