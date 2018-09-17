@@ -192,8 +192,8 @@ class AccountMovementController extends Controller
         try
         {
             //TODO: Run Tests to make sure it deletes all journals related to transaction
-            AccountMovement::where('id', $ID)->delete();
-            
+            AccountMovement::where('id', $ID)->forceDelete();
+
             return response()->json('Ok', 200);
         }
         catch (\Exception $e)
