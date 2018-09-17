@@ -8,7 +8,6 @@ class ChartAssetTypeEnum extends Enum
 {
     const BankAccount               = 1;
     const PettyCash                 = 3;
-    // const PayrollAccount            = 2;
     const MarketableSecurities      = 4;
     const AccountsReceivable        = 5;
     const AllowanceDoubtfulAccounts = 6; //(contra account)
