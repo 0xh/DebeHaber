@@ -102,6 +102,14 @@
           </template>
         </span>
       </div>
+      <div class="input-group-append">
+        <span class="input-group-text m--font-boldest" id="basic-addon1">
+          <a class="btn-icon-only" @click="showModal = true">
+            <i class="la la-plus"></i>
+          </a>
+      
+        </span>
+      </div>
     </div>
 
     <ul v-show="hasItems">
