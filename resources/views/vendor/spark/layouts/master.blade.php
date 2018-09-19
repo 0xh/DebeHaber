@@ -150,7 +150,7 @@
                         <span class="m-footer__copyright">
                             {{ date("Y") }} &copy; @lang('global.DebeHaberBy')
                             <a href="https://www.cognitivo.in" class="m-link">
-                                Cognitivo Paraguay SA
+                                Cognitivo, Inc.
                             </a>
                         </span>
                     </div>

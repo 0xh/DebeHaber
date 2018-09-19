@@ -15,7 +15,7 @@ class SparkServiceProvider extends ServiceProvider
     * @var array
     */
     protected $details = [
-        'vendor' => 'Cognitivo',
+        'vendor' => 'Cognitivo Inc',
         'product' => 'DebeHaber',
         'street' => 'Planta Industrial, Km 24 Ruta II.',
         'location' => 'Capiata, Paraguay',
