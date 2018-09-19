@@ -1,6 +1,6 @@
 @extends('spark::layouts.app')
 
-@section('title', 'Settings')
+@section('title', __('global.Settings'))
 
 @section('scripts')
     @if (Spark::billsUsingStripe())

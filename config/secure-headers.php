@@ -137,6 +137,12 @@ return [
             //
         ],
 
+        'frame-src' => [
+            'allow' => [
+                $protocol.'js.stripe.com/',
+            ],
+        ],
+
         'default-src' => [
             //
         ],

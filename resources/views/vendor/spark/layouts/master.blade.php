@@ -248,7 +248,7 @@
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="/js/scripts.bundle.js"></script>
 
-    @yield('script')
+    @yield('scripts')
 </body>
 <!-- end::Body -->
 </html>
