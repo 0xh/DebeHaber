@@ -2,10 +2,10 @@
 
 $protocol = 'https://';
 
-// if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
-// {
-//     $protocol = 'http://';
-// }
+if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
+{
+    $protocol = 'http://';
+}
 
 return [
 
@@ -227,7 +227,8 @@ return [
         ],
 
         'connect-src' => [
-            'self' => true
+            'self' => true,
+            'http://www.debehaber.com/'
         ],
 
         'form-action' => [
