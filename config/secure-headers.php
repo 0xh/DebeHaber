@@ -228,11 +228,9 @@ return [
 
         'connect-src' => [
             'self' => true,
-            'http://www.debehaber.com/'
         ],
 
         'form-action' => [
-
             'self' => true,
         ],
 

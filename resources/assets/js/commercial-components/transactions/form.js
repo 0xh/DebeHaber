@@ -307,8 +307,8 @@ Vue.component('transaction-form',
         getAccounts: function(data)
         {
             var app = this;
-            axios
-            .get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get-money_accounts')
+
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/accounting/chart/get-money_accounts')
             .then(({ data }) =>
             {
                 app.accounts = [];
@@ -359,6 +359,7 @@ Vue.component('transaction-form',
         getCharts: function(data)
         {
             var app = this;
+
             axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-charts/')
             .then(({ data }) =>
             {
@@ -374,6 +375,7 @@ Vue.component('transaction-form',
         getTaxes: function()
         {
             var app = this;
+
             axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-vats/')
             .then(({ data }) =>
             {
@@ -394,13 +396,12 @@ Vue.component('transaction-form',
             var app = this;
             app.taxpayer_id = app.$parent.taxpayer;
         }
-
-
     },
+
     mounted: function mounted()
     {
-        this.type=this.trantype;
-        //this.init();
+        this.type = this.trantype;
+
         this.getCharts();
         this.getTaxes();
         this.getAccounts();
