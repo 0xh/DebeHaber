@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import VueSweetAlert from 'vue-sweetalert';
 import axios from 'axios';
 import MaskedInput from 'vue-masked-input';
 
@@ -75,7 +74,6 @@ Vue.component('transaction-form',
 
         grandTaxExempt: function()
         {
-
             var app = this;
             var totalTaxExempt = new Number(0);
 
@@ -212,7 +210,6 @@ Vue.component('transaction-form',
         {
             var app = this;
             var api = null;
-            //app.type = app.trantype;
 
             if (this.$children[0] != null) {
                 if (app.type == 4 || app.type == 5)
@@ -230,7 +227,8 @@ Vue.component('transaction-form',
                 url: '',
                 responseType: 'json',
                 data: json
-            }).then(function (response)
+            })
+            .then(function (response)
             {
                 if (response.status = 200 )
                 {
@@ -238,7 +236,13 @@ Vue.component('transaction-form',
                 }
                 else
                 {
-                    alert('Something Went Wrong...')
+                    this.$snackbar.open({
+                        duration: 5000,
+                        message: 'Status: ' . response.status,
+                        type: 'is-warning',
+                        position: 'is-bottom-left',
+                        queue: false,
+                    })
                 }
             })
             .catch(function (error)
@@ -415,7 +419,7 @@ Vue.component('transaction-form',
         },
 
         //Get Cost Centers
-        getCharts: function(data)
+        getCharts: function()
         {
             var app = this;
 
