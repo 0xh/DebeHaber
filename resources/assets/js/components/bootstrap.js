@@ -24,7 +24,7 @@ require('./../accounting-components/journal/bootstrap');
 //Commercial
 require('./../commercial-components/transactions/bootstrap');
 require('./../commercial-components/accounts/bootstrap');
-require('./../commercial-components/accounttransaction/bootstrap');
+require('./../commercial-components/account-transactions/bootstrap');
 require('./../commercial-components/inventories/bootstrap');
 
 //Configuration

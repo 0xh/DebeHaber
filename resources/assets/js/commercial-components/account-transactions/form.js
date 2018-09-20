@@ -39,13 +39,10 @@ Vue.component('account-form',
         }
     },
 
-
     methods:
     {
-
         onEdit: function(data)
         {
-            console.log(data)
             var app = this;
             app.id = data.id;
             app.Customer = data.Customer;
@@ -74,10 +71,10 @@ Vue.component('account-form',
             app.id = 0;
             app.Customer = null;
             app.Supplier = null;
-            app.Paid =null;
+            app.Paid = null;
             app.SupplierTaxID=null;
             app.CustomerTaxID=null;
-            app.Value=null;
+            app.Value = null;
             app.Balance = 0;
             app.date = null;
             app.customer_id = null;
@@ -103,36 +100,42 @@ Vue.component('account-form',
             var app = this;
             var api = null;
 
-
-            if (parseFloat(app.payment_value)>parseFloat(app.Balance))
+            if (parseFloat(app.payment_value) > parseFloat(app.Balance))
             {
                 alert('Payment Exceed..');
                 return;
             }
 
-            console.log(json);
             axios({
                 method: 'post',
                 url: '',
                 responseType: 'json',
                 data: json
-
-            }).then(function (response)
+            })
+            .then(function (response)
             {
                 if (response.status = 200 )
                 {
-                    alert('success...')
                     app.onReset(isnew);
                 }
                 else
                 {
-                    alert('Something Went Wrong...')
+                    this.$snackbar.open({
+                        message: 'Status: ' . response.status,
+                        type: 'is-warning',
+                        position: 'is-bottom-left',
+                        queue: false,
+                    })
                 }
             })
             .catch(function (error)
             {
-                console.log(error);
-                console.log(error.response);
+                this.$snackbar.open({
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
             });
         },
 
@@ -143,69 +146,76 @@ Vue.component('account-form',
             var url = '';
 
             if (app.transType == 4 || app.transType == 5)
-            {
-                url = '/api/' + app.$parent.taxpayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date;
-            }
+            { url = '/api/' + app.$parent.taxpayer + '/get_buyRateByCurrency/' + app.currency_id + '/' + app.date; }
             else
-            {
-                url = '/api/' + app.$parent.taxpayer + '/get_sellRateByCurrency/' + app.currency_id + '/' + app.date;
-            }
+            { url = '/api/' + app.$parent.taxpayer + '/get_sellRateByCurrency/' + app.currency_id + '/' + app.date; }
 
             axios.get(url).then(({ data }) => { app.rate = data; });
         },
 
 
-
-
-
         getCurrencies: function(data)
         {
             var app = this;
-            axios.get('/api/' + app.$parent.taxpayer + '/get_currency' ,
-        )
-        .then(({ data }) =>
-        {
-            app.currencies = [];
-            for(let i = 0; i < data.length; i++)
+            axios.get('/api/' + app.$parent.taxpayer + '/get_currency')
+            .then(({ data }) =>
             {
-                app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
-                if (data[i]['code'] == this.taxpayerCurrency)
+                app.currencies = [];
+                for(let i = 0; i < data.length; i++)
                 {
-                    app.currency_id = data[i]['id'];
+                    app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
+                    if (data[i]['code'] == this.taxpayerCurrency)
+                    {
+                        app.currency_id = data[i]['id'];
+                    }
                 }
-            }
-        });
-
-    },
-    //Get Cost Centers
-    getCharts: function(data)
-    {
-        var app = this;
-        axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-charts/',
-    )
-    .then(({ data }) =>
-    {
-        app.charts = [];
-        for(let i = 0; i < data.length; i++)
+            })
+            .catch(function (error)
+            {
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
+            });
+        },
+        //Get Cost Centers
+        getCharts: function(data)
         {
-            app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
+            var app = this;
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-charts/')
+            .then(({ data }) =>
+            {
+                app.charts = [];
+                for(let i = 0; i < data.length; i++)
+                {
+                    app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
+                }
+            })
+            .catch(function (error)
+            {
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
+            });
+        },
+
+        init: function (data)
+        {
+            var app = this;
+            app.taxpayer_id = app.$parent.taxpayer;
         }
+    },
 
-    });
-
-},
-
-
-init: function (data)
-{
-    var app = this;
-    app.taxpayer_id = app.$parent.taxpayer;
-}
-},
-
-mounted: function mounted()
-{
-    this.init();
-    this.getCurrencies();
-}
+    mounted: function mounted()
+    {
+        this.init();
+        this.getCurrencies();
+    }
 });

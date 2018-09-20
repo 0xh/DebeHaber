@@ -237,7 +237,7 @@ Vue.component('transaction-form',
                 else
                 {
                     this.$snackbar.open({
-                        duration: 5000,
+
                         message: 'Status: ' . response.status,
                         type: 'is-warning',
                         position: 'is-bottom-left',
@@ -248,7 +248,7 @@ Vue.component('transaction-form',
             .catch(function (error)
             {
                 this.$snackbar.open({
-                    duration: 5000,
+
                     message: 'Error: ' . error.response,
                     type: 'is-danger',
                     position: 'is-bottom-left',
@@ -270,7 +270,7 @@ Vue.component('transaction-form',
             .catch(function (error)
             {
                 this.$snackbar.open({
-                    duration: 5000,
+
                     message: 'Error: ' . error.response,
                     type: 'is-danger',
                     position: 'is-bottom-left',
@@ -292,7 +292,7 @@ Vue.component('transaction-form',
                 .catch(function (error)
                 {
                     this.$snackbar.open({
-                        duration: 5000,
+
                         message: 'Error: ' . error.response,
                         type: 'is-danger',
                         position: 'is-bottom-left',
@@ -307,7 +307,7 @@ Vue.component('transaction-form',
                 .catch(function (error)
                 {
                     this.$snackbar.open({
-                        duration: 5000,
+
                         message: 'Error: ' . error.response,
                         type: 'is-danger',
                         position: 'is-bottom-left',
@@ -359,13 +359,13 @@ Vue.component('transaction-form',
             .catch(function (error)
             {
                 this.$snackbar.open({
-                    duration: 5000,
+
                     message: 'Error: ' . error.response,
                     type: 'is-danger',
                     position: 'is-bottom-left',
                     queue: false,
                 })
-            });;
+            });
         },
 
         getDocuments: function(data)
@@ -383,7 +383,7 @@ Vue.component('transaction-form',
             .catch(function (error)
             {
                 this.$snackbar.open({
-                    duration: 5000,
+
                     message: 'Error: ' . error.response,
                     type: 'is-danger',
                     position: 'is-bottom-left',
@@ -409,7 +409,7 @@ Vue.component('transaction-form',
             .catch(function (error)
             {
                 this.$snackbar.open({
-                    duration: 5000,
+
                     message: 'Error: ' . error.response,
                     type: 'is-danger',
                     position: 'is-bottom-left',
@@ -435,7 +435,7 @@ Vue.component('transaction-form',
             .catch(function (error)
             {
                 this.$snackbar.open({
-                    duration: 5000,
+
                     message: 'Error: ' . error.response,
                     type: 'is-danger',
                     position: 'is-bottom-left',
@@ -465,7 +465,7 @@ Vue.component('transaction-form',
             .catch(function (error)
             {
                 this.$snackbar.open({
-                    duration: 5000,
+
                     message: 'Error: ' . error.response,
                     type: 'is-danger',
                     position: 'is-bottom-left',
