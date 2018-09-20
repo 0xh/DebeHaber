@@ -20,13 +20,19 @@ Vue.component('buefy',
             axios
             .get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '?page=' + page)
             .then(response => {
-
                 this.isLoading = false;
                 this.list = response.data.data;
                 this.meta = response.data.meta;
                 this.data = response.data;
             }).catch(error => {
                 this.isLoading = false;
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . xhr.responseText,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
             });
         },
         pageChange (page)
@@ -48,21 +54,28 @@ Vue.component('buefy',
                 async: true,
                 success: function(data)
                 {
-                    console.log(data);
                     app.$children[0].onEdit(data[0]);
                 },
                 error: function(xhr, status, error)
                 {
-                    console.log(status);
+                    this.$snackbar.open({
+                        duration: 5000,
+                        message: 'Error: ' . xhr.responseText,
+                        type: 'is-danger',
+                        position: 'is-bottom-left',
+                        queue: false,
+                    })
                 }
             });
         },
+
         onDeleteAccount: function(data)
         {
             this.fromid = data.id;
             this.fromname = data.name;
             this.isActive = true;
         },
+
         onDelete: function(data)
         {
             var app = this;
@@ -84,14 +97,22 @@ Vue.component('buefy',
                 },
                 error: function(xhr, status, error)
                 {
-                    console.log(xhr.responseText);
+                    this.$snackbar.open({
+                        duration: 5000,
+                        message: 'Error: ' . xhr.responseText,
+                        type: 'is-danger',
+                        position: 'is-bottom-left',
+                        queue: false,
+                    })
                 }
             });
         },
+
         onAnull: function(data)
         {
             //SweetAlert message and confirmation.
             var app = this;
+
             $.ajax({
                 url: '/taxpayer/' + this.taxpayer + '/' + this.cycle + '/' +  this.baseurl + '/anull/' + data.ID,
                 headers: {'X-CSRF-TOKEN': CSRF_TOKEN},
@@ -104,16 +125,24 @@ Vue.component('buefy',
                 },
                 error: function(xhr, status, error)
                 {
-                    console.log(xhr.responseText);
+                    this.$snackbar.open({
+                        duration: 5000,
+                        message: 'Error: ' . xhr.responseText,
+                        type: 'is-danger',
+                        position: 'is-bottom-left',
+                        queue: false,
+                    })
                 }
             });
         },
+
         onDeleteAccount: function(data)
         {
             var app = this;
             app.item = data;
             app.isActive = true;
         },
+
         saveOpeningClosingBalance : function(json)
         {
             var app=this;
@@ -124,24 +153,25 @@ Vue.component('buefy',
                 data: json
             }).then(function (response)
             {
-
                 if (response.status = 200 )
                 {
-
-
-
                     app.onLoad(0);
-                    alert("Save Success...")
+                    this.$snackbar.open('Ok!')
                 }
                 else
                 {
-                    alert('Something Went Wrong...')
+                    alert('Something Went Wrong...');
                 }
             })
             .catch(function (error)
             {
-              console.log(error);
-                console.log(error.response);
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
             });
         }
     },

@@ -128,8 +128,6 @@ Vue.component('transaction-form',
 
         onEdit: function(data)
         {
-
-            console.log(data);
             var app = this;
 
             app.id = data.id;
@@ -157,7 +155,6 @@ Vue.component('transaction-form',
 
             for (var i = 0; i < app.details.length; i++)
             {
-
                 app.onPriceChange(app.details[i]);
             }
 
@@ -246,7 +243,13 @@ Vue.component('transaction-form',
             })
             .catch(function (error)
             {
-                console.log(error.response);
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
             });
         },
 
@@ -259,7 +262,17 @@ Vue.component('transaction-form',
                 app.number = data.current_range + 1;
                 app.code = data.code;
                 app.code_expiry = data.code_expiry;
-            });
+            })
+            .catch(function (error)
+            {
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
+            });;
         },
 
         getRate: function()
@@ -270,11 +283,33 @@ Vue.component('transaction-form',
             url = '/api/' + app.$parent.taxpayer + '/get_rates/' + app.currency_id + '/' + app.date;
             if (app.transType == 4 || app.transType == 5)
             {
-                axios.get(url).then(({ data }) => { app.rate = data.buy_rate; });
+                axios.get(url)
+                .then(({ data }) => { app.rate = data.buy_rate; })
+                .catch(function (error)
+                {
+                    this.$snackbar.open({
+                        duration: 5000,
+                        message: 'Error: ' . error.response,
+                        type: 'is-danger',
+                        position: 'is-bottom-left',
+                        queue: false,
+                    })
+                });
             }
             else
             {
-                axios.get(url).then(({ data }) => { app.rate = data.sell_rate; });
+                axios.get(url)
+                .then(({ data }) => { app.rate = data.sell_rate; })
+                .catch(function (error)
+                {
+                    this.$snackbar.open({
+                        duration: 5000,
+                        message: 'Error: ' . error.response,
+                        type: 'is-danger',
+                        position: 'is-bottom-left',
+                        queue: false,
+                    })
+                });;
             }
         },
 
@@ -316,7 +351,17 @@ Vue.component('transaction-form',
                 {
                     app.accounts.push({ name:data[i]['name'], id:data[i]['id'] });
                 }
-            });
+            })
+            .catch(function (error)
+            {
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
+            });;
         },
 
         getDocuments: function(data)
@@ -330,8 +375,17 @@ Vue.component('transaction-form',
                 {
                     app.documents.push({ name:data[i]['code'], id:data[i]['id'] });
                 }
-            });
-
+            })
+            .catch(function (error)
+            {
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
+            });;
         },
 
         getCurrencies: function()
@@ -346,13 +400,18 @@ Vue.component('transaction-form',
                 for(let i = 0; i < data.length; i++)
                 {
                     app.currencies.push({ name:data[i]['name'], id:data[i]['id'], isoCode:data[i]['code']});
-                    // if (data[i]['code'] == this.taxpayerCurrency)
-                    // {
-                    //     app.currency_id = data[i]['id'];
-                    // }
                 }
+            })
+            .catch(function (error)
+            {
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
             });
-
         },
 
         //Get Cost Centers
@@ -368,6 +427,16 @@ Vue.component('transaction-form',
                 {
                     app.charts.push({ name:data[i]['name'], id:data[i]['id'] });
                 }
+            })
+            .catch(function (error)
+            {
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
             });
         },
 
@@ -388,6 +457,16 @@ Vue.component('transaction-form',
                         coefficient:data[i]['coefficient']
                     });
                 }
+            })
+            .catch(function (error)
+            {
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
             });
         },
 
