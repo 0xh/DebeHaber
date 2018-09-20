@@ -165,6 +165,7 @@ return [
                 $protocol.'ajax.googleapis.com/ajax/libs/webfont/',
                 $protocol.'code.jquery.com/jquery-3.2.1.min.js',
                 $protocol.'maxcdn.bootstrapcdn.com/',
+                $protocol.'js-agent.newrelic.com/nr-1071.min.js'
             ],
 
             'hashes' => [

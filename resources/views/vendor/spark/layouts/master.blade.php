@@ -112,7 +112,9 @@
                                                             <b-icon icon="angle-down"></b-icon>
                                                         </button>
 
-                                                        <b-dropdown-item v-for="cycle in cycles" @click="changeCycle(cycle.id)">@{{ cycle.year }}</b-dropdown-item>
+                                                        <b-dropdown-item v-for="cycle in cycles" @click="changeCycle(cycle.id)">
+                                                            @{{ cycle.year }}
+                                                        </b-dropdown-item>
                                                     </b-dropdown>
                                                 </li>
                                             </ul>
