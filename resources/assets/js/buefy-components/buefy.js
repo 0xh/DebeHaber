@@ -17,7 +17,6 @@ Vue.component('buefy',
     methods: {
         onLoad(page)
         {
-          console.log(page);
             axios
             .get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '?page=' + page)
             .then(response => {
@@ -129,7 +128,7 @@ Vue.component('buefy',
                 if (response.status = 200 )
                 {
 
-                    
+
 
                     app.onLoad(0);
                     alert("Save Success...")
