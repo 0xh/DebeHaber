@@ -465,7 +465,6 @@ Vue.component('transaction-form',
             .catch(function (error)
             {
                 this.$snackbar.open({
-
                     message: 'Error: ' . error.response,
                     type: 'is-danger',
                     position: 'is-bottom-left',
@@ -481,7 +480,7 @@ Vue.component('transaction-form',
         }
     },
 
-    mounted: function mounted()
+    created: function created()
     {
         this.type = this.trantype;
 
