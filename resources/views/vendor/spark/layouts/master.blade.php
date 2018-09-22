@@ -245,12 +245,10 @@
         <!-- begin::Quick Nav -->
     </div>
 
-
+    @yield('scripts')
     <script src="/vendors/base/vendors.bundle.js"></script>
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="/js/scripts.bundle.js"></script>
-
-    @yield('scripts')
 </body>
 <!-- end::Body -->
 </html>
