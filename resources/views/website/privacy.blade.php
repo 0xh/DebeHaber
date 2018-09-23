@@ -1,5 +1,5 @@
 
-@extends('layouts.website')
+@extends('spark::layouts.master')
 
 @section('content')
     <div class="container">
@@ -20,9 +20,8 @@
                         </p>
 
                         <p>
-                            Es política de J &amp; P International SRL respetar su privacidad con respecto a cualquier información que podamos recopilar de usted a través de nuestro sitio web, <a href="https://www.debehaber.com">https://www.debehaber.com</a>.
+                            Es política de Cognitivo, Inc respetar su privacidad con respecto a cualquier información que podamos recopilar de usted a través de nuestro sitio web, <a href="https://www.debehaber.com"> https://www.debehaber.com </a>.
                         </p>
-
 
                         <h4 class="title is-4">Información personal</h4>
 
@@ -73,6 +72,7 @@
                         <p>
                             Si nosotros o nuestros activos se adquieren, o en el improbable caso de que salgamos del negocio o de entrar en quiebra, incluiremos información de usuario entre nuestros activos transferidos o adquiridos por un tercero. Usted reconoce que tales transferencias pueden ocurrir, y que cualquier parte que nos adquiere puede continuar utilizando su información personal de acuerdo con esta política.
                         </p>
+
                         <hr>
                     </div>
                 </div>

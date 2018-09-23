@@ -60,22 +60,20 @@ class SparkServiceProvider extends ServiceProvider
         Spark::useStripe()->noCardUpFront()->teamTrialDays(15);
 
         Spark::useRoles([
-            'mem' => 'Member',
-            'aux' => 'Auxiliary',
+            'view' => 'View Only',
+            'data' => 'Data Entry',
             'acc' => 'Accountant',
-            'aud' => 'Auditor',
         ]);
 
-        Spark::noAdditionalTeams();
+        //Spark::noAdditionalTeams();
+        Spark::collectBillingAddress();
 
-        Spark::chargeTeamsPerSeat('Contribuyente', function ($team) {
+        Spark::chargeTeamsPerSeat('Taxpayers', function ($team) {
             return $team->taxpayers()->count();
         });
 
-        // Cashier::useCurrency('pyg', 'PYG ');
-
         Spark::freeTeamPlan()
-        ->maxTeamMembers(10)
+        ->maxTeamMembers(3)
         ->features([
             'All features, for one taxpayer.'
         ]);
@@ -86,7 +84,7 @@ class SparkServiceProvider extends ServiceProvider
             'All features, for each taxpayer.'
         ]);
 
-        // Spark::promotion('coupon');
+        Spark::promotion('1324132');
 
         Spark::checkPlanEligibilityUsing(function ($user, $plan)
         {

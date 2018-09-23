@@ -1,5 +1,5 @@
 
-@extends('layouts.website')
+@extends('spark::layouts.master')
 
 @section('content')
     <div class="container">

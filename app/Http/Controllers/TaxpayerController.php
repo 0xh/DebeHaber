@@ -40,7 +40,6 @@ class TaxpayerController extends Controller
                     'fields' => ['taxid', 'alias^3', 'name'],
                 ],
             ];
-
             return $client->search($params);
         })
         ->take(25)
@@ -156,6 +155,9 @@ class TaxpayerController extends Controller
         $taxPayer_Integration->team_id = Auth::user()->current_team_id;
         $taxPayer_Integration->type = $request->type ?? 1; //Default to 1 if nothing is selected
         $taxPayer_Integration->save();
+
+        $team = App\Team::find(Auth::user()->current_team_id);
+        $team->addSeat();
 
         //Only create settings if they don't already exists. Make sure not to over write another users information.
         $taxPayer_Setting = TaxpayerSetting::where('taxpayer_id', $taxPayer->id)->first() ?? new TaxpayerSetting();
