@@ -40,4 +40,8 @@ mix.sass('resources/assets/sass/app.scss', 'public/css')
 if (mix.inProduction())
 {
     mix.version();
-}
+};
+
+module.exports = {
+  mode: 'production'
+};

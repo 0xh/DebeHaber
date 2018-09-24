@@ -146,7 +146,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Nasyrov\Laravel\Enums\EnumServiceProvider::class,
 
         /*
         * Package Service Providers...
@@ -160,7 +159,8 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Kordy\Ticketit\TicketitServiceProvider::class,
-        
+        Nasyrov\Laravel\Enums\EnumServiceProvider::class,
+
         /*
         * Application Service Providers...
         */

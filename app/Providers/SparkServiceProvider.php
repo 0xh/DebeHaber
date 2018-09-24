@@ -84,7 +84,7 @@ class SparkServiceProvider extends ServiceProvider
             'All features, for each taxpayer.'
         ]);
 
-        Spark::promotion('1324132');
+        Spark::promotion('PG6wOMjV');
 
         Spark::checkPlanEligibilityUsing(function ($user, $plan)
         {
