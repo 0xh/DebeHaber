@@ -15,7 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        //\Bepsvpt\SecureHeaders\SecureHeadersMiddleware::class,
+        \Bepsvpt\SecureHeaders\SecureHeadersMiddleware::class,
         \App\Http\Middleware\SetLocale::class,
     ];
 

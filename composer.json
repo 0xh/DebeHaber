@@ -52,7 +52,8 @@
         "tamayo/laravel-scout-elastic": "*@dev",
         "themsaid/nova-cashier-manager": "^0.2.0",
         "watson/rememberable": "^2.0",
-        "wilburpowery/routes-cached": "^0.1.0"
+        "wilburpowery/routes-cached": "^0.1.0",
+        "khill/lavacharts": "^3.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
