@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad0df35b7be53fe529f5fa5c3797c18a",
+    "content-hash": "7669a13714e0230f7ec417b5660bab4f",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -918,16 +918,16 @@
         },
         {
             "name": "colinodell/json5",
-            "version": "v1.0.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/colinodell/json5.git",
-                "reference": "a720fbdaa07c802797524ab46575a74a6ac30719"
+                "reference": "8c73e1a5cd933ed0e29fb5d5997f23902bd9804c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/colinodell/json5/zipball/a720fbdaa07c802797524ab46575a74a6ac30719",
-                "reference": "a720fbdaa07c802797524ab46575a74a6ac30719",
+                "url": "https://api.github.com/repos/colinodell/json5/zipball/8c73e1a5cd933ed0e29fb5d5997f23902bd9804c",
+                "reference": "8c73e1a5cd933ed0e29fb5d5997f23902bd9804c",
                 "shasum": ""
             },
             "require": {
@@ -937,9 +937,9 @@
             },
             "require-dev": {
                 "mikehaertl/php-shellcommand": "^1.2.5",
-                "phpunit/phpunit": "^4.8.36",
+                "phpunit/phpunit": "^4.8.36|^7.3",
                 "squizlabs/php_codesniffer": "^2.3",
-                "symfony/finder": "^2.3"
+                "symfony/finder": "^2.8|^3.4|^4.1"
             },
             "bin": [
                 "bin/json5"
@@ -978,7 +978,7 @@
                 "json5_decode",
                 "json_decode"
             ],
-            "time": "2018-01-14T23:52:11+00:00"
+            "time": "2018-09-20T15:43:07+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1038,20 +1038,21 @@
         },
         {
             "name": "consoletvs/charts",
-            "version": "6.3.0",
+            "version": "6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ConsoleTVs/Charts.git",
-                "reference": "c9713fbbb9f53a019ce11986ff29ce7a8366c2b6"
+                "reference": "837f3f8b6692f15529ed3493198dd276bcc6b298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ConsoleTVs/Charts/zipball/c9713fbbb9f53a019ce11986ff29ce7a8366c2b6",
-                "reference": "c9713fbbb9f53a019ce11986ff29ce7a8366c2b6",
+                "url": "https://api.github.com/repos/ConsoleTVs/Charts/zipball/837f3f8b6692f15529ed3493198dd276bcc6b298",
+                "reference": "837f3f8b6692f15529ed3493198dd276bcc6b298",
                 "shasum": ""
             },
             "require": {
                 "balping/json-raw-encoder": "^1.0",
+                "illuminate/console": "5.*",
                 "illuminate/support": "5.*",
                 "php": ">=7.0"
             },
@@ -1079,7 +1080,7 @@
                 }
             ],
             "description": "The laravel charting package",
-            "time": "2018-09-04T02:56:51+00:00"
+            "time": "2018-09-21T11:05:31+00:00"
         },
         {
             "name": "davidpiesse/nova-maintenance-mode",
@@ -2798,17 +2799,83 @@
             "time": "2018-05-16T11:53:55+00:00"
         },
         {
-            "name": "kordy/ticketit",
-            "version": "v0.4.4",
+            "name": "khill/lavacharts",
+            "version": "3.1.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/thekordy/ticketit.git",
-                "reference": "f774e435022e6a11acfb26a06ef9c872eef61c44"
+                "url": "https://github.com/kevinkhill/lavacharts.git",
+                "reference": "1e4d056519a933e2406699d956b2bd8a27150955"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thekordy/ticketit/zipball/f774e435022e6a11acfb26a06ef9c872eef61c44",
-                "reference": "f774e435022e6a11acfb26a06ef9c872eef61c44",
+                "url": "https://api.github.com/repos/kevinkhill/lavacharts/zipball/1e4d056519a933e2406699d956b2bd8a27150955",
+                "reference": "1e4d056519a933e2406699d956b2bd8a27150955",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "~1.14",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "~0.3",
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.8",
+                "satooshi/php-coveralls": "~1.0",
+                "squizlabs/php_codesniffer": "~2.5"
+            },
+            "suggest": {
+                "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Khill\\Lavacharts\\Laravel\\LavachartsServiceProvider"
+                    ],
+                    "aliases": {
+                        "Lava": "Khill\\Lavacharts\\Laravel\\LavachartsFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Khill\\Lavacharts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Hill",
+                    "email": "kevinkhill@gmail.com",
+                    "role": "Creator"
+                }
+            ],
+            "description": "PHP wrapper library for the Google Chart API",
+            "homepage": "http://lavacharts.com",
+            "keywords": [
+                "charts",
+                "google",
+                "graphs",
+                "laravel",
+                "symfony"
+            ],
+            "time": "2018-08-01T16:39:51+00:00"
+        },
+        {
+            "name": "kordy/ticketit",
+            "version": "v0.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thekordy/ticketit.git",
+                "reference": "55fc54152a2e9d941e114f8c242b7db209c2a47e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thekordy/ticketit/zipball/55fc54152a2e9d941e114f8c242b7db209c2a47e",
+                "reference": "55fc54152a2e9d941e114f8c242b7db209c2a47e",
                 "shasum": ""
             },
             "require": {
@@ -2840,14 +2907,14 @@
                     "email": "balping314@gmail.com"
                 }
             ],
-            "description": "A simple helpdesk tickets system for Laravel 5.1, 5.2, 5.3, 5.4, 5.5 and 5.6 which integrates smoothly with Laravel default users and auth system",
+            "description": "A simple helpdesk tickets system for Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6 and 5.7 which integrates smoothly with Laravel default users and auth system",
             "keywords": [
                 "helpdesk",
                 "laravel",
                 "support",
                 "ticket"
             ],
-            "time": "2018-08-02T11:45:31+00:00"
+            "time": "2018-09-19T21:42:42+00:00"
         },
         {
             "name": "laravel/cashier",
@@ -4094,23 +4161,23 @@
         },
         {
             "name": "mews/purifier",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mewebstudio/Purifier.git",
-                "reference": "7333435c9842e207f3381b7319b63122f8c9403e"
+                "reference": "b66ad8d4680ef264e8b65602dbf96c766460d954"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mewebstudio/Purifier/zipball/7333435c9842e207f3381b7319b63122f8c9403e",
-                "reference": "7333435c9842e207f3381b7319b63122f8c9403e",
+                "url": "https://api.github.com/repos/mewebstudio/Purifier/zipball/b66ad8d4680ef264e8b65602dbf96c766460d954",
+                "reference": "b66ad8d4680ef264e8b65602dbf96c766460d954",
                 "shasum": ""
             },
             "require": {
                 "ezyang/htmlpurifier": "4.10.*",
-                "illuminate/config": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.*",
-                "illuminate/filesystem": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.*",
-                "illuminate/support": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.*",
+                "illuminate/config": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.*",
+                "illuminate/filesystem": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.*",
+                "illuminate/support": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.*",
                 "php": ">=5.5.9"
             },
             "require-dev": {
@@ -4165,7 +4232,7 @@
                 "security",
                 "xss"
             ],
-            "time": "2018-03-21T12:29:49+00:00"
+            "time": "2018-09-19T18:05:25+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4539,16 +4606,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v2.5.2",
+            "version": "v2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "183069866dc477fcfbac393ed486aaa6d93d19a5"
+                "reference": "17b9f76f2abd0c943adfb556e56f2165460b15ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/183069866dc477fcfbac393ed486aaa6d93d19a5",
-                "reference": "183069866dc477fcfbac393ed486aaa6d93d19a5",
+                "url": "https://api.github.com/repos/nette/utils/zipball/17b9f76f2abd0c943adfb556e56f2165460b15ce",
+                "reference": "17b9f76f2abd0c943adfb556e56f2165460b15ce",
                 "shasum": ""
             },
             "require": {
@@ -4617,7 +4684,7 @@
                 "utility",
                 "validation"
             ],
-            "time": "2018-05-02T17:16:08+00:00"
+            "time": "2018-09-18T10:22:16+00:00"
         },
         {
             "name": "nickfairchild/nova-at-a-glance-card",
@@ -4662,16 +4729,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d"
+                "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd088dc940a418f09cda079a9b5c7c478890fb8d",
-                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fa6ee28600d21d49b2b4e1006b48426cec8e579c",
+                "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c",
                 "shasum": ""
             },
             "require": {
@@ -4709,7 +4776,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2018-07-15T17:25:16+00:00"
+            "time": "2018-09-18T07:03:24+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -5560,16 +5627,16 @@
         },
         {
             "name": "pragmarx/ia-collection",
-            "version": "v5.6.33",
+            "version": "v5.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/ia-collection.git",
-                "reference": "0625ac534a31fe91cfb1d48ab8d8cb31694034a1"
+                "reference": "a7bdd40c452e60f55ce81a9af01e12fea0c60a93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/ia-collection/zipball/0625ac534a31fe91cfb1d48ab8d8cb31694034a1",
-                "reference": "0625ac534a31fe91cfb1d48ab8d8cb31694034a1",
+                "url": "https://api.github.com/repos/antonioribeiro/ia-collection/zipball/a7bdd40c452e60f55ce81a9af01e12fea0c60a93",
+                "reference": "a7bdd40c452e60f55ce81a9af01e12fea0c60a93",
                 "shasum": ""
             },
             "require": {
@@ -5620,7 +5687,7 @@
                 "laravel",
                 "pragmarx"
             ],
-            "time": "2018-08-19T20:16:53+00:00"
+            "time": "2018-09-20T18:19:48+00:00"
         },
         {
             "name": "pragmarx/ia-str",
@@ -6283,16 +6350,16 @@
         },
         {
             "name": "spatie/laravel-binary-uuid",
-            "version": "1.2.2",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-binary-uuid.git",
-                "reference": "023321f519e8b4c8fa2d834dcdfe672f40ba6934"
+                "reference": "ae083a4d79526ed8fa1eb75486f5eb3d5e29660c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-binary-uuid/zipball/023321f519e8b4c8fa2d834dcdfe672f40ba6934",
-                "reference": "023321f519e8b4c8fa2d834dcdfe672f40ba6934",
+                "url": "https://api.github.com/repos/spatie/laravel-binary-uuid/zipball/ae083a4d79526ed8fa1eb75486f5eb3d5e29660c",
+                "reference": "ae083a4d79526ed8fa1eb75486f5eb3d5e29660c",
                 "shasum": ""
             },
             "require": {
@@ -6335,7 +6402,7 @@
                 "laravel-binary-uuid",
                 "spatie"
             ],
-            "time": "2018-08-28T12:03:37+00:00"
+            "time": "2018-09-24T07:07:55+00:00"
         },
         {
             "name": "spatie/laravel-model-status",
