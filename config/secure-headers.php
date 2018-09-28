@@ -229,6 +229,10 @@ return [
         ],
 
         'connect-src' => [
+            'allow' => [
+                $protocol.'www.debehaber.com',
+
+            ],
             'self' => true,
         ],
 
