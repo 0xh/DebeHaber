@@ -4,7 +4,7 @@ $protocol = 'https://';
 
 if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
 {
-    $protocol = 'https://';
+    $protocol = 'http://';
 }
 
 return [
@@ -155,6 +155,7 @@ return [
 
         'script-src' => [
             'allow' => [
+                $protocol.'www.debehaber.com',
                 $protocol.'cdnjs.cloudflare.com/ajax/',
                 $protocol.'cdnjs.cloudflare.com/ajax/',
                 $protocol.'www.google-analytics.com/',
