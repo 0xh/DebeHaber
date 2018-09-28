@@ -423,7 +423,7 @@ Vue.component('transaction-form',
         {
             var app = this;
 
-            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-charts/')
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-charts')
             .then(({ data }) =>
             {
                 app.charts = [];
@@ -449,7 +449,7 @@ Vue.component('transaction-form',
         {
             var app = this;
 
-            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-vats/')
+            axios.get('/api/' + app.$parent.taxpayer + '/' + app.$parent.cycle + '/' +  app.$parent.baseurl + '/get-vats')
             .then(({ data }) =>
             {
                 app.vats = [];
