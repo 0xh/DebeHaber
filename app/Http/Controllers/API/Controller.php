@@ -59,7 +59,7 @@ class Controller extends BaseController
                 $taxPayer->code = is_numeric($cleanDV) ? $cleanDV : null;
             }
 
-            $taxPayer->alias = $name;
+            $taxPayer->alias = substr($name, 0, 29) . '...';;
             $taxPayer->save();
         }
 
