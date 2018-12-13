@@ -84,6 +84,7 @@ Route::prefix('{taxPayer}')->group(function ()
       Route::get('journal/ByCycleID/{id}', 'JournalController@getJournalsByCycleID');
 
       Route::get('opening_balance', 'OpeningBalanceController@getOpeningBalance');
+      Route::get('budget', 'BudgetController@getBudget');
       Route::post('opening_balance', 'OpeningBalanceController@store');
 
       Route::get('closing_balance', 'ClosingBalanceController@getClosingBalance');

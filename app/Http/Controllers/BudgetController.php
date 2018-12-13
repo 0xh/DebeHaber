@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Taxpayer;
 use App\Cycle;
 use App\CycleBudget;
+use App\Chart;
+use App\Http\Resources\BalanceResource;
+use DB;
 use Illuminate\Http\Request;
 
 class BudgetController extends Controller
@@ -15,6 +18,13 @@ class BudgetController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function index(Taxpayer $taxPayer, Cycle $cycle)
+     {
+
+
+         return view('accounting/budget');
+     }
+
+     public function getBudget(Taxpayer $taxPayer, Cycle $cycle)
      {
          //get the journals used as opening balance; is_first = true.
          $cycleBudgets = CycleBudget::where('cycle_id', $cycle->id)->get();
@@ -48,9 +58,7 @@ class BudgetController extends Controller
          }
 
          $budget = $charts->sortBy('type')->sortBy('code');
-
-         return view('accounting/budget')
-         ->with('budget', $budget);
+         return response()->json(BalanceResource::collection($budget));
      }
 
 
@@ -60,7 +68,7 @@ class BudgetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
         $details = collect($request)->where('is_accountable', '=', 1);
 
@@ -73,7 +81,7 @@ class BudgetController extends Controller
             $cycleBudget->chart_id = $detail['id'];
             $cycleBudget->debit = $detail['debit'] ?? 0;
             $cycleBudget->credit = $detail['credit'] ?? 0;
-            $cycleBudget->comment = $detail['comment'];
+            $cycleBudget->comment = $detail['comment']??'';
 
             //Save only if there are values ot be saved. avoid saving blank values.
             if ($cycleBudget->debit > 0 || $cycleBudget->credit > 0)

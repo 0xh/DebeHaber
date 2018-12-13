@@ -21,6 +21,7 @@ Vue.component('buefy',
             .get('/api/' + this.taxpayer + '/' + this.cycle + '/' + this.baseurl + '?page=' + page)
             .then(response => {
                 this.isLoading = false;
+                console.log(response.data);
                 this.list = response.data.data;
                 this.meta = response.data.meta;
                 this.data = response.data;
@@ -145,6 +146,7 @@ Vue.component('buefy',
 
         saveOpeningClosingBalance : function(json)
         {
+
             var app=this;
             axios({
                 method: 'post',
@@ -153,7 +155,7 @@ Vue.component('buefy',
                 data: json
             }).then(function (response)
             {
-                if (response.status = 200 )
+                if (response.status = 200)
                 {
                     app.onLoad(0);
                     this.$snackbar.open('Ok!')
@@ -165,6 +167,40 @@ Vue.component('buefy',
             })
             .catch(function (error)
             {
+                console.log( error.response)
+                this.$snackbar.open({
+                    duration: 5000,
+                    message: 'Error: ' . error.response,
+                    type: 'is-danger',
+                    position: 'is-bottom-left',
+                    queue: false,
+                })
+            });
+        },
+        saveBudget : function(json)
+        {
+
+            var app=this;
+            axios({
+                method: 'post',
+                url: '',
+                responseType: 'json',
+                data: json
+            }).then(function (response)
+            {
+                if (response.status = 200)
+                {
+                    app.onLoad(0);
+                    this.$snackbar.open('Ok!')
+                }
+                else
+                {
+                    alert('Something Went Wrong...');
+                }
+            })
+            .catch(function (error)
+            {
+                console.log( error.response)
                 this.$snackbar.open({
                     duration: 5000,
                     message: 'Error: ' . error.response,

@@ -21,11 +21,9 @@ class OpeningBalanceController extends Controller
     public function index(Taxpayer $taxPayer, Cycle $cycle)
     {
         //get the journals used as opening balance; is_first = true.
-
-
         return view('accounting/opening-balance');
-
     }
+
     public function getOpeningBalance(Taxpayer $taxPayer, Cycle $cycle)
     {
         $journalDetails = JournalDetail::whereHas('journal', function ($query) use($cycle) {
@@ -40,28 +38,28 @@ class OpeningBalanceController extends Controller
         'type', 'sub_type', 'is_accountable',
         DB::raw('null as debit'),
         DB::raw('null as credit'),
-        DB::raw('null as journal_id'))
+        DB::raw('null as detail_id'))
         ->orderBy('code')
         ->get();
 
         if (isset($journalDetails))
         {
             // Loop through Journal entries and add to chart balance
-            foreach ($journalDetails->groupBy('chart_id') as $journalGrouped)
+            foreach ($journalDetails as $detail)
             {
-                $chart = $charts->where('id', $journalGrouped->first()->chart_id)->first();
+                $chart = $charts->where('id', $detail->chart_id)->first();
 
                 if (isset($chart))
                 {
-                    $chart->id = $journalGrouped->first()->id;
-                    $chart->debit = $journalGrouped->sum('debit');
-                    $chart->credit = $journalGrouped->sum('credit');
+                    $chart->detail_id = $detail->id_text;
+                    $chart->debit = $detail->debit;
+                    $chart->credit = $detail->credit;
                 }
             }
         }
 
         $openingBalance = $charts->sortBy('type')->sortBy('code');
-        return response()->json(BalanceResource::collection($openingBalance), 200);
+        return response()->json(BalanceResource::collection($openingBalance));
     }
     /**
     * Store a newly created resource in storage.
@@ -72,7 +70,7 @@ class OpeningBalanceController extends Controller
     public function store(Request $request,Taxpayer $taxPayer, Cycle $cycle)
     {
         //    return response()->json($request,500);
-        $journal =  Journal::where('is_first', true)->where('cycle_id',$cycle->id)->first() ?? new Journal();
+        $journal =  Journal::where('is_first', true)->where('cycle_id', $cycle->id)->first() ?? new Journal();
 
         $journal->date = $cycle->start_date;
         $journal->comment = $cycle->year . ' - ' . __('accounting.OpeningBalance');
@@ -84,10 +82,9 @@ class OpeningBalanceController extends Controller
 
         foreach ($details as $detail)
         {
-            // JournalDetail::where('id', $detail->journal_id)->first() ??
-
-            if ($detail['id']>0) {
-                $journalDetail = new JournalDetail();
+            if ($detail['id'] > 0)
+            {
+                $journalDetail = JournalDetail::withUuid($detail['detail_id'])->first() ?? new JournalDetail();
                 $journalDetail->journal_id = $journal->id;
                 $journalDetail->chart_id = $detail['id'];
                 $journalDetail->debit = $detail['debit'] ?? 0;
