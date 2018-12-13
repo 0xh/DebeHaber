@@ -53,7 +53,7 @@ Vue.component('model',
         changeCycle(cycleID)
         {
             var app = this;
-            window.location.href = '/taxpayer/' + app.taxpayer + '/'+ cycleID +'/stats/';
+            window.location.href = '/' + app.taxpayer + '/' + cycleID + '/stats/';
         },
 
         init: function (data)
